@@ -147,7 +147,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - `SimulationTransaction` implemented with `read/update/applyEffects/emit/schedule/allocateId/commit`; `commit` runs invariants and (dev builds) freezes state.
     - `expectedTick` staleness rejection works (test).
 
-- [ ] **S1.5 — Tick engine skeleton.**
+- [x] **S1.5 — Tick engine skeleton.**
   - Spec: TDD §9.1–§9.2, §9.5; GDD §30.3 (canonical order).
   - Done when:
     - `TickPhase` enum matches TDD §9.2 exactly; system registry sorts by phase → priority → system ID and rejects duplicates at startup.
