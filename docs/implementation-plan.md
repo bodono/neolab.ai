@@ -138,7 +138,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - Golden test: exact starting state snapshot for **each of the five leaders × Standard difficulty**, plus one per remaining difficulty (GDD §29.4 multipliers present in state or rules data).
     - Baseline numbers match GDD §29.2 table exactly (assert per-field, not only via snapshot).
 
-- [ ] **S1.4 — Command shell and transaction.**
+- [x] **S1.4 — Command shell and transaction.**
   - Spec: TDD §8.1–§8.3, §9.3–§9.4.
   - Where: `packages/sim/src/commands/`, `packages/sim/src/engine/`.
   - Done when:
