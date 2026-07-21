@@ -477,6 +477,13 @@ interface GpuLotState {
   reliability: Rating;
 }
 
+interface GpuReservationState {
+  projectId: ProjectId;
+  gpus: GpuCount;
+  generationIds?: ContentId[];
+  minimumInterconnectTier?: number;
+}
+
 interface GpuGenerationDefinition {
   id: ContentId;
   displayName: string;
@@ -1357,6 +1364,7 @@ function isCatastropheCheckLegal(
 ```ts
 function calculateGpuThroughput(
   state: Readonly<GameState>,
+  content: CompiledContent,
   labId: LabId,
   workload: "training" | "serving",
   selection?: GpuSelection,
@@ -1364,6 +1372,7 @@ function calculateGpuThroughput(
 
 function resolveGpuReservations(
   state: Readonly<GameState>,
+  content: CompiledContent,
   labId: LabId,
 ): ReservationPlan;
 

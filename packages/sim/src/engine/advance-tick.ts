@@ -4,6 +4,10 @@ import { assertNever } from "../model/assert-never.ts";
 import { calendarFromTick, type GameState } from "../model/state.ts";
 import { tick as makeTick } from "../model/units.ts";
 import { RandomOracleV1 } from "../random/oracle.ts";
+import {
+  CAPABILITY_CONTEXT_SWITCH_PENALTY_FLAG,
+  hasLargeCapabilityDomainSwing,
+} from "../compute/gpu-portfolio.ts";
 import { applyEffects } from "./effect-executor.ts";
 import { createSystemRegistry, type TickContext, type TickSystem } from "./systems.ts";
 import { createTransaction, type TransitionResult } from "./transaction.ts";
@@ -31,6 +35,14 @@ function baselineSystems(): readonly TickSystem[] {
               case "set-gpu-allocation": {
                 const lab = draft.labs[order.labId];
                 if (lab !== undefined) {
+                  if (
+                    hasLargeCapabilityDomainSwing(
+                      lab.compute.allocation,
+                      order.allocation,
+                    )
+                  ) {
+                    lab.flags[CAPABILITY_CONTEXT_SWITCH_PENALTY_FLAG] = draft.run.tick;
+                  }
                   lab.compute.allocation = order.allocation;
                 }
                 break;

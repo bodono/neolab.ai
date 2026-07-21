@@ -133,10 +133,46 @@ export function collectInvariantViolations(
       push("aura-lifetime", `${labId} lifetime aura below spendable`);
     }
 
-    // TDD 7.2.1: physical GPU counts are non-negative integers.
+    // TDD 7.2.1 / 16.1: physical lots and reservations are valid. Generation
+    // existence is checked by rules that also receive the pinned content bundle.
+    const gpuLotIds = new Set<string>();
     for (const lot of lab.compute.lots) {
+      if (gpuLotIds.has(lot.id)) {
+        push("gpu-lot-duplicate", `${labId} repeats lot ${lot.id}`);
+      }
+      gpuLotIds.add(lot.id);
       if (!Number.isInteger(lot.physicalCount) || lot.physicalCount < 0) {
         push("gpu-count", `${labId} lot ${lot.id} count ${String(lot.physicalCount)}`);
+      }
+      if (
+        !Number.isFinite(lot.availableFraction) ||
+        lot.availableFraction < 0 ||
+        lot.availableFraction > 1
+      ) {
+        push(
+          "gpu-availability",
+          `${labId} lot ${lot.id} availability ${String(lot.availableFraction)}`,
+        );
+      }
+    }
+    for (const reservation of lab.compute.reservations) {
+      if (!Number.isInteger(reservation.gpus) || reservation.gpus < 0) {
+        push(
+          "gpu-reservation-count",
+          `${labId} reservation ${reservation.projectId} count ${String(reservation.gpus)}`,
+        );
+      }
+      if (
+        reservation.minimumInterconnectTier !== undefined &&
+        (!Number.isInteger(reservation.minimumInterconnectTier) ||
+          reservation.minimumInterconnectTier < 1)
+      ) {
+        push(
+          "gpu-reservation-interconnect",
+          `${labId} reservation ${reservation.projectId} tier ${String(
+            reservation.minimumInterconnectTier,
+          )}`,
+        );
       }
     }
   }

@@ -9,7 +9,10 @@ import {
 import rawBundle from "../../../../content/generated/content.bundle.json";
 import { advanceOneTick } from "../../engine/advance-tick.ts";
 import { createNewGame } from "../../engine/create-new-game.ts";
+import type { DeepMutable } from "../../engine/draft.ts";
+import type { ProjectId } from "../../model/ids.ts";
 import type { GameState } from "../../model/state.ts";
+import { gpuCount } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import { createSaveEnvelope, loadSaveEnvelope, SaveLoadError } from "../envelope.ts";
 import { stableStringify, stateHash } from "../hash.ts";
@@ -69,6 +72,32 @@ describe("save envelope", () => {
     const loaded = loadSaveEnvelope(revived);
     expect(stateHash(loaded.state)).toBe(stateHash(state));
     expect(loaded.envelope.slotType).toBe("manual");
+  });
+
+  it("round-trips generation and interconnect-pinned GPU reservations", () => {
+    const state = structuredClone(
+      newState("0123456789abcdef0123456789abcdef", "base:leader.sam-altmann"),
+    ) as DeepMutable<GameState>;
+    const lab = state.labs[state.run.playerLabId];
+    if (lab === undefined) throw new Error("test lab missing");
+    lab.compute.reservations.push({
+      projectId: "project:training" as ProjectId,
+      gpus: gpuCount(2000),
+      generationIds: [contentId("base:gpu.kepler")],
+      minimumInterconnectTier: 1,
+    });
+    const envelope = createSaveEnvelope(state, {
+      saveId: "reservation",
+      slotType: "manual",
+      displayName: "Pinned training run",
+      contentHash: content.manifest.bundleHash,
+      nowIso: NOW,
+    });
+
+    const loaded = loadSaveEnvelope(JSON.parse(JSON.stringify(envelope)));
+    expect(loaded.state.labs[state.run.playerLabId]?.compute.reservations[0]).toEqual(
+      lab.compute.reservations[0],
+    );
   });
 
   it("rejects tampered payloads via the checksum", () => {

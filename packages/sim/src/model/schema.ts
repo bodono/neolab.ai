@@ -199,6 +199,7 @@ const gpuReservationSchema = z
     projectId: nonEmpty,
     gpus: gpuCountSchema,
     generationIds: z.array(contentIdSchema).optional(),
+    minimumInterconnectTier: z.number().int().min(1).optional(),
   })
   .strict();
 

@@ -143,6 +143,8 @@ export interface GpuReservationState {
   readonly gpus: GpuCount;
   /** Restricts which generations may serve the reservation, if any. */
   readonly generationIds?: readonly ContentId[];
+  /** Requires a generation whose authored interconnect tier meets this floor. */
+  readonly minimumInterconnectTier?: number;
 }
 
 export interface ComputeState {

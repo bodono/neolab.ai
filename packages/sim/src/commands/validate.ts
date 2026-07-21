@@ -4,6 +4,7 @@ import { assertNever } from "../model/assert-never.ts";
 import { gpuAllocationSchema } from "../model/schema.ts";
 import type { GameState } from "../model/state.ts";
 import { tick } from "../model/units.ts";
+import { hasLargeCapabilityDomainSwing } from "../compute/gpu-portfolio.ts";
 import type {
   CommandValidation,
   GameCommand,
@@ -106,10 +107,23 @@ export function validateCommand(
   if (errors.length > 0) {
     return { ok: false, errors };
   }
+  const summary = (() => {
+    switch (command.kind) {
+      case "set-gpu-allocation": {
+        const current = state.labs[command.labId]?.compute.allocation;
+        return current !== undefined &&
+          hasLargeCapabilityDomainSwing(current, command.allocation)
+          ? "Allocation queued; takes effect next week with a one-week context-switch penalty"
+          : "Allocation queued; takes effect next week";
+      }
+      default:
+        return assertNever(command.kind);
+    }
+  })();
   return {
     ok: true,
     preview: {
-      summary: "Allocation queued; takes effect next week",
+      summary,
       takesEffectAtTick: tick(state.run.tick + 1),
     },
   };

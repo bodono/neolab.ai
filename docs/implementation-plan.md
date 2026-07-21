@@ -205,10 +205,10 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 ### Tasks
 
-- [ ] **S2.1 — GPU portfolio, workload throughput, allocation hierarchy, normalisation.**
+- [x] **S2.1 — GPU portfolio, workload throughput, allocation hierarchy, normalisation.**
   - Spec: GDD §32.1–§32.2; TDD §16.1.
   - Done when:
-    - `calculateGpuThroughput(state, labId, workload, selection?)` breaks out physical GPUs by generation, generation factor, availability, software, power and interconnect; its final scalar is a formula input only, never stored or shown as a resource (TDD §16.1).
+    - `calculateGpuThroughput(state, content, labId, workload, selection?)` breaks out physical GPUs by generation, generation factor, availability, software, power and interconnect; its final scalar is a formula input only, never stored or shown as a resource (TDD §16.1).
     - Reservations resolve before discretionary allocation and honour generation/interconnect pins; unpinned allocation draws proportionally from available lots in stable `GpuLotId` order.
     - `normaliseAllocation` operates over lots with basis points (0–10 000) and largest-remainder integer-GPU rounding: every displayed count is an integer and child allocations sum exactly to their physical parent count (property test).
     - Unfunded-program rule (<200 physical GPUs/week ⇒ no progress, marked stranded) implemented where allocation is consumed.
@@ -578,3 +578,4 @@ Append-only. Format: `YYYY-MM-DD · task ID · decision · reason · follow-up (
 - 2026-07-21 · S0.7 · "CI green on main" checked from local execution of every CI step (content build + reproducibility, lint, typecheck, tests, web build, Playwright smoke) · commits are local-only; the user has not asked for a push · first push should confirm the hosted workflow.
 - 2026-07-21 · S0.2 · Replaced `tsc` project references with per-package `tsc --noEmit` + workspace source resolution (`moduleResolution: bundler`, `allowImportingTsExtensions`, explicit `.ts` import extensions) · references force declaration emit, while zero-emit checking plus `erasableSyntaxOnly` keeps the content-compiler directly runnable under Node's native type stripping · same boundaries and guarantees; revisit only if cross-package checking gets slow.
 - 2026-07-21 · plan · Revised plan to v0.2 for the GDD/TDD changes in commit `e0c0c9f` · CU replaced by physical GPU lots + generation factors (TDD §7.2.1, §16.1); new Score ledger and local high scores (GDD §18.9/§41.5, TDD §18.5/§24.7); ending names consolidated to GDD §44.16 with Part I aliases retired; Paper/Researcher definition schemas restructured with inline copy and review metadata; starter content packs now exist under `content/` · New tasks S1.9 and S7.8; GPU/score requirements folded into S1.2, S1.3, S1.8, S2.1, S2.2, S2.7, S3.1, S3.2, S3.4, S3.7, S4.1, S4.6, S5.2, S6.5, S7.6, S8.2, S8.3, S9.5, S10.4.
+- 2026-07-21 · S2.1 · GPU rules receive `CompiledContent` explicitly in `calculateGpuThroughput`, `resolveGpuReservations`, and `planGpuPortfolio` · generation factors and interconnect tiers are immutable content definitions referenced by ID from canonical state, so deriving them from state alone would require duplicating balance data into saves · subsequent callers pass the runtime's pinned content bundle, matching `createNewGame`/`advanceOneTick` conventions.

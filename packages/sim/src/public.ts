@@ -30,6 +30,19 @@ export {
 export { seed128, type Seed128 } from "./random/seed.ts";
 export { calculateScoreView, type ScoreView } from "./selectors/index.ts";
 export {
+  calculateGpuThroughput,
+  normaliseAllocation,
+  planGpuPortfolio,
+  resolveGpuReservations,
+  type GpuAllocationPlan,
+  type GpuPortfolioPlan,
+  type GpuSelection,
+  type GpuThroughputBreakdown,
+  type GpuWorkload,
+  type ProgramGpuAllocation,
+  type ReservationPlan,
+} from "./compute/index.ts";
+export {
   createSaveEnvelope,
   loadSaveEnvelope,
   MemorySaveRepository,
