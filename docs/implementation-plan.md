@@ -97,7 +97,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 - [x] Fresh clone → `pnpm install && pnpm build` succeeds.
 - [x] Each forbidden-import category has a test or lint proof it fails CI.
-- [x] CI is green on `main` (all CI steps verified locally; the hosted run needs a push — see log).
+- [x] CI is green on `main` (verified locally 2026-07-21, then confirmed on the hosted runner after the first push — run 29859764711).
 
 ---
 
