@@ -164,7 +164,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - `Predicate` AST evaluator + `MetricRegistry` with a first metric set (cash, tick, ratings); no arbitrary path traversal.
     - `CheckDefinition` with the single shared logistic implementation (GDD §42.3: 10-point ≈ 73%, 20-point ≈ 88% asserted in tests) and clamping.
 
-- [ ] **S1.7 — Save envelope, memory repository, replay hash.**
+- [x] **S1.7 — Save envelope, memory repository, replay hash.**
   - Spec: TDD §24.1–§24.2, §24.6.
   - Where: `packages/sim/src/persistence/`, `packages/testkit`.
   - Done when:

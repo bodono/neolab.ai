@@ -23,3 +23,15 @@ export {
   type SetGpuAllocationCommand,
 } from "./commands/index.ts";
 export { seed128, type Seed128 } from "./random/seed.ts";
+export {
+  createSaveEnvelope,
+  loadSaveEnvelope,
+  MemorySaveRepository,
+  SaveLoadError,
+  stateHash,
+  type LoadSaveResult,
+  type SaveEnvelopeV1,
+  type SaveMetadata,
+  type SaveRepository,
+  type WriteSaveRequest,
+} from "./persistence/index.ts";
