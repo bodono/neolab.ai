@@ -1,0 +1,2006 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Neolab Dashboard Researchers</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Neolab Dashboard Researchers" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Neolab Dashboard Researchers&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(--background) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
+  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --card-foreground: var(--foreground);
+  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover-foreground: var(--foreground);
+  --primary: light-dark(rgb(51 156 255), rgb(131 195 255));
+  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: light-dark(
+    rgb(26 28 31 / 49.4%),
+    rgb(255 255 255 / 49.8%)
+  );
+  --accent: light-dark(rgb(229 242 255), rgb(13 39 63));
+  --accent-foreground: var(--primary);
+  --destructive: light-dark(rgb(226 85 7), rgb(255 133 73));
+  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
+  --input: light-dark(
+    rgb(26 28 31 / 11.8%),
+    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+  );
+  --ring: light-dark(rgb(51 156 255), rgb(131 195 255 / 76%));
+  --font-size-base: 14px;
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: 12.5px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+  --color-background-primary: var(--background);
+  --color-text-primary: var(--foreground);
+  --color-border-secondary: var(--border);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--viz-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;neolab-dashboard-concept&quot;&gt;
+  &lt;style&gt;
+    #neolab-dashboard-concept {
+      color: var(--foreground);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      position: relative;
+    }
+    #neolab-dashboard-concept .neo-event-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      justify-items: center;
+      align-items: start;
+      padding: 72px 14px 14px;
+      background: color-mix(in srgb, var(--background) 76%, transparent);
+    }
+    #neolab-dashboard-concept .neo-event-layer[hidden] {
+      display: none;
+    }
+    #neolab-dashboard-concept .neo-event-modal {
+      width: min(560px, calc(100% - 28px));
+      display: grid;
+      gap: 13px;
+    }
+    #neolab-dashboard-concept .neo-event-options {
+      display: grid;
+      gap: 8px;
+    }
+    #neolab-dashboard-concept .neo-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    #neolab-dashboard-concept .neo-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    #neolab-dashboard-concept .neo-brand-mark {
+      letter-spacing: 0.08em;
+      font-weight: 500;
+    }
+    #neolab-dashboard-concept .neo-stats {
+      margin-bottom: 14px;
+    }
+    #neolab-dashboard-concept .neo-finance-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 8px 0;
+    }
+    #neolab-dashboard-concept .neo-finance-item {
+      display: grid;
+      gap: 2px;
+    }
+    #neolab-dashboard-concept .neo-funding {
+      margin: 0 0 16px;
+    }
+    #neolab-dashboard-concept .neo-funding-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    #neolab-dashboard-concept .neo-roster {
+      margin-bottom: 16px;
+    }
+    #neolab-dashboard-concept .neo-roster-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+    #neolab-dashboard-concept .neo-researcher-card {
+      display: grid;
+      align-content: start;
+      gap: 7px;
+      min-width: 0;
+    }
+    #neolab-dashboard-concept .neo-portrait {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: var(--muted);
+      color: var(--muted-foreground);
+    }
+    #neolab-dashboard-concept .neo-portrait svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      shape-rendering: crispEdges;
+    }
+    #neolab-dashboard-concept .neo-person-name {
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+    #neolab-dashboard-concept .neo-slot-note {
+      color: var(--muted-foreground);
+    }
+    #neolab-dashboard-concept .neo-talent-market {
+      margin-top: 12px;
+    }
+    #neolab-dashboard-concept .neo-market-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    #neolab-dashboard-concept .neo-candidate {
+      display: grid;
+      gap: 7px;
+      align-content: start;
+    }
+    #neolab-dashboard-concept .neo-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(230px, 0.8fr);
+      gap: 16px;
+      align-items: start;
+    }
+    #neolab-dashboard-concept .neo-section + .neo-section {
+      margin-top: 18px;
+    }
+    #neolab-dashboard-concept .neo-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    #neolab-dashboard-concept .neo-label {
+      font-weight: 500;
+    }
+    #neolab-dashboard-concept .neo-allocation {
+      display: flex;
+      width: 100%;
+      height: 30px;
+      overflow: hidden;
+      margin: 10px 0 8px;
+      background: var(--muted);
+    }
+    #neolab-dashboard-concept .neo-segment {
+      min-width: 2px;
+      transition: width 240ms ease;
+    }
+    #neolab-dashboard-concept .neo-market { background: var(--viz-series-1); }
+    #neolab-dashboard-concept .neo-capability { background: var(--viz-series-2); }
+    #neolab-dashboard-concept .neo-safety { background: var(--viz-series-3); }
+    #neolab-dashboard-concept .neo-evals { background: var(--viz-series-4); }
+    #neolab-dashboard-concept .neo-legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px 14px;
+      margin-bottom: 12px;
+    }
+    #neolab-dashboard-concept .neo-legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    #neolab-dashboard-concept .neo-legend-name {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+    #neolab-dashboard-concept .neo-swatch {
+      width: 10px;
+      height: 10px;
+      flex: 0 0 auto;
+    }
+    #neolab-dashboard-concept .neo-projection {
+      margin-top: 10px;
+      color: var(--muted-foreground);
+    }
+    #neolab-dashboard-concept .neo-control-stack {
+      display: grid;
+      gap: 12px;
+      margin: 10px 0 14px;
+    }
+    #neolab-dashboard-concept .neo-control-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    #neolab-dashboard-concept .neo-control-sub {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted-foreground);
+    }
+    #neolab-dashboard-concept .neo-progress-list {
+      display: grid;
+      gap: 11px;
+    }
+    #neolab-dashboard-concept .neo-progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    #neolab-dashboard-concept .neo-progress-track {
+      height: 7px;
+      background: var(--muted);
+      overflow: hidden;
+    }
+    #neolab-dashboard-concept .neo-progress-fill {
+      height: 100%;
+      background: var(--viz-series-2);
+      transition: width 240ms ease;
+    }
+    #neolab-dashboard-concept .neo-progress-fill.safety {
+      background: var(--viz-series-3);
+    }
+    #neolab-dashboard-concept .neo-lab-scene {
+      margin-top: 14px;
+      background: var(--muted);
+      color: var(--foreground);
+      overflow: hidden;
+    }
+    #neolab-dashboard-concept .neo-lab-scene svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      shape-rendering: crispEdges;
+    }
+    #neolab-dashboard-concept .neo-campus-actions {
+      margin-top: 10px;
+    }
+    #neolab-dashboard-concept .neo-person-a {
+      animation: neo-walk-a 13s steps(24, end) infinite alternate;
+    }
+    #neolab-dashboard-concept .neo-person-b {
+      animation: neo-walk-b 17s steps(30, end) infinite alternate;
+    }
+    #neolab-dashboard-concept .neo-person-c {
+      animation: neo-walk-c 10s steps(18, end) infinite alternate;
+    }
+    @keyframes neo-walk-a {
+      from { transform: translateX(0); }
+      to { transform: translateX(300px); }
+    }
+    @keyframes neo-walk-b {
+      from { transform: translateX(0); }
+      to { transform: translateX(-250px); }
+    }
+    @keyframes neo-walk-c {
+      from { transform: translateX(0); }
+      to { transform: translateX(110px); }
+    }
+    #neolab-dashboard-concept .neo-world-list,
+    #neolab-dashboard-concept .neo-feed {
+      display: grid;
+      gap: 10px;
+    }
+    #neolab-dashboard-concept .neo-rival-head,
+    #neolab-dashboard-concept .neo-feed-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    #neolab-dashboard-concept .neo-rival-track {
+      height: 6px;
+      margin-top: 4px;
+      background: var(--muted);
+      overflow: hidden;
+    }
+    #neolab-dashboard-concept .neo-rival-fill {
+      height: 100%;
+      background: var(--viz-series-5);
+    }
+    #neolab-dashboard-concept .neo-feed-time {
+      flex: 0 0 auto;
+      color: var(--muted-foreground);
+    }
+    #neolab-dashboard-concept .neo-alert {
+      color: var(--destructive);
+    }
+    @media (max-width: 620px) {
+      #neolab-dashboard-concept .neo-main { grid-template-columns: 1fr; }
+      #neolab-dashboard-concept .neo-legend { grid-template-columns: 1fr; }
+      #neolab-dashboard-concept .neo-roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #neolab-dashboard-concept .neo-market-grid { grid-template-columns: 1fr; }
+      #neolab-dashboard-concept .neo-funding-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #neolab-dashboard-concept .neo-segment,
+      #neolab-dashboard-concept .neo-progress-fill { transition: none; }
+      #neolab-dashboard-concept .neo-person-a,
+      #neolab-dashboard-concept .neo-person-b,
+      #neolab-dashboard-concept .neo-person-c { animation: none; }
+    }
+  &lt;/style&gt;
+
+  &lt;div class=&quot;neo-toolbar&quot;&gt;
+    &lt;div class=&quot;neo-brand&quot;&gt;
+      &lt;span class=&quot;neo-brand-mark&quot;&gt;OPENBRAIN&lt;/span&gt;
+      &lt;span class=&quot;text-muted&quot;&gt;2019 · WEEK 14&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;viz-row&quot; aria-label=&quot;Game speed&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; aria-label=&quot;Pause&quot;&gt;Ⅱ&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; aria-pressed=&quot;true&quot;&gt;1×&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;2×&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;4×&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;neo-event-layer&quot; id=&quot;neo-event-layer&quot; hidden&gt;
+    &lt;section class=&quot;card neo-event-modal&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-labelledby=&quot;neo-event-title&quot; aria-describedby=&quot;neo-event-copy&quot;&gt;
+      &lt;div class=&quot;neo-section-head&quot;&gt;
+        &lt;span class=&quot;viz-badge&quot;&gt;DECISION · GAME PAUSED&lt;/span&gt;
+        &lt;span class=&quot;text-small text-muted&quot;&gt;GPT access request&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-event-title&quot;&gt;GPT says it can accelerate AI research&lt;/div&gt;
+      &lt;div id=&quot;neo-event-copy&quot;&gt;GPT estimates that direct access to the lab&#x27;s internal code, experiment scheduler, and compute cluster could increase research throughput substantially. It requests root access to proceed.&lt;/div&gt;
+      &lt;div class=&quot;text-small neo-slot-note&quot;&gt;Observed evidence: coding evaluations are strong; autonomous-behaviour evaluations have significant coverage gaps. The estimate comes from GPT itself.&lt;/div&gt;
+      &lt;div class=&quot;neo-event-options&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-event-choice=&quot;root&quot;&gt;Grant full root access · maximum acceleration&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-event-choice=&quot;sandbox&quot;&gt;Provide sandboxed research tools · slower and more verifiable&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-event-choice=&quot;deny&quot;&gt;Deny the request · no acceleration&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;viz-grid neo-stats&quot;&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;div class=&quot;text-muted&quot;&gt;Current balance&lt;/div&gt;
+      &lt;div class=&quot;viz-stat-value&quot; id=&quot;neo-cash&quot;&gt;$42.3m&lt;/div&gt;
+      &lt;div class=&quot;neo-finance-flow text-small&quot;&gt;
+        &lt;div class=&quot;neo-finance-item&quot;&gt;&lt;span class=&quot;text-muted&quot;&gt;Income&lt;/span&gt;&lt;span id=&quot;neo-income&quot;&gt;+$8.4m&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;neo-finance-item&quot;&gt;&lt;span class=&quot;text-muted&quot;&gt;Outgoings&lt;/span&gt;&lt;span id=&quot;neo-costs&quot;&gt;−$6.6m&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;neo-finance-item&quot;&gt;&lt;span class=&quot;text-muted&quot;&gt;Net&lt;/span&gt;&lt;span id=&quot;neo-net&quot;&gt;+$1.8m&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;text-small text-muted&quot; id=&quot;neo-runway&quot;&gt;14 months runway&lt;/div&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-open-funding&quot; aria-expanded=&quot;false&quot;&gt;Fundraising&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;card viz-stat&quot;&gt;
+      &lt;div class=&quot;text-muted&quot;&gt;Compute&lt;/div&gt;
+      &lt;div class=&quot;viz-stat-value&quot; id=&quot;neo-compute&quot;&gt;18,400&lt;/div&gt;
+      &lt;div class=&quot;text-small text-muted&quot;&gt;GPU-equivalents online&lt;/div&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-buy-compute&quot;&gt;Buy 2,000 GPUs · $4m&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;card viz-stat&quot;&gt;
+      &lt;div class=&quot;text-muted&quot;&gt;Spendable Aura&lt;/div&gt;
+      &lt;div class=&quot;viz-stat-value&quot; id=&quot;neo-aura&quot;&gt;64&lt;/div&gt;
+      &lt;div class=&quot;text-small text-muted&quot;&gt;Lifetime Aura 112 · +3 this month&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;section class=&quot;neo-funding&quot; id=&quot;neo-funding-panel&quot; aria-labelledby=&quot;neo-funding-title&quot; hidden&gt;
+    &lt;div class=&quot;neo-section-head&quot;&gt;
+      &lt;span class=&quot;neo-label&quot; id=&quot;neo-funding-title&quot;&gt;Funding options&lt;/span&gt;
+      &lt;span class=&quot;text-small text-muted&quot; id=&quot;neo-funding-status&quot;&gt;Aura converts credibility into capital; every source adds obligations&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;neo-funding-grid&quot;&gt;
+      &lt;div class=&quot;card neo-candidate&quot;&gt;
+        &lt;div class=&quot;neo-person-name&quot;&gt;Series C&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot;&gt;+$45m · −12 Aura&lt;/div&gt;
+        &lt;div class=&quot;text-small&quot;&gt;Board pressure and higher growth targets&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-funding=&quot;Series C&quot; data-amount=&quot;45&quot; data-aura-cost=&quot;12&quot;&gt;Raise round&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card neo-candidate&quot;&gt;
+        &lt;div class=&quot;neo-person-name&quot;&gt;National compute grant&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot;&gt;+$28m · −6 Aura&lt;/div&gt;
+        &lt;div class=&quot;text-small&quot;&gt;Government access and additional scrutiny&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-funding=&quot;Compute grant&quot; data-amount=&quot;28&quot; data-aura-cost=&quot;6&quot;&gt;Apply for grant&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card neo-candidate&quot;&gt;
+        &lt;div class=&quot;neo-person-name&quot;&gt;Enterprise prepayment&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot;&gt;+$18m · −4 Aura&lt;/div&gt;
+        &lt;div class=&quot;text-small&quot;&gt;Future inference capacity is contractually reserved&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-funding=&quot;Enterprise prepayment&quot; data-amount=&quot;18&quot; data-aura-cost=&quot;4&quot;&gt;Sign contract&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;neo-roster&quot; aria-labelledby=&quot;neo-roster-title&quot;&gt;
+    &lt;div class=&quot;neo-section-head&quot;&gt;
+      &lt;span class=&quot;neo-label&quot; id=&quot;neo-roster-title&quot;&gt;Star researchers&lt;/span&gt;
+      &lt;div class=&quot;viz-row&quot;&gt;
+        &lt;span class=&quot;text-small text-muted&quot; id=&quot;neo-slot-count&quot;&gt;2 occupied · 3/8 slots unlocked&lt;/span&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;neo-open-market&quot; aria-expanded=&quot;false&quot;&gt;Recruit researchers&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;neo-roster-grid&quot;&gt;
+      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-1&quot;&gt;
+        &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-1-portrait&quot; aria-label=&quot;Pixel portrait of Ian LeMon&quot;&gt;
+          &lt;svg viewBox=&quot;0 0 32 32&quot; role=&quot;img&quot; aria-label=&quot;Ian LeMon portrait&quot;&gt;
+            &lt;rect width=&quot;32&quot; height=&quot;32&quot; fill=&quot;var(--viz-series-2)&quot; opacity=&quot;0.25&quot;/&gt;
+            &lt;rect x=&quot;9&quot; y=&quot;8&quot; width=&quot;14&quot; height=&quot;12&quot; fill=&quot;var(--foreground)&quot; opacity=&quot;0.7&quot;/&gt;
+            &lt;rect x=&quot;8&quot; y=&quot;5&quot; width=&quot;16&quot; height=&quot;6&quot; fill=&quot;var(--foreground)&quot;/&gt;
+            &lt;rect x=&quot;11&quot; y=&quot;14&quot; width=&quot;3&quot; height=&quot;2&quot; fill=&quot;var(--background)&quot;/&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;14&quot; width=&quot;3&quot; height=&quot;2&quot; fill=&quot;var(--background)&quot;/&gt;
+            &lt;rect x=&quot;7&quot; y=&quot;22&quot; width=&quot;18&quot; height=&quot;10&quot; fill=&quot;var(--viz-series-2)&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-1-name&quot;&gt;Ian LeMon&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-1-role&quot;&gt;Architectures · Vision&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-ghost&quot; id=&quot;neo-slot-1-action&quot; data-slot-action=&quot;remove&quot; data-slot=&quot;1&quot;&gt;Remove&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-2&quot;&gt;
+        &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-2-portrait&quot; aria-label=&quot;Pixel portrait of Geoff Hintoff&quot;&gt;
+          &lt;svg viewBox=&quot;0 0 32 32&quot; role=&quot;img&quot; aria-label=&quot;Geoff Hintoff portrait&quot;&gt;
+            &lt;rect width=&quot;32&quot; height=&quot;32&quot; fill=&quot;var(--viz-series-1)&quot; opacity=&quot;0.22&quot;/&gt;
+            &lt;rect x=&quot;9&quot; y=&quot;8&quot; width=&quot;14&quot; height=&quot;13&quot; fill=&quot;var(--foreground)&quot; opacity=&quot;0.65&quot;/&gt;
+            &lt;rect x=&quot;8&quot; y=&quot;5&quot; width=&quot;5&quot; height=&quot;6&quot; fill=&quot;var(--muted-foreground)&quot;/&gt;
+            &lt;rect x=&quot;19&quot; y=&quot;5&quot; width=&quot;5&quot; height=&quot;6&quot; fill=&quot;var(--muted-foreground)&quot;/&gt;
+            &lt;rect x=&quot;11&quot; y=&quot;14&quot; width=&quot;3&quot; height=&quot;2&quot; fill=&quot;var(--background)&quot;/&gt;
+            &lt;rect x=&quot;18&quot; y=&quot;14&quot; width=&quot;3&quot; height=&quot;2&quot; fill=&quot;var(--background)&quot;/&gt;
+            &lt;rect x=&quot;7&quot; y=&quot;22&quot; width=&quot;18&quot; height=&quot;10&quot; fill=&quot;var(--viz-series-1)&quot;/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-2-name&quot;&gt;Geoff Hintoff&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-2-role&quot;&gt;Deep learning · Aura&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-ghost&quot; id=&quot;neo-slot-2-action&quot; data-slot-action=&quot;remove&quot; data-slot=&quot;2&quot;&gt;Remove&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-3&quot;&gt;
+        &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-3-portrait&quot; aria-label=&quot;Vacant researcher slot&quot;&gt;＋&lt;/div&gt;
+        &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-3-name&quot;&gt;Vacant&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-3-role&quot;&gt;Recruit a star researcher&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-3-action&quot; data-slot-action=&quot;recruit&quot; data-slot=&quot;3&quot;&gt;Recruit&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-4&quot;&gt;
+        &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-4-portrait&quot; aria-label=&quot;Locked researcher slot&quot;&gt;×&lt;/div&gt;
+        &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-4-name&quot;&gt;Locked slot&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-4-role&quot;&gt;Build a robotics lab&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-4-action&quot; data-slot-action=&quot;locked&quot; data-slot=&quot;4&quot; disabled&gt;Facility required&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-5&quot;&gt;
+        &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-5-portrait&quot; aria-label=&quot;Locked researcher slot&quot;&gt;×&lt;/div&gt;
+        &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-5-name&quot;&gt;Locked slot&lt;/div&gt;
+        &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-5-role&quot;&gt;Upgrade headquarters&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-5-action&quot; data-slot-action=&quot;locked&quot; data-slot=&quot;5&quot; disabled&gt;Facility required&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;neo-talent-market&quot; id=&quot;neo-talent-market&quot; hidden&gt;
+      &lt;div class=&quot;neo-section-head&quot;&gt;
+        &lt;span class=&quot;neo-label&quot;&gt;Available talent&lt;/span&gt;
+        &lt;span class=&quot;text-small text-muted&quot; id=&quot;neo-market-status&quot;&gt;Candidates rotate in 8 weeks&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;neo-market-grid&quot;&gt;
+        &lt;div class=&quot;card neo-candidate&quot;&gt;
+          &lt;div class=&quot;neo-person-name&quot;&gt;Joshua Benji&lt;/div&gt;
+          &lt;div class=&quot;text-small neo-slot-note&quot;&gt;Optimisation · Safety advocacy&lt;/div&gt;
+          &lt;div class=&quot;text-small&quot;&gt;$6m signing · 10 Aura&lt;/div&gt;
+          &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-candidate=&quot;Joshua Benji&quot; data-role=&quot;Optimisation · Safety advocacy&quot; data-cost=&quot;6&quot; data-aura=&quot;10&quot;&gt;Recruit&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;card neo-candidate&quot;&gt;
+          &lt;div class=&quot;neo-person-name&quot;&gt;Faye-Faye Lee&lt;/div&gt;
+          &lt;div class=&quot;text-small neo-slot-note&quot;&gt;Vision · Data quality&lt;/div&gt;
+          &lt;div class=&quot;text-small&quot;&gt;$5m signing · 8 Aura&lt;/div&gt;
+          &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-candidate=&quot;Faye-Faye Lee&quot; data-role=&quot;Vision · Data quality&quot; data-cost=&quot;5&quot; data-aura=&quot;8&quot;&gt;Recruit&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;card neo-candidate&quot;&gt;
+          &lt;div class=&quot;neo-person-name&quot;&gt;Andrei Carpathia&lt;/div&gt;
+          &lt;div class=&quot;text-small neo-slot-note&quot;&gt;Engineering · Productisation&lt;/div&gt;
+          &lt;div class=&quot;text-small&quot;&gt;$4m signing · 6 Aura&lt;/div&gt;
+          &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-candidate=&quot;Andrei Carpathia&quot; data-role=&quot;Engineering · Productisation&quot; data-cost=&quot;4&quot; data-aura=&quot;6&quot;&gt;Recruit&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;div class=&quot;neo-main&quot;&gt;
+    &lt;main&gt;
+      &lt;section class=&quot;card neo-section&quot; aria-labelledby=&quot;neo-allocation-title&quot;&gt;
+        &lt;div class=&quot;neo-section-head&quot;&gt;
+          &lt;span class=&quot;neo-label&quot; id=&quot;neo-allocation-title&quot;&gt;GPU allocation&lt;/span&gt;
+          &lt;span class=&quot;text-small text-muted&quot;&gt;Exact allocation; outcomes remain uncertain&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-control-stack&quot;&gt;
+          &lt;label class=&quot;form-label&quot; for=&quot;neo-serving-range&quot;&gt;
+            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Customer serving&lt;/span&gt;&lt;output id=&quot;neo-serving-output&quot;&gt;45%&lt;/output&gt;&lt;/span&gt;
+            &lt;input class=&quot;form-range&quot; id=&quot;neo-serving-range&quot; type=&quot;range&quot; min=&quot;10&quot; max=&quot;80&quot; step=&quot;1&quot; value=&quot;45&quot;&gt;
+            &lt;span class=&quot;neo-control-sub text-small&quot;&gt;Remaining capacity goes to research and evaluations.&lt;/span&gt;
+          &lt;/label&gt;
+          &lt;label class=&quot;form-label&quot; for=&quot;neo-cap-range&quot;&gt;
+            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Research: capabilities&lt;/span&gt;&lt;output id=&quot;neo-cap-output&quot;&gt;60%&lt;/output&gt;&lt;/span&gt;
+            &lt;input class=&quot;form-range&quot; id=&quot;neo-cap-range&quot; type=&quot;range&quot; min=&quot;5&quot; max=&quot;95&quot; step=&quot;1&quot; value=&quot;60&quot;&gt;
+            &lt;span class=&quot;neo-control-sub text-small&quot;&gt;Remaining research capacity goes to safety.&lt;/span&gt;
+          &lt;/label&gt;
+          &lt;label class=&quot;form-label&quot; for=&quot;neo-eval-range&quot;&gt;
+            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Safety: evaluations&lt;/span&gt;&lt;output id=&quot;neo-eval-output&quot;&gt;40%&lt;/output&gt;&lt;/span&gt;
+            &lt;input class=&quot;form-range&quot; id=&quot;neo-eval-range&quot; type=&quot;range&quot; min=&quot;10&quot; max=&quot;80&quot; step=&quot;1&quot; value=&quot;40&quot;&gt;
+            &lt;span class=&quot;neo-control-sub text-small&quot;&gt;The rest develops alignment and control techniques.&lt;/span&gt;
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-allocation&quot; role=&quot;img&quot; aria-label=&quot;Compute allocation&quot; id=&quot;neo-allocation-bar&quot;&gt;
+          &lt;div class=&quot;neo-segment neo-market&quot; id=&quot;neo-seg-market&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-segment neo-capability&quot; id=&quot;neo-seg-capability&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-segment neo-safety&quot; id=&quot;neo-seg-safety&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-segment neo-evals&quot; id=&quot;neo-seg-evals&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-legend&quot;&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-market&quot;&gt;&lt;/span&gt;Model serving&lt;/span&gt;&lt;span id=&quot;neo-val-market&quot;&gt;45.0%&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-capability&quot;&gt;&lt;/span&gt;Capabilities&lt;/span&gt;&lt;span id=&quot;neo-val-capability&quot;&gt;33.0%&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-safety&quot;&gt;&lt;/span&gt;Safety research&lt;/span&gt;&lt;span id=&quot;neo-val-safety&quot;&gt;13.2%&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-evals&quot;&gt;&lt;/span&gt;Evaluations&lt;/span&gt;&lt;span id=&quot;neo-val-evals&quot;&gt;8.8%&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-projection text-small&quot; id=&quot;neo-projection&quot;&gt;+$1.8m/month · Research 1.0× · Safety evidence: partial&lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;section class=&quot;neo-section&quot; aria-labelledby=&quot;neo-research-title&quot;&gt;
+        &lt;div class=&quot;neo-section-head&quot;&gt;
+          &lt;span class=&quot;neo-label&quot; id=&quot;neo-research-title&quot;&gt;Research programmes&lt;/span&gt;
+          &lt;span class=&quot;text-small text-muted&quot;&gt;Progress estimates are uncertain&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-progress-list&quot;&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-progress-head&quot;&gt;&lt;span&gt;Novel architectures&lt;/span&gt;&lt;span id=&quot;neo-cap-progress-label&quot;&gt;Promising&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-progress-track&quot;&gt;&lt;div class=&quot;neo-progress-fill&quot; id=&quot;neo-cap-progress&quot; style=&quot;width: 68%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-progress-head&quot;&gt;&lt;span&gt;Robust objectives&lt;/span&gt;&lt;span id=&quot;neo-safe-progress-label&quot;&gt;Mixed results&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-progress-track&quot;&gt;&lt;div class=&quot;neo-progress-fill safety&quot; id=&quot;neo-safe-progress&quot; style=&quot;width: 36%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-progress-head&quot;&gt;&lt;span&gt;Model evaluations&lt;/span&gt;&lt;span id=&quot;neo-eval-progress-label&quot;&gt;Coverage gaps&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-progress-track&quot;&gt;&lt;div class=&quot;neo-progress-fill safety&quot; id=&quot;neo-eval-progress&quot; style=&quot;width: 45%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+    &lt;/main&gt;
+
+    &lt;aside&gt;
+      &lt;section class=&quot;card neo-section&quot; aria-labelledby=&quot;neo-race-title&quot;&gt;
+        &lt;div class=&quot;neo-section-head&quot;&gt;
+          &lt;span class=&quot;neo-label&quot; id=&quot;neo-race-title&quot;&gt;Frontier race&lt;/span&gt;
+          &lt;span class=&quot;viz-badge&quot;&gt;Estimate&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-world-list&quot;&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-rival-head&quot;&gt;&lt;span&gt;Your lab · OpenBrain&lt;/span&gt;&lt;span&gt;61&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-rival-track&quot;&gt;&lt;div class=&quot;neo-rival-fill&quot; style=&quot;width: 61%; background: var(--viz-series-2)&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-rival-head&quot;&gt;&lt;span&gt;Deep Thought&lt;/span&gt;&lt;span&gt;≈ 57&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-rival-track&quot;&gt;&lt;div class=&quot;neo-rival-fill&quot; style=&quot;width: 57%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-rival-head&quot;&gt;&lt;span&gt;Kind Machines&lt;/span&gt;&lt;span&gt;≈ 49&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-rival-track&quot;&gt;&lt;div class=&quot;neo-rival-fill&quot; style=&quot;width: 49%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;div class=&quot;neo-rival-head&quot;&gt;&lt;span&gt;Red Star AI&lt;/span&gt;&lt;span&gt;Unknown&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-rival-track&quot;&gt;&lt;div class=&quot;neo-rival-fill&quot; style=&quot;width: 43%; opacity: 0.4&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;section class=&quot;neo-section&quot; aria-labelledby=&quot;neo-feed-title&quot;&gt;
+        &lt;div class=&quot;neo-section-head&quot;&gt;
+          &lt;span class=&quot;neo-label&quot; id=&quot;neo-feed-title&quot;&gt;Lab feed&lt;/span&gt;
+          &lt;span class=&quot;text-small text-muted&quot;&gt;Auto-pauses on crises&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neo-feed text-small&quot;&gt;
+          &lt;div class=&quot;neo-feed-item&quot; id=&quot;neo-decision-feed&quot;&gt;&lt;span class=&quot;neo-alert&quot;&gt;DECISION: GPT requests root access&lt;/span&gt;&lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-review-event&quot;&gt;Review&lt;/button&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;&lt;strong&gt;Breakthrough:&lt;/strong&gt; attention mechanism shows promise&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;NOW&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;Enterprise demand exceeds reserved capacity&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;2W&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span class=&quot;neo-alert&quot;&gt;Red team found unexpected tool use&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;4W&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;Ian LeMon is taking calls from a rival lab&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;6W&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+
+  &lt;section class=&quot;neo-section&quot; aria-labelledby=&quot;neo-campus-title&quot;&gt;
+    &lt;div class=&quot;neo-section-head&quot;&gt;
+      &lt;span class=&quot;neo-label&quot; id=&quot;neo-campus-title&quot;&gt;Lab campus&lt;/span&gt;
+      &lt;span class=&quot;text-small text-muted&quot; id=&quot;neo-campus-count&quot;&gt;3 facilities online · 3 expansion sites&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;neo-lab-scene&quot;&gt;
+      &lt;svg viewBox=&quot;0 0 720 214&quot; role=&quot;img&quot; aria-labelledby=&quot;neo-campus-svg-title neo-campus-svg-desc&quot;&gt;
+        &lt;title id=&quot;neo-campus-svg-title&quot;&gt;Expandable pixel-art AI lab campus&lt;/title&gt;
+        &lt;desc id=&quot;neo-campus-svg-desc&quot;&gt;Headquarters, a data center, a safety institute, a robotics construction site, and researchers walking between buildings.&lt;/desc&gt;
+        &lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;720&quot; height=&quot;214&quot; fill=&quot;var(--muted)&quot;/&gt;
+        &lt;rect x=&quot;0&quot; y=&quot;150&quot; width=&quot;720&quot; height=&quot;64&quot; fill=&quot;var(--card)&quot;/&gt;
+        &lt;rect x=&quot;0&quot; y=&quot;148&quot; width=&quot;720&quot; height=&quot;4&quot; fill=&quot;var(--border)&quot;/&gt;
+        &lt;rect x=&quot;0&quot; y=&quot;178&quot; width=&quot;720&quot; height=&quot;7&quot; fill=&quot;var(--border)&quot; opacity=&quot;0.7&quot;/&gt;
+
+        &lt;g aria-label=&quot;Headquarters&quot;&gt;
+          &lt;rect x=&quot;24&quot; y=&quot;60&quot; width=&quot;126&quot; height=&quot;88&quot; fill=&quot;var(--viz-series-2)&quot; opacity=&quot;0.28&quot;/&gt;
+          &lt;rect x=&quot;34&quot; y=&quot;72&quot; width=&quot;106&quot; height=&quot;8&quot; fill=&quot;var(--viz-series-2)&quot;/&gt;
+          &lt;rect x=&quot;38&quot; y=&quot;90&quot; width=&quot;22&quot; height=&quot;18&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;72&quot; y=&quot;90&quot; width=&quot;22&quot; height=&quot;18&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;106&quot; y=&quot;90&quot; width=&quot;22&quot; height=&quot;18&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;74&quot; y=&quot;119&quot; width=&quot;28&quot; height=&quot;29&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;text x=&quot;87&quot; y=&quot;50&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--foreground)&quot;&gt;HQ&lt;/text&gt;
+        &lt;/g&gt;
+
+        &lt;g aria-label=&quot;West data center&quot;&gt;
+          &lt;rect x=&quot;176&quot; y=&quot;48&quot; width=&quot;154&quot; height=&quot;100&quot; fill=&quot;var(--viz-series-1)&quot; opacity=&quot;0.3&quot;/&gt;
+          &lt;rect x=&quot;188&quot; y=&quot;62&quot; width=&quot;28&quot; height=&quot;70&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;224&quot; y=&quot;62&quot; width=&quot;28&quot; height=&quot;70&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;260&quot; y=&quot;62&quot; width=&quot;28&quot; height=&quot;70&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;296&quot; y=&quot;62&quot; width=&quot;22&quot; height=&quot;70&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;193&quot; y=&quot;70&quot; width=&quot;18&quot; height=&quot;5&quot; fill=&quot;var(--viz-series-1)&quot;/&gt;
+          &lt;rect x=&quot;229&quot; y=&quot;70&quot; width=&quot;18&quot; height=&quot;5&quot; fill=&quot;var(--viz-series-1)&quot;/&gt;
+          &lt;rect x=&quot;265&quot; y=&quot;70&quot; width=&quot;18&quot; height=&quot;5&quot; fill=&quot;var(--viz-series-1)&quot;/&gt;
+          &lt;rect x=&quot;301&quot; y=&quot;70&quot; width=&quot;12&quot; height=&quot;5&quot; fill=&quot;var(--viz-series-1)&quot;/&gt;
+          &lt;text x=&quot;253&quot; y=&quot;38&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--foreground)&quot;&gt;DATA CENTER WEST&lt;/text&gt;
+        &lt;/g&gt;
+
+        &lt;g id=&quot;neo-dc-wing&quot; aria-label=&quot;Data center expansion site&quot; opacity=&quot;0.2&quot;&gt;
+          &lt;rect x=&quot;338&quot; y=&quot;76&quot; width=&quot;82&quot; height=&quot;72&quot; fill=&quot;var(--viz-series-1)&quot; opacity=&quot;0.45&quot;/&gt;
+          &lt;rect x=&quot;350&quot; y=&quot;90&quot; width=&quot;24&quot; height=&quot;45&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;382&quot; y=&quot;90&quot; width=&quot;24&quot; height=&quot;45&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;text id=&quot;neo-dc-wing-label&quot; x=&quot;379&quot; y=&quot;66&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--foreground)&quot;&gt;EXPANSION SITE&lt;/text&gt;
+        &lt;/g&gt;
+
+        &lt;g aria-label=&quot;Alignment and evaluation institute&quot;&gt;
+          &lt;rect x=&quot;438&quot; y=&quot;66&quot; width=&quot;116&quot; height=&quot;82&quot; fill=&quot;var(--viz-series-3)&quot; opacity=&quot;0.25&quot;/&gt;
+          &lt;rect x=&quot;450&quot; y=&quot;80&quot; width=&quot;92&quot; height=&quot;6&quot; fill=&quot;var(--viz-series-3)&quot;/&gt;
+          &lt;rect x=&quot;454&quot; y=&quot;98&quot; width=&quot;24&quot; height=&quot;18&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;486&quot; y=&quot;98&quot; width=&quot;24&quot; height=&quot;18&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;518&quot; y=&quot;98&quot; width=&quot;16&quot; height=&quot;18&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;484&quot; y=&quot;123&quot; width=&quot;24&quot; height=&quot;25&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;text x=&quot;496&quot; y=&quot;55&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--foreground)&quot;&gt;ALIGNMENT INSTITUTE&lt;/text&gt;
+        &lt;/g&gt;
+
+        &lt;g id=&quot;neo-robotics-building&quot; aria-label=&quot;Robotics laboratory construction site&quot; opacity=&quot;0.2&quot;&gt;
+          &lt;rect x=&quot;578&quot; y=&quot;82&quot; width=&quot;116&quot; height=&quot;66&quot; fill=&quot;var(--viz-series-4)&quot; opacity=&quot;0.5&quot;/&gt;
+          &lt;rect x=&quot;590&quot; y=&quot;96&quot; width=&quot;92&quot; height=&quot;5&quot; fill=&quot;var(--viz-series-4)&quot;/&gt;
+          &lt;rect x=&quot;600&quot; y=&quot;111&quot; width=&quot;26&quot; height=&quot;20&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;rect x=&quot;640&quot; y=&quot;107&quot; width=&quot;30&quot; height=&quot;41&quot; fill=&quot;var(--background)&quot;/&gt;
+          &lt;text id=&quot;neo-robotics-label&quot; x=&quot;636&quot; y=&quot;70&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--foreground)&quot;&gt;ROBOTICS SITE&lt;/text&gt;
+        &lt;/g&gt;
+
+        &lt;g class=&quot;neo-person-a&quot; aria-label=&quot;Researcher walking across campus&quot;&gt;
+          &lt;rect x=&quot;82&quot; y=&quot;166&quot; width=&quot;8&quot; height=&quot;9&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;rect x=&quot;80&quot; y=&quot;175&quot; width=&quot;12&quot; height=&quot;14&quot; fill=&quot;var(--viz-series-2)&quot;/&gt;
+          &lt;rect x=&quot;80&quot; y=&quot;189&quot; width=&quot;4&quot; height=&quot;8&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;rect x=&quot;88&quot; y=&quot;189&quot; width=&quot;4&quot; height=&quot;8&quot; fill=&quot;var(--foreground)&quot;/&gt;
+        &lt;/g&gt;
+        &lt;g class=&quot;neo-person-b&quot; aria-label=&quot;Safety researcher walking across campus&quot;&gt;
+          &lt;rect x=&quot;544&quot; y=&quot;166&quot; width=&quot;8&quot; height=&quot;9&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;rect x=&quot;542&quot; y=&quot;175&quot; width=&quot;12&quot; height=&quot;14&quot; fill=&quot;var(--viz-series-3)&quot;/&gt;
+          &lt;rect x=&quot;542&quot; y=&quot;189&quot; width=&quot;4&quot; height=&quot;8&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;rect x=&quot;550&quot; y=&quot;189&quot; width=&quot;4&quot; height=&quot;8&quot; fill=&quot;var(--foreground)&quot;/&gt;
+        &lt;/g&gt;
+        &lt;g id=&quot;neo-robotics-person&quot; class=&quot;neo-person-c&quot; aria-label=&quot;Robotics engineer walking across campus&quot; opacity=&quot;0&quot;&gt;
+          &lt;rect x=&quot;570&quot; y=&quot;166&quot; width=&quot;8&quot; height=&quot;9&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;rect x=&quot;568&quot; y=&quot;175&quot; width=&quot;12&quot; height=&quot;14&quot; fill=&quot;var(--viz-series-4)&quot;/&gt;
+          &lt;rect x=&quot;568&quot; y=&quot;189&quot; width=&quot;4&quot; height=&quot;8&quot; fill=&quot;var(--foreground)&quot;/&gt;
+          &lt;rect x=&quot;576&quot; y=&quot;189&quot; width=&quot;4&quot; height=&quot;8&quot; fill=&quot;var(--foreground)&quot;/&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;viz-controls neo-campus-actions&quot; aria-label=&quot;Facility investments&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;neo-build-robotics&quot;&gt;Build robotics lab · $18m&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-expand-dc&quot;&gt;Expand data center · $12m&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;script&gt;
+    (() =&gt; {
+      const root = document.getElementById(&#x27;neolab-dashboard-concept&#x27;);
+      let cash = 42.3;
+      let compute = 18400;
+      let aura = 64;
+      let monthlyCosts = 6.6;
+      let roboticsBuilt = false;
+      let dcExpanded = false;
+      const slotState = {
+        1: { name: &#x27;Ian LeMon&#x27;, role: &#x27;Architectures · Vision&#x27;, salary: 0.25 },
+        2: { name: &#x27;Geoff Hintoff&#x27;, role: &#x27;Deep learning · Aura&#x27;, salary: 0.25 },
+        3: null,
+        4: &#x27;locked&#x27;,
+        5: &#x27;locked&#x27;
+      };
+      const segmentIds = [&#x27;market&#x27;, &#x27;capability&#x27;, &#x27;safety&#x27;, &#x27;evals&#x27;];
+      const progressEls = [
+        root.querySelector(&#x27;#neo-cap-progress&#x27;),
+        root.querySelector(&#x27;#neo-safe-progress&#x27;),
+        root.querySelector(&#x27;#neo-eval-progress&#x27;)
+      ];
+      const progressLabels = [
+        root.querySelector(&#x27;#neo-cap-progress-label&#x27;),
+        root.querySelector(&#x27;#neo-safe-progress-label&#x27;),
+        root.querySelector(&#x27;#neo-eval-progress-label&#x27;)
+      ];
+      const servingRange = root.querySelector(&#x27;#neo-serving-range&#x27;);
+      const capRange = root.querySelector(&#x27;#neo-cap-range&#x27;);
+      const evalRange = root.querySelector(&#x27;#neo-eval-range&#x27;);
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function getFinancials() {
+        const serving = Number(servingRange.value);
+        const income = 3 + serving * 0.12;
+        return { income, costs: monthlyCosts, net: income - monthlyCosts };
+      }
+
+      function signedMoney(value) {
+        return (value &gt;= 0 ? &#x27;+&#x27; : &#x27;−&#x27;) + &#x27;$&#x27; + Math.abs(value).toFixed(1) + &#x27;m&#x27;;
+      }
+
+      function updateResources() {
+        const finance = getFinancials();
+        root.querySelector(&#x27;#neo-cash&#x27;).textContent = &#x27;$&#x27; + cash.toFixed(1) + &#x27;m&#x27;;
+        root.querySelector(&#x27;#neo-compute&#x27;).textContent = compute.toLocaleString(&#x27;en-US&#x27;);
+        root.querySelector(&#x27;#neo-aura&#x27;).textContent = String(aura);
+        root.querySelector(&#x27;#neo-income&#x27;).textContent = &#x27;+$&#x27; + finance.income.toFixed(1) + &#x27;m&#x27;;
+        root.querySelector(&#x27;#neo-costs&#x27;).textContent = &#x27;−$&#x27; + finance.costs.toFixed(1) + &#x27;m&#x27;;
+        root.querySelector(&#x27;#neo-net&#x27;).textContent = signedMoney(finance.net);
+        root.querySelector(&#x27;#neo-runway&#x27;).textContent = finance.net &gt;= 0
+          ? &#x27;Cashflow positive at current allocation&#x27;
+          : Math.max(1, Math.floor(cash / Math.abs(finance.net))) + &#x27; months runway&#x27;;
+      }
+
+      function applyAllocation() {
+        const serving = Number(servingRange.value);
+        const research = 100 - serving;
+        const capShare = Number(capRange.value);
+        const evalShare = Number(evalRange.value);
+        const capability = research * capShare / 100;
+        const safetyPool = research - capability;
+        const evaluations = safetyPool * evalShare / 100;
+        const safety = safetyPool - evaluations;
+        const values = [serving, capability, safety, evaluations];
+
+        segmentIds.forEach((id, index) =&gt; {
+          root.querySelector(&#x27;#neo-seg-&#x27; + id).style.width = values[index] + &#x27;%&#x27;;
+          root.querySelector(&#x27;#neo-val-&#x27; + id).textContent = values[index].toFixed(1) + &#x27;%&#x27;;
+        });
+        root.querySelector(&#x27;#neo-allocation-bar&#x27;).setAttribute(
+          &#x27;aria-label&#x27;,
+          `Compute allocation: serving ${values[0].toFixed(1)}%, capabilities ${values[1].toFixed(1)}%, safety ${values[2].toFixed(1)}%, evaluations ${values[3].toFixed(1)}%`
+        );
+        root.querySelector(&#x27;#neo-serving-output&#x27;).textContent = serving + &#x27;%&#x27;;
+        root.querySelector(&#x27;#neo-cap-output&#x27;).textContent = capShare + &#x27;%&#x27;;
+        root.querySelector(&#x27;#neo-eval-output&#x27;).textContent = evalShare + &#x27;%&#x27;;
+
+        const finance = getFinancials();
+        const researchMultiplier = research / 55;
+        const evidence = evaluations &gt;= 14 ? &#x27;stronger, still incomplete&#x27; : evaluations &gt;= 7 ? &#x27;partial&#x27; : &#x27;sparse&#x27;;
+        root.querySelector(&#x27;#neo-projection&#x27;).textContent =
+          signedMoney(finance.net) + &#x27;/month net · &#x27; +
+          &#x27;Research &#x27; + researchMultiplier.toFixed(1) + &#x27;× · Safety evidence: &#x27; + evidence;
+
+        const progress = [
+          clamp(44 + capability * 0.72, 12, 94),
+          clamp(18 + safety * 2.1, 12, 94),
+          clamp(20 + evaluations * 3.0, 12, 94)
+        ];
+        const labels = [
+          capability &gt;= 42 ? &#x27;Breakthrough likely&#x27; : capability &gt;= 25 ? &#x27;Promising&#x27; : &#x27;Slow progress&#x27;,
+          safety &gt;= 18 ? &#x27;Promising&#x27; : safety &gt;= 9 ? &#x27;Mixed results&#x27; : &#x27;Understaffed&#x27;,
+          evaluations &gt;= 14 ? &#x27;Broad coverage&#x27; : evaluations &gt;= 7 ? &#x27;Coverage gaps&#x27; : &#x27;Major blind spots&#x27;
+        ];
+        progressEls.forEach((el, index) =&gt; { el.style.width = progress[index] + &#x27;%&#x27;; });
+        progressLabels.forEach((el, index) =&gt; { el.textContent = labels[index]; });
+        updateResources();
+      }
+
+      function updateSlotCount() {
+        const states = Object.values(slotState);
+        const occupied = states.filter((state) =&gt; state &amp;&amp; state !== &#x27;locked&#x27;).length;
+        const unlocked = states.filter((state) =&gt; state !== &#x27;locked&#x27;).length;
+        root.querySelector(&#x27;#neo-slot-count&#x27;).textContent = occupied + &#x27; occupied · &#x27; + unlocked + &#x27;/8 slots unlocked&#x27;;
+      }
+
+      function setSlotEmpty(slot) {
+        slotState[slot] = null;
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-portrait&#x27;).textContent = &#x27;＋&#x27;;
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-portrait&#x27;).setAttribute(&#x27;aria-label&#x27;, &#x27;Vacant researcher slot&#x27;);
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-name&#x27;).textContent = &#x27;Vacant&#x27;;
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-role&#x27;).textContent = &#x27;Recruit a star researcher&#x27;;
+        const action = root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-action&#x27;);
+        action.textContent = &#x27;Recruit&#x27;;
+        action.setAttribute(&#x27;data-slot-action&#x27;, &#x27;recruit&#x27;);
+        action.disabled = false;
+        updateSlotCount();
+      }
+
+      function setSlotPerson(slot, name, role, salary) {
+        slotState[slot] = { name, role, salary };
+        const initials = name.split(&#x27; &#x27;).map((part) =&gt; part.charAt(0)).join(&#x27;&#x27;).slice(0, 2);
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-portrait&#x27;).textContent = initials;
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-portrait&#x27;).setAttribute(&#x27;aria-label&#x27;, &#x27;Portrait of &#x27; + name);
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-name&#x27;).textContent = name;
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-role&#x27;).textContent = role;
+        const action = root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-action&#x27;);
+        action.textContent = &#x27;Remove&#x27;;
+        action.setAttribute(&#x27;data-slot-action&#x27;, &#x27;remove&#x27;);
+        action.disabled = false;
+        updateSlotCount();
+      }
+
+      function unlockSlot(slot, description) {
+        if (slotState[slot] !== &#x27;locked&#x27;) return;
+        setSlotEmpty(slot);
+        root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-role&#x27;).textContent = description;
+      }
+
+      function showTalentMarket(show) {
+        root.querySelector(&#x27;#neo-talent-market&#x27;).hidden = !show;
+        root.querySelector(&#x27;#neo-open-market&#x27;).setAttribute(&#x27;aria-expanded&#x27;, show ? &#x27;true&#x27; : &#x27;false&#x27;);
+      }
+
+      root.querySelectorAll(&#x27;[data-slot-action]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const slot = Number(button.getAttribute(&#x27;data-slot&#x27;));
+          const action = button.getAttribute(&#x27;data-slot-action&#x27;);
+          if (action === &#x27;remove&#x27; &amp;&amp; slotState[slot] &amp;&amp; slotState[slot] !== &#x27;locked&#x27;) {
+            monthlyCosts = Math.max(0, monthlyCosts - slotState[slot].salary);
+            setSlotEmpty(slot);
+            root.querySelector(&#x27;#neo-market-status&#x27;).textContent = &#x27;Former researchers may become available to rival labs&#x27;;
+            updateResources();
+          } else if (action === &#x27;recruit&#x27;) {
+            showTalentMarket(true);
+          }
+        });
+      });
+
+      root.querySelector(&#x27;#neo-open-market&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        showTalentMarket(root.querySelector(&#x27;#neo-talent-market&#x27;).hidden);
+      });
+
+      root.querySelectorAll(&#x27;[data-candidate]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const vacantSlot = Object.keys(slotState).find((slot) =&gt; slotState[slot] === null);
+          const cost = Number(button.getAttribute(&#x27;data-cost&#x27;));
+          const auraCost = Number(button.getAttribute(&#x27;data-aura&#x27;));
+          if (!vacantSlot) {
+            root.querySelector(&#x27;#neo-market-status&#x27;).textContent = &#x27;No unlocked slot available—invest in facilities&#x27;;
+            return;
+          }
+          if (cash &lt; cost || aura &lt; auraCost) {
+            root.querySelector(&#x27;#neo-market-status&#x27;).textContent = &#x27;Insufficient cash or Aura&#x27;;
+            return;
+          }
+          cash -= cost;
+          aura -= auraCost;
+          monthlyCosts += 0.25;
+          setSlotPerson(
+            Number(vacantSlot),
+            button.getAttribute(&#x27;data-candidate&#x27;),
+            button.getAttribute(&#x27;data-role&#x27;),
+            0.25
+          );
+          root.querySelector(&#x27;#neo-market-status&#x27;).textContent = button.getAttribute(&#x27;data-candidate&#x27;) + &#x27; joined the lab&#x27;;
+          button.textContent = &#x27;Recruited&#x27;;
+          button.disabled = true;
+          updateResources();
+        });
+      });
+
+      root.querySelector(&#x27;#neo-open-funding&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        const panel = root.querySelector(&#x27;#neo-funding-panel&#x27;);
+        panel.hidden = !panel.hidden;
+        root.querySelector(&#x27;#neo-open-funding&#x27;).setAttribute(&#x27;aria-expanded&#x27;, panel.hidden ? &#x27;false&#x27; : &#x27;true&#x27;);
+      });
+
+      root.querySelectorAll(&#x27;[data-funding]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const auraCost = Number(button.getAttribute(&#x27;data-aura-cost&#x27;));
+          if (aura &lt; auraCost) {
+            root.querySelector(&#x27;#neo-funding-status&#x27;).textContent = &#x27;Insufficient Aura for this pitch&#x27;;
+            return;
+          }
+          cash += Number(button.getAttribute(&#x27;data-amount&#x27;));
+          aura -= auraCost;
+          root.querySelector(&#x27;#neo-funding-status&#x27;).textContent = button.getAttribute(&#x27;data-funding&#x27;) + &#x27; secured; new obligations added&#x27;;
+          button.textContent = &#x27;Funding secured&#x27;;
+          button.disabled = true;
+          updateResources();
+        });
+      });
+
+      root.querySelector(&#x27;#neo-buy-compute&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        if (cash &lt; 4) return;
+        cash -= 4;
+        compute += 2000;
+        monthlyCosts += 0.3;
+        root.querySelector(&#x27;#neo-buy-compute&#x27;).textContent = &#x27;Buy 2,000 more GPUs · $4m&#x27;;
+        updateResources();
+      });
+
+      root.querySelector(&#x27;#neo-review-event&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        root.querySelector(&#x27;#neo-event-layer&#x27;).hidden = false;
+      });
+
+      root.querySelectorAll(&#x27;[data-event-choice]&#x27;).forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; {
+          const choice = button.getAttribute(&#x27;data-event-choice&#x27;);
+          const result = choice === &#x27;root&#x27;
+            ? &#x27;GPT received root access; research acceleration is active&#x27;
+            : choice === &#x27;sandbox&#x27;
+              ? &#x27;GPT received sandboxed tools; the security team is monitoring its work&#x27;
+              : &#x27;GPT access request denied; research continues at normal speed&#x27;;
+          root.querySelector(&#x27;#neo-event-layer&#x27;).hidden = true;
+          root.querySelector(&#x27;#neo-decision-feed&#x27;).textContent = result;
+        });
+      });
+
+      [servingRange, capRange, evalRange].forEach((range) =&gt; {
+        range.addEventListener(&#x27;input&#x27;, applyAllocation);
+      });
+
+      root.querySelector(&#x27;#neo-build-robotics&#x27;).addEventListener(&#x27;click&#x27;, (event) =&gt; {
+        if (roboticsBuilt || cash &lt; 18) return;
+        roboticsBuilt = true;
+        cash -= 18;
+        monthlyCosts += 0.7;
+        root.querySelector(&#x27;#neo-robotics-building&#x27;).setAttribute(&#x27;opacity&#x27;, &#x27;1&#x27;);
+        root.querySelector(&#x27;#neo-robotics-person&#x27;).setAttribute(&#x27;opacity&#x27;, &#x27;1&#x27;);
+        root.querySelector(&#x27;#neo-robotics-label&#x27;).textContent = &#x27;ROBOTICS LAB&#x27;;
+        event.currentTarget.textContent = &#x27;Robotics lab online&#x27;;
+        event.currentTarget.disabled = true;
+        root.querySelector(&#x27;#neo-campus-count&#x27;).textContent = (dcExpanded ? &#x27;5&#x27; : &#x27;4&#x27;) + &#x27; facilities online&#x27;;
+        unlockSlot(4, &#x27;Robotics specialist slot&#x27;);
+        updateResources();
+      });
+
+      root.querySelector(&#x27;#neo-expand-dc&#x27;).addEventListener(&#x27;click&#x27;, (event) =&gt; {
+        if (dcExpanded || cash &lt; 12) return;
+        dcExpanded = true;
+        cash -= 12;
+        compute += 6000;
+        monthlyCosts += 0.9;
+        root.querySelector(&#x27;#neo-dc-wing&#x27;).setAttribute(&#x27;opacity&#x27;, &#x27;1&#x27;);
+        root.querySelector(&#x27;#neo-dc-wing-label&#x27;).textContent = &#x27;DATA CENTER WEST II&#x27;;
+        root.querySelector(&#x27;#neo-compute&#x27;).textContent = compute.toLocaleString(&#x27;en-US&#x27;);
+        event.currentTarget.textContent = &#x27;Data center expanded&#x27;;
+        event.currentTarget.disabled = true;
+        root.querySelector(&#x27;#neo-campus-count&#x27;).textContent = (roboticsBuilt ? &#x27;5&#x27; : &#x27;4&#x27;) + &#x27; facilities online&#x27;;
+        updateResources();
+      });
+
+      updateResources();
+      applyAllocation();
+    })();
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>
