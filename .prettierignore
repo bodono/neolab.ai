@@ -1,0 +1,14 @@
+# Dependencies and build output
+node_modules/
+dist/
+packages/content/generated/
+playwright-report/
+test-results/
+pnpm-lock.yaml
+
+# Hand-authored documents and content data keep their own formatting
+docs/
+design/
+content/
+*.md
+LICENSE

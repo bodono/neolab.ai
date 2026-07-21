@@ -58,7 +58,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - All strict options from TDD §3.1 are enabled in the base config.
     - `pnpm typecheck` runs `tsc --noEmit` across all packages via references and passes on the empty skeleton.
 
-- [ ] **S0.3 — Lint, format, and import-boundary enforcement.**
+- [x] **S0.3 — Lint, format, and import-boundary enforcement.**
   - Spec: TDD §3.2, §4.1.
   - Where: root ESLint (type-aware) + Prettier config; restricted-import rules.
   - Done when:
