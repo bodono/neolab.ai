@@ -65,7 +65,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - ESLint bans: `sim` importing React/Zustand/browser APIs/`apps/web`; UI importing `sim/src/**` internals; `any`, non-null assertions, `@ts-ignore` in `sim` and content code.
     - A deliberate violation of each rule fails `pnpm lint` (write a temporary fixture to prove it, then delete it).
 
-- [ ] **S0.4 — Test tooling.**
+- [x] **S0.4 — Test tooling.**
   - Spec: TDD §3.1, §25.1.
   - Done when:
     - Vitest runs in every package (`pnpm test` at root aggregates).
