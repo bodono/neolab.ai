@@ -1,1 +1,1 @@
-export { loadCompiledContent } from "./load.js";
+export { loadCompiledContent } from "./load.ts";

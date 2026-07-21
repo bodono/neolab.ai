@@ -1,7 +1,7 @@
-import { StrictMode } from "react";
+import { StrictMode, type ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 
-function BootPlaceholder(): React.JSX.Element {
+function BootPlaceholder(): ReactElement {
   return (
     <main>
       <h1>Neolab.ai</h1>
