@@ -1,0 +1,127 @@
+schemaVersion: 1
+contentType: balance
+status: draft
+
+# Balance constants with stable keys (TDD section 26.4). Every value here is
+# game data, not code. Numbers follow GDD section 29 unless noted.
+
+newGame:
+  # GDD section 29.2 standard-difficulty baseline, before lab modifiers and
+  # the opening mandate.
+  startYear: 2012
+  cash: 18.0
+  auraSpendable: 15
+  auraLifetime: 15
+  gpus:
+    generation: gpu.kepler
+    owned: 6000
+    leased: 4000
+  softwareEfficiency: 1.0
+  startingModel:
+    familyGenerationIndex: 0
+    capability:
+      language: 20
+      reasoning: 8
+      agency: 3
+      toolUse: 4
+      multimodality: 5
+      scientificAbility: 3
+      embodiment: 0
+    generality: 5
+    productQuality: 12
+    reliability: 35
+    hiddenSafety:
+      trueAlignment: 70
+      corrigibility: 75
+      situationalAwareness: 10
+      deceptiveCapability: 10
+  marketShare: 0.005
+  starSlots: 3
+  generalResearchers: 18
+  engineersAndOps: 12
+  ratings:
+    safetyCulture: 45
+    alignmentScience: 8
+    evalQuality: 10
+    controlTheory: 6
+    practicalControlStrength: 25
+    securityPosture: 35
+    engineeringQuality: 50
+    managementCapacity: 45
+    researchFreedom: 60
+    internalCandour: 50
+    governmentAttention: 5
+    governmentTrust: 50
+    boardPatience: 70
+  domains:
+    domain.architectures: 8
+    domain.optimisation: 6
+    domain.data-representation: 10
+  facilities:
+    - facility.rented-office-1
+    - facility.leased-compute-1
+  allocation:
+    servingBasisPoints: 4500
+    capabilityBasisPoints: 7500
+    capabilityDomainWeights:
+      domain.architectures: 4000
+      domain.optimisation: 2500
+      domain.data-representation: 3500
+    safetyProgramWeights:
+      safety.alignment-control: 5000
+      safety.interpretability-evals: 4000
+      safety.security-testing: 1000
+  fundingClimate: 50
+
+# GDD section 29.4. Multipliers become sourced modifiers on the run.
+difficulties:
+  - id: difficulty.fellowship
+    displayName: Fellowship
+    revenueMultiplier: 1.20
+    fixedCostMultiplier: 0.85
+    rivalProgressMultiplier: 0.85
+    incidentPressureMultiplier: 0.75
+    displayedEstimateQualityBonus: 8
+  - id: difficulty.standard
+    displayName: Standard
+    revenueMultiplier: 1.00
+    fixedCostMultiplier: 1.00
+    rivalProgressMultiplier: 1.00
+    incidentPressureMultiplier: 1.00
+    displayedEstimateQualityBonus: 0
+  - id: difficulty.frontier
+    displayName: Frontier
+    revenueMultiplier: 0.92
+    fixedCostMultiplier: 1.00
+    rivalProgressMultiplier: 1.12
+    incidentPressureMultiplier: 1.15
+    displayedEstimateQualityBonus: -5
+  - id: difficulty.unhinged-scaling
+    displayName: Unhinged Scaling
+    revenueMultiplier: 0.88
+    fixedCostMultiplier: 1.00
+    rivalProgressMultiplier: 1.25
+    incidentPressureMultiplier: 1.30
+    displayedEstimateQualityBonus: 0
+
+# GDD section 29.1. An early emphasis, not a permanent class.
+mandates:
+  - id: mandate.build-the-science
+    displayName: Build the Science
+    effects:
+      - { target: lab.research.capabilityInfrastructure, operation: add, value: 12 }
+      - { target: lab.paper.extraCandidatesRevealed, operation: add, value: 1 }
+      - { target: lab.market.startingDemand, operation: multiply, value: 0.80 }
+  - id: mandate.build-the-business
+    displayName: Build the Business
+    effects:
+      - { target: lab.finance.cash.starting, operation: add, value: 6.0 }
+      - { target: lab.contracts.starterContract, operation: add, value: 1 }
+      - { target: lab.culture.safety.starting, operation: add, value: -8 }
+  - id: mandate.build-it-right
+    displayName: Build It Right
+    effects:
+      - { target: lab.culture.safety.starting, operation: add, value: 10 }
+      - { target: lab.evals.quality.starting, operation: add, value: 8 }
+      - { target: lab.politics.governmentTrust.starting, operation: add, value: 5 }
+      - { target: lab.compute.workloadThroughput, operation: multiply, value: 0.90 }

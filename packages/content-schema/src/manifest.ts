@@ -33,19 +33,3 @@ export const authoringManifestSchema = z
   .strict();
 
 export type AuthoringManifest = z.infer<typeof authoringManifestSchema>;
-
-/** Shape of the compiled bundle emitted by the content compiler. */
-export const compiledBundleSchema = z
-  .object({
-    bundleFormat: z.literal(1),
-    manifest: z
-      .object({
-        contentVersion: z.string().min(1),
-        bundleHash: z.string().regex(/^[0-9a-f]{64}$/),
-      })
-      .strict(),
-    authoringManifest: authoringManifestSchema,
-  })
-  .strict();
-
-export type CompiledBundle = z.infer<typeof compiledBundleSchema>;

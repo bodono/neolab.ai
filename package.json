@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "pnpm --filter @neolab/web dev",
     "build": "pnpm content:build && pnpm typecheck && pnpm test && pnpm --filter @neolab/web build",
-    "typecheck": "pnpm -r --parallel run typecheck",
+    "typecheck": "pnpm content:build >/dev/null && pnpm -r --parallel run typecheck",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
     "test": "vitest run",

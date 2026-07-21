@@ -128,7 +128,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - Deterministic ID counters per namespace (`run:model:player:0007` pattern), no UUIDs.
     - A recursive test asserts no `Date`, `Map`, `Set`, class instance, function, or non-finite number anywhere in a constructed state.
 
-- [ ] **S1.3 — `createNewGame` and starting-state content.**
+- [x] **S1.3 — `createNewGame` and starting-state content.**
   - Spec: TDD §21.5 (`NewGameConfig`, application order), §7.2.1 (`GpuGenerationDefinition`); GDD §29.2–§29.7 (baseline table, mandates, five leaders/labs).
   - Where: `packages/sim/src/engine/`; content YAML — extend/validate the existing `content/labs/launch.yaml` and `content/hardware/gpu-generations.yaml` (extend compiler schemas as needed — leaders, labs, difficulties, mandates, GPU generations).
   - Done when:
@@ -570,6 +570,8 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 Append-only. Format: `YYYY-MM-DD · task ID · decision · reason · follow-up (if any)`.
 
+- 2026-07-21 · S1.3 · Fixed two `content/labs/launch.yaml` records against GDD §29.7: OpenMind board-patience `max 60` → `min 60` ("starts at 60" from a 70 baseline) and spendable-Aura `add 20` → `max 20` ("starts with 20") · authored operations contradicted the GDD prose · flagged for content review; golden snapshots freeze the corrected values.
+- 2026-07-21 · S1.3 · Added `content/balance.yaml` (new-game baseline §29.2, difficulties §29.4, mandates §29.1) as balance data; legacy `lab.compute.raw.starting` values are interpreted as percent-of-baseline-fleet so Humanic's 90 yields 9,000 Kepler GPUs · content predates the GPU migration · migrate the target name when launch.yaml is next revised.
 - 2026-07-21 · S0.7 · "CI green on main" checked from local execution of every CI step (content build + reproducibility, lint, typecheck, tests, web build, Playwright smoke) · commits are local-only; the user has not asked for a push · first push should confirm the hosted workflow.
 - 2026-07-21 · S0.2 · Replaced `tsc` project references with per-package `tsc --noEmit` + workspace source resolution (`moduleResolution: bundler`, `allowImportingTsExtensions`, explicit `.ts` import extensions) · references force declaration emit, while zero-emit checking plus `erasableSyntaxOnly` keeps the content-compiler directly runnable under Node's native type stripping · same boundaries and guarantees; revisit only if cross-package checking gets slow.
 - 2026-07-21 · plan · Revised plan to v0.2 for the GDD/TDD changes in commit `e0c0c9f` · CU replaced by physical GPU lots + generation factors (TDD §7.2.1, §16.1); new Score ledger and local high scores (GDD §18.9/§41.5, TDD §18.5/§24.7); ending names consolidated to GDD §44.16 with Part I aliases retired; Paper/Researcher definition schemas restructured with inline copy and review metadata; starter content packs now exist under `content/` · New tasks S1.9 and S7.8; GPU/score requirements folded into S1.2, S1.3, S1.8, S2.1, S2.2, S2.7, S3.1, S3.2, S3.4, S3.7, S4.1, S4.6, S5.2, S6.5, S7.6, S8.2, S8.3, S9.5, S10.4.

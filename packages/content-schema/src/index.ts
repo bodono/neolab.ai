@@ -1,9 +1,28 @@
 export { CONTENT_SCHEMA_PACKAGE } from "./meta.ts";
 export type { Brand } from "./brand.ts";
 export { contentId, isContentId, type ContentId } from "./content-id.ts";
+export { authoringManifestSchema, type AuthoringManifest } from "./manifest.ts";
 export {
-  authoringManifestSchema,
-  compiledBundleSchema,
-  type AuthoringManifest,
-  type CompiledBundle,
-} from "./manifest.ts";
+  authoredActivationSchema,
+  authoredEffectSchema,
+  balanceFileSchema,
+  gpuGenerationsFileSchema,
+  launchLeadersFileSchema,
+  type AuthoredActivation,
+  type AuthoredEffect,
+  type BalanceFile,
+  type GpuGenerationsFile,
+  type LaunchLeadersFile,
+} from "./authored.ts";
+export {
+  compiledContentSchema,
+  validateCompiledContent,
+  type CompiledContent,
+  type DifficultyDefinition,
+  type GpuGenerationDefinition,
+  type LabDefinition,
+  type LeaderDefinition,
+  type MandateDefinition,
+  type NamedEffectGroup,
+  type NewGameBalance,
+} from "./compiled.ts";

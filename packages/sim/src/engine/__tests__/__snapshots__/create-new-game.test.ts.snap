@@ -1,0 +1,2364 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.dario-amodeo starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 15,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 5400,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 3600,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.humanic",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 60,
+        "managementCapacity": 45,
+        "researchFreedom": 60,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 15,
+        "practicalControlStrength": 25,
+        "safetyCulture": 58,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "Claude-0",
+      "evaluations": [],
+      "familyName": "Claude",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 12,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.dario-amodeo/responsible-market",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.guardedEnterpriseSatisfaction",
+      "value": 5,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.dario-amodeo/deliberate-scale",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.training.frontier.duration",
+      "value": 1.08,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.dario-amodeo/scaling-with-principles",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.alignment.output",
+      "value": 1.25,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.dario-amodeo/scaling-with-principles",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.interpretability.output",
+      "value": 1.25,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.dario-amodeo/scaling-with-principles",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.security.output",
+      "value": 1.25,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.standard",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 7,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.elon-tusk starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 15,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.xmind",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 62,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 60,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 15,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+          "base:domain.robotics-embodiment": {
+            "level": 5,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "Grok-0",
+      "evaluations": [],
+      "familyName": "Grok",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 12,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.elon-tusk/vertically-integrated",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.compute.ownedPurchasePrice",
+      "value": 0.92,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "min",
+      "source": {
+        "id": "base:leader.elon-tusk/robots-are-the-product",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "facility.roboticsLabI.cashCost",
+      "value": 18,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.elon-tusk/visible-from-orbit",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.compute.ownedPowerCost",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.elon-tusk/first-principles-industry",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.construction.duration",
+      "value": 0.75,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.elon-tusk/first-principles-industry",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.compute.ownedDeliveryDuration",
+      "value": 0.75,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.standard",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 7,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.liang-wenfang starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 10,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.deepsearch",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 15,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 60,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 12,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "DeepSeek-0",
+      "evaluations": [],
+      "familyName": "DeepSeek",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 12,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.liang-wenfang/efficiency-culture",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.training.frontier.cashCost",
+      "value": 0.9,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.liang-wenfang/technical-depth",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.optimisation.recipeChoices",
+      "value": 1,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.liang-wenfang/quiet-opening",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.publicAcquisitionRate",
+      "value": 0.9,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.liang-wenfang/algorithmic-efficiency",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.compute.workloadThroughput",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.standard",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 6,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.sam-altmann starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 20,
+        "spendable": 20,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.openmind",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 60,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 60,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "GPT-0",
+      "evaluations": [],
+      "familyName": "GPT",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 12,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.sam-altmann/unreasonable-momentum",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.acquisitionRate",
+      "value": 1.1,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.sam-altmann/platform-instinct",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.product.firstProject.durationWeeks",
+      "value": -2,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.sam-altmann/everyone-has-a-term-sheet",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.finance.executiveCostPerCycle",
+      "value": 0.6,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.sam-altmann/capital-is-a-technology",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.fundraising.duration",
+      "value": 0.8,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.sam-altmann/capital-is-a-technology",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.fundraising.offerCash",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.standard",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 7,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.thomas-hassabi starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 15,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.deepbrain",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 70,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+          "base:domain.scientific-ai": {
+            "level": 6,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "Gemini-0",
+      "evaluations": [],
+      "familyName": "Gemini",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 10,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.thomas-hassabi/scientific-institution",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.paper.eligibleFamilies",
+      "value": 1,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/a-product-would-be-nice",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.acquisitionRate",
+      "value": 0.85,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/polymaths-programme",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.standard",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 5,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.fellowship starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 15,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.deepbrain",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 70,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+          "base:domain.scientific-ai": {
+            "level": 6,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "Gemini-0",
+      "evaluations": [],
+      "familyName": "Gemini",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 10,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.thomas-hassabi/scientific-institution",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.paper.eligibleFamilies",
+      "value": 1,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/a-product-would-be-nice",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.acquisitionRate",
+      "value": 0.85,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/polymaths-programme",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.fellowship",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.revenue.all",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.fellowship",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.costs.fixed",
+      "value": 0.85,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.fellowship",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "world.rival.progress",
+      "value": 0.85,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.fellowship",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.incident.hazard",
+      "value": 0.75,
+    },
+    "run:modifier:setup:0007": {
+      "id": "run:modifier:setup:0007",
+      "operation": "add",
+      "source": {
+        "id": "difficulty:base:difficulty.fellowship",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.evidence.displayedQuality",
+      "value": 8,
+    },
+    "run:modifier:setup:0008": {
+      "id": "run:modifier:setup:0008",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0009": {
+      "id": "run:modifier:setup:0009",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.fellowship",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 10,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.frontier starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 15,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.deepbrain",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 70,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+          "base:domain.scientific-ai": {
+            "level": 6,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "Gemini-0",
+      "evaluations": [],
+      "familyName": "Gemini",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 10,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.thomas-hassabi/scientific-institution",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.paper.eligibleFamilies",
+      "value": 1,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/a-product-would-be-nice",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.acquisitionRate",
+      "value": 0.85,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/polymaths-programme",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.frontier",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.revenue.all",
+      "value": 0.92,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.frontier",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "world.rival.progress",
+      "value": 1.12,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.frontier",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.incident.hazard",
+      "value": 1.15,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "operation": "add",
+      "source": {
+        "id": "difficulty:base:difficulty.frontier",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.evidence.displayedQuality",
+      "value": -5,
+    },
+    "run:modifier:setup:0007": {
+      "id": "run:modifier:setup:0007",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0008": {
+      "id": "run:modifier:setup:0008",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.frontier",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 9,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
+
+exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.unhinged-scaling starting state is frozen 1`] = `
+{
+  "contentVersion": "0.2.0-draft",
+  "decisionLog": [],
+  "domainLog": [],
+  "endgame": {
+    "stage": "inactive",
+  },
+  "engineRulesVersion": "0.1.0",
+  "eventInstances": {},
+  "labs": {
+    "lab:player": {
+      "aura": {
+        "lifetime": 15,
+        "spendable": 15,
+      },
+      "compute": {
+        "allocation": {
+          "capabilityBasisPoints": 7500,
+          "capabilityDomainWeights": {
+            "base:domain.architectures": 4000,
+            "base:domain.data-representation": 3500,
+            "base:domain.optimisation": 2500,
+          },
+          "safetyProgramWeights": {
+            "base:safety.alignment-control": 5000,
+            "base:safety.interpretability-evals": 4000,
+            "base:safety.security-testing": 1000,
+          },
+          "servingBasisPoints": 4500,
+        },
+        "lots": [
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0000",
+            "ownership": "owned",
+            "physicalCount": 6000,
+            "reliability": 62,
+          },
+          {
+            "availableFraction": 1,
+            "generationId": "base:gpu.kepler",
+            "id": "run:gpu-lot:player:0001",
+            "ownership": "leased",
+            "physicalCount": 4000,
+            "reliability": 62,
+          },
+        ],
+        "reservations": [],
+        "softwareEfficiency": 1,
+      },
+      "control": "player",
+      "definitionId": "base:lab.deepbrain",
+      "facilities": {
+        "instances": [
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.rented-office-1",
+          },
+          {
+            "completedAt": 0,
+            "definitionId": "base:facility.leased-compute-1",
+          },
+        ],
+      },
+      "finance": {
+        "cash": 18,
+      },
+      "flags": {
+        "lab.paper.extraCandidatesRevealed": 1,
+      },
+      "id": "lab:player",
+      "market": {
+        "marketShare": 0.005,
+      },
+      "models": {
+        "currentModelId": "run:model:player:0000",
+        "modelIds": [
+          "run:model:player:0000",
+        ],
+      },
+      "organisation": {
+        "boardPatience": 70,
+        "engineeringQuality": 50,
+        "engineersAndOps": 12,
+        "generalResearchers": 18,
+        "hiddenInternalCandour": 50,
+        "managementCapacity": 45,
+        "researchFreedom": 70,
+      },
+      "politics": {
+        "captureConcern": 0,
+        "governmentAttention": 5,
+        "governmentTrust": 50,
+        "strategicDependence": 0,
+      },
+      "projects": {
+        "projectIds": [],
+      },
+      "research": {
+        "domains": {
+          "base:domain.architectures": {
+            "level": 8,
+          },
+          "base:domain.data-representation": {
+            "level": 10,
+          },
+          "base:domain.optimisation": {
+            "level": 6,
+          },
+          "base:domain.scientific-ai": {
+            "level": 6,
+          },
+        },
+      },
+      "roster": {
+        "researcherIds": [],
+        "starSlots": 3,
+      },
+      "safety": {
+        "alignmentScience": 8,
+        "controlTheory": 6,
+        "evalQuality": 10,
+        "practicalControlStrength": 25,
+        "safetyCulture": 45,
+        "securityPosture": 35,
+      },
+    },
+  },
+  "models": {
+    "run:model:player:0000": {
+      "accessLevel": 0,
+      "anomalies": [],
+      "displayName": "Gemini-0",
+      "evaluations": [],
+      "familyName": "Gemini",
+      "flags": {},
+      "generality": 5,
+      "generationIndex": 0,
+      "hiddenSafety": {
+        "corrigibility": 75,
+        "deceptiveCapability": 10,
+        "generatedByRandomContract": 1,
+        "situationalAwareness": 10,
+        "trueAlignment": 70,
+      },
+      "id": "run:model:player:0000",
+      "ownerLabId": "lab:player",
+      "productQuality": 10,
+      "reliability": 35,
+      "trainedAt": 0,
+      "trueCapability": {
+        "agency": 3,
+        "embodiment": 0,
+        "language": 20,
+        "multimodality": 5,
+        "reasoning": 8,
+        "scientificAbility": 3,
+        "toolUse": 4,
+      },
+    },
+  },
+  "modifiers": {
+    "run:modifier:setup:0000": {
+      "id": "run:modifier:setup:0000",
+      "operation": "add",
+      "source": {
+        "id": "base:leader.thomas-hassabi/scientific-institution",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.paper.eligibleFamilies",
+      "value": 1,
+    },
+    "run:modifier:setup:0001": {
+      "id": "run:modifier:setup:0001",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/a-product-would-be-nice",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.acquisitionRate",
+      "value": 0.85,
+    },
+    "run:modifier:setup:0002": {
+      "id": "run:modifier:setup:0002",
+      "operation": "multiply",
+      "source": {
+        "id": "base:leader.thomas-hassabi/polymaths-programme",
+        "kind": "leader",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 1.2,
+    },
+    "run:modifier:setup:0003": {
+      "id": "run:modifier:setup:0003",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.unhinged-scaling",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.revenue.all",
+      "value": 0.88,
+    },
+    "run:modifier:setup:0004": {
+      "id": "run:modifier:setup:0004",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.unhinged-scaling",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "world.rival.progress",
+      "value": 1.25,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.unhinged-scaling",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.incident.hazard",
+      "value": 1.3,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "operation": "add",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.capabilityInfrastructure",
+      "value": 12,
+    },
+    "run:modifier:setup:0007": {
+      "id": "run:modifier:setup:0007",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.startingDemand",
+      "value": 0.8,
+    },
+  },
+  "projects": {},
+  "randomContractVersion": 1,
+  "run": {
+    "autoPauseReasons": [],
+    "calendar": {
+      "week": 1,
+      "year": 2012,
+    },
+    "difficultyId": "base:difficulty.unhinged-scaling",
+    "idCounters": {
+      "anomaly": 0,
+      "coalition": 0,
+      "evaluation": 0,
+      "event": 0,
+      "gpu-lot": 2,
+      "lab": 0,
+      "model": 1,
+      "modifier": 8,
+      "project": 0,
+    },
+    "phase": "foundation",
+    "playerLabId": "lab:player",
+    "queuedOrders": [],
+    "runId": "run:0123456789ab",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "status": "active",
+    "tick": 0,
+  },
+  "saveVersion": 1,
+  "scheduledEffects": [],
+  "score": {
+    "awardedKeys": {},
+    "entries": [],
+    "scoreVersion": "1",
+  },
+  "world": {
+    "currentGpuGenerationId": "base:gpu.kepler",
+    "eventCooldowns": {},
+    "fundingClimate": 50,
+  },
+}
+`;
