@@ -1,6 +1,6 @@
 # Neolab.ai — Staged Implementation Plan
 
-> Status: Working plan, version 0.1<br>
+> Status: Working plan, version 0.2 (revised for the GPU-economy and Score/ledger changes in GDD §18.9/§32/§41.5 and TDD §7.2.1/§18.5/§24.7)<br>
 > Companion documents: [Technical Design Document](technical-design.md) (TDD, v0.2) and [Game Design Document](game-design.md) (GDD, v0.7)<br>
 > Authority: This document decides *order and granularity of work only*. The TDD remains authoritative for architecture and APIs; the GDD for game behaviour. If a task here conflicts with either, fix the documents first (TDD §1).
 
@@ -31,6 +31,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - **Done when:** objectively checkable conditions. Prefer a command whose success is the check. Every simulation task's Done-when implicitly includes: `pnpm typecheck`, `pnpm lint`, and `pnpm test` pass; no forbidden imports (TDD §4.1); no `any`/`@ts-ignore` in sim or content code (TDD §3.1).
 - A task that adds sim state must update: Zod save schema, invariants (TDD §9.5), and the testkit builders (TDD §25.2) in the same task, not later.
 - Balance constants are loaded from data with stable keys (TDD §26.4), never inlined in formulas.
+- **Existing content packs:** `content/` already holds authored draft records (`labs/launch.yaml`, `hardware/gpu-generations.yaml`, `research/domains.yaml`, `research/papers-a.yaml`, `researchers/*.yaml`, `scoring.yaml`, `ai-levels.yaml`). Tasks that need this content **compile and validate the existing records** (fixing them where the schema disagrees) rather than authoring from scratch; author new records only for gaps.
 
 ---
 
@@ -42,7 +43,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 ### Tasks
 
-- [ ] **S0.1 — Initialise pnpm workspace and packages.**
+- [x] **S0.1 — Initialise pnpm workspace and packages.**
   - Spec: TDD §4, §3.1.
   - Where: repo root; `apps/web`, `packages/content-schema`, `packages/content`, `packages/sim`, `packages/testkit`, `tools/content-compiler`, `tools/balance-runner`, `tools/save-inspector`.
   - Done when:
@@ -121,17 +122,19 @@ This plan exists so that work can be interrupted at any point and resumed by som
   - Spec: TDD §5.1, §5.2, §5.5, §7 (all subsections); GDD §31 for slice inventory.
   - Where: `packages/sim/src/model/`.
   - Done when:
-    - `GameState`, `RunState`, `WorldState`, `LabState` (all named slices, may be minimally populated), `ModelState`, `ProjectState`, `EventInstanceState`, `ModifierState`, `ScheduledEffectState`, `EndgameState` exist as plain-data types.
+    - `GameState`, `RunState`, `WorldState`, `LabState` (all named slices, may be minimally populated), `ModelState`, `ProjectState`, `EventInstanceState`, `ModifierState`, `ScheduledEffectState`, `ScoreState`, `EndgameState` exist as plain-data types.
+    - `ComputeState` follows TDD §7.2.1: physical `GpuLotState[]` (generation ID, ownership, integer `physicalCount`, availability, reliability) plus allocation basis points, reservations, and queued orders. No derived-throughput or CU-style balance is ever stored (invariant + test).
     - A Zod schema validates the full state; a test round-trips `JSON.parse(JSON.stringify(state))` and deep-equals.
     - Deterministic ID counters per namespace (`run:model:player:0007` pattern), no UUIDs.
     - A recursive test asserts no `Date`, `Map`, `Set`, class instance, function, or non-finite number anywhere in a constructed state.
 
 - [ ] **S1.3 — `createNewGame` and starting-state content.**
-  - Spec: TDD §21.5 (`NewGameConfig`, application order), GDD §29.2–§29.7 (baseline table, mandates, five leaders/labs).
-  - Where: `packages/sim/src/engine/`; content YAML in `content/labs/`, `content/leaders/` (extend compiler schemas as needed — leaders, labs, difficulties, mandates).
+  - Spec: TDD §21.5 (`NewGameConfig`, application order), §7.2.1 (`GpuGenerationDefinition`); GDD §29.2–§29.7 (baseline table, mandates, five leaders/labs).
+  - Where: `packages/sim/src/engine/`; content YAML — extend/validate the existing `content/labs/launch.yaml` and `content/hardware/gpu-generations.yaml` (extend compiler schemas as needed — leaders, labs, difficulties, mandates, GPU generations).
   - Done when:
     - Five leader + lab definitions and three mandates compile from YAML.
-    - `createNewGame(config)` applies baseline → lab modifiers → leader modifiers → difficulty → mandate → seeded world generation, in that order.
+    - All launch GPU generations (Kepler → Rubin plus fictional successors) compile with training/serving factors, power, interconnect tier, costs, delivery weeks; compiler enforces `historicity` rules (fictional generations require the fictional manufacturer and `FICTIONAL HARDWARE` labelling; Kepler is the `1.0` reference).
+    - `createNewGame(config)` applies baseline → lab modifiers → leader modifiers → difficulty → mandate → seeded world generation, in that order; the starting fleet is physical Kepler lots (10,000 GPUs baseline; 9,000 for Humanic's `Deliberate Scale`).
     - Golden test: exact starting state snapshot for **each of the five leaders × Standard difficulty**, plus one per remaining difficulty (GDD §29.4 multipliers present in state or rules data).
     - Baseline numbers match GDD §29.2 table exactly (assert per-field, not only via snapshot).
 
@@ -172,8 +175,18 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S1.8 — Testkit scenario builders (initial).**
   - Spec: TDD §25.2.
   - Done when:
-    - `scenario()` builder produces valid states with safe defaults; `.atTick()`, `.withPlayerLab()` (cash/compute/rating setters) work; `build()` validates; `unsafeFixture()` escape hatch exists.
+    - `scenario()` builder produces valid states with safe defaults; `.atTick()`, `.withPlayerLab()` (cash/rating setters plus `.gpus("gpu.kepler", 40_000)`-style lot setters per TDD §25.2) work; `build()` validates; `unsafeFixture()` escape hatch exists.
     - All Stage 1 tests that construct states use the builder (spot-check, refactor stragglers).
+
+- [ ] **S1.9 — Score ledger core.**
+  - Spec: TDD §18.5; GDD §18.9, §41.5; `content/scoring.yaml` (canonical values).
+  - Where: `packages/sim/src/engine/` (award/finalise helpers), `packages/sim/src/selectors/`, compiler schema for `scoreRules`.
+  - Done when:
+    - `content/scoring.yaml` compiles into `CompiledContent.scoreRules`; system code contains no paper titles or point tables (review check).
+    - `awardScore` appends `ScoreLedgerEntry` records with semantic keys and rejects duplicate keys (test); entries survive save round-trip and replay identically.
+    - `calculateScoreView` exists and is exported from `@neolab/sim/public` (TDD §33.1); it exposes only ledger facts the player already knows.
+    - Architecture guard: no economy/research/rival/event/endgame system reads score to change an outcome — enforced by lint restriction or a targeted import/usage test.
+    - `finaliseScore` is stubbed to throw "endgame not implemented" (real implementation lands in S7.8).
 
 ### Exit gate (Stage 1)
 
@@ -195,7 +208,9 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S2.1 — GPU portfolio, workload throughput, allocation hierarchy, normalisation.**
   - Spec: GDD §32.1–§32.2; TDD §16.1.
   - Done when:
-    - `calculateGpuThroughput` breaks out physical count, generation factor, availability, software, power and interconnect; reservations resolve before discretionary allocation; `normaliseAllocation` uses basis points (0–10 000) and largest-remainder integer-GPU rounding.
+    - `calculateGpuThroughput(state, labId, workload, selection?)` breaks out physical GPUs by generation, generation factor, availability, software, power and interconnect; its final scalar is a formula input only, never stored or shown as a resource (TDD §16.1).
+    - Reservations resolve before discretionary allocation and honour generation/interconnect pins; unpinned allocation draws proportionally from available lots in stable `GpuLotId` order.
+    - `normaliseAllocation` operates over lots with basis points (0–10 000) and largest-remainder integer-GPU rounding: every displayed count is an integer and child allocations sum exactly to their physical parent count (property test).
     - Unfunded-program rule (<200 physical GPUs/week ⇒ no progress, marked stranded) implemented where allocation is consumed.
     - Allocation invariants: sums within 1e-9 at each hierarchy level; property test over thousands of random allocations.
     - `SetGpuAllocationCommand` fully implemented (queued, applies next tick, >25-point domain swing penalty flag recorded for Stage 3 to consume).
@@ -203,8 +218,8 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S2.2 — Hardware market: buy, lease, deliveries.**
   - Spec: GDD §32.3; TDD §16.1 (`quoteGpuOffer`).
   - Done when:
-    - The four default offers exist as content data; `PurchaseGpuCommand` quotes (generation, physical count, price, delivery, ongoing cost and relative training/serving throughput) and schedules delivery; deliveries land in the `deliveries` phase before allocation.
-    - Owned vs leased tracked; lease recurring costs feed finance.
+    - The four default offers exist as content data referencing `content/hardware/gpu-generations.yaml` for the current generation; `PurchaseGpuCommand` quotes (generation, physical count, price, delivery, ongoing cost and relative training/serving comparison against the current fleet) and schedules delivery; deliveries create new `GpuLotState` records in the `deliveries` phase before allocation.
+    - Owned vs leased vs cloud lots tracked; lease recurring costs feed finance; damage/sale/lease-expiry change lots through commands/effects only, never by rewriting generation factors (test).
 
 - [ ] **S2.3 — Finance ledger, forecast, cycle settlement, runway.**
   - Spec: GDD §33.1, §33.7; TDD §16.2.
@@ -235,7 +250,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S2.7 — `GameView` projection (economy slice) and hidden-state guard.**
   - Spec: TDD §20.1–§20.3.
   - Done when:
-    - `projectGameView` covers top bar (finance/GPU fleet/Aura placeholder/date), GPU allocation view with physical-GPUs-beside-percentage values and generation mix, market view, project list.
+    - `projectGameView` covers top bar (finance/GPU fleet/Aura placeholder/date) and a `GpuFleetView` (TDD §20.1) with physical-GPUs-beside-percentage values and the generation mix (e.g. `45% · 4,500 GPUs/week`, `3,000 Volta · 1,500 Turing`), market view, project list.
     - `assertNoHiddenKeys(view)` recursive test guard implemented and wired into projection tests (hidden fields list starts now, grows later).
 
 - [ ] **S2.8 — Playable economy shell UI.**
@@ -265,16 +280,18 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S3.1 — Research domains and weekly production.**
   - Spec: GDD §34.1–§34.3; TDD §14.1, §14.3.
   - Done when:
-    - Eight capability domains + three safety programmes as content; `calculateDomainOutput` full breakdown; focus multipliers with 4-week cooldown; context-switch penalty consumes the Stage 2 flag; weekly variance via keyed draws.
+    - Eight capability domains + three safety programmes compiled from the existing `content/research/domains.yaml`; `calculateDomainOutput` full breakdown using the GPU-based formula (`weightedTrainingGpuWeeks / 100` → `researchScale`, GDD §34.2 — `researchScale` is never stored or displayed as a resource); focus multipliers with 4-week cooldown; context-switch penalty consumes the Stage 2 flag; weekly variance via keyed draws.
     - Domain-level thresholds award generic advances (GDD §34.7) with player choice recorded as a command.
 
 - [ ] **S3.2 — Paper graph, hidden thresholds, discovery, publication, diffusion.**
   - Spec: GDD §34.4–§34.6, §34.8; TDD §14.2, §14.4.
   - Done when:
-    - `PaperDefinition` schema + compiler checks (weights sum to 1, prerequisite graph acyclic unless flagged, source URL format); ten real papers authored (per TDD §33.3 selection).
+    - `PaperDefinition` schema matches the revised TDD §14.2: `historicity` (`real` / `fictional-future`), inline title/authors/education fields (`playerSummary`, `archiveExplanation`, `insideBaseball`), `PaperPrerequisiteDefinition` compiled to the predicate AST, `discovery` block, `review` state. Compiler checks: weights sum to 1, prerequisite graph acyclic unless flagged, real papers require primary source/authors/year, fictional papers must omit factual-source fields and carry `FICTIONAL FUTURE PAPER`.
+    - The existing `content/research/papers-a.yaml` batch compiles clean; at least ten of its real papers are wired into the run (fix records where the schema disagrees; log fixes).
     - Hidden thresholds derived lazily from (seed, lab, paper) — test lazy == eager.
     - World-first resolution respects canonical order + run-creation shuffle; all four publication policies apply their effects; diffusion credit at 25/50/75/100.
-    - Golden scenario: seeded two-lab paper race (player + one scripted rival stub) replays exactly.
+    - Score entries per GDD §41.5 Scientific Legacy: world-first awards `100 × worldFirstAura`, rediscovery 20%, diffusion 0, publication-policy bonuses (open +10%, controlled +5%, release-everything +10%) — exact-value fixtures against `content/scoring.yaml`.
+    - Golden scenario: seeded two-lab paper race (player + one scripted rival stub) replays exactly, including the score ledger.
 
 - [ ] **S3.3 — Training pipeline.**
   - Spec: GDD §35.2–§35.4; TDD §15.2.
@@ -288,6 +305,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - `HiddenModelSafetyState` generated at training completion (four formulas + noise); excluded from public package exports (compile-time test: importing it from `@neolab/sim/public` fails).
     - `classifyCapabilityTier` selector over measured evidence only; tier definitions loaded from `content/ai-levels.yaml`; tier-change presentation event enqueued once per model/tier.
     - AGI-candidate criteria detection (GDD §35.6) sets the flag that Stage 7 will consume (until then it only logs + auto-pauses).
+    - First-time capability-tier score entries (Race and Operations category) emitted with duplicate-key protection per model/tier.
 
 - [ ] **S3.5 — Evaluations, observations, anomalies.**
   - Spec: GDD §36.4–§36.8; TDD §15.3–§15.4.
@@ -305,7 +323,8 @@ This plan exists so that work can be interrupted at any point and resumed by som
   - Spec: TDD §21.3; GDD §25.2, §34.3 (no exact progress bars), §34.9 (educational card).
   - Done when:
     - Research workspace: domain allocations with physical GPUs/week shown, focus picker, qualitative progress labels (`Speculative`/`Promising`/`Hot trail`/`Breakthrough imminent`) — no numeric completion bars (assert the view type cannot carry one).
-    - Model workspace: model cards, training dialog with quote, eval reports with confidence labels, deployment policy control.
+    - Model workspace: model cards, training dialog with quote (physical GPU reservation by permitted generation/interconnect tier), eval reports with confidence labels, deployment policy control.
+    - Dashboard header shows the current Score total from `calculateScoreView` (GDD §18.9), with the category breakdown reachable from it.
     - Paper discovery presentation: full educational card incl. real-world publication info and source link (opens `noopener,noreferrer`, domain shown).
 
 ### Exit gate (Stage 3)
@@ -327,8 +346,10 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S4.1 — Researcher definitions, abilities, compacts (data + engine).**
   - Spec: GDD §37.2–§37.2.5; TDD §17.1.
   - Done when:
-    - Full `ResearcherDefinition` schema incl. signature/passive/compact/availability; `AuthoredModifier` compilation; `syncResearcherAbilityModifiers`; signature 4-week ramp; advisor vs lead contribution (3%/1.5% per point, caps 15/7.5); stacking caps table from GDD §37.2.4 as registry rules with capped-away reporting.
-    - Six launch researchers authored in YAML (pick from GDD §37.2.3; include at least one Research-Council-style institutional signature and one compact-required character).
+    - Full `ResearcherDefinition` schema matches the revised TDD §17.1: inline display name/epithet/role/biography, portrait block (asset + brief + alt text), `signature`/`passive`/`compact`, contract sub-object whose values must equal the declared band defaults unless an authored override explains itself, `paperHooks`/`facilityHooks`/`endgameHooks`, `eventReactions`, `feedLines`, sources, portrayal/legal review metadata. `ResearcherActivationDefinition`, `ResearcherCompactCheckDefinition`, and `ResearcherUnlockDefinition` are closed unions compiled into predicates; unknown keys rejected.
+    - Compiler completeness rules enforced: each released researcher has exactly three event reactions, at least six feed lines, a sourced biography, portrait brief + alt text, and explicit review metadata (may be a warning class until Stage 8 hardening, but the check exists now).
+    - `AuthoredModifier` compilation; `syncResearcherAbilityModifiers`; signature 4-week ramp; advisor vs lead contribution (3%/1.5% per point, caps 15/7.5); stacking caps table from GDD §37.2.4 (including the *derived training throughput* `×1.35` cap) as registry rules with capped-away reporting.
+    - The existing `content/researchers/*.yaml` records (foundation, deep-learning, scaling, frontier, rules) compile clean; at least six are wired into the run, including one Research-Council-style institutional signature and one compact-required character (fix records where the schema disagrees; log fixes).
     - Compact evaluation over rolling 13-week windows with warning → breach event hook.
 
 - [ ] **S4.2 — Star slots, talent market, recruitment.**
@@ -351,7 +372,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 - [ ] **S4.6 — Facility catalogue and campus view-model.**
   - Spec: GDD §37.7–§37.8; TDD §17.4, §22.1.
-  - Done when: all 15 initial catalogue entries as content; slot-unlock facilities; over-cap `Unhoused` flow; `CampusView` projection (facilities, construction stage, load state, cues) — DOM strip rendering may remain placeholder blocks.
+  - Done when: all 15 initial catalogue entries as content (GPU-count capacities per the revised GDD §37.7 — e.g. Data Centre I supports 25,000 owned GPUs); slot-unlock facilities; over-cap `Unhoused` flow; first-completion score entries (Institution Building) with duplicate-key protection so sell-and-rebuild cannot farm points; `CampusView` projection (facilities, construction stage, load state, cues) — DOM strip rendering may remain placeholder blocks.
 
 - [ ] **S4.7 — People & campus UI.**
   - Spec: GDD §25.3 (portrait row), §49.2; TDD §21.3.
@@ -381,7 +402,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 - [ ] **S5.2 — Content compiler: full validation passes.**
   - Spec: TDD §12.3 (all 13 steps), §25.5.
-  - Done when: reachability analysis for every option/outcome branch; probability-band coverage of `[0,1)`; localisation key/placeholder verification; release-blocking warning class (missing paper source, missing alt text, unreachable branch, ungated catastrophe effect); content report emitted; `pnpm content:check` green.
+  - Done when: reachability analysis for every option/outcome branch; probability-band coverage of `[0,1)`; localisation key/placeholder verification; release-blocking warning class (missing paper source, missing alt text, unreachable branch, ungated catastrophe effect); retired Part I ending names (GDD §18.7: "The Long Boom", "The Careful Dawn", "Someone Else's Future", "Paperclip Adjacent", "The Adults Have Entered the Building") rejected anywhere in content data or UI copy; `content/scoring.yaml` keys validated (every referenced milestone resolvable, no duplicates, category IDs closed); content report emitted; `pnpm content:check` green.
 
 - [ ] **S5.3 — Vertical-slice event set.**
   - Spec: GDD §45 (author from the 26 examples), §43.8 (per-event test requirements).
@@ -424,7 +445,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S6.2 — Rival research/market/talent participation.** (Spec: GDD §39.3, §37.6, §33.2.) Done when: rivals accumulate real paper progress against real thresholds, poach via the Stage 4 chain, participate in the single-pass market settlement (TDD §16.3), and generate public signals (releases, hires, benchmarks) with estimate error driven by intelligence quality.
 - [ ] **S6.3 — Rival incidents, containment of failure, diplomacy actions.** (Spec: GDD §39.4, §39.6.) Done when: rival high-severity failures convert to the allowed consequence set (never extinction); relationship state per rival; player diplomacy actions (collaborate, standards, non-poach, share incident info) as commands/events.
 - [ ] **S6.4 — Rival candidate countdown and Race Emergency.** (Spec: GDD §39.5, §18.1.) Done when: hidden 26-week-base countdown with modifiers; player-visible range estimate narrowing with intelligence; Rival Ascendance loss ending wired; Race Emergency event authored.
-- [ ] **S6.5 — Coalition groundwork systems.** (Spec: GDD §14.1, §41.3–§41.4; TDD §18.4.) Done when: `CoalitionState` lifecycle proposal→ratification; shared protocol/verification ratings raised by projects (incl. `coalition.inspection`-style events from Stage 5 set); hard prerequisites of GDD §41.3 encoded as an eligibility selector (readiness is never a stored boolean).
+- [ ] **S6.5 — Coalition groundwork systems.** (Spec: GDD §14.1, §41.3–§41.4; TDD §18.4.) Done when: `CoalitionState` lifecycle proposal→ratification; shared protocol/verification ratings raised by projects (incl. `coalition.inspection`-style events from Stage 5 set); hard prerequisites of GDD §41.3 encoded as an eligibility selector (readiness is never a stored boolean); coalition-ratification score entry (Race and Operations) emitted once.
 - [ ] **S6.6 — Balance runner v1.** (Spec: TDD §26; parallel-safe once S6.1–S6.2 done.) Done when: `runBalanceBatch` executes ≥1,000 seeded runs headless in CI-nightly time budget; policies: balanced, capability-first, commercial, random-legal, never-fund-serving; JSON+CSV report with win funnel, paper ownership, rival competitiveness (GDD §48.7 metrics), event frequency.
 - [ ] **S6.7 — World UI.** (Spec: GDD §25.1 world column.) Done when: rival race panel with uncertainty rendering, relationship/diplomacy panel, coalition board, regulation status; world column sticky behaviour per TDD §21.8 breakpoints.
 
@@ -449,13 +470,22 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S7.3 — Stages One–Four content and rules.** (Spec: GDD §44.5–§44.8.) Done when: confirmation project with four method options and integrity bonuses; Near-AGI failure path returns to normal play with 13-week cooldown; containment posture table; all 12 evidence-sprint crisis projects; pressure-collision selector (highest pressure picks category, randomness picks variant) with ≥6 authored collisions.
 - [ ] **S7.4 — Final review, deployment modes, resolution gates.** (Spec: GDD §44.9–§44.12, §44.17; TDD §19.3.) Done when: final review compiles evidence without leaking truth (guard test); six deployment choices with requirements; Gates A–F implemented with full `GateResolution` audit records; derived scores (IntentSafety, OffensiveAgency, Defence, Evidence, Legitimacy, BenefitStrength) as pure formula helpers with unit tests.
 - [ ] **S7.5 — Rollout beats, shutdown/retry, coalition resolution.** (Spec: GDD §44.13–§44.15.) Done when: five rollout beats played in sequence; shutdown archive/recovery path with repeat costs; coalition governance gate with salvage event and success bonuses; all clocks continue during rollout.
-- [ ] **S7.6 — Endings and post-run audit.** (Spec: GDD §44.16, §42.9, §47.10; TDD §20.2 privileged selectors.) Done when: all endings in GDD §44.16 reachable via intentional test fixtures (victory, Rival Ascendance, nationalisation, contained failure, catastrophe at minimum — the §49.4 list); ending screen (epilogue → mechanical causes); **What Actually Happened** exposes seed, true traits, evaluation errors, major draws/thresholds, top-5 causal decisions, labelled counterfactuals; privileged selectors live in `@neolab/sim/debug`-style export unavailable during active runs.
+- [ ] **S7.6 — Endings and post-run audit.** (Spec: GDD §44.16, §42.9, §47.10; TDD §20.2 privileged selectors.) Done when: all endings in GDD §44.16 reachable via intentional test fixtures (victory, Rival Ascendance, nationalisation, contained failure, catastrophe at minimum — the §49.4 list), using only the canonical §44.16 names (the retired Part I aliases are banned by the S5.2 compiler check); ending screen (epilogue → mechanical causes); **What Actually Happened** exposes seed, true traits, evaluation errors, major draws/thresholds, top-5 causal decisions, labelled counterfactuals; privileged selectors live in `@neolab/sim/debug`-style export unavailable during active runs.
 - [ ] **S7.7 — Prosperity Programmes.** (Spec: GDD §41.1.) Done when: four programmes with readiness 0–100 from research/facilities/experts/discoveries; readiness feeds Gate E; at least the fictional-paper stubs needed by fixtures exist and are clearly marked fictional.
+- [ ] **S7.8 — Score finalisation, ending score screen, local high scores.**
+  - Spec: GDD §41.5, §18.9; TDD §18.5 (`finaliseScore`), §24.7 (high-score repository).
+  - Done when:
+    - Endgame score entries: authored ending awards from `content/scoring.yaml` (e.g. The Stewardship Compact 11,500; losses 0); Safe Stewardship entries from crisis conduct; hidden-truth penalties emitted **during ending resolution** when the audit reveals that truth, never mid-run.
+    - `finaliseScore` runs exactly once after the ending ID is fixed and before the final autosave (test: double-finalisation impossible); computes `rawScore`/`adjustedScore` with difficulty (0.75/1.00/1.25/1.50) and victory-class (1.25/1.10/1.00) multipliers; both totals plus category totals stored in `FinalScoreRecord` with `leaderboardEligibility`.
+    - Ending score screen explains every award and penalty across the six categories; raw and adjusted totals both visible.
+    - `IndexedDbHighScoreRepository` with the two boards (`all-finished-runs`, `winning-runs`), best 50 entries each, entries per TDD §24.7; deleting a save does not delete its high-score summary; the high-score screen has its own explicit delete.
+    - `LeaderboardSubmissionV1` types exist for the future service, but **no network submission ships** — launch is local-only.
+    - Full-run fixture: the entire score ledger for a seeded run matches an exact expected fixture and replays identically.
 
 ### Exit gate (Stage 7)
 
 - [ ] Every GDD §49.4 bullet has a green automated fixture.
-- [ ] A full seeded run from new game to an ending replays byte-identically, including the crisis.
+- [ ] A full seeded run from new game to an ending replays byte-identically, including the crisis and the score ledger/final score.
 - [ ] Audit screen explains a catastrophe fixture end-to-end (manual review note in log).
 - [ ] CI green.
 
@@ -470,8 +500,8 @@ This plan exists so that work can be interrupted at any point and resumed by som
 ### Tasks
 
 - [ ] **S8.1 — Content pipeline hardening for volume.** Done when: compiler performance acceptable at full quota scale; review-metadata fields (source notes, last-reviewed, portrayal status, legal status per TDD §30.4) required by schema; content report lists gaps.
-- [ ] **S8.2 — Papers: 72 (58 real + 14 fictional)** with prerequisites, educational copy, sources (GDD §20.2, §23). Track sub-progress in `content/README.md` counts.
-- [ ] **S8.3 — Researchers: 56** with bios, abilities, compacts, hooks (GDD §37.2.3 pattern + open question 4 resolution).
+- [ ] **S8.2 — Papers: 72 (58 real + 14 fictional)** with prerequisites, educational copy, sources (GDD §20.2, §23) — completing the existing `content/research/papers-a.yaml` batch with the remaining batches. Track sub-progress in `content/README.md` counts.
+- [ ] **S8.3 — Researchers: 56** with bios, abilities, compacts, hooks (GDD §37.2.3 pattern + open question 4 resolution), extending the existing wave files in `content/researchers/`. Note the roster now includes Jürgen Smithhuber in place of the removed Timnit Gebra record — verify no stale references survive in events, synergy copy, or scoring keys.
 - [ ] **S8.4 — Events: 180 ordinary + 30 crisis chains + 600 feed templates**, meeting GDD §46 per-category quotas; lab-specific variants (≥5/lab), researcher personal events, AI-family voice guides.
 - [ ] **S8.5 — Endgame content: 48 decision nodes, 12 crisis inserts, 18 ending/epilogue families** (GDD §20.2).
 - [ ] **S8.6 — Facilities: 20 families / 44 definitions**; nine capability tiers finalised in `ai-levels.yaml`.
@@ -495,7 +525,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S9.2 — Campus strip final implementation**; measure against TDD §22.2 thresholds before any PixiJS adoption; decision recorded in the log.
 - [ ] **S9.3 — Audio**: `WebAudioManager`, cue registry, rate limiting, settings (TDD §23).
 - [ ] **S9.4 — Responsive shell acceptance fixtures** for the four breakpoint states (TDD §21.8) as Playwright visual tests.
-- [ ] **S9.5 — Accessibility audit** against TDD §25.6/§30.3 checklist: full keyboard, focus management, colour redundancy, 200% zoom, reduced motion, screen-reader label leak tests.
+- [ ] **S9.5 — Accessibility audit** against TDD §25.6/§30.3 checklist: full keyboard, focus management, colour redundancy, 200% zoom, reduced motion, screen-reader label leak tests; sliders announce percent **and** physical GPUs/week with the generation mix in the accessible description (TDD §30.3).
 - [ ] **S9.6 — Balance to GDD §48 targets**: full matrix sweeps; win funnel 45–55%, loss-family distribution, event calibration ("Very likely" ⇒ 85–100%), hidden-info calibration bands; constant changes only via data keys with log entries.
 - [ ] **S9.7 — Human playtests** recorded against GDD §49.6 comprehension questions; failures triaged into UI/copy/rules tasks appended to this stage.
 
@@ -516,7 +546,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 - [ ] **S10.1 — Save-compatibility fixture set**: archive representative saves from the alpha; migration suite proves they load (TDD §24.4).
 - [ ] **S10.2 — GitHub Pages deployment workflow** exactly per TDD §31.3: `deploy-pages.yml`, base-path handling for project-site and `play.neolab.ai`, cache header policy, size budgets (≤15 MB compressed first load; fail >900 MB site / >20 MB asset), artifact + content-hash retention for rollback, post-deploy smoke (title → seeded game → one tick → assets resolve).
 - [ ] **S10.3 — itch.io package**: relative-path-safe ZIP from the same build; manual upload checklist documented.
-- [ ] **S10.4 — Release checks**: licence report, CSP verification, bundle report, optional consented diagnostics wiring (off by default), feedback channel link in-game.
+- [ ] **S10.4 — Release checks**: licence report, CSP verification, bundle report, optional consented diagnostics wiring (off by default), feedback channel link in-game; confirm high scores are local-only and no leaderboard endpoint or submission code path is reachable in the shipped build (TDD §24.7).
 - [ ] **S10.5 — Tag and release**: reproducible tagged build; rollback rehearsal performed once.
 
 ### Exit gate (Stage 10)
@@ -532,11 +562,12 @@ This plan exists so that work can be interrupted at any point and resumed by som
 2. **New state ⇒ same-task updates** to: Zod schemas, invariants, testkit builders, `GameView` projection (or an explicit hidden-state guard entry), and save round-trip test.
 3. **New mechanic ⇒ TDD §29.7 checklist** copied into the task's Done-when before starting.
 4. **No formula in the UI.** Previews come from `validateCommand`/selector breakdowns only.
-5. **Content beyond the current stage's quota is not authored early** — it churns against unstable schemas.
+5. **Content beyond the current stage's quota is not authored early** — it churns against unstable schemas. (Pre-existing draft records in `content/` are exempt: validate and fix them when their consuming task lands.)
 6. **Every completed task = one commit** referencing its ID; every skipped/deviated item = one log entry below.
+7. **Score is emitted at the source, never retrofitted.** Any task implementing a milestone listed in `content/scoring.yaml` must call `awardScore` with its semantic key and add an exact-value fixture in that same task. Score never feeds back into any simulation outcome (S1.9 guard), and GPUs are counted, never abstracted: no task may reintroduce a stored era-independent compute unit or expose derived throughput as a player resource.
 
 ## Decisions and deviations log
 
 Append-only. Format: `YYYY-MM-DD · task ID · decision · reason · follow-up (if any)`.
 
-- (empty)
+- 2026-07-21 · plan · Revised plan to v0.2 for the GDD/TDD changes in commit `e0c0c9f` · CU replaced by physical GPU lots + generation factors (TDD §7.2.1, §16.1); new Score ledger and local high scores (GDD §18.9/§41.5, TDD §18.5/§24.7); ending names consolidated to GDD §44.16 with Part I aliases retired; Paper/Researcher definition schemas restructured with inline copy and review metadata; starter content packs now exist under `content/` · New tasks S1.9 and S7.8; GPU/score requirements folded into S1.2, S1.3, S1.8, S2.1, S2.2, S2.7, S3.1, S3.2, S3.4, S3.7, S4.1, S4.6, S5.2, S6.5, S7.6, S8.2, S8.3, S9.5, S10.4.

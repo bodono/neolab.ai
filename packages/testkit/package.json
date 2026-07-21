@@ -1,0 +1,17 @@
+{
+  "name": "@neolab/testkit",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neolab/content": "workspace:*",
+    "@neolab/content-schema": "workspace:*",
+    "@neolab/sim": "workspace:*"
+  }
+}

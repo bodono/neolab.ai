@@ -1,0 +1,17 @@
+{
+  "name": "@neolab/sim",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./public": "./src/public.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neolab/content-schema": "workspace:*",
+    "@noble/hashes": "catalog:"
+  }
+}
