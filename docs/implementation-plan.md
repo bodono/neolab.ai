@@ -563,7 +563,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 3. **New mechanic ⇒ TDD §29.7 checklist** copied into the task's Done-when before starting.
 4. **No formula in the UI.** Previews come from `validateCommand`/selector breakdowns only.
 5. **Content beyond the current stage's quota is not authored early** — it churns against unstable schemas. (Pre-existing draft records in `content/` are exempt: validate and fix them when their consuming task lands.)
-6. **Every completed task = one commit** referencing its ID; every skipped/deviated item = one log entry below.
+6. **Every completed task = one commit** referencing its ID, **pushed to `origin/main`**; every skipped/deviated item = one log entry below. Hosted CI must be green on the pushed commit before a stage's exit gate is checked.
 7. **Score is emitted at the source, never retrofitted.** Any task implementing a milestone listed in `content/scoring.yaml` must call `awardScore` with its semantic key and add an exact-value fixture in that same task. Score never feeds back into any simulation outcome (S1.9 guard), and GPUs are counted, never abstracted: no task may reintroduce a stored era-independent compute unit or expose derived throughput as a player resource.
 
 ## Decisions and deviations log
