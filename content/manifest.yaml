@@ -1,6 +1,6 @@
 draftSchema: 1
-contentVersion: 0.1.0-draft
-status: outline
+contentVersion: 0.2.0-draft
+status: draft
 
 targets:
   labs: 5
@@ -28,13 +28,23 @@ packs:
       leaders: 5
       aiCapabilityTiers: 9
   - id: people-a
-    status: outline
+    status: draft
     contains:
       starResearchers: 24
   - id: research-a
-    status: outline
+    status: draft
     contains:
       realPapers: 20
+  - id: hardware-a
+    status: draft
+    contains:
+      realGpuGenerations: 9
+      fictionalFutureGpuGenerations: 3
+  - id: scoring-a
+    status: draft
+    contains:
+      scoreCategories: 6
+      victoryMultipliers: 4
   - id: institutions
     status: outline
     contains:

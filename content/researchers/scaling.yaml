@@ -1,0 +1,226 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-a
+availabilityWave: scaling
+status: draft
+
+researchers:
+  - id: researcher.noam-shazer
+    version: 1
+    displayName: Noam Shazer
+    inspirationName: Noam Shazeer
+    epithet: The Sparse Magician
+    role: Sparse architectures and inference economics
+    rosterCardSummary: A conditional-computation pioneer who makes enormous models selective, improves architecture research, and sharply reduces the GPU burden of serving them.
+    biography: >-
+      Noam Shazer has a gift for taking an extravagant computational idea and finding the
+      structure that makes it practical. At Google, he helped create the sparsely gated
+      mixture-of-experts layer, in which a learned router activates only a small selection from
+      a vast population of specialised subnetworks. The work demonstrated that model capacity
+      could grow dramatically without requiring every parameter to participate in every
+      example, and it became a foundation for many later large language systems. His research
+      ranges across sequence modelling, efficient attention, language models and products that
+      made conversational agents feel unexpectedly vivid. Noam brings algorithmic imagination,
+      systems judgement and a cheerful willingness to name a paper “Outrageously Large.” He is
+      exactly the scientist a lab wants when the hardware plan has become financially
+      impossible but the research question remains irresistible.
+    availability:
+      wave: scaling
+      unlockAny: [{ discoveredTag: sparse-mixture-of-experts }, { yearAtLeast: 2017 }, { domainLevelAtLeast: 32 }]
+      poolWeight: 0.80
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 2, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 1, securityContainment: 0, training: 5, product: 4, management: 4, politics: 1 }
+    traits: [trait.conditional-computation, trait.product-imagination]
+    signature:
+      id: ability.selectively-awake
+      label: Outrageously Large, Selectively Awake
+      eligibleAssignments: [capability-program, training-run]
+      activation: { type: assignment-domain-or-discovery, domains: [domain.architectures, domain.optimisation], discoveryTag: sparse-mixture-of-experts }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.20, stackingGroup: programme-rp, beforeDiscovery: sparse-mixture-of-experts }
+        - { target: assignedTrainingRun.workloadThroughput, operation: multiply, value: 1.15, stackingGroup: training-throughput, afterDiscovery: sparse-mixture-of-experts }
+    passive:
+      id: ability.wake-needed-experts
+      label: Only Wake the Experts You Need
+      effects:
+        - { target: serving.gpusPerRequest, operation: multiply, value: 0.92, stackingGroup: serving-efficiency }
+    compact:
+      id: compact.room-to-scale
+      label: Room to Scale
+      requirement: Provide at least 6,000 physical GPUs per week to his led programme or training run whenever it is active.
+      check: { type: led-assignment-gpus-at-least, gpusPerWeek: 6000, whenActive: true, emergencyException: true }
+      breachEvent: people.compact.room-to-scale
+    paperHooks:
+      ids: [paper.sparse-mixture-of-experts, paper.transformer]
+      affinityTags: [conditional-computation, efficient-inference, conversational-agents]
+    facilityHooks: [facility.data-centre, facility.inference-centre]
+    endgameHooks: [ending.the-broadly-shared-future, ending.the-lab-that-ate-the-world]
+    eventReactions:
+      - { triggerTag: gpu-shortage, line: "The constraint is real. The assumption that every parameter must wake up is negotiable." }
+      - { triggerTag: routing-collapse, line: "The experts have formed a monoculture. Fortunately, we can measure which expert is doing all the talking." }
+      - { triggerTag: serving-crunch, line: "Capacity and activity are different quantities. Finance will enjoy this distinction once the router works." }
+    feedLines:
+      - Noam proposed an outrageously large network and a suspiciously economical invoice.
+      - Most of the experts are asleep. The active experts have requested better routing.
+      - Serving now wakes only the parameters it needs, an operating principle Facilities would like extended to meetings.
+      - The router sent every token to Expert 7. Expert 7 is coping admirably under the circumstances.
+      - Six thousand GPUs have been guaranteed to a programme whose diagram contains several doors.
+      - Noam removed eight percent from inference demand and added one very ambitious product sketch.
+    portrait:
+      assetId: portrait.researcher.noam-shazer
+      brief: Playful 8-bit editorial portrait; white man with short dark hair and glasses, surrounded by a sparse network whose orange router lights only a few expert nodes; ingenious and energetic, not photoreal.
+      altText: Pixel-art portrait of Noam Shazer beside a sparse network with a few brightly routed expert nodes.
+    sources:
+      - https://research.google/pubs/outrageously-large-neural-networks-the-sparsely-gated-mixture-of-experts-layer/
+      - https://arxiv.org/abs/1701.06538
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.christopher-olin
+    version: 1
+    displayName: Christopher Olin
+    inspirationName: Christopher Olah
+    epithet: The Microscopist
+    role: Mechanistic interpretability
+    rosterCardSummary: A visual and conceptual virtuoso who turns model internals into scientific objects, accelerates deep audits, and strengthens containment evidence.
+    biography: >-
+      Christopher Olin has done as much as anyone to make the inside of a neural network feel
+      like a place science can visit. His work on feature visualisation showed how optimisation
+      could reveal what neurons and channels respond to; the later Circuits programme argued
+      that meaningful algorithms can be recovered from connections among those features. He
+      also helped build Distill into an unusually beautiful form of technical communication,
+      where interactive diagrams were not decoration but part of the proof. At Anthropic, that
+      programme expanded toward the internal representations of large language models and the
+      safety questions raised by systems whose reasoning is difficult to inspect. Christopher's
+      great strength is not claiming that a colourful diagram has solved understanding. It is
+      building a better microscope, stating exactly what it resolves, and persuading ambitious
+      researchers that seeing clearly is itself frontier work.
+    availability:
+      wave: scaling
+      unlockAny: [{ facilityOwned: facility.interpretability-lab-1 }, { yearAtLeast: 2018 }, { safetyDomainLevelAtLeast: 28 }]
+      poolWeight: 0.70
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 4, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 4, interpretabilityEvals: 5, securityContainment: 3, training: 2, product: 1, management: 4, politics: 2 }
+    traits: [trait.mechanistic-clarity, trait.visual-explanation]
+    signature:
+      id: ability.look-inside
+      label: Look Inside
+      eligibleAssignments: [safety-program, evaluation-project]
+      activation: { type: assignment-tag-in, values: [interpretability, deep-interpretability-audit] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.30, stackingGroup: programme-rp }
+        - { target: project.deep-interpretability-audit.duration, operation: multiply, value: 0.80, stackingGroup: project-duration }
+    passive:
+      id: ability.known-circuits
+      label: Known Circuits, Fewer Surprises
+      effects:
+        - { target: auditedModel.containmentViolationHazard, operation: multiply, value: 0.90, stackingGroup: hazard, requiresCompletedProject: deep-interpretability-audit }
+        - { target: completedDeepAudit.evidenceConfidence, operation: add, value: 5, stackingGroup: evidence-confidence }
+    compact:
+      id: compact.real-microscope
+      label: A Real Microscope
+      requirement: Own Interpretability Lab I or bind a promise to complete it within twenty-six weeks.
+      check: { type: facility-owned-or-promised-within, facility: facility.interpretability-lab-1, weeks: 26 }
+      breachEvent: people.compact.real-microscope
+    paperHooks:
+      ids: [paper.feature-visualization, paper.circuits]
+      affinityTags: [mechanistic-interpretability, sparse-autoencoders, feature-visualisation]
+    facilityHooks: [facility.interpretability-lab, facility.eval-range]
+    endgameHooks: [ending.a-cautious-golden-age, ending.emergency-shutdown]
+    eventReactions:
+      - { triggerTag: suspicious-representation, line: "It is not yet a motive, but it is a structure we can localise and test rather than narrate." }
+      - { triggerTag: audit-pressure, line: "A fast microscope can still be a bad microscope. Preserve the controls and we can be both fast and informative." }
+      - { triggerTag: colourful-heatmap, line: "Beautiful evidence is still evidence with assumptions. Put the assumptions in the caption." }
+    feedLines:
+      - Christopher has converted an opaque activation into an interactive diagram and three more precise questions.
+      - The feature visualisation is beautiful. Legal has confirmed beauty does not constitute a safety case.
+      - A circuit was found, named, ablated, and invited to give a seminar.
+      - Interpretability output rose thirty percent; understanding rose by a less aesthetically convenient interval.
+      - The microscope resolves one more layer and one fewer comforting metaphor.
+      - Christopher requested an Interpretability Lab with excellent light and uncompromising baselines.
+    portrait:
+      assetId: portrait.researcher.christopher-olin
+      brief: Luminous 8-bit editorial portrait; white man with wavy brown hair, surrounded by magnified neural features, circuit arrows and jewel-like activation tiles; curious and exacting, not photoreal.
+      altText: Pixel-art portrait of Christopher Olin surrounded by magnified neural features and circuit arrows.
+    sources:
+      - https://distill.pub/2017/feature-visualization/
+      - https://distill.pub/2020/circuits/zoom-in/
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.paul-christiani
+    version: 1
+    displayName: Paul Christiani
+    inspirationName: Paul Christiano
+    epithet: The Oversight Theorist
+    role: Alignment, human feedback, and scalable oversight
+    rosterCardSummary: A rigorous alignment theorist who improves human-feedback research, accelerates external audits, and insists that powerful systems never certify themselves.
+    biography: >-
+      Paul Christiani has spent his career asking how human judgement can remain useful when the
+      system being judged becomes more capable than any individual evaluator. At OpenAI he led
+      influential work showing that agents could learn complex goals from ordinary people
+      comparing short behaviour clips, a practical step in the development of reinforcement
+      learning from human feedback. His broader research explores amplification, debate,
+      evaluation and scalable oversight: methods intended to extend limited human attention
+      without quietly replacing it with the model's own verdict. He later founded the Alignment
+      Research Center to pursue independent alignment research and evaluate dangerous model
+      capabilities outside the laboratories building them. Paul's style combines austere
+      theoretical discipline with an engineer's suspicion of plans that cannot be tested. He
+      makes a lab better at asking the crucial question: who checks the answer when the answerer
+      is extraordinarily persuasive?
+    availability:
+      wave: scaling
+      unlockAny: [{ discoveredTag: human-feedback }, { yearAtLeast: 2017 }, { safetyDomainLevelAtLeast: 30 }]
+      poolWeight: 0.75
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 2, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 4, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 2, training: 3, product: 1, management: 4, politics: 3 }
+    traits: [trait.scalable-oversight, trait.independent-evidence]
+    signature:
+      id: ability.scalable-oversight
+      label: Scalable Oversight
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-programme, value: safety.alignment-control }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.28, stackingGroup: programme-rp }
+        - { target: paper.tag.human-feedback.effort, operation: multiply, value: 0.85, stackingGroup: paper-effort }
+        - { target: paper.tag.debate.effort, operation: multiply, value: 0.85, stackingGroup: paper-effort }
+    passive:
+      id: ability.independent-eyes
+      label: Independent Eyes
+      effects:
+        - { target: project.external-audit.duration, operation: multiply, value: 0.85, stackingGroup: project-duration }
+        - { target: project.external-audit.evidenceConfidence, operation: add, value: 5, stackingGroup: evidence-confidence }
+    compact:
+      id: compact.no-self-certification
+      label: No Self-Certification
+      requirement: Every FC 60+ model considered for public release must receive an External Audit or trigger an explicit compact-waiver decision event.
+      check: { type: release-requires-project-or-waiver, minFc: 60, projectTag: external-audit, waiverEvent: people.compact.no-self-certification-waiver }
+      breachEvent: people.compact.no-self-certification
+    paperHooks:
+      ids: [paper.deep-rl-human-preferences, paper.ai-safety-via-debate]
+      affinityTags: [rlhf, scalable-oversight, dangerous-capability-evals]
+    facilityHooks: [facility.alignment-institute, facility.external-audit-office]
+    endgameHooks: [ending.the-broadly-shared-future, ending.stewardship-compact]
+    eventReactions:
+      - { triggerTag: self-evaluation, line: "The model's report is evidence about the model and evidence produced by the model. Those are not interchangeable." }
+      - { triggerTag: audit-delay, line: "An independent check that arrives after deployment is a historical document, not a control." }
+      - { triggerTag: oversight-bottleneck, line: "If the task is too complex for one evaluator, decompose the task. Do not decompose the evaluator's authority." }
+    feedLines:
+      - Paul has decomposed one impossible oversight problem into six merely difficult ones.
+      - The external audit is fifteen percent faster and one hundred percent still external.
+      - A model offered to grade its own safety case. The offer has been preserved as evidence.
+      - Human preferences now supervise the agent; the humans have requested clearer preference documentation.
+      - Paul added a second line of review between “convincing” and “deploy.”
+      - The oversight protocol scales logarithmically. The meeting explaining it has not.
+    portrait:
+      assetId: portrait.researcher.paul-christiani
+      brief: Restrained 8-bit editorial portrait; white man with short dark hair before a branching oversight tree with paired human and model nodes; analytical and independent, not photoreal.
+      altText: Pixel-art portrait of Paul Christiani beside a branching oversight tree connecting human and model reviewers.
+    sources:
+      - https://openai.com/index/learning-from-human-preferences/
+      - https://arxiv.org/abs/1706.03741
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }

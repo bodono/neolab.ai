@@ -288,7 +288,8 @@ Do not pass ambiguous naked values between subsystems. Use branded aliases or fi
 ```ts
 type Tick = Brand<number, "Tick">;
 type CashMillions = Brand<number, "CashMillions">;
-type ComputeUnits = Brand<number, "ComputeUnits">;
+type GpuCount = Brand<number, "GpuCount">;
+type GpuWeeks = Brand<number, "GpuWeeks">;
 type Rating = Brand<number, "Rating0To100">;
 type Fraction = Brand<number, "Fraction0To1">;
 ```
@@ -300,7 +301,7 @@ Construct them through validating helpers such as `rating(value)` and `fraction(
 Do not store values which can be cheaply and unambiguously derived:
 
 - Store cash, income contracts, and expenses; derive projected net and runway.
-- Store raw compute and modifiers; derive effective CU.
+- Store physical GPU lots by generation plus availability; derive training or serving throughput when a rule needs it. Derived throughput is never stored as owned hardware and never exposed as `CU`.
 - Store capability vector; derive FC.
 - Store Lifetime Aura and event history; derive Aura Signal.
 - Store hidden truth and observations; derive the player safety view.
@@ -399,6 +400,7 @@ interface GameState {
   scheduledEffects: ScheduledEffectState[];
   decisionLog: DecisionLogEntry[];
   domainLog: DomainLogEntry[];
+  score: ScoreState;
   endgame: EndgameState;
 }
 ```
@@ -451,6 +453,49 @@ interface LabState {
 
 Subsystems receive the full transaction state when cross-system rules require it, but their exported helpers operate on focused inputs. Do not build a `Lab` god class with methods for every mechanic.
 
+### 7.2.1 GPU portfolio state
+
+`ComputeState` stores physical assets, not an era-independent capacity balance:
+
+```ts
+interface ComputeState {
+  lots: GpuLotState[];
+  allocation: GpuAllocationBasisPoints;
+  reservations: GpuReservationState[];
+  queuedOrders: GpuOrderState[];
+  softwareEfficiency: number;
+}
+
+interface GpuLotState {
+  id: GpuLotId;
+  generationId: ContentId;
+  ownership: "owned" | "leased" | "cloud";
+  physicalCount: GpuCount;
+  availableFraction: Fraction;
+  facilityId?: FacilityId;
+  leaseId?: ContractId;
+  reliability: Rating;
+}
+
+interface GpuGenerationDefinition {
+  id: ContentId;
+  displayName: string;
+  manufacturer: string;
+  historicity: "real" | "fictional";
+  nominalYear: number;
+  trainingFactor: number;
+  servingFactor: number;
+  powerPerThousand: number;
+  interconnectTier: number;
+  reliability: Rating;
+  gameCostMillionsPerThousand: CashMillions;
+  gameOperatingCostMillionsPerThousandPerCycle: CashMillions;
+  deliveryWeeks: number;
+}
+```
+
+Counts are non-negative integers. A lot always points to immutable generation content. Damage, sale, lease expiry, seizure, and delivery change lots through commands/effects; they never silently rewrite a generation factor. `content/hardware/gpu-generations.yaml` is the single balance source for the launch generations.
+
 ### 7.3 Hidden state
 
 Hidden model truth, rival plans, research thresholds, event outcome keys, and Internal Candour are present in canonical state. They are stored under clearly named fields such as `model.hiddenSafety`, not mixed with visible estimates.
@@ -467,11 +512,11 @@ All simulation-changing player intent enters through a command:
 
 ```ts
 type GameCommand =
-  | SetComputeAllocationCommand
+  | SetGpuAllocationCommand
   | SetResearchFocusCommand
   | StartProjectCommand
   | CancelProjectCommand
-  | PurchaseComputeCommand
+  | PurchaseGpuCommand
   | StartConstructionCommand
   | SubmitRecruitmentOfferCommand
   | DismissResearcherCommand
@@ -774,7 +819,7 @@ interface ModifierState {
 ```text
 lab.research.all.output
 lab.research.safety.output
-lab.compute.effectiveCapacity
+lab.compute.workloadThroughput
 lab.construction.duration
 lab.fundraising.offerCash
 model.incident.hazard
@@ -783,7 +828,7 @@ researcher.recruitment.strength
 
 The content compiler rejects unknown targets. Modifier order is `min/max constraints`, then additive base changes, then multiplicative changes, then final clamps, unless the target definition explicitly says otherwise. Tooltips request a `ModifierBreakdown` from the same resolver.
 
-Leader bonuses are modifiers: Thomas Hassabi's bonus targets `lab.research.all.output` with `multiply 1.20`; Liang Wenfang's targets `lab.compute.effectiveCapacity` with `multiply 1.20`.
+Leader bonuses are modifiers: Thomas Hassabi's bonus targets `lab.research.all.output` with `multiply 1.20`; Liang Wenfang's targets `lab.compute.workloadThroughput` with `multiply 1.20`. Throughput modifiers never alter `GpuLotState.physicalCount` or the number shown as GPUs.
 
 ### 11.3 Predicates
 
@@ -834,12 +879,14 @@ interface CompiledContent {
   balance: BalanceRules;
   labs: Readonly<Record<ContentId, LabDefinition>>;
   leaders: Readonly<Record<ContentId, LeaderDefinition>>;
+  gpuGenerations: Readonly<Record<ContentId, GpuGenerationDefinition>>;
   researchers: Readonly<Record<ContentId, ResearcherDefinition>>;
   papers: Readonly<Record<ContentId, PaperDefinition>>;
   facilities: Readonly<Record<ContentId, FacilityDefinition>>;
   projects: Readonly<Record<ContentId, ProjectDefinition>>;
   events: Readonly<Record<ContentId, EventDefinition>>;
   endings: Readonly<Record<ContentId, EndingDefinition>>;
+  scoreRules: ScoreRulesDefinition;
   strings: Readonly<Record<StringKey, LocalisedMessage>>;
   indexes: ContentIndexes;
 }
@@ -1073,24 +1120,39 @@ Paper thresholds are generated at run creation for every lab/paper pair when req
 interface PaperDefinition {
   id: ContentId;
   version: number;
-  titleKey: StringKey;
-  realAuthors: string[];
-  realPublicationYear: number;
-  sourceUrl: string;
-  historicalNoteKey?: StringKey;
+  historicity: "real" | "fictional-future";
+  gameOrder: number;
+  title: string;
+  authors: string[];
+  publicationYear?: number;
+  venue?: string;
+  primarySourceUrl?: string;
+  doi?: string;
+  arxiv?: string;
+  fictionalLabel?: "FICTIONAL FUTURE PAPER";
+  historicalNote: string;
+  education: {
+    playerSummary: string;
+    archiveExplanation: string;
+    insideBaseball: string;
+  };
   domainWeights: Partial<Record<ResearchDomainId, number>>;
-  prerequisites: Predicate;
+  prerequisites: PaperPrerequisiteDefinition;
   baseEffort: number;
   earliestPhase?: GamePhase;
-  unlockEffects: Effect[];
-  worldFirstAura: number;
-  commercialValue: number;
-  diffusion: DiffusionDefinition;
+  discovery: {
+    worldFirstAura: number;
+    commercialValue: number;
+    independentRediscovery: boolean;
+    diffusion: DiffusionDefinition;
+  };
+  unlockEffects: AuthoredEffect[];
   tags: string[];
+  review: ContentReviewState;
 }
 ```
 
-The compiler requires domain weights to sum to one within tolerance and checks every paper source URL format. Historical facts live in content; research formulas never special-case paper titles.
+The compiler requires domain weights to sum to one within tolerance and checks every real paper's primary source, authors, year, educational fields, and review state. `PaperPrerequisiteDefinition` is the YAML-friendly form containing required paper IDs, domain-level floors, optional facilities, and phase gates; it compiles to the ordinary predicate AST. A fictional paper must omit factual-source fields, use a future game order, and carry `FICTIONAL FUTURE PAPER`. Historical facts live in content; research formulas never special-case paper titles.
 
 ### 14.3 Research API
 
@@ -1119,7 +1181,7 @@ function choosePublicationPolicy(
 ): void;
 ```
 
-`ResearchOutputBreakdown` lists base RP, compute exponent, general-team contribution, every star, facility, freedom, model-assist and leader modifier, plus the keyed weekly variance. The player view may hide paper progress but can show the non-secret output breakdown.
+`ResearchOutputBreakdown` lists base RP, the GPU-throughput exponent, general-team contribution, every star, facility, freedom, model-assist and leader modifier, plus the keyed weekly variance. The player view may hide paper progress but can show the non-secret output breakdown.
 
 ### 14.4 Research graph index
 
@@ -1226,7 +1288,7 @@ function completeTrainingRun(
 ): ModelId;
 ```
 
-The quote freezes recipe, duration, compute reservation, cash schedule, and known requirements. Capability and safety draws remain keyed to the future model ID, not to completion time.
+The quote freezes recipe, duration, physical GPU reservation by permitted generation/interconnect tier, cash schedule, and known requirements. Capability and safety draws remain keyed to the future model ID, not to completion time.
 
 ### 15.3 Evaluation records
 
@@ -1288,34 +1350,38 @@ function isCatastropheCheckLegal(
 
 `isCatastropheCheckLegal` is called before any catastrophic effect or ending. If false, development builds throw a rules error and production converts the attempted branch into a severe contained incident plus diagnostic. Event content cannot directly emit an extinction ending without this gate.
 
-## 16. Compute, economy, and market APIs
+## 16. GPUs, economy, and market APIs
 
-### 16.1 Compute
+### 16.1 GPU portfolio and allocation
 
 ```ts
-function calculateEffectiveCompute(
+function calculateGpuThroughput(
   state: Readonly<GameState>,
   labId: LabId,
-): ComputeCapacityBreakdown;
+  workload: "training" | "serving",
+  selection?: GpuSelection,
+): GpuThroughputBreakdown;
 
-function resolveComputeReservations(
+function resolveGpuReservations(
   state: Readonly<GameState>,
   labId: LabId,
 ): ReservationPlan;
 
 function normaliseAllocation(
-  requested: ComputeAllocationRequest,
-  available: ComputeUnits,
-): ComputeAllocationPlan;
+  requested: GpuAllocationRequest,
+  availableLots: readonly GpuLotState[],
+): GpuAllocationPlan;
 
-function quoteComputeOffer(
+function quoteGpuOffer(
   state: Readonly<GameState>,
   labId: LabId,
   offerId: OfferId,
-): PurchaseQuote;
+): GpuPurchaseQuote;
 ```
 
-Allocation is represented as integer basis points in commands (`0–10_000`) to make slider sums exact. Rules convert to fractions for formulas. The normaliser uses largest-remainder distribution with stable target ordering when rounding CU display values.
+`GpuThroughputBreakdown` includes physical GPUs by generation, generation factor, availability, power, interconnect, software and modifier contributions. Its final scalar is an internal formula input, not a balance, inventory item, or player-facing resource.
+
+Allocation is represented as integer basis points in commands (`0–10_000`) to make slider sums exact. Rules convert to fractions for formulas. Unless a reservation pins a generation, allocation draws proportionally from available lots in stable `GpuLotId` order. The normaliser uses largest-remainder distribution so every displayed GPU count is an integer, child allocations sum exactly to their physical parent count, and repeat calculations cannot move a GPU between targets arbitrarily.
 
 ### 16.2 Finance
 
@@ -1370,25 +1436,37 @@ Market share calculations consider every active lab in one world-level pass, the
 interface ResearcherDefinition {
   id: ContentId;
   version: number;
-  displayNameKey: StringKey;
+  displayName: string;
   inspirationName: string;
-  portraitAsset: AssetId;
-  biographyKey: StringKey;
+  epithet: string;
+  role: string;
+  rosterCardSummary: string;
+  biography: string;
+  portrait: {
+    assetId: AssetId;
+    brief: string;
+    altText: string;
+  };
   skills: ResearcherSkills;
   traits: ContentId[];
-  institutionalConstraints: ContentId[];
   signature: ResearcherAbilityDefinition;
-  institutionalPassive: ResearcherAbilityDefinition;
+  passive: ResearcherAbilityDefinition;
   compact: ResearcherCompactDefinition;
   availability: ResearcherAvailabilityDefinition;
-  contractBand: ResearcherContractBand;
-  affinityHooks: ContentId[];
-  values: ResearcherValues;
-  baseSalaryPerCycle: CashMillions;
-  baseSigningCash: CashMillions;
-  auraThreshold: number;
-  eventHooks: ContentId[];
-  sourceNotes: SourceNote[];
+  contract: {
+    band: ResearcherContractBand;
+    baseSalaryPerCycle: CashMillions;
+    baseSigningCash: CashMillions;
+    auraCost: number;
+  };
+  paperHooks: { ids: ContentId[]; affinityTags: string[] };
+  facilityHooks: ContentId[];
+  endgameHooks: ContentId[];
+  eventReactions: ResearcherReactionDefinition[];
+  feedLines: string[];
+  sources: string[];
+  portrayal: PortrayalReviewDefinition;
+  review: ContentReviewState;
 }
 
 interface ResearcherState {
@@ -1425,35 +1503,32 @@ type ResearcherAssignmentKind =
 
 interface ResearcherAbilityDefinition {
   id: ContentId;
-  kind: "signature" | "institutional-passive";
-  labelKey: StringKey;
-  descriptionKey: StringKey;
-  eligibleAssignments: ResearcherAssignmentKind[];
-  activation?: Predicate;
-  modifiers: AuthoredModifier[];
-  hooks: ResearcherAbilityHook[];
-  rampWeeks: number;
+  label: string;
+  eligibleAssignments?: ResearcherAssignmentKind[];
+  activation?: ResearcherActivationDefinition;
+  effects: AuthoredModifier[];
+  rampWeeks?: number;
+  notes?: string;
 }
 
 interface ResearcherCompactDefinition {
   id: ContentId;
-  labelKey: StringKey;
-  offerCopyKey: StringKey;
-  required: boolean;
-  evaluationWindowWeeks: number;
-  warningAtProgress: number;
-  compliance: Predicate;
-  breachEffects: Effect[];
-  resolutionEventId: ContentId;
+  label: string;
+  requirement: string;
+  check: ResearcherCompactCheckDefinition;
+  breachEvent: ContentId;
 }
 
 interface ResearcherAvailabilityDefinition {
   wave: "foundation" | "deep-learning" | "scaling" | "frontier";
-  eligibility: Predicate;
-  poolTags: string[];
-  rivalAffinity: Partial<Record<ContentId, number>>;
+  earliestYear?: number;
+  unlockAny?: ResearcherUnlockDefinition[];
+  poolWeight: number;
+  rivalAffinity?: Partial<Record<ContentId, number>>;
 }
 ```
+
+`ResearcherActivationDefinition`, `ResearcherCompactCheckDefinition`, and `ResearcherUnlockDefinition` are closed discriminated unions compiled into predicates; the compiler rejects unknown keys. Each released researcher must have exactly three event reactions, at least six feed lines, a sourced affectionate biography, portrait brief and alt text, and explicit portrayal/legal review metadata. Contract values must equal the declared band defaults unless an authored override explains itself.
 
 `inspirationName` and source notes are editorial metadata and never appear in a normal run. Player-visible copy uses the fictionalized display name. A content report must make the mapping available to source, portrayal, and legal reviewers.
 
@@ -1484,7 +1559,7 @@ function resolveResearcherStack(
 
 The contribution breakdown lists generic lead or advisor skill, signature ramp, passive, compact-dependent activation, stacking cap, and any suppressed excess. Programme leads receive three percentage points per matching skill level up to fifteen; each of at most two advisors receives 1.5 points per level up to 7.5. Only the lead signature operates unless its definition explicitly names an institutional assignment.
 
-Researcher-only caps are content-registry rules matching GDD section 37.2.4: global RP `×1.30`, single-programme RP `×1.60`, training effective compute `×1.35`, Aura gains `×1.40`, recruitment `+25`, cash prices no lower than `×0.70`, durations no lower than `×0.65`, and hazards no lower than `×0.50`. The resolver reports capped-away value rather than silently discarding it.
+Researcher-only caps are content-registry rules matching GDD section 37.2.4: global RP `×1.30`, single-programme RP `×1.60`, derived training throughput `×1.35`, Aura gains `×1.40`, recruitment `+25`, cash prices no lower than `×0.70`, durations no lower than `×0.65`, and hazards no lower than `×0.50`. The resolver reports capped-away value rather than silently discarding it.
 
 ### 17.2 Recruitment and retention API
 
@@ -1651,6 +1726,71 @@ function calculateCoalitionStrength(
 
 Relationships, protocol, verification, obligations, and contributed assets remain separate state. Do not reduce a coalition to `isCoalitionReady: boolean`; readiness is a selector over evidence and prerequisites.
 
+### 18.5 Score ledger
+
+Score is canonical, deterministic state but has no outgoing modifiers. The simulation writes ledger
+entries; no economy, research, rival, event, or endgame system may query score to change an outcome.
+
+```ts
+type ScoreCategoryId =
+  | "score.scientific-legacy"
+  | "score.safe-stewardship"
+  | "score.prosperity-impact"
+  | "score.institution-building"
+  | "score.race-operations"
+  | "score.endgame";
+
+interface ScoreLedgerEntry {
+  key: string;
+  tick: Tick;
+  categoryId: ScoreCategoryId;
+  amount: number;
+  source: EffectSource;
+  explanationKey: StringKey;
+}
+
+interface ScoreState {
+  scoreVersion: string;
+  entries: ScoreLedgerEntry[];
+  awardedKeys: Record<string, true>;
+  final?: FinalScoreRecord;
+}
+
+interface FinalScoreRecord {
+  rawScore: number;
+  adjustedScore: number;
+  categoryTotals: Record<ScoreCategoryId, number>;
+  difficultyMultiplier: number;
+  victoryClassMultiplier: number;
+  leaderboardEligibility: "winning-run" | "local-only" | "ineligible";
+}
+
+function awardScore(
+  tx: SimulationTransaction,
+  entry: Omit<ScoreLedgerEntry, "tick">,
+): void;
+
+function calculateScoreView(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+): ScoreView;
+
+function finaliseScore(
+  tx: SimulationTransaction,
+  endingId: ContentId,
+  content: CompiledContent,
+): FinalScoreRecord;
+```
+
+`awardScore` rejects a duplicate semantic key. Keys describe the milestone, for example
+`paper/world-first/paper.transformer`, `facility/first/facility.data-centre-2`, or
+`safety/disclosure/event-0042`. Score amounts and multipliers compile from
+`content/scoring.yaml`; system code never contains paper titles or ending point tables.
+
+The score view is always player-visible and contains only ledger facts the player already knows.
+Penalties for hidden truth are emitted during ending resolution, when the ending audit reveals that
+truth. Finalisation happens exactly once after the ending ID is fixed and before the final autosave.
+
 ## 19. Deployment Crisis state machine
 
 ### 19.1 State union
@@ -1734,7 +1874,7 @@ interface GameView {
   meta: RunView;
   topBar: TopBarView;
   finance: FinanceView;
-  compute: ComputeView;
+  compute: GpuFleetView;
   research: ResearchView;
   models: ModelsView;
   people: PeopleView;
@@ -1933,7 +2073,7 @@ interface NewGameConfig {
 
 ### 21.6 Forms and commands
 
-Complex controls such as compute allocation use local draft state while the player drags, then submit one command on commit. The preview selector evaluates the draft continuously without mutating the runtime.
+Complex controls such as GPU allocation use local draft state while the player drags, then submit one command on commit. The preview selector evaluates the draft continuously without mutating the runtime.
 
 - Sliders use basis points and expose arrow/PageUp/PageDown controls.
 - Confirmation buttons include the current tick in command metadata.
@@ -2136,6 +2276,44 @@ interface LoggedCommand {
 
 A replay creates the initial state, advances ticks, applies commands at recorded ticks, and compares hashes. Clock speed and screen navigation are absent. Production saves may omit old low-value command entries to reduce size, but the decision log and major audit checks remain.
 
+### 24.7 Local high scores and future online leaderboard
+
+Launch uses an `IndexedDbHighScoreRepository` with two local boards: all completed runs and winning
+runs. Each retains the best 50 entries and stores run ID, lab, leader, ending, seed, difficulty,
+score version, raw and adjusted score, category totals, total ticks, content hash, and engine
+version. Deleting a save does not silently delete its high-score summary; the high-score screen has
+its own explicit delete action.
+
+```ts
+interface HighScoreRepository {
+  list(board: "all-finished-runs" | "winning-runs"): Promise<HighScoreEntry[]>;
+  record(entry: HighScoreEntry): Promise<void>;
+  delete(runId: RunId): Promise<void>;
+}
+
+interface LeaderboardSubmissionV1 {
+  runId: RunId;
+  playerAlias: string;
+  seed: Seed128;
+  difficultyId: ContentId;
+  scoreVersion: string;
+  contentHash: string;
+  engineRulesVersion: string;
+  commandLog: LoggedCommand[];
+  claimedFinalStateHash: string;
+  claimedAdjustedScore: number;
+}
+```
+
+The first static build has no global board. Client-side numbers can be edited and GitHub Pages
+cannot provide authoritative verification. A later leaderboard service accepts only winning runs,
+loads the matching immutable engine and content bundle, replays the command log, and compares every
+state hash and final score. Unsupported versions may remain on version-specific archived boards;
+the service never “upgrades” a historical score through a new balance table.
+
+Submission is explicit opt-in. Only the chosen player alias and deterministic run data are sent.
+Email, save slots, machine identifiers, and free-text local notes are not part of the protocol.
+
 ## 25. Testing strategy
 
 ### 25.1 Test layers
@@ -2162,7 +2340,7 @@ const state = scenario()
   .atTick(520)
   .withPlayerLab(lab => lab
     .cash(42)
-    .compute(400)
+    .gpus("gpu.kepler", 40_000)
     .rating("safetyCulture", 70))
   .withModel(model => model
     .fc(90)
@@ -2449,7 +2627,7 @@ Packs can add definitions and localisation or explicitly override balance keys p
 
 - Semantic HTML owns all dashboard interaction; canvas remains decorative or has a DOM alternative.
 - Full keyboard navigation and visible focus.
-- Slider values announced with percent and CU consequence.
+- Slider values announced with percent and physical GPUs/week; generation mix is available in the accessible description.
 - Focus trapping and restoration for modals.
 - Colour-blind-safe palettes and redundant icons/text.
 - 200% zoom at minimum laptop viewport.
@@ -2543,7 +2721,7 @@ No step begins by constructing the entire UI. Build vertical evidence that the r
 ### Milestone 2 — Ten-minute economy
 
 - Compute capacity/allocation, serving, finance ledger/cycle, one market segment, purchasing, one facility, and runway.
-- Minimal React shell with top bar and compute sliders.
+- Minimal React shell with top bar and GPU-allocation sliders.
 - Runtime clock and auto-pause.
 
 **Exit:** a player can survive or go bankrupt through legible decisions; forecast reconciles with settlement.
@@ -2615,6 +2793,7 @@ The web app may import only:
 - `applyCommand`
 - `advanceOneTick`
 - `projectGameView`
+- `calculateScoreView`
 - Public command types
 - `GameView` and child view types
 - Save envelope/export types
@@ -2659,7 +2838,7 @@ This matrix is the final cross-check that every major Game Design Document syste
 | Difficulty, leader, lab, mandate | `RunState`, `LabState`, content definitions | `NewGameConfig` | `createNewGame` only | `LeaderSelectionView`, new-game summary | Five-leader golden baselines |
 | Weekly time and pause | `RunState.tick`; browser clock outside state | Runtime speed/pause; `advanceOneTick` | Ordered phase registry | `ClockView`, date, pause reason | No-command replay; auto-pause scenarios |
 | Cash, income, expense, runway | `FinanceState`, ledger entries | Funding, contract, purchase, project commands | serving accrual; cycle settlement | `FinanceView` and ledger breakdown | Reconciliation, insolvency, forecast accuracy |
-| Compute and allocation hierarchy | `ComputeState`, reservations, queued orders | Allocation, purchase, lease, suspend | deliveries, reservations, normalisation | `ComputeView`, opportunity-cost preview | Basis-point sums, shortages, hardware delivery |
+| GPU fleet and allocation hierarchy | `ComputeState`, GPU lots, reservations, queued orders | Allocation, purchase, lease, suspend | deliveries, reservations, generation throughput, normalisation | `GpuFleetView`, opportunity-cost preview | Integer GPU sums, shortages, hardware delivery |
 | Market demand and product serving | `MarketState`, deployment policy | Price and deployment commands, contracts | serving; cycle market settlement | Segment appeal, usage, satisfaction | Simultaneous market share and churn scenarios |
 | Capability research | `ResearchState.domains` | Focus, allocation, assignment | research phase | Domain output and noisy direction labels | Formula, focus cooldown, weekly variance |
 | Papers and diffusion | paper progress, world discovery records | Publication policy | paper phase; quarter diffusion | Research tree, paper card, world announcement | Prerequisites, first priority, all four policies |
@@ -2670,6 +2849,7 @@ This matrix is the final cross-check that every major Game Design Document syste
 | General staff and management | `OrganisationState` | Cohort hire/fire, reform projects | organisation update | Headcount, capacity, burnout | Capacity penalties and project slots |
 | Facilities and campus | facility instances, construction projects | Build, upgrade, repair | project completion | Facility portfolio and `CampusView` | Prerequisites, sourced modifiers, visual-state mapping |
 | Aura and public signal | finance/public slices, sourced modifiers | Fundraise, recruit, lobby, respond | cycle/quarter updates | Top-bar Aura and signal explanation | Spend/recovery, Lifetime Aura, scandal penalties |
+| Score and high scores | `ScoreState` ledger; local repository outside run | No direct score command; milestones and ending emit entries | Source systems call `awardScore`; ending finalises | Header total, category breakdown, ending score screen | Duplicate-key rejection, exact fixtures, no score-to-simulation dependency, replay equality |
 | Government and regulation | `PoliticsState`, world policies | Contracts, disclosure, lobbying, event responses | quarter politics; trigger detection | Trust/Attention/dependence/capture views | Thresholds, due process, nationalisation prerequisites |
 | Rivals and race | rival `LabState`, `RivalStrategyState` | Policy-generated commands; diplomacy | rival and quarter phases | Imperfect estimates and news | No hidden-player knowledge, countdown, no extinction |
 | Coalition | `CoalitionState` | Negotiate, share, inspect, ratify | quarter obligations and crisis gates | Coalition board and verification evidence | Hard prerequisites, betrayal, governance salvage |

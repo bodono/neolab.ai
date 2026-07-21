@@ -1,0 +1,532 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-a
+availabilityWave: deep-learning
+status: draft
+
+researchers:
+  - id: researcher.ilya-suchkeeper
+    version: 1
+    displayName: Ilya Suchkeeper
+    inspirationName: Ilya Sutskever
+    epithet: The Scaling Oracle
+    role: Sequence models and frontier training
+    rosterCardSummary: A singular deep-learning scientist whose intuition improves frontier training outcomes, confirms promising candidates, and shortens the largest runs.
+    biography: >-
+      Ilya Suchkeeper has a rare record of seeing the next scale of neural networks before it
+      becomes obvious. As a student of Geoffrey Hinton at the University of Toronto, he helped
+      create the ImageNet-winning deep convolutional system that transformed computer vision.
+      His subsequent work on sequence-to-sequence learning supplied a clean architecture for
+      neural translation and helped establish the path toward modern language models. Ilya then
+      co-founded OpenAI and served as a central scientific leader through a period in which
+      large-scale generative models moved from speculative research to world-changing systems.
+      His influence comes from more than individual papers: colleagues repeatedly credit an
+      unusual feel for what learning systems may do when algorithm, data and computation meet at
+      a new scale. Ilya brings intense scientific ambition, deep respect for the stakes, and the
+      unnerving ability to look at an expensive training proposal and find the part that might
+      become history.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 0.55
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.00, baseSigningCash: 9, auraCost: 14 }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 2, multimodality: 3, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 4, interpretabilityEvals: 2, securityContainment: 1, training: 5, product: 2, management: 4, politics: 1 }
+    traits: [trait.scaling-intuition, trait.frontier-seriousness]
+    signature:
+      id: ability.scaling-intuition
+      label: Scaling Intuition
+      eligibleAssignments: [training-run]
+      activation: { type: assigned-training-scale-in, values: [product, frontier] }
+      rampWeeks: 4
+      effects:
+        - { target: assignedTrainingRun.capabilityPotentialGain, operation: multiply, value: 1.08 }
+        - { target: assignedTrainingRun.candidateConfirmationProbability, operation: add-percentage-points-after-evidence, value: 5 }
+    passive:
+      id: ability.clean-run
+      label: Clean Run
+      effects:
+        - { target: trainingRun.scale.product.duration, operation: multiply, value: 0.92, stackingGroup: project-duration }
+        - { target: trainingRun.scale.frontier.duration, operation: multiply, value: 0.92, stackingGroup: project-duration }
+    compact:
+      id: compact.guaranteed-cluster
+      label: Guaranteed Cluster
+      requirement: A training run he leads must receive at least 20% of total R&D compute and cannot be voluntarily throttled below that share outside an emergency event.
+      check: { type: led-run-allocation-at-least, pool: rd, value: 0.20, emergencyException: true }
+      breachEvent: people.compact.guaranteed-cluster
+    paperHooks:
+      ids: [paper.alexnet, paper.sequence-to-sequence, paper.transformer]
+      affinityTags: [scaling-laws, frontier-models]
+    facilityHooks: [facility.data-centre, facility.secure-bunker]
+    endgameHooks: [ending.the-broadly-shared-future, ending.emergency-shutdown]
+    eventReactions:
+      - { triggerTag: frontier-run-proposal, line: "The run is large enough to answer the question. We should now ensure the question is worthy of the run." }
+      - { triggerTag: alignment-schism, line: "Scientific disagreement is not the failure mode. Losing the ability to describe it clearly would be." }
+      - { triggerTag: candidate-confirmation, line: "The evidence says candidate. It does not say controlled, aligned, or ready." }
+    feedLines:
+      - Ilya looked at the scaling curve for a long time and moved one point on the training plan.
+      - The frontier run is eight percent shorter and approximately twice as existentially discussed.
+      - Sequence models have acquired a destination, a decoder, and a rapidly increasing cluster reservation.
+      - Ilya requested 20% of R&D compute with the calm of someone requesting the scientifically relevant minimum.
+      - A candidate-confirmation estimate improved by five points and the room became quieter.
+      - The clean run completed on schedule. Safety has correctly declined to interpret this as a moral property.
+    portrait:
+      assetId: portrait.researcher.ilya-suchkeeper
+      brief: Intense 8-bit editorial portrait; white man with short dark hair and a concentrated expression, lit by a violet scaling curve and a compact cluster diagram; visionary and serious, not photoreal.
+      altText: Pixel-art portrait of Ilya Suchkeeper before a violet scaling curve and compute-cluster diagram.
+    sources:
+      - https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html
+      - https://papers.nips.cc/paper_files/paper/2014/hash/5a18e133cbf9f257297f410bb7eca942-Abstract.html
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.ash-vashwani
+    version: 1
+    displayName: Ash Vashwani
+    inspirationName: Ashish Vaswani
+    epithet: The Attention Cartographer
+    role: Architectures, language, and sequence modelling
+    rosterCardSummary: A transformer architect whose protected focus yields exceptional architecture output and makes sequence training substantially more parallel and efficient.
+    biography: >-
+      Ash Vashwani helped redraw the map of modern artificial intelligence with an architecture
+      whose title became a technical thesis, an industry slogan and eventually a historical
+      understatement. As a leading author of “Attention Is All You Need,” he helped design and
+      implement the transformer: a sequence model built around self-attention rather than
+      recurrent processing. The original system advanced machine translation while training far
+      more parallelly; the deeper consequence was an architecture unusually prepared to absorb
+      the data and computation of the coming decade. Language models, vision systems, protein
+      models, audio generators and multimodal assistants all came to build on that conceptual
+      shift. Ash's contribution exemplifies the highest form of architectural research: remove a
+      structure everyone assumed was essential, preserve what mattered, and make the result both
+      simpler and more powerful. He gives a lab the confidence to rethink the sequence from first
+      principles—and the discipline to test every head.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 0.85
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 5, optimisationScaling: 4, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 3, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 1, interpretabilityEvals: 2, securityContainment: 0, training: 5, product: 2, management: 3, politics: 0 }
+    traits: [trait.architecture-simplifier, trait.protected-focus]
+    signature:
+      id: ability.attend-to-everything
+      label: Attend to Everything
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.25, stackingGroup: programme-rp }
+        - { target: paper.tag.attention.effort, operation: multiply, value: 0.80, stackingGroup: paper-effort }
+        - { target: paper.tag.transformers.effort, operation: multiply, value: 0.80, stackingGroup: paper-effort }
+    passive:
+      id: ability.parallel-sequence
+      label: Parallel Sequence
+      effects:
+        - { target: trainingRun.tag.language.duration, operation: multiply, value: 0.92, stackingGroup: project-duration }
+        - { target: trainingRun.tag.multimodal.duration, operation: multiply, value: 0.92, stackingGroup: project-duration }
+    compact:
+      id: compact.protected-focus
+      label: Protected Focus
+      requirement: Once assigned to Novel Architectures, retain that assignment for at least thirteen weeks before a voluntary transfer.
+      check: { type: minimum-assignment-duration, domain: domain.architectures, weeks: 13, emergencyException: true }
+      breachEvent: people.compact.protected-focus
+    paperHooks:
+      ids: [paper.neural-attention-translation, paper.transformer, paper.sparse-mixture-of-experts]
+      affinityTags: [self-attention, sequence-modelling]
+    facilityHooks: [facility.research-campus, facility.data-centre]
+    endgameHooks: [ending.the-broadly-shared-future, ending.scientific-prosperity]
+    eventReactions:
+      - { triggerTag: recurrent-bottleneck, line: "The sequence is conceptually ordered. The hardware does not need to wait politely for every token." }
+      - { triggerTag: architecture-race, line: "Protected focus is not secrecy. Publish the result when we understand which simplification actually mattered." }
+      - { triggerTag: attention-interpretability, line: "An attention map is useful evidence. It is not a notarised transcript of cognition." }
+    feedLines:
+      - Ash removed recurrence and the training scheduler has sent flowers.
+      - Eight attention heads are active; the ninth is a meeting about what the first eight learned.
+      - Novel Architectures received protected focus and immediately became 25% more novel.
+      - Sequence training is eight percent faster and much easier to draw as rectangles.
+      - The positional encoding works. Facilities has stopped rotating the desks as an alternative.
+      - Ash asked the architecture team to remove one assumption before adding two trillion parameters.
+    portrait:
+      assetId: portrait.researcher.ash-vashwani
+      brief: Crisp 8-bit editorial portrait; South Asian man with short dark hair and a focused expression, overlaid with orange attention lines connecting a sequence grid; modern and precise, not photoreal.
+      altText: Pixel-art portrait of Ash Vashwani over a sequence grid connected by orange self-attention lines.
+    sources:
+      - https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html
+      - https://research.google/pubs/attention-is-all-you-need/
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.ian-goodfriend
+    version: 1
+    displayName: Ian Goodfriend
+    inspirationName: Ian Goodfellow
+    epithet: The Adversary's Adversary
+    role: Generative modelling and adversarial robustness
+    rosterCardSummary: The inventor of adversarial generative networks pairs creative model research with security testing and reduces the severity of adversarial failures.
+    biography: >-
+      Ian Goodfriend changed generative modelling by imagining learning itself as an adversarial
+      game. During his doctoral work in Montreal, he led the creation of generative adversarial
+      networks, pairing a generator with a discriminator so each model's improvement sharpened
+      the other. GANs opened a vast field of high-quality synthesis and became one of the most
+      influential ideas of the deep-learning era. Ian also helped establish the study of
+      adversarial examples: small, carefully chosen input changes that can produce dramatic model
+      errors. These two contributions reveal a distinctive scientific strength. He understands
+      competition not as theatre but as an instrument for finding what a system has failed to
+      learn. Across major research laboratories, his work has connected elegant theory to urgent
+      questions of robustness and misuse. Ian gives a lab both a formidable generator and the
+      intellectual honesty to build its opponent in the next room.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 0.95
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 4, optimisationScaling: 4, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 4, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 2, interpretabilityEvals: 4, securityContainment: 5, training: 4, product: 2, management: 3, politics: 1 }
+    traits: [trait.adversarial-instinct, trait.robustness-builder]
+    signature:
+      id: ability.adversarial-pair
+      label: Adversarial Pair
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: paired-allocation-at-least, firstTags: [generative, multimodal], secondProgramme: safety.security-containment, eachShareOfRd: 0.10 }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.18, stackingGroup: programme-rp }
+        - { target: pairedProgramme.researchOutput, operation: multiply, value: 1.12, stackingGroup: programme-rp }
+    passive:
+      id: ability.attack-before-launch
+      label: Attack Before Launch
+      effects:
+        - { target: incident.tag.jailbreak.severity, operation: multiply, value: 0.90 }
+        - { target: incident.tag.abuse.severity, operation: multiply, value: 0.90 }
+        - { target: incident.tag.adversarial-input.severity, operation: multiply, value: 0.90 }
+    compact:
+      id: compact.quarterly-red-team
+      label: Quarterly Red Team
+      requirement: Complete a Behavioural Red Team or adversarial review every thirteen weeks after the lab fields FC 40+.
+      check: { type: conditional-tagged-action-within, condition: { metric: lab.model.maxActiveFC, atLeast: 40 }, tags: [behavioural-red-team, adversarial-review], weeks: 13 }
+      breachEvent: people.compact.quarterly-red-team
+    paperHooks:
+      ids: [paper.generative-adversarial-nets, paper.variational-autoencoder, paper.deep-q-network]
+      affinityTags: [adversarial-examples, synthetic-media]
+    facilityHooks: [facility.eval-range, facility.security-operations]
+    endgameHooks: [ending.a-cautious-golden-age, ending.emergency-shutdown]
+    eventReactions:
+      - { triggerTag: synthetic-media-crisis, line: "The generator is capable. The provenance system is optional only if public trust is also optional." }
+      - { triggerTag: jailbreak, line: "A successful attack is an evaluation result with unusually motivated data collection." }
+      - { triggerTag: red-team-budget, line: "If the model is too important to attack before launch, it is too important to launch." }
+    feedLines:
+      - Ian's generator improved; the discriminator has filed a technically excellent objection.
+      - Quarterly red team week has begun and the product demo has become much more educational.
+      - An adversarial input changed one pixel and six roadmap priorities.
+      - The generator-versus-discriminator office pool is statistically indistinguishable from research morale.
+      - Ian reduced incident severity by finding the embarrassing failure before a customer did.
+      - Synthetic media quality rose. The provenance watermark meeting has been upgraded from “later” to “today.”
+    portrait:
+      assetId: portrait.researcher.ian-goodfriend
+      brief: Alert 8-bit editorial portrait; white man with short dark hair and glasses, between mirrored pink and blue generator/discriminator panels; clever and adversarial, not photoreal.
+      altText: Pixel-art portrait of Ian Goodfriend between opposing generator and discriminator panels.
+    sources:
+      - https://papers.nips.cc/paper_files/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html
+      - https://arxiv.org/abs/1412.6572
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.diederik-kingman
+    version: 1
+    displayName: Diederik Kingman
+    inspirationName: Diederik P. Kingma
+    epithet: The Optimiser's Optimiser
+    role: Optimisation and probabilistic generative models
+    rosterCardSummary: A brilliantly practical theorist who accelerates optimisation, makes prototype ablations cheaper, and sharply reduces technical failure on runs he leads.
+    biography: >-
+      Diederik Kingman has a remarkable talent for turning difficult probabilistic and
+      optimisation ideas into methods that researchers can use before lunch. His work on auto-
+      encoding variational Bayes introduced the variational autoencoder, joining neural
+      generative models to efficient approximate inference through the reparameterisation trick.
+      Soon afterwards, with Jimmy Ba, he introduced Adam, an adaptive optimiser whose combination
+      of simplicity, efficiency and forgiving defaults made it one of the most widely used tools
+      in modern machine learning. Diederik's research extends through generative modelling,
+      inference and the practical mathematics of learning systems. The pattern is unusually
+      consistent: identify the calculation blocking an entire class of experiments, derive a
+      clean estimator or update, and package it in a form that lets thousands of other ideas
+      train. He brings a frontier lab something rarer than a dramatic demo—the quiet mathematical
+      infrastructure that makes dramatic demos reproducible.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 1.15
+    contract: { band: competitive, baseSalaryPerCycle: 0.50, baseSigningCash: 4, auraCost: 7 }
+    skills: { architectures: 4, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 3, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 3, alignmentControl: 1, interpretabilityEvals: 2, securityContainment: 0, training: 5, product: 1, management: 2, politics: 0 }
+    traits: [trait.elegant-estimator, trait.cheap-ablation]
+    signature:
+      id: ability.adaptive-moment
+      label: Adaptive Moment
+      eligibleAssignments: [capability-program, training-run]
+      activation: { type: assignment-domain-or-training, domain: domain.optimisation-scaling }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.20, activation: { type: capability-program }, stackingGroup: programme-rp }
+        - { target: assignedTrainingRun.technicalFailureHazard, operation: multiply, value: 0.80, activation: { type: training-run }, stackingGroup: hazard }
+    passive:
+      id: ability.cheap-ablations
+      label: Cheap Ablations
+      effects:
+        - { target: project.tag.prototype.computeRequirement, operation: multiply, value: 0.90 }
+        - { target: project.tag.research-ablation.computeRequirement, operation: multiply, value: 0.90 }
+    compact:
+      id: compact.experimental-breadth
+      label: Experimental Breadth
+      requirement: Reserve at least 10% of capability compute for Optimisation while he leads it.
+      check: { type: assignment-conditional-allocation-at-least, assignmentDomain: domain.optimisation-scaling, pool: capability, value: 0.10 }
+      breachEvent: people.compact.experimental-breadth
+    paperHooks:
+      ids: [paper.variational-autoencoder, paper.adam, paper.generative-adversarial-nets]
+      affinityTags: [variational-inference, diffusion-precursors]
+    facilityHooks: [facility.research-campus, facility.data-centre]
+    endgameHooks: [ending.scientific-prosperity, ending.a-cautious-golden-age]
+    eventReactions:
+      - { triggerTag: unstable-training, line: "The loss is noisy, not mystical. Let us estimate the moments before founding a new theory of failure." }
+      - { triggerTag: ablation-budget, line: "A cheap ablation is not a small experiment. It is a large argument with fewer invoices." }
+      - { triggerTag: beautiful-loss-curve, line: "Beautiful is useful. Replicated, calibrated and correctly evaluated would be even more beautiful." }
+    feedLines:
+      - Diederik adjusted two moving averages and stabilised an experiment previously described as “temperamental.”
+      - Prototype ablations cost 10% less compute and 100% fewer excuses.
+      - The optimiser required little tuning, creating a temporary surplus of tuning opinions.
+      - A latent variable has become both interpretable and useful; a small celebration is being amortised across the team.
+      - Diederik's run avoided technical failure. Alignment has reminded everyone it is a separate column.
+      - The loss curve is beautifully behaved and has been asked not to become smug.
+    portrait:
+      assetId: portrait.researcher.diederik-kingman
+      brief: Clean 8-bit editorial portrait; white man with short light-brown hair, beside a smooth magenta loss curve and two moving-moment gauges; understated and exact, not photoreal.
+      altText: Pixel-art portrait of Diederik Kingman beside a smooth loss curve and adaptive-moment gauges.
+    sources:
+      - https://arxiv.org/abs/1312.6114
+      - https://arxiv.org/abs/1412.6980
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.andrey-carpathy
+    version: 1
+    displayName: Andrey Carpathy
+    inspirationName: Andrej Karpathy
+    epithet: The Demo Whisperer
+    role: Vision-language engineering, products, and education
+    rosterCardSummary: A celebrated neural-network educator and builder who turns research into excellent working demos and makes every launch easier to understand and trust.
+    biography: >-
+      Andrey Carpathy has done more than almost anyone to make neural networks feel understandable,
+      buildable and alive. His Stanford doctorate advanced the meeting of vision and language,
+      including systems that connected images with natural-language descriptions. He went on to
+      help build early deep-learning organisations, lead computer-vision work for autonomous
+      vehicles, and translate frontier research into large, demanding engineering systems. At
+      the same time, Andrey's lectures, essays and from-scratch implementations have taught a
+      global audience how modern networks actually work. His educational style is unusually
+      effective because it never separates intuition from executable detail: the diagram becomes
+      a small codebase, the codebase becomes a training run, and the training run becomes a clear
+      explanation of every compromise. Andrey gives a lab public excitement without empty hype—a
+      demo that runs, a story that teaches, and an engineer already examining the failure case
+      behind the stage curtain.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 1.20
+    contract: { band: competitive, baseSalaryPerCycle: 0.50, baseSigningCash: 4, auraCost: 7 }
+    skills: { architectures: 4, optimisationScaling: 3, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 5, reasoningTools: 4, roboticsEmbodiment: 4, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 5, management: 4, politics: 2 }
+    traits: [trait.demo-craft, trait.explainer-builder]
+    signature:
+      id: ability.working-demo
+      label: The Working Demo
+      eligibleAssignments: [productisation]
+      activation: { type: assigned-project-kind, value: productisation }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProject.duration, operation: multiply, value: 0.82, stackingGroup: project-duration }
+        - { target: assignedProject.resultingProductQuality, operation: add, value: 3 }
+    passive:
+      id: ability.explainable-excitement
+      label: Explainable Excitement
+      effects:
+        - { target: aura.modelLaunchOrTechnicalDemoGain, operation: multiply, value: 1.10, stackingGroup: aura-gain }
+    compact:
+      id: compact.build-it-from-scratch
+      label: Build It From Scratch
+      requirement: Complete one explainer, internal code reconstruction, or educational release every 26 weeks.
+      check: { type: tagged-action-within, tags: [explainer, code-reconstruction, educational-release], weeks: 26 }
+      fulfilmentEffects:
+        - { target: researcher.assignmentAvailability, operation: block, value: 1, durationWeeks: 1 }
+        - { target: generalStaff.onboardingCashCost, operation: multiply, value: 0.90, duration: next-cycle }
+      breachEvent: people.compact.build-it-from-scratch
+    paperHooks:
+      ids: [paper.alexnet, paper.sequence-to-sequence, paper.transformer]
+      affinityTags: [vision-language, neural-network-tooling]
+    facilityHooks: [facility.inference-centre, facility.conference-centre]
+    endgameHooks: [ending.miracle-terms-and-conditions-apply, ending.public-knowledge]
+    eventReactions:
+      - { triggerTag: live-demo, line: "The impressive version is the one where we do not hide the loading time or the second prompt." }
+      - { triggerTag: autonomous-systems, line: "The edge cases are not at the edge. They are simply less photogenic." }
+      - { triggerTag: technical-explainer, line: "If we cannot rebuild the idea in a small clean system, we may be borrowing confidence from the large one." }
+    feedLines:
+      - Andrey rebuilt the model from scratch and found the assumption hiding in line 147.
+      - The demo now works live, unscripted, and in front of a deeply nervous product manager.
+      - A technical explainer earned Aura and caused six engineers to delete unnecessary frameworks.
+      - Productisation is 18% faster because the research code has agreed to become software.
+      - The vision-language model described the lab accurately and the board aspirationally.
+      - Andrey's live-coding session produced a model, a curriculum and a minor shortage of whiteboard space.
+    portrait:
+      assetId: portrait.researcher.andrey-carpathy
+      brief: Animated 8-bit editorial portrait; white man with dark hair and short beard, beside a blue terminal window and an orange vision-language demo; approachable and technically electric, not photoreal.
+      altText: Pixel-art portrait of Andrey Carpathy beside a terminal and a working vision-language demo.
+    sources:
+      - https://karpathy.ai/
+      - https://cs.stanford.edu/people/karpathy/
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.kai-ming-ho
+    version: 1
+    displayName: Kai-Ming Ho
+    inspirationName: Kaiming He
+    epithet: The Residual Engineer
+    role: Computer vision and robust architecture design
+    rosterCardSummary: A master architecture engineer whose residual pathways accelerate vision research and reduce technical failure across every training run in the lab.
+    biography: >-
+      Kai-Ming Ho has repeatedly found architectural ideas so clean that they become permanent
+      parts of the field's vocabulary. At Microsoft Research he led the work on deep residual
+      networks, using identity shortcuts to make substantially deeper systems easier to optimise.
+      ResNet won major ImageNet and COCO competitions and then spread far beyond vision into the
+      basic design language of deep learning. His contributions also include influential object-
+      detection and segmentation systems, from Faster R-CNN to Mask R-CNN, and later work on
+      self-supervised masked autoencoders. Across these projects, Kai-Ming combines mathematical
+      economy with exceptional engineering judgement: change the path through which information
+      travels, then prove the idea at a scale where the result cannot be dismissed. As a professor
+      and research leader, he represents architecture at its most durable—not ornamental novelty,
+      but a carefully constructed route that lets the gradient, the data and the next decade of
+      researchers pass through.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 0.85
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 5, optimisationScaling: 4, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 2, scientificAi: 3, alignmentControl: 1, interpretabilityEvals: 2, securityContainment: 0, training: 5, product: 3, management: 4, politics: 0 }
+    traits: [trait.residual-engineer, trait.empirical-clarity]
+    signature:
+      id: ability.path-for-gradient
+      label: A Path for the Gradient
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.25, stackingGroup: programme-rp }
+        - { target: paper.tag.residual-networks.effort, operation: multiply, value: 0.80, stackingGroup: paper-effort }
+    passive:
+      id: ability.very-deep-still-trains
+      label: Very Deep, Still Trains
+      effects:
+        - { target: lab.trainingRun.technicalFailureHazard, operation: multiply, value: 0.85, stackingGroup: hazard }
+    compact:
+      id: compact.engineering-before-depth
+      label: Engineering Before Depth
+      requirement: Maintain Engineering Quality 55+ before starting a Product or Frontier run he leads.
+      check: { type: project-start-metric-at-least, projectScales: [product, frontier], metric: lab.engineering.quality, value: 55 }
+      breachEvent: people.compact.engineering-before-depth
+    paperHooks:
+      ids: [paper.alexnet, paper.batch-normalization, paper.resnet]
+      affinityTags: [object-detection, masked-autoencoders]
+    facilityHooks: [facility.research-campus, facility.data-foundry]
+    endgameHooks: [ending.scientific-prosperity, ending.the-broadly-shared-future]
+    eventReactions:
+      - { triggerTag: depth-proposal, line: "A thousand layers are an experiment only after the engineering makes them train." }
+      - { triggerTag: object-detection, line: "Classification names the scene. Detection begins to account for what is actually inside it." }
+      - { triggerTag: technical-failure, line: "The failed run is not evidence against depth until the path for the gradient is evidence for competence." }
+    feedLines:
+      - Kai-Ming added an identity shortcut and removed an identity crisis from the optimisation team.
+      - The 1,001-layer ablation has completed. The title was longer than the useful block diagram.
+      - Technical failure hazard fell 15%; alignment risk remained correctly unimpressed.
+      - Vision output rose after the architecture learned when not to transform its input.
+      - Engineering Quality reached 55 and the deep run received permission to become very deep.
+      - A residual block has become infrastructure, the highest compliment architecture can receive.
+    portrait:
+      assetId: portrait.researcher.kai-ming-ho
+      brief: Precise 8-bit editorial portrait; East Asian man with short dark hair and glasses, beside a deep blue network crossed by bright orange shortcut paths; calm and architecturally exact, not photoreal.
+      altText: Pixel-art portrait of Kai-Ming Ho beside a deep neural network with bright residual shortcut paths.
+    sources:
+      - https://people.csail.mit.edu/kaiming/
+      - https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.jurgen-smithhuber
+    version: 1
+    displayName: Jürgen Smithhuber
+    inspirationName: Jürgen Schmidhuber
+    epithet: The Long-Memory Maverick
+    role: Recurrent networks, credit assignment, and research history
+    rosterCardSummary: A remarkably far-seeing neural-network pioneer who accelerates sequence memory and converts careful command of prior art into a potent catch-up advantage.
+    biography: >-
+      Jürgen Smithhuber has pursued general learning machines with extraordinary range, historical
+      memory and willingness to explore ideas long before they become fashionable. At IDSIA and
+      collaborating institutions, his research has ranged across recurrent networks, artificial
+      curiosity, reinforcement learning, self-referential systems, compression and the theory of
+      increasingly general problem solvers. With Sepp Hochreiter he introduced long short-term
+      memory, the recurrent architecture that overcame severe long-range credit-assignment
+      difficulties and later powered major advances in speech, handwriting, translation and
+      language modelling. Jürgen is also an unusually energetic custodian of neural-network
+      history, continually connecting celebrated modern results to the long chain of ideas and
+      experiments that made them possible. His lab value is gloriously two-sided: invent a method
+      with enough patience to wait decades for its hardware, and maintain a citation graph detailed
+      enough to ensure the decades are not mistaken for an overnight success.
+    availability:
+      wave: deep-learning
+      unlockAny: [{ domainLevelAtLeast: 12 }, { discoveredTag: deep-representation-landmark }]
+      poolWeight: 0.75
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+    skills: { architectures: 5, optimisationScaling: 4, dataRepresentation: 4, reinforcementAgency: 4, multimodality: 2, reasoningTools: 4, roboticsEmbodiment: 2, scientificAi: 3, alignmentControl: 2, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 0, management: 3, politics: 1 }
+    traits: [trait.long-memory, trait.prior-art-cartographer]
+    signature:
+      id: ability.long-road-back
+      label: The Long Road Back
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.data-representation] }
+      rampWeeks: 4
+      effects:
+        - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.20, stackingGroup: programme-rp }
+        - { target: paper.tag.recurrent-network.effort, operation: multiply, value: 0.80, stackingGroup: paper-effort }
+        - { target: paper.tag.sequence-memory.effort, operation: multiply, value: 0.80, stackingGroup: paper-effort }
+    passive:
+      id: ability.prior-art-catch-up
+      label: Prior Art Is a Catch-Up Mechanism
+      effects:
+        - target: paper.publicSignalProgressFraction
+          operation: max
+          value: 0.12
+          activation: { type: rival-open-paper-and-player-prerequisites-satisfied }
+          note: Replaces the normal 0.05 public-signal fraction and never grants world-first Aura.
+    compact:
+      id: compact.complete-citation-graph
+      label: Complete Citation Graph
+      requirement: Every openly or controllably published architecture paper during his tenure receives an expanded historical-note review.
+      check: { type: publication-requires-review-tag, paperTag: architectures, reviewTag: expanded-historical-note }
+      attachedEffects:
+        - { target: publication.duration, operation: add, value: 1, activation: { type: review-not-already-complete } }
+      breachEvent: people.compact.complete-citation-graph
+    paperHooks:
+      ids: [paper.long-short-term-memory, paper.sequence-to-sequence, paper.neural-attention-translation]
+      affinityTags: [credit-assignment, artificial-curiosity, neural-history]
+    facilityHooks: [facility.research-campus, facility.conference-centre]
+    endgameHooks: [ending.scientific-legacy, ending.public-knowledge]
+    eventReactions:
+      - { triggerTag: priority-dispute, line: "The useful answer is a citation graph, not a louder adjective. Fortunately, I have brought one." }
+      - { triggerTag: sequence-memory, line: "Long-range credit assignment is difficult. Long-range credit allocation appears to be a separate research programme." }
+      - { triggerTag: rival-paper, line: "Their result is excellent. Its prerequisites are familiar. We should be able to reconstruct the route." }
+    feedLines:
+      - Jürgen expanded the historical note and discovered three prerequisites the roadmap had labelled “background.”
+      - The recurrent network remembers 400 steps. The citation graph remembers 40 years.
+      - A rival published openly; Prior Art converted the announcement into 12% hidden progress.
+      - The Footnote has requested equal billing and supplied reproducible evidence.
+      - Jürgen described the idea as “from the previous millennium,” which in AI is both precise and alarming.
+      - Long-memory research accelerated after the lab stopped treating every sequence as a bag of fashionable tokens.
+    portrait:
+      assetId: portrait.researcher.jurgen-smithhuber
+      brief: Distinctive 8-bit editorial portrait; white European man with swept dark-grey hair and an animated expression, beside a looping green memory cell and a densely connected citation timeline; maverick and scholarly, not photoreal.
+      altText: Pixel-art portrait of Jürgen Smithhuber beside an LSTM memory loop and a long citation timeline.
+    sources:
+      - https://people.idsia.ch/~juergen/
+      - https://doi.org/10.1162/neco.1997.9.8.1735
+    portrayal: { fictionalized: true, endorsementImplied: false, legalStatus: legal-review-needed }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }

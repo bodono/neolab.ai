@@ -823,6 +823,16 @@ html&gt;body{padding:0}&lt;/style&gt;
       max-width: 1500px;
       margin: 0 auto;
       padding: 8px 12px 28px;
+      background-image:
+        linear-gradient(color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    #neolab-dashboard-concept .card {
+      border: 1px solid color-mix(in srgb, var(--foreground) 13%, transparent);
+      border-radius: 3px;
+      box-shadow: inset 3px 0 0 color-mix(in srgb, var(--primary) 26%, transparent);
+      background: color-mix(in srgb, var(--background) 94%, var(--foreground) 6%);
     }
     #neolab-dashboard-concept .neo-event-layer {
       position: absolute;
@@ -855,6 +865,33 @@ html&gt;body{padding:0}&lt;/style&gt;
       margin-bottom: 18px;
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border);
+    }
+    #neolab-dashboard-concept .neo-system-kicker {
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    #neolab-dashboard-concept .neo-top-warning {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: -7px 0 16px;
+      padding: 10px 12px;
+      border: 1px solid color-mix(in srgb, var(--destructive) 65%, transparent);
+      border-left: 5px solid var(--destructive);
+      background:
+        repeating-linear-gradient(-45deg, color-mix(in srgb, var(--destructive) 8%, transparent) 0 8px, transparent 8px 16px),
+        var(--background);
+    }
+    #neolab-dashboard-concept .neo-top-warning[hidden] {
+      display: none;
+    }
+    #neolab-dashboard-concept .neo-warning-copy {
+      display: grid;
+      gap: 1px;
     }
     #neolab-dashboard-concept .neo-brand {
       display: grid;
@@ -897,6 +934,16 @@ html&gt;body{padding:0}&lt;/style&gt;
       display: grid;
       gap: 2px;
     }
+    #neolab-dashboard-concept .neo-resource-detail {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px 10px;
+      margin: 7px 0 9px;
+      font-size: var(--font-size-small);
+    }
+    #neolab-dashboard-concept .neo-resource-detail &gt; span:nth-child(even) {
+      text-align: right;
+    }
     #neolab-dashboard-concept .neo-funding {
       margin: 0 0 16px;
     }
@@ -919,6 +966,24 @@ html&gt;body{padding:0}&lt;/style&gt;
       align-content: start;
       gap: 7px;
       min-width: 0;
+      min-height: 150px;
+    }
+    #neolab-dashboard-concept .neo-locked-slot {
+      min-height: 96px;
+      opacity: 0.48;
+      border-style: dashed;
+      box-shadow: none;
+      background: color-mix(in srgb, var(--background) 97%, var(--foreground) 3%);
+    }
+    #neolab-dashboard-concept .neo-locked-slot .neo-portrait {
+      width: 36px;
+      height: 36px;
+    }
+    #neolab-dashboard-concept .neo-card-action-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
     }
     #neolab-dashboard-concept .neo-portrait {
       width: 54px;
@@ -1063,6 +1128,37 @@ html&gt;body{padding:0}&lt;/style&gt;
     #neolab-dashboard-concept .neo-progress-fill.safety {
       background: var(--viz-series-3);
     }
+    #neolab-dashboard-concept .neo-uncertainty-track {
+      position: relative;
+      height: 9px;
+      overflow: visible;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 9px, color-mix(in srgb, var(--foreground) 8%, transparent) 9px 10px),
+        var(--muted);
+    }
+    #neolab-dashboard-concept .neo-progress-band {
+      position: absolute;
+      top: -2px;
+      height: 13px;
+      min-width: 22px;
+      border-left: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      color: var(--viz-series-2);
+      background: repeating-linear-gradient(-45deg, color-mix(in srgb, currentColor 55%, transparent) 0 4px, color-mix(in srgb, currentColor 18%, transparent) 4px 8px);
+      transition: left 240ms ease, width 240ms ease;
+    }
+    #neolab-dashboard-concept .neo-progress-band.safety {
+      color: var(--viz-series-3);
+    }
+    #neolab-dashboard-concept .neo-capability-band {
+      position: absolute;
+      top: -2px;
+      left: 57%;
+      width: 8%;
+      height: 11px;
+      border-inline: 2px solid var(--viz-series-2);
+      background: color-mix(in srgb, var(--viz-series-2) 45%, transparent);
+    }
     #neolab-dashboard-concept .neo-lab-scene {
       margin-top: 14px;
       background: var(--muted);
@@ -1123,6 +1219,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     #neolab-dashboard-concept .neo-feed-time {
       flex: 0 0 auto;
       color: var(--muted-foreground);
+      white-space: nowrap;
     }
     #neolab-dashboard-concept .neo-alert {
       color: var(--destructive);
@@ -1145,10 +1242,12 @@ html&gt;body{padding:0}&lt;/style&gt;
       #neolab-dashboard-concept .neo-stats,
       #neolab-dashboard-concept .neo-roster-grid { grid-template-columns: 1fr; }
       #neolab-dashboard-concept .neo-brand { min-width: 0; }
+      #neolab-dashboard-concept .neo-top-warning { align-items: stretch; flex-direction: column; }
     }
     @media (prefers-reduced-motion: reduce) {
       #neolab-dashboard-concept .neo-segment,
-      #neolab-dashboard-concept .neo-progress-fill { transition: none; }
+      #neolab-dashboard-concept .neo-progress-fill,
+      #neolab-dashboard-concept .neo-progress-band { transition: none; }
       #neolab-dashboard-concept .neo-person-a,
       #neolab-dashboard-concept .neo-person-b,
       #neolab-dashboard-concept .neo-person-c { animation: none; }
@@ -1157,6 +1256,7 @@ html&gt;body{padding:0}&lt;/style&gt;
 
   &lt;div class=&quot;neo-toolbar&quot;&gt;
     &lt;div class=&quot;neo-brand&quot;&gt;
+      &lt;div class=&quot;neo-system-kicker&quot;&gt;Frontier Operations Console // Campus 01&lt;/div&gt;
       &lt;div class=&quot;neo-brand-primary&quot;&gt;
         &lt;span class=&quot;neo-leader-name&quot;&gt;Sam Altmann&lt;/span&gt;
         &lt;span class=&quot;text-muted&quot;&gt;leads&lt;/span&gt;
@@ -1165,6 +1265,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;div class=&quot;neo-brand-secondary text-small&quot;&gt;
         &lt;span class=&quot;viz-badge&quot;&gt;AI · GPT-4 “ORBIT”&lt;/span&gt;
         &lt;span&gt;Level 4 · Tool-Using Agent&lt;/span&gt;
+        &lt;span class=&quot;viz-badge&quot;&gt;RUN SCORE · &lt;span id=&quot;neo-score&quot;&gt;8,420&lt;/span&gt;&lt;/span&gt;
         &lt;span class=&quot;text-muted&quot;&gt;2019 · WEEK 14&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -1174,6 +1275,14 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;2×&lt;/button&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;4×&lt;/button&gt;
     &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;neo-top-warning&quot; id=&quot;neo-top-warning&quot; role=&quot;alert&quot;&gt;
+    &lt;div class=&quot;neo-warning-copy&quot;&gt;
+      &lt;strong&gt;ACTION REQUIRED · GPT requests root access&lt;/strong&gt;
+      &lt;span class=&quot;text-small&quot;&gt;Game paused · autonomous-behaviour coverage has gaps · decision expires in 3 weeks&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;neo-review-warning&quot;&gt;Review access decision&lt;/button&gt;
   &lt;/div&gt;
 
   &lt;div class=&quot;neo-event-layer&quot; id=&quot;neo-event-layer&quot; hidden&gt;
@@ -1206,22 +1315,32 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-open-funding&quot; aria-expanded=&quot;false&quot;&gt;Fundraising&lt;/button&gt;
     &lt;/div&gt;
     &lt;div class=&quot;card viz-stat&quot;&gt;
-      &lt;div class=&quot;text-muted&quot;&gt;Compute&lt;/div&gt;
-      &lt;div class=&quot;viz-stat-value&quot; id=&quot;neo-compute&quot;&gt;18,400&lt;/div&gt;
-      &lt;div class=&quot;text-small text-muted&quot;&gt;GPU-equivalents online&lt;/div&gt;
-      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-buy-compute&quot;&gt;Buy 2,000 GPUs · $4m&lt;/button&gt;
+      &lt;div class=&quot;text-muted&quot;&gt;GPU fleet&lt;/div&gt;
+      &lt;div class=&quot;viz-stat-value&quot;&gt;&lt;span id=&quot;neo-compute&quot;&gt;18,400&lt;/span&gt; GPUs&lt;/div&gt;
+      &lt;div class=&quot;text-small text-muted&quot; id=&quot;neo-gpu-mix&quot;&gt;12,000 Volta · 6,400 Turing&lt;/div&gt;
+      &lt;div class=&quot;neo-resource-detail&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Serving now&lt;/span&gt;&lt;span id=&quot;neo-compute-serving&quot;&gt;8,280 GPUs/wk&lt;/span&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;R&amp;amp;D now&lt;/span&gt;&lt;span id=&quot;neo-compute-rd&quot;&gt;10,120 GPUs/wk&lt;/span&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Facility limit&lt;/span&gt;&lt;span id=&quot;neo-gpu-headroom&quot;&gt;25,000 GPUs&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-buy-compute&quot;&gt;Buy 2,000 Turing GPUs · $4m&lt;/button&gt;
     &lt;/div&gt;
     &lt;div class=&quot;card viz-stat&quot;&gt;
       &lt;div class=&quot;text-muted&quot;&gt;Spendable Aura&lt;/div&gt;
       &lt;div class=&quot;viz-stat-value&quot; id=&quot;neo-aura&quot;&gt;64&lt;/div&gt;
       &lt;div class=&quot;text-small text-muted&quot;&gt;Lifetime Aura 112 · +3 this month&lt;/div&gt;
+      &lt;div class=&quot;neo-resource-detail&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Recruitment&lt;/span&gt;&lt;span&gt;from 7 Aura&lt;/span&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Lobby action&lt;/span&gt;&lt;span&gt;8 Aura&lt;/span&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Series C pitch&lt;/span&gt;&lt;span&gt;12 Aura&lt;/span&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&quot;card viz-stat&quot;&gt;
       &lt;div class=&quot;text-muted&quot;&gt;AI capability level&lt;/div&gt;
       &lt;div class=&quot;viz-stat-value&quot;&gt;4 · Tool-Using Agent&lt;/div&gt;
-      &lt;div class=&quot;text-small text-muted&quot;&gt;GPT-4 “ORBIT” · frontier capability 61&lt;/div&gt;
-      &lt;div class=&quot;neo-progress-track&quot; aria-label=&quot;Estimated progress toward the next capability level&quot;&gt;&lt;div class=&quot;neo-progress-fill&quot; style=&quot;width: 64%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
-      &lt;div class=&quot;text-small text-muted&quot;&gt;Next: Autonomous Researcher · estimate uncertain&lt;/div&gt;
+      &lt;div class=&quot;text-small text-muted&quot;&gt;GPT-4 “ORBIT” · estimated FC ≈ 61&lt;/div&gt;
+      &lt;div class=&quot;neo-uncertainty-track&quot; role=&quot;img&quot; aria-label=&quot;Estimated frontier capability range 57 to 65&quot;&gt;&lt;div class=&quot;neo-capability-band&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;text-small text-muted&quot;&gt;Credible range 57–65 · next tier gate also requires a replicated novel task&lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
@@ -1274,7 +1393,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;/div&gt;
         &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-1-name&quot;&gt;Ian LeMon&lt;/div&gt;
         &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-1-role&quot;&gt;Architectures · Vision&lt;/div&gt;
-        &lt;button type=&quot;button&quot; class=&quot;btn btn-ghost&quot; id=&quot;neo-slot-1-action&quot; data-slot-action=&quot;remove&quot; data-slot=&quot;1&quot;&gt;Remove&lt;/button&gt;
+        &lt;div class=&quot;neo-card-action-row&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-1-action&quot; data-slot-action=&quot;inspect&quot; data-slot=&quot;1&quot;&gt;Inspect / reassign&lt;/button&gt;&lt;/div&gt;
       &lt;/div&gt;
       &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-2&quot;&gt;
         &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-2-portrait&quot; aria-label=&quot;Pixel portrait of Geoff Hintoff&quot;&gt;
@@ -1290,7 +1409,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;/div&gt;
         &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-2-name&quot;&gt;Geoff Hintoff&lt;/div&gt;
         &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-2-role&quot;&gt;Deep learning · Aura&lt;/div&gt;
-        &lt;button type=&quot;button&quot; class=&quot;btn btn-ghost&quot; id=&quot;neo-slot-2-action&quot; data-slot-action=&quot;remove&quot; data-slot=&quot;2&quot;&gt;Remove&lt;/button&gt;
+        &lt;div class=&quot;neo-card-action-row&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-2-action&quot; data-slot-action=&quot;inspect&quot; data-slot=&quot;2&quot;&gt;Inspect / reassign&lt;/button&gt;&lt;/div&gt;
       &lt;/div&gt;
       &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-3&quot;&gt;
         &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-3-portrait&quot; aria-label=&quot;Vacant researcher slot&quot;&gt;＋&lt;/div&gt;
@@ -1298,19 +1417,20 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-3-role&quot;&gt;Recruit a star researcher&lt;/div&gt;
         &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-3-action&quot; data-slot-action=&quot;recruit&quot; data-slot=&quot;3&quot;&gt;Recruit&lt;/button&gt;
       &lt;/div&gt;
-      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-4&quot;&gt;
+      &lt;div class=&quot;card neo-researcher-card neo-locked-slot&quot; id=&quot;neo-slot-4&quot;&gt;
         &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-4-portrait&quot; aria-label=&quot;Locked researcher slot&quot;&gt;×&lt;/div&gt;
         &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-4-name&quot;&gt;Locked slot&lt;/div&gt;
         &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-4-role&quot;&gt;Build a robotics lab&lt;/div&gt;
         &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-4-action&quot; data-slot-action=&quot;locked&quot; data-slot=&quot;4&quot; disabled&gt;Facility required&lt;/button&gt;
       &lt;/div&gt;
-      &lt;div class=&quot;card neo-researcher-card&quot; id=&quot;neo-slot-5&quot;&gt;
+      &lt;div class=&quot;card neo-researcher-card neo-locked-slot&quot; id=&quot;neo-slot-5&quot;&gt;
         &lt;div class=&quot;neo-portrait&quot; id=&quot;neo-slot-5-portrait&quot; aria-label=&quot;Locked researcher slot&quot;&gt;×&lt;/div&gt;
         &lt;div class=&quot;neo-person-name&quot; id=&quot;neo-slot-5-name&quot;&gt;Locked slot&lt;/div&gt;
         &lt;div class=&quot;text-small neo-slot-note&quot; id=&quot;neo-slot-5-role&quot;&gt;Upgrade headquarters&lt;/div&gt;
         &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-slot-5-action&quot; data-slot-action=&quot;locked&quot; data-slot=&quot;5&quot; disabled&gt;Facility required&lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
+    &lt;div class=&quot;text-small text-muted&quot; id=&quot;neo-roster-status&quot; aria-live=&quot;polite&quot;&gt;Select a researcher to inspect abilities, promises, morale, or current assignment. Dismissal lives inside the dossier.&lt;/div&gt;
 
     &lt;div class=&quot;neo-talent-market&quot; id=&quot;neo-talent-market&quot; hidden&gt;
       &lt;div class=&quot;neo-section-head&quot;&gt;
@@ -1349,32 +1469,32 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;/div&gt;
         &lt;div class=&quot;neo-control-stack&quot;&gt;
           &lt;label class=&quot;form-label&quot; for=&quot;neo-serving-range&quot;&gt;
-            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Customer serving&lt;/span&gt;&lt;output id=&quot;neo-serving-output&quot;&gt;45%&lt;/output&gt;&lt;/span&gt;
+            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Customer serving&lt;/span&gt;&lt;output id=&quot;neo-serving-output&quot;&gt;45% · 8,280 GPUs/wk&lt;/output&gt;&lt;/span&gt;
             &lt;input class=&quot;form-range&quot; id=&quot;neo-serving-range&quot; type=&quot;range&quot; min=&quot;10&quot; max=&quot;80&quot; step=&quot;1&quot; value=&quot;45&quot;&gt;
             &lt;span class=&quot;neo-control-sub text-small&quot;&gt;Remaining capacity goes to research and evaluations.&lt;/span&gt;
           &lt;/label&gt;
           &lt;label class=&quot;form-label&quot; for=&quot;neo-cap-range&quot;&gt;
-            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Research: capabilities&lt;/span&gt;&lt;output id=&quot;neo-cap-output&quot;&gt;60%&lt;/output&gt;&lt;/span&gt;
+            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Research: capabilities&lt;/span&gt;&lt;output id=&quot;neo-cap-output&quot;&gt;60% of R&amp;amp;D · 6,072 GPUs/wk&lt;/output&gt;&lt;/span&gt;
             &lt;input class=&quot;form-range&quot; id=&quot;neo-cap-range&quot; type=&quot;range&quot; min=&quot;5&quot; max=&quot;95&quot; step=&quot;1&quot; value=&quot;60&quot;&gt;
             &lt;span class=&quot;neo-control-sub text-small&quot;&gt;Remaining research capacity goes to safety.&lt;/span&gt;
           &lt;/label&gt;
           &lt;label class=&quot;form-label&quot; for=&quot;neo-eval-range&quot;&gt;
-            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Safety: evaluations&lt;/span&gt;&lt;output id=&quot;neo-eval-output&quot;&gt;40%&lt;/output&gt;&lt;/span&gt;
+            &lt;span class=&quot;neo-control-head&quot;&gt;&lt;span&gt;Safety: evaluations&lt;/span&gt;&lt;output id=&quot;neo-eval-output&quot;&gt;40% of safety · 1,619 GPUs/wk&lt;/output&gt;&lt;/span&gt;
             &lt;input class=&quot;form-range&quot; id=&quot;neo-eval-range&quot; type=&quot;range&quot; min=&quot;10&quot; max=&quot;80&quot; step=&quot;1&quot; value=&quot;40&quot;&gt;
             &lt;span class=&quot;neo-control-sub text-small&quot;&gt;The rest develops alignment and control techniques.&lt;/span&gt;
           &lt;/label&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;neo-allocation&quot; role=&quot;img&quot; aria-label=&quot;Compute allocation&quot; id=&quot;neo-allocation-bar&quot;&gt;
+        &lt;div class=&quot;neo-allocation&quot; role=&quot;img&quot; aria-label=&quot;GPU allocation&quot; id=&quot;neo-allocation-bar&quot;&gt;
           &lt;div class=&quot;neo-segment neo-market&quot; id=&quot;neo-seg-market&quot;&gt;&lt;/div&gt;
           &lt;div class=&quot;neo-segment neo-capability&quot; id=&quot;neo-seg-capability&quot;&gt;&lt;/div&gt;
           &lt;div class=&quot;neo-segment neo-safety&quot; id=&quot;neo-seg-safety&quot;&gt;&lt;/div&gt;
           &lt;div class=&quot;neo-segment neo-evals&quot; id=&quot;neo-seg-evals&quot;&gt;&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class=&quot;neo-legend&quot;&gt;
-          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-market&quot;&gt;&lt;/span&gt;Model serving&lt;/span&gt;&lt;span id=&quot;neo-val-market&quot;&gt;45.0%&lt;/span&gt;&lt;/div&gt;
-          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-capability&quot;&gt;&lt;/span&gt;Capabilities&lt;/span&gt;&lt;span id=&quot;neo-val-capability&quot;&gt;33.0%&lt;/span&gt;&lt;/div&gt;
-          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-safety&quot;&gt;&lt;/span&gt;Safety research&lt;/span&gt;&lt;span id=&quot;neo-val-safety&quot;&gt;13.2%&lt;/span&gt;&lt;/div&gt;
-          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-evals&quot;&gt;&lt;/span&gt;Evaluations&lt;/span&gt;&lt;span id=&quot;neo-val-evals&quot;&gt;8.8%&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-market&quot;&gt;&lt;/span&gt;Model serving&lt;/span&gt;&lt;span id=&quot;neo-val-market&quot;&gt;45.0% · 8,280 GPUs&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-capability&quot;&gt;&lt;/span&gt;Capabilities&lt;/span&gt;&lt;span id=&quot;neo-val-capability&quot;&gt;33.0% · 6,072 GPUs&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-safety&quot;&gt;&lt;/span&gt;Safety research&lt;/span&gt;&lt;span id=&quot;neo-val-safety&quot;&gt;13.2% · 2,429 GPUs&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-legend-row&quot;&gt;&lt;span class=&quot;neo-legend-name&quot;&gt;&lt;span class=&quot;neo-swatch neo-evals&quot;&gt;&lt;/span&gt;Evaluations&lt;/span&gt;&lt;span id=&quot;neo-val-evals&quot;&gt;8.8% · 1,619 GPUs&lt;/span&gt;&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class=&quot;neo-projection text-small&quot; id=&quot;neo-projection&quot;&gt;+$1.8m/month · Research 1.0× · Safety evidence: partial&lt;/div&gt;
       &lt;/section&gt;
@@ -1387,15 +1507,15 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;div class=&quot;neo-progress-list&quot;&gt;
           &lt;div&gt;
             &lt;div class=&quot;neo-progress-head&quot;&gt;&lt;span&gt;Novel architectures&lt;/span&gt;&lt;span id=&quot;neo-cap-progress-label&quot;&gt;Promising&lt;/span&gt;&lt;/div&gt;
-            &lt;div class=&quot;neo-progress-track&quot;&gt;&lt;div class=&quot;neo-progress-fill&quot; id=&quot;neo-cap-progress&quot; style=&quot;width: 68%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-uncertainty-track&quot; aria-label=&quot;Noisy progress estimate: promising&quot;&gt;&lt;div class=&quot;neo-progress-band&quot; id=&quot;neo-cap-progress&quot; style=&quot;left: 52%; width: 26%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
           &lt;/div&gt;
           &lt;div&gt;
             &lt;div class=&quot;neo-progress-head&quot;&gt;&lt;span&gt;Robust objectives&lt;/span&gt;&lt;span id=&quot;neo-safe-progress-label&quot;&gt;Mixed results&lt;/span&gt;&lt;/div&gt;
-            &lt;div class=&quot;neo-progress-track&quot;&gt;&lt;div class=&quot;neo-progress-fill safety&quot; id=&quot;neo-safe-progress&quot; style=&quot;width: 36%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-uncertainty-track&quot; aria-label=&quot;Noisy progress estimate: mixed results&quot;&gt;&lt;div class=&quot;neo-progress-band safety&quot; id=&quot;neo-safe-progress&quot; style=&quot;left: 20%; width: 32%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
           &lt;/div&gt;
           &lt;div&gt;
             &lt;div class=&quot;neo-progress-head&quot;&gt;&lt;span&gt;Model evaluations&lt;/span&gt;&lt;span id=&quot;neo-eval-progress-label&quot;&gt;Coverage gaps&lt;/span&gt;&lt;/div&gt;
-            &lt;div class=&quot;neo-progress-track&quot;&gt;&lt;div class=&quot;neo-progress-fill safety&quot; id=&quot;neo-eval-progress&quot; style=&quot;width: 45%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div class=&quot;neo-uncertainty-track&quot; aria-label=&quot;Noisy progress estimate: coverage gaps&quot;&gt;&lt;div class=&quot;neo-progress-band safety&quot; id=&quot;neo-eval-progress&quot; style=&quot;left: 31%; width: 28%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/section&gt;
@@ -1434,11 +1554,11 @@ html&gt;body{padding:0}&lt;/style&gt;
           &lt;span class=&quot;text-small text-muted&quot;&gt;Auto-pauses on crises&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;neo-feed text-small&quot;&gt;
-          &lt;div class=&quot;neo-feed-item&quot; id=&quot;neo-decision-feed&quot;&gt;&lt;span class=&quot;neo-alert&quot;&gt;DECISION: GPT requests root access&lt;/span&gt;&lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-review-event&quot;&gt;Review&lt;/button&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot; id=&quot;neo-decision-feed&quot;&gt;&lt;span class=&quot;neo-alert&quot;&gt;GPT root-access decision awaiting review&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;expires in 3w&lt;/span&gt;&lt;/div&gt;
           &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;&lt;strong&gt;Breakthrough:&lt;/strong&gt; attention mechanism shows promise&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;NOW&lt;/span&gt;&lt;/div&gt;
-          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;Enterprise demand exceeds reserved capacity&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;2W&lt;/span&gt;&lt;/div&gt;
-          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span class=&quot;neo-alert&quot;&gt;Red team found unexpected tool use&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;4W&lt;/span&gt;&lt;/div&gt;
-          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;Ian LeMon is taking calls from a rival lab&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;6W&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;Enterprise demand exceeds reserved capacity&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;2w ago&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span class=&quot;neo-alert&quot;&gt;Red team found unexpected tool use&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;4w ago&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;neo-feed-item&quot;&gt;&lt;span&gt;Ian LeMon is taking calls from a rival lab&lt;/span&gt;&lt;span class=&quot;neo-feed-time&quot;&gt;6w ago&lt;/span&gt;&lt;/div&gt;
         &lt;/div&gt;
       &lt;/section&gt;
     &lt;/aside&gt;
@@ -1528,7 +1648,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &lt;/div&gt;
     &lt;div class=&quot;viz-controls neo-campus-actions&quot; aria-label=&quot;Facility investments&quot;&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;neo-build-robotics&quot;&gt;Build robotics lab · $18m&lt;/button&gt;
-      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-expand-dc&quot;&gt;Expand data center · $12m&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;neo-expand-dc&quot;&gt;Expand data center · +25,000 GPU capacity · $12m&lt;/button&gt;
     &lt;/div&gt;
   &lt;/section&gt;
 
@@ -1536,8 +1656,12 @@ html&gt;body{padding:0}&lt;/style&gt;
     (() =&gt; {
       const root = document.getElementById(&#x27;neolab-dashboard-concept&#x27;);
       let cash = 42.3;
-      let compute = 18400;
+      let voltaGpus = 12000;
+      let turingGpus = 6400;
+      let compute = voltaGpus + turingGpus;
+      let facilityCapacity = 25000;
       let aura = 64;
+      let score = 8420;
       let monthlyCosts = 6.6;
       let roboticsBuilt = false;
       let dcExpanded = false;
@@ -1577,11 +1701,31 @@ html&gt;body{padding:0}&lt;/style&gt;
         return (value &gt;= 0 ? &#x27;+&#x27; : &#x27;−&#x27;) + &#x27;$&#x27; + Math.abs(value).toFixed(1) + &#x27;m&#x27;;
       }
 
+      function gpuLabel(value, suffix = &#x27; GPUs&#x27;) {
+        return Math.round(value).toLocaleString(&#x27;en-US&#x27;) + suffix;
+      }
+
+      function allocatePhysicalGpus(percentages) {
+        const raw = percentages.map(value =&gt; compute * value / 100);
+        const counts = raw.map(Math.floor);
+        let remaining = compute - counts.reduce((sum, value) =&gt; sum + value, 0);
+        const order = raw
+          .map((value, index) =&gt; ({ index, fraction: value - counts[index] }))
+          .sort((a, b) =&gt; b.fraction - a.fraction || a.index - b.index);
+        for (let index = 0; index &lt; remaining; index += 1) counts[order[index].index] += 1;
+        return counts;
+      }
+
       function updateResources() {
         const finance = getFinancials();
         root.querySelector(&#x27;#neo-cash&#x27;).textContent = &#x27;$&#x27; + cash.toFixed(1) + &#x27;m&#x27;;
         root.querySelector(&#x27;#neo-compute&#x27;).textContent = compute.toLocaleString(&#x27;en-US&#x27;);
+        root.querySelector(&#x27;#neo-gpu-mix&#x27;).textContent =
+          voltaGpus.toLocaleString(&#x27;en-US&#x27;) + &#x27; Volta · &#x27; +
+          turingGpus.toLocaleString(&#x27;en-US&#x27;) + &#x27; Turing&#x27;;
+        root.querySelector(&#x27;#neo-gpu-headroom&#x27;).textContent = gpuLabel(facilityCapacity);
         root.querySelector(&#x27;#neo-aura&#x27;).textContent = String(aura);
+        root.querySelector(&#x27;#neo-score&#x27;).textContent = score.toLocaleString(&#x27;en-US&#x27;);
         root.querySelector(&#x27;#neo-income&#x27;).textContent = &#x27;+$&#x27; + finance.income.toFixed(1) + &#x27;m&#x27;;
         root.querySelector(&#x27;#neo-costs&#x27;).textContent = &#x27;−$&#x27; + finance.costs.toFixed(1) + &#x27;m&#x27;;
         root.querySelector(&#x27;#neo-net&#x27;).textContent = signedMoney(finance.net);
@@ -1600,18 +1744,21 @@ html&gt;body{padding:0}&lt;/style&gt;
         const evaluations = safetyPool * evalShare / 100;
         const safety = safetyPool - evaluations;
         const values = [serving, capability, safety, evaluations];
+        const gpuCounts = allocatePhysicalGpus(values);
 
         segmentIds.forEach((id, index) =&gt; {
           root.querySelector(&#x27;#neo-seg-&#x27; + id).style.width = values[index] + &#x27;%&#x27;;
-          root.querySelector(&#x27;#neo-val-&#x27; + id).textContent = values[index].toFixed(1) + &#x27;%&#x27;;
+          root.querySelector(&#x27;#neo-val-&#x27; + id).textContent = values[index].toFixed(1) + &#x27;% · &#x27; + gpuLabel(gpuCounts[index]);
         });
         root.querySelector(&#x27;#neo-allocation-bar&#x27;).setAttribute(
           &#x27;aria-label&#x27;,
-          `Compute allocation: serving ${values[0].toFixed(1)}%, capabilities ${values[1].toFixed(1)}%, safety ${values[2].toFixed(1)}%, evaluations ${values[3].toFixed(1)}%`
+          `GPU allocation: serving ${values[0].toFixed(1)}%, capabilities ${values[1].toFixed(1)}%, safety ${values[2].toFixed(1)}%, evaluations ${values[3].toFixed(1)}%`
         );
-        root.querySelector(&#x27;#neo-serving-output&#x27;).textContent = serving + &#x27;%&#x27;;
-        root.querySelector(&#x27;#neo-cap-output&#x27;).textContent = capShare + &#x27;%&#x27;;
-        root.querySelector(&#x27;#neo-eval-output&#x27;).textContent = evalShare + &#x27;%&#x27;;
+        root.querySelector(&#x27;#neo-serving-output&#x27;).textContent = serving + &#x27;% · &#x27; + gpuLabel(gpuCounts[0], &#x27; GPUs/wk&#x27;);
+        root.querySelector(&#x27;#neo-cap-output&#x27;).textContent = capShare + &#x27;% of R&amp;D · &#x27; + gpuLabel(gpuCounts[1], &#x27; GPUs/wk&#x27;);
+        root.querySelector(&#x27;#neo-eval-output&#x27;).textContent = evalShare + &#x27;% of safety · &#x27; + gpuLabel(gpuCounts[3], &#x27; GPUs/wk&#x27;);
+        root.querySelector(&#x27;#neo-compute-serving&#x27;).textContent = gpuLabel(gpuCounts[0], &#x27; GPUs/wk&#x27;);
+        root.querySelector(&#x27;#neo-compute-rd&#x27;).textContent = gpuLabel(compute - gpuCounts[0], &#x27; GPUs/wk&#x27;);
 
         const finance = getFinancials();
         const researchMultiplier = research / 55;
@@ -1630,7 +1777,13 @@ html&gt;body{padding:0}&lt;/style&gt;
           safety &gt;= 18 ? &#x27;Promising&#x27; : safety &gt;= 9 ? &#x27;Mixed results&#x27; : &#x27;Understaffed&#x27;,
           evaluations &gt;= 14 ? &#x27;Broad coverage&#x27; : evaluations &gt;= 7 ? &#x27;Coverage gaps&#x27; : &#x27;Major blind spots&#x27;
         ];
-        progressEls.forEach((el, index) =&gt; { el.style.width = progress[index] + &#x27;%&#x27;; });
+        const uncertaintyWidths = [26, 32, 28];
+        progressEls.forEach((el, index) =&gt; {
+          const width = uncertaintyWidths[index];
+          el.style.left = clamp(progress[index] - width / 2, 0, 100 - width) + &#x27;%&#x27;;
+          el.style.width = width + &#x27;%&#x27;;
+          el.parentElement.setAttribute(&#x27;aria-label&#x27;, &#x27;Noisy progress estimate: &#x27; + labels[index]);
+        });
         progressLabels.forEach((el, index) =&gt; { el.textContent = labels[index]; });
         updateResources();
       }
@@ -1663,8 +1816,8 @@ html&gt;body{padding:0}&lt;/style&gt;
         root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-name&#x27;).textContent = name;
         root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-role&#x27;).textContent = role;
         const action = root.querySelector(&#x27;#neo-slot-&#x27; + slot + &#x27;-action&#x27;);
-        action.textContent = &#x27;Remove&#x27;;
-        action.setAttribute(&#x27;data-slot-action&#x27;, &#x27;remove&#x27;);
+        action.textContent = &#x27;Inspect / reassign&#x27;;
+        action.setAttribute(&#x27;data-slot-action&#x27;, &#x27;inspect&#x27;);
         action.disabled = false;
         updateSlotCount();
       }
@@ -1684,11 +1837,9 @@ html&gt;body{padding:0}&lt;/style&gt;
         button.addEventListener(&#x27;click&#x27;, () =&gt; {
           const slot = Number(button.getAttribute(&#x27;data-slot&#x27;));
           const action = button.getAttribute(&#x27;data-slot-action&#x27;);
-          if (action === &#x27;remove&#x27; &amp;&amp; slotState[slot] &amp;&amp; slotState[slot] !== &#x27;locked&#x27;) {
-            monthlyCosts = Math.max(0, monthlyCosts - slotState[slot].salary);
-            setSlotEmpty(slot);
-            root.querySelector(&#x27;#neo-market-status&#x27;).textContent = &#x27;Former researchers may become available to rival labs&#x27;;
-            updateResources();
+          if (action === &#x27;inspect&#x27; &amp;&amp; slotState[slot] &amp;&amp; slotState[slot] !== &#x27;locked&#x27;) {
+            root.querySelector(&#x27;#neo-roster-status&#x27;).textContent = slotState[slot].name + &#x27; selected · current assignment: &#x27; + slotState[slot].role + &#x27; · dossier contains reassignment, promises, morale, and dismissal&#x27;;
+            button.textContent = &#x27;Dossier selected&#x27;;
           } else if (action === &#x27;recruit&#x27;) {
             showTalentMarket(true);
           }
@@ -1753,13 +1904,15 @@ html&gt;body{padding:0}&lt;/style&gt;
       root.querySelector(&#x27;#neo-buy-compute&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
         if (cash &lt; 4) return;
         cash -= 4;
-        compute += 2000;
+        turingGpus += 2000;
+        compute = voltaGpus + turingGpus;
         monthlyCosts += 0.3;
-        root.querySelector(&#x27;#neo-buy-compute&#x27;).textContent = &#x27;Buy 2,000 more GPUs · $4m&#x27;;
+        root.querySelector(&#x27;#neo-buy-compute&#x27;).textContent = &#x27;Buy 2,000 more Turing GPUs · $4m&#x27;;
+        applyAllocation();
         updateResources();
       });
 
-      root.querySelector(&#x27;#neo-review-event&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+      root.querySelector(&#x27;#neo-review-warning&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
         root.querySelector(&#x27;#neo-event-layer&#x27;).hidden = false;
       });
 
@@ -1773,6 +1926,7 @@ html&gt;body{padding:0}&lt;/style&gt;
               : &#x27;GPT access request denied; research continues at normal speed&#x27;;
           root.querySelector(&#x27;#neo-event-layer&#x27;).hidden = true;
           root.querySelector(&#x27;#neo-decision-feed&#x27;).textContent = result;
+          root.querySelector(&#x27;#neo-top-warning&#x27;).hidden = true;
         });
       });
 
@@ -1784,6 +1938,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         if (roboticsBuilt || cash &lt; 18) return;
         roboticsBuilt = true;
         cash -= 18;
+        score += 400;
         monthlyCosts += 0.7;
         root.querySelector(&#x27;#neo-robotics-building&#x27;).setAttribute(&#x27;opacity&#x27;, &#x27;1&#x27;);
         root.querySelector(&#x27;#neo-robotics-person&#x27;).setAttribute(&#x27;opacity&#x27;, &#x27;1&#x27;);
@@ -1799,11 +1954,11 @@ html&gt;body{padding:0}&lt;/style&gt;
         if (dcExpanded || cash &lt; 12) return;
         dcExpanded = true;
         cash -= 12;
-        compute += 6000;
+        score += 250;
+        facilityCapacity += 25000;
         monthlyCosts += 0.9;
         root.querySelector(&#x27;#neo-dc-wing&#x27;).setAttribute(&#x27;opacity&#x27;, &#x27;1&#x27;);
         root.querySelector(&#x27;#neo-dc-wing-label&#x27;).textContent = &#x27;DATA CENTER WEST II&#x27;;
-        root.querySelector(&#x27;#neo-compute&#x27;).textContent = compute.toLocaleString(&#x27;en-US&#x27;);
         event.currentTarget.textContent = &#x27;Data center expanded&#x27;;
         event.currentTarget.disabled = true;
         root.querySelector(&#x27;#neo-campus-count&#x27;).textContent = (roboticsBuilt ? &#x27;5&#x27; : &#x27;4&#x27;) + &#x27; facilities online&#x27;;

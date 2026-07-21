@@ -232,7 +232,7 @@ leaders:
     headlineBonus:
       id: algorithmic-efficiency
       label: Algorithmic Efficiency
-      target: lab.compute.effectiveCapacity
+      target: lab.compute.workloadThroughput
       operation: multiply
       value: 1.20
     biography: >-

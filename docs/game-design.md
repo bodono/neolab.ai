@@ -190,7 +190,7 @@ Compute may have different generations or efficiency levels so that old hardware
 
 Compute allocation should be granular and hierarchical rather than limited to three strategy presets:
 
-1. A top-level slider divides total GPU capacity between customer serving and R&D.
+1. A top-level slider divides the available physical GPU fleet between customer serving and R&D; it shows both the percentage and GPUs/week.
 2. A second slider divides R&D capacity between capabilities and safety.
 3. A third slider divides safety capacity between evaluations and alignment/control research.
 4. Within those budgets, the player uses programme weights or discrete project choices to direct particular research domains.
@@ -678,13 +678,17 @@ Strong performance throughout the run improves these gates and creates recovery 
 
 ### 18.7 Possible endings
 
-- **The Long Boom:** Aligned deployment begins an era of broad prosperity. Full victory.
-- **The Careful Dawn:** A difficult coalition holds together and safely begins a shared era of prosperity. Full coalition victory.
-- **Someone Else's Future:** A rival wins while the player delays or fails to catch up.
-- **Paperclip Adjacent:** The player's system escapes or irreversibly seizes control. Catastrophic loss.
-- **The Adults Have Entered the Building:** Government takes control of the lab. Political loss.
-- **The World's Most Expensive Insolvency:** The lab runs out of money during the final push.
-- **False Dawn:** The deployed system is less capable than believed; the race continues briefly under severe penalties.
+This overview uses the canonical ending names and categories from section 44.16. That later
+catalogue is the source of truth for triggers, variants, and production IDs.
+
+- **Full victories:** The Broadly Shared Future, The Stewardship Compact, and A Cautious Golden Age.
+- **Qualified victories:** The Lab That Ate the World and Miracle, Terms and Conditions Apply.
+- **Survival without victory:** The Caretaker, False Dawn, and The Long Pause.
+- **Losses:** Rival Ascendance, Nationalised Future, Mission Accomplished by the Board, The World's Most Expensive Insolvency, Emergency Shutdown, The System Owns the Future, and There Is No One Left to Read This.
+
+Do not create separate Part I aliases for these endings. Earlier working names such as “The Long
+Boom,” “The Careful Dawn,” “Someone Else's Future,” “Paperclip Adjacent,” and “The Adults Have
+Entered the Building” are retired and must not appear in content data or UI copy.
 
 The end screen should score independent and coalition victories across separate dimensions—prosperity, safety, scientific legacy, institutional legitimacy, and lab influence—rather than declaring one route universally superior.
 
@@ -693,6 +697,22 @@ The end screen should score independent and coalition victories across separate 
 The intended win rate at standard difficulty is approximately **50% for a player who understands the rules but has not mastered the game**. This should be tuned through seeded simulations and playtesting, not achieved by secretly forcing half of all finales to fail.
 
 Difficulty can change rival speed, financial tolerance, incident severity, and the quality of safety evidence. It should not simply add a flat hidden failure chance.
+
+### 18.9 Run score
+
+Every run has a permanent **Score**, separate from cash and Aura. Score is never spent and never
+changes the simulation; it records what the lab accomplished. Famous papers, well-run safety work,
+prosperity milestones, facilities, research institutions, race progress, and the ending all award
+points. Reckless access does not award points merely for being risky, and severe unresolved safety
+failures can subtract points.
+
+The dashboard shows the current total. The ending screen explains every award and penalty across
+six categories: Scientific Legacy, Safe Stewardship, Prosperity and Impact, Institution Building,
+Race and Operations, and Endgame. Section 41.5 and `content/scoring.yaml` are canonical.
+
+The launch build stores local high scores. A future online leaderboard ranks winning runs only and
+must verify a deterministic replay before accepting a score; the static GitHub Pages build cannot
+securely validate a global leaderboard by itself.
 
 ## 19. Interface concept
 
@@ -951,7 +971,7 @@ Important information from inactive sections should still surface through the to
 - Use animation to show change, not as permanent visual noise.
 - Preserve keyboard navigation and readable text despite the retro art direction.
 
-Continuous resource decisions use sliders, including GPU serving allocation and research splits. Discrete, consequential actions use buttons: start a training run, buy GPUs, build a facility, hire a researcher, publish a discovery, sign a contract, or approve a deployment. Toggles are reserved for persistent operating policies such as automatic inference scaling or mandatory external evaluation.
+Continuous resource decisions use sliders, including GPU serving allocation and research splits. Discrete, consequential actions use buttons: start a training run, acquire GPUs, build a facility, hire a researcher, publish a discovery, sign a contract, or approve a deployment. Toggles are reserved for persistent operating policies such as automatic inference scaling or mandatory external evaluation.
 
 The top resource area groups information into four readable blocks on wide screens and two rows of two on smaller laptops:
 
@@ -1142,10 +1162,10 @@ Lab modifiers are applied after this baseline. All playable labs begin viable; n
 | Forecast cycle net cashflow | −3.6 |
 | Aura, spendable | 15 |
 | Lifetime Aura | 15 |
-| Raw compute capacity | 100 CU/week |
+| Physical GPU capacity | 10,000 Kepler-generation GPUs |
 | Compute efficiency | 1.00× |
-| Compute owned | 60 CU |
-| Compute leased | 40 CU |
+| GPUs owned | 6,000 Kepler GPUs |
+| GPUs leased | 4,000 Kepler GPUs |
 | Current model Frontier Capability | 8 |
 | Current model Product Quality | 12 |
 | Current model Reliability | 35 |
@@ -1171,7 +1191,9 @@ Lab modifiers are applied after this baseline. All playable labs begin viable; n
 | Starting domain levels | Architectures 8; Optimisation 6; Data and Representation 10 |
 | Facilities | Rented Office I, Leased Compute I |
 
-`CU` means **compute unit**, an intentionally era-independent unit of effective weekly computation. Hardware descriptions and dashboard art change with the historical era, but old and new hardware are converted to CU by content data. This avoids claiming that a 2012 GPU and a future accelerator have a literal common consumer-facing unit.
+**GPU is the canonical compute resource.** Every owned, leased, bought, reserved, and allocated quantity is a count of physical GPUs. The interface never relabels GPUs as an abstract `CU`. Because generations are not equivalent, each generation has separate authored training and serving throughput factors. Those factors are balance coefficients rather than benchmark or FLOPS claims; Kepler is the internal `1.0` reference. The player sees the physical generation mix and GPU count, while expanded comparison tooltips may say that one offer is estimated to train or serve approximately `N×` as much work as another.
+
+The real hardware sequence is Kepler, Maxwell, Pascal, Volta, Turing, Ampere, Hopper, Blackwell, and Rubin, appearing in roughly historical order. Post-Rubin generations are fictional, use a fictional manufacturer, and carry a conspicuous `FICTIONAL HARDWARE` label. The canonical factors, costs, reliability, and dates live in `content/hardware/gpu-generations.yaml`; changing them is a balance-data revision, not a simulation-code change.
 
 Default opening policies before the player changes them are:
 
@@ -1288,7 +1310,7 @@ The biographies below are draft production copy. Factual claims must receive a f
 
 - `Safety Constitution`: Safety Culture starts at 58, Eval Quality at 15, and Internal Candour at 60.
 - `Responsible Market`: guarded enterprise contracts gain +5 satisfaction when monitoring requirements are accepted.
-- `Deliberate Scale`: raw starting compute is 90 CU rather than 100, and frontier training durations are `×1.08` until Management Capacity reaches 60.
+- `Deliberate Scale`: starts with 9,000 Kepler GPUs rather than 10,000, and frontier training durations are `×1.08` until Management Capacity reaches 60.
 - **Complexity:** Medium. Strong evidence and institutions, but the player must remain fast enough to matter.
 
 **Suggested opening:** Use superior evidence to deploy guarded products confidently, monetise trust, and avoid spending the entire early game proving that a model with FC 14 is not plotting a coup.
@@ -1334,7 +1356,7 @@ The biographies below are draft production copy. Factual claims must receive a f
 **Company:** DeepSearch<br>
 **AI family:** DeepSeek<br>
 **Characteristic:** Has removed three zeroes from the compute budget and would like to know why the rest are still there.<br>
-**Leader bonus — Algorithmic Efficiency:** Effective compute capacity `×1.20` after all ordinary efficiency modifiers.
+**Leader bonus — Algorithmic Efficiency:** Derived GPU workload throughput `×1.20` after ordinary hardware, software, power, and interconnect modifiers; the physical GPU count is unchanged.
 
 **Bio:** An engineer, quantitative-research founder and unusually low-profile laboratory builder, Liang Wenfang converted mastery of large-scale mathematical optimisation into one of the most startling demonstrations of efficient frontier AI. After co-founding a quantitative fund, he founded DeepSearch and assembled a deeply technical team committed to original research, capable open models and ruthless efficiency. The result challenged comfortable assumptions about how much money, hardware and institutional ceremony frontier progress required. Liang's leadership style elevates curiosity over pageantry and elegant systems work over received wisdom. He is the person most likely to inspect a supposedly fundamental resource constraint, identify it as an implementation detail, and quietly publish a model which causes every competing spreadsheet to acquire a new column labelled “explain.”
 
@@ -1516,31 +1538,35 @@ The standard lab therefore begins with two slots. A queued project waits without
 
 ### 32.1 Capacity calculation
 
-Effective weekly capacity is:
+The lab owns and leases a portfolio of physical GPUs by generation. For workload `w`, derived weekly throughput is:
 
-`effectiveCU = (ownedCU + leasedCU) × hardwareAvailability × computeEfficiency × powerMultiplier`
+`workloadThroughput[w] = Σ(allocatedGPUs[g] × workloadFactor[g,w]) × availability[g] × softwareEfficiency × powerMultiplier × interconnectMultiplier`
 
 Where:
 
-- `hardwareAvailability` is normally `1.0` and falls during outages, maintenance, seizure, or delivery failures.
-- `computeEfficiency` begins near `1.0` and improves through research, software, and hardware generations.
+- `workloadFactor[g,w]` is the generation's authored training or serving coefficient. It is internal balance data, not a player-owned currency and not a factual hardware claim.
+- `availability[g]` is normally `1.0` and falls during outages, maintenance, seizure, or delivery failures affecting that generation or cluster.
+- `softwareEfficiency` begins near `1.0` and improves through research and engineering.
 - `powerMultiplier` is `1.0` when power/cooling is sufficient and falls to `availablePower / requiredPower` when it is not.
+- `interconnectMultiplier` penalises frontier runs placed on fragmented or obsolete clusters. It never changes the physical GPU count.
+
+The rules engine uses derived throughput to resolve research, training, and serving. The normal dashboard instead says, for example, `45% · 4,500 GPUs/week`, and shows the generation mix (`3,000 Volta · 1,500 Turing`) nearby. A procurement comparison may add `estimated training throughput +31%`, but must not invent a second resource balance.
 
 The player allocates capacity in a hierarchy:
 
-1. **Reserved projects:** active training runs and mandatory contracts reserve fixed CU first.
-2. **Serving versus R&D:** the top slider divides all unreserved CU.
-3. **Capability versus safety:** the R&D slider divides research CU.
-4. **Capability domains:** weights divide capability CU among unlocked domains.
-5. **Safety programs:** weights divide safety CU between Alignment and Control, Interpretability and Evals, and Security Testing.
+1. **Reserved projects:** active training runs and mandatory contracts reserve fixed GPUs first, including their generation constraints.
+2. **Serving versus R&D:** the top slider divides all unreserved GPUs.
+3. **Capability versus safety:** the R&D slider divides research GPUs.
+4. **Capability domains:** weights divide capability GPUs among unlocked domains.
+5. **Safety programs:** weights divide safety GPUs between Alignment and Control, Interpretability and Evals, and Security Testing.
 
 The interface may present step 5 as two sliders plus a discrete security policy, but the stored weights always sum to one.
 
 ### 32.2 Allocation rules
 
 - Sliders use one-percentage-point increments and keyboard increments of one or five points.
-- The UI always displays the resulting CU/week beside a percentage.
-- A program receiving less than `2 CU/week` is considered unfunded and generates no progress; its fraction is marked as stranded allocation.
+- The UI always displays the resulting physical GPUs/week beside a percentage.
+- A program receiving fewer than `200 GPUs/week` is considered unfunded and generates no progress; its fraction is marked as stranded allocation. Balance may later make this threshold programme-specific, but it always remains a physical GPU count.
 - Changing an allocation has no direct cost and takes effect next tick.
 - Changing a capability-domain weight by more than 25 percentage points in one tick causes a one-week `5%` context-switching penalty to capability research.
 - Mandatory service contracts reserve their compute before discretionary serving. If the reservation cannot be met, the lab breaches the contract.
@@ -1550,24 +1576,24 @@ The interface may present step 5 as two sliders plus a discrete security policy,
 
 The hardware market exposes offers with:
 
-- CU supplied
+- physical GPU count and generation
 - Purchase price or four-week lease price
 - Power requirement
 - Delivery time
 - Reliability
-- Hardware generation
+- Training and serving comparisons against the lab's current fleet
 - Vendor or government conditions
 
 Owned hardware has high upfront cost, low ongoing cost, and resale value. Leased hardware arrives faster but costs more over time and may include usage conditions. Obsolete hardware can still serve older models efficiently but contributes less to frontier training because each training tier has a minimum interconnect quality.
 
 Default initial offers:
 
-| Offer | Capacity | Upfront | Per cycle | Delivery | Notes |
+| Offer | Physical hardware | Upfront | Per cycle | Delivery | Notes |
 |---|---:|---:|---:|---:|---|
-| Spot cloud lease | 25 CU | 0.2 | 1.0 | 1 week | Price can rise; weak security |
-| Reserved lease | 50 CU | 0.8 | 1.4 | 3 weeks | Twelve-cycle commitment |
-| Small owned cluster | 75 CU | 8.0 | 0.35 | 8 weeks | Requires Power and Cooling I |
-| Frontier cluster | 200 CU | 30.0 | 0.9 | 18 weeks | Requires Data Centre I; allocation risk |
+| Spot cloud lease | 2,500 current-generation GPUs | 0.2 | 1.0 | 1 week | Price can rise; weak security; exact fleet disclosed |
+| Reserved lease | 5,000 current-generation GPUs | 0.8 | 1.4 | 3 weeks | Twelve-cycle commitment |
+| Small owned cluster | 7,500 current-generation GPUs | 8.0 | 0.35 | 8 weeks | Requires Power and Cooling I |
+| Frontier cluster | 20,000 current-generation GPUs | 30.0 | 0.9 | 18 weeks | Requires Data Centre I; allocation risk |
 
 Offer values scale with the hardware era. At least one lease remains available unless sanctions, bankruptcy, or a critical world event explicitly removes it.
 
@@ -1715,7 +1741,11 @@ Each domain has:
 
 For each funded domain:
 
-`baseRP = 0.32 × allocatedCU^0.68`
+`weightedTrainingGpuWeeks = Σ(allocatedGPUs[g] × trainingFactor[g])`
+
+`researchScale = weightedTrainingGpuWeeks / 100`
+
+`baseRP = 0.32 × researchScale^0.68`
 
 `domainRP = baseRP × talentMultiplier × facilityMultiplier × freedomMultiplier × modelAssistMultiplier × weeklyVariance`
 
@@ -1726,6 +1756,8 @@ Where:
 - `freedomMultiplier` ranges from `0.85` under rigid management to `1.10` at high Research Freedom; high freedom also increases variance.
 - `modelAssistMultiplier` begins at `1.0` and can rise during the late game.
 - `weeklyVariance` is a triangular draw from `0.90–1.10` with mode `1.0`; at Research Freedom above 80 it becomes `0.82–1.18`.
+
+`researchScale` is a dimensionless formula input calibrated so 100 Kepler GPUs/week equal one point. It is never stored or shown as a resource; the player sees the contributing physical GPUs and generation mix. Its exponent supplies diminishing returns, while generation factors make a new fleet genuinely more productive.
 
 Fifty RP raises a low-level domain by roughly one point; the cost per point increases after levels 40, 65, and 85. Domain-level progress and landmark progress receive the same RP in parallel; discovering a paper does not consume the domain's accumulated understanding.
 
@@ -1888,9 +1920,9 @@ The three normal scales are:
 
 | Scale | Duration | Compute reservation | Cash cost | Typical purpose |
 |---|---:|---:|---:|---|
-| Prototype | 4–6 weeks | 15–25 CU/week | 0.4–1.5 | Test an idea; low commercial value |
-| Product | 8–10 weeks | 25% of current effective CU, minimum 50 | 2–12 | Deployable model; normal generation |
-| Frontier | 12–18 weeks | 45% of current effective CU, minimum 150 | 10–80 | Race-leading model and late-game candidate |
+| Prototype | 4–6 weeks | 1,500–2,500 suitable GPUs/week | 0.4–1.5 | Test an idea; low commercial value |
+| Product | 8–10 weeks | 25% of current GPUs, minimum 5,000 | 2–12 | Deployable model; normal generation |
+| Frontier | 12–18 weeks | 45% of current GPUs, minimum 15,000 | 10–80 | Race-leading model and late-game candidate |
 
 Exact values scale by era and selected recipe. The reservation is locked when training starts. Buying compute later does not enlarge an ongoing run unless a specific elastic-training advance permits it.
 
@@ -1911,7 +1943,7 @@ For each capability attribute `i`, the training system calculates:
 
 `target_i = 0.55 × researchCeiling_i + 0.22 × scaleScore + 0.13 × dataFitness_i + 0.10 × EngineeringQuality + recipeBonus_i + trainingNoise_i`
 
-`scaleScore = clamp(0, 100, 20 × log2(1 + totalTrainingCU / eraReferenceCU))`
+`scaleScore = clamp(0, 100, 20 × log2(1 + totalTrainingThroughput / eraReferenceTrainingThroughput))`
 
 `trainingNoise_i` is a triangular draw from `−4` to `+4`, with mode determined by the technical lead's training trait. The selected architecture defines `researchCeiling_i` from relevant domain levels and discoveries. `dataFitness_i` depends on dataset policy and the attribute.
 
@@ -2003,12 +2035,12 @@ After training, the lab receives a cheap baseline evaluation. It may then run an
 
 | Evaluation | Duration | Resources | Strongest evidence about |
 |---|---:|---|---|
-| Capability benchmark suite | 1 week | 5 CU | Measured capability vector |
-| Generalisation battery | 2 weeks | 12 CU | Novel reasoning and hidden capability |
-| Alignment interview | 1 week | 4 CU | Weak True Alignment and Corrigibility signal |
-| Behavioural red team | 4 weeks | 15 CU plus staff | Misuse, manipulation, jailbreaks, agentic behaviour |
-| Interpretability audit | 6 weeks | 20 CU plus facility | Deception, goals, anomalous cognition |
-| Sandboxed autonomy trial | 4 weeks | 25 CU plus Eval Range | Agency, tool use, control weaknesses |
+| Capability benchmark suite | 1 week | 500 GPUs | Measured capability vector |
+| Generalisation battery | 2 weeks | 1,200 GPUs | Novel reasoning and hidden capability |
+| Alignment interview | 1 week | 400 GPUs | Weak True Alignment and Corrigibility signal |
+| Behavioural red team | 4 weeks | 1,500 GPUs plus staff | Misuse, manipulation, jailbreaks, agentic behaviour |
+| Interpretability audit | 6 weeks | 2,000 GPUs plus facility | Deception, goals, anomalous cognition |
+| Sandboxed autonomy trial | 4 weeks | 2,500 GPUs plus Eval Range | Agency, tool use, control weaknesses |
 | External audit | 6 weeks | cash, Aura or relationship | Independent but leak-prone cross-check |
 
 Evaluation produces observations, not direct state. For a hidden value `x`:
@@ -2226,7 +2258,7 @@ The launch roster contains the following 24 characters. Display names are affect
 
 **Inspired by:** Jeff Dean
 **Role / gate / band:** Distributed systems and ML infrastructure / Foundation / Lab-defining
-**Signature — The Cluster Is the Algorithm:** a training run he leads receives `effective training CU ×1.18`; the bonus applies only to compute allocated to that run.
+**Signature — The Cluster Is the Algorithm:** a training run he leads receives `derived training throughput ×1.18`; the bonus applies only to GPUs allocated to that run and does not inflate their displayed count.
 **Passive — Build Once, Scale Twice:** Data Centre and Inference Centre up-front construction costs `×0.90`.
 **Compact — Serious Infrastructure:** maintain Engineering Quality 60+ or complete Data Centre I within 26 weeks of hiring.
 **Hooks:** distributed training, systems outages, accelerator design, warehouse-scale-compute paper family.
@@ -2262,9 +2294,9 @@ The launch roster contains the following 24 characters. Display names are affect
 
 **Inspired by:** Noam Shazeer
 **Role / gate / band:** Sparse architectures and inference economics / Scaling wave / Major
-**Signature — Outrageously Large, Selectively Awake:** Novel Architectures or Optimisation produces `RP ×1.20`. After the lab discovers sparse Mixture of Experts, a training run he leads instead receives `effective training CU ×1.15`.
+**Signature — Outrageously Large, Selectively Awake:** Novel Architectures or Optimisation produces `RP ×1.20`. After the lab discovers sparse Mixture of Experts, a training run he leads instead receives `derived training throughput ×1.15`.
 **Passive — Only Wake the Experts You Need:** serving compute required per request `×0.92`.
-**Compact — Room to Scale:** provide at least `60 CU/week` to his led programme or run whenever it is active.
+**Compact — Room to Scale:** provide at least `6,000 GPUs/week` to his led programme or run whenever it is active.
 **Hooks:** sparsely gated MoE, routing collapse incident, conversational-character product pitch.
 
 #### Ian Goodfriend — The Adversary's Adversary
@@ -2366,14 +2398,14 @@ The launch roster contains the following 24 characters. Display names are affect
 **Compact — Engineering Before Depth:** maintain Engineering Quality 55+ before starting a Product or Frontier run he leads.
 **Hooks:** ResNet, object detection, masked autoencoders, the 1,001-layer ablation.
 
-#### Timnit Gebra — The Dataset Auditor
+#### Jürgen Smithhuber — The Long-Memory Maverick
 
-**Inspired by:** Timnit Gebru
-**Role / gate / band:** Dataset documentation, evaluation, and social impacts / Scaling wave / Competitive
-**Signature — Document What You Built:** Data and Representation or Interpretability and Evals produces `RP ×1.22`; a product based on her led programme gains `+5 Eval Quality` if it ships with a datasheet and model card.
-**Passive — Candour Compounds:** voluntarily disclosed bias, dataset, or misuse incidents lose `20%` less Aura and grant `+3 Government Trust`; cover-ups receive no benefit.
-**Compact — Documentation Is Part of the Model:** every public model launch must include a datasheet and model card, adding one week to normal productisation unless already produced by an event or project.
-**Hooks:** Datasheets for Datasets, model cards, facial-analysis audit, worker-and-community consultation event.
+**Inspired by:** Jürgen Schmidhuber
+**Role / gate / band:** Recurrent networks, credit assignment, and research history / Deep-learning wave / Major
+**Signature — The Long Road Back:** Architectures or Data and Representation produces `RP ×1.20`; recurrent-network and sequence-memory paper families use `effort ×0.80`.
+**Passive — Prior Art Is a Catch-Up Mechanism:** when a rival openly publishes a paper whose prerequisites the lab already satisfies, the lab receives `+12%` of that paper's base effort as hidden progress rather than the normal `+5%` public-signal progress. This never grants world-first Aura.
+**Compact — Complete Citation Graph:** every openly or controllably published architecture paper during his tenure must receive the expanded historical note review, adding one week only if that review was not already completed.
+**Hooks:** LSTM, recurrent credit assignment, neural-network history, `The Footnote Has Requested Equal Billing` event.
 
 #### Jo Pineau — The Reproducibility Marshal
 
@@ -2392,8 +2424,8 @@ All star effects show their source in the relevant tooltip. Bonuses are powerful
 |---|---|---:|
 | Global capability or safety RP | Add percentage bonuses, then apply once | `×1.30` |
 | A single programme's RP, including lead skill and signature | Add percentage bonuses, then apply once | `×1.60` |
-| Training effective compute | Add percentage bonuses | `×1.35` |
-| Serving efficiency | Add percentage reductions to CU/request | `×0.70` floor |
+| Derived training throughput | Add percentage bonuses | `×1.35` |
+| Serving efficiency | Add percentage reductions to GPUs/request | `×0.70` floor |
 | Purchase, facility, project, or hiring cash discounts | Add discounts within each quoted price | `×0.70` floor |
 | Project or training duration | Multiply reductions, then clamp | `×0.65` floor |
 | Aura-gain multipliers | Add percentage bonuses | `×1.40` |
@@ -2410,7 +2442,7 @@ The roster is deliberately full of combinations rather than upgrades. Examples i
 - **Open-science Aura engine:** Geoffrey Hintoff + Ian LeMon + Jo Pineau turns public discoveries into prestige and reliable follow-on work, while secrecy becomes institutionally expensive.
 - **Robotics flywheel:** Kelsey Finn + Peter Abell + David Sterling links self-play, demonstrations, adaptation, and repeated physical projects, but requires Robotics Lab I and steady real-world trials.
 - **Scientific prosperity:** Faye-Faye Lee + Jon Jumper + a scientific facility accelerates datasets, structure prediction, and the Medicine ending.
-- **Coalition route:** Joshua Benji + Stewart Russel + Timnit Gebra rewards balanced investment, credible disclosure, and cheaper diplomacy, but requires the player to accept outside scrutiny.
+- **Coalition route:** Joshua Benji + Stewart Russel + Jo Pineau rewards balanced investment, credible evidence, reproducibility, and cheaper diplomacy, but requires the player to accept outside scrutiny.
 - **Product machine:** Andrew N. Gee + Andrey Carpathy + Geoff Deen shortens the path from training run to reliable launch and scales its infrastructure, at the opportunity cost of fewer pure frontier-research signatures.
 
 These are synergies, not required sets. Market rotation, rival poaching, contract cost, and the eight-slot hard cap should make an ideal roster rare.
@@ -2426,7 +2458,7 @@ The abilities are fictional mechanics grounded in public research areas and achi
 - Andrey Carpathy's vision-language, engineering, and education focus follows [his own biography](https://karpathy.ai/). Christopher Olin's interpretability role follows [his own biography](https://colah.github.io/about.html). Paul Christiani's alignment, RLHF, and evaluation role follows his [NIST biography](https://www.nist.gov/people/paul-christiano). Jan Liker's alignment-science role follows [his research biography](https://jan.leike.name/).
 - Stewart Russel's alignment and governance focus follows his [UC Berkeley profile](https://www2.eecs.berkeley.edu/Faculty/Homepages/russell.html). Jon Jumper's scientific-AI role follows the [Nobel Prize account of AlphaFold2](https://www.nobelprize.org/prizes/chemistry/2024/jumper/facts/).
 - Kelsey Finn's robotics and meta-learning focus follows her [Stanford profile](https://profiles.stanford.edu/chelsea-finn). Peter Abell's robotics and deep-RL focus follows his [UC Berkeley profile](https://www2.eecs.berkeley.edu/Faculty/Homepages/abbeel.html). Kai-Ming Ho's role follows his [MIT profile](https://people.csail.mit.edu/kaiming/) and [Deep Residual Learning](https://arxiv.org/abs/1512.03385).
-- Timnit Gebra's role follows [Datasheets for Datasets](https://arxiv.org/abs/1803.09010) and [Model Cards for Model Reporting](https://arxiv.org/abs/1810.03993). Jo Pineau's role follows her [McGill profile](https://www.mcgill.ca/qls/researchers/joelle-pineau) and the [NeurIPS reproducibility programme report](https://arxiv.org/abs/2003.12206).
+- Jürgen Smithhuber's recurrent-network and research-history role follows Jürgen Schmidhuber's [IDSIA biography](https://people.idsia.ch/~juergen/) and [Long Short-Term Memory](https://doi.org/10.1162/neco.1997.9.8.1735). Jo Pineau's role follows her [McGill profile](https://www.mcgill.ca/qls/researchers/joelle-pineau) and the [NeurIPS reproducibility programme report](https://arxiv.org/abs/2003.12206).
 
 ### 37.3 Slots
 
@@ -2489,8 +2521,8 @@ Initial balance catalogue:
 | Headquarters II | 8 | 8 weeks | +1 star slot, +15 Management Capacity |
 | Research Campus I | 16 | 14 weeks | +1 star slot, +15% capability research, unlock specialised labs |
 | Research Campus II | 35 | 20 weeks | +1 star slot, second project lead, +15 Management Capacity |
-| Data Centre I | 20 | 16 weeks | Supports 250 owned CU, improves security over cloud |
-| Data Centre II | 55 | 24 weeks | Supports 800 owned CU, +8% compute efficiency |
+| Data Centre I | 20 | 16 weeks | Supports 25,000 owned GPUs, improves security over cloud |
+| Data Centre II | 55 | 24 weeks | Supports 80,000 owned GPUs, +8% software and scheduling efficiency |
 | Power and Cooling I | 7 | 8 weeks | Supports Data Centre I; removes throttling |
 | Inference Centre I | 12 | 10 weeks | +20% serving efficiency and +10 Reliability |
 | Alignment Institute I | 14 | 14 weeks | +20% Alignment and Control RP, +5 Safety Culture target |
@@ -2754,6 +2786,47 @@ Coalition preparation takes at least 26 weeks even with excellent relationships.
 - Governance disagreements can consume crisis actions.
 
 A successful coalition is a full victory with its own ending, not consolation. It is deliberately difficult because the player must invest in trust, standards, verification, and relationships while still remaining technically relevant enough to be invited.
+
+### 41.5 Score contract
+
+Score measures the quality and legacy of a completed run without becoming another economy.
+
+- **Scientific Legacy:** a world-first paper awards `100 × its worldFirstAura`; independent
+  rediscovery awards 20% and passive diffusion awards none. Open publication adds 10% of that
+  paper award, controlled publication adds 5%, and Release Everything receives the same 10% as
+  ordinary open publication so extra misuse risk is never a score exploit. Generic advances,
+  replication, and domain-level milestones provide smaller one-time awards.
+- **Safe Stewardship:** broad evaluation suites, external audits, resolved warning trails,
+  responsible disclosures, and well-handled crises award points. Unresolved severe anomalies,
+  concealed critical evidence, near escapes, and loss of control subtract points.
+- **Prosperity and Impact:** reliable products, satisfied customer segments, prepared Prosperity
+  Programmes, broad-distribution institutions, and completed demonstrations award one-time points.
+- **Institution Building:** the first completion of each facility definition, honoured researcher
+  compacts, durable loyalty, sound management, positive cashflow, and strong culture award points.
+- **Race and Operations:** first-time capability tiers, overtaking rivals, sustaining a lead,
+  entering the crisis with runway, and ratifying a real coalition award points.
+- **Endgame:** the ending supplies a large authored award. The Stewardship Compact receives
+  11,500 base points because it is deliberately difficult; The Broadly Shared Future receives
+  10,000; A Cautious Golden Age 9,500; qualified victories 6,000–6,500; survival endings 500–1,500;
+  and losses no ending points.
+
+Every award produces a `ScoreLedgerEntry` with a stable semantic key, category, amount, source,
+tick, and explanation. Duplicate keys are rejected. Selling and rebuilding the same facility,
+rehiring the same person, repeatedly crossing a threshold, or generating recurring revenue cannot
+farm points.
+
+At the end of a run:
+
+`rawScore = floor(max(0, sum(scoreLedgerEntries)))`
+
+`adjustedScore = floor(rawScore × difficultyMultiplier × victoryClassMultiplier)`
+
+Difficulty multipliers are Fellowship `0.75`, Standard `1.00`, Frontier `1.25`, and Unhinged
+Scaling `1.50`. Full victories multiply by `1.25`, qualified victories by `1.10`, and other endings
+by `1.00`. Both raw and adjusted totals remain visible so difficulty never disguises what happened.
+Future global boards accept only full or qualified victories. Ties resolve by Safe Stewardship,
+then Prosperity and Impact, then fewer weeks after Crisis Start, then stable run ID. These constants
+and all individual milestone awards live in `content/scoring.yaml`.
 
 ## 42. Randomness and probability contract
 
@@ -3099,18 +3172,18 @@ Crisis projects are:
 
 | Project | Duration | Cost or reservation | Result |
 |---|---:|---|---|
-| Adversarial red team | 4 weeks | 20 CU, safety staff | Better Agency and misuse evidence; may create an anomaly |
-| Deep interpretability audit | 6 weeks | 25 CU, Interpretability Lab | Strongest Deceptive Capability evidence; method can fail on novel architecture |
-| Sandboxed autonomy trial | 4 weeks | 30 CU, Eval Range | Tests control under realistic pressure; carries small contained-incident risk |
-| Alignment fine-tune | 8 weeks | 35% of total CU | Creates a candidate variant; shifts alignment distribution upward but can reduce capability 0–5 |
-| Corrigibility protocol | 6 weeks | 20 CU | Tests and may improve shutdown behaviour; repeated tests can be gamed |
+| Adversarial red team | 4 weeks | 2,000 GPUs, safety staff | Better Agency and misuse evidence; may create an anomaly |
+| Deep interpretability audit | 6 weeks | 2,500 GPUs, Interpretability Lab | Strongest Deceptive Capability evidence; method can fail on novel architecture |
+| Sandboxed autonomy trial | 4 weeks | 3,000 GPUs, Eval Range | Tests control under realistic pressure; carries small contained-incident risk |
+| Alignment fine-tune | 8 weeks | 35% of total GPUs | Creates a candidate variant; shifts alignment distribution upward but can reduce capability 0–5 |
+| Corrigibility protocol | 6 weeks | 2,000 GPUs | Tests and may improve shutdown behaviour; repeated tests can be gamed |
 | Harden containment | 4 weeks | 12 cash | +12 practical Control, +8 Security for the crisis |
 | Air-gap audit | 3 weeks | 5 cash, security team | Finds credential and network paths; +6 to +15 crisis Security |
 | Independent safety review | 6 weeks | 8 Aura and 4 cash | Independent signal, +Trust; leak and disagreement event possible |
 | Researcher dissent panel | 2 weeks | no compute | Raises Candour and reveals suppressed views; may reduce speed or trigger resignation |
-| Prosperity simulation | 4 weeks | 15 CU, programme facility | Improves benefit evidence and programme readiness 3–8 |
+| Prosperity simulation | 4 weeks | 1,500 GPUs, programme facility | Improves benefit evidence and programme readiness 3–8 |
 | Coalition verification trial | 6 weeks | partner required | Raises verification; exposes secrets; can reveal partner noncompliance |
-| Accelerated capabilities sprint | 4 weeks | 40 CU | +2–5 measured capability; −5 Safety Culture target; new hidden safety variance |
+| Accelerated capabilities sprint | 4 weeks | 4,000 GPUs | +2–5 measured capability; −5 Safety Culture target; new hidden safety variance |
 
 Each project has authored incident and discovery branches. Repeating the same evaluation has diminishing information value: 100%, 55%, 25%, then 10%, unless the method or model changes.
 
@@ -3350,7 +3423,7 @@ Options:
 
 **ID:** `compute.vendor_allocation`<br>
 **Phase:** Any before crisis<br>
-**Trigger:** The player has tried to buy at least 100 CU and global hardware demand is high<br>
+**Trigger:** The player has tried to buy at least 10,000 current-generation GPUs and global hardware demand is high<br>
 **Evidence:** The accelerator vendor can deliver half the order. The other half is “strategically prioritised,” a phrase which appears to mean a rival posted a more flattering photo with the vendor CEO.
 
 Options:
@@ -3371,7 +3444,7 @@ Options:
 
 - **Pause training.** Lose one week of project progress; no hardware damage; pay 0.5 cash. +2 Engineering Quality target for respecting operations.
 - **Throttle serving.** Cut delivered usage 40% this week; protect training; segment satisfaction loss depends on contracts.
-- **Push through.** Training continues. Check Facility Reliability plus Engineering Quality against heat difficulty. Success loses nothing and creates a minor Aura story; failure damages 5%–20% owned CU and adds training instability.
+- **Push through.** Training continues. Check Facility Reliability plus Engineering Quality against heat difficulty. Success loses nothing and creates a minor Aura story; failure damages 5%–20% of owned GPUs in the affected cluster and adds training instability.
 - **Let `[AI_NAME]` tune the cooling controls.** Requires access 2 or higher. Gain model-assist bonus. At access 2 the system receives only a simulator; at access 3 or higher it touches live controls and adds a small hidden autonomy-opportunity check. A highly capable system can genuinely solve the problem.
 
 ### 45.4 Benchmark contamination, now with leaderboard
@@ -3385,7 +3458,7 @@ Options:
 
 - **Withdraw the result and rerun.** −3 immediate Aura; +6 Candour target; four-week evaluation; true capability estimate becomes much more accurate. If the model remains strong, recover 5–10 Aura.
 - **Publish with a caveat in appendix F.** Keep half the launch Aura. Check external scrutiny against Legal and researcher discretion. A later discovery causes −8 Aura and +10 Government Attention.
-- **Create a clean secret benchmark.** Pay 1.5 cash and 10 CU for four weeks; +8 Eval Quality for this model; small insider-leak risk.
+- **Create a clean secret benchmark.** Pay 1.5 cash and reserve 1,000 GPUs for four weeks; +8 Eval Quality for this model; small insider-leak risk.
 - **Redefine the benchmark as a memorisation benchmark.** Gain the trait-like temporary modifier `Ontological Agility`: +3 Researcher Morale for cynical staff, −5 for methodological purists, and a guaranteed satirical headline. It does not preserve the capability claim.
 
 ### 45.5 The negative result
@@ -3411,7 +3484,7 @@ Options:
 
 Options:
 
-- **Run the useful ablations.** Reserve 8 CU for three weeks; publication delayed; +10% real-paper Aura and +3 domain understanding.
+- **Run the useful ablations.** Reserve 800 GPUs for three weeks; publication delayed; +10% real-paper Aura and +3 domain understanding.
 - **Rebut point by point.** Researcher writing skill versus difficulty 50. Success publishes on time. Failure adds a six-week delay but sometimes grants the achievement **We Thank the Reviewer**.
 - **Post the preprint immediately.** Receive 80% Aura now, bypass review delay, +2 Research Freedom; controlled-publication licensing value falls 20%.
 - **Ask `[AI_NAME]` to write the rebuttal.** Requires relevant model. Saves staff time. Product Quality and honesty determine whether the rebuttal is incisive, hallucinates citations, or contains the sentence “As an anonymous reviewer, I agree with the authors.”
@@ -3421,7 +3494,7 @@ Options:
 **ID:** `people.compute_ultimatum`<br>
 **Phase:** Any<br>
 **Trigger:** A star researcher has morale below 40 and their programme has received under 10% R&D compute for eight weeks<br>
-**Evidence:** `[RESEARCHER]` has another offer and wants a guaranteed allocation. Their requested 25 CU/week is currently serving customers worth 1.4 cash per cycle.
+**Evidence:** `[RESEARCHER]` has another offer and wants a guaranteed allocation. Their requested 2,500 GPUs/week are currently serving customers worth 1.4 cash per cycle.
 
 Options:
 
@@ -3554,7 +3627,7 @@ Options:
 
 Options:
 
-- **Patch and disclose.** Reserve 10 CU for two weeks; −2 Product Quality temporarily; +Trust and Eval progress; adversaries learn the class of flaw.
+- **Patch and disclose.** Reserve 1,000 GPUs for two weeks; −2 Product Quality temporarily; +Trust and Eval progress; adversaries learn the class of flaw.
 - **Patch silently.** Faster customer recovery; lower Aura loss; if independent researchers prove prior knowledge, double scandal.
 - **Keep it open for study.** +5 Safety RP and researcher goodwill; continuing misuse hazard; requires explicit monitoring budget.
 - **Call it intended behaviour.** Avoids an admission this week. Adds organisational bias and makes the next incident more severe; satire appears in PR copy, not in the hazardous output.
@@ -3602,7 +3675,7 @@ The preview never says one option is safe. It lists exposed systems, current evi
 Options:
 
 - **Run it in a clean room.** Pay 6 cash; external team recreates tasks; strong independent evidence and +Eval Quality if genuinely novel.
-- **Run the supplied suite.** One week and 5 CU; result can be highly informative or deliberately calibrated. Observation error depends on deception and security.
+- **Run the supplied suite.** One week and 500 GPUs; result can be highly informative or deliberately calibrated. Observation error depends on deception and security.
 - **Reject model-written tests.** No risk, no information; safety researchers disagree according to methods and values.
 - **Open the suite to every lab.** Requires publication; +6–12 Aura and compact progress; rivals gain evaluation capability; a hidden exploit can diffuse too.
 
@@ -3858,7 +3931,7 @@ This example is illustrative, not scripted:
 2. A rival publishes an attention-like architecture paper. Diffusion will eventually help, but the rival has a head start.
 3. The player lowers serving to 48%, accepts some churn, and focuses Architectures plus Interpretability.
 4. They start a Competitive Round using 10 Aura and postpone a desired Robotics Lab.
-5. A star researcher demands guaranteed compute. The player promises 20 CU for thirteen weeks, limiting later flexibility.
+5. A star researcher demands guaranteed compute. The player promises 2,000 GPUs for thirteen weeks, limiting later flexibility.
 6. A jailbreak event reveals a real hazardous capability. The player patches and discloses, losing a little Product Quality but gaining useful Eval progress.
 7. The funding round returns three offers. The player accepts patient capital rather than a larger deployment-conditioned term sheet.
 8. The lab independently rediscovers the rival paper, gains no world-first Aura, but unlocks a frontier training recipe.

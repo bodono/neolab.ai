@@ -1,0 +1,69 @@
+draftSchema: 1
+contentType: star-researcher-rules
+status: draft
+
+skillVocabulary:
+  scale: { min: 0, max: 5 }
+  keys:
+    - architectures
+    - optimisationScaling
+    - dataRepresentation
+    - reinforcementAgency
+    - multimodality
+    - reasoningTools
+    - roboticsEmbodiment
+    - scientificAi
+    - alignmentControl
+    - interpretabilityEvals
+    - securityContainment
+    - training
+    - product
+    - management
+    - politics
+  unspecifiedValue: 0
+
+contractBands:
+  focused: { baseSalaryPerCycle: 0.35, baseSigningCash: 2, auraCost: 4 }
+  competitive: { baseSalaryPerCycle: 0.50, baseSigningCash: 4, auraCost: 7 }
+  major: { baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+  lab-defining: { baseSalaryPerCycle: 1.00, baseSigningCash: 9, auraCost: 14 }
+  cashMarketMultiplier: { distribution: uniform, min: 0.85, max: 1.25, seeded: true }
+  note: Contract bands are game-balance costs, not judgements of real-world importance.
+
+abilityRules:
+  reassignmentRamp: [0.25, 0.50, 0.75, 1.00]
+  unhousedStrengthMultiplier: 0.50
+  sabbaticalDisablesSignature: true
+  sabbaticalDisablesPassive: false
+  leaderUsesSlot: false
+  initialSlots: 3
+  hardMaximumSlots: 8
+
+compactRules:
+  includedOfferRecruitmentStrength: 12
+  omittedOfferRecruitmentStrength: -18
+  defaultRollingWindowWeeks: 13
+  breachEffects:
+    - { target: researcher.moraleTarget, operation: add, value: -20 }
+    - { target: researcher.loyalty, operation: add, value: -10 }
+    - { target: researcher.departurePressure, operation: add, value: 15 }
+  consequenceDelivery: visible-event
+
+stackingCaps:
+  programmeResearchOutput: 1.60
+  globalResearchOutput: 1.30
+  derivedTrainingThroughput: 1.35
+  servingGpusPerRequestFloor: 0.70
+  cashCostFloor: 0.70
+  projectDurationFloor: 0.65
+  auraGain: 1.40
+  hazardFloor: 0.50
+  recruitmentStrength: 25
+  evidenceConfidence: 15
+
+portrayalRules:
+  fictionalizedDisplayNames: true
+  endorsementImplied: false
+  compactsAreFictionalGameContracts: true
+  releaseRequiresLegalReview: true
+  releaseRequiresPortraitReview: true

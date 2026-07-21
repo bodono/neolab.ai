@@ -1,0 +1,1370 @@
+draftSchema: 1
+contentType: real-landmark-papers
+pack: research-a
+status: draft
+
+catalogueRules:
+  chronology: conceptual-prerequisites-not-calendar
+  truePublicationYearAlwaysShown: true
+  educationalCardAvailableUnderSecrecy: true
+  hiddenThreshold:
+    distribution: triangular
+    minMultiplier: 0.85
+    modeMultiplier: 1.0
+    maxMultiplier: 1.15
+  standardPublicationPolicy: policy.paper-publication-standard
+  phaseVocabulary: [foundation, deep-learning, scaling, frontier]
+  commercialValueScale: { min: 1, max: 10 }
+
+papers:
+  - id: paper.backpropagation
+    version: 1
+    historicity: real
+    gameOrder: 1
+    title: Learning representations by back-propagating errors
+    authors: [David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams]
+    publicationYear: 1986
+    venue: Nature
+    primarySourceUrl: https://doi.org/10.1038/323533a0
+    doi: 10.1038/323533a0
+    historicalNote: >-
+      This paper appeared in 1986. Neolab.ai deliberately allows a lab beginning in 2012 to
+      rediscover older foundations; the real year remains prominent in the archive.
+    education:
+      playerSummary: >-
+        Backpropagation made it practical to train multi-layer neural networks by sending a
+        model's output error backward through its layers. Each connection receives a useful
+        signal about how it contributed to the mistake. The underlying ingredients had a
+        longer history, but this paper became a landmark demonstration that hidden internal
+        representations could be learned rather than laboriously specified by hand.
+      archiveExplanation: >-
+        A neural network learns by changing its numerical weights, but a network with hidden
+        layers creates a difficult bookkeeping problem: the correct answer tells us that the
+        whole system was wrong, not which hidden connection deserves how much blame.
+        Rumelhart, Hinton and Williams described a clear, efficient procedure for propagating
+        the output error backward through differentiable layers. The chain rule turns that
+        single error into a gradient for every weight, after which gradient descent can make a
+        small improving update.
+
+        The idea did not spring from nowhere, and the history of reverse-mode differentiation
+        and neural-network learning includes important earlier work. The 1986 Nature paper was
+        nevertheless unusually influential because it paired the method with compelling
+        demonstrations of learned internal representations. Units inside a network could
+        organise useful features without a programmer assigning every feature in advance.
+
+        Backpropagation is not itself an architecture, a guarantee of good generalisation, or
+        a recipe for intelligence. It is the credit-assignment engine that made much later
+        deep learning trainable. Convolutional networks, recurrent models, transformers and
+        many modern scientific systems all rely on variations of automatic differentiation
+        and gradient-based optimisation. In the game's research graph it is therefore a
+        prerequisite, not a superpower: the laboratory has learned how to improve a deep
+        system, and must still discover what to build and what data or objective to give it.
+      insideBaseball: The gradients are flowing. Management has requested a dashboard proving they are flowing strategically.
+    domainWeights:
+      domain.architectures: 0.45
+      domain.optimisation-scaling: 0.35
+      domain.data-representation: 0.20
+    prerequisites:
+      domainLevels:
+        domain.architectures: 4
+        domain.optimisation-scaling: 3
+    baseEffort: 70
+    earliestPhase: foundation
+    discovery:
+      worldFirstAura: 10
+      commercialValue: 6
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.gradient-trained-deep-networks, operation: unlock, value: true }
+      - { target: lab.research.capability.baseOutput, operation: multiply, value: 1.06 }
+      - { target: project.training.prototype.technicalFailureHazard, operation: multiply, value: 0.95 }
+    tags: [foundation, gradients, representation-learning, deep-learning, open-science]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.lenet-document-recognition
+    version: 1
+    historicity: real
+    gameOrder: 2
+    title: Gradient-Based Learning Applied to Document Recognition
+    authors: [Yann LeCun, Léon Bottou, Yoshua Bengio, Patrick Haffner]
+    publicationYear: 1998
+    venue: Proceedings of the IEEE
+    primarySourceUrl: https://doi.org/10.1109/5.726791
+    doi: 10.1109/5.726791
+    historicalNote: >-
+      Published in 1998, this paper consolidated years of work on convolutional networks and
+      demonstrated an end-to-end system for practical document recognition.
+    education:
+      playerSummary: >-
+        LeNet showed that a trainable system could learn useful visual features directly from
+        pixels and recognise handwritten characters as part of a complete document-reading
+        pipeline. Local receptive fields, shared weights and pooling gave the convolutional
+        network an efficient way to exploit image structure. It became a foundational example
+        of end-to-end learning replacing a tower of hand-engineered stages.
+      archiveExplanation: >-
+        Images contain the same kinds of local patterns in many positions: an edge is still an
+        edge when it moves ten pixels to the right. A fully connected network ignores that
+        structure and spends separate parameters relearning similar detectors everywhere.
+        Convolutional networks instead slide small learned filters across an image, sharing
+        their weights by position. Subsampling or pooling then helps the representation remain
+        useful when a feature shifts slightly.
+
+        LeCun, Bottou, Bengio and Haffner placed these ideas inside a larger argument for
+        gradient-based learning. Their paper described LeNet-5 and a complete system that read
+        handwritten digits on cheques. The important achievement was not merely a benchmark:
+        feature extraction, recognition and much of the surrounding decision pipeline could be
+        trained together. This challenged the dominant pattern of separately engineering every
+        transformation and then connecting the pieces.
+
+        The hardware, datasets and training recipes of 1998 limited how far the approach could
+        scale, and convolution itself had important precursors. Later systems would combine the
+        same broad principles with far larger datasets, GPUs, rectified activations and deeper
+        architectures. In the game, this discovery establishes the visual architecture family
+        but does not jump directly to modern image recognition. The lab now knows how to build
+        a compact, translation-aware visual learner; it still needs data and compute large
+        enough to reveal what such learners can become.
+      insideBaseball: The cheque reader works. Finance has become the first department to describe a neural network as mission-critical.
+    domainWeights:
+      domain.multimodality: 0.55
+      domain.architectures: 0.30
+      domain.data-representation: 0.15
+    prerequisites:
+      papers: [paper.backpropagation]
+      domainLevels:
+        domain.multimodality: 5
+        domain.architectures: 6
+    baseEffort: 80
+    earliestPhase: foundation
+    discovery:
+      worldFirstAura: 8
+      commercialValue: 7
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.convolutional-networks, operation: unlock, value: true }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.08 }
+      - { target: project.product.document-vision, operation: unlock, value: true }
+    tags: [foundation, vision, convolution, document-recognition, end-to-end-learning]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.long-short-term-memory
+    version: 1
+    historicity: real
+    gameOrder: 3
+    title: Long Short-Term Memory
+    authors: [Sepp Hochreiter, Jürgen Schmidhuber]
+    publicationYear: 1997
+    venue: Neural Computation
+    primarySourceUrl: https://doi.org/10.1162/neco.1997.9.8.1735
+    doi: 10.1162/neco.1997.9.8.1735
+    historicalNote: >-
+      LSTM was published in 1997, before the document-recognition paper above; its later game
+      position reflects conceptual pacing rather than a claim about real chronology.
+    education:
+      playerSummary: >-
+        Long short-term memory gave recurrent neural networks a better way to preserve and
+        control information across long sequences. Special memory cells and learned gates
+        created paths along which error signals could survive instead of rapidly vanishing.
+        LSTMs later became central to speech recognition, translation and language modelling,
+        before transformers displaced recurrence in many large-scale applications.
+      archiveExplanation: >-
+        A recurrent neural network reuses a hidden state from one time step at the next, making
+        it a natural model for speech, text and other sequences. In principle, an early input
+        can affect a much later output. In practice, ordinary gradient training repeatedly
+        multiplies signals through time. Those signals tend to shrink toward zero or grow out
+        of control, so learning long-range relationships becomes extremely difficult.
+
+        Hochreiter and Schmidhuber introduced long short-term memory as a direct response to
+        this problem. An LSTM contains a memory cell with a deliberately stable path through
+        time, plus learned mechanisms that control when information enters and leaves. The
+        exact gate design used by later implementations evolved, but the central insight held:
+        architecture can make credit assignment across long intervals much easier.
+
+        LSTMs eventually powered major gains in handwriting recognition, speech, translation,
+        image captioning and language modelling. They did not solve memory in a human sense,
+        nor did they remove all optimisation difficulties. Their sequential computation also
+        became a bottleneck when models and datasets grew enormous. That limitation helps set
+        up the later attention and transformer discoveries in this catalogue. In Neolab.ai,
+        LSTM unlocks serious sequence research and products, while preserving a strategic
+        reason to invest in architectures that can train more parallelly.
+      insideBaseball: The model remembers what happened 200 tokens ago. Several executives have requested the same feature.
+    domainWeights:
+      domain.architectures: 0.50
+      domain.data-representation: 0.30
+      domain.reasoning-tools: 0.20
+    prerequisites:
+      papers: [paper.backpropagation]
+      domainLevels:
+        domain.architectures: 7
+        domain.data-representation: 5
+    baseEffort: 85
+    earliestPhase: foundation
+    discovery:
+      worldFirstAura: 9
+      commercialValue: 7
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.recurrent-sequence-models, operation: unlock, value: true }
+      - { target: project.training.sequence.duration, operation: multiply, value: 0.90 }
+      - { target: model.attribute.language.potential, operation: add, value: 3 }
+    tags: [foundation, recurrence, sequence-models, memory, language]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.fast-deep-belief-nets
+    version: 1
+    historicity: real
+    gameOrder: 4
+    title: A Fast Learning Algorithm for Deep Belief Nets
+    authors: [Geoffrey E. Hinton, Simon Osindero, Yee-Whye Teh]
+    publicationYear: 2006
+    venue: Neural Computation
+    primarySourceUrl: https://doi.org/10.1162/neco.2006.18.7.1527
+    doi: 10.1162/neco.2006.18.7.1527
+    historicalNote: >-
+      This 2006 paper was an important part of the revival of deep neural networks before
+      large supervised datasets and GPU training became the dominant recipe.
+    education:
+      playerSummary: >-
+        Deep belief nets offered a practical recipe for training many-layer generative models
+        one layer at a time, then refining the whole system. The unsupervised pretraining
+        procedure placed the network in a useful region before supervised optimisation began.
+        Its specific architecture is less common today, but the result helped convince a
+        sceptical field that genuinely deep learned representations could work.
+      archiveExplanation: >-
+        During the early 2000s, adding layers to a neural network often made it harder rather
+        than better. Training signals weakened, labelled datasets were limited, computation was
+        expensive, and poor initial weights could strand optimisation in unhelpful regions.
+        These practical failures supported a widespread belief that deep networks were simply
+        too difficult to train reliably.
+
+        Hinton, Osindero and Teh described a greedy, layer-by-layer procedure for deep belief
+        nets. Each layer was trained as a restricted Boltzmann machine to model the activity of
+        the layer below it. After this unsupervised pretraining had built a hierarchy, the full
+        network could be fine-tuned. The algorithm came with an illuminating theoretical
+        perspective and striking demonstrations on handwritten digits.
+
+        Deep belief nets were not the final architecture of the deep-learning era. As labelled
+        datasets grew and better activations, initialisation, regularisation, optimisers and
+        GPUs arrived, straightforward end-to-end supervised training became far more effective.
+        The paper's historical importance lies partly in reopening the empirical case for depth
+        and representation learning. It showed that the apparent barrier was not a law of
+        nature; it was a problem of method and resources. In the game, it accelerates learned
+        representations and unlocks the generative branch, while later papers can replace its
+        pretraining recipe without erasing the institutional confidence it created.
+      insideBaseball: Layer-wise pretraining has succeeded. The lab now contains one more layer of people explaining the layers.
+    domainWeights:
+      domain.data-representation: 0.45
+      domain.architectures: 0.35
+      domain.optimisation-scaling: 0.20
+    prerequisites:
+      papers: [paper.backpropagation]
+      domainLevels:
+        domain.data-representation: 8
+        domain.architectures: 8
+    baseEffort: 95
+    earliestPhase: foundation
+    discovery:
+      worldFirstAura: 8
+      commercialValue: 5
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.deep-generative-models, operation: unlock, value: true }
+      - { target: lab.research.domain.data-representation.output, operation: multiply, value: 1.08 }
+      - { target: project.training.prototype.dataRequirement, operation: multiply, value: 0.92 }
+    tags: [foundation, deep-learning, unsupervised-learning, generative-models, representation-learning]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.imagenet-database
+    version: 1
+    historicity: real
+    gameOrder: 5
+    title: "ImageNet: A Large-Scale Hierarchical Image Database"
+    authors: [Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, Li Fei-Fei]
+    publicationYear: 2009
+    venue: IEEE Conference on Computer Vision and Pattern Recognition
+    primarySourceUrl: https://www.image-net.org/static_files/papers/imagenet_cvpr09.pdf
+    historicalNote: >-
+      ImageNet was introduced at CVPR in 2009. Its scale, hierarchy and later challenge became
+      essential infrastructure for measuring progress in computer vision.
+    education:
+      playerSummary: >-
+        ImageNet treated a dataset as a major scientific instrument. It organised millions of
+        labelled images into a large hierarchy of object categories, making it possible to
+        train and compare vision systems at unprecedented scale. The later ImageNet challenge
+        supplied a shared scoreboard on which deep convolutional networks could demonstrate a
+        decisive advantage over hand-engineered vision pipelines.
+      archiveExplanation: >-
+        Machine-learning systems can only reveal advantages that a dataset and evaluation can
+        measure. Before ImageNet, many object-recognition benchmarks were too small or narrow
+        to support and discriminate between very high-capacity visual models. Fei-Fei Li and
+        collaborators pursued a different scale: a database organised around the WordNet
+        hierarchy, with hundreds or thousands of real-world images for a vast number of visual
+        concepts.
+
+        The 2009 paper described a dataset already containing more than three million cleanly
+        labelled images across more than five thousand categories, built with substantial human
+        annotation. ImageNet continued to grow, and the ImageNet Large Scale Visual Recognition
+        Challenge converted part of that resource into an influential annual competition. The
+        dataset was not an algorithm, yet it changed which algorithms were possible to train
+        and which improvements the community could see.
+
+        ImageNet also illustrates that datasets are institutions, not neutral piles of pixels.
+        Category choices, collection methods, labels and human labour all shape the resulting
+        systems, and later scrutiny identified serious limitations and harmful categories in
+        parts of the full hierarchy. The educational lesson is therefore double-sided: scale
+        and shared measurement can unlock a field, while documentation and stewardship matter.
+        In the game, ImageNet enables large visual training and better evaluation, but the data
+        charter attached to the project affects trust, cost and later events.
+      insideBaseball: The dataset is now too large to inspect manually, which has been entered in the risk register as “success.”
+    domainWeights:
+      domain.data-representation: 0.55
+      domain.multimodality: 0.40
+      domain.architectures: 0.05
+    prerequisites:
+      domainLevels:
+        domain.data-representation: 7
+        domain.multimodality: 5
+    baseEffort: 75
+    earliestPhase: foundation
+    discovery:
+      worldFirstAura: 9
+      commercialValue: 8
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 8, openDurationWeeks: 22, controlledDelayWeeks: 20, controlledDurationWeeks: 35 }
+    unlockEffects:
+      - { target: asset.dataset.large-scale-visual-hierarchy, operation: unlock, value: true }
+      - { target: project.training.large-vision, operation: unlock, value: true }
+      - { target: lab.evals.quality, operation: add, value: 3 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.06 }
+    tags: [foundation, dataset, vision, benchmarks, human-labour, data-stewardship]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.alexnet
+    version: 1
+    historicity: real
+    gameOrder: 6
+    title: ImageNet Classification with Deep Convolutional Neural Networks
+    authors: [Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton]
+    publicationYear: 2012
+    venue: Advances in Neural Information Processing Systems 25
+    primarySourceUrl: https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html
+    historicalNote: >-
+      The paper was published in 2012 and is commonly associated with the moment deep learning
+      achieved a dramatic, widely visible victory in large-scale computer vision.
+    education:
+      playerSummary: >-
+        AlexNet trained a large convolutional network on ImageNet and sharply reduced image-
+        classification error. Its success combined architectural choices with practical
+        engineering: GPU computation, rectified linear units, data augmentation and dropout.
+        The result did not invent every component, but it assembled them at the right scale and
+        produced evidence strong enough to redirect computer vision and then much of AI.
+      archiveExplanation: >-
+        By 2012, convolutional networks had existed for decades, ImageNet provided millions of
+        labelled examples, and programmable GPUs offered enormous parallel arithmetic. Alex
+        Krizhevsky, Ilya Sutskever and Geoffrey Hinton combined these ingredients in a deep
+        network with roughly sixty million parameters and trained it to classify one thousand
+        ImageNet categories. The model's top-five error was dramatically lower than the best
+        competing entry in the 2012 challenge.
+
+        Several practical choices mattered. Rectified linear units trained faster than common
+        saturating activations. Data augmentation and dropout fought overfitting. A highly
+        efficient GPU implementation made a previously forbidding amount of convolution
+        feasible, and the model was split across two GPUs because one was not enough. The paper
+        is therefore as much a story about systems, data and experimental craft as about a
+        single mathematical novelty.
+
+        AlexNet became a persuasive demonstration that learned feature hierarchies could beat
+        carefully engineered vision systems when supplied with enough data and compute. Similar
+        methods rapidly spread into speech, language and scientific applications. It would be
+        misleading to claim that one paper created deep learning, but its empirical shock was
+        unusually effective at reallocating attention, talent and hardware. The game's reward
+        reflects that social consequence: a major Aura event, a surge of vision demand, and a
+        race to scale architectures whose basic ancestry is much older.
+      insideBaseball: The result is 10.8 percentage points better. Every lab has independently decided GPUs were always central to its strategy.
+    domainWeights:
+      domain.multimodality: 0.45
+      domain.architectures: 0.30
+      domain.optimisation-scaling: 0.20
+      domain.data-representation: 0.05
+    prerequisites:
+      papers: [paper.backpropagation, paper.lenet-document-recognition, paper.imagenet-database]
+      domainLevels:
+        domain.multimodality: 12
+        domain.architectures: 11
+        domain.optimisation-scaling: 8
+    baseEffort: 120
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 14
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: project.training.deep-vision, operation: unlock, value: true }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.12 }
+      - { target: market.segment.visual-api, operation: unlock, value: true }
+      - { target: talent.wave.deep-learning, operation: unlock, value: true }
+    tags: [deep-learning, vision, convolution, gpu-training, scale, benchmark-shock]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.word2vec
+    version: 1
+    historicity: real
+    gameOrder: 7
+    title: Efficient Estimation of Word Representations in Vector Space
+    authors: [Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean]
+    publicationYear: 2013
+    venue: arXiv preprint
+    primarySourceUrl: https://arxiv.org/abs/1301.3781
+    arxiv: "1301.3781"
+    historicalNote: >-
+      This 2013 preprint introduced efficient architectures for learning continuous word
+      representations from very large text corpora.
+    education:
+      playerSummary: >-
+        Word2vec showed that useful word representations could be learned quickly from enormous
+        text corpora using deliberately simple prediction tasks. Words used in similar contexts
+        acquired nearby vectors, and relationships sometimes appeared as geometric directions.
+        Efficient training made these embeddings widely reusable, turning representation
+        learning into practical infrastructure for language systems.
+      archiveExplanation: >-
+        A one-hot word identifier says that “cat” and “dog” are different, but says nothing
+        about how they are related. Continuous embeddings instead assign each word a learned
+        vector. If a model must predict a word from its context, or predict context from a word,
+        it benefits from placing words with similar uses in useful regions of the vector space.
+
+        Mikolov, Chen, Corrado and Dean proposed two computationally efficient architectures,
+        commonly called CBOW and skip-gram. The designs discarded much of the complexity of
+        earlier language models so they could learn high-quality vectors from billions of words
+        very quickly. Follow-up work added techniques such as negative sampling and popularised
+        the striking observation that some semantic and syntactic relationships could be
+        approximated by vector arithmetic.
+
+        Word2vec did not prove that meaning is literally geometry, and its representations can
+        reproduce biases present in their training text. It did establish a powerful workflow:
+        learn general representations from abundant unlabelled data, then reuse them in many
+        downstream tasks. Modern contextual embeddings no longer give each word one fixed
+        vector regardless of sentence, but they inherit that broader representation-learning
+        ambition. In Neolab.ai the paper reduces the data and training burden of language
+        products while introducing later events about inherited corpus bias and what exactly a
+        vector-space analogy should be allowed to count as evidence.
+      insideBaseball: The king-minus-man-plus-woman demo has been repeated in six meetings and is now officially a product strategy.
+    domainWeights:
+      domain.data-representation: 0.55
+      domain.reasoning-tools: 0.25
+      domain.optimisation-scaling: 0.20
+    prerequisites:
+      papers: [paper.backpropagation]
+      domainLevels:
+        domain.data-representation: 12
+        domain.reasoning-tools: 6
+    baseEffort: 90
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 10
+      commercialValue: 8
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 10, openDurationWeeks: 24, controlledDelayWeeks: 22, controlledDurationWeeks: 36 }
+    unlockEffects:
+      - { target: research.family.distributed-language-representations, operation: unlock, value: true }
+      - { target: project.training.language.dataCashCost, operation: multiply, value: 0.92 }
+      - { target: market.segment.semantic-search, operation: unlock, value: true }
+    tags: [deep-learning, language, embeddings, unsupervised-learning, scale, corpus-bias]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.variational-autoencoder
+    version: 1
+    historicity: real
+    gameOrder: 8
+    title: Auto-Encoding Variational Bayes
+    authors: [Diederik P. Kingma, Max Welling]
+    publicationYear: 2014
+    venue: International Conference on Learning Representations
+    primarySourceUrl: https://arxiv.org/abs/1312.6114
+    arxiv: "1312.6114"
+    historicalNote: >-
+      First posted in 2013 and presented at ICLR 2014, this paper introduced the method now
+      widely known as the variational autoencoder.
+    education:
+      playerSummary: >-
+        Variational autoencoders made flexible latent-variable generative models trainable with
+        ordinary stochastic gradient methods. A learned inference network approximates hidden
+        causes for each example, while a reparameterisation trick lets gradients pass through
+        random sampling. VAEs joined probabilistic modelling to neural networks and created a
+        durable toolkit for representation learning and generation.
+      archiveExplanation: >-
+        A latent-variable model imagines that observed data was produced from hidden factors.
+        Learning such a model requires reasoning backward from an observation to plausible
+        hidden values, but exact Bayesian inference is usually intractable for expressive neural
+        generators. Traditional approximate methods could also be too slow or specialised for
+        large datasets.
+
+        Kingma and Welling introduced an efficient approach that learns two networks together.
+        The encoder, or recognition model, approximates the posterior distribution over latent
+        variables given an observation. The decoder models how those variables generate data.
+        Their reparameterisation expresses a random sample as a differentiable transformation
+        of fixed noise, allowing low-variance gradient estimates and ordinary minibatch
+        optimisation of a variational lower bound.
+
+        The resulting variational autoencoder can learn smooth latent spaces, generate new
+        examples and perform efficient amortised inference. Its samples were often blurrier than
+        those of later adversarial or diffusion systems, and the choice of objective brings
+        characteristic tradeoffs between reconstruction and representation. Its deeper impact
+        was conceptual and practical: probabilistic latent-variable modelling became modular
+        neural-network engineering. The game unlocks a broad generative branch and makes
+        representation experiments cheaper, but retains uncertainty about whether an elegant
+        latent space corresponds to the factors that people actually care about.
+      insideBaseball: Sampling is differentiable now, subject to an explanatory footnote which has achieved local sentience.
+    domainWeights:
+      domain.data-representation: 0.50
+      domain.architectures: 0.25
+      domain.optimisation-scaling: 0.25
+    prerequisites:
+      papers: [paper.backpropagation, paper.fast-deep-belief-nets]
+      domainLevels:
+        domain.data-representation: 14
+        domain.optimisation-scaling: 10
+    baseEffort: 110
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 10
+      commercialValue: 7
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.variational-generative-models, operation: unlock, value: true }
+      - { target: project.research.latent-representation.computeCost, operation: multiply, value: 0.90 }
+      - { target: model.attribute.multimodality.potential, operation: add, value: 2 }
+    tags: [deep-learning, generative-models, latent-variables, variational-inference, representation-learning]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.generative-adversarial-nets
+    version: 1
+    historicity: real
+    gameOrder: 9
+    title: Generative Adversarial Nets
+    authors: [Ian J. Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, Yoshua Bengio]
+    publicationYear: 2014
+    venue: Advances in Neural Information Processing Systems 27
+    primarySourceUrl: https://papers.nips.cc/paper_files/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html
+    historicalNote: >-
+      The 2014 paper introduced generative adversarial networks and a new family of generative
+      modelling methods framed as a game between two learned systems.
+    education:
+      playerSummary: >-
+        GANs train a generator to produce convincing samples and a discriminator to distinguish
+        generated examples from real data. Each model supplies the other's learning signal in
+        a competitive game. The idea enabled striking improvements in image generation and
+        inspired enormous research activity, while also creating notorious training instability
+        and sharper social questions about synthetic media.
+      archiveExplanation: >-
+        Many generative models require an explicit probability distribution or an expensive
+        inference procedure. Goodfellow and collaborators proposed a different game. A generator
+        transforms random noise into synthetic examples. A discriminator sees both real and
+        generated data and learns to tell them apart. The generator improves by learning to fool
+        the discriminator; the discriminator improves by resisting. In the ideal mathematical
+        equilibrium, generated samples follow the data distribution and the discriminator can
+        do no better than chance.
+
+        This adversarial framework was elegant and surprisingly productive. Later GANs generated
+        increasingly realistic faces, scenes and art, supported image editing, and influenced
+        domain adaptation and representation learning. Because the loss is supplied by another
+        adaptive model, however, training can oscillate, collapse to limited varieties of output,
+        or become highly sensitive to architecture and hyperparameters.
+
+        GANs also made the implications of high-quality synthetic media vivid well before such
+        media became a mass-market product. Technical capability, misuse risk and provenance
+        policy arrived together. Neolab.ai represents both sides. The paper unlocks powerful
+        generative projects and synthetic-data options, but it also enables media-authenticity
+        crises and increases the value of adversarial testing. The discovery is not intrinsically
+        harmful; the lab's release, documentation and product decisions determine which risks it
+        takes on.
+      insideBaseball: The generator and discriminator are in equilibrium. Their respective teams are not.
+    domainWeights:
+      domain.data-representation: 0.45
+      domain.architectures: 0.30
+      domain.multimodality: 0.25
+    prerequisites:
+      papers: [paper.backpropagation]
+      anyPapers: [paper.fast-deep-belief-nets, paper.variational-autoencoder]
+      domainLevels:
+        domain.data-representation: 16
+        domain.architectures: 13
+    baseEffort: 115
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 13
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 28, controlledDurationWeeks: 42 }
+    unlockEffects:
+      - { target: research.family.adversarial-generative-models, operation: unlock, value: true }
+      - { target: project.product.synthetic-media, operation: unlock, value: true }
+      - { target: project.data.synthetic-augmentation.efficiency, operation: multiply, value: 1.10 }
+      - { target: event.weight.synthetic-media, operation: multiply, value: 1.20 }
+    tags: [deep-learning, generative-models, adversarial-training, synthetic-media, multimodality]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.sequence-to-sequence
+    version: 1
+    historicity: real
+    gameOrder: 10
+    title: Sequence to Sequence Learning with Neural Networks
+    authors: [Ilya Sutskever, Oriol Vinyals, Quoc V. Le]
+    publicationYear: 2014
+    venue: Advances in Neural Information Processing Systems 27
+    primarySourceUrl: https://papers.nips.cc/paper_files/paper/2014/hash/5a18e133cbf9f257297f410bb7eca942-Abstract.html
+    historicalNote: >-
+      Published in 2014, this work demonstrated a general end-to-end neural approach to mapping
+      one variable-length sequence into another.
+    education:
+      playerSummary: >-
+        Sequence-to-sequence learning used one LSTM to encode an input sequence and another to
+        generate an output sequence. The same general architecture could tackle translation and
+        other tasks without a separately engineered alignment pipeline. It helped establish
+        neural encoder-decoder systems as a powerful default, while its fixed-length bottleneck
+        created exactly the pressure that attention would soon relieve.
+      archiveExplanation: >-
+        Standard supervised networks expect fixed-size inputs and outputs, but translation maps
+        a sentence of one length to a sentence of another. Sutskever, Vinyals and Le proposed a
+        clean neural solution. A multilayer LSTM encoder reads the source sentence and compresses
+        it into a vector. A second LSTM decoder conditions on that vector and emits the target
+        sentence one token at a time.
+
+        On English-to-French translation, the system achieved results competitive with a strong
+        phrase-based pipeline, and it could improve that pipeline further by reranking candidate
+        translations. One memorable engineering detail was reversing the order of source words,
+        which shortened important dependencies during optimisation. The model also learned
+        sentence representations sensitive to meaning and word order without an explicit grammar
+        module.
+
+        The work helped move machine translation toward end-to-end learned systems and supplied
+        a reusable pattern for summarisation, dialogue, speech and many structured transformations.
+        Its weakness was equally productive: asking one fixed-size vector to carry every detail
+        of a long sentence creates a bottleneck. Attention mechanisms let the decoder consult the
+        encoder's intermediate states instead of relying on one compressed message. The game's
+        research graph makes that relationship explicit. Sequence-to-sequence learning opens
+        valuable language products immediately, then becomes the prerequisite for escaping its
+        own architectural limitation.
+      insideBaseball: Reversing the input improved translation. The operations team has asked whether this applies to the quarterly roadmap.
+    domainWeights:
+      domain.architectures: 0.40
+      domain.data-representation: 0.30
+      domain.reasoning-tools: 0.30
+    prerequisites:
+      papers: [paper.long-short-term-memory]
+      domainLevels:
+        domain.architectures: 15
+        domain.reasoning-tools: 10
+    baseEffort: 115
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 11
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.encoder-decoder-models, operation: unlock, value: true }
+      - { target: project.product.neural-translation, operation: unlock, value: true }
+      - { target: model.attribute.language.potential, operation: add, value: 4 }
+    tags: [deep-learning, sequence-models, language, translation, encoder-decoder]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.neural-attention-translation
+    version: 1
+    historicity: real
+    gameOrder: 11
+    title: Neural Machine Translation by Jointly Learning to Align and Translate
+    authors: [Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio]
+    publicationYear: 2015
+    venue: International Conference on Learning Representations
+    primarySourceUrl: https://arxiv.org/abs/1409.0473
+    arxiv: "1409.0473"
+    historicalNote: >-
+      First posted in 2014 and presented at ICLR 2015, this paper introduced a learned soft
+      alignment mechanism that became known as attention.
+    education:
+      playerSummary: >-
+        Instead of forcing an entire source sentence through one fixed-length vector, this model
+        let the decoder look back at the most relevant encoder states for each generated word.
+        The learned soft alignment improved translation and made the model's shifting focus
+        partly visible. Attention began as a remedy for an encoder-decoder bottleneck and became
+        a central organising idea in modern AI.
+      archiveExplanation: >-
+        Early neural machine translation compressed a whole source sentence into one vector
+        before decoding began. That vector had to preserve every detail needed for every output
+        word, so performance deteriorated on longer sentences. Bahdanau, Cho and Bengio replaced
+        the bottleneck with a learned, differentiable search over the encoder's sequence of
+        representations.
+
+        At each decoding step, the model computes soft weights indicating which source positions
+        are relevant, combines their representations into a context vector, and uses that context
+        to predict the next target word. The whole mechanism trains jointly with translation.
+        Visualising the weights produced plausible word alignments, although attention weights
+        should not automatically be treated as complete causal explanations of a model's decision.
+
+        The paper's impact travelled far beyond translation. Attention offered a flexible way to
+        retrieve information from a set of representations and focus computation conditionally.
+        Researchers applied it to captioning, speech, memory and eventually self-attention, where
+        positions in one sequence attend to other positions in that same sequence. The transformer
+        later discarded recurrence almost entirely and built its architecture around attention.
+        Neolab.ai keeps these steps separate: this discovery improves sequence products and
+        creates interpretable-looking alignment maps, but the much larger parallel-computation
+        payoff requires the later transformer paper.
+      insideBaseball: The model has learned where to look. Interpretability would like everyone to remain calm about what that means.
+    domainWeights:
+      domain.architectures: 0.45
+      domain.reasoning-tools: 0.30
+      domain.data-representation: 0.25
+    prerequisites:
+      papers: [paper.sequence-to-sequence]
+      domainLevels:
+        domain.architectures: 18
+        domain.reasoning-tools: 12
+    baseEffort: 125
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 12
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.attention-mechanisms, operation: unlock, value: true }
+      - { target: project.training.sequence.duration, operation: multiply, value: 0.92 }
+      - { target: model.attribute.language.potential, operation: add, value: 3 }
+      - { target: eval.visualisation.soft-alignment, operation: unlock, value: true }
+    tags: [deep-learning, attention, translation, alignment-maps, sequence-models]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.deep-q-network
+    version: 1
+    historicity: real
+    gameOrder: 12
+    title: Human-level control through deep reinforcement learning
+    authors:
+      - Volodymyr Mnih
+      - Koray Kavukcuoglu
+      - David Silver
+      - Andrei A. Rusu
+      - Joel Veness
+      - Marc G. Bellemare
+      - Alex Graves
+      - Martin Riedmiller
+      - Andreas K. Fidjeland
+      - Georg Ostrovski
+      - Stig Petersen
+      - Charles Beattie
+      - Amir Sadik
+      - Ioannis Antonoglou
+      - Helen King
+      - Dharshan Kumaran
+      - Daan Wierstra
+      - Shane Legg
+      - Demis Hassabis
+    publicationYear: 2015
+    venue: Nature
+    primarySourceUrl: https://doi.org/10.1038/nature14236
+    doi: 10.1038/nature14236
+    historicalNote: >-
+      The Nature paper appeared in 2015, following a 2013 workshop paper that first presented
+      the deep Q-network approach on Atari games.
+    education:
+      playerSummary: >-
+        DQN combined Q-learning with a deep convolutional network so one agent could learn many
+        Atari games directly from pixels and scores. Experience replay and a separate target
+        network stabilised an otherwise fragile learning process. The result connected visual
+        representation learning to sequential decision-making and made general-purpose learned
+        agents feel substantially less hypothetical.
+      archiveExplanation: >-
+        Reinforcement learning asks an agent to choose actions whose consequences may arrive much
+        later. Q-learning estimates the long-term value of taking each action in a state, but
+        classic versions relied on compact state descriptions or hand-designed features. Atari
+        presents raw pixels, delayed rewards and dozens of games with different dynamics.
+
+        Mnih and colleagues trained a convolutional deep Q-network from screen images and game
+        scores. Two stabilising ideas were crucial. Experience replay stored transitions and
+        sampled them in a shuffled order, reducing harmful correlations in sequential data. A
+        target network supplied slower-moving learning targets, preventing the system from
+        chasing values that changed at every update. With the same basic architecture and
+        hyperparameters, DQN reached human-comparable or better performance on many of 49 games.
+
+        The achievement did not produce one agent that understood games as people do. It was
+        data-hungry, could be brittle to small changes, and optimised the provided reward rather
+        than an independently understood intention. Those caveats are central to its educational
+        value. DQN showed that deep representations and reinforcement learning could work together
+        at scale, while foreshadowing the safety problem of capable systems pursuing measurable
+        objectives. In the game it unlocks agent training and large product opportunities, but
+        also enables reward-hacking events rather than silently equating better scores with better
+        judgement.
+      insideBaseball: The agent discovered the tunnel strategy in Breakout. The reward team insists this was within scope.
+    domainWeights:
+      domain.reinforcement-agency: 0.55
+      domain.multimodality: 0.25
+      domain.architectures: 0.20
+    prerequisites:
+      papers: [paper.backpropagation, paper.alexnet]
+      domainLevels:
+        domain.reinforcement-agency: 16
+        domain.multimodality: 14
+    baseEffort: 130
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 14
+      commercialValue: 8
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 16, openDurationWeeks: 30, controlledDelayWeeks: 30, controlledDurationWeeks: 44 }
+    unlockEffects:
+      - { target: research.family.deep-reinforcement-learning, operation: unlock, value: true }
+      - { target: project.training.deep-agent, operation: unlock, value: true }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.10 }
+      - { target: event.family.reward-hacking, operation: unlock, value: true }
+    tags: [deep-learning, reinforcement-learning, agents, games, experience-replay, reward-hacking]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.adam
+    version: 1
+    historicity: real
+    gameOrder: 13
+    title: "Adam: A Method for Stochastic Optimization"
+    authors: [Diederik P. Kingma, Jimmy Ba]
+    publicationYear: 2015
+    venue: International Conference on Learning Representations
+    primarySourceUrl: https://arxiv.org/abs/1412.6980
+    arxiv: "1412.6980"
+    historicalNote: >-
+      Posted in 2014 and presented at ICLR 2015, Adam became one of the most widely used
+      optimisers in deep learning.
+    education:
+      playerSummary: >-
+        Adam adapts the learning rate of each parameter using moving estimates of the gradient's
+        mean and squared magnitude. It is computationally efficient, memory-conscious and often
+        works well with limited tuning, especially for noisy or sparse gradients. Adam did not
+        make optimisation automatic, but it became a remarkably durable default for training
+        neural networks.
+      archiveExplanation: >-
+        Stochastic gradient descent updates a model using noisy gradients from minibatches. One
+        global learning rate may be too large for some parameters and too small for others, and
+        the appropriate scale can change during training. Earlier adaptive methods addressed
+        parts of this problem but brought their own tradeoffs.
+
+        Kingma and Ba introduced adaptive moment estimation, or Adam. The algorithm maintains an
+        exponentially decaying estimate of each parameter's first moment—the mean gradient—and
+        second raw moment—the squared gradient. Bias corrections account for the fact that these
+        estimates begin at zero. Their ratio supplies a parameter-specific update that combines
+        momentum-like direction with adaptive scaling. Adam is straightforward to implement and
+        works well with large datasets, sparse gradients and non-stationary objectives.
+
+        No optimiser is universally best. Adam can generalise differently from carefully tuned
+        stochastic gradient descent, and later analysis identified limitations in the original
+        convergence claims and inspired variants. Its practical influence is nevertheless hard
+        to overstate: it reduced the amount of optimiser expertise needed to make a new model
+        train at all. Neolab.ai treats that as dependable infrastructure rather than a flashy
+        capability jump. Runs become shorter and somewhat less likely to fail technically, but
+        alignment, data quality and architecture remain separate problems that a convenient
+        optimiser cannot solve.
+      insideBaseball: The default optimiser now has default hyperparameters. Entire experimental sections have become 30% shorter.
+    domainWeights:
+      domain.optimisation-scaling: 0.70
+      domain.architectures: 0.20
+      domain.data-representation: 0.10
+    prerequisites:
+      papers: [paper.backpropagation]
+      domainLevels:
+        domain.optimisation-scaling: 15
+    baseEffort: 85
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 10
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 8, openDurationWeeks: 22, controlledDelayWeeks: 20, controlledDurationWeeks: 34 }
+    unlockEffects:
+      - { target: recipe.optimizer.adam, operation: unlock, value: true }
+      - { target: project.training.duration, operation: multiply, value: 0.94 }
+      - { target: project.training.technicalFailureHazard, operation: multiply, value: 0.93 }
+    tags: [deep-learning, optimisation, adaptive-moments, training-infrastructure]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.dropout
+    version: 1
+    historicity: real
+    gameOrder: 14
+    title: "Dropout: A Simple Way to Prevent Neural Networks from Overfitting"
+    authors: [Nitish Srivastava, Geoffrey Hinton, Alex Krizhevsky, Ilya Sutskever, Ruslan Salakhutdinov]
+    publicationYear: 2014
+    venue: Journal of Machine Learning Research
+    primarySourceUrl: https://www.jmlr.org/papers/v15/srivastava14a.html
+    historicalNote: >-
+      The 2014 JMLR article developed and evaluated dropout as a practical regularisation method
+      across vision, speech, text and biological data.
+    education:
+      playerSummary: >-
+        Dropout randomly removes units and their connections during each training step. A network
+        cannot rely on one fragile coalition of features, so it learns representations that work
+        in many temporary subnetworks. At test time a single adjusted network approximates an
+        ensemble. The method provided a simple, effective defence against overfitting in large
+        neural systems.
+      archiveExplanation: >-
+        A large neural network can memorise quirks of its training set instead of learning
+        patterns that generalise. Averaging many separately trained models helps, but training
+        and serving a huge ensemble is expensive. Srivastava and colleagues proposed an unusual
+        approximation: randomly omit each hidden unit, together with its connections, on each
+        presentation of a training example.
+
+        Every minibatch therefore trains a different thinned network, while all those networks
+        share parameters. A feature cannot depend too strongly on a specific set of partners
+        because those partners may disappear on the next update. At test time, using the full
+        network with appropriately scaled activations or weights approximates averaging the
+        predictions of many subnetworks. The paper reported substantial gains across multiple
+        supervised domains.
+
+        Dropout is easy to explain but its effects interact with architecture, data volume and
+        normalisation; modern large models do not use one universal dropout recipe. It also does
+        not detect a distribution shift or make a biased target desirable. Its value is narrower
+        and very practical: reduce co-adaptation and improve generalisation when capacity
+        threatens to outrun evidence. In the game, dropout lowers overfitting failures and raises
+        reliability modestly. It cannot improve safety evidence for objectives the training set
+        never tested.
+      insideBaseball: Half the units have been removed at random. Organisational effectiveness is up, creating an awkward precedent.
+    domainWeights:
+      domain.optimisation-scaling: 0.50
+      domain.architectures: 0.30
+      domain.data-representation: 0.20
+    prerequisites:
+      papers: [paper.backpropagation]
+      anyPapers: [paper.fast-deep-belief-nets, paper.alexnet]
+      domainLevels:
+        domain.optimisation-scaling: 13
+        domain.architectures: 11
+    baseEffort: 85
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 9
+      commercialValue: 8
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 10, openDurationWeeks: 24, controlledDelayWeeks: 22, controlledDurationWeeks: 36 }
+    unlockEffects:
+      - { target: recipe.regularisation.dropout, operation: unlock, value: true }
+      - { target: project.training.overfitFailureHazard, operation: multiply, value: 0.85 }
+      - { target: model.attribute.reliability.potential, operation: add, value: 2 }
+    tags: [deep-learning, regularisation, generalisation, ensemble-approximation]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.batch-normalization
+    version: 1
+    historicity: real
+    gameOrder: 15
+    title: "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift"
+    authors: [Sergey Ioffe, Christian Szegedy]
+    publicationYear: 2015
+    venue: International Conference on Machine Learning
+    primarySourceUrl: https://proceedings.mlr.press/v37/ioffe15.html
+    historicalNote: >-
+      Published at ICML 2015, batch normalisation quickly became a standard component of deep
+      convolutional networks, even as explanations of exactly why it helps continued to evolve.
+    education:
+      playerSummary: >-
+        Batch normalisation standardises intermediate activations using minibatch statistics and
+        then learns an appropriate scale and offset. It allowed higher learning rates, reduced
+        sensitivity to initialisation and dramatically shortened training in the reported image
+        models. The technique became ubiquitous, although later work questioned whether its
+        original “internal covariate shift” explanation captured the whole story.
+      archiveExplanation: >-
+        The distribution entering an internal layer changes as earlier layers learn. Ioffe and
+        Szegedy argued that this “internal covariate shift” makes deep optimisation harder: every
+        layer must continually adapt to moving inputs. Their batch-normalisation operation uses
+        the mean and variance of a minibatch to standardise a layer's activations, then applies
+        learned scale and shift parameters so the network retains expressive freedom.
+
+        In the paper's experiments, batch normalisation supported much higher learning rates,
+        reduced the need for careful initialisation, sometimes reduced reliance on dropout, and
+        reached a target accuracy in far fewer training steps. It rapidly became a default part
+        of many convolutional architectures and helped enable very deep visual networks.
+
+        Subsequent research showed that the mechanism is subtler than simply holding every
+        internal distribution fixed. Smoother optimisation, scale effects and noise from batch
+        statistics all contribute to its behaviour. Its performance also depends on batch size
+        and differs between training and inference, motivating other normalisation methods. This
+        is a useful scientific lesson: a technique can be robustly valuable while its first
+        explanatory story remains incomplete. Neolab.ai rewards the practical acceleration and
+        reliability, while an inside-baseball event lets researchers debate the causal narrative
+        without making the player's already-completed training runs retroactively stop working.
+      insideBaseball: Training is fourteen times faster. The explanation has entered a longer optimisation schedule.
+    domainWeights:
+      domain.optimisation-scaling: 0.55
+      domain.architectures: 0.35
+      domain.data-representation: 0.10
+    prerequisites:
+      papers: [paper.alexnet]
+      domainLevels:
+        domain.optimisation-scaling: 18
+        domain.architectures: 15
+    baseEffort: 100
+    earliestPhase: deep-learning
+    discovery:
+      worldFirstAura: 10
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 10, openDurationWeeks: 24, controlledDelayWeeks: 22, controlledDurationWeeks: 36 }
+    unlockEffects:
+      - { target: recipe.normalisation.batch, operation: unlock, value: true }
+      - { target: project.training.vision.duration, operation: multiply, value: 0.90 }
+      - { target: project.training.technicalFailureHazard, operation: multiply, value: 0.95 }
+    tags: [deep-learning, optimisation, normalisation, vision, training-infrastructure]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.resnet
+    version: 1
+    historicity: real
+    gameOrder: 16
+    title: Deep Residual Learning for Image Recognition
+    authors: [Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun]
+    publicationYear: 2016
+    venue: IEEE Conference on Computer Vision and Pattern Recognition
+    primarySourceUrl: https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html
+    historicalNote: >-
+      The CVPR 2016 paper introduced residual networks, won the conference's best paper award,
+      and supplied an architecture pattern that spread far beyond image recognition.
+    education:
+      playerSummary: >-
+        ResNets add shortcut connections that let a stack of layers learn a residual change
+        relative to its input. Information and gradients can follow a direct path when extra
+        transformations are unnecessary. This simple reformulation made substantially deeper
+        networks easier to optimise, achieved exceptional image-recognition results, and became
+        a reusable architectural principle across modern deep learning.
+      archiveExplanation: >-
+        Deeper networks should in principle express more useful functions, yet simply stacking
+        layers eventually produced higher training error, not just worse test performance. The
+        additional layers were making optimisation harder. He, Zhang, Ren and Sun reframed a
+        block so it learns a residual function: instead of directly approximating a desired
+        mapping, the block learns the change from its input, while an identity shortcut carries
+        that input forward.
+
+        These shortcuts add little computation and create direct routes for information and
+        gradients. The authors successfully trained networks up to 152 layers on ImageNet and
+        obtained winning results in the 2015 ImageNet and COCO competitions. The core pattern
+        proved portable; residual connections now appear in vision, language, speech and many
+        scientific architectures.
+
+        A shortcut does not guarantee that arbitrary depth is useful, and later systems refined
+        block design, normalisation and scaling. The breakthrough was to turn depth from an
+        optimisation liability into a manageable design dimension. In Neolab.ai, ResNet grants
+        a large vision and architecture boost and lowers technical training risk, but it also
+        increases the appetite for much larger experiments. The lab has not received free
+        intelligence. It has received a reliable path through which more layers—and a larger
+        compute invoice—can contribute.
+      insideBaseball: The 152-layer network trains successfully. Facilities has interpreted this as a request for 152 additional racks.
+    domainWeights:
+      domain.architectures: 0.45
+      domain.multimodality: 0.35
+      domain.optimisation-scaling: 0.20
+    prerequisites:
+      papers: [paper.alexnet, paper.batch-normalization]
+      domainLevels:
+        domain.architectures: 22
+        domain.multimodality: 20
+    baseEffort: 130
+    earliestPhase: scaling
+    discovery:
+      worldFirstAura: 14
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 13, openDurationWeeks: 26, controlledDelayWeeks: 26, controlledDurationWeeks: 39 }
+    unlockEffects:
+      - { target: research.family.residual-architectures, operation: unlock, value: true }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.08 }
+      - { target: project.training.technicalFailureHazard, operation: multiply, value: 0.92 }
+    tags: [deep-learning, residual-networks, vision, depth, optimisation]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.alphago
+    version: 1
+    historicity: real
+    gameOrder: 17
+    title: Mastering the game of Go with deep neural networks and tree search
+    authors:
+      - David Silver
+      - Aja Huang
+      - Chris J. Maddison
+      - Arthur Guez
+      - Laurent Sifre
+      - George van den Driessche
+      - Julian Schrittwieser
+      - Ioannis Antonoglou
+      - Veda Panneershelvam
+      - Marc Lanctot
+      - Sander Dieleman
+      - Dominik Grewe
+      - John Nham
+      - Nal Kalchbrenner
+      - Ilya Sutskever
+      - Timothy Lillicrap
+      - Madeleine Leach
+      - Koray Kavukcuoglu
+      - Thore Graepel
+      - Demis Hassabis
+    publicationYear: 2016
+    venue: Nature
+    primarySourceUrl: https://doi.org/10.1038/nature16961
+    doi: 10.1038/nature16961
+    historicalNote: >-
+      Published in January 2016, the paper reported AlphaGo's 5–0 match victory over European Go
+      champion Fan Hui; the later match against Lee Sedol was a separate public milestone.
+    education:
+      playerSummary: >-
+        AlphaGo combined policy networks, value networks and Monte Carlo tree search to master a
+        game whose enormous search space had resisted traditional brute force. It learned first
+        from expert games and then from self-play, defeating a professional player in a full-
+        sized match. The work demonstrated how learned intuition and explicit planning could
+        reinforce one another.
+      archiveExplanation: >-
+        Go has simple rules but an extraordinary branching factor. Searching every continuation
+        is impossible, while strong play depends on difficult judgements about the long-term
+        value of a position. Earlier programmes had improved through Monte Carlo tree search,
+        but still played below top human level.
+
+        Silver and colleagues built AlphaGo from complementary learned components. A policy
+        network proposed promising moves, first learning from expert games and then improving
+        through reinforcement learning in self-play. A value network estimated the eventual
+        winner from a position. Monte Carlo tree search combined these judgements with simulated
+        exploration, focusing computation on consequential branches. The system defeated Fan
+        Hui, the reigning European champion, five games to zero—the first defeat of a professional
+        player by a computer on a full board without handicap.
+
+        AlphaGo was specialised to one game, not a general intelligence, but the integration of
+        pattern recognition, value estimation, planning and self-generated experience was broadly
+        influential. Its moves also changed how expert players understood Go. In the game, the
+        discovery supplies immense Aura and unlocks planning-heavy research, while the mechanics
+        carefully avoid granting general wisdom from a board-game victory. The laboratory gains
+        a powerful recipe for domains with clear rules and feedback; transferring it to the messy
+        world remains a separate scientific and safety challenge.
+      insideBaseball: Move 37 has been described as creative, alien and excellent. Communications would like one adjective by noon.
+    domainWeights:
+      domain.reinforcement-agency: 0.50
+      domain.reasoning-tools: 0.30
+      domain.architectures: 0.20
+    prerequisites:
+      papers: [paper.deep-q-network]
+      domainLevels:
+        domain.reinforcement-agency: 25
+        domain.reasoning-tools: 16
+    baseEffort: 165
+    earliestPhase: scaling
+    discovery:
+      worldFirstAura: 16
+      commercialValue: 8
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 18, openDurationWeeks: 32, controlledDelayWeeks: 32, controlledDurationWeeks: 48 }
+    unlockEffects:
+      - { target: research.family.neural-tree-search, operation: unlock, value: true }
+      - { target: project.training.self-play-league, operation: unlock, value: true }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.12 }
+      - { target: model.attribute.reasoning.potential, operation: add, value: 3 }
+    tags: [reinforcement-learning, self-play, planning, tree-search, games, public-milestone]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.sparse-mixture-of-experts
+    version: 1
+    historicity: real
+    gameOrder: 18
+    title: "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer"
+    authors: [Noam Shazeer, Azalia Mirhoseini, Krzysztof Maziarz, Andy Davis, Quoc V. Le, Geoffrey E. Hinton, Jeff Dean]
+    publicationYear: 2017
+    venue: International Conference on Learning Representations
+    primarySourceUrl: https://arxiv.org/abs/1701.06538
+    arxiv: "1701.06538"
+    historicalNote: >-
+      The 2017 work realised large-scale conditional computation using a learned gate and many
+      sparsely activated expert subnetworks.
+    education:
+      playerSummary: >-
+        Sparse mixture-of-experts models increase parameter capacity without using every
+        parameter for every example. A learned gate routes each input to a small subset of
+        specialised feed-forward experts. This paper demonstrated models with enormous capacity
+        and relatively modest compute per example, establishing a scaling technique that later
+        became important in very large language models.
+      archiveExplanation: >-
+        Model capacity usually grows together with computation: add parameters and every example
+        must pass through more arithmetic. Conditional computation promises a different tradeoff.
+        A model can contain many components while activating only the ones relevant to a given
+        input. Earlier versions of this idea were difficult to train efficiently on modern
+        parallel hardware.
+
+        Shazeer and colleagues introduced a sparsely gated mixture-of-experts layer containing up
+        to thousands of feed-forward subnetworks. A trainable gate selects only a small number of
+        experts for each example. Auxiliary objectives encourage balanced routing so a few experts
+        do not receive all the work. Integrated between recurrent layers, the system reached up
+        to 137 billion parameters and improved language modelling and translation with much less
+        than proportional computational cost.
+
+        Sparse activation does not make parameters or infrastructure free. Expert routing can
+        collapse, communication between devices can dominate, memory use remains substantial,
+        and serving systems become more complex. The core insight nevertheless changed the
+        frontier scaling menu: capacity and per-token computation could be partly decoupled. In
+        Neolab.ai the paper improves effective training capacity and serving economics after a
+        serious systems investment. It also unlocks routing-collapse incidents, because an
+        outrageously large network deserves an outrageously specific way to be broken.
+      insideBaseball: Only two experts wake for each token. All 2,048 experts have nevertheless requested headcount plans.
+    domainWeights:
+      domain.architectures: 0.45
+      domain.optimisation-scaling: 0.45
+      domain.data-representation: 0.10
+    prerequisites:
+      papers: [paper.sequence-to-sequence]
+      domainLevels:
+        domain.architectures: 26
+        domain.optimisation-scaling: 25
+    baseEffort: 150
+    earliestPhase: scaling
+    discovery:
+      worldFirstAura: 12
+      commercialValue: 10
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 18, openDurationWeeks: 32, controlledDelayWeeks: 32, controlledDurationWeeks: 48 }
+    unlockEffects:
+      - { target: research.family.sparse-mixture-of-experts, operation: unlock, value: true }
+      - { target: project.training.language.effectiveCompute, operation: multiply, value: 1.12 }
+      - { target: serving.computePerRequest, operation: multiply, value: 0.96 }
+      - { target: event.family.routing-collapse, operation: unlock, value: true }
+    tags: [scaling, sparse-models, mixture-of-experts, conditional-computation, systems]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.transformer
+    version: 1
+    historicity: real
+    gameOrder: 19
+    title: Attention Is All You Need
+    authors: [Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin]
+    publicationYear: 2017
+    venue: Advances in Neural Information Processing Systems 30
+    primarySourceUrl: https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html
+    historicalNote: >-
+      The 2017 paper introduced the transformer for machine translation. Its wider dominance in
+      language, vision, audio and multimodal AI emerged through extensive subsequent work.
+    education:
+      playerSummary: >-
+        The transformer replaced recurrent sequence processing with stacked self-attention and
+        feed-forward layers. Every position could directly combine information from other
+        positions, while training across a sequence became highly parallel. The original results
+        were in translation; the architecture's scalability later made it the foundation of
+        large language models and much of modern generative AI.
+      archiveExplanation: >-
+        Recurrent networks process tokens in order, which makes their computation inherently
+        sequential and creates long paths between distant parts of a sentence. Attention had
+        already let decoders retrieve information from encoder states. Vaswani and colleagues
+        asked whether an architecture could rely on attention throughout and dispense with
+        recurrence and convolution entirely.
+
+        The transformer uses self-attention so each position builds a weighted combination of
+        other positions. Multiple heads can represent different relationships in parallel.
+        Position information is added separately because the attention operation itself does not
+        know token order. Stacked with feed-forward layers, residual connections and normalisation,
+        the design achieved excellent translation quality while training much more parallelly
+        than recurrent alternatives.
+
+        The 2017 paper did not itself contain today's chatbots or prove that scaling would yield
+        every later capability. Subsequent work combined transformers with self-supervised
+        objectives, enormous datasets, much larger compute, instruction tuning, human feedback,
+        retrieval and tools. The architecture was unusually compatible with that scale, which
+        made its historical consequences enormous. Neolab.ai gives the transformer a major Aura
+        reward and unlocks the modern scaling branch, but the player must still fund the data,
+        infrastructure, evaluations and safety work that turn an elegant translation model into
+        a frontier system.
+      insideBaseball: Recurrence has been removed. The weekly architecture meeting remains sequential and cannot be parallelised.
+    domainWeights:
+      domain.architectures: 0.50
+      domain.optimisation-scaling: 0.25
+      domain.reasoning-tools: 0.15
+      domain.data-representation: 0.10
+    prerequisites:
+      papers: [paper.sequence-to-sequence, paper.neural-attention-translation]
+      domainLevels:
+        domain.architectures: 30
+        domain.optimisation-scaling: 22
+        domain.reasoning-tools: 16
+    baseEffort: 180
+    earliestPhase: scaling
+    discovery:
+      worldFirstAura: 18
+      commercialValue: 10
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 18, openDurationWeeks: 32, controlledDelayWeeks: 32, controlledDurationWeeks: 48 }
+    unlockEffects:
+      - { target: research.family.transformers, operation: unlock, value: true }
+      - { target: talent.wave.scaling, operation: unlock, value: true }
+      - { target: project.training.language.duration, operation: multiply, value: 0.85 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.12 }
+      - { target: project.training.foundation-model, operation: unlock, value: true }
+    tags: [transformers, attention, scaling, language, parallel-computation, generative-ai]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
+
+  - id: paper.alphazero
+    version: 1
+    historicity: real
+    gameOrder: 20
+    title: A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play
+    authors: [David Silver, Thomas Hubert, Julian Schrittwieser, Ioannis Antonoglou, Matthew Lai, Arthur Guez, Marc Lanctot, Laurent Sifre, Dharshan Kumaran, Thore Graepel, Timothy Lillicrap, Karen Simonyan, Demis Hassabis]
+    publicationYear: 2018
+    venue: Science
+    primarySourceUrl: https://doi.org/10.1126/science.aar6404
+    doi: 10.1126/science.aar6404
+    historicalNote: >-
+      The Science paper was published in 2018 and described AlphaZero, a single algorithm trained
+      from the rules of chess, shogi or Go without human game data.
+    education:
+      playerSummary: >-
+        AlphaZero generalised the self-play and search recipe across chess, shogi and Go. Starting
+        with only each game's rules, it trained a neural network to guide Monte Carlo tree search
+        and improved from games against itself. The result removed AlphaGo's dependence on human
+        examples and showed that one learning algorithm could reach superhuman play in several
+        complex but precisely specified worlds.
+      archiveExplanation: >-
+        AlphaGo combined human game records, separate policy and value components, self-play and
+        tree search. AlphaGo Zero later showed that Go could be mastered without human examples.
+        AlphaZero simplified and generalised that approach across three games with different
+        boards, rules and strategic traditions: chess, shogi and Go.
+
+        For each game, a neural network predicts both promising moves and the likely winner from
+        a position. Monte Carlo tree search uses those predictions to focus exploration. Completed
+        self-play games then train the network, producing a cycle in which a stronger model
+        generates stronger experience. The algorithm began with the rules rather than recorded
+        expert moves and achieved superhuman performance against leading specialised programmes.
+
+        The word “general” in the title refers to one algorithm working across this family of
+        games. The environments still have exact rules, clear outcomes, cheap simulation and no
+        hidden human stakeholders. Real institutions rarely offer that luxury. This boundary is
+        essential to the paper's lesson, not a reason to diminish the achievement. In Neolab.ai,
+        AlphaZero unlocks a potent general self-play recipe and raises reasoning potential, while
+        any attempt to apply it to open-ended social or scientific objectives must pass separate
+        evaluation, alignment and consequence checks. Winning three games is evidence of a
+        general method; it is not a certificate of general benevolence.
+      insideBaseball: Human openings are no longer required. Human press interviews remain on the critical path.
+    domainWeights:
+      domain.reinforcement-agency: 0.50
+      domain.reasoning-tools: 0.30
+      domain.architectures: 0.15
+      domain.optimisation-scaling: 0.05
+    prerequisites:
+      papers: [paper.alphago, paper.resnet]
+      domainLevels:
+        domain.reinforcement-agency: 34
+        domain.reasoning-tools: 24
+        domain.architectures: 24
+    baseEffort: 190
+    earliestPhase: scaling
+    discovery:
+      worldFirstAura: 16
+      commercialValue: 9
+      independentRediscovery: true
+      diffusion: { openDelayWeeks: 18, openDurationWeeks: 32, controlledDelayWeeks: 32, controlledDurationWeeks: 48 }
+    unlockEffects:
+      - { target: recipe.agent.general-self-play, operation: unlock, value: true }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.12 }
+      - { target: model.attribute.reasoning.potential, operation: add, value: 4 }
+      - { target: project.science.closed-world-search, operation: unlock, value: true }
+    tags: [reinforcement-learning, self-play, planning, tree-search, general-methods, games]
+    review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }

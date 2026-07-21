@@ -1,0 +1,73 @@
+draftSchema: 1
+contentType: research-domains
+status: draft
+
+capabilityDomains:
+  - id: domain.architectures
+    name: Architectures
+    shortName: Architectures
+    description: The structures that determine how models represent, route, remember, and transform information.
+    programmeName: Novel Architectures
+    colour: "#ff8a35"
+  - id: domain.optimisation-scaling
+    name: Optimisation and Scaling
+    shortName: Optimisation
+    description: Training algorithms, scaling methods, distributed computation, and techniques that turn resources into reliable progress.
+    programmeName: Optimisation and Scaling
+    colour: "#ee6cae"
+  - id: domain.data-representation
+    name: Data and Representation
+    shortName: Data
+    description: Datasets, learned representations, generative modelling, and methods for extracting structure from experience.
+    programmeName: Data and Representation
+    colour: "#8f67df"
+  - id: domain.reinforcement-agency
+    name: Reinforcement Learning and Agency
+    shortName: RL and Agency
+    description: Learning through action, reward, planning, exploration, self-play, and increasingly autonomous behaviour.
+    programmeName: Reinforcement Learning and Agency
+    colour: "#5bc77b"
+  - id: domain.multimodality
+    name: Vision, Audio, and Multimodality
+    shortName: Multimodality
+    description: Perception and generation across images, audio, video, language, and combinations of modalities.
+    programmeName: Vision, Audio, and Multimodality
+    colour: "#3699f6"
+  - id: domain.reasoning-tools
+    name: Reasoning and Tool Use
+    shortName: Reasoning
+    description: Multi-step problem solving, structured search, language-mediated reasoning, and the use of external tools.
+    programmeName: Reasoning and Tool Use
+    colour: "#efc14e"
+  - id: domain.robotics-embodiment
+    name: Robotics and Embodiment
+    shortName: Robotics
+    description: Learning in the physical world through control, imitation, adaptation, sensing, and interaction.
+    programmeName: Robotics and Embodiment
+    colour: "#32b7ae"
+  - id: domain.scientific-ai
+    name: Scientific AI
+    shortName: Scientific AI
+    description: AI methods for modelling nature, proposing hypotheses, designing experiments, and accelerating discovery.
+    programmeName: Scientific AI
+    colour: "#dd5f63"
+
+safetyPrograms:
+  - id: safety.alignment-control
+    name: Alignment and Control
+    description: Training objectives, oversight, corrigibility, control protocols, and methods for keeping powerful systems directed toward intended ends.
+    colour: "#59c97c"
+  - id: safety.interpretability-evals
+    name: Interpretability and Evals
+    description: Understanding model internals and building measurements that can reveal capability, deception, bias, and dangerous behaviour.
+    colour: "#4ea7ef"
+  - id: safety.security-containment
+    name: Security and Containment
+    description: Access control, sandboxing, red teaming, incident response, model-weight security, and barriers to unauthorised action.
+    colour: "#ae7ee8"
+
+rules:
+  skillScale: { min: 0, max: 5 }
+  visibleDomainScale: { min: 0, max: 100 }
+  paperDomainWeightTolerance: 0.0001
+  unfundedDomainsProduceProgress: false

@@ -1,0 +1,225 @@
+schemaVersion: 1
+contentType: gpu-generations
+status: draft
+
+designContract:
+  playerFacingResource: physical GPUs
+  allocationUnit: GPUs/week
+  purchaseUnit: physical GPUs
+  rule: >-
+    Every number presented as GPUs is a count of physical accelerators. The
+    simulation may derive workload throughput from generation-specific factors,
+    but it must never rename that derived value CU or present it as owned hardware.
+  throughputFormula: >-
+    workloadThroughput = sum(allocatedGpuCountByGeneration * workloadFactor) *
+    availability * softwareEfficiency * powerMultiplier * interconnectMultiplier
+  displayRule: >-
+    Show percentage and physical GPUs/week on every allocation control. Show the
+    generation mix nearby. Put estimated relative throughput only in an expanded
+    comparison tooltip or procurement dossier.
+  balanceDisclaimer: >-
+    Training and serving factors are fictional gameplay coefficients, not FLOPS,
+    benchmark results, product claims, or predictions. They are versioned balance
+    data and use Kepler = 1.0 solely to preserve useful ratios inside the game.
+  futureHardwareRule: >-
+    Hardware after Rubin uses fictional manufacturers and names and is labelled
+    FICTIONAL HARDWARE everywhere it appears.
+
+generations:
+  - id: gpu.kepler
+    displayName: Kepler
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2012
+    trainingFactor: 1.0
+    servingFactor: 1.0
+    powerPerThousand: 1.00
+    interconnectTier: 1
+    reliability: 62
+    gameCostMillionsPerThousand: 0.9
+    gameOperatingCostMillionsPerThousandPerCycle: 0.050
+    deliveryWeeks: 5
+    summary: "The opening-era workhorse: cheap, familiar, power-hungry and quickly outclassed for frontier training."
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.maxwell
+    displayName: Maxwell
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2014
+    trainingFactor: 1.5
+    servingFactor: 1.8
+    powerPerThousand: 0.82
+    interconnectTier: 1
+    reliability: 67
+    gameCostMillionsPerThousand: 1.1
+    gameOperatingCostMillionsPerThousandPerCycle: 0.046
+    deliveryWeeks: 6
+    summary: An efficiency-led refresh that makes a convincing serving fleet but only a modest frontier-training step.
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.pascal
+    displayName: Pascal
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2016
+    trainingFactor: 3.0
+    servingFactor: 4.0
+    powerPerThousand: 0.90
+    interconnectTier: 2
+    reliability: 72
+    gameCostMillionsPerThousand: 1.6
+    gameOperatingCostMillionsPerThousandPerCycle: 0.052
+    deliveryWeeks: 7
+    summary: The first large jump of the campaign, rewarding labs that have already invested in power, networking and procurement.
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.volta
+    displayName: Volta
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2017
+    trainingFactor: 7.0
+    servingFactor: 7.0
+    powerPerThousand: 1.05
+    interconnectTier: 3
+    reliability: 77
+    gameCostMillionsPerThousand: 2.2
+    gameOperatingCostMillionsPerThousandPerCycle: 0.064
+    deliveryWeeks: 8
+    summary: Purpose-built AI acceleration turns cluster access into a strategic advantage and makes power planning a board-level issue.
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.turing
+    displayName: Turing
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2018
+    trainingFactor: 8.0
+    servingFactor: 11.0
+    powerPerThousand: 0.94
+    interconnectTier: 3
+    reliability: 79
+    gameCostMillionsPerThousand: 2.1
+    gameOperatingCostMillionsPerThousandPerCycle: 0.057
+    deliveryWeeks: 7
+    summary: A serving-friendly generation whose practical economics may beat its more glamorous training reputation.
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.ampere
+    displayName: Ampere
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2020
+    trainingFactor: 20.0
+    servingFactor: 27.0
+    powerPerThousand: 1.18
+    interconnectTier: 4
+    reliability: 84
+    gameCostMillionsPerThousand: 2.8
+    gameOperatingCostMillionsPerThousandPerCycle: 0.071
+    deliveryWeeks: 10
+    summary: "Scaling becomes industrial: expensive accelerators only pay off when the lab can feed, cool and coordinate them."
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.hopper
+    displayName: Hopper
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2022
+    trainingFactor: 50.0
+    servingFactor: 68.0
+    powerPerThousand: 1.34
+    interconnectTier: 5
+    reliability: 88
+    gameCostMillionsPerThousand: 4.0
+    gameOperatingCostMillionsPerThousandPerCycle: 0.086
+    deliveryWeeks: 12
+    summary: Frontier-scale clusters become both scientific instruments and geopolitical objects with very demanding supporting infrastructure.
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.blackwell
+    displayName: Blackwell
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2024
+    trainingFactor: 110.0
+    servingFactor: 175.0
+    powerPerThousand: 1.52
+    interconnectTier: 6
+    reliability: 90
+    gameCostMillionsPerThousand: 5.4
+    gameOperatingCostMillionsPerThousandPerCycle: 0.105
+    deliveryWeeks: 15
+    summary: A giant-system era in which networking, cooling and allocation politics matter almost as much as accelerator count.
+    source: https://www.nvidia.com/en-gb/technologies/
+
+  - id: gpu.rubin
+    displayName: Rubin
+    manufacturer: NVIDIA
+    historicity: real
+    nominalYear: 2026
+    trainingFactor: 220.0
+    servingFactor: 390.0
+    powerPerThousand: 1.68
+    interconnectTier: 7
+    reliability: 92
+    gameCostMillionsPerThousand: 7.2
+    gameOperatingCostMillionsPerThousandPerCycle: 0.126
+    deliveryWeeks: 18
+    summary: The last real generation in the launch campaign; vertically integrated rack-scale systems reward long-range infrastructure bets.
+    source: https://nvidianews.nvidia.com/news/nvidia-vera-rubin-platform
+
+  - id: gpu.noether
+    displayName: Noether
+    manufacturer: NovaCompute
+    historicity: fictional
+    label: FICTIONAL HARDWARE
+    nominalYear: 2028
+    trainingFactor: 420.0
+    servingFactor: 820.0
+    powerPerThousand: 1.74
+    interconnectTier: 8
+    reliability: 91
+    gameCostMillionsPerThousand: 9.0
+    gameOperatingCostMillionsPerThousandPerCycle: 0.148
+    deliveryWeeks: 21
+    summary: A fictional post-Rubin design built around symmetry-aware scheduling and an alarming number of liquid-cooling manifolds.
+
+  - id: gpu.shannon
+    displayName: Shannon
+    manufacturer: NovaCompute
+    historicity: fictional
+    label: FICTIONAL HARDWARE
+    nominalYear: 2030
+    trainingFactor: 780.0
+    servingFactor: 1650.0
+    powerPerThousand: 1.82
+    interconnectTier: 9
+    reliability: 92
+    gameCostMillionsPerThousand: 12.0
+    gameOperatingCostMillionsPerThousandPerCycle: 0.175
+    deliveryWeeks: 24
+    summary: A fictional accelerator whose optical fabric is marketed as information theory made manifest, mostly by people in expensive scarves.
+
+  - id: gpu.ramanujan
+    displayName: Ramanujan
+    manufacturer: NovaCompute
+    historicity: fictional
+    label: FICTIONAL HARDWARE
+    nominalYear: 2032
+    trainingFactor: 1400.0
+    servingFactor: 3100.0
+    powerPerThousand: 1.95
+    interconnectTier: 10
+    reliability: 93
+    gameCostMillionsPerThousand: 16.0
+    gameOperatingCostMillionsPerThousandPerCycle: 0.215
+    deliveryWeeks: 28
+    summary: A fictional endgame generation sold in sovereign-scale lots with a complimentary constitutional-law working group.
+
+review:
+  realGenerationsCheckedAgainstPrimarySource: true
+  factorsAreGameplayDataNotFactualClaims: true
+  fictionalEntriesVisiblyLabelled: true
+  lastReviewed: 2026-07-21
