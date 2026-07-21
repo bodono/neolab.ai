@@ -39,3 +39,4 @@ export {
 } from "./checks.ts";
 export { createSystemRegistry, type TickContext, type TickSystem } from "./systems.ts";
 export { phaseIndex, TICK_PHASES, type TickPhase } from "./tick-phases.ts";
+export { awardScore, finaliseScore } from "./score.ts";

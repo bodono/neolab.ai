@@ -526,7 +526,11 @@ export function createNewGame(
     scheduledEffects: [],
     decisionLog: [],
     domainLog: [],
-    score: { scoreVersion: "1", entries: [], awardedKeys: {} },
+    score: {
+      scoreVersion: content.scoreRules.scoreVersion,
+      entries: [],
+      awardedKeys: {},
+    },
     endgame: { stage: "inactive" },
   };
 

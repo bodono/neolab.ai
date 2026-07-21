@@ -178,7 +178,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - `scenario()` builder produces valid states with safe defaults; `.atTick()`, `.withPlayerLab()` (cash/rating setters plus `.gpus("gpu.kepler", 40_000)`-style lot setters per TDD §25.2) work; `build()` validates; `unsafeFixture()` escape hatch exists.
     - All Stage 1 tests that construct states use the builder (spot-check, refactor stragglers).
 
-- [ ] **S1.9 — Score ledger core.**
+- [x] **S1.9 — Score ledger core.**
   - Spec: TDD §18.5; GDD §18.9, §41.5; `content/scoring.yaml` (canonical values).
   - Where: `packages/sim/src/engine/` (award/finalise helpers), `packages/sim/src/selectors/`, compiler schema for `scoreRules`.
   - Done when:

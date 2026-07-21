@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import {
   authoringManifestSchema,
   balanceFileSchema,
+  scoringFileSchema,
   contentId,
   gpuGenerationsFileSchema,
   isContentId,
@@ -19,6 +20,7 @@ import {
   type MandateDefinition,
   type NamedEffectGroup,
   type NewGameBalance,
+  type ScoreRulesDefinition,
 } from "@neolab/content-schema";
 import type { z } from "zod";
 
@@ -363,6 +365,51 @@ export function compileContent(repoRoot: string): CompileResult {
     fundingClimate: authoredNewGame.fundingClimate,
   };
 
+  // ----- Scoring rules ------------------------------------------------------
+  const scoringPath = join(contentDir, "scoring.yaml");
+  const scoringFile = parseWith(scoringFileSchema, scoringPath);
+  for (const difficultyKey of Object.keys(scoringFile.difficultyMultiplier)) {
+    const canonical = canonicalId(`difficulty.${difficultyKey}`, scoringPath);
+    if (!(canonical in difficulties)) {
+      throw new ContentFileError(
+        scoringPath,
+        undefined,
+        undefined,
+        `difficultyMultiplier names unknown difficulty "${difficultyKey}"`,
+      );
+    }
+  }
+  for (const difficultyId of Object.keys(difficulties)) {
+    const shortName = difficultyId.replace("base:difficulty.", "");
+    if (!(shortName in scoringFile.difficultyMultiplier)) {
+      throw new ContentFileError(
+        scoringPath,
+        undefined,
+        undefined,
+        `difficulty "${shortName}" has no score multiplier`,
+      );
+    }
+  }
+  const endingBasePoints: Record<string, number> = {};
+  for (const [endingKey, points] of Object.entries(scoringFile.endingAwards.basePoints)) {
+    endingBasePoints[canonicalId(endingKey, scoringPath)] = points;
+  }
+  const scoreRules: ScoreRulesDefinition = {
+    scoreVersion: scoringFile.scoreVersion,
+    categories: scoringFile.categories,
+    endingBasePoints,
+    victoryClassMultiplier: scoringFile.endingAwards.victoryClassMultiplier,
+    difficultyMultiplier: scoringFile.difficultyMultiplier,
+    awardTables: {
+      paperAwards: scoringFile.paperAwards,
+      researchAwards: scoringFile.researchAwards,
+      safetyAwards: scoringFile.safetyAwards,
+      prosperityAwards: scoringFile.prosperityAwards,
+      institutionAwards: scoringFile.institutionAwards,
+      raceAwards: scoringFile.raceAwards,
+    },
+  };
+
   // ----- Assemble -----------------------------------------------------------
   const withoutHash = {
     bundleFormat: 2 as const,
@@ -374,6 +421,7 @@ export function compileContent(repoRoot: string): CompileResult {
     difficulties,
     mandates,
     balance: { newGame },
+    scoreRules,
   };
   const bundleHash = createHash("sha256")
     .update(JSON.stringify(canonicalise(withoutHash)))
@@ -389,6 +437,7 @@ export function compileContent(repoRoot: string): CompileResult {
     difficulties,
     mandates,
     balance: { newGame },
+    scoreRules,
   };
 
   const outputPath = join(

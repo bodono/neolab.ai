@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { AuthoredEffect } from "./authored.ts";
 import type { ContentId } from "./content-id.ts";
 import { authoringManifestSchema, type AuthoringManifest } from "./manifest.ts";
+import type { ScoreRulesDefinition } from "./scoring.ts";
 
 /**
  * Canonical compiled definitions (TDD sections 12.1 and 7.2.1).
@@ -122,6 +123,7 @@ export interface CompiledContent {
   readonly difficulties: Readonly<Record<string, DifficultyDefinition>>;
   readonly mandates: Readonly<Record<string, MandateDefinition>>;
   readonly balance: { readonly newGame: NewGameBalance };
+  readonly scoreRules: ScoreRulesDefinition;
 }
 
 /** Loose structural validation of the emitted bundle (consumer-side guard). */
@@ -141,6 +143,7 @@ export const compiledContentSchema = z
     difficulties: z.record(z.string(), z.unknown()),
     mandates: z.record(z.string(), z.unknown()),
     balance: z.object({ newGame: z.unknown() }).strict(),
+    scoreRules: z.unknown(),
   })
   .strict();
 

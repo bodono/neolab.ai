@@ -15,6 +15,14 @@ export {
   type LaunchLeadersFile,
 } from "./authored.ts";
 export {
+  scoringFileSchema,
+  SCORE_CATEGORY_IDS,
+  type ScoreCategoryDefinition,
+  type ScoreCategoryId,
+  type ScoreRulesDefinition,
+  type ScoringFile,
+} from "./scoring.ts";
+export {
   compiledContentSchema,
   validateCompiledContent,
   type CompiledContent,

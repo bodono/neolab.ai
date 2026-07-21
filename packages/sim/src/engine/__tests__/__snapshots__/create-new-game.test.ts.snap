@@ -280,7 +280,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -573,7 +573,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -851,7 +851,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -1141,7 +1141,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -1410,7 +1410,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -1739,7 +1739,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -2056,7 +2056,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",
@@ -2361,7 +2361,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
   "score": {
     "awardedKeys": {},
     "entries": [],
-    "scoreVersion": "1",
+    "scoreVersion": "score-v1",
   },
   "world": {
     "currentGpuGenerationId": "base:gpu.kepler",

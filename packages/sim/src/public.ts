@@ -23,6 +23,7 @@ export {
   type SetGpuAllocationCommand,
 } from "./commands/index.ts";
 export { seed128, type Seed128 } from "./random/seed.ts";
+export { calculateScoreView, type ScoreView } from "./selectors/index.ts";
 export {
   createSaveEnvelope,
   loadSaveEnvelope,

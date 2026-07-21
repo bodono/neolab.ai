@@ -26,6 +26,12 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
   },
 
   // --- sim stays pure: no UI libraries, no browser globals, no web app code.
@@ -76,6 +82,33 @@ export default tseslint.config(
             {
               group: ["**/packages/sim/**"],
               message: "Do not deep-import sim sources from the web app (TDD 4.1).",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // --- score never feeds back into the simulation (TDD 18.5): rule code in
+  // engine/, commands/, and future systems/ may write score via awardScore but
+  // can never read projections. Selectors are one-way, read-only outputs.
+  {
+    files: [
+      "packages/sim/src/engine/**/*.ts",
+      "packages/sim/src/commands/**/*.ts",
+      "packages/sim/src/systems/**/*.ts",
+    ],
+    ignores: ["packages/sim/src/**/__tests__/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["**/selectors/**"],
+              message:
+                "Simulation rules cannot read selector projections (score or any " +
+                "player view) — outcomes must never depend on them (TDD 18.5, 20.2).",
             },
           ],
         },
