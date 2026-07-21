@@ -57,18 +57,30 @@ function baselineSystems(): readonly TickSystem[] {
       priority: 0,
       run(tx, context): void {
         // Scheduled consequences fire when their tick arrives (TDD 8.4, GDD
-        // 43 delayed effects); catch-up applies anything at or before now.
-        const due = tx
-          .read()
-          .scheduledEffects.filter((scheduled) => scheduled.dueAt <= context.tick);
-        if (due.length === 0) return;
-        tx.update((draft) => {
-          draft.scheduledEffects = draft.scheduledEffects.filter(
-            (scheduled) => scheduled.dueAt > context.tick,
-          );
-        });
-        for (const scheduled of due) {
-          applyEffects(tx, scheduled.effects, scheduled.source);
+        // 43 delayed effects). Drained to a fixpoint: an effect scheduled with
+        // dueInWeeks 0 while this phase runs fires in the SAME tick, so a
+        // nested chain can never strand a past-due entry for the commit
+        // invariants to reject (review finding: run-bricking softlock).
+        const MAX_DRAIN_ROUNDS = 100;
+        for (let round = 0; ; round += 1) {
+          const due = tx
+            .read()
+            .scheduledEffects.filter((scheduled) => scheduled.dueAt <= context.tick);
+          if (due.length === 0) return;
+          if (round >= MAX_DRAIN_ROUNDS) {
+            throw new Error(
+              `delayed-effects did not settle after ${String(MAX_DRAIN_ROUNDS)} rounds — ` +
+                "a scheduled effect is re-scheduling itself with dueInWeeks 0",
+            );
+          }
+          tx.update((draft) => {
+            draft.scheduledEffects = draft.scheduledEffects.filter(
+              (scheduled) => scheduled.dueAt > context.tick,
+            );
+          });
+          for (const scheduled of due) {
+            applyEffects(tx, scheduled.effects, scheduled.source);
+          }
         }
       },
     },

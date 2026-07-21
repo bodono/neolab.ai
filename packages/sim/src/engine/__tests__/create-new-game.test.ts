@@ -86,7 +86,7 @@ describe("createNewGame baseline (GDD section 29.2, before lab modifiers)", () =
   it("matches the starting research domains", () => {
     expect(lab.research.domains).toEqual({
       "base:domain.architectures": { level: 8 },
-      "base:domain.optimisation": { level: 6 },
+      "base:domain.optimisation-scaling": { level: 6 },
       "base:domain.data-representation": { level: 10 },
     });
   });
@@ -166,7 +166,9 @@ describe("leader and lab modifiers", () => {
     );
     expect(lab.finance.cash).toBe(15);
     expect(lab.aura.spendable).toBe(10);
-    expect(lab.research.domains["base:domain.optimisation"]).toEqual({ level: 12 });
+    expect(lab.research.domains["base:domain.optimisation-scaling"]).toEqual({
+      level: 12,
+    });
   });
 
   it("ongoing bonuses become sourced modifiers, never starting-state edits", () => {

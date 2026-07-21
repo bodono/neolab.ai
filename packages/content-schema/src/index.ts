@@ -15,6 +15,12 @@ export {
   type LaunchLeadersFile,
 } from "./authored.ts";
 export {
+  GRANT_TARGET_LIST,
+  isKnownEffectTarget,
+  MODIFIER_TARGET_LIST,
+  STARTING_TARGET_LIST,
+} from "./effect-targets.ts";
+export {
   scoringFileSchema,
   SCORE_CATEGORY_IDS,
   type ScoreCategoryDefinition,

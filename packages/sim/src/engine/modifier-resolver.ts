@@ -1,5 +1,46 @@
-import type { GameState, ModifierState } from "../model/state.ts";
+import type {
+  GameState,
+  LabState,
+  ModifierActivation,
+  ModifierState,
+} from "../model/state.ts";
 import { isModifierTarget } from "./modifier-targets.ts";
+
+/**
+ * Closed registry of activation metrics used by authored `activation:` blocks
+ * (content naming, not the predicate MetricRegistry). Unknown metrics throw:
+ * a dormant-forever modifier would be a silent content bug.
+ */
+const ACTIVATION_METRICS: Readonly<Record<string, (lab: LabState) => number>> = {
+  "lab.management.capacity": (lab) => lab.organisation.managementCapacity,
+  "lab.engineering.quality": (lab) => lab.organisation.engineeringQuality,
+  "lab.culture.safety": (lab) => lab.safety.safetyCulture,
+};
+
+export function evaluateModifierActivation(
+  state: GameState,
+  activation: ModifierActivation,
+): boolean {
+  const lab = state.labs[state.run.playerLabId];
+  if (lab === undefined) {
+    throw new Error("evaluateModifierActivation: player lab missing");
+  }
+  switch (activation.type) {
+    case "metric-below": {
+      const read = ACTIVATION_METRICS[activation.metric];
+      if (read === undefined) {
+        throw new Error(
+          `Unknown activation metric "${activation.metric}" — register it in ACTIVATION_METRICS`,
+        );
+      }
+      return read(lab) < activation.value;
+    }
+    case "flag-absent":
+      return !(activation.flag in lab.flags);
+    case "all":
+      return activation.items.every((item) => evaluateModifierActivation(state, item));
+  }
+}
 
 export interface ModifierContribution {
   readonly modifierId: string;
@@ -45,7 +86,9 @@ export function resolveModifierValue(
       (modifier) =>
         modifier.target === target &&
         modifier.startsAt <= now &&
-        (modifier.endsAt === undefined || now < modifier.endsAt),
+        (modifier.endsAt === undefined || now < modifier.endsAt) &&
+        (modifier.activation === undefined ||
+          evaluateModifierActivation(state, modifier.activation)),
     )
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 

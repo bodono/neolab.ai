@@ -80,7 +80,7 @@ export function createBareState(): GameState {
         capabilityBasisPoints: basisPoints(7500),
         capabilityDomainWeights: {
           "base:domain.architectures": basisPoints(4000),
-          "base:domain.optimisation": basisPoints(2500),
+          "base:domain.optimisation-scaling": basisPoints(2500),
           "base:domain.data_representation": basisPoints(3500),
         },
         safetyProgramWeights: {
@@ -95,7 +95,7 @@ export function createBareState(): GameState {
     research: {
       domains: {
         "base:domain.architectures": { level: rating(8) },
-        "base:domain.optimisation": { level: rating(6) },
+        "base:domain.optimisation-scaling": { level: rating(6) },
         "base:domain.data_representation": { level: rating(10) },
       },
     },

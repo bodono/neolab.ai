@@ -35,8 +35,11 @@ export default tseslint.config(
   },
 
   // --- sim stays pure: no UI libraries, no browser globals, no web app code.
+  // Tests and dev scripts are exempt: they legitimately construct forbidden
+  // values (e.g. new Date) to prove the guards reject them.
   {
     files: ["packages/sim/**/*.ts"],
+    ignores: ["packages/sim/**/__tests__/**", "packages/sim/scripts/**"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -62,6 +65,38 @@ export default tseslint.config(
         { name: "localStorage", message: "sim must not touch browser APIs (TDD 4.1)." },
         { name: "indexedDB", message: "sim must not touch browser APIs (TDD 4.1)." },
         { name: "fetch", message: "sim must not touch the network (TDD 4.1)." },
+        {
+          name: "Date",
+          message: "sim never reads clocks; timestamps are injected (TDD 10.1, 24.1).",
+        },
+        {
+          name: "performance",
+          message: "sim never reads clocks (TDD 10.1); the runtime clock lives in web.",
+        },
+        {
+          name: "crypto",
+          message: "sim randomness comes only from the keyed RandomOracle (TDD 10.1).",
+        },
+      ],
+      "no-restricted-properties": [
+        "error",
+        {
+          object: "Math",
+          property: "random",
+          message: "Use the keyed RandomOracle (TDD 10.1) — never Math.random.",
+        },
+      ],
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "CallExpression[callee.property.name='localeCompare']",
+          message:
+            "localeCompare is locale-dependent; use code-point comparison for determinism.",
+        },
+        {
+          selector: "CallExpression[callee.property.name=/^toLocale/]",
+          message: "toLocale* output is environment-dependent; format in the UI layer.",
+        },
       ],
     },
   },
@@ -105,10 +140,21 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["**/selectors/**"],
+              // Direct imports AND the barrels/self-reference that re-export
+              // selectors (review finding: barrel bypass).
+              group: [
+                "**/selectors/**",
+                "../public.ts",
+                "../../public.ts",
+                "../index.ts",
+                "../../index.ts",
+                "@neolab/sim",
+                "@neolab/sim/*",
+              ],
               message:
                 "Simulation rules cannot read selector projections (score or any " +
-                "player view) — outcomes must never depend on them (TDD 18.5, 20.2).",
+                "player view) — outcomes must never depend on them (TDD 18.5, 20.2). " +
+                "Import concrete modules, never the sim barrels.",
             },
           ],
         },

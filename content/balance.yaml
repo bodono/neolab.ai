@@ -55,7 +55,7 @@ newGame:
     boardPatience: 70
   domains:
     domain.architectures: 8
-    domain.optimisation: 6
+    domain.optimisation-scaling: 6
     domain.data-representation: 10
   facilities:
     - facility.rented-office-1
@@ -65,12 +65,12 @@ newGame:
     capabilityBasisPoints: 7500
     capabilityDomainWeights:
       domain.architectures: 4000
-      domain.optimisation: 2500
+      domain.optimisation-scaling: 2500
       domain.data-representation: 3500
     safetyProgramWeights:
       safety.alignment-control: 5000
       safety.interpretability-evals: 4000
-      safety.security-testing: 1000
+      safety.security-containment: 1000
   fundingClimate: 50
 
 # GDD section 29.4. Multipliers become sourced modifiers on the run.

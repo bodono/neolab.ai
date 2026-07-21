@@ -62,8 +62,20 @@ export function collectInvariantViolations(
   }
 
   for (const [labId, lab] of Object.entries(state.labs)) {
-    // TDD 16.1: allocation weights sum exactly at every hierarchy level.
+    // TDD 16.1: allocation weights sum exactly at every hierarchy level, and
+    // every basis-point value is an integer in [0, 10000] (TDD 9.5 ranges).
     const allocation = lab.compute.allocation;
+    const basisPointValues: readonly [string, number][] = [
+      ["servingBasisPoints", allocation.servingBasisPoints],
+      ["capabilityBasisPoints", allocation.capabilityBasisPoints],
+      ...Object.entries(allocation.capabilityDomainWeights),
+      ...Object.entries(allocation.safetyProgramWeights),
+    ];
+    for (const [name, value] of basisPointValues) {
+      if (!Number.isInteger(value) || value < 0 || value > 10_000) {
+        push("basis-point-range", `${labId} ${name} is ${String(value)}`);
+      }
+    }
     const domainSum = Object.values(allocation.capabilityDomainWeights).reduce(
       (sum, weight) => sum + weight,
       0,

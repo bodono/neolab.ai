@@ -25,6 +25,13 @@ export function randomKey(...segments: readonly string[]): RandomKey {
         `Random key segment ${JSON.stringify(segment)} contains control characters.`,
       );
     }
+    // Unpaired surrogates encode to U+FFFD, so two distinct malformed keys
+    // would silently collide to the same generator (TDD 10.2 step 2).
+    if (!segment.isWellFormed()) {
+      throw new RangeError(
+        `Random key segment ${JSON.stringify(segment)} is not well-formed UTF-16.`,
+      );
+    }
   }
   return { segments: segments as unknown as readonly [string, ...string[]] };
 }

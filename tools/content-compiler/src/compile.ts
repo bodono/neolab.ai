@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import {
   authoringManifestSchema,
   balanceFileSchema,
+  isKnownEffectTarget,
   scoringFileSchema,
   contentId,
   gpuGenerationsFileSchema,
@@ -93,8 +94,20 @@ export function canonicalise(value: unknown): unknown {
 
 function canonicaliseEffects(
   effects: readonly AuthoredEffect[],
+  filePath: string,
 ): readonly AuthoredEffect[] {
-  // Effect targets are registry keys, not content IDs; passed through as-is.
+  // Targets are registry keys, not content IDs; validate against the closed
+  // registry (TDD 11.2: "The content compiler rejects unknown targets").
+  for (const effect of effects) {
+    if (!isKnownEffectTarget(effect.target)) {
+      throw new ContentFileError(
+        filePath,
+        undefined,
+        undefined,
+        `unknown effect target "" — add it to effect-targets.ts or fix the record`,
+      );
+    }
+  }
   return effects;
 }
 
@@ -135,7 +148,7 @@ export function compileContent(repoRoot: string): CompileResult {
       headlineBonus = {
         id: bonus.id,
         label: bonus.label,
-        effects: canonicaliseEffects(bonus.effects),
+        effects: canonicaliseEffects(bonus.effects, leadersPath),
       };
     } else if ("targets" in bonus) {
       headlineBonus = {
@@ -169,7 +182,7 @@ export function compileContent(repoRoot: string): CompileResult {
       labModifiers: authored.labModifiers.map((group) => ({
         id: group.id,
         label: group.label,
-        effects: canonicaliseEffects(group.effects),
+        effects: canonicaliseEffects(group.effects, leadersPath),
       })),
       complexity: authored.complexity,
       aiNamingStyle: authored.aiNamingStyle,
@@ -265,6 +278,9 @@ export function compileContent(repoRoot: string): CompileResult {
   const difficulties: Record<string, DifficultyDefinition> = {};
   for (const difficulty of balanceFile.difficulties) {
     const id = canonicalId(difficulty.id, balancePath);
+    if (id in difficulties) {
+      throw new ContentFileError(balancePath, undefined, undefined, `duplicate `);
+    }
     difficulties[id] = { ...difficulty, id };
   }
   if (!("base:difficulty.standard" in difficulties)) {
@@ -279,10 +295,13 @@ export function compileContent(repoRoot: string): CompileResult {
   const mandates: Record<string, MandateDefinition> = {};
   for (const mandate of balanceFile.mandates) {
     const id = canonicalId(mandate.id, balancePath);
+    if (id in mandates) {
+      throw new ContentFileError(balancePath, undefined, undefined, `duplicate `);
+    }
     mandates[id] = {
       id,
       displayName: mandate.displayName,
-      effects: canonicaliseEffects(mandate.effects),
+      effects: canonicaliseEffects(mandate.effects, balancePath),
     };
   }
 
@@ -448,7 +467,10 @@ export function compileContent(repoRoot: string): CompileResult {
     "content.bundle.json",
   );
   mkdirSync(dirname(outputPath), { recursive: true });
-  writeFileSync(outputPath, `${JSON.stringify(canonicalise(bundle), null, 2)}\n`);
+  const canonicalBundle = canonicalise(bundle) as CompiledContent;
+  writeFileSync(outputPath, `${JSON.stringify(canonicalBundle, null, 2)}\n`);
 
-  return { bundle, outputPath };
+  // Return the canonicalised object so in-memory and on-disk consumers see
+  // identical record iteration order (determinism review finding).
+  return { bundle: canonicalBundle, outputPath };
 }

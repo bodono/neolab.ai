@@ -30,6 +30,25 @@ const DOMAIN = "neolab-rng-v1";
 const TWO_32 = 0x1_0000_0000;
 const encoder = new TextEncoder();
 
+/** Unicode code-point comparison (TDD 10.2 step 10). */
+export function compareCodePoints(a: string, b: string): number {
+  let i = 0;
+  let j = 0;
+  while (i < a.length && j < b.length) {
+    const ca = a.codePointAt(i);
+    const cb = b.codePointAt(j);
+    if (ca === undefined || cb === undefined) {
+      break;
+    }
+    if (ca !== cb) {
+      return ca < cb ? -1 : 1;
+    }
+    i += ca > 0xffff ? 2 : 1;
+    j += cb > 0xffff ? 2 : 1;
+  }
+  return a.length === b.length ? 0 : a.length < b.length ? -1 : 1;
+}
+
 function lengthPrefixed(chunks: readonly string[]): Uint8Array {
   const encoded = chunks.map((chunk) => encoder.encode(chunk));
   const total = encoded.reduce((sum, bytes) => sum + 4 + bytes.length, 0);
@@ -125,10 +144,10 @@ export class RandomOracleV1 implements RandomOracle {
   }
 
   weighted<T extends string>(key: RandomKey, weights: Readonly<Record<T, number>>): T {
-    // Stable candidate order by code point (step 10).
-    const candidates = (Object.keys(weights) as T[]).sort((a, b) =>
-      a < b ? -1 : a > b ? 1 : 0,
-    );
+    // Stable candidate order by CODE POINT (step 10) — not UTF-16 code units,
+    // which order astral-plane characters differently. Identical for the
+    // ASCII IDs in the frozen golden vectors.
+    const candidates = (Object.keys(weights) as T[]).sort(compareCodePoints);
     if (candidates.length === 0) {
       throw new RangeError(`weighted(${describeRandomKey(key)}) has no candidates.`);
     }

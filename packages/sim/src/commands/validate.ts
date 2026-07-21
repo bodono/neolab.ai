@@ -1,6 +1,7 @@
 import type { CompiledContent } from "@neolab/content-schema";
 
 import { assertNever } from "../model/assert-never.ts";
+import { gpuAllocationSchema } from "../model/schema.ts";
 import type { GameState } from "../model/state.ts";
 import { tick } from "../model/units.ts";
 import type {
@@ -29,7 +30,19 @@ function validateSetGpuAllocation(
     });
     return;
   }
-  const allocation = command.allocation;
+  // Runtime boundary validation (TDD 8.2): the web app cannot enforce
+  // compile-time types, and an unvalidated payload that reaches canonical
+  // state would make later saves unloadable under the strict load schema.
+  const parsedAllocation = gpuAllocationSchema.safeParse(command.allocation);
+  if (!parsedAllocation.success) {
+    const issue = parsedAllocation.error.issues[0];
+    errors.push({
+      code: "malformed-allocation",
+      message: `Allocation payload invalid at "${issue?.path.join(".") ?? ""}": ${issue?.message ?? "?"}`,
+    });
+    return;
+  }
+  const allocation = parsedAllocation.data;
   const domainSum = Object.values(allocation.capabilityDomainWeights).reduce(
     (sum, weight) => sum + weight,
     0,

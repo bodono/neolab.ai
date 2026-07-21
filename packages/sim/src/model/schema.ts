@@ -154,7 +154,15 @@ const runSchema = z
     endingId: contentIdSchema.optional(),
     queuedOrders: z.array(queuedOrderSchema),
     autoPauseReasons: z.array(autoPauseReasonSchema),
-    idCounters: z.partialRecord(idNamespaceSchema, counterSchema),
+    // Every namespace must be present: a missing counter would let allocateId
+    // restart at 0 and silently overwrite live entities (review finding).
+    idCounters: z
+      .object(
+        Object.fromEntries(
+          idNamespaceSchema.options.map((namespace) => [namespace, counterSchema]),
+        ),
+      )
+      .strict(),
   })
   .strict();
 
@@ -177,7 +185,7 @@ const gpuLotSchema = z
   })
   .strict();
 
-const gpuAllocationSchema = z
+export const gpuAllocationSchema = z
   .object({
     servingBasisPoints: basisPointsSchema,
     capabilityBasisPoints: basisPointsSchema,
@@ -344,6 +352,18 @@ const effectSourceSchema = z
   })
   .strict();
 
+const modifierActivationSchema: z.ZodType = z.lazy(() =>
+  z.union([
+    z
+      .object({ type: z.literal("metric-below"), metric: nonEmpty, value: finite })
+      .strict(),
+    z.object({ type: z.literal("flag-absent"), flag: nonEmpty }).strict(),
+    z
+      .object({ type: z.literal("all"), items: z.array(modifierActivationSchema).min(1) })
+      .strict(),
+  ]),
+);
+
 const modifierSchema = z
   .object({
     id: nonEmpty,
@@ -353,6 +373,7 @@ const modifierSchema = z
     value: finite,
     startsAt: tickSchema,
     endsAt: tickSchema.optional(),
+    activation: modifierActivationSchema.optional(),
     tags: z.array(nonEmpty),
   })
   .strict();
@@ -395,7 +416,13 @@ const scoreSchema = z
       .object({
         rawScore: finite,
         adjustedScore: finite,
-        categoryTotals: z.partialRecord(scoreCategorySchema, finite),
+        categoryTotals: z
+          .object(
+            Object.fromEntries(
+              scoreCategorySchema.options.map((category) => [category, finite]),
+            ),
+          )
+          .strict(),
         difficultyMultiplier: finite.positive(),
         victoryClassMultiplier: finite.positive(),
         leaderboardEligibility: z.enum(["winning-run", "local-only", "ineligible"]),

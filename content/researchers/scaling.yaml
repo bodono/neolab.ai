@@ -35,7 +35,7 @@ researchers:
       id: ability.selectively-awake
       label: Outrageously Large, Selectively Awake
       eligibleAssignments: [capability-program, training-run]
-      activation: { type: assignment-domain-or-discovery, domains: [domain.architectures, domain.optimisation], discoveryTag: sparse-mixture-of-experts }
+      activation: { type: assignment-domain-or-discovery, domains: [domain.architectures, domain.optimisation-scaling], discoveryTag: sparse-mixture-of-experts }
       rampWeeks: 4
       effects:
         - { target: assignedProgramme.researchOutput, operation: multiply, value: 1.20, stackingGroup: programme-rp, beforeDiscovery: sparse-mixture-of-experts }

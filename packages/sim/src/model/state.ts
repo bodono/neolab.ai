@@ -334,6 +334,17 @@ export interface EffectSource {
   readonly id?: string;
 }
 
+/**
+ * Serialisable activation condition carried by conditional modifiers (from
+ * authored `activation:` blocks, GDD section 29.7). Evaluated by the modifier
+ * resolver against the player lab; a modifier with a false condition is
+ * dormant, not deleted.
+ */
+export type ModifierActivation =
+  | { readonly type: "metric-below"; readonly metric: string; readonly value: number }
+  | { readonly type: "flag-absent"; readonly flag: string }
+  | { readonly type: "all"; readonly items: readonly ModifierActivation[] };
+
 export interface ModifierState {
   readonly id: ModifierId;
   readonly source: EffectSource;
@@ -342,6 +353,7 @@ export interface ModifierState {
   readonly value: number;
   readonly startsAt: Tick;
   readonly endsAt?: Tick;
+  readonly activation?: ModifierActivation;
   readonly tags: readonly string[];
 }
 

@@ -190,10 +190,10 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 ### Exit gate (Stage 1)
 
-- [ ] Same seed/config/command-log ⇒ byte-equivalent canonical state (automated test, ≥2 seeds).
-- [ ] Golden baselines exist for all five leaders and all four difficulties.
-- [ ] RandomOracle golden vectors committed and green.
-- [ ] CI green.
+- [x] Same seed/config/command-log ⇒ byte-equivalent canonical state (automated test, ≥2 seeds; command-free replay across 4 seed/leader configs — command-inclusive replay is a logged test gap).
+- [x] Golden baselines exist for all five leaders and all four difficulties.
+- [x] RandomOracle golden vectors committed and green.
+- [x] CI green (hosted, after Stage 1 review fixes).
 
 ---
 
@@ -570,6 +570,8 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 Append-only. Format: `YYYY-MM-DD · task ID · decision · reason · follow-up (if any)`.
 
+- 2026-07-21 · stage1-review · A five-lens finder pass (verification phase cancelled to save tokens) surfaced real defects, all fixed: run-bricking `dueInWeeks: 0` scheduled-effect chains (now drained to fixpoint per tick, capped at 100 rounds); save-bricking unvalidated command payloads and basis-point ranges (zod-validated at the command boundary + invariant range checks); `idCounters`/`categoryTotals` schema holes (full-record schemas); compiler last-wins on duplicate difficulties/mandates; authored `activation:` conditions dropped at run creation (now carried on `ModifierState` and evaluated by the resolver); stale content IDs `domain.optimisation`/`safety.security-testing` aligned to the registry's `-scaling`/`-containment` forms; compiler now validates effect targets against the shared registry and returns the canonicalised bundle; loads run invariants and freeze; transactions poison on updater throw; `weighted()` sorts by code point and keys reject unpaired surrogates (golden vectors unchanged); lint now bans Date/Math.random/localeCompare in sim and the selector-barrel bypass.
+- 2026-07-21 · stage1-review · Logged, deliberately NOT fixed now: `Math.exp` is engine-approximated (future leaderboard replay must pin the engine build, as TDD 24.7 already requires); `GameState.researchers` collection deferred to Stage 4 (save-version bump there); `NewGameConfig` omits `labId`/`tutorial` (lab derived from leader; tutorial is UI-stage); `TickContext.rules`, `tx.applyEffects`, `allocateId(owner)`, `commit(audit)`, `calculateScoreView(state)` are deliberate API-shape deviations from TDD prose; Unhinged Scaling's "wider event variance" knob arrives with the Stage 5 event engine; Build It Right's permanent throughput modifier is an open balance question; test gaps to close early in Stage 2: command-inclusive replay, invariant-pack table tests, compiler rejection-path tests, modifier `min`/future-start coverage.
 - 2026-07-21 · S1.8 · Sim-internal tests keep using `createBareState`/`createNewGame` directly instead of the testkit builder · testkit depends on sim, so sim's own tests cannot import it without a cycle · downstream packages (testkit, balance-runner, web) use `scenario()`.
 - 2026-07-21 · S1.3 · Fixed two `content/labs/launch.yaml` records against GDD §29.7: OpenMind board-patience `max 60` → `min 60` ("starts at 60" from a 70 baseline) and spendable-Aura `add 20` → `max 20` ("starts with 20") · authored operations contradicted the GDD prose · flagged for content review; golden snapshots freeze the corrected values.
 - 2026-07-21 · S1.3 · Added `content/balance.yaml` (new-game baseline §29.2, difficulties §29.4, mandates §29.1) as balance data; legacy `lab.compute.raw.starting` values are interpreted as percent-of-baseline-fleet so Humanic's 90 yields 9,000 Kepler GPUs · content predates the GPU migration · migrate the target name when launch.yaml is next revised.

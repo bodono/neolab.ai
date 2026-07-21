@@ -55,10 +55,17 @@ export function createTransaction(before: GameState): SimulationTransaction {
   const draft = structuredClone(before) as DeepMutable<GameState>;
   const events: DomainEvent[] = [];
   let committed = false;
+  let poisoned = false;
 
   const guard = (): void => {
     if (committed) {
       throw new Error("SimulationTransaction used after commit");
+    }
+    if (poisoned) {
+      throw new Error(
+        "SimulationTransaction poisoned: an updater threw mid-mutation, so the " +
+          "draft may be half-applied and can no longer be committed (TDD 9.3)",
+      );
     }
   };
 
@@ -69,7 +76,12 @@ export function createTransaction(before: GameState): SimulationTransaction {
     },
     update(updater: StateUpdater): void {
       guard();
-      updater(draft);
+      try {
+        updater(draft);
+      } catch (error) {
+        poisoned = true;
+        throw error;
+      }
     },
     emit(event: DomainEvent): void {
       guard();

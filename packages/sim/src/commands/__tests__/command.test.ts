@@ -37,13 +37,13 @@ function goodAllocation(): GpuAllocationState {
     capabilityBasisPoints: basisPoints(8000),
     capabilityDomainWeights: {
       "base:domain.architectures": basisPoints(5000),
-      "base:domain.optimisation": basisPoints(2000),
+      "base:domain.optimisation-scaling": basisPoints(2000),
       "base:domain.data-representation": basisPoints(3000),
     },
     safetyProgramWeights: {
       "base:safety.alignment-control": basisPoints(5000),
       "base:safety.interpretability-evals": basisPoints(4000),
-      "base:safety.security-testing": basisPoints(1000),
+      "base:safety.security-containment": basisPoints(1000),
     },
   };
 }
@@ -95,7 +95,7 @@ describe("validateCommand", () => {
         ...goodAllocation(),
         capabilityDomainWeights: {
           "base:domain.architectures": basisPoints(5000),
-          "base:domain.optimisation": basisPoints(2000),
+          "base:domain.optimisation-scaling": basisPoints(2000),
           "base:domain.data-representation": basisPoints(2000),
         },
       },

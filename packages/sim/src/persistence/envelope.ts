@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { assertInvariants, InvariantError } from "../engine/invariants.ts";
+import { deepFreeze } from "../engine/transaction.ts";
 import { validateGameState } from "../model/schema.ts";
 import type { GameState } from "../model/state.ts";
 import { hashJson } from "./hash.ts";
@@ -109,5 +111,16 @@ export function loadSaveEnvelope(value: unknown): LoadedSave {
   } catch (error) {
     throw new SaveLoadError(error instanceof Error ? error.message : String(error));
   }
-  return { envelope, state };
+  // A schema-valid save can still violate cross-field invariants; reject it
+  // HERE as a load error instead of letting the first tick brick the run
+  // (TDD 24.5 step 6).
+  try {
+    assertInvariants(state);
+  } catch (error) {
+    if (error instanceof InvariantError) {
+      throw new SaveLoadError(`save violates game invariants: ${error.message}`);
+    }
+    throw error;
+  }
+  return { envelope, state: deepFreeze(state) };
 }

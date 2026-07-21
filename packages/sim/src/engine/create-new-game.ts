@@ -29,6 +29,7 @@ import {
 } from "../model/units.ts";
 import { RANDOM_CONTRACT_VERSION } from "../random/oracle.ts";
 import { isModifierTarget } from "./modifier-targets.ts";
+import { deepFreeze } from "./transaction.ts";
 import type { Seed128 } from "../random/seed.ts";
 
 /** New-game configuration (TDD section 21.5). */
@@ -108,7 +109,9 @@ const STARTING_TARGETS: Readonly<Record<string, StartingApply>> = {
   },
   "lab.research.scientific.startingLevel": domainTarget("base:domain.scientific-ai"),
   "lab.research.robotics.startingLevel": domainTarget("base:domain.robotics-embodiment"),
-  "lab.research.optimisation.startingLevel": domainTarget("base:domain.optimisation"),
+  "lab.research.optimisation.startingLevel": domainTarget(
+    "base:domain.optimisation-scaling",
+  ),
 };
 
 /** One-time grants recorded as lab flags rather than persistent modifiers. */
@@ -157,6 +160,9 @@ function applyAuthoredEffects(
       operation: effect.operation,
       value: effect.value,
       startsAt: tick(0),
+      // Authored activation conditions ride along so conditional bonuses
+      // (GDD 29.7) stay conditional; the resolver evaluates them per tick.
+      ...(effect.activation === undefined ? {} : { activation: effect.activation }),
       tags: [],
     });
   }
@@ -534,5 +540,5 @@ export function createNewGame(
     endgame: { stage: "inactive" },
   };
 
-  return validateGameState(state);
+  return deepFreeze(validateGameState(state));
 }
