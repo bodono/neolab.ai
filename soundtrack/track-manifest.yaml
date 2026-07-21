@@ -1,0 +1,181 @@
+schemaVersion: 2
+status: complete-alpha
+soundtrackId: neolab-score-complete-alpha
+
+technicalTarget:
+  productionSampleRate: 48000
+  prototypeSampleRate: 24000
+  channels: 2
+  preferredBrowserCodec: opus
+  fallbackBrowserCodec: aac-or-mp3
+  targetCompressedKbps: 96-128
+  loopingTracksRequireSeamlessBoundaries: true
+  oneShotEndFadeRequired: true
+  adaptiveTransitionGrid: one-bar
+
+motifs:
+  lab:
+    scaleDegrees: [1, 3, 5, 7, 6, 5, 3, 2]
+    meaning: Curiosity, progress, and the possibility of correcting course.
+  safetyAnswer:
+    scaleDegrees: [5, 4, 2, 3]
+    meaning: Evidence answering ambition without fully resolving it.
+  frontierPulse:
+    description: A repeated root interrupted one subdivision early.
+    meaning: Acceleration and race pressure.
+
+tracks:
+  - id: hello-world-model
+    trackNumber: 1
+    title: Hello, World Model
+    state: full-arrangement-prototype
+    role: title-and-lab-selection
+    bpm: 108
+    bars: 72
+    durationSeconds: 160.0
+    keyCentre: C Lydian / E minor
+    intensity: 1
+    emotionalTags: [curious, welcoming, clever, playful]
+    sourceFunction: compose_hello_world_model
+    listeningAsset: prototypes/01-hello-world-model.m4a
+
+  - id: gradients-flowing
+    trackNumber: 2
+    title: The Gradients Are Flowing
+    state: full-arrangement-prototype
+    role: normal-laboratory
+    bpm: 126
+    bars: 80
+    durationSeconds: 152.4
+    keyCentre: D major / B minor
+    intensity: 2
+    emotionalTags: [upbeat, productive, kinetic, optimistic]
+    sourceFunction: compose_gradients_flowing
+    listeningAsset: prototypes/02-gradients-flowing.m4a
+
+  - id: safety-case-draft-47
+    trackNumber: 3
+    title: Safety Case (Draft 47)
+    state: full-arrangement-alpha
+    role: safety-and-reflective-play
+    bpm: 92
+    bars: 72
+    durationSeconds: 187.8
+    keyCentre: E Dorian
+    intensity: 1
+    emotionalTags: [warm, thoughtful, uncertain, humane]
+    sourceFunction: compose_safety_case
+    listeningAsset: prototypes/03-safety-case-draft-47.m4a
+
+  - id: red-team-found-something
+    trackNumber: 4
+    title: Red Team Found Something
+    state: full-arrangement-alpha
+    role: serious-incident-and-crisis
+    bpm: 138
+    bars: 80
+    durationSeconds: 139.1
+    keyCentre: D minor
+    intensity: 4
+    emotionalTags: [urgent, asymmetric, focused, uneasy]
+    sourceFunction: compose_red_team
+    listeningAsset: prototypes/04-red-team-found-something.m4a
+
+  - id: last-evaluation
+    trackNumber: 5
+    title: The Last Evaluation
+    state: full-arrangement-alpha
+    role: endgame-evidence-sprint
+    bpm: 104
+    bars: 80
+    durationSeconds: 184.6
+    keyCentre: E minor with unresolved major colour
+    intensity: 3
+    emotionalTags: [expansive, tense, consequential, determined]
+    sourceFunction: compose_last_evaluation
+    listeningAsset: prototypes/05-last-evaluation.m4a
+
+  - id: broadly-shared-future
+    trackNumber: 6
+    title: A Broadly Shared Future
+    state: full-arrangement-alpha
+    role: full-victory-and-credits
+    bpm: 116
+    bars: 80
+    durationSeconds: 165.5
+    keyCentre: A major
+    intensity: 2
+    emotionalTags: [hopeful, sincere, communal, earned]
+    sourceFunction: compose_broadly_shared_future
+    listeningAsset: prototypes/06-broadly-shared-future.m4a
+
+  - id: cashflow-positive
+    trackNumber: 7
+    title: Cashflow Positive*
+    state: full-arrangement-alpha
+    role: commercial-momentum
+    bpm: 122
+    bars: 72
+    durationSeconds: 141.6
+    keyCentre: F major / D minor
+    intensity: 2
+    emotionalTags: [jaunty, confident, slightly-manic]
+    sourceFunction: compose_cashflow_positive
+    listeningAsset: prototypes/07-cashflow-positive.m4a
+
+  - id: peer-reviewer-two
+    trackNumber: 8
+    title: Reviewer Two Requires AGI
+    state: full-arrangement-alpha
+    role: publication-and-archive
+    bpm: 114
+    bars: 72
+    durationSeconds: 151.6
+    keyCentre: B-flat Lydian / D minor
+    intensity: 1
+    emotionalTags: [cerebral, fussy, affectionate]
+    sourceFunction: compose_reviewer_two
+    listeningAsset: prototypes/08-peer-reviewer-two.m4a
+
+  - id: nothing-left-to-read
+    trackNumber: 9
+    title: There Is No One Left to Read This
+    state: full-arrangement-alpha
+    role: extinction-ending
+    bpm: 60
+    bars: 32
+    durationSeconds: 128.0
+    keyCentre: E minor
+    intensity: 0
+    loop: false
+    emotionalTags: [sparse, unresolved, final]
+    sourceFunction: compose_nothing_left_to_read
+    listeningAsset: prototypes/09-nothing-left-to-read.m4a
+
+eventCues:
+  - { id: paper-discovered, eventNumber: 1, title: Paper Discovered, role: research-world-first, gesture: discovery-bloom, asset: events/event-01-paper-discovered.m4a }
+  - { id: major-breakthrough, eventNumber: 2, title: Major Breakthrough, role: major-research-result, gesture: breakthrough-arc, asset: events/event-02-major-breakthrough.m4a }
+  - { id: capability-tier, eventNumber: 3, title: Capability Tier Increased, role: model-level-up, gesture: tier-staircase, asset: events/event-03-capability-tier.m4a }
+  - { id: safety-win, eventNumber: 4, title: Safety Evidence Improved, role: safety-success, gesture: safety-answer, asset: events/event-04-safety-win.m4a }
+  - { id: fundraising-complete, eventNumber: 5, title: Fundraising Complete, role: finance-success, gesture: ledger-motion, asset: events/event-05-fundraising-complete.m4a }
+  - { id: researcher-joins, eventNumber: 6, title: Researcher Joined, role: talent-recruited, gesture: talent-duet, asset: events/event-06-researcher-joins.m4a }
+  - { id: researcher-departs, eventNumber: 7, title: Researcher Departed, role: talent-departure, gesture: farewell-space, asset: events/event-07-researcher-departs.m4a }
+  - { id: rival-breakthrough, eventNumber: 8, title: Rival Breakthrough, role: rival-progress, gesture: distant-rival, asset: events/event-08-rival-breakthrough.m4a }
+  - { id: regulatory-attention, eventNumber: 9, title: Regulatory Attention, role: government-scrutiny, gesture: formal-seal, asset: events/event-09-regulatory-attention.m4a }
+  - { id: crisis-opened, eventNumber: 10, title: Crisis Opened, role: serious-incident, gesture: crisis-breath, asset: events/event-10-crisis-opened.m4a }
+  - { id: containment-warning, eventNumber: 11, title: Containment Warning, role: containment-evidence, gesture: containment-descent, asset: events/event-11-containment-warning.m4a }
+  - { id: coalition-proposed, eventNumber: 12, title: Coalition Proposed, role: coalition-offer, gesture: coalition-question, asset: events/event-12-coalition-proposed.m4a }
+  - { id: coalition-formed, eventNumber: 13, title: Coalition Formed, role: coalition-success, gesture: coalition-weave, asset: events/event-13-coalition-formed.m4a }
+  - { id: endgame-begins, eventNumber: 14, title: Endgame Begins, role: endgame-transition, gesture: endgame-threshold, asset: events/event-14-endgame-begins.m4a }
+  - { id: race-won, eventNumber: 15, title: Race Won, role: aligned-agi-victory, gesture: victory-cadence, asset: events/event-15-race-won.m4a }
+  - { id: race-lost, eventNumber: 16, title: Race Lost, role: rival-wins, gesture: race-recedes, asset: events/event-16-race-lost.m4a }
+  - { id: nationalised, eventNumber: 17, title: Lab Nationalised, role: nationalisation-ending, gesture: institutional-close, asset: events/event-17-nationalised.m4a }
+  - { id: bankruptcy, eventNumber: 18, title: Bankruptcy, role: bankruptcy-ending, gesture: empty-ledger, asset: events/event-18-bankruptcy.m4a }
+  - { id: containment-failure, eventNumber: 19, title: Containment Failure, role: extinction-ending, gesture: final-fragment, asset: events/event-19-containment-failure.m4a }
+  - { id: score-milestone, eventNumber: 20, title: Score Milestone, role: score-award, gesture: score-sparkle, asset: events/event-20-score-milestone.m4a }
+
+provenance:
+  externalSamples: false
+  copiedMelodies: false
+  deterministicSourceIncluded: true
+  finalReleaseLicenseDecisionRequired: true

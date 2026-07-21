@@ -1,0 +1,7 @@
+prototypes/*.wav
+prototypes/*.aiff
+events/*.wav
+events/*.aiff
+analysis/
+**/__pycache__/
+*.pyc
