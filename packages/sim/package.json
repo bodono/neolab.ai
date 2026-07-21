@@ -8,7 +8,7 @@
     "./public": "./src/public.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts"
   },
   "dependencies": {
     "@neolab/content-schema": "workspace:*",

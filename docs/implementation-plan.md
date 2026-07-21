@@ -109,7 +109,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 ### Tasks
 
-- [ ] **S1.1 — RandomOracleV1.**
+- [x] **S1.1 — RandomOracleV1.** *(the `randomContractVersion`-in-state item is fulfilled by S1.2's `GameState`, which embeds `RANDOM_CONTRACT_VERSION`)*
   - Spec: TDD §10.1–§10.2 (follow the 11-step derivation exactly).
   - Where: `packages/sim/src/random/`.
   - Done when:
