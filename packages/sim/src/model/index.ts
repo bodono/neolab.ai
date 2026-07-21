@@ -28,3 +28,6 @@ export {
   type Rating,
   type Tick,
 } from "./units.ts";
+export * from "./state.ts";
+export { assertPlainSerialisable, gameStateSchema, validateGameState } from "./schema.ts";
+export { createBareState } from "./fixture.ts";

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@neolab/content-schema": "workspace:*",
-    "@noble/hashes": "catalog:"
+    "@noble/hashes": "catalog:",
+    "zod": "catalog:"
   }
 }

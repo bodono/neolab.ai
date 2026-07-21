@@ -118,7 +118,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - Property tests: uniformity sanity, integer bounds inclusivity, weighted zero-weight exclusion, invalid-weight rejection.
     - `randomContractVersion` constant exported and included in state.
 
-- [ ] **S1.2 — Canonical `GameState` shell and serialisation rules.**
+- [x] **S1.2 — Canonical `GameState` shell and serialisation rules.**
   - Spec: TDD §5.1, §5.2, §5.5, §7 (all subsections); GDD §31 for slice inventory.
   - Where: `packages/sim/src/model/`.
   - Done when:
