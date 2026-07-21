@@ -172,7 +172,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - Deterministic state hash function (stable key ordering) exported for replay comparison.
     - Replay test: new game → 100 ticks with no commands → serialise → load → 100 more ticks, compared against an uninterrupted 200-tick run; hashes equal. Run for two different seeds and two leaders.
 
-- [ ] **S1.8 — Testkit scenario builders (initial).**
+- [x] **S1.8 — Testkit scenario builders (initial).**
   - Spec: TDD §25.2.
   - Done when:
     - `scenario()` builder produces valid states with safe defaults; `.atTick()`, `.withPlayerLab()` (cash/rating setters plus `.gpus("gpu.kepler", 40_000)`-style lot setters per TDD §25.2) work; `build()` validates; `unsafeFixture()` escape hatch exists.
@@ -570,6 +570,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 Append-only. Format: `YYYY-MM-DD · task ID · decision · reason · follow-up (if any)`.
 
+- 2026-07-21 · S1.8 · Sim-internal tests keep using `createBareState`/`createNewGame` directly instead of the testkit builder · testkit depends on sim, so sim's own tests cannot import it without a cycle · downstream packages (testkit, balance-runner, web) use `scenario()`.
 - 2026-07-21 · S1.3 · Fixed two `content/labs/launch.yaml` records against GDD §29.7: OpenMind board-patience `max 60` → `min 60` ("starts at 60" from a 70 baseline) and spendable-Aura `add 20` → `max 20` ("starts with 20") · authored operations contradicted the GDD prose · flagged for content review; golden snapshots freeze the corrected values.
 - 2026-07-21 · S1.3 · Added `content/balance.yaml` (new-game baseline §29.2, difficulties §29.4, mandates §29.1) as balance data; legacy `lab.compute.raw.starting` values are interpreted as percent-of-baseline-fleet so Humanic's 90 yields 9,000 Kepler GPUs · content predates the GPU migration · migrate the target name when launch.yaml is next revised.
 - 2026-07-21 · S0.7 · "CI green on main" checked from local execution of every CI step (content build + reproducibility, lint, typecheck, tests, web build, Playwright smoke) · commits are local-only; the user has not asked for a push · first push should confirm the hosted workflow.
