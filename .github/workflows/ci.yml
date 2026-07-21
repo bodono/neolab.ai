@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Compile content
+        run: pnpm content:build
+
+      - name: Verify content bundle is reproducible
+        run: |
+          h1=$(sha256sum packages/content/generated/content.bundle.json | cut -d' ' -f1)
+          pnpm content:build > /dev/null
+          h2=$(sha256sum packages/content/generated/content.bundle.json | cut -d' ' -f1)
+          if [ "$h1" != "$h2" ]; then
+            echo "content bundle is not byte-reproducible: $h1 != $h2" >&2
+            exit 1
+          fi
+          echo "content bundle hash: $h1"
+
+      - name: Lint and format check
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Unit and integration tests
+        run: pnpm test
+
+      - name: Web production build
+        run: pnpm --filter @neolab/web build
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter @neolab/web exec playwright install --with-deps chromium
+
+      - name: Playwright smoke tests
+        run: pnpm test:e2e
+
+      - name: Bundle size report
+        run: |
+          {
+            echo "## Web bundle size"
+            echo '```'
+            du -sh apps/web/dist
+            find apps/web/dist -type f -exec du -h {} + | sort -rh | head -20
+            echo '```'
+          } | tee bundle-size-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload bundle size report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-size-report
+          path: bundle-size-report.md
