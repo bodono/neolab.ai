@@ -78,7 +78,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - `Brand`, `LabId`, `ModelId`, `ProjectId`, `ContentId`, `Tick`, `CashMillions`, `GpuCount`, `GpuWeeks`, `Rating`, and `Fraction` exist with validating constructors (`rating()`, `fraction()` etc.) that throw on invalid programmer input.
     - Unit tests cover boundary values (NaN, Infinity, out-of-range) for every constructor.
 
-- [ ] **S0.6 — Empty content manifest and compiler walking skeleton.**
+- [x] **S0.6 — Empty content manifest and compiler walking skeleton.**
   - Spec: TDD §12.1–§12.4 (minimal subset only).
   - Where: `tools/content-compiler`, `content/manifest.yaml`, `packages/content/generated/`.
   - Done when:

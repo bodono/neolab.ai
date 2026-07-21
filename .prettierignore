@@ -10,5 +10,6 @@ pnpm-lock.yaml
 docs/
 design/
 content/
+soundtrack/
 *.md
 LICENSE
