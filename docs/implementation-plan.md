@@ -71,7 +71,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - Vitest runs in every package (`pnpm test` at root aggregates).
     - Playwright is installed in `apps/web` with a placeholder smoke spec that opens a blank Vite page (`pnpm test:e2e`).
 
-- [ ] **S0.5 — Foundational shared types.**
+- [x] **S0.5 — Foundational shared types.**
   - Spec: TDD §5.3 (branded IDs), §5.4 (units), §5.6 (`assertNever`).
   - Where: `packages/sim/src/model/` (brands, units, helpers), `packages/content-schema/src/` (content ID types).
   - Done when:
