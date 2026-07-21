@@ -83,7 +83,9 @@ export function createTransaction(before: GameState): SimulationTransaction {
     },
     schedule(effect: ScheduledEffectState): void {
       guard();
-      draft.scheduledEffects.push(structuredClone(effect));
+      draft.scheduledEffects.push(
+        structuredClone(effect) as DeepMutable<ScheduledEffectState>,
+      );
     },
     allocateId(namespace: IdNamespace, owner: string): string {
       guard();

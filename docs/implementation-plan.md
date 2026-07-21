@@ -155,7 +155,7 @@ This plan exists so that work can be interrupted at any point and resumed by som
     - Invariant suite from TDD §9.5 implemented as a callable pack; wired into `commit`.
     - Queued orders (S1.4) apply in `apply-orders` phase next tick (test).
 
-- [ ] **S1.6 — Effects, modifiers, predicates, checks (core vocabulary).**
+- [x] **S1.6 — Effects, modifiers, predicates, checks (core vocabulary).**
   - Spec: TDD §11.1–§11.4.
   - Where: `packages/sim/src/engine/` (executor, resolver), `packages/content-schema` (authored forms).
   - Done when:

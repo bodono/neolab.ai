@@ -129,10 +129,11 @@ export function collectInvariantViolations(
     }
   }
 
-  // TDD 9.5: scheduled effects carry a future tick and stable ID.
+  // TDD 9.5: scheduled effects are never past-due (dueAt === tick is fine:
+  // it fires during the delayed-effects phase of that tick).
   const scheduledIds = new Set<string>();
   for (const scheduled of state.scheduledEffects) {
-    if (scheduled.dueAt <= state.run.tick) {
+    if (scheduled.dueAt < state.run.tick) {
       push("scheduled-past", `${scheduled.id} due at ${String(scheduled.dueAt)}`);
     }
     if (scheduledIds.has(scheduled.id)) {

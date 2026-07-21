@@ -28,6 +28,7 @@ import {
   tick,
 } from "../model/units.ts";
 import { RANDOM_CONTRACT_VERSION } from "../random/oracle.ts";
+import { isModifierTarget } from "./modifier-targets.ts";
 import type { Seed128 } from "../random/seed.ts";
 
 /** New-game configuration (TDD section 21.5). */
@@ -116,38 +117,6 @@ const GRANT_TARGETS: ReadonlySet<string> = new Set([
   "lab.paper.extraCandidatesRevealed",
 ]);
 
-/** Provisional ongoing-modifier target registry; S1.6 formalises it. */
-const MODIFIER_TARGETS: ReadonlySet<string> = new Set([
-  "lab.research.all.output",
-  "lab.research.alignment.output",
-  "lab.research.interpretability.output",
-  "lab.research.security.output",
-  "lab.research.capabilityInfrastructure",
-  "lab.research.optimisation.recipeChoices",
-  "lab.paper.eligibleFamilies",
-  "lab.market.acquisitionRate",
-  "lab.market.publicAcquisitionRate",
-  "lab.market.guardedEnterpriseSatisfaction",
-  "lab.market.startingDemand",
-  "lab.fundraising.duration",
-  "lab.fundraising.offerCash",
-  "lab.finance.executiveCostPerCycle",
-  "lab.construction.duration",
-  "lab.compute.ownedDeliveryDuration",
-  "lab.compute.ownedPurchasePrice",
-  "lab.compute.ownedPowerCost",
-  "lab.compute.workloadThroughput",
-  "lab.training.frontier.duration",
-  "lab.training.frontier.cashCost",
-  "lab.product.firstProject.durationWeeks",
-  "facility.roboticsLabI.cashCost",
-  "lab.revenue.all",
-  "lab.costs.fixed",
-  "world.rival.progress",
-  "lab.incident.hazard",
-  "lab.evidence.displayedQuality",
-]);
-
 interface EffectApplication {
   readonly draft: MutableDraft;
   readonly modifiers: ModifierState[];
@@ -174,7 +143,7 @@ function applyAuthoredEffects(
       );
       continue;
     }
-    if (!MODIFIER_TARGETS.has(effect.target)) {
+    if (!isModifierTarget(effect.target)) {
       throw new Error(
         `Unknown effect target "${effect.target}" from ${source.kind}:${source.id ?? "?"}`,
       );
@@ -540,6 +509,7 @@ export function createNewGame(
         "gpu-lot": 2,
         evaluation: 0,
         anomaly: 0,
+        scheduled: 0,
         coalition: 0,
       },
     },

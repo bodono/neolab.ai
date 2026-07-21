@@ -107,7 +107,7 @@ describe("advanceOneTick", () => {
 
   it("clears auto-pause reasons at the start of each tick", () => {
     const state = newState();
-    const withPause = structuredClone(state) as {
+    const withPause = structuredClone(state) as unknown as {
       run: { autoPauseReasons: string[] };
     };
     withPause.run.autoPauseReasons = ["manual"];

@@ -47,7 +47,8 @@ export type IdNamespace =
   | "gpu-lot"
   | "evaluation"
   | "anomaly"
-  | "coalition";
+  | "coalition"
+  | "scheduled";
 
 export interface GameCalendar {
   /** Calendar year shown to the player; starts at 2012 (GDD section 29.2). */
@@ -348,6 +349,8 @@ export interface ScheduledEffectState {
   readonly id: string;
   readonly dueAt: Tick;
   readonly source: EffectSource;
+  /** Serialisable effect payload applied in the delayed-effects phase. */
+  readonly effects: readonly import("./effects.ts").Effect[];
 }
 
 export interface DecisionLogEntry {

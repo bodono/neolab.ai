@@ -31,3 +31,4 @@ export {
 export * from "./state.ts";
 export { assertPlainSerialisable, gameStateSchema, validateGameState } from "./schema.ts";
 export { createBareState } from "./fixture.ts";
+export type * from "./effects.ts";

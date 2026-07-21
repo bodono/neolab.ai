@@ -4,6 +4,7 @@ import { assertNever } from "../model/assert-never.ts";
 import { calendarFromTick, type GameState } from "../model/state.ts";
 import { tick as makeTick } from "../model/units.ts";
 import { RandomOracleV1 } from "../random/oracle.ts";
+import { applyEffects } from "./effect-executor.ts";
 import { createSystemRegistry, type TickContext, type TickSystem } from "./systems.ts";
 import { createTransaction, type TransitionResult } from "./transaction.ts";
 
@@ -47,6 +48,27 @@ function baselineSystems(): readonly TickSystem[] {
             tick: tx.before.run.tick,
             count: applied,
           });
+        }
+      },
+    },
+    {
+      id: "effects.apply-delayed",
+      phase: "delayed-effects",
+      priority: 0,
+      run(tx, context): void {
+        // Scheduled consequences fire when their tick arrives (TDD 8.4, GDD
+        // 43 delayed effects); catch-up applies anything at or before now.
+        const due = tx
+          .read()
+          .scheduledEffects.filter((scheduled) => scheduled.dueAt <= context.tick);
+        if (due.length === 0) return;
+        tx.update((draft) => {
+          draft.scheduledEffects = draft.scheduledEffects.filter(
+            (scheduled) => scheduled.dueAt > context.tick,
+          );
+        });
+        for (const scheduled of due) {
+          applyEffects(tx, scheduled.effects, scheduled.source);
         }
       },
     },

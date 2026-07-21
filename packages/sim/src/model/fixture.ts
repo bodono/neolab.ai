@@ -166,6 +166,7 @@ export function createBareState(): GameState {
         "gpu-lot": 2,
         evaluation: 0,
         anomaly: 0,
+        scheduled: 0,
         coalition: 0,
       },
     },

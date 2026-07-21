@@ -56,7 +56,90 @@ const idNamespaceSchema = z.enum([
   "evaluation",
   "anomaly",
   "coalition",
+  "scheduled",
 ]);
+
+const effectSubjectSchema = z.union([
+  z.object({ type: z.literal("player-lab") }).strict(),
+  z.object({ type: z.literal("lab"), labId: z.string().min(1) }).strict(),
+]);
+
+const ratingKeySchema = z.enum([
+  "safetyCulture",
+  "alignmentScience",
+  "evalQuality",
+  "controlTheory",
+  "practicalControlStrength",
+  "securityPosture",
+  "engineeringQuality",
+  "managementCapacity",
+  "researchFreedom",
+  "boardPatience",
+  "internalCandour",
+  "governmentAttention",
+  "governmentTrust",
+  "strategicDependence",
+  "captureConcern",
+]);
+
+const effectSchema: z.ZodType = z.lazy(() =>
+  z.union([
+    z
+      .object({
+        kind: z.literal("add-resource"),
+        subject: effectSubjectSchema,
+        resource: z.enum(["cash", "aura-spendable"]),
+        amount: z.number().finite(),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("add-rating"),
+        subject: effectSubjectSchema,
+        rating: ratingKeySchema,
+        amount: z.number().finite(),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("set-flag"),
+        subject: effectSubjectSchema,
+        flag: z.string().min(1),
+        value: z.union([z.string(), z.number().finite(), z.boolean()]),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("add-modifier"),
+        target: z.string().min(1),
+        operation: z.enum(["add", "multiply", "min", "max"]),
+        value: z.number().finite(),
+        durationWeeks: z.number().int().positive().optional(),
+        tags: z.array(z.string().min(1)).optional(),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("remove-modifier"),
+        modifierId: z.string().min(1),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("schedule-effects"),
+        dueInWeeks: z.number().int().min(0),
+        effects: z.array(effectSchema).min(1),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("end-run"),
+        result: z.enum(["won", "lost"]),
+        endingId: contentIdSchema,
+      })
+      .strict(),
+  ]),
+);
 
 const runSchema = z
   .object({
@@ -275,7 +358,12 @@ const modifierSchema = z
   .strict();
 
 const scheduledEffectSchema = z
-  .object({ id: nonEmpty, dueAt: tickSchema, source: effectSourceSchema })
+  .object({
+    id: nonEmpty,
+    dueAt: tickSchema,
+    source: effectSourceSchema,
+    effects: z.array(effectSchema).min(1),
+  })
   .strict();
 
 const scoreCategorySchema = z.enum([
