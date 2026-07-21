@@ -1,0 +1,76 @@
+draftSchema: 1
+contentVersion: 0.1.0-draft
+status: outline
+
+targets:
+  labs: 5
+  leaders: 5
+  aiCapabilityTiers: 9
+  papers:
+    total: 72
+    real: 58
+    fictionalFuture: 14
+  starResearchers: 56
+  facilityFamilies: 20
+  facilityDefinitionsIncludingUpgrades: 44
+  ordinaryDecisionEvents: 180
+  crisisChains: 30
+  endgameDecisionNodes: 48
+  endgameCrisisInserts: 12
+  endings: 18
+  labFeedTemplates: 600
+
+packs:
+  - id: identity
+    status: draft
+    contains:
+      labs: 5
+      leaders: 5
+      aiCapabilityTiers: 9
+  - id: people-a
+    status: outline
+    contains:
+      starResearchers: 24
+  - id: research-a
+    status: outline
+    contains:
+      realPapers: 20
+  - id: institutions
+    status: outline
+    contains:
+      facilityFamilies: 20
+  - id: events-a
+    status: outline
+    contains:
+      ordinaryDecisionEvents: 60
+      crisisChains: 10
+      labFeedTemplates: 150
+  - id: people-and-research-b
+    status: outline
+    contains:
+      additionalStarResearchers: 32
+      additionalRealPapers: 38
+  - id: late-game
+    status: outline
+    contains:
+      fictionalFuturePapers: 14
+      endgameDecisionNodes: 48
+      endgameCrisisInserts: 12
+      endings: 18
+  - id: replayability
+    status: outline
+    contains:
+      additionalOrdinaryDecisionEvents: 120
+      additionalCrisisChains: 20
+      additionalLabFeedTemplates: 450
+
+reviewStates:
+  - outline
+  - draft
+  - mechanics-reviewed
+  - fact-reviewed
+  - tone-reviewed
+  - legal-review-needed
+  - legal-reviewed
+  - playtest-ready
+  - release-ready

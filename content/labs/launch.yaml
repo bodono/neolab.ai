@@ -1,0 +1,282 @@
+draftSchema: 1
+contentType: launch-leaders-and-labs
+status: draft
+
+leaders:
+  - id: leader-thomas-hassabi
+    displayName: Thomas Hassabi
+    inspirationName: Demis Hassabis
+    epithet: The Visionary
+    company:
+      id: lab-deepbrain
+      displayName: DeepBrain
+    aiFamily: Gemini
+    characteristic: Sees the whole research tree while everyone else is still arguing about the benchmark.
+    headlineBonus:
+      id: polymaths-programme
+      label: Polymath's Programme
+      target: lab.research.all.output
+      operation: multiply
+      value: 1.20
+    biography: >-
+      A prodigious chess player, pioneering game designer, computational neuroscientist,
+      institution-builder and Nobel laureate, Thomas Hassabi has spent his life treating
+      disciplinary boundaries as polite suggestions. He co-founded DeepBrain around the
+      audacious belief that understanding intelligence could become a practical scientific
+      project, then led extraordinary teams from deep reinforcement learning and game-playing
+      breakthroughs to protein-structure prediction that transformed biological research.
+      His rare gift is not merely selecting ambitious problems; it is arranging brilliant
+      people, patient capital and rigorous experiments so that impossible problems begin to
+      look scheduled. Thomas does not predict a new golden age of discovery as an observer.
+      He arrives with a research plan, a hand-drawn tree of knowledge, and the serene
+      expectation that your lab will help build it.
+    labModifiers:
+      - id: scientific-institution
+        label: Scientific Institution
+        effects:
+          - { target: lab.research.scientific.startingLevel, operation: max, value: 6 }
+          - { target: lab.paper.eligibleFamilies, operation: add, value: 1 }
+      - id: long-horizon
+        label: Long Horizon
+        effects:
+          - { target: lab.culture.researchFreedom.starting, operation: max, value: 70 }
+      - id: a-product-would-be-nice
+        label: A Product Would Be Nice
+        effects:
+          - { target: lab.market.acquisitionRate, operation: multiply, value: 0.85 }
+          - { target: lab.model.productQuality.starting, operation: min, value: 10 }
+    complexity: medium
+    aiNamingStyle: astronomical-scientific
+    sourceNotes:
+      - https://deepmind.google/about/
+      - https://deepmind.google/blog/the-podcast-episode-8-demis-hassabis-the-interview/
+      - https://deepmind.google/blog/demis-hassabis-john-jumper-awarded-nobel-prize-in-chemistry/
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+      legalStatus: legal-review-needed
+
+  - id: leader-dario-amodeo
+    displayName: Dario Amodeo
+    inspirationName: Dario Amodei
+    epithet: The Philosopher
+    company:
+      id: lab-humanic
+      displayName: Humanic
+    aiFamily: Claude
+    characteristic: Has already written the memo explaining why the obvious plan fails at scale.
+    headlineBonus:
+      id: scaling-with-principles
+      label: Scaling With Principles
+      targets:
+        - lab.research.alignment.output
+        - lab.research.interpretability.output
+        - lab.research.security.output
+      operation: multiply
+      value: 1.25
+    biography: >-
+      Trained as a physicist, Dario Amodeo pursued questions from neural circuits to cellular
+      proteomics and cancer biomarkers before turning his attention to the most consequential
+      scaling experiment of the century. He helped lead frontier-model research and then
+      co-founded Humanic as a public-benefit laboratory devoted to systems that are reliable,
+      interpretable and steerable. Dario's exceptional talent is to move comfortably between
+      first-principles argument, empirical scaling behaviour and institutional design—to ask
+      not only whether a system can become vastly more capable, but what kind of organisation
+      could remain intellectually honest while building it. Colleagues may enter his office
+      expecting a model review and leave with a theory of technological history, three safety
+      projects, and the unsettling sense that all three were on the critical path.
+    labModifiers:
+      - id: safety-constitution
+        label: Safety Constitution
+        effects:
+          - { target: lab.culture.safety.starting, operation: max, value: 58 }
+          - { target: lab.evals.quality.starting, operation: max, value: 15 }
+          - { target: lab.culture.internalCandour.starting, operation: max, value: 60 }
+      - id: responsible-market
+        label: Responsible Market
+        effects:
+          - { target: lab.market.guardedEnterpriseSatisfaction, operation: add, value: 5 }
+      - id: deliberate-scale
+        label: Deliberate Scale
+        effects:
+          - { target: lab.compute.raw.starting, operation: min, value: 90 }
+          - target: lab.training.frontier.duration
+            operation: multiply
+            value: 1.08
+            activation: { type: metric-below, metric: lab.management.capacity, value: 60 }
+    complexity: medium
+    aiNamingStyle: literary-institutional
+    sourceNotes:
+      - https://www.hertzfoundation.org/people/dario-amodei/
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+      legalStatus: legal-review-needed
+
+  - id: leader-sam-altmann
+    displayName: Sam Altmann
+    inspirationName: Sam Altman
+    epithet: The Rainmaker
+    company:
+      id: lab-openmind
+      displayName: OpenMind
+    aiFamily: GPT
+    characteristic: Can turn a prototype, a dinner and one slide into the infrastructure budget of a small nation.
+    headlineBonus:
+      id: capital-is-a-technology
+      label: Capital Is a Technology
+      effects:
+        - { target: lab.fundraising.duration, operation: multiply, value: 0.80 }
+        - { target: lab.fundraising.offerCash, operation: multiply, value: 1.20 }
+    biography: >-
+      A founder from the earliest Y Combinator cohort, later the accelerator's president, and
+      a co-founder and chief executive of OpenMind, Sam Altmann has an extraordinary record of
+      recognising technological inflection points before the committee has found the correct
+      calendar invite. He combines restless product instinct with a rare ability to persuade
+      researchers, engineers, investors and heads of government that an implausibly large
+      undertaking is not only possible but late. Under his leadership, frontier AI moved from
+      a research curiosity into a technology used around the world. Sam's signature skill is
+      coalition by acceleration: he makes capital feel visionary, infrastructure feel
+      inevitable and tomorrow's platform feel as though thoughtful people are already waiting
+      for it in the lobby.
+    labModifiers:
+      - id: unreasonable-momentum
+        label: Unreasonable Momentum
+        effects:
+          - { target: lab.aura.spendable.starting, operation: add, value: 20 }
+          - { target: lab.market.acquisitionRate, operation: multiply, value: 1.10 }
+      - id: platform-instinct
+        label: Platform Instinct
+        effects:
+          - target: lab.product.firstProject.durationWeeks
+            operation: add
+            value: -2
+            activation: { type: flag-absent, flag: lab.completedFirstProductisation }
+      - id: everyone-has-a-term-sheet
+        label: Everyone Has a Term Sheet
+        effects:
+          - { target: lab.finance.executiveCostPerCycle, operation: add, value: 0.6 }
+          - { target: lab.board.patience.starting, operation: max, value: 60 }
+    complexity: low-medium
+    aiNamingStyle: generational-codename
+    sourceNotes:
+      - https://openai.com/index/sam-altman-returns-as-ceo-openai-has-a-new-initial-board/
+      - https://time.com/6342827/ceo-of-the-year-2023-sam-altman/
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+      legalStatus: legal-review-needed
+
+  - id: leader-elon-tusk
+    displayName: Elon Tusk
+    inspirationName: Elon Musk
+    epithet: The Industrialist
+    company:
+      id: lab-xmind
+      displayName: xMind
+    aiFamily: Grok
+    characteristic: Believes a software problem is often a factory problem wearing insufficiently ambitious trousers.
+    headlineBonus:
+      id: first-principles-industry
+      label: First-Principles Industry
+      effects:
+        - { target: lab.construction.duration, operation: multiply, value: 0.75 }
+        - { target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.75 }
+    biography: >-
+      Elon Tusk has repeatedly taken ambitions relegated to science fiction—commercial orbital
+      launch, reusable rockets, mass-market electric vehicles, global communications
+      infrastructure and high-bandwidth brain-machine interfaces—and subjected them to
+      engineering schedules. He leads with an almost unreasonable faith that physical
+      bottlenecks yield to first-principles analysis, vertical integration and teams willing
+      to redesign the machine that builds the machine. His organisations have changed what
+      private industry is expected to attempt. At xMind, Elon brings the same appetite to
+      artificial intelligence: immense compute, intimate contact between models and the
+      physical world, and a conviction that understanding the universe is an acceptable
+      product requirement. Where other leaders see a cluster order, he sees a power station,
+      a chip fab and a launch window.
+    labModifiers:
+      - id: vertically-integrated
+        label: Vertically Integrated
+        effects:
+          - { target: lab.engineering.quality.starting, operation: max, value: 62 }
+          - { target: lab.compute.ownedPurchasePrice, operation: multiply, value: 0.92 }
+      - id: robots-are-the-product
+        label: Robots Are the Product
+        effects:
+          - { target: lab.research.robotics.startingLevel, operation: max, value: 5 }
+          - { target: facility.roboticsLabI.cashCost, operation: min, value: 18 }
+      - id: visible-from-orbit
+        label: Visible From Orbit
+        effects:
+          - { target: lab.politics.governmentAttention.starting, operation: max, value: 15 }
+          - { target: lab.compute.ownedPowerCost, operation: multiply, value: 1.20 }
+    complexity: medium-high
+    aiNamingStyle: irreverent-short
+    sourceNotes:
+      - https://ir.tesla.com/corporate/elon-musk
+      - https://x.ai/company
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+      legalStatus: legal-review-needed
+
+  - id: leader-liang-wenfang
+    displayName: Liang Wenfang
+    inspirationName: Liang Wenfeng
+    epithet: The Optimizer
+    company:
+      id: lab-deepsearch
+      displayName: DeepSearch
+    aiFamily: DeepSeek
+    characteristic: Has removed three zeroes from the compute budget and would like to know why the rest are still there.
+    headlineBonus:
+      id: algorithmic-efficiency
+      label: Algorithmic Efficiency
+      target: lab.compute.effectiveCapacity
+      operation: multiply
+      value: 1.20
+    biography: >-
+      An engineer, quantitative-research founder and unusually low-profile laboratory builder,
+      Liang Wenfang converted mastery of large-scale mathematical optimisation into one of the
+      most startling demonstrations of efficient frontier AI. After co-founding a quantitative
+      fund, he founded DeepSearch and assembled a deeply technical team committed to original
+      research, capable open models and ruthless efficiency. The result challenged comfortable
+      assumptions about how much money, hardware and institutional ceremony frontier progress
+      required. Liang's leadership style elevates curiosity over pageantry and elegant systems
+      work over received wisdom. He is the person most likely to inspect a supposedly
+      fundamental resource constraint, identify it as an implementation detail, and quietly
+      publish a model which causes every competing spreadsheet to acquire a new column labelled
+      “explain.”
+    labModifiers:
+      - id: efficiency-culture
+        label: Efficiency Culture
+        effects:
+          - { target: lab.training.frontier.cashCost, operation: multiply, value: 0.90 }
+          - { target: lab.research.optimisation.startingLevel, operation: max, value: 12 }
+      - id: technical-depth
+        label: Technical Depth
+        effects:
+          - { target: lab.research.optimisation.recipeChoices, operation: add, value: 1 }
+      - id: quiet-opening
+        label: Quiet Opening
+        effects:
+          - { target: lab.finance.cash.starting, operation: min, value: 15 }
+          - { target: lab.aura.spendable.starting, operation: min, value: 10 }
+          - target: lab.market.publicAcquisitionRate
+            operation: multiply
+            value: 0.90
+            activation:
+              type: all
+              items:
+                - { type: flag-absent, flag: lab.completedWorldFirstDiscovery }
+                - { type: flag-absent, flag: lab.completedMajorLaunch }
+    complexity: high
+    aiNamingStyle: technical-versioned
+    sourceNotes:
+      - https://apnews.com/article/0673d5c39d90108189cc31b88d85b9f8
+      - https://arxiv.org/abs/2405.04434
+      - https://arxiv.org/abs/2412.19437
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+      legalStatus: legal-review-needed

@@ -1,6 +1,6 @@
 # Neolab.ai — Game Design Document
 
-> Status: Living design document, version 0.6<br>
+> Status: Living design document, version 0.7<br>
 > Phase: Pre-production / concept design<br>
 > Current target: A desktop-first browser strategy game lasting roughly 90–120 minutes
 
@@ -214,7 +214,7 @@ Researchers can affect:
 - Government relationships
 - Organisational morale or conflict
 
-The strongest researchers should not be unambiguously best. A brilliant hire might be expensive, difficult to retain, dismissive of safety, poor at management, publicly controversial, or unwilling to work with another star.
+The strongest researchers should not be unambiguously best. A brilliant hire might command exceptional compensation, need scarce compute, insist on publication or review rights, require a specialised facility, prefer a narrow research programme, or be a poor fit for the lab's current strategy. These are fictional institutional tradeoffs, not claims about a real person's temperament or private conduct.
 
 Only a rotating subset of researchers is available. Rivals can hire or poach them. Researchers may resign over strategy, governance, safety, compensation, or leadership decisions.
 
@@ -726,23 +726,25 @@ Art and content breadth are not priorities for this prototype.
 
 ### 20.2 First complete playable version
 
-Tentative target:
+Launch-content target:
 
 - Five selectable labs with distinct bonuses
 - Four rivals in each run
-- 30–40 real papers
-- 15–25 real-person researcher characters
+- 72 papers: 58 real and 14 clearly marked fictional future discoveries
+- 56 real-person-inspired star researchers with flattering sourced biographies
 - Eight capability research domains plus three safety programmes
-- At least 110 authored decision/crisis events, of which a normal run sees roughly 22–32 plus the endgame
+- 180 ordinary decision events and 30 multi-beat crisis chains, of which a normal run sees roughly 24–36 ordinary events plus crises and the endgame
+- 600 lab-feed templates, at least 400 of them non-mechanical atmosphere or humour
+- 20 facility families represented by 44 construction/upgrade definitions
+- Nine public AI capability tiers which remain separate from alignment
 - Several customer segments
 - Lobbying and regulatory escalation
-- One polished deployment crisis with multiple endings
+- One modular Deployment Crisis with 48 authored decision nodes, 12 crisis inserts, and 18 ending/epilogue families
 - 90–120 minute runs
 
 ### 20.3 Later expansion target
 
-- 50–100 real papers
-- Several dozen researchers
+- More papers and researchers after the launch catalogue proves manageable
 - More labs and leaders
 - Richer diplomacy and coordination
 - Additional research domains and products
@@ -777,9 +779,9 @@ Tentative target:
 The core rules are specified in Part II. Remaining questions are primarily content, tone, and legal/editorial decisions:
 
 1. The current draft uses obvious parody names for real labs and people. Should legal review preserve that policy, require exact names, or recommend a mixture?
-2. Which two star researchers form each lab's opening roster, and what generation names follow each AI family?
-3. Which 30–40 real papers form the first complete research graph, and which disputed priority claims need special historical notes?
-4. Which 20–30 people form the first complete star-researcher roster, and how should living people be portrayed fairly?
+2. Which two star researchers form each lab's opening roster, and what eight-or-more generation names follow each AI family?
+3. Which exact 58 real papers form the complete research graph, and which disputed priority claims need special historical notes?
+4. Which additional 32 people join the 24-person drafted researcher set to reach 56 without leaving domain or demographic blind spots?
 5. How explicit should military use, state competition, labour displacement, and misuse become on screen?
 6. Which exact fictional future discoveries belong to each Prosperity Programme, and how scientifically conservative should their descriptions be?
 7. Do user tests support the specified week length and clock speeds, or do only those balance constants need adjustment?
@@ -791,14 +793,16 @@ Before production game code, the design should next complete the content specifi
 
 1. The five opening star-researcher rosters and leader/lab reaction copy
 2. The precise capability/safety research domain graph
-3. A first list of 30–40 real papers with prerequisites and educational copy
-4. The first star-researcher roster with skills, traits, values, and event hooks
+3. The first 20 of 58 real papers with prerequisites and educational copy
+4. Structured YAML records and biographies for the 24 mechanically drafted star researchers
 5. Lab-specific event, leader, and AI-family voice guides
 6. Complete facility-upgrade and generic-advance catalogues
 7. The remaining event records needed to meet section 46 targets
 8. A content and legal review policy for real people, labs, papers, and marks
 9. A clickable UI flow covering one normal cycle and the complete Deployment Crisis
 10. A balance workbook or headless model using the constants in Part II
+
+The authoritative quotas, file organisation, AI capability ladder, and pack order are in the [Content-First Production Plan](content-production-plan.md).
 
 ## 24. Proposed technical implementation
 
@@ -887,11 +891,23 @@ A small server may become useful later for optional anonymous balancing telemetr
 
 Initial distribution options:
 
-- A public web address
+- A public web address, preferably `play.neolab.ai`
 - itch.io as a free browser-playable HTML5 game
 - A downloadable offline build later, if players request it
 
 The same browser build can serve the public website and itch.io with minor configuration differences. A desktop wrapper should be considered only after the browser game is stable.
+
+The first release requires **no rented game-server CPUs**. A static host sends HTML, JavaScript, content, sound, and image files to the player; the simulation then runs on that player's CPU in the browser. Local saves remain in IndexedDB and can be exported as files. Server compute becomes necessary only if a later version adds accounts, cloud saves, multiplayer, authoritative leaderboards, or server-side daily challenges.
+
+Recommended initial path:
+
+1. Build one static production folder.
+2. Deploy it with GitHub Pages at `play.neolab.ai` for development, testing, and the initial launch.
+3. Upload the same relative-path-safe build as an itch.io HTML5 game for discovery and an easy feedback page.
+4. Add a manifest and offline cache only after cache-version and save-compatibility tests make a PWA safe.
+5. Keep analytics and crash diagnostics absent by default or explicitly consented, aggregated, and privacy-preserving.
+
+GitHub Pages has a soft 100 GB/month bandwidth limit and a 1 GB published-site limit. Keep the compressed first-load bundle small, measure it in CI, and move the unchanged static build to Cloudflare Pages if traffic approaches that soft limit. Cloudflare Pages documents free, unlimited static-asset requests, a 20,000-file Free-plan site limit, and a 25 MiB per-file limit. itch.io supports browser-playable HTML/CSS/JavaScript ZIP uploads and fullscreen launch. Sources: [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits), [Cloudflare Pages pricing](https://developers.cloudflare.com/pages/functions/pricing/), [Cloudflare Pages limits](https://developers.cloudflare.com/pages/platform/limits/), [itch.io HTML5 guide](https://itch.io/docs/creators/html5).
 
 ## 25. Proposed UI direction
 
@@ -901,9 +917,10 @@ An [interactive dashboard concept](../design/mockups/dashboard-concept.html) exp
 
 ### 25.1 Persistent screen layout
 
-The player spends most of the game on one main screen:
+The player spends most of the game on one main screen. The desktop layout uses the available display rather than imitating a narrow web form: a fluid shell is capped at approximately `1500–1600px`, with `20–28px` outer gutters and a `24px` main-column gap on large screens.
 
-- **Top status bar:** Date, time controls, cash, runway, compute, Aura, and urgent warnings
+- **Identity header:** The selected leader's name is the most prominent text, immediately alongside the company and current AI family/model name. Date and time controls share this header but do not visually outrank the leader.
+- **Top status cards:** Finance, compute, Aura, current AI capability level, and urgent warnings
 - **Central workspace:** The currently selected system—compute allocation, research, market, people, or government
 - **World column:** Rival progress estimates, important news, regulation, and coalition state
 - **Lab feed:** Discoveries, incidents, researcher messages, customer problems, and jokes
@@ -936,13 +953,16 @@ Important information from inactive sections should still surface through the to
 
 Continuous resource decisions use sliders, including GPU serving allocation and research splits. Discrete, consequential actions use buttons: start a training run, buy GPUs, build a facility, hire a researcher, publish a discovery, sign a contract, or approve a deployment. Toggles are reserved for persistent operating policies such as automatic inference scaling or mandatory external evaluation.
 
-The top resource area groups information into three readable blocks:
+The top resource area groups information into four readable blocks on wide screens and two rows of two on smaller laptops:
 
 1. **Finance:** Current balance, income, outgoings, net cashflow, runway, and fundraising action
 2. **Compute:** Current capacity and compute-purchase action
 3. **Aura:** Spendable Aura, recent change, and optional lifetime total
+4. **AI capability:** Current named AI, capability level, descriptive tier, uncertain progress toward the next tier, and a model-details action
 
-The star-researcher portrait row remains visible near the top of the dashboard. Recruitment opens a candidate panel; removing or reassigning a researcher begins from the portrait card.
+The central workspace and right rail use approximately a `2:0.72` ratio on displays wider than 1080px, with the rail no narrower than 340px. The rail is sticky while the central workspace scrolls. Below approximately 820px it moves beneath the workspace rather than squeezing both columns.
+
+The star-researcher portrait row remains visible near the top of the dashboard. Five spacious cards fit across the widest layout; narrower layouts show four, three, or one per row. Recruitment candidates appear only when the market is expanded, rather than permanently duplicating employed researchers underneath the roster. Removing or reassigning a researcher begins from the portrait card.
 
 ### 25.4 Important UI moments
 
@@ -1833,6 +1853,26 @@ The first seven capability attributes are the model's capability vector. **Front
 
 The UI shows FC as a useful summary, but individual dimensions continue to matter. A brilliant protein model and a highly autonomous coding model should not be interchangeable merely because both display 72.
 
+### 35.1.1 Player-facing AI capability tiers
+
+Every current model also receives a legible capability level. The tier is a descriptive classification, not XP, alignment, safety, consciousness, or a victory score. It is derived from measured Frontier Capability, minimum attribute gates, and completed demonstrations, so a one-dimensional model can remain below the nominal FC band.
+
+| Level | Tier | Nominal FC | Required demonstration beyond FC |
+|---:|---|---:|---|
+| 0 | Research Prototype | 0–9 | None |
+| 1 | Narrow Specialist | 10–19 | One capability attribute at 20+ |
+| 2 | Foundation Model | 20–34 | Language or Multimodality at 30+ |
+| 3 | Expert Assistant | 35–49 | Reasoning 30+ and Reliability 40+ |
+| 4 | Tool-Using Agent | 50–64 | Tool Use 45+, Agency 30+, sandbox trial |
+| 5 | Autonomous Researcher | 65–79 | Reasoning or Scientific Ability 55+, Agency 50+, replicated novel task |
+| 6 | General Problem Solver | 80–87 | estimated Generality 70+, four capability attributes 65+, diverse replication |
+| 7 | Apparent AGI Candidate | 88–94 | all section 35.6 candidate criteria |
+| 8 | Superhuman General Intelligence | 95–100 | confirmed candidate plus superhuman cross-domain evaluations |
+
+The header and model card show the level, tier, current model name, and an uncertain phrase for progress toward the next tier. A tier change creates a presentation event and unlocks eligible customers, events, or access decisions, but the label itself applies no generic bonus. Level 7 must always say **Apparent** or **Candidate** before confirmation. Level 8 remains capable of being unaligned, uncontrolled, illegitimate, or unprepared to produce broad prosperity.
+
+The canonical draft definitions are in [`content/ai-levels.yaml`](../content/ai-levels.yaml); the [Content-First Production Plan](content-production-plan.md) defines the surrounding authoring policy.
+
 ### 35.2 Starting a training run
 
 A training run requires:
@@ -2073,7 +2113,7 @@ Every star researcher has:
 - Capability-domain skills
 - Safety skills
 - Training, product, political, and management skills
-- Two positive traits and zero to two complications
+- Two positive traits and zero to two fictional institutional constraints
 - Salary and signing requirements
 - Aura threshold
 - Values and lab preferences
@@ -2081,7 +2121,312 @@ Every star researcher has:
 - Contract duration, promises, and non-compete strength where legally applicable
 - Event chain and rival affinities
 
-Skills normally range from 0–5. A researcher assigned as a programme lead adds `10%` output per matching skill point, subject to a maximum personal contribution of `50%`. Traits can change the cap.
+Skills normally range from 0–5. A programme has one lead and may have up to two advisors. A matching lead contributes `3%` output per skill point, to a maximum generic contribution of `15%`; a matching advisor contributes `1.5%` per point, to a maximum of `7.5%`. A researcher's signature ability is separate from this generic contribution and normally operates only while that person is the lead. This smaller baseline leaves room for signatures to be genuinely distinctive without allowing a lucky roster to triple ordinary output.
+
+### 37.2.1 Star-ability contract
+
+Every launch-roster star has four authored mechanical components:
+
+1. **Signature:** a strong, assignment-dependent ability that helps define a build. It operates at full strength only as the relevant programme or project lead unless the text explicitly names an institutional assignment.
+2. **Institutional passive:** a smaller benefit that operates while the researcher is employed, active, and housed. Sabbatical disables the signature but not the passive. `Unhoused` status reduces both to half strength.
+3. **Compact:** the requested working arrangement in a recruitment offer: publication freedom, compute, review rights, a facility, a project, or another observable institutional commitment. It is a fictional game contract inspired by the person's public field of work, not a claim about their real employment demands.
+4. **Affinity hooks:** papers, facilities, events, and endgame routes for which the researcher receives authored dialogue or progress modifiers.
+
+A researcher can hold one assignment. Reassignment starts a four-week ramp for the signature: `25%`, `50%`, `75%`, then `100%`. The institutional passive applies immediately. Advisors provide generic skill contribution but do not activate their signatures unless an ability explicitly says otherwise.
+
+Numbers use the following language consistently:
+
+- `×1.18 RP` means an eighteen-per-cent multiplicative increase to the stated research-point output.
+- `price ×0.90` or `cost −10%` means the quoted cash amount is multiplied by `0.90`; it never refunds cash already spent.
+- `hazard ×0.90` reduces the current probability by ten per cent. It does not subtract ten percentage points and cannot make an incident impossible.
+- `Aura gains ×1.10` affects newly earned Aura only, not the current balance, Lifetime Aura, or Aura costs.
+- `paper effort ×0.80` reduces the hidden effort required for that paper in this run by twenty per cent, without revealing its exact progress bar.
+
+### 37.2.2 Contract bands, availability, and compacts
+
+The first offer shown for a candidate uses the following baseline before market pressure, relationships, lab fit, and run-specific variance. The band is a **game-balance cost**, not a ranking of real-world importance.
+
+| Contract band | Salary per cycle | Signing cash | Aura spend |
+|---|---:|---:|---:|
+| Focused | 0.35 | 2 | 4 |
+| Competitive | 0.50 | 4 | 7 |
+| Major | 0.75 | 6 | 10 |
+| Lab-defining | 1.00 | 9 | 14 |
+
+Salary and signing cash are in millions. A seeded `0.85–1.25` market multiplier affects cash terms, while competing offers and fit affect acceptance rather than silently changing the listed bonuses.
+
+Candidates enter the talent pool through research-state gates instead of slavishly following real calendar dates:
+
+- **Foundation:** eligible from 2012, though only a rotating subset is visible.
+- **Deep-learning wave:** unlocked after the lab reaches level 12 in any capability domain or the world discovers a deep-representation landmark.
+- **Scaling wave:** unlocked after any lab completes a Product-or-larger training run with FC 30+, or the world discovers a modern architecture landmark.
+- **Frontier wave:** unlocked after any lab fields FC 50+, or an associated specialised facility is completed. This lets robotics, safety, or science recruitment sometimes arrive early.
+
+Including the requested compact in an offer adds `+12` recruitment strength. Omitting it applies `−18`; candidates tagged `compact-required` will not accept without it. A compact is checked over a rolling thirteen-week window. An approaching breach produces a warning; a breach produces a negotiation or ultimatum event and applies `−20` to that researcher's morale target, `−10` Loyalty, and `+15` departure pressure until resolved. Bonuses do not blink off without an event—the consequence arrives through the visible people system.
+
+### 37.2.3 Launch star-researcher roster
+
+The launch roster contains the following 24 characters. Display names are affectionate alternate-history fictionalizations; the real inspiration is listed so that research grounding and source review remain explicit.
+
+#### Geoffrey Hintoff — The Godfather of Gradients
+
+**Inspired by:** Geoffrey Hinton
+**Role / gate / band:** Deep representations and architectures / Foundation / Lab-defining
+**Signature — Deep Representations:** while leading Novel Architectures or Data and Representation, that programme produces `RP ×1.18`; Backpropagation and deep-representation paper families use `effort ×0.85`.
+**Passive — Citation Gravity:** Aura gains from world-first capability papers `×1.10`.
+**Compact — Academic Latitude:** at least one of every three discoveries made during his tenure must be published openly or under controlled publication rather than kept secret.
+**Hooks:** Backpropagation, AlexNet-style deep vision, representation-learning debate, emeritus sabbatical event.
+
+#### Ian LeMon — The World-Modeller
+
+**Inspired by:** Yann LeCun
+**Role / gate / band:** Vision, self-supervision, and learned world models / Foundation / Lab-defining
+**Signature — Learn Before the Labels Arrive:** Vision and Multimodality or Data and Representation produces `RP ×1.22` while he leads it; projects using an unlabeled-data recipe pay `data cash cost ×0.85`.
+**Passive — Open Weights, Open Doors:** Aura gains from openly published papers and model releases `×1.15`.
+**Compact — Publication Freedom:** complete one open paper, open dataset, or open model release every 26 weeks.
+**Hooks:** convolutional networks, self-supervised learning, world-model arguments, `The Benchmark Has Eyes` event.
+
+#### Joshua Benji — The Conscience of the Gradient
+
+**Inspired by:** Yoshua Bengio
+**Role / gate / band:** Deep learning, reasoning, and safety / Foundation / Lab-defining
+**Signature — Dual Mandate:** while assigned to the Research Council, both capability RP and safety RP are multiplied by `1.10` if the R&D safety share has remained between `35%` and `65%` for four consecutive weeks. This institutional assignment gives no ordinary programme-lead skill bonus.
+**Passive — Responsible Disclosure:** voluntarily disclosing a severity-3+ anomaly before a leak grants `+3 Government Trust` and reduces that incident's Aura loss by `20%`.
+**Compact — Safety Floor:** keep at least `30%` of R&D compute in safety whenever the lab operates an FC 60+ model.
+**Hooks:** deep learning, generative modelling, alignment declarations, coalition-science overtures.
+
+#### Ilya Suchkeeper — The Scaling Oracle
+
+**Inspired by:** Ilya Sutskever
+**Role / gate / band:** Sequence models and frontier training / Deep-learning wave / Lab-defining
+**Signature — Scaling Intuition:** while technical lead on a Product or Frontier training run, capability-potential gains `×1.08` and candidate-confirmation probability gains `+5` percentage points after all evidence inputs.
+**Passive — Clean Run:** Product and Frontier training durations `×0.92`.
+**Compact — Guaranteed Cluster:** a led training run must receive at least `20%` of total R&D compute and cannot be voluntarily throttled below that share without an emergency event.
+**Hooks:** sequence-to-sequence learning, scaling laws, internal-alignment schism, safeguarded superintelligence project.
+
+#### Faye-Faye Lee — The Human Lens
+
+**Inspired by:** Fei-Fei Li
+**Role / gate / band:** Computer vision, datasets, and human-centred AI / Foundation / Major
+**Signature — A Dataset Is an Institution:** Data and Representation or Vision and Multimodality produces `RP ×1.20`; public-dataset landmark families use `effort ×0.80`.
+**Passive — Talent Pipeline:** recruitment offers to researchers with Vision, Data, Robotics, or Human-Centred tags gain `+8` recruitment strength.
+**Compact — Data Stewardship:** every led data programme needs a funded dataset charter; it adds `5%` to that programme's cash cost and `+5` to resulting Eval Quality.
+**Hooks:** ImageNet, visual-language systems, dataset stewardship, medical-imaging opportunity.
+
+#### Andrew N. Gee — The Great Translator
+
+**Inspired by:** Andrew Ng
+**Role / gate / band:** Applied ML, products, and education / Foundation / Major
+**Signature — Ship It Responsibly:** productisation projects he leads take `20%` less time; if the source model has Reliability 50+, the finished product also gains `+5 Product Quality`.
+**Passive — Everyone Can Learn This:** general-researcher cohort hiring cost `×0.90`, and each talent-market refresh includes one additional candidate if the UI has room.
+**Compact — Teach the Lab:** complete an internal course or public technical explainer every 26 weeks; it occupies him for one week and grants `+2 Aura`.
+**Hooks:** practical deep learning, online education, product triage, `Please Label Ten Thousand More Examples` event.
+
+#### Geoff Deen — The Systems Architect
+
+**Inspired by:** Jeff Dean
+**Role / gate / band:** Distributed systems and ML infrastructure / Foundation / Lab-defining
+**Signature — The Cluster Is the Algorithm:** a training run he leads receives `effective training CU ×1.18`; the bonus applies only to compute allocated to that run.
+**Passive — Build Once, Scale Twice:** Data Centre and Inference Centre up-front construction costs `×0.90`.
+**Compact — Serious Infrastructure:** maintain Engineering Quality 60+ or complete Data Centre I within 26 weeks of hiring.
+**Hooks:** distributed training, systems outages, accelerator design, warehouse-scale-compute paper family.
+
+#### David Sterling — The Self-Play Strategist
+
+**Inspired by:** David Silver
+**Role / gate / band:** Reinforcement learning, planning, and games / Foundation / Lab-defining
+**Signature — League of One's Own:** Reinforcement Learning and Agency produces `RP ×1.25`; self-play paper families use `effort ×0.85`.
+**Passive — Stable League:** the weekly variance range of RL and Agency programmes is narrowed by `30%` around `1.0`; mean output is unchanged.
+**Compact — Dedicated Arena:** while leading RL, at least `15%` of capability compute must remain assigned to it.
+**Hooks:** DQN, AlphaGo, AlphaZero, surprising emergent-strategy event.
+
+#### Rick Sutton — The Long-Horizon Purist
+
+**Inspired by:** Richard Sutton
+**Role / gate / band:** Reinforcement-learning foundations / Foundation / Major
+**Signature — General Methods Win Eventually:** Reinforcement Learning and Agency produces `RP ×1.20`; every second generic advance earned by that programme offers three recipe choices instead of two.
+**Passive — Compute-Friendly Ideas:** model-assisted research contributes `10%` more RP to RL and Agency, without changing the access risk of granting that assistance.
+**Compact — Research Freedom:** maintain Research Freedom target 55+ and do not keep two consecutive RL discoveries secret.
+**Hooks:** temporal-difference learning, general methods, continual learning, `The Bitterer Lesson` debate.
+
+#### Ash Vashwani — The Attention Cartographer
+
+**Inspired by:** Ashish Vaswani
+**Role / gate / band:** Architectures, language, and sequence modelling / Deep-learning wave / Major
+**Signature — Attend to Everything:** Novel Architectures produces `RP ×1.25`; the Attention/Transformer landmark family uses `effort ×0.80`.
+**Passive — Parallel Sequence:** Language or Multimodal training-run duration `×0.92`.
+**Compact — Protected Focus:** once assigned to Novel Architectures, retain that assignment for at least thirteen weeks before a voluntary transfer.
+**Hooks:** Attention Is All You Need, scaling-era architecture race, suspiciously parallelizable breakthrough event.
+
+#### Noam Shazer — The Sparse Magician
+
+**Inspired by:** Noam Shazeer
+**Role / gate / band:** Sparse architectures and inference economics / Scaling wave / Major
+**Signature — Outrageously Large, Selectively Awake:** Novel Architectures or Optimisation produces `RP ×1.20`. After the lab discovers sparse Mixture of Experts, a training run he leads instead receives `effective training CU ×1.15`.
+**Passive — Only Wake the Experts You Need:** serving compute required per request `×0.92`.
+**Compact — Room to Scale:** provide at least `60 CU/week` to his led programme or run whenever it is active.
+**Hooks:** sparsely gated MoE, routing collapse incident, conversational-character product pitch.
+
+#### Ian Goodfriend — The Adversary's Adversary
+
+**Inspired by:** Ian Goodfellow
+**Role / gate / band:** Generative modelling and adversarial robustness / Deep-learning wave / Major
+**Signature — Adversarial Pair:** if Generative/Multimodal work and Security Testing each receive at least `10%` of R&D compute, the programme he leads produces `RP ×1.18` and the paired programme produces `RP ×1.12`.
+**Passive — Attack Before Launch:** jailbreak, abuse, and adversarial-input incident severity `×0.90`; occurrence probability is unchanged.
+**Compact — Quarterly Red Team:** complete a Behavioural Red Team or adversarial review every thirteen weeks after the lab fields FC 40+.
+**Hooks:** GANs, adversarial examples, synthetic-media crisis, generator-versus-discriminator office pool.
+
+#### Diederik Kingman — The Optimiser's Optimiser
+
+**Inspired by:** Diederik P. Kingma
+**Role / gate / band:** Optimisation and probabilistic generative models / Deep-learning wave / Competitive
+**Signature — Adaptive Moment:** Optimisation produces `RP ×1.20`; technical training-failure hazard is multiplied by `0.80` on a run he leads.
+**Passive — Cheap Ablations:** Prototype and research-ablation compute requirements `×0.90`; Product and Frontier runs are unaffected.
+**Compact — Experimental Breadth:** reserve at least `10%` of capability compute for Optimisation while he leads it.
+**Hooks:** variational autoencoders, Adam, diffusion precursors, beautifully behaved loss curve event.
+
+#### Andrey Carpathy — The Demo Whisperer
+
+**Inspired by:** Andrej Karpathy
+**Role / gate / band:** Vision-language engineering, products, and education / Deep-learning wave / Competitive
+**Signature — The Working Demo:** productisation projects he leads take `18%` less time and gain `+3 Product Quality`.
+**Passive — Explainable Excitement:** Aura gains from model launches and public technical demos `×1.10`.
+**Compact — Build It From Scratch:** complete one explainer, internal code reconstruction, or educational release every 26 weeks; the chosen activity costs one week and reduces general-staff onboarding cost by `10%` for the next cycle.
+**Hooks:** vision-language models, practical neural-network tooling, autonomous-systems demo, live-coding event.
+
+#### Christopher Olin — The Microscopist
+
+**Inspired by:** Chris Olah
+**Role / gate / band:** Mechanistic interpretability / Scaling wave / Major
+**Signature — Look Inside:** Interpretability and Evals produces `RP ×1.30`; deep interpretability audits he leads take `20%` less time.
+**Passive — Known Circuits, Fewer Surprises:** after a model completes a deep interpretability audit, that model's containment-violation hazard is multiplied by `0.90` and the audit's evidence-confidence rating gains `+5`. This never applies to unaudited models.
+**Compact — A Real Microscope:** own Interpretability Lab I or promise to complete it within 26 weeks.
+**Hooks:** feature visualisation, circuits, sparse autoencoders, suspicious internal representation event.
+
+#### Paul Christiani — The Oversight Theorist
+
+**Inspired by:** Paul Christiano
+**Role / gate / band:** Alignment, human feedback, and scalable oversight / Scaling wave / Major
+**Signature — Scalable Oversight:** Alignment and Control produces `RP ×1.28`; human-feedback and debate paper families use `effort ×0.85`.
+**Passive — Independent Eyes:** External Audit projects take `15%` less time and provide `+5` evidence confidence.
+**Compact — No Self-Certification:** every FC 60+ model considered for public release must receive an External Audit or trigger an explicit compact-waiver event.
+**Hooks:** RLHF, debate, model evaluations, endgame Defence evidence.
+
+#### Jan Liker — The Alignment Scientist
+
+**Inspired by:** Jan Leike
+**Role / gate / band:** Alignment science and difficult-to-evaluate tasks / Frontier wave / Competitive
+**Signature — Two Lines of Evidence:** while assigned as Safety Director, Alignment and Control and Interpretability and Evals each produce `RP ×1.15` if both receive at least `20%` of safety compute. The institutional assignment gives no normal programme-lead bonus.
+**Passive — Better Error Bars:** displayed confidence intervals from safety evaluations are `10%` narrower when underlying Eval Quality permits it; hidden truth and actual risk are unchanged.
+**Compact — Frontier Safety Budget:** keep at least `25%` of R&D compute in safety while training or deploying FC 70+ systems.
+**Hooks:** reward modelling, weak-to-strong generalisation, automated alignment researcher, dissent memo event.
+
+#### Stewart Russel — The Human-Compatible Statesman
+
+**Inspired by:** Stuart Russell
+**Role / gate / band:** Alignment, governance, and coalition building / Foundation / Major
+**Signature — Assistance, Not Objectives:** Alignment and Control produces `RP ×1.18`; while assigned to the External Council instead, coalition-project checks gain `+10` percentage points. Only one mode operates at a time.
+**Passive — A Credible Person Has Entered the Hearing:** lobbying and coalition actions cost `20%` less Aura.
+**Compact — External Governance:** appoint an independent safety committee before deploying FC 60+ models.
+**Hooks:** human-compatible AI, international safety report, government testimony, Coalition Victory.
+
+#### Jon Jumper — The Protein Cartographer
+
+**Inspired by:** John Jumper
+**Role / gate / band:** Scientific AI and structural biology / Frontier wave or Scientific Laboratory I / Major
+**Signature — Structure From Sequence:** Scientific AI produces `RP ×1.30`; AlphaFold-family paper effort `×0.80`.
+**Passive — Wet Lab Credibility:** Scientific Laboratory construction cost `×0.90`, and completed Medicine prosperity projects gain `+10` readiness.
+**Compact — Science Is Not a Demo:** complete Scientific Laboratory I within 26 weeks and fund Scientific AI with at least `10%` of capability compute while he leads it.
+**Hooks:** AlphaFold, protein design, medicine route, experimental-validation setback.
+
+#### Kelsey Finn — The Meta-Learner
+
+**Inspired by:** Chelsea Finn
+**Role / gate / band:** Robotics, meta-learning, and adaptation / Frontier wave or Robotics Lab I / Competitive
+**Signature — Learn How to Learn:** Robotics and Embodiment produces `RP ×1.25`. Completing a robotics project she leads gives the next *different* robotics project a one-use `duration ×0.85` modifier.
+**Passive — Fast Adaptation:** Robotics Prototype projects require `10%` less compute.
+**Compact — Reality Privileges:** maintain Robotics Lab I and conduct one sandboxed physical trial every thirteen weeks while a robotics programme is active.
+**Hooks:** model-agnostic meta-learning, robot adaptation, embodied prosperity route, robot learns the wrong drawer event.
+
+#### Peter Abell — The Robot Mentor
+
+**Inspired by:** Pieter Abbeel
+**Role / gate / band:** Robot learning, imitation, and reinforcement learning / Foundation or Robotics Lab I / Major
+**Signature — Demonstrate, Then Generalise:** Robotics and Embodiment produces `RP ×1.20`; Reinforcement Learning and Agency produces `RP ×1.12` when he leads that programme instead.
+**Passive — Lab Multiplier:** general researchers assigned to Robotics contribute `10%` more base RP, and Robotics-tagged recruitment offers gain `+5` strength.
+**Compact — Robots You Can Touch:** own Robotics Lab I or complete it within 26 weeks.
+**Hooks:** apprenticeship learning, robot manipulation, affordable robot arms, warehouse contract.
+
+#### Kai-Ming Ho — The Residual Engineer
+
+**Inspired by:** Kaiming He
+**Role / gate / band:** Computer vision and robust architecture design / Deep-learning wave / Major
+**Signature — A Path for the Gradient:** Vision and Multimodality or Novel Architectures produces `RP ×1.25`; residual-network paper effort `×0.80`.
+**Passive — Very Deep, Still Trains:** technical training-failure hazard `×0.85` for every lab run; the modifier does not affect alignment or containment risk.
+**Compact — Engineering Before Depth:** maintain Engineering Quality 55+ before starting a Product or Frontier run he leads.
+**Hooks:** ResNet, object detection, masked autoencoders, the 1,001-layer ablation.
+
+#### Timnit Gebra — The Dataset Auditor
+
+**Inspired by:** Timnit Gebru
+**Role / gate / band:** Dataset documentation, evaluation, and social impacts / Scaling wave / Competitive
+**Signature — Document What You Built:** Data and Representation or Interpretability and Evals produces `RP ×1.22`; a product based on her led programme gains `+5 Eval Quality` if it ships with a datasheet and model card.
+**Passive — Candour Compounds:** voluntarily disclosed bias, dataset, or misuse incidents lose `20%` less Aura and grant `+3 Government Trust`; cover-ups receive no benefit.
+**Compact — Documentation Is Part of the Model:** every public model launch must include a datasheet and model card, adding one week to normal productisation unless already produced by an event or project.
+**Hooks:** Datasheets for Datasets, model cards, facial-analysis audit, worker-and-community consultation event.
+
+#### Jo Pineau — The Reproducibility Marshal
+
+**Inspired by:** Joëlle Pineau
+**Role / gate / band:** Reinforcement learning, health applications, and reproducibility / Foundation / Competitive
+**Signature — Same Result Twice:** a Reinforcement Learning or Interpretability and Evals programme she leads produces `RP ×1.18` and has its weekly variance width reduced by `50%` around `1.0`.
+**Passive — Checklist Included:** failed-replication event weight `×0.75`; replicated papers grant `+2 Aura`.
+**Compact — Reproducible by Default:** publish code, methods, or a reproducibility checklist for at least one discovery every 26 weeks.
+**Hooks:** Bayesian RL, health-care decision systems, reproducibility programme, irreproducible benchmark event.
+
+### 37.2.4 Stacking limits and roster strategy
+
+All star effects show their source in the relevant tooltip. Bonuses are powerful but obey target-specific caps after all researcher modifiers have been combined:
+
+| Effect family | Combination rule | Researcher-only cap |
+|---|---|---:|
+| Global capability or safety RP | Add percentage bonuses, then apply once | `×1.30` |
+| A single programme's RP, including lead skill and signature | Add percentage bonuses, then apply once | `×1.60` |
+| Training effective compute | Add percentage bonuses | `×1.35` |
+| Serving efficiency | Add percentage reductions to CU/request | `×0.70` floor |
+| Purchase, facility, project, or hiring cash discounts | Add discounts within each quoted price | `×0.70` floor |
+| Project or training duration | Multiply reductions, then clamp | `×0.65` floor |
+| Aura-gain multipliers | Add percentage bonuses | `×1.40` |
+| Technical failure, incident, or containment hazard | Multiply reductions | `×0.50` floor |
+| Recruitment strength | Add points | `+25` |
+| Evidence confidence or displayed precision | Add rating points / multiply interval width | `+15` / `×0.70` floor |
+
+Facility, leader, difficulty, and event modifiers use their own caps, but the final target still respects absolute floors in the modifier registry. A containment hazard is never reduced below the global minimum merely by hiring people.
+
+The roster is deliberately full of combinations rather than upgrades. Examples include:
+
+- **Compute empire:** Geoff Deen + Noam Shazer + Diederik Kingman lowers infrastructure, training, serving, and experimental costs, but consumes three scarce slots and demands a large cluster.
+- **Safety case:** Christopher Olin + Paul Christiani + Jan Liker produces better interpretability, external evidence, and balanced safety work, but cannot substitute for secure facilities or sound deployment choices.
+- **Open-science Aura engine:** Geoffrey Hintoff + Ian LeMon + Jo Pineau turns public discoveries into prestige and reliable follow-on work, while secrecy becomes institutionally expensive.
+- **Robotics flywheel:** Kelsey Finn + Peter Abell + David Sterling links self-play, demonstrations, adaptation, and repeated physical projects, but requires Robotics Lab I and steady real-world trials.
+- **Scientific prosperity:** Faye-Faye Lee + Jon Jumper + a scientific facility accelerates datasets, structure prediction, and the Medicine ending.
+- **Coalition route:** Joshua Benji + Stewart Russel + Timnit Gebra rewards balanced investment, credible disclosure, and cheaper diplomacy, but requires the player to accept outside scrutiny.
+- **Product machine:** Andrew N. Gee + Andrey Carpathy + Geoff Deen shortens the path from training run to reliable launch and scales its infrastructure, at the opportunity cost of fewer pure frontier-research signatures.
+
+These are synergies, not required sets. Market rotation, rival poaching, contract cost, and the eight-slot hard cap should make an ideal roster rare.
+
+### 37.2.5 Research basis and portrayal notes
+
+The abilities are fictional mechanics grounded in public research areas and achievements. They do not assert that the real people endorse the game, would accept these jobs, or have the fictional compacts described above. Before release, every biography, portrait, name treatment, and source note requires legal and editorial review.
+
+- Geoffrey Hintoff, Ian LeMon, and Joshua Benji draw on Geoffrey Hinton, Yann LeCun, and Yoshua Bengio's foundational work on deep neural networks, recognised by the [ACM 2018 A.M. Turing Award](https://awards.acm.org/about/2018-turing).
+- Ilya Suchkeeper draws on Ilya Sutskever's work including [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215); Faye-Faye Lee draws on Fei-Fei Li's work in computer vision and ImageNet, described in her [Stanford profile](https://profiles.stanford.edu/fei-fei-li); Andrew N. Gee draws on Andrew Ng's research and education work in his [Stanford profile](https://profiles.stanford.edu/andrew-ng).
+- Geoff Deen's systems focus follows Jeff Dean's [Google Research profile](https://research.google/people/jeff/); David Sterling's self-play and RL focus follows David Silver's [Google DeepMind profile](https://deepmind.google/about/people/david-silver/); Rick Sutton's role follows Richard Sutton's [University of Alberta profile](https://apps.ualberta.ca/directory/person/rsutton).
+- Ash Vashwani is grounded in [Attention Is All You Need](https://research.google/pubs/attention-is-all-you-need/); Noam Shazer in [Outrageously Large Neural Networks](https://research.google/pubs/outrageously-large-neural-networks-the-sparsely-gated-mixture-of-experts-layer/); Ian Goodfriend in [Generative Adversarial Nets](https://arxiv.org/abs/1406.2661); and Diederik Kingman in the [variational-autoencoder overview](https://research.google/pubs/an-introduction-to-variational-autoencoders/) and [Adam](https://arxiv.org/abs/1412.6980).
+- Andrey Carpathy's vision-language, engineering, and education focus follows [his own biography](https://karpathy.ai/). Christopher Olin's interpretability role follows [his own biography](https://colah.github.io/about.html). Paul Christiani's alignment, RLHF, and evaluation role follows his [NIST biography](https://www.nist.gov/people/paul-christiano). Jan Liker's alignment-science role follows [his research biography](https://jan.leike.name/).
+- Stewart Russel's alignment and governance focus follows his [UC Berkeley profile](https://www2.eecs.berkeley.edu/Faculty/Homepages/russell.html). Jon Jumper's scientific-AI role follows the [Nobel Prize account of AlphaFold2](https://www.nobelprize.org/prizes/chemistry/2024/jumper/facts/).
+- Kelsey Finn's robotics and meta-learning focus follows her [Stanford profile](https://profiles.stanford.edu/chelsea-finn). Peter Abell's robotics and deep-RL focus follows his [UC Berkeley profile](https://www2.eecs.berkeley.edu/Faculty/Homepages/abbeel.html). Kai-Ming Ho's role follows his [MIT profile](https://people.csail.mit.edu/kaiming/) and [Deep Residual Learning](https://arxiv.org/abs/1512.03385).
+- Timnit Gebra's role follows [Datasheets for Datasets](https://arxiv.org/abs/1803.09010) and [Model Cards for Model Reporting](https://arxiv.org/abs/1810.03993). Jo Pineau's role follows her [McGill profile](https://www.mcgill.ca/qls/researchers/joelle-pineau) and the [NeurIPS reproducibility programme report](https://arxiv.org/abs/2003.12206).
 
 ### 37.3 Slots
 
@@ -2602,7 +2947,7 @@ At step 13 of the weekly update:
 6. Select one eligible event by weighted deterministic draw.
 7. Instantiate tokens, evidence, option outcomes, expiry, and event memory.
 
-The base chance for an ordinary decision event is `2.2%` per week. After twelve weeks without one, it rises by `0.3` percentage points per week, to a maximum of `8%`. After thirty weeks, an event is guaranteed if any eligible event exists. This targets roughly 22–32 decision events in a normal run, in addition to discoveries and fixed crises.
+The base chance for an ordinary decision event is `2.2%` per week. After twelve weeks without one, it rises by `0.3` percentage points per week, to a maximum of `8%`. After thirty weeks, an event is guaranteed if any eligible event exists. This targets roughly 24–36 decision events in a normal run, in addition to discoveries and fixed crises.
 
 ### 43.4 Mandatory events
 
@@ -2983,7 +3328,7 @@ After the ending, all formulas and true inputs are available in **What Actually 
 
 ## 45. Example event catalogue
 
-These events establish the expected level of authoring detail. Numerical effects are initial balance values. Final production needs a larger pool so that a run sees roughly one third to one half of the catalogue, plus lab-, researcher-, paper-, and endgame-specific events.
+These events establish the expected level of authoring detail. Numerical effects are initial balance values. Final production needs a much larger pool so that a run sees roughly one seventh to one fifth of the ordinary catalogue, plus lab-, researcher-, paper-, crisis-, and endgame-specific content.
 
 For compactness, `check X vs Y` means the standard logistic check from section 42. Unless stated otherwise, consequences occur immediately, checks are precommitted at event creation, and option previews use qualitative probability wording.
 
@@ -3373,18 +3718,19 @@ The first complete content set should include at least:
 
 | Category | Decision events | Crises | Feed templates |
 |---|---:|---:|---:|
-| Research and papers | 18 | 2 | 30 |
-| Researchers and culture | 20 | 3 | 35 |
-| Compute and facilities | 12 | 2 | 20 |
-| Market and finance | 15 | 3 | 25 |
-| Safety and security | 22 | 6 | 35 |
-| Politics and regulation | 18 | 5 | 25 |
-| Rival and coalition | 16 | 5 | 30 |
-| AI-character and endgame | 20 | 12 | 25 |
+| Research and papers | 32 | 1 | 130 |
+| Researchers and culture | 30 | 5 | 110 |
+| Compute and facilities | 24 | 6 | 75 |
+| Market and finance | 28 | 4 | 85 |
+| Safety and security | 30 | 6 | 50 |
+| Politics and regulation | 18 | 4 | 30 |
+| Rival and coalition | 10 | 2 | 40 |
+| AI-character | 8 | 2 | 80 |
+| **Total** | **180** | **30** | **600** |
 
-Events can carry several category tags, so totals are not a promise of 174 entirely unrelated scripts. The minimum unique authored decision/crisis records for a first full release is 110. A smaller vertical slice can use 25–35 records if it covers every system and the complete endgame.
+These are primary-category assignments; events may carry additional tags without being counted twice. The endgame's 48 decision nodes and 12 crisis inserts are additional to this ordinary-event catalogue. A smaller vertical slice can use 25–35 ordinary records if it covers every system and the complete endgame spine.
 
-Each playable lab should have at least five lab-specific variants, each star researcher at least one personal event and several reaction lines, each prosperity programme at least three rollout events, and each AI family a distinct voice guide without changing the underlying safety probabilities.
+Each playable lab should have at least five lab-specific variants; each star researcher at least one personal event, three decision reactions, and six feed variants; each prosperity programme at least three rollout events; and each AI family a distinct voice guide without changing the underlying safety probabilities.
 
 ## 47. How to play
 
@@ -3653,7 +3999,7 @@ Eval Quality must change decision quality, not merely a hidden score:
 
 ### 48.9 Event calibration
 
-- A normal run sees 22–32 ordinary decision events.
+- A normal run sees 24–36 ordinary decision events.
 - No category should exceed 35% of a run's ordinary events.
 - At least 60% of events seen should be materially influenced by current state.
 - Across a large seed set, each offered option should be selected by some plausible test policy and should sometimes be best under an appropriate state.

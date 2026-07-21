@@ -1,7 +1,7 @@
 # Neolab.ai — Technical Design Document
 
-> Status: Normative pre-implementation design, version 0.1<br>
-> Companion document: [Game Design Document](game-design.md), version 0.6 or later<br>
+> Status: Normative pre-implementation design, version 0.2<br>
+> Companion document: [Game Design Document](game-design.md), version 0.7 or later<br>
 > Target: Desktop-first, single-player browser game with no required backend<br>
 > Rule: This document defines how to implement the game; the Game Design Document defines what the game must do
 
@@ -155,20 +155,22 @@ neolab.ai/
 │       │   └── main.tsx
 │       ├── e2e/
 │       └── vite.config.ts
+├── content/                    Human-authored YAML source of truth
+│   ├── labs/
+│   ├── researchers/
+│   ├── papers/
+│   ├── facilities/
+│   ├── events/
+│   ├── crises/
+│   ├── endgame/
+│   ├── feed/
+│   ├── ai-levels.yaml
+│   └── manifest.yaml
 ├── packages/
 │   ├── content-schema/
 │   │   └── src/
 │   ├── content/
-│   │   ├── src/
-│   │   │   ├── balance/
-│   │   │   ├── events/
-│   │   │   ├── facilities/
-│   │   │   ├── labs/
-│   │   │   ├── leaders/
-│   │   │   ├── papers/
-│   │   │   ├── researchers/
-│   │   │   └── strings/
-│   │   └── generated/
+│   │   └── generated/          Compiler output; never hand-edited
 │   ├── sim/
 │   │   └── src/
 │   │       ├── commands/
@@ -196,7 +198,8 @@ neolab.ai/
 Package responsibilities:
 
 - `content-schema`: Zod schemas, content types, cross-reference interfaces, and no game behaviour.
-- `content`: human-authored YAML, assets, localisation strings, and generated canonical bundle.
+- top-level `content/`: human-authored YAML source, localisation strings, review metadata, and content manifests.
+- package `content`: generated canonical bundle and typed accessors; never the authoring location.
 - `sim`: all rules, state transitions, player-view projections, command validation, and save migrations.
 - `testkit`: scenario builders, fixtures, seeded policies, invariant helpers, and custom assertions.
 - `web`: runtime clock, UI state, React views, input, IndexedDB adapter, sound, and graphics.
@@ -1166,6 +1169,29 @@ interface HiddenModelSafetyState {
 
 The UI-facing package export does not export `HiddenModelSafetyState`.
 
+Capability tier is derived and is not stored in `ModelState`:
+
+```ts
+interface CapabilityTierDefinition {
+  id: ContentId;
+  level: number;
+  nameKey: StringKey;
+  summaryKey: StringKey;
+  nominalFrontierCapability: { min: Rating; max: Rating };
+  requirements: Predicate;
+  presentationEventId: ContentId;
+  unlockTags: string[];
+}
+
+function classifyCapabilityTier(
+  state: Readonly<GameState>,
+  modelId: ModelId,
+  viewer: PlayerKnowledgeContext,
+): CapabilityTierView;
+```
+
+Classification uses measured player-visible evidence, never hidden safety. The selector evaluates definitions from highest to lowest level and returns the highest satisfied tier plus a noisy next-tier progress phrase. `CapabilityTierView` contains no exact hidden Generality value and cannot certify alignment. Tier changes are detected after evaluation or model-completion phases and enqueue the authored presentation event once per model/tier.
+
 ### 15.2 Training quote and project
 
 ```ts
@@ -1345,11 +1371,18 @@ interface ResearcherDefinition {
   id: ContentId;
   version: number;
   displayNameKey: StringKey;
+  inspirationName: string;
   portraitAsset: AssetId;
   biographyKey: StringKey;
   skills: ResearcherSkills;
   traits: ContentId[];
-  complications: ContentId[];
+  institutionalConstraints: ContentId[];
+  signature: ResearcherAbilityDefinition;
+  institutionalPassive: ResearcherAbilityDefinition;
+  compact: ResearcherCompactDefinition;
+  availability: ResearcherAvailabilityDefinition;
+  contractBand: ResearcherContractBand;
+  affinityHooks: ContentId[];
   values: ResearcherValues;
   baseSalaryPerCycle: CashMillions;
   baseSigningCash: CashMillions;
@@ -1372,7 +1405,86 @@ interface ResearcherState {
   memories: DecisionMemory[];
   flags: Record<FlagKey, FlagValue>;
 }
+
+type ResearcherContractBand =
+  | "focused"
+  | "competitive"
+  | "major"
+  | "lab-defining";
+
+type ResearcherAssignmentKind =
+  | "capability-program"
+  | "safety-program"
+  | "training-run"
+  | "productisation"
+  | "facility-project"
+  | "science-project"
+  | "research-council"
+  | "safety-director"
+  | "external-council";
+
+interface ResearcherAbilityDefinition {
+  id: ContentId;
+  kind: "signature" | "institutional-passive";
+  labelKey: StringKey;
+  descriptionKey: StringKey;
+  eligibleAssignments: ResearcherAssignmentKind[];
+  activation?: Predicate;
+  modifiers: AuthoredModifier[];
+  hooks: ResearcherAbilityHook[];
+  rampWeeks: number;
+}
+
+interface ResearcherCompactDefinition {
+  id: ContentId;
+  labelKey: StringKey;
+  offerCopyKey: StringKey;
+  required: boolean;
+  evaluationWindowWeeks: number;
+  warningAtProgress: number;
+  compliance: Predicate;
+  breachEffects: Effect[];
+  resolutionEventId: ContentId;
+}
+
+interface ResearcherAvailabilityDefinition {
+  wave: "foundation" | "deep-learning" | "scaling" | "frontier";
+  eligibility: Predicate;
+  poolTags: string[];
+  rivalAffinity: Partial<Record<ContentId, number>>;
+}
 ```
+
+`inspirationName` and source notes are editorial metadata and never appear in a normal run. Player-visible copy uses the fictionalized display name. A content report must make the mapping available to source, portrayal, and legal reviewers.
+
+`AuthoredModifier` is the build-time form of a modifier: target, operation, value, stacking group, optional activation predicate, and player-facing explanation key. The compiler creates runtime `ModifierState` records whose source identifies the researcher and ability. `ResearcherAbilityHook` is a closed union for paper-effort affinity, event weighting, recipe-choice count, project-completion follow-up, and dialogue variation; it is not an arbitrary callback.
+
+Signatures and passives are data, not subclasses. When employment, housing, assignment, or a relevant predicate changes, `syncResearcherAbilityModifiers` enables or disables the sourced modifiers. Dynamic allocation predicates are evaluated by the modifier resolver against the current tick's pre-research state, so moving a slider cannot leave a stale bonus record behind.
+
+```ts
+function quoteResearcherContribution(
+  state: Readonly<GameState>,
+  researcherId: ResearcherId,
+  assignment: AssignmentState,
+): ResearcherContributionBreakdown;
+
+function syncResearcherAbilityModifiers(
+  tx: SimulationTransaction,
+  researcherId: ResearcherId,
+): void;
+
+function evaluateResearcherCompacts(tx: SimulationTransaction): void;
+
+function resolveResearcherStack(
+  state: Readonly<GameState>,
+  target: ModifierTarget,
+  context: ModifierContext,
+): ModifierBreakdown;
+```
+
+The contribution breakdown lists generic lead or advisor skill, signature ramp, passive, compact-dependent activation, stacking cap, and any suppressed excess. Programme leads receive three percentage points per matching skill level up to fifteen; each of at most two advisors receives 1.5 points per level up to 7.5. Only the lead signature operates unless its definition explicitly names an institutional assignment.
+
+Researcher-only caps are content-registry rules matching GDD section 37.2.4: global RP `×1.30`, single-programme RP `×1.60`, training effective compute `×1.35`, Aura gains `×1.40`, recruitment `+25`, cash prices no lower than `×0.70`, durations no lower than `×0.65`, and hazards no lower than `×0.50`. The resolver reports capped-away value rather than silently discarding it.
 
 ### 17.2 Recruitment and retention API
 
@@ -1832,6 +1944,32 @@ Complex controls such as compute allocation use local draft state while the play
 ### 21.7 Error boundaries
 
 Use React error boundaries around the application shell and optional campus renderer. A presentation error pauses the runtime and offers reload/export-save. Simulation errors are caught by `GameRuntime`, never swallowed by React.
+
+### 21.8 Responsive dashboard shell
+
+`GameShell` uses a fluid desktop container capped at `1500px` with responsive outer gutters. Do not recreate the concept mockup's former `736px` iframe cap in production.
+
+```text
+>= 1081px  four status cards; five roster cards; workspace 2fr + 340px rail
+821–1080px two-by-two status cards; four roster cards; narrower two-column shell
+561–820px  two status cards per row; three roster cards; rail below workspace
+<= 560px    one column; one roster card per row; compact identity header
+```
+
+The identity header renders `leader display name`, `company`, and `current AI display name + capability tier` from one `LabIdentityView`. The leader name is the primary heading. The date and speed controls remain accessible in the same region without being concatenated into the heading's accessible name.
+
+```ts
+interface LabIdentityView {
+  leaderDisplayName: string;
+  companyDisplayName: string;
+  aiFamilyName: string;
+  currentModelDisplayName?: string;
+  capabilityTier: CapabilityTierView;
+  dateLabel: string;
+}
+```
+
+The world/feed rail may use `position: sticky` only while both columns are present. It becomes normal document flow at the single-column breakpoint. Recruitment candidates remain collapsed until requested so the roster is not immediately followed by a duplicate talent grid. CSS container queries may refine feature-level layouts, but the four shell states above are acceptance-test fixtures.
 
 ## 22. Campus renderer and art pipeline
 
@@ -2369,6 +2507,17 @@ Vite emits static HTML, JavaScript, CSS, content JSON, and assets. Deploy the sa
 
 No service worker is required initially; stale cached content and saves are a larger risk than installability. Add an offline/PWA layer only with explicit cache-version tests. A loaded game continues without network because simulation and content are local.
 
+The initial production host is GitHub Pages with a custom GitHub Actions workflow:
+
+1. A protected `main` push runs content checks, type-checking, tests, and a production build.
+2. The workflow uploads only the immutable `dist/` artifact, then deploys it to the GitHub Pages environment.
+3. Vite receives the correct base path for both the `github.io/neolab.ai/` preview and eventual `play.neolab.ai` custom domain.
+4. Hashed JavaScript, CSS, images, and audio receive long-lived cache headers where the host permits; `index.html` and the content manifest must be revalidated.
+5. CI rejects a published site above `900 MB`, any single asset above `20 MB`, or a compressed first-load budget above the release target. The initial first-load target is `<= 15 MB`, excluding audio fetched only after player interaction.
+6. A tagged release preserves the exact build artifact and content hash for rollback.
+
+No application CPU is provisioned: GitHub Pages serves static files, and each browser owns its simulation runtime. GitHub currently publishes a soft `100 GB/month` bandwidth limit and a `1 GB` site limit. If monitoring approaches the bandwidth limit, deploy the same artifact to Cloudflare Pages and change DNS; do not introduce a backend. Official references: [GitHub Pages overview](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits), and [itch.io HTML5 uploads](https://itch.io/docs/creators/html5).
+
 ## 32. Implementation sequence
 
 No step begins by constructing the entire UI. Build vertical evidence that the rules and boundaries work.
@@ -2435,7 +2584,7 @@ No step begins by constructing the entire UI. Build vertical evidence that the r
 
 ### Milestone 8 — Content-complete alpha
 
-- Five lab voice/leader packages, 30–40 papers, 20–30 stars, facility upgrades, 110 authored events/crises, four prosperity programmes, all endings.
+- Five lab voice/leader packages; nine capability tiers; 72 papers; 56 stars; 20 facility families and 44 build/upgrade definitions; 180 ordinary events; 30 crisis chains; 600 feed templates; 48 endgame nodes; 12 endgame inserts; four prosperity programmes; and 18 ending/epilogue families.
 - Legal/source metadata and content review.
 
 **Exit:** no placeholder mechanics or broken content branches; full run median is in target range.
@@ -2450,6 +2599,7 @@ No step begins by constructing the entire UI. Build vertical evidence that the r
 ### Milestone 10 — Public build
 
 - Save compatibility fixture, release content review, static deployment, itch.io package, optional consented diagnostics, and feedback channel.
+- **Automate GitHub Pages deployment:** add `.github/workflows/deploy-pages.yml` using GitHub's official Pages artifact/deploy actions; run content validation, type-checking, tests, and the production Vite build before upload; configure the repository Pages environment and `play.neolab.ai` custom domain; handle both project-site and custom-domain base paths; preserve the content hash and build artifact for rollback; and run a post-deploy smoke test which loads the title screen, starts a seeded game, advances one tick, and verifies static assets resolve without absolute-path failures.
 
 **Exit:** tagged, reproducible build with rollback and archived content hash.
 
