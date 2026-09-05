@@ -1,0 +1,179 @@
+draftSchema: 1
+contentType: star-researcher-rules
+status: draft
+
+skillVocabulary:
+  scale: { min: 0, max: 5 }
+  keys:
+    - architectures
+    - optimisationScaling
+    - dataRepresentation
+    - reinforcementAgency
+    - multimodality
+    - reasoningTools
+    - roboticsEmbodiment
+    - scientificAi
+    - alignmentControl
+    - interpretabilityEvals
+    - securityContainment
+    - training
+    - product
+    - management
+    - politics
+  unspecifiedValue: 0
+
+contractBands:
+  focused: { baseSalaryPerCycle: 0.35, baseSigningCash: 2, auraCost: 4 }
+  competitive: { baseSalaryPerCycle: 0.50, baseSigningCash: 4, auraCost: 7 }
+  major: { baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10 }
+  lab-defining: { baseSalaryPerCycle: 1.00, baseSigningCash: 9, auraCost: 14 }
+  note: Contract bands are game-balance costs, not judgements of real-world importance.
+
+compensationPolicy:
+  # Compensation is priced purely on measured research strength. The
+  # rosters below are retained so the completeness invariant still checks
+  # every released researcher is classified.
+  femaleResearcherIds:
+    - researcher.amanda-askill
+    - researcher.anca-dragane
+    - researcher.been-kimm
+    - researcher.bess-barnes
+    - researcher.corinna-cortez
+    - researcher.cordelia-schmidt
+    - researcher.cynthia-rudan
+    - researcher.daphne-kohler
+    - researcher.dawn-sung
+    - researcher.doina-precupe
+    - researcher.faye-faye-lee
+    - researcher.jo-pineau
+    - researcher.katie-bowman
+    - researcher.kelsey-finn
+    - researcher.marika-zitnik
+    - researcher.melany-mitchell
+    - researcher.niki-parmer
+    - researcher.raia-hadsall
+    - researcher.sanja-fiedler
+    - researcher.sarah-hooker
+    - researcher.shauna-kravek
+  maleResearcherIds:
+    - researcher.aaron-courvel
+    - researcher.aaron-van-den-oord
+    - researcher.aidan-gomes
+    - researcher.alec-broadford
+    - researcher.alex-graven
+    - researcher.alex-krizhensky
+    - researcher.alexei-dosovsky
+    - researcher.alyosha-efrossi
+    - researcher.andrew-n-gee
+    - researcher.andrew-zissermann
+    - researcher.andrey-carpathy
+    - researcher.andy-barto
+    - researcher.ash-vashwani
+    - researcher.bernhard-scholkopff
+    - researcher.billy-peebles
+    - researcher.callum-burns
+    - researcher.christopher-mannering
+    - researcher.christopher-olin
+    - researcher.christopher-bishopp
+    - researcher.danny-zhou
+    - researcher.david-baux
+    - researcher.david-bley
+    - researcher.david-sterling
+    - researcher.deepak-pathark
+    - researcher.diederik-kingman
+    - researcher.dieter-foxx
+    - researcher.emmanuel-candez
+    - researcher.evan-hubbinger
+    - researcher.geoff-deen
+    - researcher.geoffrey-hintoff
+    - researcher.geoffrey-irwing
+    - researcher.ian-goodfriend
+    - researcher.ian-lemon
+    - researcher.ilya-suchkeeper
+    - researcher.jacob-devlon
+    - researcher.jacob-steinhart
+    - researcher.jakub-pachowski
+    - researcher.jan-liker
+    - researcher.jared-kapler
+    - researcher.jayson-wei
+    - researcher.jitendra-malek
+    - researcher.john-hopfeld
+    - researcher.john-schulmann
+    - researcher.judea-perle
+    - researcher.jon-jumper
+    - researcher.jonathan-hoe
+    - researcher.joshua-benji
+    - researcher.jurgen-smithhuber
+    - researcher.kai-ming-ho
+    - researcher.karen-simonian
+    - researcher.ken-goldenberg
+    - researcher.koray-kavukoglu
+    - researcher.leo-bottou
+    - researcher.leslie-valiante
+    - researcher.lucas-kaiser
+    - researcher.luke-zettlemeyer
+    - researcher.max-willing
+    - researcher.michael-jordanne
+    - researcher.mike-lewiston
+    - researcher.mikhail-bronsteen
+    - researcher.nando-de-freita
+    - researcher.neel-nandy
+    - researcher.nick-carlini
+    - researcher.noah-goodmann
+    - researcher.noam-shazer
+    - researcher.norm-brown
+    - researcher.oriol-vinyalls
+    - researcher.paul-christiani
+    - researcher.paul-werbost
+    - researcher.percy-liange
+    - researcher.peter-abell
+    - researcher.prafull-dhariwal
+    - researcher.pushmeet-kohly
+    - researcher.quoc-v-lee
+    - researcher.rich-caruano
+    - researcher.rob-fergan
+    - researcher.rick-sutton
+    - researcher.rob-schapire
+    - researcher.ross-girshall
+    - researcher.ruslan-salakhudinov
+    - researcher.sammy-benji
+    - researcher.sepp-hochreitner
+    - researcher.sergei-levinsky
+    - researcher.shane-legge
+    - researcher.stephen-boyde
+    - researcher.stewart-russel
+    - researcher.terrence-sejnowsky
+    - researcher.tim-rocktaschel
+    - researcher.timothy-lillicroft
+    - researcher.timo-brooks
+    - researcher.tomas-brown
+    - researcher.tomas-mikoloff
+    - researcher.trevor-darnell
+    - researcher.vladimir-mnich
+    - researcher.vladimir-vapnick
+    - researcher.wojciech-zarembo
+    - researcher.zico-kolder
+    - researcher.zubin-ghahramani
+
+abilityRules:
+  reassignmentRamp: [0.25, 0.50, 0.75, 1.00]
+  unhousedStrengthMultiplier: 0.50
+  sabbaticalDisablesSignature: true
+  sabbaticalDisablesPassive: false
+  initialSlots: 3
+  hardMaximumSlots: 8
+
+compactRules:
+  defaultRollingWindowWeeks: 26
+  breachEffects:
+    - { target: researcher.moraleTarget, operation: add, value: -20 }
+    - { target: researcher.loyalty, operation: add, value: -10 }
+    - { target: researcher.departurePressure, operation: add, value: 15 }
+  consequenceDelivery: visible-event
+
+portrayalRules:
+  fictionalizedDisplayNames: true
+  endorsementImplied: false
+  compactsAreFictionalGameContracts: true
+  releaseRequiresLegalReview: true
+  releaseRequiresPortraitReview: true

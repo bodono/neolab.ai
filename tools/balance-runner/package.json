@@ -1,0 +1,24 @@
+{
+  "name": "@neolab/balance-runner",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Brendan O'Donoghue <bodonoghue85@gmail.com>",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "balance": "node src/cli.ts",
+    "aggregate": "node src/aggregate-cli.ts",
+    "invariants": "node src/invariant-cli.ts",
+    "sweep": "node src/sweep-cli.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neolab/content": "workspace:*",
+    "@neolab/content-schema": "workspace:*",
+    "@neolab/sim": "workspace:*",
+    "@neolab/testkit": "workspace:*"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "status": "draft",
+  "sessionId": "replace-me",
+  "build": {
+    "commit": "0000000",
+    "contentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "label": "private alpha"
+  },
+  "participant": {
+    "pseudonym": "participant-001",
+    "firstNeolabSession": true,
+    "managementGameExperience": "some",
+    "aiExperience": "general"
+  },
+  "consent": {
+    "notes": true,
+    "recording": "none",
+    "personalDataExcluded": true
+  },
+  "environment": {
+    "browser": "Chromium",
+    "platform": "Desktop",
+    "primaryInput": "mouse-keyboard",
+    "viewport": "1500x900"
+  },
+  "run": {
+    "durationMinutes": 1,
+    "difficultyId": "base:difficulty.standard",
+    "leaderId": "base:leader.replace-me",
+    "mandateId": "base:mandate.replace-me",
+    "result": "incomplete",
+    "finalTick": 0,
+    "deploymentCrisisReached": false
+  },
+  "review": {
+    "questions": [
+      {
+        "id": "cashflow-change",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-run",
+        "withoutLeadingPrompt": true
+      },
+      {
+        "id": "compute-tradeoff",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-run",
+        "withoutLeadingPrompt": true
+      },
+      {
+        "id": "paper-eligibility",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-run",
+        "withoutLeadingPrompt": true
+      },
+      {
+        "id": "safety-evidence",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-run",
+        "withoutLeadingPrompt": true
+      },
+      {
+        "id": "rival-intent",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-run",
+        "withoutLeadingPrompt": true
+      },
+      {
+        "id": "ending-preparation",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-run",
+        "withoutLeadingPrompt": true
+      },
+      {
+        "id": "final-outcome",
+        "result": "not-asked",
+        "evidence": "Not yet administered.",
+        "askedAt": "after-audit",
+        "withoutLeadingPrompt": true
+      }
+    ],
+    "perceivedFairness": 3,
+    "dominantUiHabits": [],
+    "jokesThatLanded": [],
+    "jokesThatFailed": [],
+    "ageingRisks": [],
+    "decisionTimes": [],
+    "facilitatorNotes": ""
+  },
+  "issues": []
+}

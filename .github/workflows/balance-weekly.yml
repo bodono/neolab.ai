@@ -1,0 +1,171 @@
+name: Weekly balance
+
+# Was nightly with a ten-way shard matrix at 180 minutes each: up to 1,830
+# minutes a night, or roughly twenty times the entire monthly allowance over a
+# month. It now runs weekly. Coverage per run is lower, but a balance sweep
+# informs tuning decisions that happen on a scale of days, not hours, so weekly
+# loses almost nothing in practice.
+#
+# What that reduction missed is that only the BUDGET shrank. The release matrix
+# kept all 10,200 runs it was given when the budget was ten times larger, and a
+# measurement on 2026-08-13 puts one 520-tick game at ~87 seconds -- so a shard
+# of 3,400 games needs about 82 hours against its 60-minute limit, and the whole
+# matrix is 247 hours of work. It is not a timeout that is slightly too tight:
+# fitting would need each game to finish in 1.06 seconds. Cutting seeds does not
+# rescue it either, since even a single seed over all 600 launch configurations
+# is still five hours a shard.
+#
+# So the matrix no longer runs on the schedule. It never once completed -- both
+# runs it ever had were killed at their limit, which GitHub reports as
+# "cancelled" rather than as a failure, which is why nobody noticed. Trigger it
+# by hand with the release_matrix input if you want to watch it try; putting it
+# back on the schedule means shrinking the matrix or speeding up the simulation
+# first, not raising the number here.
+#
+# The horizon probe is the part that does fit, and it is what the weekly run is
+# now for. Ten games at 1,120 ticks measured 64 minutes, so the ceiling below is
+# set well clear of that. A timeout is a ceiling and not a reservation -- the
+# job is billed for what it uses -- so the headroom is free.
+
+on:
+  schedule:
+    - cron: "23 3 * * 0"
+  workflow_dispatch:
+    inputs:
+      release_matrix:
+        description: "Also run the 10,200-game release matrix (cannot finish inside CI limits -- see comment above)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: balance-weekly
+  cancel-in-progress: true
+
+jobs:
+  horizon-probe:
+    name: Twenty-one-year strategy horizon
+    runs-on: ubuntu-latest
+    # Measured at 64 minutes locally; 30 killed it every time. See header.
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run long-horizon strategy probe
+        run: pnpm balance:horizon
+
+      - name: Add horizon summary
+        if: always()
+        run: |
+          if [ -f artifacts/balance/horizon/report.json ]; then
+            node -e 'const r=require("./artifacts/balance/horizon/report.json"); const frontier=r.runs.filter((run)=>run.phaseEntryTicks.frontier!==undefined).length; const candidates=r.runs.filter((run)=>run.milestones.candidateOrViableCoalition).length; const o=r.rivalCompetitiveness.candidateOutcomes; console.log(`## Long-horizon probe\n\n- Runs: ${r.runCount}\n- Reached Frontier: ${frontier}\n- Candidate or viable coalition: ${candidates}\n- Rival countdowns: ${o.countdownStarts}\n- Rival False Dawns: ${o.falseDawns}\n- Rival emergency containments: ${o.emergencyContainments}\n- Rival delays: ${o.deploymentDelays}\n- Rival successful deployments: ${o.successfulDeployments}\n- Rival catastrophes: ${o.catastrophes}\n- Active rival countdowns at horizon: ${o.activeCountdownsAtEnd}\n- Won: ${r.winFunnel.won}\n- Lost: ${r.winFunnel.lost}\n- Incomplete: ${r.winFunnel.incomplete}\n- Flags: ${r.flags.length}`)' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload horizon evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: balance-horizon
+          path: artifacts/balance/horizon
+          if-no-files-found: error
+          retention-days: 14
+
+  balance-shard:
+    name: Balance shard ${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    # Off the schedule: 3,400 games a shard is ~82 hours of work, so this job
+    # can only ever time out. Opt in by hand when you want to measure it.
+    if: github.event_name == 'workflow_dispatch' && inputs.release_matrix
+    # Left at 60 so a manual attempt fails fast rather than burning an hour it
+    # was never going to finish in. Raising it does not make the matrix fit.
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run release-matrix shard
+        run: >-
+          pnpm balance:release --
+          --shard-index ${{ matrix.shard }}
+          --shard-count 3
+          --output ../../artifacts/balance/shard-${{ matrix.shard }}
+
+      - name: Upload shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: balance-shard-${{ matrix.shard }}
+          path: artifacts/balance/shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 7
+
+  aggregate:
+    name: Aggregate 10,200-run matrix
+    needs: balance-shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download every shard
+        uses: actions/download-artifact@v4
+        with:
+          pattern: balance-shard-*
+          path: artifacts/balance/shards
+
+      - name: Rebuild aggregate from raw runs
+        run: >-
+          pnpm balance:aggregate --
+          --input ../../artifacts/balance/shards
+          --output ../../artifacts/balance/release
+
+      - name: Add summary
+        if: always()
+        run: |
+          if [ -f artifacts/balance/release/report.json ]; then
+            node -e 'const r=require("./artifacts/balance/release/report.json"); const failed=r.targets.filter((t)=>t.status==="fail").length; const unavailable=r.targets.filter((t)=>t.status==="unavailable").length; console.log(`## Balance matrix\n\n- Runs: ${r.runCount}\n- Won: ${r.winFunnel.won}\n- Lost: ${r.winFunnel.lost}\n- Incomplete: ${r.winFunnel.incomplete}\n- Failed targets: ${failed}\n- Unavailable targets: ${unavailable}\n- Flags: ${r.flags.length}`)' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload aggregate reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: balance-release-matrix
+          path: artifacts/balance/release
+          if-no-files-found: error
+          retention-days: 14

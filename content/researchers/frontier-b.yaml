@@ -1,0 +1,143 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-b
+availabilityWave: frontier
+status: draft
+
+researchers:
+  - id: researcher.shane-legge
+    version: 1
+    displayName: Shane Legge
+    inspirationName: Shane Legg
+    inspirationSummary: DeepMind co-founder and Chief AGI Scientist who co-authored a formal measure of universal intelligence and a framework separating AGI performance, generality, and autonomy.
+    epithet: The Definition Collector
+    role: AGI measurement, capability forecasting, and research leadership
+    rosterCardSummary: A DeepMind co-founder who collected dozens of definitions of intelligence, then helped build the laboratory trying to satisfy all of them.
+    biography: >-
+      Shane Legg co-founded DeepMind in 2010 with Demis Hassabis and Mustafa Suleyman, helping
+      organise the company around research toward general-purpose intelligence. Long before “AGI”
+      became a product-plan heading, he and Marcus Hutter assembled dozens of definitions of
+      intelligence and proposed a formal measure based on an agent's performance across
+      environments. He later served as DeepMind's chief scientist and now leads its AGI Safety
+      Council as co-founder and Chief AGI Scientist. His recent co-authored work on Levels of AGI
+      separates performance, generality and autonomy, creating a vocabulary for comparing systems
+      and their risks without treating one benchmark as the whole answer. The classification invites
+      an unavoidable gag: before anyone announces AGI, the claim needs a
+      definition, a level, an autonomy regime, and a footnote that survives peer review. The meeting
+      is rescheduled pending a measurable noun.
+    availability: { wave: frontier, earliestYear: 2018, poolWeight: 0.40 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 0.97, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 4, dataRepresentation: 1, reinforcementAgency: 3, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 1, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 2, securityContainment: 1, training: 2, product: 2, management: 5, politics: 4 }
+    traits: [trait.disciplined-forecaster, trait.founding-conviction]
+    signature:
+      id: ability.working-definition-of-agi
+      label: Working Definition of AGI
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools, safety.alignment-control] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+    passive:
+      id: ability.calibrated-timeline
+      label: Calibrated Timeline
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 4 }
+    compact:
+      id: compact.forecast-and-correct-in-public
+      label: Forecast and Correct in Public
+      requirement: Publish one revised, publicly scored capability-timeline estimate every 52 weeks.
+      check: { type: tagged-action-within, tags: [public-timeline-estimate], weeks: 52 }
+      breachEvent: people.compact.forecast-and-correct-in-public
+    paperHooks:
+      ids: [paper.gpt3-few-shot-learners, paper.training-compute-optimal-llms]
+    eventReactions:
+      - { triggerTag: capability-surprise, line: "Update the timeline, publish the update, and say plainly which part of the old estimate was wrong." }
+      - { triggerTag: agi-declaration-pressure, line: "A definition of AGI is a tool for measurement, not a marketing department's applause line." }
+      - { triggerTag: board-timeline-dispute, line: "I would rather be publicly corrected in three years than quietly vague today." }
+    feedLines:
+      - Shane revised his public timeline estimate again, and explained, without defensiveness, exactly why.
+      - A capability jump landed close to his stated confidence interval, which he noted with visible relief.
+      - The old definition of intelligence got cited in a policy hearing, more or less as originally written.
+      - Shane declined to declare AGI achieved on stage, to a boardroom's very evident disappointment.
+      - A junior researcher's forecasting method impressed him more than a flashier capability demo did that week.
+      - The founding bet, made two decades ago, keeps looking slightly less audacious with each passing year.
+    portrait:
+      assetId: portrait.researcher.shane-legge
+      brief: Composed 8-bit editorial portrait; white man with short brown-grey hair and a calm, deliberate expression, beside a long capability-timeline chart with honestly wide confidence bands; measured and founder-grade, not photoreal.
+      altText: Pixel-art portrait of Shane Legge beside a long capability-timeline chart with wide confidence bands.
+    sources:
+      - https://www.vetta.org/documents/A_Collection_of_Definitions_of_Intelligence.pdf
+      - https://deepmind.google/blog/from-unlikely-start-up-to-major-scientific-organisation-entering-our-tenth-year-at-deepmind/
+      - https://deepmind.google/blog/taking-a-responsible-path-to-agi/
+      - https://deepmind.google/research/publications/66938/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.daphne-kohler
+    version: 1
+    displayName: Daphne Kohler
+    inspirationName: Daphne Koller
+    inspirationSummary: Stanford graphical-model pioneer, Coursera co-founder, and insitro founder and CEO applying machine learning to drug discovery and development.
+    epithet: The Bayes-to-Biotech Founder
+    role: Probabilistic machine learning applied to biomedicine
+    rosterCardSummary: A graphical-model pioneer who co-founded Coursera, then founded insitro to make machine learning answer drug-discovery questions rather than another benchmark.
+    biography: >-
+      Daphne Koller is a Stanford computer scientist, MacArthur Fellow and pioneer of probabilistic
+      graphical models who carried machine learning into biology, education and drug discovery.
+      After eighteen years on Stanford's faculty, she co-founded Coursera, whose online courses
+      reached more than one hundred million learners. She later served as chief computing officer
+      at Calico and founded insitro, where she is CEO and applies machine learning to discovering and
+      developing medicines. The connecting idea is uncertainty: graphical models represent
+      relationships among uncertain variables; biological data presents exactly that kind of
+      tangled evidence. Her biography records more than 300 refereed publications and honours
+      spanning computer science, biology and engineering. The work does not promise that every
+      prediction will be right; it makes each one explicit enough to test, informative enough to
+      revise, and attached to a dataset whose provenance survives the meeting.
+    availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.45 }
+    contract: { band: major, baseSalaryPerCycle: 0.82, baseSigningCash: 8, auraCost: 12, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 2, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 1, interpretabilityEvals: 5, securityContainment: 0, training: 2, product: 3, management: 5, politics: 3 }
+    traits: [trait.probabilistic-rigour, trait.founder-conviction]
+    signature:
+      id: ability.principled-uncertainty
+      label: Principled Uncertainty
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    passive:
+      id: ability.a-wrong-model-is-informative
+      label: A Wrong Model Is Informative
+      effects:
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.973, stackingGroup: hazard-reduction }
+    compact:
+      id: compact.biology-grade-validation
+      label: Biology-Grade Validation
+      requirement: Complete one wet-lab or clinical validation review every 52 weeks.
+      check: { type: tagged-action-within, tags: [wet-lab-validation], weeks: 52 }
+      breachEvent: people.compact.biology-grade-validation
+    paperHooks:
+      ids: [paper.alphafold2-protein-structure, paper.adaptive-oncogene-silencing-platform]
+    eventReactions:
+      - { triggerTag: drug-discovery-breakthrough, line: "A promising model prediction and a validated therapeutic are two different milestones. Celebrate the one we actually reached." }
+      - { triggerTag: scientific-ai-failure, line: "The model was wrong in a specific, informative way. Find out which assumption it corrects." }
+      - { triggerTag: academia-industry-tension, line: "I did not leave the tenured chair to move slower. The validation standard does not get to move slower either." }
+    feedLines:
+      - Daphne's probabilistic model flagged a compound worth testing that a simpler heuristic had missed entirely.
+      - A wet-lab result came back and, true to her compact, the announcement waited for exactly that.
+      - The graphical model's failure mode pointed straight at an assumption about protein folding worth revisiting.
+      - Daphne reviewed a drug-discovery pipeline and asked, first, what the model was still uncertain about.
+      - A former student's paper cited her decades-old probabilistic-inference framework, applied to an entirely new disease.
+      - The MacArthur citation sits in a drawer. The validated result sits on the company's homepage instead.
+    portrait:
+      assetId: portrait.researcher.daphne-kohler
+      brief: Precise 8-bit editorial portrait; white woman with long grey hair and a confident, thoughtful expression, beside a probabilistic graphical model diagram overlaid on a molecular structure; rigorous and founder-grade, not photoreal.
+      altText: Pixel-art portrait of Daphne Kohler beside a probabilistic graphical model diagram overlaid on a molecular structure.
+    sources:
+      - https://www.macfound.org/fellows/class-of-2004/daphne-koller
+      - https://hai.stanford.edu/people/daphne-koller
+      - https://www.insitro.com/leadership/daphne-koller/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }

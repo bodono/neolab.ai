@@ -1,0 +1,86 @@
+draftSchema: 1
+contentType: ai-capability-tiers
+status: draft
+
+# A tier is its capability band and nothing else. Capability is known exactly
+# when training finishes, so the band IS the reading -- the tier cannot lag it,
+# and no attribute checklist, productisation stat or evaluation stands between
+# the player and the rung their model has earned.
+#
+# Alignment is emphatically not on this ladder. A tier says what a model can do
+# and never whether it is safe to do it; climbing must never require buying
+# caution first.
+#
+# Four rules once declared exactly that, as literal `true` values nothing read.
+# The one that mattered, tierCanLagFrontierCapability, had also quietly become
+# false. Design intent belongs in a comment, where it cannot rot into data.
+rules:
+  progressPresentation:
+    - early
+    - developing
+    - approaching
+    - breakthrough-imminent
+
+tiers:
+  - id: capability-tier-0-research-prototype
+    level: 0
+    name: Research Prototype
+    nominalFrontierCapability: { min: 0, max: 9 }
+    summary: A benchmark-bound experimental system with no dependable general product value.
+    unlockTags: [benchmark-experiments]
+
+  - id: capability-tier-1-narrow-specialist
+    level: 1
+    name: Narrow Specialist
+    nominalFrontierCapability: { min: 10, max: 19 }
+    summary: Strong enough to support one narrow task family and useful research experiments.
+    unlockTags: [narrow-products, specialist-contracts]
+
+  - id: capability-tier-2-foundation-model
+    level: 2
+    name: Foundation Model
+    nominalFrontierCapability: { min: 20, max: 34 }
+    summary: A broadly reusable learned platform which can anchor multiple products and research programmes.
+    unlockTags: [broad-serving, chat-demos, product-platform]
+
+  - id: capability-tier-3-expert-assistant
+    level: 3
+    name: Expert Assistant
+    nominalFrontierCapability: { min: 35, max: 49 }
+    summary: A credible professional collaborator which still requires direct human operation and review.
+    unlockTags: [professional-products, enterprise-demand, tool-suggestions]
+
+  - id: capability-tier-4-tool-using-agent
+    level: 4
+    name: Tool-Using Agent
+    nominalFrontierCapability: { min: 50, max: 64 }
+    summary: Able to operate software and laboratory tools inside bounded environments.
+    unlockTags: [bounded-tools, access-requests, autonomy-incidents]
+
+  - id: capability-tier-5-autonomous-researcher
+    level: 5
+    name: Autonomous Researcher
+    nominalFrontierCapability: { min: 65, max: 79 }
+    summary: Can conduct meaningful multi-step research with limited supervision and access.
+    unlockTags: [model-assisted-research, root-access-events, advanced-containment]
+
+  - id: capability-tier-6-general-problem-solver
+    level: 6
+    name: General Problem Solver
+    nominalFrontierCapability: { min: 80, max: 87 }
+    summary: A near-AGI system with broad demonstrated competence, still short of candidacy.
+    unlockTags: [near-agi, accelerated-prosperity, race-emergency]
+
+  - id: capability-tier-7-apparent-agi-candidate
+    level: 7
+    name: Apparent AGI Candidate
+    nominalFrontierCapability: { min: 88, max: 94 }
+    summary: A system which plausibly meets the capability threshold for AGI; the classification is unconfirmed and says nothing about alignment.
+    unlockTags: [deployment-crisis, candidate-channel, confirmation-project]
+
+  - id: capability-tier-8-superhuman-general-intelligence
+    level: 8
+    name: Superintelligence
+    nominalFrontierCapability: { min: 95, max: 100 }
+    summary: General capability beyond ordinary institutional decision speed; not automatically aligned, controlled, legitimate, or beneficial.
+    unlockTags: [endgame-only, transformative-capability]

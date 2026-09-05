@@ -1,0 +1,295 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-a
+availabilityWave: scaling
+status: draft
+
+researchers:
+  - id: researcher.noam-shazer
+    version: 1
+    displayName: Noam Shazer
+    inspirationName: Noam Shazeer
+    inspirationSummary: Transformer co-author and sparsely gated mixture-of-experts pioneer whose conditional computation made dramatically larger model capacity computationally practical.
+    epithet: The Sparse Magician
+    role: Sparse architectures and inference economics
+    rosterCardSummary: A Transformer and conditional-computation pioneer who taught outrageously large networks to wake only the experts each token needs.
+    biography: >-
+      Noam Shazeer co-authored two of modern AI's most consequential architecture papers: the
+      Transformer and the sparsely gated mixture-of-experts layer. The Transformer replaced
+      recurrence and convolution with attention; the MoE work used a learned gate to activate a
+      sparse subset of thousands of expert subnetworks for each example. Google reported more than
+      a thousandfold increase in model capacity with only minor losses in computational efficiency,
+      including a 137-billion-parameter language model when that number still looked outrageous
+      enough for the title. His work also spans large-scale training systems, language modelling
+      and conversational agents. The architectural magic trick is fully disclosed: the giant
+      network is not cheap because the parameters disappeared, but because most of them are asleep
+      for any given token. Finance may still ask why the sleeping experts need so many GPUs.
+    availability:
+      wave: scaling
+      earliestYear: 2017
+      unlockAny: [{ discoveredTag: sparse-mixture-of-experts }, { yearAtLeast: 2017 }, { domainLevelAtLeast: 32 }]
+      poolWeight: 0.80
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 4, interpretabilityEvals: 2, securityContainment: 0, training: 5, product: 4, management: 4, politics: 1 }
+    traits: [trait.conditional-computation, trait.product-imagination]
+    signature:
+      id: ability.selectively-awake
+      label: Outrageously Large, Selectively Awake
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-or-discovery, domains: [domain.architectures, domain.optimisation-scaling], discoveryTag: sparse-mixture-of-experts }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp, beforeDiscovery: sparse-mixture-of-experts }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput, afterDiscovery: sparse-mixture-of-experts }
+    passive:
+      id: ability.characters-before-committees
+      label: Characters Before Committees
+      effects:
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    compact:
+      id: compact.room-to-scale
+      label: Wake the Right Experts
+      requirement: Complete one expert-routing and load-balancing audit every 52 weeks.
+      check: { type: tagged-action-within, tags: [expert-routing-audit], weeks: 52 }
+      breachEvent: people.compact.room-to-scale
+    paperHooks:
+      ids: [paper.sparse-mixture-of-experts, paper.transformer]
+    eventReactions:
+      - { triggerTag: gpu-shortage, line: "The constraint is real. The assumption that every parameter must wake up is negotiable." }
+      - { triggerTag: routing-collapse, line: "The experts have formed a monoculture. Fortunately, we can measure which expert is doing all the talking." }
+      - { triggerTag: serving-crunch, line: "Capacity and activity are different quantities. Finance will enjoy this distinction once the router works." }
+    feedLines:
+      - Noam proposed an outrageously large network and a suspiciously economical invoice.
+      - Most of the experts are asleep. The active experts have requested better routing.
+      - Serving now wakes only the parameters it needs, an operating principle Facilities would like extended to meetings.
+      - The router sent every token to Expert 7. Expert 7 is coping admirably under the circumstances.
+      - Six thousand GPUs have been guaranteed to a programme whose diagram contains several doors.
+      - Noam turned a research prototype into a conversation one week ahead of the product roadmap.
+    portrait:
+      assetId: portrait.researcher.noam-shazer
+      brief: Playful 8-bit editorial portrait; bald white man with glasses, surrounded by a sparse network whose orange router lights only a few expert nodes; ingenious and energetic, not photoreal.
+      altText: Pixel-art portrait of Noam Shazer beside a sparse network with a few brightly routed expert nodes.
+    sources:
+      - https://research.google/pubs/outrageously-large-neural-networks-the-sparsely-gated-mixture-of-experts-layer/
+      - https://research.google/pubs/attention-is-all-you-need/
+      - https://www.noamshazeer.com/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.christopher-olin
+    version: 1
+    displayName: Christopher Olin
+    inspirationName: Christopher Olah
+    inspirationSummary: Anthropic co-founder and mechanistic-interpretability researcher behind feature visualisation, the Circuits programme, and Distill's visual approach to technical explanation.
+    epithet: The Microscopist
+    role: Mechanistic interpretability
+    rosterCardSummary: A visual and conceptual virtuoso who turns model internals into scientific objects, accelerates interpretability research, and lowers incident risk.
+    biography: >-
+      Christopher Olah works on reverse-engineering neural networks into human-understandable
+      algorithms. He co-founded Anthropic, previously led interpretability research at OpenAI,
+      worked at Google Brain and co-founded Distill, the journal that treated visual explanation as
+      part of technical argument. His feature-visualisation work showed how optimisation can expose
+      what channels respond to; the Circuits programme studied how connections between features
+      implement algorithms. At Anthropic, that line expanded from small vision systems to
+      language-model features and computational graphs, with the explicit goal of improving model
+      safety and reliability. None of this makes a colourful activation tile a complete
+      explanation. The point is to build a better microscope, state its resolution and use
+      interventions to test what the picture implies. Every jewel-like diagram therefore arrives
+      with an ablation, a caveat and a request for considerably more compute. The caption has
+      footnotes each time.
+    availability:
+      wave: scaling
+      earliestYear: 2018
+      unlockAny: [{ facilityOwned: facility.interpretability-lab-1 }, { yearAtLeast: 2018 }, { safetyDomainLevelAtLeast: 28 }]
+      poolWeight: 0.70
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 0, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 3, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 2, training: 2, product: 1, management: 4, politics: 2 }
+    traits: [trait.mechanistic-clarity, trait.visual-explanation]
+    signature:
+      id: ability.look-inside
+      label: Look Inside
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-domain-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.known-circuits
+      label: Known Circuits, Fewer Surprises
+      effects:
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
+    compact:
+      id: compact.real-microscope
+      label: A Real Microscope
+      requirement: Complete Interpretability Lab I within 26 weeks of hiring him.
+      cadence: one-time
+      check: { type: facility-owned-within, facility: facility.interpretability-lab-1, weeks: 26 }
+      breachEvent: people.compact.real-microscope
+    paperHooks:
+      ids: [paper.feature-visualization, paper.zoom-in-introduction-to-circuits]
+    eventReactions:
+      - { triggerTag: suspicious-representation, line: "It is not yet a motive, but it is a structure we can localise and test rather than narrate." }
+      - { triggerTag: audit-pressure, line: "A fast microscope can still be a bad microscope. Preserve the controls and we can be both fast and informative." }
+      - { triggerTag: colourful-heatmap, line: "Beautiful evidence is still evidence with assumptions. Put the assumptions in the caption." }
+    feedLines:
+      - Christopher has converted an opaque activation into an interactive diagram and three more precise questions.
+      - The feature visualisation is beautiful. Legal has confirmed beauty does not constitute a safety case.
+      - A circuit was found, named, ablated, and invited to give a seminar.
+      - Interpretability output rose; understanding followed at a less aesthetically convenient pace.
+      - The microscope resolves one more layer and one fewer comforting metaphor.
+      - Christopher requested an Interpretability Lab with excellent light and uncompromising baselines.
+    portrait:
+      assetId: portrait.researcher.christopher-olin
+      brief: Luminous 8-bit editorial portrait; white man with wavy brown hair, surrounded by magnified neural features, circuit arrows and jewel-like activation tiles; curious and exacting, not photoreal.
+      altText: Pixel-art portrait of Christopher Olin surrounded by magnified neural features and circuit arrows.
+    sources:
+      - https://distill.pub/2017/feature-visualization/
+      - https://colah.github.io/about.html
+      - https://distill.pub/2020/circuits/zoom-in/
+      - https://www.anthropic.com/research/mapping-mind-language-model
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.paul-christiani
+    version: 1
+    displayName: Paul Christiani
+    inspirationName: Paul Christiano
+    inspirationSummary: Alignment Research Center executive director and human-feedback, debate, and scalable-oversight researcher focused on preserving useful supervision as systems grow stronger.
+    epithet: The Oversight Theorist
+    role: Alignment, human feedback, and scalable oversight
+    rosterCardSummary: An RLHF and scalable-oversight researcher who keeps adding independent checkers until the model is no longer grading its own exam.
+    biography: >-
+      Paul Christiano is executive director of the Alignment Research Center, a nonprofit pursuing
+      technical research on aligning future machine-learning systems with human interests. At
+      OpenAI he co-authored early work on learning from human preferences: agents inferred goals
+      from people choosing between short clips of behaviour, including a simulated robot that
+      learned a backflip from around 900 bits of feedback. His research then explored amplification,
+      debate and scalable oversight—ways to preserve useful human judgement when tasks become too
+      complex for direct evaluation. ARC's work includes eliciting latent knowledge: asking how a
+      model can report what it knows rather than merely produce the answer a human expects to see.
+      The resulting question is deliberately awkward and remains unanswered by charisma: if a
+      system is extraordinarily persuasive, who checks its evidence, and how does that checker
+      avoid becoming another part of the same system?
+    availability:
+      wave: scaling
+      earliestYear: 2017
+      unlockAny: [{ discoveredTag: human-feedback }, { yearAtLeast: 2017 }, { safetyDomainLevelAtLeast: 30 }]
+      poolWeight: 0.75
+    contract: { band: major, baseSalaryPerCycle: 0.68, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 0, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 1, management: 4, politics: 3 }
+    traits: [trait.scalable-oversight, trait.independent-evidence]
+    signature:
+      id: ability.scalable-oversight
+      label: Scalable Oversight
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-programme, value: safety.alignment-control }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.independent-eyes
+      label: Independent Eyes
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.no-self-certification
+      label: No Self-Certification
+      requirement: Before every public release of a model with Frontier Capability 60 or more, complete one external audit.
+      cadence: event-driven
+      check: { type: release-requires-project, minFc: 60, projectTag: external-audit }
+      breachEvent: people.compact.no-self-certification
+    paperHooks:
+      ids: [paper.deep-rl-from-human-preferences, paper.ai-safety-via-debate]
+    eventReactions:
+      - { triggerTag: self-evaluation, line: "The model's report is evidence about the model and evidence produced by the model. Those are not interchangeable." }
+      - { triggerTag: audit-delay, line: "An independent check that arrives after deployment is a historical document, not a control." }
+      - { triggerTag: oversight-bottleneck, line: "If the task is too complex for one evaluator, decompose the task. Do not decompose the evaluator's authority." }
+    feedLines:
+      - Paul has decomposed one impossible oversight problem into six merely difficult ones.
+      - The external audit returned an inconvenient result and remained one hundred percent external.
+      - A model offered to grade its own safety case. The offer has been preserved as evidence.
+      - Human preferences now supervise the agent; the humans have requested clearer preference documentation.
+      - Paul added a second line of review between “convincing” and “deploy.”
+      - The oversight protocol scales logarithmically. The meeting explaining it has not.
+    portrait:
+      assetId: portrait.researcher.paul-christiani
+      brief: Restrained 8-bit editorial portrait; white man with short dark hair before a branching oversight tree with paired human and model nodes; analytical and independent, not photoreal.
+      altText: Pixel-art portrait of Paul Christiani beside a branching oversight tree connecting human and model reviewers.
+    sources:
+      - https://openai.com/index/learning-from-human-preferences/
+      - https://www.alignment.org/team/
+      - https://www.alignment.org/blog/arcs-first-technical-report-eliciting-latent-knowledge/
+      - https://arxiv.org/abs/1805.00899
+      - https://arxiv.org/abs/1810.08575
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.alec-broadford
+    version: 1
+    displayName: Alec Broadford
+    inspirationName: Alec Radford
+    inspirationSummary: OpenAI researcher whose GPT, GPT-2, CLIP, and Whisper work connected broad pretraining with zero-shot language, vision, and speech transfer.
+    epithet: The Zero-Shot Polymath
+    role: General-purpose pretraining, zero-shot transfer, and multimodal representation learning
+    rosterCardSummary: "An author behind GPT, GPT-2, CLIP, and Whisper, whose preferred task list has one item—pretrain—and an increasingly implausible number of evaluation footnotes."
+    biography: >-
+      Alec Radford's OpenAI research projects showed that broad pretraining can produce capabilities
+      not specified one dataset at a time. His early work learned visual features from generative
+      image modelling and found a single sentiment-responsive unit inside a character-level
+      language model trained only to predict the next character. The original GPT paired
+      unsupervised Transformer pretraining with supervised fine-tuning; GPT-2 showed stronger
+      zero-shot task behaviour as language modelling scaled. CLIP learned transferable visual
+      representations from internet text-image pairs, and Whisper used large-scale weak supervision
+      for robust multilingual speech recognition. Together they form a remarkably consistent
+      research programme: pretrain on broad data, evaluate in new settings, and inspect which useful
+      abilities arrived without their own bespoke pipeline. The programme may fit under one checkbox
+      labelled “pretrain”; the evaluation appendix keeps growing. Nobody has found its final page.
+    availability: { wave: scaling, earliestYear: 2019, poolWeight: 0.45 }
+    contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 4, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 0, training: 5, product: 3, management: 2, politics: 1 }
+    traits: [trait.broad-pretraining-instinct, trait.zero-shot-transfer]
+    signature:
+      id: ability.pretrain-once-transfer-everywhere
+      label: Pretrain Once, Transfer Everywhere
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.multimodality, domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.zero-shot-department
+      label: The Zero-Shot Department
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.prove-it-transfers
+      label: Prove It Transfers
+      requirement: Complete one zero-shot transfer evaluation every 52 weeks.
+      check: { type: tagged-action-within, tags: [zero-shot-transfer-evaluation], weeks: 52 }
+      breachEvent: people.compact.prove-it-transfers
+    paperHooks:
+      ids: [paper.gpt2, paper.clip-language-supervised-vision, paper.whisper-speech-recognition]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Good. Now run it zero-shot somewhere the training set did not know would become a benchmark." }
+      - { triggerTag: dataset-shortage, line: "Before commissioning another labelled dataset, check whether the internet has already labelled the task badly but at enormous scale." }
+      - { triggerTag: release-policy, line: "A release can be an experiment, but only if somebody writes down what the experiment is meant to teach us." }
+    feedLines:
+      - Alec asked one pretrained model to handle a new task without fine-tuning. It did, which has created three more meetings.
+      - The zero-shot evaluation suite acquired another column and retired another bespoke pipeline.
+      - A representation trained for language proved unexpectedly useful for vision; Alec registered only mild surprise.
+      - The team found a legible feature inside a model that had never been told the feature had a name.
+      - Alec's one-item pretraining plan now has fourteen pages of evaluation footnotes.
+      - A multilingual speech test passed in a language nobody on the immediate team could confidently pronounce.
+    portrait:
+      assetId: portrait.researcher.alec-broadford
+      brief: Understated 8-bit editorial portrait; pale-skinned man with short light-brown hair, rectangular glasses, no beard, a gentle reserved smile, and a dark navy shirt, beside one pretraining arrow branching into text, image, and audio; quietly versatile, not photoreal.
+      altText: Pixel-art portrait of Alec Broadford beside one pretraining arrow branching into text, image, and audio.
+    sources:
+      - https://openai.com/index/unsupervised-sentiment-neuron/
+      - https://openai.com/index/language-unsupervised/
+      - https://openai.com/index/better-language-models/
+      - https://openai.com/index/clip/
+      - https://arxiv.org/abs/2212.04356
+      - https://cdn.openai.com/papers/Generative_Pretraining_from_Pixels_V2.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }

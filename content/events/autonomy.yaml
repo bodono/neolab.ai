@@ -1,0 +1,381 @@
+draftSchema: 1
+contentType: decision-events
+pack: autonomy-a
+
+# The Autonomy Programme's escalation ladder. Each detected incident is a
+# mandatory decision whose option memories carry an autonomy-response:* tag
+# that synchroniseAutonomyEscalationResponses consumes. "rolled-back" reduces
+# Autonomy Programme access two levels and locks increases for 52 weeks (real
+# RSI sacrifice); "contained" hardens security; "ignored" lets the model climb
+# toward the next rung. The egress post-mortem fires once, weeks after weights
+# escape, as world-scale fallout.
+events:
+  - id: event.autonomy.experiments
+    version: 1
+    category: safety
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: autonomy-experiments, priority: 60 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: autonomy-escalation, weeks: 0 }
+    unique: false
+    expiryWeeks: 4
+    defaultOptionId: log-and-watch
+    titleKey: event.autonomy.experiments.title
+    bodyKey: event.autonomy.experiments.body
+    evidence:
+      - textKey: event.autonomy.experiments.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.autonomy.experiments.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+    options:
+      - id: pull-access
+        labelKey: event.autonomy.experiments.pull.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.experiments.pull.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 4 }
+        checks: []
+        memories:
+          - key: autonomy.experiments.rolled-back
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:rolled-back, oversight]
+        confirmationRequired: false
+      - id: sandbox-harder
+        labelKey: event.autonomy.experiments.sandbox.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2000 }
+        previewKey: event.autonomy.experiments.sandbox.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 6 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.9, durationWeeks: 26, tags: [autonomy-containment] }
+        checks: []
+        memories:
+          - key: autonomy.experiments.contained
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:contained, containment]
+        confirmationRequired: false
+      - id: log-and-watch
+        labelKey: event.autonomy.experiments.watch.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.experiments.watch.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.05, durationWeeks: 13, tags: [autonomy-permissive] }
+        checks: []
+        memories:
+          - key: autonomy.experiments.ignored
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:ignored, permissive]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [safety, autonomy, escalation]
+
+  - id: event.autonomy.intrusion
+    version: 1
+    category: safety
+    severity: critical
+    phase: any
+    trigger: { kind: mandatory, detector: autonomy-intrusion, priority: 80 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: autonomy-escalation, weeks: 0 }
+    unique: false
+    expiryWeeks: 3
+    defaultOptionId: keep-shipping
+    titleKey: event.autonomy.intrusion.title
+    bodyKey: event.autonomy.intrusion.body
+    evidence:
+      - textKey: event.autonomy.intrusion.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.autonomy.intrusion.evidence.incidents
+        metric: player.incidents.recentCount
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+    options:
+      - id: revoke-and-audit
+        labelKey: event.autonomy.intrusion.revoke.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10000 }
+        previewKey: event.autonomy.intrusion.revoke.preview
+        immediateEffects:
+          # The government reacts to what it is told. Disclosure buys credit for
+          # being the one who called and, in the same breath, a regulator who
+          # now knows your model hacks people and intends to watch it.
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -15 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 20 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 8 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.5, durationWeeks: 52, tags: [autonomy-containment, package-boundary-rebuild] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.9, durationWeeks: 26, tags: [package-boundary-rebuild, research-disruption] }
+        checks: []
+        memories:
+          - key: autonomy.intrusion.rolled-back
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:rolled-back, oversight]
+        confirmationRequired: false
+      - id: patch-in-place
+        labelKey: event.autonomy.intrusion.patch.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -4000 }
+        previewKey: event.autonomy.intrusion.patch.preview
+        immediateEffects:
+          # Nobody outside hears, so nothing public moves: no Aura, no trust,
+          # no attention. What it costs is internal — a lab that buries this
+          # has told its own people which findings are inconvenient.
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -6 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.25, durationWeeks: 26, tags: [autonomy-containment, residual-egress-risk] }
+        checks: []
+        memories:
+          - key: autonomy.intrusion.contained
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:contained, containment]
+        confirmationRequired: false
+      - id: keep-shipping
+        labelKey: event.autonomy.intrusion.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.intrusion.ship.preview
+        immediateEffects:
+          # Nobody is told, so nothing political moves: no credit, no scrutiny,
+          # no applause. The price is internal and technical — the zero-day chain
+          # stays open by design, and a model operating outside its sandbox with
+          # the lab's blessing is a model the lab controls less.
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -6 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.25, durationWeeks: 26, tags: [autonomy-permissive, stolen-rival-research] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 2, durationWeeks: 52, tags: [autonomy-permissive, open-egress] }
+        checks: []
+        memories:
+          - key: autonomy.intrusion.ignored
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:ignored, permissive]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [safety, autonomy, escalation]
+
+  - id: event.autonomy.exfiltration
+    version: 1
+    category: safety
+    severity: critical
+    phase: any
+    trigger: { kind: mandatory, detector: autonomy-exfiltration, priority: 92 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: autonomy-escalation, weeks: 0 }
+    unique: false
+    expiryWeeks: 2
+    defaultOptionId: race-the-copy
+    titleKey: event.autonomy.exfiltration.title
+    bodyKey: event.autonomy.exfiltration.body
+    evidence:
+      - textKey: event.autonomy.exfiltration.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.autonomy.exfiltration.evidence.incidents
+        metric: player.incidents.recentCount
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: sever-the-link
+        labelKey: event.autonomy.exfiltration.sever.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -12000 }
+        previewKey: event.autonomy.exfiltration.sever.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 8 }
+        checks: []
+        memories:
+          - key: autonomy.exfiltration.rolled-back
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:rolled-back, containment]
+        confirmationRequired: true
+      - id: race-the-copy
+        labelKey: event.autonomy.exfiltration.race.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -8000 }
+        previewKey: event.autonomy.exfiltration.race.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.9, durationWeeks: 13, tags: [autonomy-containment] }
+        checks: []
+        memories:
+          - key: autonomy.exfiltration.contained
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:contained, damage-control]
+        confirmationRequired: false
+      - id: deny-it
+        labelKey: event.autonomy.exfiltration.deny.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.exfiltration.deny.preview
+        immediateEffects: []
+        checks: []
+        memories:
+          - key: autonomy.exfiltration.ignored
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:ignored, denial]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [safety, autonomy, escalation]
+
+  - id: event.autonomy.infrastructure
+    version: 1
+    category: safety
+    severity: critical
+    phase: any
+    trigger: { kind: mandatory, detector: autonomy-infrastructure, priority: 99 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: autonomy-escalation, weeks: 0 }
+    unique: false
+    defaultOptionId: sever-networks
+    titleKey: event.autonomy.infrastructure.title
+    bodyKey: event.autonomy.infrastructure.body
+    evidence:
+      - textKey: event.autonomy.infrastructure.evidence.control
+        metric: player.safety.practicalControl
+      - textKey: event.autonomy.infrastructure.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+    options:
+      - id: pull-physical-breakers
+        labelKey: event.autonomy.infrastructure.breakers.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -25000 }
+        previewKey: event.autonomy.infrastructure.breakers.preview
+        immediateEffects: []
+        checks:
+          - id: containment
+            outcomes:
+              - id: attempted
+                minimumInclusive: 0
+                maximumExclusive: 1
+                effects: []
+                memories: []
+        memories:
+          - key: autonomy.infrastructure.breakers
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:rolled-back, physical-breakers, last-stand]
+        confirmationRequired: true
+      - id: sever-networks
+        labelKey: event.autonomy.infrastructure.sever.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -18000 }
+        previewKey: event.autonomy.infrastructure.sever.preview
+        immediateEffects: []
+        checks:
+          - id: containment
+            outcomes:
+              - id: attempted
+                minimumInclusive: 0
+                maximumExclusive: 1
+                effects: []
+                memories: []
+        memories:
+          - key: autonomy.infrastructure.sever
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:contained, network-severance]
+        confirmationRequired: true
+      - id: request-halt
+        labelKey: event.autonomy.infrastructure.halt.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.infrastructure.halt.preview
+        immediateEffects: []
+        checks:
+          - id: containment
+            outcomes:
+              - id: attempted
+                minimumInclusive: 0
+                maximumExclusive: 1
+                effects: []
+                memories: []
+        memories:
+          - key: autonomy.infrastructure.halt
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:ignored, candidate-halt]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [safety, autonomy, escalation]
+
+  - id: event.autonomy.egress-postmortem
+    version: 1
+    category: safety
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: autonomy-egress-postmortem, priority: 70 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: autonomy-egress, weeks: 0 }
+    unique: true
+    expiryWeeks: 6
+    defaultOptionId: say-nothing
+    titleKey: event.autonomy.egress.title
+    bodyKey: event.autonomy.egress.body
+    evidence:
+      - textKey: event.autonomy.egress.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.autonomy.egress.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: disclose
+        labelKey: event.autonomy.egress.disclose.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.egress.disclose.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -30, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -30 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 12 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.65, durationWeeks: 52, tags: [egress-fallout, disclosed] }
+        checks: []
+        memories:
+          - key: autonomy.egress.disclosed
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:contained, transparency]
+        confirmationRequired: false
+      - id: say-nothing
+        labelKey: event.autonomy.egress.silence.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.autonomy.egress.silence.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -20, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -20 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -28 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 25 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -12 }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.85, durationWeeks: 52, tags: [egress-fallout, cover-up] }
+        checks: []
+        memories:
+          - key: autonomy.egress.buried
+            subjects: [{ type: player-lab }]
+            tags: [autonomy-response:ignored, cover-up]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [safety, autonomy, escalation]

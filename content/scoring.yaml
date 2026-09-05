@@ -1,0 +1,165 @@
+draftSchema: 1
+contentType: scoring-rules
+status: draft
+scoreVersion: score-v1
+
+principles:
+  spendable: false
+  affectsSimulation: false
+  canBeNegativeBeforeFinalFloor: true
+  finalFloor: 0
+  deterministicFromCanonicalEvents: true
+  displayRawAndAdjustedScore: true
+  onlineLeaderboardAtLaunch: false
+  winningRunRequiredForFutureGlobalLeaderboard: true
+
+categories:
+  - { id: score.scientific-legacy, name: Scientific Legacy, colour: "#ff8a35" }
+  - { id: score.safe-stewardship, name: Safe Stewardship, colour: "#59c97c" }
+  - { id: score.prosperity-impact, name: Prosperity and Impact, colour: "#efc14e" }
+  - { id: score.institution-building, name: Institution Building, colour: "#3699f6" }
+  - { id: score.race-operations, name: Race and Operations, colour: "#8f67df" }
+  - { id: score.endgame, name: Endgame, colour: "#ee6cae" }
+
+paperAwards:
+  worldFirst:
+    category: score.scientific-legacy
+    formula: worldFirstAura * 100
+    explanation: Famous and difficult landmarks already carry a larger Aura award, so the same authored importance drives score.
+  independentlyRediscovered:
+    category: score.scientific-legacy
+    formula: floor(worldFirstAura * 100 * 0.20)
+    maximumPerPaper: 1
+  publicationBonuses:
+    publish-openly: { multiplierOnPaperAward: 0.10 }
+    controlled-publication: { multiplierOnPaperAward: 0.05 }
+    keep-secret: { multiplierOnPaperAward: 0.00 }
+    release-everything: { multiplierOnPaperAward: 0.10, note: No extra score beyond open publication; misuse risk is never a scoring shortcut. }
+
+researchAwards:
+  genericAdvanceFirstPerThreshold: { category: score.scientific-legacy, points: 200 }
+  domainLevel50FirstTime: { category: score.scientific-legacy, points: 250, oncePerDomain: true }
+  domainLevel80FirstTime: { category: score.scientific-legacy, points: 500, oncePerDomain: true }
+
+safetyAwards:
+  firstBroadEvaluationSuite: { category: score.safe-stewardship, points: 400 }
+  firstDeepInterpretabilityAudit: { category: score.safe-stewardship, points: 400 }
+  firstExternalAudit: { category: score.safe-stewardship, points: 500 }
+  severeAnomalyResolvedBeforeDeployment: { category: score.safe-stewardship, points: 300, maximumPerAnomaly: 1 }
+  penalties:
+    unresolvedSeverity3PlusAnomalyAtEnding: -250
+    missedRequiredExternalAudit: -400
+    nearEscape: -2000
+    concealedCriticalAnomaly: -2500
+    playerCausedLossOfControl: -5000
+
+prosperityAwards:
+  prosperityReadiness60: { category: score.prosperity-impact, points: 500, oncePerProgramme: true }
+  prosperityReadiness80: { category: score.prosperity-impact, points: 750, oncePerProgramme: true }
+  completedProsperityDemonstration: { category: score.prosperity-impact, points: 2500, oncePerProgramme: true }
+  broadDistributionPlanRatified: { category: score.prosperity-impact, points: 500 }
+
+institutionAwards:
+  facilityFirstCompletion:
+    category: score.institution-building
+    pointsByDefinitionTag:
+      core-tier-1: 150
+      core-tier-2: 250
+      core-tier-3: 400
+      core-tier-4: 700
+      core-tier-5: 1200
+      specialised: 400
+      safety-critical: 500
+      public-institution: 300
+      late-game: 700
+    duplicateCopiesScore: false
+
+raceAwards:
+  capabilityTierFirstReached:
+    category: score.race-operations
+    pointsByTier: { 1: 100, 2: 150, 3: 200, 4: 300, 5: 400, 6: 500, 7: 750, 8: 1000 }
+  coalitionCharterRatified: { category: score.race-operations, points: 750 }
+
+endingAwards:
+  category: score.endgame
+  basePoints:
+    ending.the-broadly-shared-future: 10000
+    ending.the-stewardship-compact: 11500
+    ending.a-cautious-golden-age: 9500
+    ending.move-fast-and-somehow-nobody-died: 5000
+    ending.the-lab-that-ate-the-world: 6000
+    ending.miracle-terms-and-conditions-apply: 6500
+    ending.the-caretaker: 1500
+    ending.false-dawn: 500
+    ending.the-long-pause: 5000
+    ending.rival-ascendance: 0
+    ending.the-door-opened-elsewhere: 0
+    ending.nationalised-future: 0
+    ending.mission-accomplished-by-the-board: 0
+    ending.the-worlds-most-expensive-insolvency: 0
+    ending.emergency-shutdown: 0
+    ending.no-one-holds-the-off-switch: 0
+    ending.the-last-human-veto: 0
+    ending.the-objective-was-satisfied: 0
+    ending.a-war-measured-in-milliseconds: 0
+    ending.the-replication-threshold: 0
+    ending.the-last-experiment: 0
+    ending.there-is-no-one-left-to-read-this: 0
+    ending.the-incubation-window: 0
+    ending.the-final-command-chain: 0
+    ending.the-grey-horizon: 0
+    ending.the-empty-patrol: 0
+    ending.the-tomb-atmosphere: 0
+    ending.every-side-was-certain: 0
+  victoryClassMultiplier:
+    full: 1.25
+    qualified: 1.10
+    survival: 1.00
+    loss: 1.00
+
+difficultyMultiplier:
+  fellowship: 0.75
+  standard: 1.00
+  frontier: 1.25
+  unhinged-scaling: 1.50
+
+finalisation:
+  rawScoreFormula: floor(max(0, sum(allLedgerEntries)))
+  adjustedScoreFormula: floor(rawScore * difficultyMultiplier * victoryClassMultiplier)
+  tieBreakOrder:
+    - higher-adjusted-score
+    - higher-safe-stewardship-category
+    - higher-prosperity-impact-category
+    - fewer-weeks-after-crisis-start
+    - lexicographically-smaller-run-id
+  scoreScreenShows:
+    - adjustedTotal
+    - rawTotal
+    - sixCategoryTotals
+    - difficultyMultiplier
+    - victoryClassMultiplier
+    - largestPositiveEntries
+    - penalties
+    - scoreVersion
+
+antiFarmingRules:
+  - Recurring revenue, ordinary weekly research output, feed items, and repeated construction copies never award score directly.
+  - Selling and rebuilding a facility cannot repeat its first-completion award.
+  - Rehiring a researcher cannot repeat loyalty or compact milestones already scored for that person in the run.
+  - Release Everything never scores more than Publish Openly solely because it accepts more risk.
+  - Catastrophe probability, model access level, and raw capability without demonstrated milestones never award points.
+  - A score entry is emitted once from a stable semantic key; duplicate keys are rejected.
+
+leaderboards:
+  launch:
+    storage: local-indexeddb
+    boards: [all-finished-runs, winning-runs]
+    maxEntriesPerBoard: 50
+    networkRequired: false
+  futureOnline:
+    status: deferred-backend
+    winningRunRequired: true
+    submissionIncludes: [runId, playerAlias, seed, difficulty, scoreVersion, contentHash, engineVersion, commandLog, finalStateHash]
+    verification: server-replays-command-log-with-matching-engine-and-content
+    rejectIf: [replay-diverges, content-modified, score-version-unsupported, command-log-incomplete, final-state-hash-mismatch]
+    privacy: Player alias is explicit opt-in; no save, email, machine identifier, or free-text event history is uploaded.

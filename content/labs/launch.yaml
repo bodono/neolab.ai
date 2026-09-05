@@ -1,0 +1,375 @@
+draftSchema: 1
+contentType: launch-leaders-and-labs
+status: draft
+
+leaders:
+  - id: leader-thomas-hassabi
+    displayName: Dennis Hassabi
+    inspirationName: Demis Hassabis
+    inspirationSummary: >-
+      chess master and games programmer turned neuroscientist, DeepMind co-founder, and
+      co-recipient of the 2024 Nobel Prize in Chemistry for protein-structure prediction
+    epithet: The Visionary
+    company:
+      id: lab-deepbrain
+      displayName: DeepBrain
+    aiFamily: Aquarius
+    characteristic: Sees the whole research tree while everyone else is still arguing about the benchmark.
+    headlineBonus:
+      id: polymaths-programme
+      label: Polymath's Programme
+      target: lab.research.capability.output
+      operation: multiply
+      value: 1.10
+    biography: >-
+      Demis Hassabis shared half of the 2024 Nobel Prize in Chemistry with John Jumper for
+      protein-structure prediction, the crowning scientific result of a career that has moved
+      fluently through games, neuroscience and artificial intelligence. As co-founder and chief
+      executive of DeepMind, he helped build the institution behind DQN, AlphaGo, AlphaZero and
+      AlphaFold: systems that learned from pixels, defeated a Go world champion, mastered several
+      games from first principles and gave biologists a powerful new instrument for understanding
+      proteins. The range sounds like several distinguished careers accidentally printed on one
+      badge. In Demis Hassabis's case it reflects one unusually coherent ambition—to understand
+      intelligence deeply enough to recreate it, then use it to accelerate discovery.
+
+      The route began early: Demis Hassabis learned chess at four, reached master level at
+      thirteen, became a five-time World Games champion and helped program Theme Park at
+      seventeen. After studying computer science at Cambridge and founding Elixir Studios, he
+      completed a PhD in cognitive neuroscience at University College London. His research
+      linking the hippocampus to memory and imagination was named among Science's breakthroughs of
+      2007. In 2010 he co-founded DeepMind with Shane Legg and Mustafa Suleyman, assembling
+      machine learning, neuroscience, mathematics and engineering around a long-horizon question
+      that was not yet a conventional business plan. DQN joined deep learning to reinforcement
+      learning; AlphaGo defeated Lee Sedol, with Move 37 making experts gasp in real time; and
+      AlphaZero learned chess, shogi and Go from scratch. AlphaFold2 then transformed
+      protein-structure prediction, while the database created with EMBL-EBI put predictions into
+      the hands of millions of researchers. Demis Hassabis is a Fellow of the Royal Society and
+      the Royal Academy of Engineering, was appointed CBE and later knighted. The honours are
+      formidable, but the deeper achievement is the bridge: games supplied worlds, neuroscience
+      supplied clues about minds, DeepMind supplied institutional scale, and AlphaFold showed the
+      programme contributing directly to science. Few people cross that many disciplines without
+      losing their luggage; Demis Hassabis made the crossings into a career.
+    labModifiers:
+      - id: scientific-institution
+        label: Scientific Institution
+        effects:
+          - { target: lab.research.scientific.startingLevel, operation: max, value: 6 }
+      - id: a-product-would-be-nice
+        label: A Product Would Be Nice
+        effects:
+          - { target: lab.market.acquisitionRate, operation: multiply, value: 0.85 }
+    complexity: medium
+    sourceNotes:
+      - https://deepmind.google/about/
+      - https://deepmind.google/blog/the-podcast-episode-8-demis-hassabis-the-interview/
+      - https://deepmind.google/blog/from-unlikely-start-up-to-major-scientific-organisation-entering-our-tenth-year-at-deepmind/
+      - https://deepmind.google/blog/alphazero-shedding-new-light-on-chess-shogi-and-go/
+      - https://deepmind.google/blog/demis-hassabis-john-jumper-awarded-nobel-prize-in-chemistry/
+      - https://royalsociety.org/people/demis-hassabis-13817/
+      - https://www.nobelprize.org/prizes/chemistry/2024/hassabis/facts/
+      - https://www.nobelprize.org/uploads/2024/10/popular-chemistryprize2024-4.pdf
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+    editorialReview:
+      lastReviewed: "2026-08-01"
+
+  - id: leader-dario-amodeo
+    displayName: Mario Amodeo
+    inspirationName: Dario Amodei
+    inspirationSummary: >-
+      physicist who led GPT-2, GPT-3 and long-term safety research at OpenAI before
+      co-founding Anthropic to build reliable, interpretable and steerable AI
+    epithet: The Philosopher
+    company:
+      id: lab-humanic
+      displayName: Humanic
+    aiFamily: Maude
+    characteristic: Has already written the memo explaining why the obvious plan fails at scale.
+    headlineBonus:
+      id: scaling-with-principles
+      label: Scaling With Principles
+      target: lab.research.safety.output
+      operation: multiply
+      value: 1.35
+    biography: >-
+      Dario Amodei co-founded Anthropic after helping build GPT-2 and GPT-3, co-leading OpenAI's
+      research direction and running work on long-term AI safety. He also co-authored the scaling
+      laws that gave the modern frontier a quantitative map, then helped make Constitutional AI
+      and mechanistic interpretability major practical research programmes. That combination is
+      his defining contribution: Dario Amodei has treated capability and safety as parts of the
+      same demanding science, not rival departments exchanging concerned memoranda. Anthropic's
+      aim of building reliable, interpretable and steerable systems turns that conviction into an
+      institution operating at the frontier.
+
+      His route into AI began with measurement-heavy science. Dario Amodei studied physics at
+      Stanford and completed a Princeton PhD on neural circuits, combining statistical-mechanics
+      models with new recording devices and receiving the Hertz Thesis Prize. At Stanford
+      Medicine he worked on mass spectrometry, proteome networks and cancer biomarkers; after
+      Google Brain, he joined OpenAI and became vice president of research. The 2020 scaling-laws
+      paper he co-authored with Jared Kaplan and colleagues found regular relationships between
+      performance, model size, data and compute, helping laboratories plan costly training runs
+      rather than discover their economics after the invoice. “Make it bigger” had acquired axes,
+      fitted curves and a proper figure caption. In 2021 Dario Amodei co-founded Anthropic with
+      Daniela Amodei and colleagues as a public-benefit corporation. Constitutional AI used
+      written principles, model-generated critiques and reinforcement learning from AI feedback;
+      later interpretability work extracted millions of human-readable features from a production
+      Claude model and showed that changing some could alter behaviour. None of this declares the
+      black box solved. Its strength is the refusal to confuse an important result with a
+      finished field. From neural electrodes to scaling curves to model internals, Dario Amodei
+      keeps asking the same useful question: what would we need to measure before confidence
+      became deserved?
+    labModifiers:
+      - id: safety-constitution
+        label: Safety Constitution
+        effects:
+          - { target: lab.evals.quality.starting, operation: max, value: 20 }
+          - { target: lab.compute.acquisitionCost, operation: multiply, value: 1.05 }
+      - id: mission-magnet
+        label: Mission Magnet
+        effects:
+          - { target: researcher.moraleTarget, operation: add, value: 5 }
+          - { target: researcher.loyalty, operation: add, value: 10 }
+      - id: responsible-market
+        label: Responsible Market
+        effects:
+          - { target: lab.revenue.all, operation: multiply, value: 1.15 }
+    complexity: medium
+    sourceNotes:
+      - https://www.hertzfoundation.org/people/dario-amodei/
+      - https://www.anthropic.com/company
+      - https://www.anthropic.com/news/anthropic-raises-124-million-to-build-more-reliable-general-ai-systems
+      - https://openai.com/index/organizational-update/
+      - https://arxiv.org/abs/2001.08361
+      - https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback
+      - https://www.anthropic.com/research/mapping-mind-language-model
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+    editorialReview:
+      lastReviewed: "2026-08-01"
+
+  - id: leader-sam-altmann
+    displayName: Stan Altmann
+    inspirationName: Sam Altman
+    inspirationSummary: >-
+      Loopt founder from Y Combinator's first batch, YC president from 2014 to 2019, and
+      OpenAI co-founder and chief executive
+    epithet: The Rainmaker
+    company:
+      id: lab-openmind
+      displayName: ClopenAI
+    aiFamily: GBT
+    characteristic: Can turn a prototype, a dinner and one slide into the infrastructure budget of a small nation.
+    headlineBonus:
+      id: capital-is-a-technology
+      label: Capital Is a Technology
+      effects:
+        - { target: lab.fundraising.duration, operation: multiply, value: 0.80 }
+        - { target: lab.fundraising.offerCash, operation: multiply, value: 1.25 }
+    biography: >-
+      Sam Altman co-founded OpenAI in 2015, later became its chief executive and helped turn an
+      ambitious research laboratory into the organisation behind widely used frontier models,
+      developer platforms and ChatGPT. Before OpenAI, he built Loopt in Y Combinator's inaugural
+      batch and served as YC's president from 2014 to 2019, helping expand one of technology's
+      most influential systems for finding and supporting founders. His defining ability is
+      institutional: Sam Altman connects scientific ambition to researchers, capital, compute,
+      products and public attention at a scale few technology leaders attempt. A prototype can
+      leave one of his meetings with a team, a financing plan, a data-centre requirement and,
+      slightly alarmingly, a date.
+
+      Loopt began while Sam Altman was studying computer science at Stanford and gave him the
+      founder's education that no panel discussion can compress: users, fundraising, hiring and
+      the survival rate of attractive theories after contact with reality. At YC he moved from
+      building one company to helping many, and his Startup Playbook distilled practical advice
+      on products, growth, execution and leadership for founders beyond the programme. OpenAI was
+      a larger wager. Its launch described a nonprofit devoted to advancing digital intelligence
+      for humanity's benefit, backed by one billion dollars in commitments; under Sam Altman's
+      leadership it assembled research, engineering, safety, deployment and commercial
+      infrastructure around that mission. He has treated capital and compute as technical
+      constraints rather than background scenery, forged partnerships capable of supplying
+      supercomputing at frontier scale, and carried AI into public debate, including testimony
+      before the United States Senate on advanced systems' opportunities, risks and regulation.
+      The arc from Loopt to YC to OpenAI is therefore not merely a sequence of larger
+      organisations. It shows a consistent talent for finding leverage, giving exceptional people
+      room to work and building the machinery around ideas whose first drafts sound implausibly
+      large. A model cannot change the world while stranded in a notebook, and a data centre does
+      not appear simply because the roadmap uses a confident font; Sam Altman's career has been
+      spent making both sides of that sentence operational.
+    labModifiers:
+      - id: unreasonable-momentum
+        label: Unreasonable Momentum
+        effects:
+          - { target: lab.aura.spendable.starting, operation: max, value: 40 }
+          - { target: lab.market.demandCeiling, operation: multiply, value: 1.20 }
+      - id: everyone-has-a-term-sheet
+        label: Everyone Has a Term Sheet
+        effects:
+          - { target: lab.finance.executiveCostPerCycle, operation: add, value: 1.0 }
+    complexity: low-medium
+    sourceNotes:
+      - https://openai.com/index/sam-altman-returns-as-ceo-openai-has-a-new-initial-board/
+      - https://openai.com/index/introducing-openai/
+      - https://openai.com/global-affairs/testimony-of-sam-altman-before-the-us-senate/
+      - https://forum.openai.com/public/videos/event-replay-sam-altman-on-building-the-future-of-ai-2026-04-06
+      - https://www.ycombinator.com/blog/sam-altman-for-president
+      - https://www.ycombinator.com/blog/startup-playbook
+      - https://www.ycombinator.com/blog/uncut-interview-with-sam-altman-on-masters-of-scale/
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+    editorialReview:
+      lastReviewed: "2026-08-01"
+
+  - id: leader-elon-tusk
+    displayName: Elon Tusk
+    inspirationName: Elon Musk
+    inspirationSummary: >-
+      SpaceX founder and Tesla chief whose companies developed Falcon 9, the first
+      orbital-class rocket capable of reflight, and brought a 100,000-GPU AI cluster online
+      in 122 days
+    epithet: The Industrialist
+    company:
+      id: lab-xmind
+      displayName: xMind
+    aiFamily: Gronk
+    characteristic: Believes a software problem is often a factory problem wearing insufficiently ambitious trousers.
+    headlineBonus:
+      id: first-principles-industry
+      label: First-Principles Industry
+      effects:
+        - { target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.75 }
+        - { target: lab.compute.acquisitionCost, operation: multiply, value: 0.80 }
+    biography: >-
+      Elon Musk founded SpaceX, leads Tesla and founded xAI, placing him behind an unusual range
+      of large-scale engineering achievements: reusable orbital rockets, crew and cargo
+      spacecraft, mass-market electric vehicles, global satellite broadband and one of the
+      world's largest AI training clusters. SpaceX's Falcon 9 became the first orbital-class
+      rocket capable of reflight, while Dragon has carried cargo and people to the International
+      Space Station. Tesla paired electric cars with batteries, charging, energy storage,
+      software and vertically integrated factories. In AI, xAI reported bringing a cluster of
+      100,000 Hopper GPUs fully online in 122 days. Elon Musk's distinctive contribution is to
+      treat manufacturing speed, infrastructure and hardware scale as engineering variables,
+      rather than fixed scenery around the allegedly interesting software.
+
+      He began by co-founding Zip2 and the online-payments company that became PayPal, then used
+      the proceeds from software to enter industries where every ambitious sentence eventually
+      encounters metal, regulation, supply chains and gravity. Elon Musk founded SpaceX in 2002;
+      its reusable-rocketry programme turned spectacular landings into a repeated operating
+      capability supported by engines, guidance, recovery ships and teams learning from each
+      flight. Starlink extended the system into mass-produced satellites, frequent launches,
+      ground infrastructure and moving networks. At Tesla, where he has served as chief executive
+      since 2008, product design reached backwards into the factory—the “machine that builds the
+      machine”—and forwards into the energy and software needed to keep the product useful. He
+      also founded Neuralink and The Boring Company, bringing the same appetite for difficult
+      physical systems to brain interfaces and tunnelling. xAI's Colossus project completed the
+      circle: frontier-model software became inseparable from power, cooling, networking and site
+      construction. The portfolio is too broad for a tidy legend; its common thread is a
+      repeated ability to turn ambitious engineering programmes into operating industrial
+      systems. Many technology strategies end with a box labelled “deployment.” In
+      Elon Musk's work, that box has a persistent tendency to become a factory, launch pad,
+      satellite constellation or GPU hall—and then acquire a second shift.
+    labModifiers:
+      - id: robots-are-the-product
+        label: Robots Are the Product
+        effects:
+          - { target: lab.research.robotics.startingLevel, operation: max, value: 10 }
+      - id: deepest-pockets
+        label: Deepest Pockets
+        effects:
+          - { target: lab.finance.cash.fullGameGrant, operation: add, value: 200 }
+      - id: visible-from-orbit
+        label: Visible From Orbit
+        effects:
+          - { target: lab.politics.governmentAttention.starting, operation: max, value: 10 }
+          - { target: lab.compute.ownedPowerCost, operation: multiply, value: 1.10 }
+    complexity: medium-high
+    sourceNotes:
+      - https://ir.tesla.com/corporate/elon-musk
+      - https://www.tesla.com/about
+      - https://ir.spacex.com/leadership/
+      - https://www.spacex.com/mission
+      - https://www.spacex.com/vehicles/falcon-9/
+      - https://www.spacex.com/careers/
+      - https://x.ai/company
+      - https://x.ai/news/series-c
+      - https://www.axios.com/2023/07/12/elon-musk-ai-xai-chatgpt
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+    editorialReview:
+      lastReviewed: "2026-08-01"
+
+  - id: leader-liang-wenfang
+    displayName: Liang Wenfang
+    inspirationName: Liang Wenfeng
+    inspirationSummary: >-
+      High-Flyer and DeepSeek founder and co-author of the V2 and V3 reports that put
+      efficient open frontier models on every competitor's agenda
+    epithet: The Optimizer
+    company:
+      id: lab-deepsearch
+      displayName: DeepSearch AI
+    aiFamily: DeepSearch
+    characteristic: Has removed three zeroes from the compute budget and would like to know why the rest are still there.
+    headlineBonus:
+      id: algorithmic-efficiency
+      label: Algorithmic Efficiency
+      target: lab.compute.workloadThroughput
+      operation: multiply
+      value: 1.05
+    biography: >-
+      Liang Wenfeng founded High-Flyer and DeepSeek, then co-authored technical reports for
+      DeepSeek-V2 and V3 that forced the frontier-model industry to reconsider what strong open
+      systems had to cost. DeepSeek's work combined sparse Mixture-of-Experts architectures,
+      Multi-head Latent Attention, low-precision training and close hardware-software co-design
+      to increase model capacity while sharply reducing training and inference costs. V3 used 671
+      billion total parameters but activated 37 billion per token, was pretrained on 14.8
+      trillion tokens and reported results competitive with leading closed systems. Liang
+      Wenfeng's accomplishment is often called “doing more with less,” but that makes the research
+      sound like careful stationery purchasing. DeepSeek showed that architectural invention and
+      meticulous systems work can redefine both the “more” and the “less.”
+
+      Liang Wenfeng studied information and communication engineering at Zhejiang University and
+      founded High-Flyer in 2015, applying machine learning to quantitative trading. That is an
+      uncompromising education in algorithms: methods must survive noisy data, expensive
+      computation and results that can be counted without waiting for peer review. He founded
+      DeepSeek in 2023 and carried that culture of modelling, optimisation and resource discipline
+      into large language models. V2's 236-billion-parameter design activated only 21 billion
+      parameters per token; compared with DeepSeek 67B, its report measured a 93.3% smaller
+      key-value cache, 42.5% lower training cost and 5.76 times greater maximum generation
+      throughput. V3 extended the programme with auxiliary-loss-free expert balancing,
+      multi-token prediction and an FP8 framework; its full training used 2.788 million H800
+      GPU-hours and completed without an irrecoverable loss spike or rollback—a quiet sentence in
+      the report, and a magnificent one to anyone who has watched a large loss curve acquire
+      opinions at three in the morning. DeepSeek also released checkpoints, code and unusually
+      detailed reports, letting researchers inspect and adapt the work rather than encounter it
+      only through an interface. By joining quantitative rigour to open research, Liang Wenfeng
+      challenged assumptions about which organisations could build frontier models and which
+      resource constraints were actually fundamental. The rest of the industry now reads the
+      methods section before approving the procurement spreadsheet.
+    labModifiers:
+      - id: efficiency-culture
+        label: Efficiency Culture
+        effects:
+          - { target: lab.training.frontier.cashCost, operation: multiply, value: 0.90 }
+          - { target: lab.research.optimisation.startingLevel, operation: max, value: 9 }
+      - id: national-champion
+        label: National Champion
+        effects:
+          - { target: lab.politics.governmentTrust.starting, operation: max, value: 65 }
+      - id: under-the-states-eye
+        label: Under the State's Eye
+        effects:
+          - { target: lab.politics.governmentAttention.starting, operation: max, value: 35 }
+    complexity: high
+    sourceNotes:
+      - https://apnews.com/article/deepseek-founder-liang-wenfeng-china-ai-0673d5c39d90108189cc31b88d85b9f8
+      - https://www.ezhejiang.gov.cn/2025-01/22/c_1067180.htm
+      - https://arxiv.org/abs/2405.04434
+      - https://arxiv.org/abs/2412.19437
+    portrayal:
+      fictionalized: true
+      endorsementImplied: false
+    editorialReview:
+      lastReviewed: "2026-08-01"

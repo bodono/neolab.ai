@@ -1,0 +1,622 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-b
+availabilityWave: scaling
+status: draft
+
+researchers:
+  - id: researcher.alexei-dosovsky
+    version: 1
+    displayName: Alexei Dosovsky
+    inspirationName: Alexey Dosovitskiy
+    inspirationSummary: Vision Transformer lead author who showed that an image could be split into patches and processed by a largely standard transformer.
+    epithet: The Patch Prophet
+    role: Vision transformers and architecture unification
+    rosterCardSummary: The Vision Transformer lead author who gave image patches the same architectural rights as tokens and watched computer vision reorganise itself.
+    biography: >-
+      Alexey Dosovitskiy began in pure mathematics before moving into computer vision and machine
+      learning at the University of Freiburg. At Google Research, he led “An Image is Worth 16×16
+      Words,” the paper that introduced the Vision Transformer. The model divides an image into a
+      sequence of patches and sends them through a standard transformer, replacing many assumptions
+      built into convolutional networks. With sufficient pre-training data, it matched or exceeded
+      convolutional baselines and helped make attention-based backbones central to vision. The
+      result was valuable not because images secretly were sentences, but
+      because a general architecture could learn more visual structure than many researchers had
+      expected it to. Dosovitskiy’s work makes removal a serious experimental method: take away the
+      cherished inductive bias, scale the comparison properly and see whether the benchmark sends a
+      condolence card. In this case, the patches managed very well.
+    availability: { wave: scaling, earliestYear: 2019, poolWeight: 0.65 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 1, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 4, product: 2, management: 2, politics: 0 }
+    traits: [trait.elegant-removal, trait.architecture-unifier]
+    signature:
+      id: ability.patches-not-pixels
+      label: Patches, Not Pixels
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.one-backbone-many-modalities
+      label: One Backbone, Many Modalities
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.041, stackingGroup: training-throughput }
+    compact:
+      id: compact.test-the-assumption
+      label: Test the Assumption
+      requirement: While he leads Architectures, complete one inductive-bias ablation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: inductive-bias-ablation, weeks: 52 }
+      breachEvent: people.compact.test-the-assumption
+    paperHooks:
+      ids: [paper.vision-transformer, paper.clip-language-supervised-vision]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Before adding a new inductive bias, remove one first and see what actually breaks." }
+      - { triggerTag: benchmark-saturation, line: "The architecture did not change. The data did. That distinction matters." }
+      - { triggerTag: compute-windfall, line: "Given more compute, the simpler architecture usually wins. It rarely feels like a satisfying answer." }
+    feedLines:
+      - Alexei removed the last convolutional layer and the model's performance quietly improved.
+      - A patch-embedding diagram appeared on the whiteboard, replacing three separate modality-specific ones.
+      - The ablation removed a beloved inductive bias. The result did not miss it.
+      - Alexei's team trained the same architecture on twice the data and got a genuinely different model.
+      - A colleague asked why a plain transformer should work here too. Alexei asked why it wouldn't.
+      - The unified backbone now handles a task nobody originally built it for, slightly to everyone's surprise.
+    portrait:
+      assetId: portrait.researcher.alexei-dosovsky
+      brief: Clean 8-bit editorial portrait; white man with very short sandy-brown hair and thin-framed glasses, beside an image cleanly divided into a patch grid feeding a single attention diagram; minimalist and precise, not photoreal.
+      altText: Pixel-art portrait of Alexei Dosovsky beside an image divided into a patch grid feeding an attention diagram.
+    sources:
+      - https://arxiv.org/abs/2010.11929
+      - https://lmb.informatik.uni-freiburg.de/people/dosovits/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.jonathan-hoe
+    version: 1
+    displayName: Jonathan Hoe
+    inspirationName: Jonathan Ho
+    inspirationSummary: Generative-modelling researcher whose Denoising Diffusion Probabilistic Models paper established iterative denoising as a powerful route to image generation.
+    epithet: The Noise Whisperer
+    role: Diffusion-based generative modelling
+    rosterCardSummary: The diffusion-model pioneer who turned “remove a little noise” into enough careful steps to generate an image.
+    biography: >-
+      Jonathan Ho is the lead author of “Denoising Diffusion Probabilistic Models,” the 2020 paper
+      that helped establish diffusion as a central approach to generative modelling. Ho and his
+      co-authors trained a network to reverse a fixed process that gradually adds noise to data.
+      Sampling then begins with noise and repeatedly applies the learned reverse steps until an
+      image appears. The method produced high-quality samples without the adversarial training used
+      by GANs and connected the model to ideas from score matching and nonequilibrium
+      thermodynamics. Ho’s later work helped improve diffusion sample quality and conditional
+      control. The elegant part is the decomposition: no single step must paint the whole picture;
+      each is responsible for making the current noise slightly less convincing. Thousands of
+      modest corrections later, noise itself has acquired a remarkably successful creative career.
+    availability: { wave: scaling, earliestYear: 2020, poolWeight: 0.70 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 5, reasoningTools: 1, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 4, product: 2, management: 1, politics: 0 }
+    traits: [trait.patient-decomposition, trait.stable-training-instinct]
+    signature:
+      id: ability.one-small-step-at-a-time
+      label: One Small Step at a Time
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.stable-by-construction
+      label: Stable by Construction
+      effects:
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.977, stackingGroup: hazard-reduction }
+    compact:
+      id: compact.no-adversarial-shortcuts
+      label: No Adversarial Shortcuts
+      requirement: While he leads Multimodality, complete one non-adversarial objective validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: generative-programme, projectTag: non-adversarial-objective, weeks: 52 }
+      breachEvent: people.compact.no-adversarial-shortcuts
+    paperHooks:
+      ids: [paper.denoising-diffusion-probabilistic-models, paper.latent-diffusion-high-resolution-synthesis]
+    eventReactions:
+      - { triggerTag: unstable-training, line: "Adversarial instability is a design choice, not a law of generative modelling. Consider not making it." }
+      - { triggerTag: synthetic-media, line: "The samples are only as responsible as the release policy attached to them." }
+      - { triggerTag: architecture-fad, line: "Decompose the hard problem into easy steps first. It is rarely as slow as it sounds." }
+    feedLines:
+      - Jonathan added one more denoising step and the sample quality improved, again, marginally and reliably.
+      - The training curve stayed stable through the whole run, which the team has started to find suspicious.
+      - A generated sample survived scrutiny that would have caught an adversarial artifact immediately.
+      - Jonathan explained the forward noising process for the fourth time this week, patiently, once more.
+      - The latent-space version trained in a fraction of the compute, and Jonathan called this "expected."
+      - A colleague asked if diffusion was slow. Jonathan asked if correct was slow.
+    portrait:
+      assetId: portrait.researcher.jonathan-hoe
+      brief: Calm 8-bit editorial portrait; East Asian man with short black hair, round glasses and a light moustache and goatee, beside an image resolving gradually out of noise across several panels; patient and methodical, not photoreal.
+      altText: Pixel-art portrait of Jonathan Hoe beside an image gradually resolving out of noise across several panels.
+    sources:
+      - https://arxiv.org/abs/2006.11239
+      - https://www.jonathanho.me/
+      - https://arxiv.org/abs/2105.05233
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.jared-kapler
+    version: 1
+    displayName: Jared Kapler
+    inspirationName: Jared Kaplan
+    inspirationSummary: Physicist, Anthropic co-founder and scaling-laws lead author who turned model size, data and compute into quantities a frontier laboratory could plan around.
+    epithet: The Power-Law Planner
+    role: Scaling laws and frontier training strategy
+    rosterCardSummary: The physicist who fitted power laws to model size, data and compute, then co-founded a laboratory obliged to budget accordingly.
+    biography: >-
+      Jared Kaplan trained as a theoretical physicist and became a professor at Johns Hopkins
+      before applying the search for simple quantitative laws to neural networks. At OpenAI, he led
+      “Scaling Laws for Neural Language Models,” which found smooth power-law relationships between
+      language-model loss and model size, dataset size and training compute across several orders
+      of magnitude. Those equations gave frontier teams a practical way to forecast returns and
+      allocate a fixed compute budget for both research and deployment. Kaplan later co-founded
+      Anthropic and serves as its chief
+      science officer. He helped pioneer Constitutional AI, which trains models against explicit
+      written principles, and worked with Amanda Askell to establish the Claude Character project
+      and shape Claude’s constitution. His career links capability forecasting and alignment rather
+      than treating safety as the paragraph after the scaling chart. The physicist’s habit remains
+      visible: name the variables, fit the curve, state the assumptions, and do not bring Finance a
+      frontier run whose units have gone missing.
+    availability: { wave: scaling, earliestYear: 2021, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.92, baseSigningCash: 8, auraCost: 13, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 2, securityContainment: 1, training: 4, product: 1, management: 4, politics: 3 }
+    traits: [trait.quantitative-forecaster, trait.safety-as-scaling-problem]
+    signature:
+      id: ability.compute-optimal-planning
+      label: Compute-Optimal Planning
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.044, stackingGroup: training-throughput }
+    passive:
+      id: ability.forecastable-returns
+      label: Forecastable Returns
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6}
+    compact:
+      id: compact.capability-and-safety-together
+      label: Capability and Safety Together
+      requirement: Keep at least 20% of R&D compute in safety while he leads Optimisation & Scaling.
+      check: { type: conditional-metric-at-least, condition: { assignmentDomain: base:domain.optimisation-scaling }, metric: lab.allocation.rdSafetyShare, value: 0.20 }
+      breachEvent: people.compact.capability-and-safety-together
+    paperHooks:
+      ids: [paper.scaling-laws-language-models, paper.constitutional-ai-harmlessness]
+    eventReactions:
+      - { triggerTag: scaling-proposal, line: "Show me the curve this run is meant to sit on, not merely the budget it is meant to spend." }
+      - { triggerTag: safety-budget-cut, line: "A capability forecast without a matching safety forecast is half a plan." }
+      - { triggerTag: ai-self-designed-eval, line: "Let the model propose the harder test. Verify independently before trusting the harder score." }
+    feedLines:
+      - Jared fit a new curve to the training runs and revised next quarter's compute request accordingly.
+      - The written constitution gained a clause after a model politely found a loophole in the previous one.
+      - A physicist's instinct for units caught an off-by-an-order-of-magnitude error in a compute budget.
+      - Jared's forecast predicted the loss within a rounding error, and Finance is still recovering.
+      - The self-critique stage caught an issue the human reviewers had, reasonably, missed.
+      - "A scaling proposal was returned with one polite question: \"and the safety curve?\""
+    portrait:
+      assetId: portrait.researcher.jared-kapler
+      brief: Precise 8-bit editorial portrait; white man with short brown hair and rectangular glasses, beside a smooth power-law curve and a small written constitution scroll; quantitative and principled, not photoreal.
+      altText: Pixel-art portrait of Jared Kapler beside a smooth scaling-law curve and a small constitution scroll.
+    sources:
+      - https://www.hertzfoundation.org/people/jared-kaplan/
+      - https://arxiv.org/abs/2001.08361
+      - https://www.anthropic.com/constitution
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.john-schulmann
+    version: 1
+    displayName: John Schulmann
+    inspirationName: John Schulman
+    inspirationSummary: OpenAI co-founder and reinforcement-learning researcher who developed TRPO and PPO, then led post-training work behind ChatGPT.
+    epithet: The Policy Optimizer
+    role: Policy-gradient reinforcement learning and human-feedback alignment
+    rosterCardSummary: The PPO creator whose deliberately modest policy updates became an unexpectedly expansive part of modern model post-training.
+    biography: >-
+      John Schulman studied physics at Caltech and completed a doctorate at UC Berkeley with Pieter
+      Abbeel. His research introduced Trust Region Policy Optimization, which constrains each
+      reinforcement-learning policy update, and Proximal Policy Optimization, a simpler clipped
+      objective that became one of the field’s most widely used algorithms. PPO proved practical
+      across large training systems. Schulman co-founded
+      OpenAI, led the creation of ChatGPT and, from 2022 to 2024, co-led the post-training team that
+      developed models for ChatGPT and the OpenAI API. That work joined policy optimisation with
+      reward models and human feedback, making reinforcement learning a central part of
+      instruction-following systems. He later spent time on Anthropic’s Alignment Science team. The
+      recurring engineering idea is disciplined movement: make an update large enough to learn,
+      but not so large that yesterday’s useful policy disappears. PPO’s clipped step has enjoyed a
+      remarkably unclipped career.
+    availability: { wave: scaling, earliestYear: 2017, poolWeight: 0.60 }
+    contract: { band: major, baseSalaryPerCycle: 0.87, baseSigningCash: 8, auraCost: 12, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 2, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 2, management: 3, politics: 2 }
+    traits: [trait.stability-first, trait.human-feedback-architect]
+    signature:
+      id: ability.clipped-and-stable
+      label: Clipped and Stable
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency, safety.alignment-control] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.977 }
+    passive:
+      id: ability.rlhf-pipeline
+      label: RLHF Pipeline
+      effects:
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    compact:
+      id: compact.stable-updates-only
+      label: Stable Updates Only
+      requirement: While he leads RL & Agency, complete one stability-constrained objective validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: reinforcement-programme, projectTag: stability-constrained-objective, weeks: 52 }
+      breachEvent: people.compact.stable-updates-only
+    paperHooks:
+      ids: [paper.instructgpt-following-instructions, paper.deep-rl-from-human-preferences]
+    eventReactions:
+      - { triggerTag: reward-hacking, line: "Constrain the update step before you trust the reward. An unconstrained policy will find the reward's weak point." }
+      - { triggerTag: instruction-following-failure, line: "Check whether the reward model actually reflects what the rater meant, not merely what they clicked." }
+      - { triggerTag: safety-budget-cut, line: "The stability constraint is not decorative. Remove it and you have removed the thing keeping the update modest." }
+    feedLines:
+      - John clipped the policy update and a training run that used to diverge stopped doing that this time.
+      - The reward model's rankings agreed with the human raters again, which is the entire point of checking.
+      - A trust-region proof from years ago resolved a very current disagreement in ten minutes.
+      - John's team shipped a smaller, cheaper, better-behaved model and let the numbers make the case.
+      - The clipped objective is, once again, doing exactly what the much more complicated version also did.
+      - A new alignment technique arrived for review. John asked, first, whether it was provably stable.
+    portrait:
+      assetId: portrait.researcher.john-schulmann
+      brief: Calm 8-bit editorial portrait; white man with short brown hair and a plain shirt, beside a policy-update diagram constrained inside a soft trust-region boundary; precise and unshowy, not photoreal.
+      altText: Pixel-art portrait of John Schulmann beside a policy-update diagram constrained within a trust-region boundary.
+    sources:
+      - https://arxiv.org/abs/1707.06347
+      - https://arxiv.org/abs/2203.02155
+      - https://joschu.net/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.vladimir-mnich
+    version: 1
+    displayName: Vladimir Mnich
+    inspirationName: Volodymyr Mnih
+    inspirationSummary: Google DeepMind researcher and DQN lead author who combined deep vision with reinforcement learning to master Atari games from raw pixels.
+    epithet: The Atari Pioneer
+    role: Deep reinforcement learning from raw perception
+    rosterCardSummary: The DQN lead author who asked one neural network to learn dozens of Atari games directly from pixels, without reading any manuals.
+    biography: >-
+      Volodymyr Mnih studied computing science at the University of Alberta with Csaba Szepesvári,
+      then completed a machine-learning doctorate at the University of Toronto under Geoffrey
+      Hinton. At Google DeepMind, he led the work on the Deep Q-Network, or DQN, which combined a
+      convolutional network with reinforcement learning and learned directly from Atari screen
+      pixels and game scores. Experience replay reduced correlations in the training data, while a
+      separate target network helped stabilise learning. The resulting agent achieved
+      human-comparable performance across dozens of games with the same architecture, algorithm and
+      hyperparameters rather than a bespoke controller for each title. Published in Nature in 2015,
+      the result became a landmark in deep reinforcement learning. It demonstrated that perception
+      and action could be learned together at useful scale. One architecture, many games, no
+      instruction booklet: the score counter had become a research supervisor in disguise.
+    availability: { wave: scaling, earliestYear: 2015, poolWeight: 0.70 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.59, baseSigningCash: 5, auraCost: 8, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 3, reasoningTools: 2, roboticsEmbodiment: 1, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 1, securityContainment: 0, training: 4, product: 0, management: 2, politics: 0 }
+    traits: [trait.general-recipe, trait.stabilised-training]
+    signature:
+      id: ability.experience-replay-discipline
+      label: Experience Replay Discipline
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.one-architecture-many-games
+      label: Generality, Not High Score
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.no-game-specific-tuning
+      label: No Game-Specific Tuning
+      requirement: While he leads RL & Agency, complete one shared-architecture, multi-environment validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: reinforcement-programme, projectTag: shared-architecture-multi-environment, weeks: 52 }
+      breachEvent: people.compact.no-game-specific-tuning
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphago]
+    eventReactions:
+      - { triggerTag: reward-hacking, line: "The agent optimised the score exactly as instructed. Check the instruction before blaming the agent." }
+      - { triggerTag: emergent-strategy, line: "It found the tunnel strategy because the tunnel strategy was, in fact, in the reward's interest." }
+      - { triggerTag: unstable-training, line: "Add the target network back. The instability was solved for a reason." }
+    feedLines:
+      - Vladimir retrained the same architecture on a different game and it worked on the first attempt, again.
+      - The target network stabilised a training run that had, without it, been quietly diverging.
+      - An agent discovered an exploit in the scoring system, and Vladimir called this "the reward function's homework."
+      - The replay buffer decorrelated a sequence of transitions that had been confusing the optimiser.
+      - Vladimir declined to hand-tune the hyperparameters for the new environment, on principle.
+      - The same shared architecture cleared a benchmark nobody had specifically built it for.
+    portrait:
+      assetId: portrait.researcher.vladimir-mnich
+      brief: Focused 8-bit editorial portrait; white man with short dark hair, beside a retro game screen feeding directly into a compact convolutional network diagram; disciplined and unflashy, not photoreal.
+      altText: Pixel-art portrait of Vladimir Mnich beside a retro game screen feeding into a convolutional network diagram.
+    sources:
+      - https://doi.org/10.1038/nature14236
+      - https://www.cs.toronto.edu/~vmnih/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.doina-precupe
+    version: 1
+    displayName: Doina Precupe
+    inspirationName: Doina Precup
+    inspirationSummary: McGill, Mila and Google DeepMind reinforcement-learning leader whose work on options gave agents a principled way to reason over extended actions.
+    epithet: The Options Architect
+    role: Reinforcement learning, temporal abstraction, and applied research leadership
+    rosterCardSummary: The options-framework pioneer who gives reinforcement-learning agents plans longer than one nervous action at a time.
+    biography: >-
+      Doina Precup is a professor at McGill University, a Canada CIFAR AI Chair at Mila and a
+      principal scientist leading Google DeepMind’s Montreal research team. Her work focuses on
+      reinforcement learning, planning under uncertainty and temporal abstraction. With Richard
+      Sutton and Satinder Singh, she developed the options framework, which lets an agent reason
+      about extended courses of action rather than selecting every primitive move in isolation.
+      Precup also studies applications of machine learning in health care. She co-founded the AI4Good
+      Lab and the Eastern European Machine Learning Summer School to broaden access to the field.
+      Across those
+      projects, elegant theory is expected to survive contact with a consequential decision. An
+      “option” may be formal mathematics, but it also lets the agent maintain a plan for longer than
+      one nervous twitch.
+    availability: { wave: scaling, earliestYear: 2017, poolWeight: 0.75 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 0.97, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 2, scientificAi: 3, alignmentControl: 5, interpretabilityEvals: 3, securityContainment: 0, training: 3, product: 1, management: 5, politics: 3 }
+    traits: [trait.temporal-abstraction, trait.applied-rigour]
+    signature:
+      id: ability.options-over-actions
+      label: Options Over Actions
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.research.program.base:domain.reinforcement-agency.weeklyVarianceWidth, operation: multiply, value: 0.80, stackingGroup: variance-width }
+    passive:
+      id: ability.responsible-translation
+      label: Responsible Translation
+      effects:
+        - { target: action.tag.coalition.auraCost, operation: multiply, value: 0.85 }
+    compact:
+      id: compact.theory-meets-application
+      label: Theory Meets Application
+      requirement: While she leads RL & Agency, complete one applied companion project every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: reinforcement-programme, projectTag: applied-companion-project, weeks: 52 }
+      breachEvent: people.compact.theory-meets-application
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphazero]
+    eventReactions:
+      - { triggerTag: healthcare-deployment, line: "An elegant policy is not a clinical policy until it has answered for its uncertainty." }
+      - { triggerTag: hand-engineered-shortcut, line: "Consider the option, not merely the action. Some structure is worth abstracting rather than hard-coding." }
+      - { triggerTag: student-departure, line: "Good. Take the applied rigour with you and hold onto it." }
+    feedLines:
+      - Doina reframed the long-horizon problem as a sequence of options, and the plan finally converged.
+      - A health-application pilot returned results and, more importantly, honest uncertainty bounds.
+      - The Montreal office produced a paper and a deployed pilot in the same quarter, deliberately.
+      - Doina asked whether the temporal abstraction was principled or merely convenient. It was, on inspection, both.
+      - A mentee's dissertation defence went well, in no small part because of the applied companion project.
+      - The variance in the RL programme's output narrowed without anyone loosening the question it was answering.
+    portrait:
+      assetId: portrait.researcher.doina-precupe
+      brief: Composed 8-bit editorial portrait; white woman with shoulder-length dark hair and glasses and a warm, precise expression, beside a hierarchical options diagram feeding into a small health-application icon; rigorous and grounded, not photoreal.
+      altText: Pixel-art portrait of Doina Precupe beside a hierarchical reinforcement-learning options diagram and a health icon.
+    sources:
+      - https://doinaprecup.github.io/
+      - https://rl.cs.mcgill.ca/people/doina-precup/
+      - https://www.sciencedirect.com/science/article/pii/S0004370299000521
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+
+  - id: researcher.dawn-sung
+    version: 1
+    displayName: Dawn Sung
+    inspirationName: Dawn Song
+    inspirationSummary: UC Berkeley computer-security professor and MacArthur Fellow whose work spans privacy, adversarial machine learning and AI safety.
+    epithet: The Adversary Hunter
+    role: AI and computer security
+    rosterCardSummary: The MacArthur Fellow who treats every learned model as useful software—and therefore as software that deserves a serious threat model.
+    biography: >-
+      Dawn Song is a professor of computer science at UC Berkeley whose research spans computer
+      security, privacy, adversarial machine learning, AI safety and decentralised systems. Her
+      early work developed approaches to analysing and defending software and networks, including
+      systems exposed to attackers trying to evade detection. The MacArthur
+      Foundation named her a Fellow in 2010 for contributions to computer security and privacy.
+      Berkeley also records her recognition as AMiner’s most-cited scholar in computer security,
+      alongside ACM and IEEE fellowships and test-of-time and best-paper awards. As machine
+      learning systems became infrastructure, Song brought the same adversarial frame to models:
+      capability creates an attack surface, and a confident demonstration is not a threat
+      model. She co-founded Oasis Labs to develop privacy-preserving systems for data use.
+      The range is broad but the operating question is consistent: who can make this system behave
+      differently, and what evidence says they cannot? Every promising door gets a proper
+      inspection of its lock.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.70 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 1, dataRepresentation: 2, reinforcementAgency: 1, multimodality: 1, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 5, training: 2, product: 1, management: 4, politics: 3 }
+    traits: [trait.adversarial-rigour, trait.most-cited-sceptic]
+    signature:
+      id: ability.attack-before-anyone-else-does
+      label: Attack Before Anyone Else Does
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.security-containment] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.security-containment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90, stackingGroup: hazard-reduction }
+    passive:
+      id: ability.the-finding-is-credible
+      label: The Finding Is Credible
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 3 }
+    compact:
+      id: compact.independent-red-team
+      label: Independent Red Team
+      requirement: After the lab fields a model with Frontier Capability 40 or more, complete one independent red-team review every 52 weeks.
+      check: { type: conditional-tagged-action-within, condition: { metric: lab.model.maxActiveFC, atLeast: 40 }, tags: [red-team-review], weeks: 52 }
+      breachEvent: people.compact.independent-red-team
+    paperHooks:
+      ids: [paper.constitutional-ai-harmlessness, paper.qt-opt-robotic-manipulation]
+    eventReactions:
+      - { triggerTag: security-breach, line: "Assume the attacker is competent and act accordingly. The alternative assumption is not a security posture." }
+      - { triggerTag: jailbreak-viral, line: "A public jailbreak is an unpaid audit. Treat the finding with the seriousness it earned." }
+      - { triggerTag: ai-research-assistance, line: "Grant the model a new tool and assume, until proven otherwise, that the tool is also an attack surface." }
+    feedLines:
+      - Dawn's red team found the exploit before the jailbreak forum did, by exactly one week.
+      - A security audit closed one attack surface and, precisely as expected, opened a discussion about two more.
+      - The model resisted a known attack pattern. Dawn asked which unknown pattern it had not yet been tested against.
+      - A junior security researcher's finding earned Dawn's rare, genuine "good catch."
+      - The containment protocol held under adversarial testing, and Dawn is treating this as a starting point.
+      - Dawn's citation count rose again. She noted this only when asked directly, and only once.
+    portrait:
+      assetId: portrait.researcher.dawn-sung
+      brief: Sharp 8-bit editorial portrait; East Asian woman with long black hair and an alert, precise expression, beside a red-team dashboard with a partially breached and then resealed containment diagram; exacting and unshowy, not photoreal.
+      altText: Pixel-art portrait of Dawn Sung beside a red-team dashboard with a resealed containment diagram.
+    sources:
+      - https://www.macfound.org/fellows/class-of-2010/dawn-song
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/song.html
+      - https://engineering.berkeley.edu/dawn-song-privacy-protector/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.been-kimm
+    version: 1
+    displayName: Been Kimm
+    inspirationName: Been Kim
+    inspirationSummary: Google DeepMind director, interpretability researcher and TCAV co-creator who makes neural-network decisions explainable through human concepts rather than raw features.
+    epithet: The Concept Translator
+    role: Interpretability and human-AI communication
+    rosterCardSummary: The TCAV co-creator who lets people question a model in concepts they recognise instead of requesting directions to neuron 47,219.
+    biography: >-
+      Been Kim is a director and principal scientist at Google DeepMind focused on interpretability:
+      methods for understanding models and models designed to be interpretable from the start. She
+      earned master’s and doctoral degrees at MIT. With Martin Wattenberg, Justin Gilmer, Carrie Cai,
+      James Wexler, Fernanda Viégas and Rory Sayres, Kim developed Testing with Concept Activation
+      Vectors, or TCAV. The method tests how sensitive a model’s prediction is to a
+      human-understandable concept represented by examples, offering an explanation at a level such
+      as “striped” or “wheeled” rather than at the level of individual pixels or neurons. Her wider
+      work studies concept-based explanations, human-centred evaluation and the scientific
+      foundations needed to say that an explanation is useful. Kim has also served the Women in
+      Machine Learning community and taught interpretability tutorials at major conferences for
+      wider audiences. A
+      saliency map may be colourful, but her work asks whether the person making the decision can
+      actually use what it says.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.70 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 2, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 1, training: 1, product: 2, management: 2, politics: 2 }
+    traits: [trait.concept-level-explanation, trait.translator-not-just-inventor]
+    signature:
+      id: ability.concept-activation-testing
+      label: Concept Activation Testing
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+    passive:
+      id: ability.legible-to-non-specialists
+      label: Legible to Non-Specialists
+      effects:
+        - { target: action.tag.lobbying.auraCost, operation: multiply, value: 0.92, stackingGroup: cash-discount }
+    compact:
+      id: compact.explain-in-human-concepts
+      label: Explain in Human Concepts
+      requirement: While she leads Interpretability & Evals, complete one plain-language concept report every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: interpretability-programme, projectTag: plain-language-concept-report, weeks: 52 }
+      breachEvent: people.compact.explain-in-human-concepts
+    paperHooks:
+      ids: [paper.constitutional-ai-harmlessness, paper.closed-loop-autonomous-discovery-agents]
+    eventReactions:
+      - { triggerTag: anomalous-representation, line: "Name the concept in a sentence a policymaker could follow. If we cannot, we do not understand it yet either." }
+      - { triggerTag: government-hearing, line: "A concept explanation earns more trust in that room than a saliency map ever will." }
+      - { triggerTag: interpretability-breakthrough, line: "Good. Now translate it for the person who has to make the deployment decision, not just the paper." }
+    feedLines:
+      - Been tested a human concept against the model's internal activations and got a clean, surprising answer.
+      - The plain-language concept report reached the board before the technical appendix did, deliberately.
+      - A policymaker understood the interpretability finding on the first explanation, which Been treats as the actual benchmark.
+      - The concept vector correlated exactly where it should have, and nowhere it shouldn't, this time.
+      - Been declined to publish a finding until it survived translation into a sentence a non-specialist could use.
+      - A conference keynote again made the case that steering and understanding are the same open problem.
+    portrait:
+      assetId: portrait.researcher.been-kimm
+      brief: Approachable 8-bit editorial portrait; pale East Asian woman with long straight black hair, glasses and a warm, clear expression, beside a concept-activation diagram connecting a plain-language label to a neural layer; clarifying and precise, not photoreal.
+      altText: Pixel-art portrait of Been Kimm beside a concept-activation diagram linking a plain-language label to a neural layer.
+    sources:
+      - https://research.google/people/106045/
+      - https://beenkim.github.io/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.sergei-levinsky
+    version: 1
+    displayName: Sergei Levinsky
+    inspirationName: Sergey Levine
+    inspirationSummary: UC Berkeley robot-learning professor and Physical Intelligence co-founder who develops scalable policies that connect perception, control and real-world experience.
+    epithet: The Embodiment Engineer
+    role: Robot learning at scale
+    rosterCardSummary: The Berkeley professor who gives learned policies robot arms, real-world data and no opportunity to blame the simulator.
+    biography: >-
+      Sergey Levine earned bachelor’s, master’s and doctoral degrees in computer science at
+      Stanford, then joined UC Berkeley, where he leads research on machine learning for
+      decision-making and control. His work includes end-to-end neural policies that connect
+      perception directly to action, scalable inverse reinforcement learning and deep
+      reinforcement-learning methods for robots. These systems learn grasping, locomotion and other
+      skills from demonstrations, trial and error, offline datasets and fleets collecting
+      experience in the physical world. Levine’s laboratory has repeatedly tested whether methods
+      that improve with more data and compute can replace brittle task-specific controllers. He
+      later co-founded Physical Intelligence, which builds general-purpose models for robots and
+      other physical devices. Embodiment makes every abstraction submit to a practical review:
+      gravity attends the demonstration, the object is rarely where the simulator promised, and a
+      failed grasp still becomes useful training data for another attempt. Levine’s research keeps
+      the learning algorithm in that room until it can cope with reality.
+    availability: { wave: scaling, earliestYear: 2016, poolWeight: 0.75 }
+    contract: { band: major, baseSalaryPerCycle: 0.87, baseSigningCash: 8, auraCost: 12, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 3, reasoningTools: 2, roboticsEmbodiment: 5, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 4, product: 3, management: 4, politics: 1 }
+    traits: [trait.scale-over-hand-modelling, trait.embodiment-conviction]
+    signature:
+      id: ability.learn-from-lived-experience
+      label: Learn From Lived Experience
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment, domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05 }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.03 }
+    passive:
+      id: ability.fleet-scale-data-collection
+      label: Fleet-Scale Data Collection
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.real-robots-not-just-simulation
+      label: Real Robots, Not Just Simulation
+      requirement: Complete Robotics Lab I within 26 weeks of hiring him.
+      cadence: one-time
+      check: { type: facility-owned-within, facility: facility.robotics-lab-1, weeks: 26 }
+      breachEvent: people.compact.real-robots-not-just-simulation
+    paperHooks:
+      ids: [paper.qt-opt-robotic-manipulation, paper.general-purpose-humanoid-manipulation]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "The failure is data. Log it, keep the fleet running, and let the policy learn what the demo could not show." }
+      - { triggerTag: simulation-transfer, line: "Simulation is a hypothesis about the real world. Test it there before trusting it anywhere else." }
+      - { triggerTag: labour-transition-debate, line: "Capability and consequence are two separate questions, and I will not pretend the second one is solved by the first." }
+    feedLines:
+      - Sergei's fleet logged another ten thousand grasp attempts overnight, mostly successful, all of them useful.
+      - The policy trained on real robot data generalised to an object nobody had specifically included.
+      - A hand-engineered controller was quietly retired once the learned policy simply performed better.
+      - Sergei rejected a beautiful simulation result until it was tested on an actual, uncooperative robot arm.
+      - The embodiment programme absorbed another domain's dataset and found it, unexpectedly, useful.
+      - A demo failed live. Sergei logged it, smiled slightly, and called it "Tuesday's training data."
+    portrait:
+      assetId: portrait.researcher.sergei-levinsky
+      brief: Grounded 8-bit editorial portrait; white man with short hair and a practical jacket, beside a robot arm mid-grasp and a data stream feeding a learning curve; hands-on and convinced, not photoreal.
+      altText: Pixel-art portrait of Sergei Levinsky beside a robot arm mid-grasp and a data stream feeding a learning curve.
+    sources:
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/svlevine.html
+      - https://arxiv.org/abs/1806.10293
+      - https://sequoiacap.com/founder/sergey-levine/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }

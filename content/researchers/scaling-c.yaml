@@ -1,0 +1,988 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: scaling
+status: draft
+
+researchers:
+  - id: researcher.percy-liange
+    version: 1
+    displayName: Percy Liange
+    inspirationName: Percy Liang
+    inspirationSummary: Stanford computer scientist, CRFM director, and HELM co-creator who makes foundation models answer to broad, reproducible evaluation rather than one flattering score.
+    epithet: The Holistic Evaluator
+    role: Foundation model evaluation and benchmark design
+    rosterCardSummary: "Stanford's foundation-model evaluator, armed with an open leaderboard and the mildly inconvenient belief that accuracy is only one question."
+    biography: >-
+      Percy Liang made foundation-model evaluation broad enough to be usefully awkward. A Stanford
+      computer-science professor and director of the Center for Research on Foundation Models, he
+      studies how to make powerful models accessible, reproducible, and understandable. His group
+      created HELM, an open framework that runs models through standardised scenarios and reports
+      several metrics together: accuracy, calibration, robustness, fairness, bias, toxicity, and
+      efficiency. That shared protocol makes comparisons possible without letting a provider choose
+      only the benchmark on which its model looks heroic. Liang's earlier work ranges across
+      semantics, reasoning, grounding, learning theory, interpretability, and human interaction;
+      CodaLab Worksheets extended the same instinct to reproducible computational research. The
+      result is an unusually practical form of academic independence: publish the prompts,
+      predictions, metrics, and omissions, then let everyone inspect the trade-offs. Percy does not
+      object to a very good accuracy number. He merely asks it to bring six colleagues, its
+      calibration record, and enough documentation to survive contact with the leaderboard. The
+      benchmark remains open enough for others to reproduce.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.55 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 1, training: 2, product: 1, management: 4, politics: 3 }
+    traits: [trait.holistic-evaluator, trait.academia-as-independent-check]
+    signature:
+      id: ability.holistic-evaluation-framework
+      label: Holistic Evaluation Framework
+      eligibleAssignments: [safety-program, capability-program]
+      activation: { type: assignment-domain-in, values: [safety.interpretability-evals, domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+    passive:
+      id: ability.standardised-cross-provider-benchmarking
+      label: Standardised Cross-Provider Benchmarking
+      effects:
+        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.88 }
+    compact:
+      id: compact.measure-more-than-accuracy
+      label: Measure More Than Accuracy
+      requirement: Complete one holistic evaluation covering efficiency, bias, and toxicity every 52 weeks.
+      check: { type: tagged-action-within, tags: [holistic-multi-metric-evaluation], weeks: 52 }
+      breachEvent: people.compact.measure-more-than-accuracy
+    paperHooks:
+      ids: [paper.discovering-lm-behaviors-model-written-evals, paper.gpt3-few-shot-learners]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "One number on one benchmark is not evaluation. Show me the efficiency, the bias, and the toxicity metrics alongside it." }
+      - { triggerTag: model-overconfidence, line: "A holistic evaluation exists precisely so a single flattering number cannot substitute for the whole picture." }
+      - { triggerTag: academia-industry-tension, line: "Academia does not need a product roadmap to justify measuring this properly. That is the entire point of the centre." }
+    feedLines:
+      - Percy's holistic evaluation flagged a bias metric the accuracy leaderboard had never once reported.
+      - A model that topped the accuracy leaderboard came in solidly mid-table once the full evaluation suite ran.
+      - The cross-provider leaderboard added a new model, and, predictably, a new uncomfortable comparison alongside it.
+      - Percy declined to call a launch ready until the toxicity and efficiency numbers sat next to the headline accuracy result.
+      - A rival lab quietly adopted the same holistic framework after publicly dismissing it the previous year.
+      - The centre's open-source evaluation code got a pull request from a lab it had, that same week, mildly embarrassed.
+    portrait:
+      assetId: portrait.researcher.percy-liange
+      brief: Precise 8-bit editorial portrait; East Asian man with neatly combed short black hair and a calm, thorough expression, beside a multi-metric evaluation dashboard with several bars, not just one; rigorous and independent, not photoreal.
+      altText: Pixel-art portrait of Percy Liange beside a multi-metric evaluation dashboard with several distinct bars.
+    sources:
+      - https://hai.stanford.edu/people/percy-liang
+      - https://crfm.stanford.edu/helm/index.html
+      - https://crfm.stanford.edu/helm/classic/v0.2.2/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.luke-zettlemeyer
+    version: 1
+    displayName: Luke Zettlemeyer
+    inspirationName: Luke Zettlemoyer
+    inspirationSummary: University of Washington professor and Meta FAIR senior research director whose empirical semantics research spans meaning representations, pretraining, multilingual NLP, and BART.
+    epithet: The Meaning Recoverer
+    role: Computational semantics and large-scale language model pretraining
+    rosterCardSummary: A University of Washington professor and Meta FAIR research director who politely asks fluent models to prove they understood the sentence.
+    biography: >-
+      Luke Zettlemoyer has spent his career asking language models what, precisely, they think a
+      sentence means. He is a professor in the University of Washington's Paul G. Allen School and
+      a senior research director at Meta FAIR, combining academic work on empirical computational
+      semantics with large-scale model research. His programme builds representations of meaning
+      and tests them through semantic parsing, question answering, information extraction,
+      multilingual NLP, and self-supervised pretraining. Zettlemoyer co-authored BART, which
+      corrupts text and trains a sequence-to-sequence model to reconstruct it, unifying ideas from
+      bidirectional encoders and autoregressive decoders in one adaptable recipe. He also
+      co-authored RoBERTa and has helped lead FAIR's Seattle research community while continuing to
+      teach and advise at Washington. Across those scales, his standard remains admirably
+      old-fashioned: fluent language is welcome, but meaning must still show its working. If a
+      model produces a beautiful answer to a subtly different question, Luke notices the
+      difference before the applause finishes. His research makes semantics empirical without
+      pretending that meaning is simple.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.68, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 4, securityContainment: 0, training: 4, product: 1, management: 4, politics: 2 }
+    traits: [trait.computational-semantics, trait.dual-academia-industry-leadership]
+    signature:
+      id: ability.empirical-computational-semantics
+      label: Empirical Computational Semantics
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools, domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.multilingual-pretraining-lead
+      label: Multilingual Pretraining Lead
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.check-the-meaning-not-just-the-fluency
+      label: Check the Meaning, Not Just the Fluency
+      requirement: Complete one semantic-representation evaluation every 52 weeks.
+      check: { type: tagged-action-within, tags: [semantic-representation-evaluation], weeks: 52 }
+      breachEvent: people.compact.check-the-meaning-not-just-the-fluency
+    paperHooks:
+      ids: [paper.bert, paper.retrieval-augmented-generation]
+    eventReactions:
+      - { triggerTag: model-overconfidence, line: "A fluent answer and a correctly parsed meaning are not always the same claim. Check which one you actually have." }
+      - { triggerTag: scaling-proposal, line: "Multilingual pretraining is not one language's pretraining done many times. The transfer story needs its own evidence." }
+      - { triggerTag: talent-poaching, line: "I teach the introductory course every year specifically so this negotiation is not one-sided." }
+    feedLines:
+      - Luke's semantic parser recovered the intended meaning of a question the fluent answer had subtly missed.
+      - A multilingual pretraining run transferred better than expected to a language it had barely seen.
+      - The Allen School lecture hall filled again, and several of this year's students will likely lead labs of their own.
+      - Luke's dual academia-industry role meant a research question got answered from both directions at once.
+      - A presidency of the field's computational linguistics association came and went; the teaching schedule did not change.
+      - The semantic representation evaluation caught a meaning error the accuracy benchmark had confidently overlooked.
+    portrait:
+      assetId: portrait.researcher.luke-zettlemeyer
+      brief: Scholarly 8-bit editorial portrait; white man with shoulder-length grey hair, glasses and a full short beard, beside a sentence resolving into a structured semantic parse tree; precise and dual-affiliated, not photoreal.
+      altText: Pixel-art portrait of Luke Zettlemeyer beside a sentence resolving into a structured semantic parse tree.
+    sources:
+      - https://homes.cs.washington.edu/~lsz/
+      - https://ai.meta.com/people/1450721039196474/luke-zettlemoyer/
+      - https://ai.meta.com/research/publications/bart-denoising-sequence-to-sequence-pre-training-for-natural-language-generation-translation-and-comprehension/
+      - https://arxiv.org/abs/1907.11692
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.mike-lewiston
+    version: 1
+    displayName: Mike Lewiston
+    inspirationName: Mike Lewis
+    inspirationSummary: Meta AI natural-language researcher who led BART's denoising pretraining work and helped combine strategic planning with dialogue in CICERO.
+    epithet: The Denoising Pretrainer
+    role: Sequence-to-sequence pretraining and strategic-language-model research
+    rosterCardSummary: The BART lead who made a pretraining objective out of messing up text, then helped an AI negotiate at the Diplomacy table.
+    biography: >-
+      Mike Lewis found productive use for making a mess of a sentence. At Meta AI, he led BART, a
+      denoising sequence-to-sequence model trained by corrupting text and reconstructing the
+      original. Its transformer encoder-decoder combines the bidirectional context
+      associated with BERT and the left-to-right generation associated with GPT, then transfers
+      across summarisation, translation, question answering, and comprehension. Lewis came to Meta
+      after a University of Washington postdoc with Luke Zettlemoyer and an Edinburgh doctorate
+      with Mark Steedman that joined distributional and logical approaches to semantics. He
+      helped build CICERO, pairing strategic planning with controllable dialogue so an AI could
+      cooperate and negotiate with human Diplomacy players. The through-line is flexibility without
+      hand-waving: one objective should survive several task families, and fluent persuasion should
+      agree with the plan. Mike's models may scramble the sentence first, but they are
+      expected to clean up after themselves.
+    availability: { wave: scaling, earliestYear: 2019, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 2, management: 3, politics: 1 }
+    traits: [trait.unify-bidirectional-and-autoregressive, trait.strategic-language-agent-builder]
+    signature:
+      id: ability.denoising-sequence-pretraining
+      label: Denoising Sequence Pretraining
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.strategic-negotiation-agent
+      label: Strategic Negotiation Agent
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.one-flexible-objective-not-many-narrow-ones
+      label: One Flexible Objective, Not Many Narrow Ones
+      requirement: While he leads Architectures, validate one pretraining objective on two different downstream task families every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: cross-task-objective-validation, weeks: 52 }
+      breachEvent: people.compact.one-flexible-objective-not-many-narrow-ones
+    paperHooks:
+      ids: [paper.bert, paper.text-to-text-transfer-transformer]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "A single flexible pretraining objective that transfers everywhere beats three narrow ones tuned separately." }
+      - { triggerTag: benchmark-record, line: "Check whether the pretraining objective transfers to a genuinely different downstream task before celebrating the score." }
+      - { triggerTag: strategic-game-negotiation, line: "A convincing negotiation requires both the language and the strategy to be honest about the same plan." }
+    feedLines:
+      - Mike's denoising objective transferred cleanly from summarisation to a translation task nobody had tuned it for.
+      - The strategic language agent proposed a negotiation a human player found, to their own surprise, genuinely persuasive.
+      - A narrow, task-specific pretraining objective lost, again, to Mike's single flexible one at matched compute.
+      - Mike's pretraining lead role on the open-weight model family produced a checkpoint the open-source community adopted immediately.
+      - The noising function got one more corruption type added, and the reconstruction task got, predictably, more useful.
+      - A negotiation-game agent built on Mike's architecture kept its stated strategic plan honest under real human pressure.
+    portrait:
+      assetId: portrait.researcher.mike-lewiston
+      brief: Focused 8-bit editorial portrait; white man with short dark-brown hair and a calm, methodical expression, beside a corrupted sentence being reconstructed token by token; flexible and unifying, not photoreal.
+      altText: Pixel-art portrait of Mike Lewiston beside a corrupted sentence being reconstructed token by token.
+    sources:
+      - https://ai.meta.com/people/209431298931133/mike-lewis/
+      - https://ai.meta.com/research/publications/bart-denoising-sequence-to-sequence-pre-training-for-natural-language-generation-translation-and-comprehension/
+      - https://ai.meta.com/research/cicero/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.tomas-brown
+    version: 1
+    displayName: Tomas Brown
+    inspirationName: Tom Brown
+    inspirationSummary: GPT-3 lead author and Anthropic co-founder and chief compute officer whose engineering work turns scaling claims into reproducible training runs.
+    epithet: The Scale Engineer
+    role: Large-scale language-model engineering and compute infrastructure leadership
+    rosterCardSummary: GPT-3's lead author and Anthropic's chief compute officer, for whom a scaling law is only as persuasive as the training system underneath it.
+    biography: >-
+      Tom Brown helped turn language-model scaling from a suggestive curve into a consequential
+      engineering result. At OpenAI he led the work behind GPT-3 and was lead author of "Language
+      Models are Few-Shot Learners." The paper trained a 175-billion-parameter autoregressive model
+      and showed that many tasks could be specified through text and demonstrations without
+      gradient updates. Brown also co-authored OpenAI's neural scaling-laws work, which measured
+      predictable relationships among loss, model size, data, and training compute. He later
+      co-founded Anthropic, a public-benefit AI company, and became its chief compute officer,
+      responsible for the infrastructure beneath its model programme. His contribution is not
+      simply enthusiasm for bigger machines; it is the discipline required to make a run stable,
+      measurable, and worth believing. Tom treats compute as apparatus rather
+      than scenery. If a scaling claim arrives without instrumentation, reproducibility, and an
+      honest account of the run, he is inclined to regard it as an extremely expensive anecdote.
+    availability: { wave: scaling, earliestYear: 2020, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 1, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 2, interpretabilityEvals: 1, securityContainment: 1, training: 5, product: 2, management: 4, politics: 3 }
+    traits: [trait.scale-engineer, trait.founding-conviction]
+    signature:
+      id: ability.frontier-training-infrastructure
+      label: Frontier Training Infrastructure
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 5
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.06, stackingGroup: training-throughput }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.968, stackingGroup: hazard-reduction }
+    passive:
+      id: ability.honestly-measured-scaling-claim
+      label: Honestly Measured Scaling Claim
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    compact:
+      id: compact.instrument-the-run-honestly
+      label: Instrument the Run Honestly
+      requirement: Complete one compute-and-cost accounting disclosure every 52 weeks.
+      check: { type: tagged-action-within, tags: [compute-accounting-disclosure], weeks: 52 }
+      breachEvent: people.compact.instrument-the-run-honestly
+    paperHooks:
+      ids: [paper.gpt3-few-shot-learners, paper.megatron-lm]
+    eventReactions:
+      - { triggerTag: scaling-proposal, line: "Show me the compute accounting alongside the capability claim, or the claim is not finished yet." }
+      - { triggerTag: compute-windfall, line: "A windfall is only as useful as the infrastructure that can actually turn it into a well-run training run." }
+      - { triggerTag: training-run-failure, line: "Instrument the failure as carefully as we would have instrumented the success. That is where the real lesson is." }
+    feedLines:
+      - Tomas's infrastructure team caught a hardware fault hours before it would have corrupted the whole training run.
+      - The compute accounting for the latest frontier run published cleanly alongside its capability claims, exactly as required.
+      - A founding-era engineering habit, measure everything, instrument everything, still runs the data centre floor.
+      - Tomas reviewed the scaling proposal and asked, first, for the infrastructure plan behind the compute request.
+      - The chief compute officer title barely changes Tomas's actual daily habit of walking the server floor personally.
+      - A training run finished ahead of schedule, and Tomas's team treated that as a scheduling anomaly worth investigating, not just a win.
+    portrait:
+      assetId: portrait.researcher.tomas-brown
+      brief: Grounded 8-bit editorial portrait; white man with short brown hair and a trimmed beard, beside a data centre floor diagram with a compute accounting ledger; infrastructural and precise, not photoreal.
+      altText: Pixel-art portrait of Tomas Brown beside a data centre floor diagram with a compute accounting ledger.
+    sources:
+      - https://arxiv.org/abs/2005.14165
+      - https://arxiv.org/abs/2001.08361
+      - https://github.com/nottombrown
+      - https://www.forbes.com/profile/tom-brown/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.melany-mitchell
+    version: 1
+    displayName: Melany Mitchell
+    inspirationName: Melanie Mitchell
+    inspirationSummary: Santa Fe Institute complexity scientist and author whose work on analogy and conceptual abstraction asks what machine understanding amounts to beyond benchmark performance.
+    epithet: The Analogy Architect
+    role: AI understanding, analogy-making, and public science communication
+    rosterCardSummary: A Santa Fe Institute complexity scientist who studies analogy and keeps asking the benchmark winner the delightfully difficult follow-up—what did it understand?
+    biography: >-
+      Melanie Mitchell studies intelligence that refuses to fit neatly inside a
+      leaderboard. At the Santa Fe Institute, her research centres on conceptual abstraction,
+      analogy-making, visual recognition, and the question of what it would mean for an AI
+      system to understand rather than merely answer. Her work treats analogy as a core cognitive
+      ability: mapping a new situation onto prior structure, flexibly and in context. Mitchell has
+      written widely for nonspecialists, including "Artificial Intelligence: A
+      Guide for Thinking Humans," bringing arguments about learning and understanding into
+      discussion without sanding off their uncertainty. That makes her scepticism constructive. A
+      benchmark can establish that a system
+      succeeded on a benchmark; it cannot, by itself, settle what concepts the system formed or
+      how those concepts will transfer. Melanie is perfectly happy to admire a striking result.
+      She simply keeps the experiment running long enough to discover whether the machine admired
+      it too, or only recognised the answer key.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 0, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 1, product: 1, management: 2, politics: 3 }
+    traits: [trait.analogy-sceptic, trait.public-science-communicator]
+    signature:
+      id: ability.analogy-based-abstraction-testing
+      label: Analogy-Based Abstraction Testing
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.public-translation-of-ai-claims
+      label: Public Translation of AI Claims
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 3}
+    compact:
+      id: compact.a-benchmark-score-is-not-understanding
+      label: A Benchmark Score Is Not Understanding
+      requirement: Complete one analogy-transfer evaluation every 52 weeks.
+      check: { type: tagged-action-within, tags: [analogy-transfer-evaluation], weeks: 52 }
+      breachEvent: people.compact.a-benchmark-score-is-not-understanding
+    paperHooks:
+      ids: [paper.discovering-lm-behaviors-model-written-evals, paper.emergent-abilities-of-llms]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Test whether the concept transfers to a genuinely new analogy before calling this understanding." }
+      - { triggerTag: agi-declaration-pressure, line: "I have watched this exact overclaim happen before, more than once. The pattern is familiar even when the model is new." }
+      - { triggerTag: government-hearing, line: "Translate the claim honestly for the room. Overclaiming in front of policymakers costs the whole field credibility later." }
+    feedLines:
+      - Melany's analogy-transfer test caught a model that had memorised the pattern but missed the underlying concept.
+      - A confident claim of genuine understanding was, once again, met with one carefully chosen counter-example.
+      - Melany's public explanation of a capability claim reached more people than the original paper's abstract ever will.
+      - A journalist's overclaim about the lab's latest model got a polite, precise correction before it spread further.
+      - The Santa Fe Institute whiteboard filled with an analogy neither the model nor, initially, the team had considered.
+      - Forty years into this question, Melany still finds a new way a benchmark number fails to answer it.
+    portrait:
+      assetId: portrait.researcher.melany-mitchell
+      brief: Thoughtful 8-bit editorial portrait; white woman with short dark hair, glasses and a calm, sceptical expression, beside two analogous situations mapped onto each other with a question mark between them; measured and communicative, not photoreal.
+      altText: Pixel-art portrait of Melany Mitchell beside two analogous situations mapped onto each other with a question mark.
+    sources:
+      - https://www.santafe.edu/people/profile/melanie-mitchell
+      - https://melaniemitchell.me/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.danny-zhou
+    version: 1
+    displayName: Danny Zhou
+    inspirationName: Denny Zhou
+    inspirationSummary: Founder of the Google Brain and DeepMind reasoning team whose work on chain-of-thought, self-consistency, and least-to-most prompting helped make intermediate reasoning a practical LLM method.
+    epithet: The Reasoning Team Founder
+    role: Large language model reasoning research leadership
+    rosterCardSummary: The reasoning-team founder who gave language models scratch paper, several attempts, and increasingly fewer excuses.
+    biography: >-
+      Denny Zhou founded the Reasoning Team at Google Brain, later Google DeepMind, around the
+      proposition that large language models should generate new knowledge from what they already
+      know. His collaborations helped establish several methods now central to language-model
+      reasoning. Chain-of-thought prompting elicits intermediate steps; self-consistency samples
+      several reasoning paths and selects the answer they support most consistently; least-to-most
+      prompting decomposes a hard problem into simpler ones solved in sequence. Zhou's group also
+      worked on instruction tuning, self-debugging, tool-making, and using language models as
+      optimisers. Together these projects changed the practical question from whether a pretrained
+      model contains useful reasoning capability to how that capability can be elicited, checked,
+      and improved. Denny gives the model the computational equivalent of scratch paper, asks it to
+      try more than once, and remains interested in whether the routes agree. Scale supplies the
+      ingredients; his work is about getting them to form an argument rather than a longer
+      completion. Each method makes reasoning observable without claiming it infallible.
+    availability: { wave: scaling, earliestYear: 2021, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 2, dataRepresentation: 1, reinforcementAgency: 0, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 1, management: 4, politics: 2 }
+    traits: [trait.reasoning-team-founder, trait.decompose-and-elicit]
+    signature:
+      id: ability.reasoning-elicitation-toolkit
+      label: Reasoning Elicitation Toolkit
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.self-consistency-vote
+      label: Several Paths, One Answer
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.elicit-dont-just-scale
+      label: Elicit, Don't Just Scale
+      requirement: While he leads Reasoning & Tools, complete one reasoning-elicitation validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: reasoning-programme, projectTag: elicitation-technique-validated, weeks: 52 }
+      breachEvent: people.compact.elicit-dont-just-scale
+    paperHooks:
+      ids: [paper.chain-of-thought-prompting, paper.self-consistency-chain-of-thought]
+    eventReactions:
+      - { triggerTag: reasoning-benchmark-record, line: "Check whether scale did this, or whether the right elicitation strategy did. The distinction changes what we fund next." }
+      - { triggerTag: benchmark-saturation, line: "Decompose the harder version of the problem into the simpler ones first. The benchmark rarely stays saturated after that." }
+      - { triggerTag: model-overconfidence, line: "Sample several reasoning paths and let them vote before trusting the first confident one." }
+    feedLines:
+      - Danny's decomposition strategy solved a problem the model had failed at directly, one simple sub-problem at a time.
+      - The reasoning team's sampling-and-voting approach caught an error a single greedy reasoning path had missed.
+      - A prompting technique Danny's team originated is now the field's default, cited without most people checking the source.
+      - Danny asked whether the gain came from scale or from elicitation, and the honest answer changed the next funding request.
+      - The reasoning research team he founded in 2021 has, by now, quietly outgrown several of the teams around it.
+      - A least-to-most decomposition turned an intractable-looking benchmark question into four easy ones in sequence.
+    portrait:
+      assetId: portrait.researcher.danny-zhou
+      brief: Focused 8-bit editorial portrait; East Asian man with short black hair and a sharp, methodical expression, beside a hard problem decomposing into a chain of simpler sub-problems; deliberate and elicitation-minded, not photoreal.
+      altText: Pixel-art portrait of Danny Zhou beside a hard problem decomposing into a chain of simpler sub-problems.
+    sources:
+      - https://dennyzhou.github.io/
+      - https://arxiv.org/abs/2201.11903
+      - https://research.google/pubs/self-consistency-improves-chain-of-thought-reasoning-in-language-models/
+      - https://arxiv.org/abs/2205.10625
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.jayson-wei
+    version: 1
+    displayName: Jayson Wei
+    inspirationName: Jason Wei
+    inspirationSummary: Chain-of-thought and emergent-abilities co-author who has pursued reasoning and agents at Google, OpenAI, and Meta Superintelligence Labs.
+    epithet: The Emergence Cataloguer
+    role: Language-model reasoning and agent research
+    rosterCardSummary: A chain-of-thought researcher who charts what scale appears to unlock—and insists that a surprise capability still deserves an experiment.
+    biography: >-
+      Jason Wei helped give language models a visible line of reasoning, then studied the moments
+      when scaling appears to produce something qualitatively new. At Google Brain he co-authored
+      chain-of-thought prompting, showing that worked intermediate examples can substantially
+      improve performance on complex reasoning tasks. He also led work cataloguing emergent
+      abilities: capabilities whose measured performance stays near chance before rising sharply
+      at larger scales, making the shape of the scaling curve a research question in its own right.
+      His work also includes instruction tuning for generalisation to unseen tasks. Wei later moved
+      to OpenAI, where his personal record describes work on reasoning and agents from 2023 to
+      2025, before joining Meta Superintelligence Labs. Across those laboratories, his subject has
+      remained how models acquire, reveal, and apply general reasoning. Jason does not use
+      "emergent" as permission to stop measuring. A surprising capability earns a cleaner plot,
+      harder tasks, and the mildly inconvenient question of whether it was absent before or merely
+      hiding from the benchmark, or benchmarked poorly.
+    availability: { wave: scaling, earliestYear: 2022, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 5, dataRepresentation: 1, reinforcementAgency: 1, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 3, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 1, management: 2, politics: 1 }
+    traits: [trait.emergence-cataloguer, trait.multi-lab-perspective]
+    signature:
+      id: ability.chain-of-thought-elicitation
+      label: Chain-of-Thought Elicitation
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools, domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5}
+    passive:
+      id: ability.instruction-tuning-generalisation
+      label: Instruction Tuning Generalisation
+      effects:
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    compact:
+      id: compact.characterise-the-scaling-curve
+      label: Characterise the Scaling Curve
+      requirement: While he leads Reasoning & Tools, complete one scaling-curve characterisation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: reasoning-programme, projectTag: scaling-curve-characterisation, weeks: 52 }
+      breachEvent: people.compact.characterise-the-scaling-curve
+    paperHooks:
+      ids: [paper.chain-of-thought-prompting, paper.emergent-abilities-of-llms]
+    eventReactions:
+      - { triggerTag: capability-surprise, line: "Was this smooth or emergent with scale? The honest answer changes how much warning the next surprise gives us." }
+      - { triggerTag: reasoning-benchmark-record, line: "Chain-of-thought prompting is not a trick. Treat it as a real capability-elicitation method and study it like one." }
+      - { triggerTag: talent-poaching, line: "I have worked at three of the field's biggest labs already. The reasoning question looked the same from each one." }
+    feedLines:
+      - Jayson's chain-of-thought technique elicited a reasoning capability the base model had, technically, always had.
+      - A capability jump matched the emergent pattern from his earlier survey almost exactly, to the team's mild unease.
+      - Jayson moved labs again, and the reasoning research question he was chasing, notably, moved with him intact.
+      - The instruction-tuned model generalised to a task family nobody on the team had explicitly trained it on.
+      - Jayson's scaling-curve characterisation turned an exciting anecdote into an actual, checkable claim.
+      - A survey he co-authored years ago is still the first citation in this week's internal capability memo.
+    portrait:
+      assetId: portrait.researcher.jayson-wei
+      brief: Alert 8-bit editorial portrait; young East Asian man with short black hair and glasses, beside a capability curve with a sudden jump highlighted at one scale threshold; observant and cross-lab, not photoreal.
+      altText: Pixel-art portrait of Jayson Wei beside a capability curve with a sudden jump highlighted at one scale threshold.
+    sources:
+      - https://www.jasonwei.net/
+      - https://arxiv.org/abs/2201.11903
+      - https://arxiv.org/abs/2206.07682
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.prafull-dhariwal
+    version: 1
+    displayName: Prafull Dhariwal
+    inspirationName: Prafulla Dhariwal
+    inspirationSummary: OpenAI generative-model researcher and three-time international Olympiad medallist whose work spans Glow, Jukebox, GPT-3, image generation, and GPT-4o.
+    epithet: The Multi-Olympiad Generalist
+    role: Generative modelling and multimodal frontier research leadership
+    rosterCardSummary: A three-Olympiad gold medallist who approaches text, images, and raw audio as one generative-modelling problem in several excellent disguises.
+    biography: >-
+      Prafulla Dhariwal brought range to generative modelling: gold medals from the
+      International Mathematical, Physics, and Astronomy Olympiads, followed by computer science
+      and mathematics at MIT. At OpenAI his work has crossed reinforcement learning and
+      generative media. He co-authored Glow, a flow-based model with latent-variable
+      inference; led Jukebox, which generated music with singing from compressed raw audio; and
+      contributed to GPT-3, image-generation research, and GPT-4o. OpenAI's GPT-4o credits place
+      him in multimodal leadership, joining text, vision, and audio within one model programme.
+      Dhariwal's breadth is more than a list of modalities. He looks to recognise
+      which modelling idea can travel: autoregressive prediction into music, scalable generative
+      learning into images, and shared representations across senses. Prafulla approaches text,
+      pictures, and sound as one problem wearing different formal clothes. Three Olympiad
+      disciplines were apparently sufficient rehearsal for refusing to choose only one medium.
+    availability: { wave: scaling, earliestYear: 2019, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 2, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 4, product: 3, management: 4, politics: 2 }
+    traits: [trait.cross-modality-generalist, trait.competition-forged-precision]
+    signature:
+      id: ability.unified-multimodal-generation
+      label: Unified Multimodal Generation
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.cross-modality-technique-transfer
+      label: Cross-Modality Technique Transfer
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    compact:
+      id: compact.borrow-the-technique-across-modalities
+      label: Borrow the Technique Across Modalities
+      requirement: While he leads Multimodality, complete one cross-modality technique evaluation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: multimodal-programme, projectTag: cross-modality-technique-evaluated, weeks: 52 }
+      breachEvent: people.compact.borrow-the-technique-across-modalities
+    paperHooks:
+      ids: [paper.dall-e-zero-shot-text-to-image, paper.denoising-diffusion-probabilistic-models]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "The technique that just solved this in images probably solves half of the same problem in audio. Check first." }
+      - { triggerTag: benchmark-record, line: "A generation system unified across modalities is worth more than three separate ones that each score slightly higher alone." }
+      - { triggerTag: talent-poaching, line: "Three olympiad medals taught me the same lesson three times: check the adjacent field before assuming the problem is new." }
+    feedLines:
+      - Prafull borrowed a technique from the music-generation team and it quietly fixed a stubborn image-generation artefact.
+      - The unified multimodal team shipped one architecture that improved language, image, and audio generation together.
+      - A generative model Prafull led years ago is still cited as the reason a much newer one trains as smoothly as it does.
+      - Prafull's olympiad-honed instinct for well-posed problems caught an ambiguity in a generative benchmark's scoring rule.
+      - The cross-modality technique transfer promise paid off again, this time in the opposite direction from last quarter.
+      - "A visiting researcher asked which modality Prafull actually specialises in. The honest answer remains: yes."
+    portrait:
+      assetId: portrait.researcher.prafull-dhariwal
+      brief: Bright, energetic 8-bit editorial portrait; young South Asian man with short black hair and a sharp, versatile expression, beside three modality icons, text, image, and sound, converging on one shared architecture; unifying and precise, not photoreal.
+      altText: Pixel-art portrait of Prafull Dhariwal beside text, image, and sound icons converging on one shared architecture.
+    sources:
+      - https://prafulladhariwal.com/
+      - https://arxiv.org/abs/1807.03039
+      - https://arxiv.org/abs/2005.00341
+      - https://arxiv.org/abs/2005.14165
+      - https://openai.com/gpt-4o-contributions/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.cynthia-rudan
+    version: 1
+    displayName: Cynthia Rudan
+    inspirationName: Cynthia Rudin
+    inspirationSummary: Duke professor and Interpretable Machine Learning Lab director who builds accurate glass-box models for high-stakes decisions rather than explaining opaque ones afterward.
+    epithet: The Glass-Box Advocate
+    role: Interpretable machine learning for high-stakes decisions
+    rosterCardSummary: A Duke professor who would rather build a model people can inspect than attach a beautifully typeset apology to a black box.
+    biography: >-
+      Cynthia Rudin has made a rigorous career from a plain demand: when decisions are high-stakes,
+      use models people can understand. She is Duke University's Distinguished Professor of
+      Computer Science and directs its Interpretable Machine Learning Lab, with appointments
+      spanning computing, engineering, statistics, mathematics, and biostatistics. Her group builds
+      sparse decision trees, scoring systems, interpretable neural networks, and matching methods
+      that expose their reasoning while retaining competitive accuracy. The applications are
+      consequential rather than decorative—healthcare, criminal justice, electrical-grid
+      reliability, materials science, and causal inference. Rudin has shown repeatedly that an
+      opaque model is not always the price of strong performance, and argues that post-hoc
+      explanations can mislead precisely where accountability matters most. The work earned
+      AAAI's 2022 Squirrel AI Award for Artificial Intelligence for the Benefit of Humanity and
+      IJCAI's 2025 John McCarthy Award. Cynthia does not oppose complexity; she opposes making it
+      somebody else's problem. Her preferred model arrives with its reasoning visible, not with a
+      black box and a reassuring diagram drawn afterward. It lets practitioners inspect rules
+      before those rules affect lives.
+    availability: { wave: scaling, earliestYear: 2019, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 4, reinforcementAgency: 0, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 2, product: 2, management: 3, politics: 3 }
+    traits: [trait.glass-box-by-construction, trait.high-stakes-conviction]
+    signature:
+      id: ability.interpretable-by-design
+      label: Interpretable by Design
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+    passive:
+      id: ability.high-stakes-decision-credibility
+      label: High-Stakes Decision Credibility
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 4}
+    compact:
+      id: compact.build-it-legible-dont-just-explain-it
+      label: Build It Legible, Don't Just Explain It
+      requirement: While she leads Interpretability & Evals, complete one interpretable-by-construction model project every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: interpretability-programme, projectTag: interpretable-by-construction, weeks: 52 }
+      breachEvent: people.compact.build-it-legible-dont-just-explain-it
+    paperHooks:
+      ids: [paper.random-forests, paper.toy-models-of-superposition]
+    eventReactions:
+      - { triggerTag: healthcare-deployment, line: "For a decision this consequential, build the model legible from the start. A post-hoc explanation of a black box is not the same guarantee." }
+      - { triggerTag: interpretability-breakthrough, line: "A good explanation of an opaque model is still worse than a model that was never opaque. Keep pushing toward the second thing." }
+      - { triggerTag: government-hearing, line: "I have argued this in front of sceptical rooms before. An interpretable model does not have to sacrifice the accuracy they are worried about losing." }
+    feedLines:
+      - Cynthia's interpretable-by-construction model matched the black box's accuracy and, unlike it, could actually be audited.
+      - A high-stakes deployment swapped its opaque model for a glass-box one, and the accuracy loss turned out to be zero.
+      - Cynthia's lab published another case where the black box's "necessary" complexity was never actually necessary.
+      - A courtroom-adjacent deployment got scrutinised, and Cynthia's model survived the scrutiny by being legible from the start.
+      - The humanitarian AI prize sits quietly on a shelf; the interpretable models it recognised are still running in production.
+      - A physicist-and-music-theorist's instinct for structure caught an inconsistency in a supposedly simple decision rule.
+    portrait:
+      assetId: portrait.researcher.cynthia-rudan
+      brief: Precise, principled 8-bit editorial portrait; white woman with long brown hair and a calm, exacting expression, beside a fully legible decision rule diagram with every branch labelled; transparent and rigorous, not photoreal.
+      altText: Pixel-art portrait of Cynthia Rudan beside a fully legible decision rule diagram with every branch labelled.
+    sources:
+      - https://users.cs.duke.edu/~cynthia/home.html
+      - https://users.cs.duke.edu/~cynthia/cv.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.oriol-vinyalls
+    version: 1
+    displayName: Oriol Vinyalls
+    inspirationName: Oriol Vinyals
+    inspirationSummary: Google DeepMind principal scientist and Gemini co-technical lead whose work connects sequence-to-sequence learning, knowledge distillation, AlphaStar, and frontier multimodal models.
+    epithet: The Sequence Grandmaster
+    role: Sequence modelling, game-playing agents, and frontier model research leadership
+    rosterCardSummary: A sequence-to-sequence pioneer and AlphaStar lead who keeps finding new domains that become sequences when viewed from exactly the right angle.
+    biography: >-
+      Oriol Vinyals keeps finding domains that become tractable once their structure is expressed
+      as a sequence. At Google Brain, with Ilya Sutskever and Quoc Le, he co-authored
+      sequence-to-sequence learning, mapping variable-length inputs to outputs with an
+      encoder-decoder design that became foundational to neural translation. His related
+      contributions include knowledge distillation, image captioning, pointer networks, and
+      TensorFlow. At Google DeepMind he led AlphaStar, whose league of agents combined imitation
+      learning and reinforcement learning to reach Grandmaster level in the full game of StarCraft
+      II under human-like interface constraints. Vinyals is now a principal scientist and
+      deep-learning team lead at Google DeepMind, and Google identifies him as a co-technical lead
+      of Gemini. The path from sentences to imperfect-information strategy games to multimodal
+      models is broad, but coherent: represent the problem faithfully, learn its dependencies, and
+      scale the system that can act on them. Oriol's build order simply happens to begin with an
+      encoder, a decoder, and enough compute to reach the late game. He has repeatedly turned
+      methods from one domain into foundations for entirely different ones.
+    availability: { wave: scaling, earliestYear: 2016, poolWeight: 0.50 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 4, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 5, product: 3, management: 4, politics: 2 }
+    traits: [trait.everything-is-a-sequence, trait.serial-breakthrough-lead]
+    signature:
+      id: ability.frontier-sequence-modelling
+      label: Frontier Sequence Modelling
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.reinforcement-agency] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04, stackingGroup: training-throughput }
+    passive:
+      id: ability.league-self-play-legacy
+      label: League Self-Play Legacy
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.the-hard-benchmark-first
+      label: The Hard Benchmark First
+      requirement: While he leads Architectures, complete one genuinely adversarial benchmark validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: adversarial-benchmark-validation, weeks: 52 }
+      breachEvent: people.compact.the-hard-benchmark-first
+    paperHooks:
+      ids: [paper.sequence-to-sequence, paper.alphastar-starcraft-ii]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "A curated demo tells you what the team rehearsed. A Grandmaster ladder tells you what the model can actually do. Prefer ladders." }
+      - { triggerTag: architecture-fad, line: "Ask what sequence this problem is, and whether we are modelling it honestly. Most breakthroughs I have seen started exactly there." }
+      - { triggerTag: capability-surprise, line: "The league saw this strategy before the world did. Keep the self-play population diverse and the surprises stay in-house." }
+    feedLines:
+      - Oriol reframed the stuck problem as a sequence, and by Friday the stuck problem was a benchmark result.
+      - The self-play league produced a strategy nobody on the team had seen, and one veteran quietly recognised it from StarCraft.
+      - A flagship training run co-led by Oriol shipped on schedule, which the infrastructure team celebrated more than the leaderboard position.
+      - The seq2seq lineage got another descendant this quarter; the family tree on the whiteboard needed a second whiteboard.
+      - Oriol declined the curated demo and asked for the adversarial ladder results, exactly as promised.
+      - A citation counter somewhere rolled over another hundred thousand, unremarked upon by its subject.
+    portrait:
+      assetId: portrait.researcher.oriol-vinyalls
+      brief: Composed, quietly formidable 8-bit editorial portrait; Catalan man with short curly dark hair and dark-framed glasses beside a sequence of tokens flowing into a game board and a protein structure; versatile and central, not photoreal.
+      altText: Pixel-art portrait of Oriol Vinyalls beside a token sequence flowing into a game board and a protein structure.
+    sources:
+      - https://research.google/people/oriolvinyals/
+      - https://arxiv.org/abs/1409.3215
+      - https://deepmind.google/blog/alphastar-grandmaster-level-in-starcraft-ii-using-multi-agent-reinforcement-learning/
+      - https://blog.google/innovation-and-ai/products/google-gemini-ai-name-meaning/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-24 }
+
+  - id: researcher.anca-dragane
+    version: 1
+    displayName: Anca Dragane
+    inspirationName: Anca Dragan
+    inspirationSummary: Berkeley InterACT Lab founder and Google DeepMind safety-and-alignment leader whose agents learn uncertain human objectives through interaction and diverse feedback.
+    epithet: The Alignment Interactionist
+    role: Human-AI interaction and safety-and-alignment research leadership
+    rosterCardSummary: The InterACT Lab founder who teaches agents that uncertainty about what a person wants is a reason to ask, not an invitation to optimise harder.
+    biography: >-
+      Anca Dragan studies how an AI system can learn what people actually want when their commands,
+      demonstrations, corrections, and preferences are incomplete. She is a UC Berkeley professor
+      and founder of the InterACT Lab, where human-robot and human-AI interaction become part of the
+      learning problem rather than noise around it. Her group develops agents that infer objectives
+      from diverse feedback, preserve uncertainty about those objectives, collaborate with people,
+      and behave cautiously when confidence is unwarranted. The agenda spans robot hand-offs,
+      assistance, autonomous driving, recommender systems, games, and language models. Dragan now
+      heads AI Safety and Alignment at Google DeepMind while on leave from Berkeley, leading teams
+      responsible for current Gemini safety and for keeping safety progress alongside advancing
+      capabilities. Her honours include a Sloan Fellowship, NSF CAREER award, and PECASE. Anca's
+      contribution is both technical and organisational: alignment is not a final inspection after
+      capability work. It is the interaction in which the system learns, checks, and
+      sometimes has the good sense to ask what the human meant.
+    availability: { wave: scaling, earliestYear: 2016, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.92, baseSigningCash: 8, auraCost: 13, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 1, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 4, securityContainment: 1, training: 3, product: 2, management: 5, politics: 3 }
+    traits: [trait.alignment-as-interaction, trait.capability-safety-one-discipline]
+    signature:
+      id: ability.interactive-reward-learning
+      label: Interactive Reward Learning
+      eligibleAssignments: [safety-program, capability-program]
+      activation: { type: assignment-id-in, values: [safety.alignment-control, domain.robotics-embodiment] }
+      rampWeeks: 5
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.92, stackingGroup: hazard-reduction }
+    passive:
+      id: ability.safety-advances-with-capability
+      label: Safety Advances With Capability
+      effects:
+        - { target: lab.organisation.safetyCultureFloor, operation: add, value: 4 }
+    compact:
+      id: compact.uncertainty-about-the-objective
+      label: Uncertainty About the Objective
+      requirement: While she leads Alignment & Control, complete one explicit objective-uncertainty model every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: alignment-programme, projectTag: objective-uncertainty-modelled, weeks: 52 }
+      breachEvent: people.compact.uncertainty-about-the-objective
+    paperHooks:
+      ids: [paper.deep-rl-from-human-preferences, paper.rt-1-robotics-transformer]
+    eventReactions:
+      - { triggerTag: reward-hacking, line: "The agent optimised what we wrote, not what we meant. Model the uncertainty between those two things and it will act more carefully." }
+      - { triggerTag: robot-demo-failure, line: "Watch what the person actually did in response. The interaction is data about the objective, not noise around it." }
+      - { triggerTag: safety-budget-cut, line: "Safety and capability are one discipline here. You cannot cut half of one discipline." }
+    feedLines:
+      - Anca's agent paused and asked a clarifying question rather than confidently optimising the wrong objective.
+      - The reward model updated from a frown, a hesitation, and a correction, exactly as the interaction framework intended.
+      - Safety review and capability planning happened in the same meeting this quarter, at Anca's quiet insistence.
+      - A robot hand-off study from years ago turned out to predict, almost exactly, this week's assistant-behaviour finding.
+      - Anca's team shipped a safety improvement and a capability improvement in one change, and declined to call them separate wins.
+      - The InterACT alumni network surfaced again; half the field's reward-learning researchers seem to have passed through it.
+    portrait:
+      assetId: portrait.researcher.anca-dragane
+      brief: Confident, warm 8-bit editorial portrait; Romanian-American woman with long black hair, beside a robot arm and a human hand mid hand-off with an uncertainty distribution over intentions; interactive and rigorous, not photoreal.
+      altText: Pixel-art portrait of Anca Dragane beside a robot arm and human hand mid hand-off with an uncertainty distribution.
+    sources:
+      - https://people.eecs.berkeley.edu/~anca/
+      - https://eecs.berkeley.edu/news/anca-dragan-named-head-of-ai-safety-and-alignment-at-google-deepmind/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-24 }
+
+
+  - id: researcher.geoffrey-irwing
+    version: 1
+    displayName: Geoffrey Irwing
+    inspirationName: Geoffrey Irving
+    inspirationSummary: AI Security Institute chief scientist and AI-debate co-author who moved scalable oversight from frontier-lab research teams into public evaluation infrastructure.
+    epithet: The Debate Referee
+    role: Scalable oversight and safety research leadership
+    rosterCardSummary: The AI-debate co-author who asks whether a human judge can still identify the better argument when both advocates are much smarter than the judge.
+    biography: >-
+      Geoffrey Irving designs oversight for the uncomfortable case where the systems being judged
+      are more capable than the judge. After work in computational physics, computer graphics, and
+      software, he led OpenAI's Reflection Team and co-authored "AI Safety via Debate" with Paul
+      Christiano and Dario Amodei. The proposal has two agents argue opposing sides before a human,
+      using competition to expose facts or flaws that the judge could not efficiently discover
+      alone. Irving later led Google DeepMind's Scalable Alignment Team, working on AGI and
+      language-model safety. He then moved into government, joining the United Kingdom's AI Safety
+      Institute—now the AI Security Institute—and is its chief scientist. That route from
+      laboratory protocol to public institution suits the research question: scalable oversight
+      depends not only on a loss function, but on who runs the evaluation and who can act on
+      its result. Geoffrey's debate has a referee, an evidence standard, and no assumption
+      that eloquence equals truth. The smarter the advocates become, the more the judging
+      rules need to be written.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.82, baseSigningCash: 8, auraCost: 12, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 2, dataRepresentation: 1, reinforcementAgency: 2, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 1, training: 2, product: 1, management: 4, politics: 4 }
+    traits: [trait.debate-referee, trait.institutional-oversight-designer]
+    signature:
+      id: ability.debate-based-scalable-oversight
+      label: Debate-Based Scalable Oversight
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.alignment-control] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.government-grade-credibility
+      label: Government-Grade Credibility
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 4 }
+    compact:
+      id: compact.the-judge-must-be-able-to-tell
+      label: The Judge Must Be Able to Tell
+      requirement: While he leads Alignment & Control, complete one human judge-discrimination test every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: alignment-programme, projectTag: judge-discrimination-test, weeks: 52 }
+      breachEvent: people.compact.the-judge-must-be-able-to-tell
+    paperHooks:
+      ids: [paper.ai-safety-via-debate, paper.deep-rl-from-human-preferences]
+    eventReactions:
+      - { triggerTag: ai-self-designed-eval, line: "Letting the system mark its own homework is the exact failure mode debate was designed against. Put an adversary and a judge in the loop." }
+      - { triggerTag: government-hearing, line: "I have sat on the government side of this table. Bring evidence a non-specialist judge can actually weigh." }
+      - { triggerTag: capability-surprise, line: "The oversight scheme must survive the debaters getting smarter than the judge. If it cannot, it was never scalable." }
+    feedLines:
+      - Geoffrey's debate protocol let a non-expert judge correctly identify the dishonest argument, again.
+      - A safety claim was restructured as a debate, and the weaker side's flaw surfaced in the second exchange.
+      - The national institute's evaluation methodology bears his fingerprints, right down to the judging rubric.
+      - Geoffrey's physics-and-graphics past resurfaced as an unnervingly good intuition for simulation edge cases.
+      - A proposal to delegate safety research to the model itself received his precise, documented scepticism.
+      - The oversight scheme survived a red-team specifically instructed to fool the judge, which he called a start.
+    portrait:
+      assetId: portrait.researcher.geoffrey-irwing
+      brief: Measured 8-bit editorial portrait; white man with short brown hair, glasses and a judicial expression, beside two AI debaters arguing before a human judge's bench; institutional and rigorous, not photoreal.
+      altText: Pixel-art portrait of Geoffrey Irwing beside two AI debaters arguing before a human judge.
+    sources:
+      - https://www.aisi.gov.uk/blog/why-i-joined-aisi---geoffrey-irving
+      - https://www.aisi.gov.uk/people/geoffrey-irving
+      - https://arxiv.org/abs/1805.00899
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-24 }
+
+  - id: researcher.david-baux
+    version: 1
+    displayName: David Baux
+    inspirationName: David Bau
+    inspirationSummary: Northeastern interpretability researcher behind Network Dissection and causal model editing, using intervention to test where neural networks represent concepts and facts.
+    epithet: The Network Dissector
+    role: Interpretability, model editing, and knowledge localisation
+    rosterCardSummary: The Northeastern professor who finds where a network keeps a concept, edits it there, and considers the intervention part of the explanation.
+    biography: >-
+      David Bau tests an explanation of a neural network by asking whether it supports a precise
+      intervention. He is a Northeastern University professor whose lab studies interpretability
+      and control in large generative models across vision and language. Network Dissection, with
+      Bolei Zhou, Aditya Khosla, Aude Oliva, and Antonio Torralba, compares hidden units with
+      Broden, a large dictionary of human-labelled visual concepts, turning claims about what a
+      representation contains into measurements. Bau's later work investigates where language
+      models store factual associations and whether those mechanisms can be edited. ROME, for
+      example, changes selected factual associations by updating particular model weights while
+      testing effects on related and unrelated behaviour. Before his MIT doctorate, Bau spent years
+      as a software engineer at Google, BEA, and Crossgain; the engineering habit remains visible
+      in a research programme that values tools, controlled changes, and reproducible evidence.
+      David's rule is exacting but fair: if an interpretation claims to locate what the model knows,
+      it should survive the moment somebody reaches in and changes it. The edit is evidence, not
+      theatre.
+    availability: { wave: scaling, earliestYear: 2017, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 5, securityContainment: 0, training: 2, product: 1, management: 2, politics: 0 }
+    traits: [trait.intervention-is-understanding, trait.engineer-turned-scientist]
+    signature:
+      id: ability.locate-and-edit-model-knowledge
+      label: Locate and Edit Model Knowledge
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.unit-level-dissection
+      label: Unit-Level Dissection
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.prove-it-by-editing-it
+      label: Prove It by Editing It
+      requirement: While he leads Interpretability & Evals, complete one successful causal-intervention validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: interpretability-programme, projectTag: causal-intervention-validated, weeks: 52 }
+      breachEvent: people.compact.prove-it-by-editing-it
+    paperHooks:
+      ids: [paper.zoom-in-introduction-to-circuits, paper.toy-models-of-superposition]
+    eventReactions:
+      - { triggerTag: interpretability-breakthrough, line: "If the explanation is right, we can edit the behaviour it explains without breaking anything else. Shall we find out?" }
+      - { triggerTag: anomalous-representation, line: "Dissect it unit by unit before theorising. The network will tell you where it keeps things if you actually look." }
+      - { triggerTag: model-deception-signal, line: "Locate where the divergent behaviour lives first. You cannot audit what you cannot find." }
+    feedLines:
+      - David edited one factual association; the related probes changed and the unrelated ones held steady this time.
+      - The dissection run labelled two hundred units with human concepts, and three of the labels genuinely surprised the team.
+      - An interpretability claim survived its own editing test, which David counts as the only kind of survival that matters.
+      - A decade of shipping software shows up in the lab's tooling, which builds cleanly on the first try, every time.
+      - The knowledge-localisation map found a fact stored somewhere nobody predicted, prompting a very good afternoon.
+      - David's students demonstrated an edit live, on stage, on the first attempt, to an audience of visible sceptics.
+    portrait:
+      assetId: portrait.researcher.david-baux
+      brief: Precise, hands-on 8-bit editorial portrait; white man with short grey hair and glasses beside an opened network diagram with one unit highlighted and a single fact being edited in place; surgical and curious, not photoreal.
+      altText: Pixel-art portrait of David Baux beside an opened network diagram with one unit highlighted for editing.
+    sources:
+      - https://baulab.info/
+      - https://www.khoury.northeastern.edu/people/david-bau/
+      - https://arxiv.org/abs/1704.05796
+      - https://arxiv.org/abs/2202.05262
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-24 }
+
+  - id: researcher.jacob-steinhart
+    version: 1
+    displayName: Jacob Steinhart
+    inspirationName: Jacob Steinhardt
+    inspirationSummary: Berkeley statistician, Concrete Problems in AI Safety co-author, and Transluce founder who turns safety, forecasting, and model understanding into measurable public work.
+    epithet: The Forecast Calibrator
+    role: ML safety, robustness, and open model-understanding infrastructure
+    rosterCardSummary: "A Berkeley statistician who makes safety claims, capability forecasts, and model explanations submit to the same awkward ritual: write them down and score them later."
+    biography: >-
+      Jacob Steinhardt makes AI safety concrete enough to measure and public enough to challenge.
+      He is an associate professor of Statistics and EECS at UC Berkeley and founder and CEO of
+      Transluce, a nonprofit building open tools for understanding frontier AI systems. After a
+      Stanford doctorate with Percy Liang and a postdoc at OpenAI, Steinhardt co-authored
+      "Concrete Problems in AI Safety" with Dario Amodei, Chris Olah, Paul Christiano, John
+      Schulman, and Dan Mané. The paper organised accident risk around practical problems including
+      reward hacking, scalable supervision, safe exploration, and distributional shift. His
+      Berkeley research has since covered robustness, latent representations, emergent behaviour,
+      model measurement, and forecasting. In one programme, professional forecasters made
+      time-stamped predictions about future AI benchmark results, then had to live through the
+      unusually healthy experience of being scored. Transluce extends that accountability to model
+      understanding through open technical infrastructure. Jacob's preferred claim has a precise
+      definition, a confidence interval, and a future date on which nobody gets to remember, in
+      hindsight, only the predictions that aged well.
+    availability: { wave: scaling, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.82, baseSigningCash: 8, auraCost: 12, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 1, training: 2, product: 0, management: 3, politics: 2 }
+    traits: [trait.calibrated-forecasting, trait.open-safety-infrastructure]
+    signature:
+      id: ability.measured-ml-safety
+      label: Measured ML Safety
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.alignment-control, safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6}
+    passive:
+      id: ability.open-understanding-tooling
+      label: Open Understanding Tooling
+      effects:
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.1 }
+    compact:
+      id: compact.score-the-prediction-afterwards
+      label: Score the Prediction Afterwards
+      requirement: While he leads Interpretability & Evals, complete one pre-registered scored forecast review every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: interpretability-programme, projectTag: scored-forecast-review, weeks: 52 }
+      breachEvent: people.compact.score-the-prediction-afterwards
+    paperHooks:
+      ids: [paper.concrete-problems-in-ai-safety, paper.emergent-abilities-of-llms]
+    eventReactions:
+      - { triggerTag: capability-surprise, line: "Someone predicted this, someone predicted the opposite, and only one of them should be trusted more next time. Score the forecasts." }
+      - { triggerTag: reward-hacking, line: "Reward misspecification is measurable before deployment. We measured it. Here is the number we ignored." }
+      - { triggerTag: hype-cycle-peak, line: "The calibrated forecasters' median disagrees with the press release. I know which one has a scoring history." }
+    feedLines:
+      - Jacob's pre-registered forecast landed inside its own confidence interval, and he scored it publicly anyway.
+      - The robustness benchmark caught a failure mode two quarters before it would have reached production.
+      - An open interpretability tool from his nonprofit turned up inside three other labs' safety pipelines this month.
+      - The founding safety agenda he co-authored got cited again, this time by a system that exhibits problem number two.
+      - A capability timeline argument was settled, unusually, by consulting the scored forecasting record.
+      - Jacob's measurement discipline turned a shouting match about emergent behaviour into a falsifiable bet.
+    portrait:
+      assetId: portrait.researcher.jacob-steinhart
+      brief: Analytical 8-bit editorial portrait; white man with short brown hair and a thoughtful expression beside a calibration curve and a scored forecast ledger; quantitative and principled, not photoreal.
+      altText: Pixel-art portrait of Jacob Steinhart beside a calibration curve and a scored forecast ledger.
+    sources:
+      - https://jsteinhardt.stat.berkeley.edu/
+      - https://research.google/pubs/concrete-problems-in-ai-safety/
+      - https://bair.berkeley.edu/blog/2021/10/14/forecasting/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-24 }

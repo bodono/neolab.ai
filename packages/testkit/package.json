@@ -1,0 +1,20 @@
+{
+  "name": "@neolab/testkit",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Brendan O'Donoghue <bodonoghue85@gmail.com>",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "event:coverage": "node src/event-branch-coverage-cli.ts"
+  },
+  "dependencies": {
+    "@neolab/content": "workspace:*",
+    "@neolab/content-schema": "workspace:*",
+    "@neolab/sim": "workspace:*"
+  }
+}

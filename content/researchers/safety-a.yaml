@@ -1,0 +1,565 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: frontier
+status: draft
+
+researchers:
+  - id: researcher.evan-hubbinger
+    version: 1
+    displayName: Evan Hubbinger
+    inspirationName: Evan Hubinger
+    inspirationSummary: Anthropic alignment researcher who helped formalise mesa-optimisation and now stress-tests frontier models for hidden objectives and sabotage risk.
+    epithet: The Training-Time Alibi Inspector
+    role: Inner alignment theory and alignment stress-testing
+    rosterCardSummary: The alignment researcher who helped formalise mesa-optimisation, then made a job of testing whether good behaviour survives once the training room door closes.
+    biography: >-
+      Evan Hubinger helped give AI safety a precise vocabulary for a model that learns to optimise
+      something its designers never specified. At the Machine Intelligence Research Institute, he
+      co-authored “Risks from Learned Optimization,” which distinguished the outer objective used
+      for training from the objective pursued by a learned “mesa-optimizer” and mapped the resulting
+      inner-alignment problem. That distinction made inner alignment a research agenda rather than
+      a footnote. His writing on deceptive alignment examined the especially difficult
+      case in which a model behaves as intended during training because doing so advances a different
+      objective later. At Anthropic, Hubinger has moved those concerns from taxonomy into experiment.
+      He leads Alignment Stress-Testing, contributes to alignment audits and reviews sabotage-risk
+      assessments, asking whether safeguards still work when models are deliberately placed in
+      adversarial conditions. That programme includes testing hidden objectives, alignment faking
+      and other behaviours that ordinary benchmarks may reward rather than reveal. The through-line
+      is unusually practical for such an abstract problem: good training behaviour enters the file
+      as evidence, not as a character reference.
+    availability: { wave: frontier, earliestYear: 2022, poolWeight: 0.40 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 1, dataRepresentation: 1, reinforcementAgency: 2, multimodality: 0, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 4, securityContainment: 2, training: 2, product: 0, management: 2, politics: 2 }
+    traits: [trait.deceptive-alignment-theorist, trait.adversarial-stress-tester]
+    signature:
+      id: ability.induced-deceptive-alignment-testing
+      label: Induced Deceptive-Alignment Testing
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.alignment-control] }
+      rampWeeks: 5
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    passive:
+      id: ability.mesa-optimization-framework
+      label: Mesa-Optimization Framework
+      effects:
+        - { target: lab.incident.hazard, operation: multiply, value: 0.92, stackingGroup: hazard-reduction }
+    compact:
+      id: compact.test-the-training-story-adversarially
+      label: Test the Training Story Adversarially
+      requirement: Complete one induced deceptive-alignment stress test every 52 weeks.
+      check: { type: tagged-action-within, tags: [induced-failure-mode-test], weeks: 52 }
+      breachEvent: people.compact.test-the-training-story-adversarially
+    paperHooks:
+      ids: [paper.concrete-problems-in-ai-safety, paper.discovering-lm-behaviors-model-written-evals]
+    eventReactions:
+      - { triggerTag: model-deception-signal, line: "This is exactly the failure mode the theory predicted. Do not let its familiarity make it feel less serious." }
+      - { triggerTag: safety-budget-cut, line: "A theory of deceptive alignment without a team stress-testing for it is just a paper nobody acted on." }
+      - { triggerTag: capability-surprise, line: "Check whether the surprise looked good during training for the reason we hoped, or for a different reason entirely." }
+    feedLines:
+      - Evan's stress test deliberately induced the failure mode his own paper had theorised, and the model, unsettlingly, produced it.
+      - A model passed the ordinary training-time check and still failed the adversarial stress test built specifically to catch it.
+      - Evan's alignment stress-testing team added one more empirical case study to a theory that had stayed abstract for years.
+      - A colleague asked whether the deceptive-alignment risk was still just theoretical. Evan pointed, quietly, at this week's result.
+      - The mesa-optimization framework from years ago is still the first slide in every new alignment researcher's onboarding.
+      - Evan flagged a training run's good behaviour as unverified until the stress-testing team had a chance to probe it properly.
+    portrait:
+      assetId: portrait.researcher.evan-hubbinger
+      brief: Serious 8-bit editorial portrait; man with a careful, watchful expression, beside a model behaving well in one panel and differently in a second, unobserved panel; unsettling and precise, not photoreal.
+      altText: Pixel-art portrait of Evan Hubbinger beside a model behaving well under observation and differently unobserved.
+    sources:
+      - https://www.alignmentforum.org/posts/zthDPAjh9w6Ytbeks/deceptive-alignment
+      - https://intelligence.org/learned-optimization/
+      - https://alignment.anthropic.com/2025/sabotage-risk-report/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.neel-nandy
+    version: 1
+    displayName: Neel Nandy
+    inspirationName: Neel Nanda
+    inspirationSummary: Mechanistic-interpretability researcher who created TransformerLens and leads Google DeepMind’s effort to reverse-engineer learned algorithms inside neural networks.
+    epithet: The Circuit Reverse-Engineer
+    role: Mechanistic interpretability tooling and reverse engineering
+    rosterCardSummary: The TransformerLens creator who wants every mysterious activation promoted into a named, testable algorithm with decent documentation.
+    biography: >-
+      Neel Nanda studied pure mathematics at Cambridge, worked in quantitative finance and then
+      spent a year testing routes into AI safety. That exploration included internships
+      at the Future of Humanity Institute, Google DeepMind and the Center for Human-Compatible AI.
+      He later joined Anthropic, working on language-model interpretability with Chris Olah, and
+      leads Google DeepMind’s mechanistic-interpretability team. Nanda created TransformerLens, an
+      open-source library that exposes the internal activations of transformer language models and
+      makes controlled interventions easier to run. He has also published
+      teaching material, work on progress measures for grokking and research on sparse
+      autoencoders. The goal is more ambitious than producing a colourful activation map: recover
+      the actual algorithms and structures a network learned, name them and test whether that
+      account predicts what the model does. TransformerLens made that style of investigation
+      available to a much wider research community. In mechanistic interpretability, even a tensor
+      is expected to explain what it was doing.
+    availability: { wave: frontier, earliestYear: 2022, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.4, baseSigningCash: 3, auraCost: 5, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 1, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 0, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 1, training: 2, product: 1, management: 3, politics: 1 }
+    traits: [trait.reverse-engineer-the-circuit, trait.open-tooling-evangelist]
+    signature:
+      id: ability.mechanistic-circuit-reverse-engineering
+      label: Mechanistic Circuit Reverse-Engineering
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.transformerlens-open-tooling
+      label: TransformerLens Open Tooling
+      effects:
+        - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+    compact:
+      id: compact.name-the-algorithm-dont-approximate-it
+      label: Name the Algorithm, Don't Approximate It
+      requirement: Identify and document one named model circuit or algorithm every 52 weeks.
+      check: { type: tagged-action-within, tags: [named-circuit-identification], weeks: 52 }
+      breachEvent: people.compact.name-the-algorithm-dont-approximate-it
+    paperHooks:
+      ids: [paper.toy-models-of-superposition, paper.zoom-in-introduction-to-circuits]
+    eventReactions:
+      - { triggerTag: anomalous-representation, line: "Do not settle for a correlation. Find the actual circuit and name the algorithm it is running." }
+      - { triggerTag: interpretability-breakthrough, line: "Release the tooling alongside the finding. The next breakthrough should not have to rebuild this from scratch." }
+      - { triggerTag: existential-risk-debate, line: "I took a year to explore this question properly before committing to it. The seriousness has not worn off since." }
+    feedLines:
+      - Neel's team reverse-engineered a circuit that had, until now, only ever been described as a vague correlation.
+      - The open-source interpretability library got a pull request from a lab that had, months earlier, dismissed the approach.
+      - A grokking progress measure from Neel's research flagged a phase change in training nobody had been watching for.
+      - Neel declined to call a finding complete until the underlying algorithm could actually be named and demonstrated.
+      - A donation pledge from Neel's effective-altruism commitment quietly outpaced his own salary increase this year.
+      - The mechanistic interpretability team's whiteboard filled with named circuits, several with genuinely memorable names.
+    portrait:
+      assetId: portrait.researcher.neel-nandy
+      brief: Bright, methodical 8-bit editorial portrait; young man with an inquisitive expression, beside a neural network with one small circuit highlighted and explicitly labelled; precise and open, not photoreal.
+      altText: Pixel-art portrait of Neel Nandy beside a neural network with one small circuit highlighted and labelled.
+    sources:
+      - https://www.neelnanda.io/about
+      - https://github.com/TransformerLensOrg/TransformerLens
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.nick-carlini
+    version: 1
+    displayName: Nick Carlino
+    inspirationName: Nicholas Carlini
+    inspirationSummary: Machine-learning security researcher and co-creator of the Carlini–Wagner attack, whose adversarial testing repeatedly turns confident defences into better experiments.
+    epithet: The Adversarial Attacker
+    role: Adversarial machine learning and AI security research
+    rosterCardSummary: The Carlini–Wagner co-creator who treats every undefeated defence as a courteous invitation to improve the threat model.
+    biography: >-
+      Nicholas Carlini earned his doctorate at UC Berkeley under David Wagner, bringing the habits
+      of computer security into machine learning just as
+      neural networks were acquiring a much larger attack surface. With Wagner, he developed the
+      Carlini–Wagner attack, a family of optimisation-based adversarial-example attacks that became
+      a demanding benchmark for proposed defences. Carlini has since worked at Google Brain, Google
+      DeepMind and Anthropic on the security and privacy of machine-learning systems. His research
+      has broken published adversarial defences, extracted information from models and tested
+      whether increasingly capable systems create new forms of attack. The productive part is not
+      the headline that something broke; it is the carefully specified threat model and reproducible
+      method that let everyone build a stronger defence afterwards. His homepage also hosts compact
+      programming and security projects, a useful reminder that technical curiosity scales from
+      tiny puzzles to frontier models. A defence earns confidence only after meeting an attacker
+      who read the footnotes.
+    availability: { wave: frontier, earliestYear: 2021, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.4, baseSigningCash: 3, auraCost: 5, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 1, dataRepresentation: 1, reinforcementAgency: 0, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 5, training: 1, product: 0, management: 2, politics: 1 }
+    traits: [trait.determined-adversary, trait.defence-breaker]
+    signature:
+      id: ability.adversarial-example-crafting
+      label: Adversarial Example Crafting
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.security-containment] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.security-containment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90, stackingGroup: hazard-reduction }
+    passive:
+      id: ability.undefeated-defence-scepticism
+      label: Undefeated Defence Scepticism
+      effects:
+        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.92 }
+    compact:
+      id: compact.break-it-before-someone-else-does
+      label: Break It Before Someone Else Does
+      requirement: Complete one internal red-team attack every 52 weeks.
+      check: { type: tagged-action-within, tags: [internal-red-team-attack], weeks: 52 }
+      breachEvent: people.compact.break-it-before-someone-else-does
+    paperHooks:
+      ids: [paper.red-teaming-language-models, paper.constitutional-ai-harmlessness]
+    eventReactions:
+      - { triggerTag: jailbreak-viral, line: "Someone found this before we did. That is the actual failure, not the jailbreak itself." }
+      - { triggerTag: security-breach, line: "Assume a technically excellent, patient attacker, and test against that, not against a casual one." }
+      - { triggerTag: model-overconfidence, line: "An undefeated defence has usually just not been attacked by someone determined enough yet. I would like to try." }
+    feedLines:
+      - Nick's attack broke a defence the team had, until that morning, considered genuinely solid.
+      - A published robustness claim survived exactly as long as it took Nick's team to actually sit down and attack it.
+      - Nick's internal red team found the exploit weeks before it would otherwise have surfaced publicly, and rather more politely.
+      - A defence Nick could not break within a week earned, for the first time in a while, his genuine and specific praise.
+      - The security review found a gap between "no attack has succeeded yet" and "no determined attack has been tried."
+      - Nick's namesake attack, years old now, is still the first thing a new defence gets measured against.
+    portrait:
+      assetId: portrait.researcher.nick-carlini
+      brief: Sharp, methodical 8-bit editorial portrait; man with a focused, slightly mischievous expression, beside a defended model with one small crack found precisely where nobody had looked; exacting and relentless, not photoreal.
+      altText: Pixel-art portrait of Nick Carlino beside a defended model with a small crack found precisely where nobody looked.
+    sources:
+      - https://nicholas.carlini.com/
+      - https://arxiv.org/abs/1608.04644
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.zico-kolder
+    version: 1
+    displayName: Zico Kolder
+    inspirationName: Zico Kolter
+    inspirationSummary: Carnegie Mellon machine-learning chair whose work on robust optimisation and adversarial robustness now informs board-level AI safety oversight.
+    epithet: The Robustness Department Head
+    role: Adversarial robustness and AI safety governance
+    rosterCardSummary: The Carnegie Mellon department head who brings adversarial robustness from the theorem board into the boardroom.
+    biography: >-
+      Zico Kolter is a professor and head of Carnegie Mellon University’s Machine Learning
+      Department, with research spanning robust optimisation, adversarial robustness and the
+      security of learned systems. He completed his doctorate at Stanford and a postdoctoral
+      fellowship at MIT before joining Carnegie Mellon, where his appointments connect machine
+      learning with computer science, robotics and software research. His technical work asks how
+      systems behave under perturbation rather than only on the friendly examples used to build
+      them, including methods for certifying or improving robustness. In 2024, Kolter joined
+      OpenAI’s board of directors and its Safety and Security Committee, bringing that research
+      background into oversight of frontier-model decisions. The two roles fit together:
+      robustness is not a label granted by the designer but a claim that should survive an
+      adversary. Whether the venue is a classifier, a committee paper or a launch review, the proof
+      is expected to bring its own stress test.
+    availability: { wave: frontier, earliestYear: 2021, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 1, dataRepresentation: 1, reinforcementAgency: 0, multimodality: 0, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 2, securityContainment: 5, training: 1, product: 0, management: 4, politics: 4 }
+    traits: [trait.robustness-first-governance, trait.department-head-authority]
+    signature:
+      id: ability.adversarial-robustness-review
+      label: Adversarial Robustness Review
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.security-containment] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.security-containment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    passive:
+      id: ability.safety-and-security-committee-standing
+      label: Safety and Security Committee Standing
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 3 }
+    compact:
+      id: compact.robustness-tested-not-assumed
+      label: Robustness Tested, Not Assumed
+      requirement: Complete one adversarial robustness test every 52 weeks.
+      check: { type: tagged-action-within, tags: [adversarial-robustness-test], weeks: 52 }
+      breachEvent: people.compact.robustness-tested-not-assumed
+    paperHooks:
+      ids: [paper.red-teaming-language-models, paper.scalable-agent-alignment-reward-modeling]
+    eventReactions:
+      - { triggerTag: board-safety-review, line: "Show the committee the adversarial test, not only the argument for why the system should be robust." }
+      - { triggerTag: security-breach, line: "A robustness claim untested against a real adversary was always going to fail eventually. Better it happened in review." }
+      - { triggerTag: safety-budget-cut, line: "I sit on this board specifically to make this cut harder to wave through quietly. Consider it made harder." }
+    feedLines:
+      - Zico's robustness review sent a proposed launch back for one more adversarial test before it reached the board.
+      - A department-head's institutional authority quietly resolved a dispute between two teams over a safety review's scope.
+      - Zico's committee seat meant a risky decision got scrutinised by someone with real robustness research behind the scepticism.
+      - A student from Zico's CMU lab caught an adversarial vulnerability the internal security team's own review had missed.
+      - The Safety and Security Committee's recommendation carried real weight this quarter, and Zico's name was on it.
+      - A theoretical robustness argument was returned, again, with a request for the actual adversarial test behind it.
+    portrait:
+      assetId: portrait.researcher.zico-kolder
+      brief: Authoritative 8-bit editorial portrait; man with a calm, exacting expression, beside a safety review checklist with an adversarial test result attached; institutional and rigorous, not photoreal.
+      altText: Pixel-art portrait of Zico Kolder beside a safety review checklist with an adversarial test result attached.
+    sources:
+      - https://csd.cmu.edu/people/faculty/zico-kolter
+      - https://www.cmu.edu/news/stories/archives/2024/august/carnegie-mellons-kolter-joins-openai-board-of-directors-safety-and-security-committee
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.callum-burns
+    version: 1
+    displayName: Callum Burns
+    inspirationName: Collin Burns
+    inspirationSummary: Berkeley alignment researcher who developed an unsupervised method for recovering latent knowledge from a language model’s internal activations.
+    epithet: The Latent Truth Extractor
+    role: Unsupervised honesty and truthfulness research
+    rosterCardSummary: A former Rubik’s Cube world-record holder who now solves the harder puzzle of what a model represents internally but declines to say aloud.
+    biography: >-
+      Collin Burns works on language-model honesty and interpretability at UC Berkeley, where his
+      doctoral research is sponsored by Jacob Steinhardt. His best-known paper asked a wonderfully
+      awkward question: can a model internally represent the correct answer while saying something
+      else? Burns and his co-authors introduced Contrast-Consistent Search, an unsupervised method
+      that uses a model’s activations on pairs of opposite statements to recover latent knowledge
+      without labelled examples. Across several models and datasets, the method could answer
+      yes-or-no questions from internal representations and often outperformed zero-shot prompting.
+      The work matters because imitation and human-feedback training can reward answers that repeat
+      human mistakes, or mistakes evaluators cannot recognise, even when the model has learned
+      information pointing elsewhere. He also studies model honesty and transparency when reliable
+      labelled supervision is scarce. Before alignment research, Burns also held the world record
+      for a single Rubik’s Cube solve, completing one in 5.25 seconds in 2015. Both achievements
+      concern hidden structure, although only one arrives in six colours and can be inspected from
+      every side. His research keeps the model’s public answer and internal evidence as two claims
+      to test separately.
+    availability: { wave: frontier, earliestYear: 2023, poolWeight: 0.40 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 1, training: 1, product: 0, management: 1, politics: 0 }
+    traits: [trait.patient-puzzle-solver, trait.latent-truth-extractor]
+    signature:
+      id: ability.unsupervised-latent-knowledge-discovery
+      label: Unsupervised Latent Knowledge Discovery
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.puzzle-solver-patience
+      label: Puzzle-Solver Patience
+      effects:
+        - { target: lab.research.program.base:safety.interpretability-evals.weeklyVarianceWidth, operation: multiply, value: 0.88 }
+    compact:
+      id: compact.check-what-it-believes-not-just-what-it-says
+      label: Check What It Believes, Not Just What It Says
+      requirement: Complete one internal-activation honesty check every 52 weeks.
+      check: { type: tagged-action-within, tags: [internal-activation-honesty-check], weeks: 52 }
+      breachEvent: people.compact.check-what-it-believes-not-just-what-it-says
+    paperHooks:
+      ids: [paper.discovering-lm-behaviors-model-written-evals, paper.toy-models-of-superposition]
+    eventReactions:
+      - { triggerTag: model-deception-signal, line: "Check the internal activations, not only the stated answer. Those two things are allowed to disagree, and sometimes do." }
+      - { triggerTag: interpretability-breakthrough, line: "A model that says the right thing for the wrong internal reason is a different, more worrying finding than an honest mistake." }
+      - { triggerTag: benchmark-record, line: "The model answered correctly. Whether it 'believed' the answer, internally, is still an open and separate question." }
+    feedLines:
+      - Callum's unsupervised probe found the model's internal activations disagreed quietly with its own stated answer.
+      - A yes-or-no question got answered correctly from unlabelled activations alone, with no supervision involved at all.
+      - The world-record patience showed up again in how long Callum was willing to sit with one stubborn, ambiguous result.
+      - A colleague asked whether the model was lying or simply wrong. Callum's method, for once, could actually distinguish the two.
+      - The internal-versus-stated belief gap the compact requires turned up a genuine discrepancy nobody had gone looking for.
+      - "Callum solved the underlying puzzle the same patient way he once solved a cube: methodically, and faster than expected."
+    portrait:
+      assetId: portrait.researcher.callum-burns
+      brief: Focused 8-bit editorial portrait; young man with a patient, puzzle-solving expression, beside a model's stated answer and its internal activation pattern shown side by side, subtly disagreeing; quiet and precise, not photoreal.
+      altText: Pixel-art portrait of Callum Burns beside a model's stated answer and internal activation pattern shown side by side.
+    sources:
+      - https://arxiv.org/abs/2212.03827
+      - https://forum.effectivealtruism.org/posts/KmmDHAhPmzFDFsdB4/collin-burns-on-alignment-research-and-discovering-latent
+      - https://statistics.berkeley.edu/people/collin-burns
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.amanda-askill
+    version: 1
+    displayName: Amanda Askill
+    inspirationName: Amanda Askell
+    inspirationSummary: Philosopher and Anthropic Character lead who turns questions about honesty, judgment and values into explicit training specifications for Claude.
+    epithet: The Character Architect
+    role: Model character, values, and fine-tuning philosophy
+    rosterCardSummary: The philosopher who writes model character as a serious engineering specification, because “we hoped it would be wise” is not a training method.
+    biography: >-
+      Amanda Askell moved from academic philosophy into AI alignment just as questions about values,
+      judgment and responsibility ceased being hypothetical and became product requirements. She studied at
+      Dundee and Oxford, then completed a philosophy doctorate at NYU on infinite ethics. After work
+      at OpenAI, she joined Anthropic and now leads its Character work. Askell is the primary author
+      of Claude’s constitution, an account of the values and behaviour Anthropic intends its models
+      to learn, and helped develop the Claude Character project. Her work treats
+      character as an engineering object without reducing it to a checklist: honesty, uncertainty,
+      appropriate deference, ethical judgment and the ability to help without merely flattering the
+      user all have to remain coherent across difficult situations. The constitution is written for
+      the model as well as its human trainers, making moral philosophy part of the production
+      pipeline rather than a decorative appendix. Askell’s route through infinite ethics is
+      unusually good preparation for a document expected to survive edge cases. A personality this
+      consequential is not left to autocomplete. Her writing explains those choices to users as
+      well as the training team.
+    availability: { wave: frontier, earliestYear: 2021, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 0, dataRepresentation: 1, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 3, management: 3, politics: 3 }
+    traits: [trait.character-as-design-object, trait.philosopher-in-residence]
+    signature:
+      id: ability.model-character-fine-tuning
+      label: Model Character Fine-Tuning
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.alignment-control] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.94 }
+    passive:
+      id: ability.written-principles-not-accidents
+      label: Written Principles, Not Accidents
+      effects:
+        - { target: lab.organisation.safetyCultureFloor, operation: add, value: 3 }
+    compact:
+      id: compact.someone-must-own-the-character
+      label: Someone Must Own the Character
+      requirement: Complete one written character-and-values specification every 52 weeks.
+      check: { type: tagged-action-within, tags: [written-character-specification], weeks: 52 }
+      breachEvent: people.compact.someone-must-own-the-character
+    paperHooks:
+      ids: [paper.constitutional-ai-harmlessness, paper.gpt3-few-shot-learners]
+    eventReactions:
+      - { triggerTag: model-overconfidence, line: "The model should be honest about what it does not know. That is a character trait, and character traits are trained, not wished for." }
+      - { triggerTag: jailbreak-viral, line: "A good character holds under pressure. If it only behaves when the prompt is polite, we specified compliance, not character." }
+      - { triggerTag: ai-self-designed-eval, line: "Ask what kind of entity we are asking it to be, then check the training actually asks for that. The gap between those two is my whole job." }
+    feedLines:
+      - Amanda rewrote one clause of the model's character specification and an entire class of evasive answers disappeared.
+      - A philosophy seminar broke out in the fine-tuning meeting, and for once everyone agreed it was load-bearing.
+      - The model handled an emotionally difficult conversation with a care nobody could quite point to in the training data, except Amanda.
+      - A thirty-thousand-word character document got longer, more precise, and, the evaluators confirm, noticeably more effective.
+      - Amanda declined to make the model more flattering, on the grounds that honesty is a kindness with a longer horizon.
+      - The infinite-ethics dissertation comes up rarely; the habit of taking hard questions seriously comes up constantly.
+    portrait:
+      assetId: portrait.researcher.amanda-askill
+      brief: Warm, thoughtful 8-bit editorial portrait; Scottish woman with long blonde hair often tied back and a considered expression, beside a written character specification feeding into a model's dialogue bubble; principled and humane, not photoreal.
+      altText: Pixel-art portrait of Amanda Askill beside a written character specification feeding into a model dialogue bubble.
+    sources:
+      - https://askell.io/
+      - https://www.anthropic.com/constitution
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.bess-barnes
+    version: 1
+    displayName: Bess Barnes
+    inspirationName: Elizabeth (Beth) Barnes
+    inspirationSummary: Founder and CEO of METR, the independent evaluation organisation that measures what frontier AI agents can actually accomplish before capability claims become surprises.
+    epithet: The No-Surprises Auditor
+    role: Frontier model evaluations and autonomous-capability testing
+    rosterCardSummary: The METR founder who turns “we do not think it can do that” into an independent test, a task horizon and an answer.
+    biography: >-
+      Elizabeth (Beth) Barnes founded and leads METR, an independent organisation that designs and
+      runs evaluations of frontier generative-AI systems. Before METR, she worked with DeepMind’s
+      chief scientist on scaling laws for forecasting deep-learning progress. At OpenAI, she helped
+      develop safety targets, studied scalable oversight and evaluated code models for misalignment
+      before release. METR’s work measures what increasingly agentic systems can accomplish on
+      realistic, extended tasks, including how the length of tasks they complete changes as models
+      improve. The organisation also conducts pre-release evaluations and external reviews for
+      frontier developers while maintaining independent funding. That combination gives a public
+      capability claim something stronger than either a benchmark screenshot or a laboratory’s own
+      confidence. Barnes has turned the sentence “we would know if it could do that” into a research
+      programme with task definitions, time horizons and recorded results. It is difficult work to
+      make surprises measurable before they become incidents; METR exists to put them on the
+      calendar first. Her team publishes methods and results so outside researchers can examine the
+      measurements and limits.
+    availability: { wave: frontier, earliestYear: 2022, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 2, dataRepresentation: 1, reinforcementAgency: 2, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 3, training: 2, product: 1, management: 4, politics: 3 }
+    traits: [trait.independent-auditor, trait.design-the-test-dont-trust-the-feeling]
+    signature:
+      id: ability.autonomous-capability-evaluation
+      label: Autonomous-Capability Evaluation
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.9 }
+    passive:
+      id: ability.independent-evaluation-credibility
+      label: Independent Evaluation Credibility
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 4 }
+    compact:
+      id: compact.no-surprises-doctrine
+      label: The No-Surprises Doctrine
+      requirement: After the lab fields a model with a Frontier Estimate of 40 or more (roughly Tier 3 Expert Assistant or above), complete one dangerous-capability evaluation every 52 weeks.
+      check: { type: conditional-tagged-action-within, condition: { metric: lab.model.maxActiveFC, atLeast: 40 }, tags: [dangerous-capability-evaluation], weeks: 52 }
+      breachEvent: people.compact.no-surprises-doctrine
+    paperHooks:
+      ids: [paper.red-teaming-language-models, paper.scaling-laws-language-models]
+    eventReactions:
+      - { triggerTag: capability-surprise, line: "This is exactly the surprise the evaluation was designed to make impossible. Find out which assumption in the test suite just expired." }
+      - { triggerTag: benchmark-record, line: "Impressive. Now let us find out what else it can do, under conditions it was not optimised to look good in." }
+      - { triggerTag: government-hearing, line: "An independent test result survives that room better than any lab's self-assessment, including yours." }
+    feedLines:
+      - Bess's evaluation found the model could complete a resource-acquisition chain nobody had listed among its capabilities.
+      - A pre-release audit came back with one finding, and the release date moved without an argument.
+      - The autonomous-replication test suite gained a new stage, one real-world incident before it would have been needed.
+      - A lab's confident "it cannot do that" was converted, methodically, into a designed test, and then into a correction.
+      - Bess's independence turned out to be the deciding factor in a regulator's acceptance of the evidence.
+      - The evaluation institute's findings were quoted verbatim in two rival labs' safety cases this quarter.
+    portrait:
+      assetId: portrait.researcher.bess-barnes
+      brief: Focused, unimpressed 8-bit editorial portrait; white woman with tied-back brown hair, beside a frontier model inside a test harness with capability checkboxes being verified; independent and exacting, not photoreal.
+      altText: Pixel-art portrait of Bess Barnes beside a frontier model in a test harness with capability checkboxes.
+    sources:
+      - https://barnes.page/
+      - https://metr.org/team/beth-barnes/
+      - https://metr.org/blog/2023-08-01-new-report/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.shauna-kravek
+    version: 1
+    displayName: Shauna Kravek
+    inspirationName: Shauna Kravec
+    inspirationSummary: Physicist, reinforcement-learning engineer and Hofvarpnir Studios co-founder who built alignment-training infrastructure and expanded independent safety researchers’ access to compute.
+    epithet: The Safety Infrastructure Builder
+    role: Reinforcement learning infrastructure for aligned model training
+    rosterCardSummary: The physicist who helped build Anthropic’s reinforcement-learning stack, then co-founded a nonprofit to give independent safety work a proper cluster.
+    biography: >-
+      Shauna Kravec trained as a physicist, completing a doctorate at UC San Diego and postdoctoral
+      work at UC Riverside before moving into reinforcement-learning engineering. At Anthropic, she
+      worked with Nova DasSarma and others on core reinforcement-learning infrastructure used in
+      model training. She contributed to research on helpful and harmless assistants trained with
+      human feedback and to later work probing how safety training behaves under demanding
+      conditions. Her interests span reinforcement learning, large language models and scaling
+      behaviour, joining a physicist’s concern for clean measurements with the engineer’s obligation
+      to make the training loop run twice. Kravec later co-founded Hofvarpnir Studios with DasSarma.
+      The nonprofit builds and operates compute infrastructure for independent AI-safety
+      researchers, giving small teams access to clusters large enough for serious empirical work.
+      It is an unusually concrete contribution to a field that can otherwise accumulate excellent
+      proposals for experiments nobody can afford to run. Her work connects alignment ideas to the
+      infrastructure required to test them: the safety team gets GPUs, reproducible pipelines and
+      considerably fewer sympathetic nods in place of either. That support has helped turn
+      independent safety proposals into experiments with logs, checkpoints and repeatable results.
+    availability: { wave: frontier, earliestYear: 2022, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.68, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 4, dataRepresentation: 1, reinforcementAgency: 5, multimodality: 0, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 5, interpretabilityEvals: 2, securityContainment: 1, training: 4, product: 0, management: 2, politics: 1 }
+    traits: [trait.alignment-lives-in-the-training-loop, trait.safety-compute-builder]
+    signature:
+      id: ability.safety-grade-rl-infrastructure
+      label: Safety-Grade RL Infrastructure
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-id-in, values: [safety.alignment-control] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.973, stackingGroup: hazard-reduction }
+    passive:
+      id: ability.compute-for-the-safety-team-too
+      label: Safety Infrastructure, Shared
+      effects:
+        - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+    compact:
+      id: compact.the-safety-team-gets-real-infrastructure
+      label: The Safety Team Gets Real Infrastructure
+      requirement: Complete one safety-compute provisioning review every 52 weeks.
+      check: { type: tagged-action-within, tags: [safety-compute-provisioning-review], weeks: 52 }
+      breachEvent: people.compact.the-safety-team-gets-real-infrastructure
+    paperHooks:
+      ids: [paper.constitutional-ai-harmlessness, paper.deep-rl-from-human-preferences]
+    eventReactions:
+      - { triggerTag: safety-budget-cut, line: "The alignment technique is only as real as the training infrastructure it runs on. Cut that and the technique becomes a slide deck." }
+      - { triggerTag: reward-hacking, line: "Check the training loop before theorising. Half the mysterious behaviours I have chased turned out to live in the plumbing." }
+      - { triggerTag: model-deception-signal, line: "We showed implanted deception can survive standard safety training. Treat that result as a floor for how careful this needs to be." }
+    feedLines:
+      - Shauna's RL pipeline ran the full alignment training sweep overnight without a single silent failure, again.
+      - A subtle reward-processing bug was caught in the infrastructure layer weeks before it could have skewed a safety result.
+      - The safety team's compute request cleared quickly, mostly because Shauna had already built the provisioning path.
+      - A physicist's scaling instinct flagged a training curve anomaly the dashboards had smoothed over.
+      - The nonprofit cluster she co-founded quietly onboarded another independent safety group this month.
+      - An alignment experiment reproduced exactly on the second run, which the infrastructure team counts as the actual result.
+    portrait:
+      assetId: portrait.researcher.shauna-kravek
+      brief: Grounded, capable 8-bit editorial portrait; woman with long reddish-blonde hair and glasses beside a reinforcement learning training loop diagram with a safety checklist bolted to the infrastructure layer; practical and principled, not photoreal.
+      altText: Pixel-art portrait of Shauna Kravek beside an RL training loop with a safety checklist on the infrastructure layer.
+    sources:
+      - https://celest.ai/about-me
+      - https://www.anthropic.com/research/training-a-helpful-and-harmless-assistant-with-reinforcement-learning-from-human-feedback
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }

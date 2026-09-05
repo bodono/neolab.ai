@@ -1,0 +1,76 @@
+name: Monthly deep verification
+
+# The deep invariant campaign, split out of the weekly verification workflow so
+# its cadence comes from cron. It lived there behind an `if:` using
+# `github.run_number % 4 == 1`, which is invalid -- GitHub Actions expressions
+# have no modulo operator -- and an invalid expression fails the whole workflow
+# file instantly on every push.
+#
+# At its old nightly cadence and 330-minute allowance this job alone could
+# consume a ninth of the monthly budget in a single hung run. Monthly, capped
+# at 180 minutes, it costs about 6% of the allowance. The weekly smoke campaign
+# covers the same invariants at lower depth in between.
+#
+# It was 2,400 configurations and never once finished: measured against a real
+# campaign that is ~819k committed ticks, and a runner does ~966 ticks a minute,
+# so ~848 minutes of work in a container GitHub kills at 360. Three attempts,
+# three non-results -- two cancelled at exactly the ceiling and one crash. A
+# higher `timeout-minutes` cannot buy 14 hours; only sharding or less work can,
+# and sharding costs the same 848 minutes, 28% of the allowance, to keep a
+# depth this campaign has never actually delivered.
+#
+# 400 configurations is ~141 minutes, so the job now fits its ceiling with a
+# quarter to spare rather than dying at it. Seeds are `seed-start + index`, so
+# these are a strict prefix of the old set: comparable to earlier evidence,
+# just fewer of them.
+
+on:
+  schedule:
+    - cron: "41 2 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verification-monthly
+  cancel-in-progress: true
+
+jobs:
+  long-invariant-campaign:
+    name: Long random-legal invariant campaign
+    runs-on: ubuntu-latest
+    # The deep sweep: replays every seeded run as well as executing it, at twice
+    # the tick depth the weekly smoke campaign reaches.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run 400-configuration invariant campaign
+        run: pnpm invariant:long
+
+      - name: Add invariant summary
+        if: always()
+        run: |
+          if [ -f artifacts/invariants/long.json ]; then
+            node -e 'const r=require("./artifacts/invariants/long.json"); console.log(`## Long invariant campaign\n\n- Configurations: ${r.runs.length}\n- Committed ticks: ${r.totalTicks}\n- Accepted commands: ${r.totalCommands}\n- Failures: ${r.failures.length}`)' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload invariant evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: invariant-campaign-long-${{ github.sha }}
+          path: artifacts/invariants/long.json
+          if-no-files-found: error
+          retention-days: 14

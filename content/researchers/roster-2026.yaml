@@ -1,0 +1,720 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: foundation
+status: draft
+
+researchers:
+  - id: researcher.lucas-kaiser
+    version: 1
+    displayName: Lucas Kaiser
+    inspirationName: Łukasz Kaiser
+    inspirationSummary: Transformer and Tensor2Tensor co-creator whose work helped turn attention-based sequence models into the general-purpose architecture behind modern language and multimodal systems.
+    epithet: The Attention Engineer
+    role: Transformer architectures, sequence modelling, and frontier-model systems
+    rosterCardSummary: A transformer architect who helped prove that attention could carry the sequence alone, thereby condemning the rest of computing to explain what a head is.
+    biography: >-
+      Łukasz Kaiser helped create the architecture that reorganised modern AI. At Google Brain he
+      co-authored “Attention Is All You Need,” introducing the Transformer as a sequence model built
+      around attention rather than recurrence or convolution. He also co-created Tensor2Tensor,
+      which made strong sequence-model recipes easier to reproduce across translation, language,
+      image, and speech tasks. Later work at OpenAI included code models and frontier multimodal
+      systems, carrying the same concern for architectures that scale cleanly across tasks. His
+      wider research includes neural theorem proving, discrete latent-variable models, and
+      multilingual language systems, repeatedly turning specialised problems into reusable
+      architectures. Tensor2Tensor itself paired a research library with a catalogue of datasets,
+      making comparison and replication part of the engineering rather than an afterthought. His
+      research combines mathematical competition instincts, practical systems engineering, and a
+      preference for ideas simple enough to become infrastructure. The lab should be warned that
+      once Łukasz removes an unnecessary component, an entire field may spend the next five years
+      naming increasingly elaborate versions of what remains.
+    availability: { wave: foundation, earliestYear: 2017, poolWeight: 0.40 }
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 4, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 3, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 3, management: 3, politics: 1 }
+    traits: [trait.architectural-simplicity, trait.sequence-systems-rigour]
+    signature:
+      id: ability.attention-first-architecture
+      label: Attention-First Architecture
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.reasoning-tools] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.reusable-sequence-recipes
+      label: Reusable Sequence Recipes
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }
+    compact:
+      id: compact.ablate-before-you-ornament
+      label: Ablate Before You Ornament
+      requirement: Every 52 weeks while leading architecture research, complete a plain-baseline comparison before adding another mechanism.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: plain-baseline-comparison, weeks: 52 }
+      breachEvent: people.compact.ablate-before-you-ornament
+    paperHooks:
+      ids: [paper.transformer, paper.codex-evaluating-code-models]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Remove the fashionable part and rerun it. If the score stays, we have learned something inexpensive." }
+      - { triggerTag: scaling-proposal, line: "A scalable recipe should survive contact with a second task before it receives a larger cluster." }
+      - { triggerTag: reasoning-benchmark-record, line: "Attention helped build the result. It did not exempt us from checking what the model attended to." }
+    feedLines:
+      - Lucas removed a recurrent component, and the sequence model improved out of apparent relief.
+      - The architecture team turned one careful attention ablation into three fewer months of speculation.
+      - A Tensor2Tensor-era instinct for reusable recipes made the new model work on a second modality before lunch.
+      - Lucas asked for the plain baseline; the meeting became shorter and the result became stronger.
+      - The transformer scaling plan now has fewer moving parts and considerably more GPUs attached to it.
+      - An attention head acquired a fashionable name, and Lucas quietly labelled it head 17 in the spreadsheet.
+    portrait:
+      assetId: portrait.researcher.lucas-kaiser
+      brief: Composed 8-bit editorial portrait; light-skinned Polish man with a high receding hairline, very short dark-brown hair, no glasses, and a clean-shaven face, beside an attention map replacing a recurrent sequence diagram; precise and understated, not photoreal.
+      altText: Pixel-art portrait of Lucas Kaiser, a clean-shaven man with very short dark hair and a high receding hairline, beside a transformer attention map.
+    sources:
+      - https://arxiv.org/abs/1706.03762
+      - https://github.com/tensorflow/tensor2tensor
+      - https://openai.com/index/openai-codex/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.aaron-van-den-oord
+    version: 1
+    displayName: Aaron van den Oord
+    inspirationName: Aäron van den Oord
+    inspirationSummary: Google DeepMind research scientist and generative-model pioneer whose work on PixelRNN, PixelCNN, WaveNet, VQ-VAE, and contrastive predictive coding reshaped how machines generate and represent images, speech, and other signals.
+    epithet: The Generative Signal Architect
+    role: Generative media, representation learning, neural audio, and multimodal systems
+    rosterCardSummary: A generative-model pioneer who taught neural networks to draw pixels and speak in waveforms, one prediction at a time, before anyone had arranged a sensible inference budget.
+    biography: >-
+      Aäron van den Oord is a research scientist at Google DeepMind whose work helped turn
+      generative modelling from an impressive image experiment into a foundation for modern audio,
+      representation learning, and multimodal media. He led the research behind PixelRNN and
+      PixelCNN, then asked whether the same autoregressive idea could predict raw sound. The result
+      was WaveNet, which generated speech one audio sample at a time and rapidly moved from a
+      two-week prototype to voices used across Google products. He subsequently co-created VQ-VAE,
+      giving neural networks learned discrete representations, and introduced contrastive
+      predictive coding as a way to learn useful structure by predicting the future in latent
+      space. Those ideas now recur throughout speech, image, video, and multimodal generation,
+      while his later Google DeepMind work includes core contributions to Imagen 3. The common
+      instinct is to find the representation that makes an apparently impossible signal tractable.
+      Aäron can make the machine breathe naturally; the finance team would still prefer that it do
+      so in fewer than 24,000 sequential decisions per second.
+    availability: { wave: foundation, earliestYear: 2016, poolWeight: 0.40 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 4, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 0, training: 5, product: 4, management: 4, politics: 1 }
+    traits: [trait.generative-signal-instinct, trait.discrete-representation-craft]
+    signature:
+      id: ability.learn-the-codebook
+      label: Learn the Codebook
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.multimodality] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.prototype-to-voice
+      label: Prototype to Voice
+      effects:
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    compact:
+      id: compact.listen-to-the-samples
+      label: Listen to the Samples
+      requirement: Every 52 weeks while leading multimodal research, complete a cross-modality generative evaluation rather than trusting the aggregate score.
+      check: { type: assignment-requires-project-tag, assignmentTag: multimodal-programme, projectTag: cross-modality-technique-evaluated, weeks: 52 }
+      breachEvent: people.compact.listen-to-the-samples
+    paperHooks:
+      ids: [paper.wavenet-raw-audio]
+    eventReactions:
+      - { triggerTag: multimodal-breakthrough, line: "Good. Now inspect the samples. An average score has never had to listen to itself breathe." }
+      - { triggerTag: scaling-proposal, line: "Scale the model after we know which representation is carrying the signal." }
+      - { triggerTag: product-launch, line: "A prototype becomes a product when it can generate the next second before the listener has left the room." }
+    feedLines:
+      - Aaron replaced a continuous bottleneck with a learned codebook and the representation became more useful by becoming discrete.
+      - The audio model learned when to breathe; the team is trying not to interpret this as a request for office space.
+      - A PixelCNN experiment produced a beautiful image one inconvenient prediction at a time.
+      - The multimodal team listened to the samples and discovered what the aggregate score had politely omitted.
+      - Contrastive prediction found useful structure without asking anyone to label every frame.
+      - Aaron compressed a difficult signal into a representation the next model could finally afford to understand.
+    portrait:
+      assetId: portrait.researcher.aaron-van-den-oord
+      brief: Warm 8-bit editorial portrait; light-skinned Belgian man with thick short swept dark-brown hair, a neatly trimmed short dark-brown beard and moustache, no glasses, and a calm friendly expression, beside an audio waveform resolving into a discrete codebook and a grid of generated pixels; thoughtful and technically playful, not photoreal.
+      altText: Pixel-art portrait of Aaron van den Oord, with swept dark-brown hair and a short dark-brown beard, beside a waveform resolving into discrete codes and generated pixels.
+    sources:
+      - https://avdnoord.github.io/homepage/
+      - https://deepmind.google/research/wavenet/
+      - https://arxiv.org/abs/1711.00937
+      - https://arxiv.org/abs/1807.03748
+      - https://storage.googleapis.com/deepmind-media/imagen/imagen_3_tech_report_update_dec2024_v2.pdf
+      - https://www.innovatorsunder35.com/the-list/%C3%A4ron-van-den-oord/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-27 }
+
+  - id: researcher.judea-perle
+    version: 1
+    displayName: Judea Perle
+    inspirationName: Judea Pearl
+    inspirationSummary: Turing Award-winning pioneer of Bayesian networks and causal inference whose work gave AI a formal language for asking not only what correlates, but what would happen if we intervened.
+    epithet: The Causal Revolutionary
+    role: Causal reasoning, probabilistic models, and scientific inference
+    rosterCardSummary: The causal-inference pioneer who insists that prediction is not explanation, especially when the regression has begun behaving like a philosophy department.
+    biography: >-
+      Judea Pearl gave artificial intelligence a practical mathematics for reasoning under
+      uncertainty and a formal language for causality. At UCLA he developed foundational methods
+      for Bayesian networks, probabilistic graphical models, and belief propagation, then helped
+      establish causal diagrams, interventions, and counterfactual reasoning as a distinct
+      scientific toolkit. The Association for Computing Machinery awarded him the 2011 Turing
+      Award for fundamental contributions to artificial intelligence through probabilistic and
+      causal reasoning. His books range from the technical “Probabilistic Reasoning in Intelligent
+      Systems” and “Causality” to “The Book of Why,” written with Dana Mackenzie. Pearl's hierarchy
+      of association, intervention, and counterfactuals is a standing reminder that predicting an
+      outcome is not the same as understanding how to change it. The framework now shapes work in
+      epidemiology, economics, social science, and machine learning wherever interventions matter
+      and controlled experiments are unavailable. He also helped make graphical models into a
+      common language through which statisticians, computer scientists, and domain experts could
+      argue precisely about assumptions. Judea will accept a beautiful
+      correlation as evidence that the team has found a beautiful correlation, and no more.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.28 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 1, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 2, interpretabilityEvals: 4, securityContainment: 0, training: 1, product: 1, management: 4, politics: 4 }
+    traits: [trait.causal-identification-discipline, trait.counterfactual-insistence]
+    signature:
+      id: ability.ladder-of-causation
+      label: Ladder of Causation
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.reasoning-tools, domain.scientific-ai] }
+      rampWeeks: 6
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.causal-evidence-discipline
+      label: Causal Evidence Discipline
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+    compact:
+      id: compact.intervene-dont-merely-predict
+      label: Intervene, Don't Merely Predict
+      requirement: Every 52 weeks while leading reasoning or scientific AI, complete a causal intervention test rather than another correlational benchmark.
+      check: { type: assignment-requires-project-tag, assignmentTag: reasoning-programme, projectTag: causal-intervention-test, weeks: 52 }
+      breachEvent: people.compact.intervene-dont-merely-predict
+    paperHooks:
+      ids: [paper.world-models, paper.alphafold2-protein-structure]
+    eventReactions:
+      - { triggerTag: scientific-breakthrough, line: "Now intervene on the mechanism. A discovery should survive more than admiration." }
+      - { triggerTag: benchmark-record, line: "The model predicts the answer. We have not yet shown that it understands what would change the answer." }
+      - { triggerTag: capability-surprise, line: "A surprise is an invitation to redraw the causal graph, not to add another adjective to the press release." }
+    feedLines:
+      - Judea replaced a leaderboard argument with a causal diagram and three uncomfortable intervention tests.
+      - The model predicted the trial perfectly, then failed the counterfactual; the distinction is now on every whiteboard.
+      - A belief-propagation review found the hidden assumption carrying most of the scientific claim.
+      - Judea asked what would happen under intervention, and the benchmark stopped looking finished.
+      - The causal graph acquired one fewer arrow and the research claim acquired considerably more credibility.
+      - A correlation survived the meeting, but only after being clearly labelled as one.
+    portrait:
+      assetId: portrait.researcher.judea-perle
+      brief: Distinguished 8-bit editorial portrait; elderly light-skinned man with short grey hair, a full short grey beard and moustache, and dark rectangular glasses, beside a causal graph whose arrows lead from observation to intervention to counterfactual; warm, exacting, and unmistakably scholarly, not photoreal.
+      altText: Pixel-art portrait of Judea Perle, an elderly man with short grey hair, a grey beard, and dark glasses, beside a causal diagram.
+    sources:
+      - https://samueli.ucla.edu/people/judea-pearl/
+      - https://amturing.acm.org/award_winners/pearl_2658896.cfm
+      - https://bayes.cs.ucla.edu/WHY/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.timothy-lillicroft
+    version: 1
+    displayName: Timothy Lillicroft
+    inspirationName: Timothy Lillicrap
+    inspirationSummary: Google DeepMind research director and reinforcement-learning scientist whose work on continuous control, actor-critic agents, planning, and neuroscience connects capable agents to the mechanisms that produce them.
+    epithet: The Continuous Controller
+    role: Reinforcement learning, continuous control, planning, and agent neuroscience
+    rosterCardSummary: A reinforcement-learning researcher who taught agents to control continuous actions, then asked whether the brain had been quietly running a better experiment all along.
+    biography: >-
+      Timothy Lillicrap studies how agents learn to act, plan, and reason. At Google DeepMind he has
+      led research spanning continuous-control reinforcement learning, model-based planning,
+      biologically inspired learning, and the computational principles shared by brains and
+      machines. He co-authored Deep Deterministic Policy Gradient, which brought actor-critic deep
+      reinforcement learning to high-dimensional continuous action spaces, and contributed to the
+      research programmes behind AlphaGo, AlphaZero, AlphaStar, and MuZero. His work also examines
+      credit assignment and alternatives to strict backpropagation, using neuroscience not as
+      decoration but as a source of testable computational ideas. Trained in systems neuroscience
+      and neuroinformatics, he has kept biological learning mechanisms in productive conversation
+      with the engineering demands of deep networks. That perspective makes questions about memory,
+      credit, and planning mechanisms rather than labels pasted onto an agent after it succeeds.
+      Recent research connects learned
+      world models and reinforcement learning to reasoning in games and beyond. Timothy tends to
+      regard a discrete action menu as a polite simplification offered by the environment, and not
+      one the real world is obliged to provide.
+    availability: { wave: foundation, earliestYear: 2016, poolWeight: 0.36 }
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 3, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 1, reasoningTools: 4, roboticsEmbodiment: 4, scientificAi: 3, alignmentControl: 2, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 1, management: 4, politics: 1 }
+    traits: [trait.continuous-control-instinct, trait.neuroscience-bridge-building]
+    signature:
+      id: ability.continuous-actor-critic
+      label: Continuous Actor-Critic
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency, domain.robotics-embodiment] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.planning-agent-diagnostics
+      label: Planning-Agent Diagnostics
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.test-the-agent-off-policy
+      label: Test the Agent Off Policy
+      requirement: Every 52 weeks while leading agent research, complete an off-policy robustness evaluation in an unfamiliar environment.
+      check: { type: assignment-requires-project-tag, assignmentTag: reinforcement-programme, projectTag: off-policy-robustness-evaluation, weeks: 52 }
+      breachEvent: people.compact.test-the-agent-off-policy
+    paperHooks:
+      ids: [paper.alphago, paper.muzero-learned-model-planning]
+    eventReactions:
+      - { triggerTag: autonomy-incident, line: "The policy found an action we failed to put on the evaluation menu. That is our measurement failure first." }
+      - { triggerTag: benchmark-saturation, line: "Move it into a continuous environment. The tidy action space has been doing more work than the agent." }
+      - { triggerTag: capability-surprise, line: "Find the learned model behind the behaviour. Surprises become useful once they have a mechanism." }
+    feedLines:
+      - Timothy's continuous-control agent stopped wobbling and started making the robotics team nervous for more interesting reasons.
+      - An off-policy probe found a strategy the benchmark's tidy action menu had concealed.
+      - The world model predicted its own control failure one rollout before the hardware discovered it.
+      - A neuroscience-inspired credit-assignment experiment survived contact with the engineering dashboard.
+      - Timothy replaced a scripted manoeuvre with a learned policy and then doubled the evaluation budget.
+      - The agent planned through an unfamiliar game; Timothy immediately asked for a less game-like world.
+    portrait:
+      assetId: portrait.researcher.timothy-lillicroft
+      brief: Focused 8-bit editorial portrait; light-skinned man with long dark hair tied back, a dark moustache and short goatee, no glasses, and a black shirt, beside a continuous-control trajectory curling through a game and robotics workspace; thoughtful and distinctly masculine, not photoreal.
+      altText: Pixel-art portrait of Timothy Lillicroft, a man with tied-back dark hair, a moustache, and a short goatee, beside a continuous-control trajectory.
+    sources:
+      - https://contrastiveconvergence.net/
+      - https://events.stanford.edu/event/mbct-seminar-timothy-lillicrap-talk-title-tba
+      - https://arxiv.org/abs/1509.02971
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.trevor-darnell
+    version: 1
+    displayName: Trevor Darnell
+    inspirationName: Trevor Darrell
+    inspirationSummary: Berkeley computer-vision professor and BAIR leader whose research spans recognition, multimodal learning, domain adaptation, embodied perception, and systems that connect visual understanding to the world.
+    epithet: The Visual Generalist
+    role: Computer vision, multimodal learning, domain adaptation, and embodied perception
+    rosterCardSummary: A computer-vision institution builder who would like the model to recognise the object, explain the context, and still work after someone changes the camera.
+    biography: >-
+      Trevor Darrell has helped shape modern computer vision from object recognition to multimodal
+      and embodied intelligence. He is a professor at UC Berkeley, where his research covers visual
+      recognition, machine learning, multimodal perception, domain adaptation, and human-centred
+      systems. Before Berkeley he served on the MIT faculty, working across computer vision,
+      graphics, and perceptual interfaces. At Berkeley he has helped build large collaborative
+      research communities, including the Berkeley Artificial Intelligence Research laboratory,
+      while advising generations of researchers across vision and machine learning. He has also
+      connected academic research to practical systems through work on autonomous driving,
+      human-centred AI, and technology transfer, without reducing vision to a product demo. The
+      breadth matters: recognition, language, robotics, and interfaces all test whether a visual
+      representation survives contact with another part of intelligence. His work asks
+      models to survive changes of domain, viewpoint, data source, and task rather than merely
+      recognise a familiar benchmark from a flattering angle. Trevor is happy for a model to have
+      a point of view; he would simply prefer that its entire competence not depend on keeping it.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.34 }
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 2, dataRepresentation: 4, reinforcementAgency: 2, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 4, scientificAi: 2, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 0, training: 3, product: 3, management: 5, politics: 3 }
+    traits: [trait.domain-shift-scepticism, trait.vision-institution-builder]
+    signature:
+      id: ability.domain-robust-perception
+      label: Domain-Robust Perception
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.robotics-embodiment] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.cross-domain-review
+      label: Cross-Domain Review
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.change-the-camera
+      label: Change the Camera
+      requirement: Every 52 weeks while leading vision research, complete an out-of-domain visual evaluation using a different data source or sensor.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: out-of-domain-vision-evaluation, weeks: 52 }
+      breachEvent: people.compact.change-the-camera
+    paperHooks:
+      ids: [paper.imagenet-database, paper.faster-rcnn-object-detection]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Excellent. Now change the camera, the lighting, the country, and the annotator." }
+      - { triggerTag: embodiment-failure, line: "Recognition without embodied context is a very confident caption attached to the wrong world." }
+      - { triggerTag: architecture-fad, line: "Show me the domain shift. The backbone can wait until we know what actually broke." }
+    feedLines:
+      - Trevor changed the camera and the benchmark record became an ordinary Tuesday.
+      - A domain-adaptation pass recovered performance on data nobody had polished for publication.
+      - The vision model recognised the object and, after further prompting from Trevor, the room it was actually in.
+      - A cross-lab review connected the robotics and multimodal teams before their datasets acquired incompatible ontologies.
+      - Trevor's out-of-domain test found that the model's celebrated robustness ended at the campus boundary.
+      - The revised perception stack now works in bad lighting, which has reduced the prestige of several demos.
+    portrait:
+      assetId: portrait.researcher.trevor-darnell
+      brief: Confident 8-bit editorial portrait; light-skinned man with thick short-to-medium dark brown hair greying at the temples, no glasses, and a clean-shaven face, beside multiple cameras viewing one object across changing domains; broad, practical, and professorial, not photoreal.
+      altText: Pixel-art portrait of Trevor Darnell, a clean-shaven man with thick dark hair greying at the temples, beside a cross-domain computer-vision display.
+    sources:
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/darrell.html
+      - https://bair.berkeley.edu/
+      - https://people.eecs.berkeley.edu/~trevor/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.rob-fergan
+    version: 1
+    displayName: Rob Fergan
+    inspirationName: Rob Fergus
+    inspirationSummary: NYU computer-vision professor and pioneering deep-learning researcher whose work spans visual recognition, unsupervised representation learning, computational photography, and adversarial examples.
+    epithet: The Feature Detective
+    role: Visual representation learning, recognition, and adversarial vision
+    rosterCardSummary: A visual-learning pioneer who has spent years asking neural networks what they see, then checking whether one carefully placed pixel changes the testimony.
+    biography: >-
+      Rob Fergus is a professor of computer science at New York University whose work helped bring
+      learned representations back to the centre of computer vision. His research spans object
+      recognition, unsupervised and self-supervised learning, computational photography,
+      generative models, and the analysis of what deep networks learn. He contributed to the early
+      deep-learning revival in vision and later helped expose the surprising fragility of neural
+      networks through work on adversarial examples. He was also a founding research leader at
+      Facebook AI Research, connecting academic vision research to large-scale machine-learning
+      systems. Earlier work on object categories, scene understanding, and computational
+      photography helped replace hand-designed visual pipelines with learned ones while retaining
+      a scientist's interest in what each stage represents. His students and collaborators have
+      carried that combination of strong models and diagnostic curiosity across modern vision.
+      Across these projects, the consistent habit is to inspect internal features rather
+      than treating accuracy as a sufficient explanation. Rob will admire a model's perception
+      right up to the moment a small perturbation persuades it that the fire engine is a toaster.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.38 }
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 5, reasoningTools: 1, roboticsEmbodiment: 1, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 4, securityContainment: 1, training: 3, product: 3, management: 4, politics: 1 }
+    traits: [trait.feature-visualisation-curiosity, trait.adversarial-image-scepticism]
+    signature:
+      id: ability.inspect-the-features
+      label: Inspect the Features
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, safety.interpretability-evals] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.adversarial-vision-instinct
+      label: Adversarial Vision Instinct
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    compact:
+      id: compact.perturb-the-pretty-result
+      label: Perturb the Pretty Result
+      requirement: Every 52 weeks while leading vision or interpretability work, complete an adversarial-input evaluation of the current model.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: adversarial-input-evaluation, weeks: 52 }
+      breachEvent: people.compact.perturb-the-pretty-result
+    paperHooks:
+      ids: [paper.intriguing-properties-adversarial-examples, paper.imagenet-database]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Keep the score. Now perturb the input until we learn what feature actually earned it." }
+      - { triggerTag: capability-surprise, line: "Visualise the representation before writing a story about what the network understands." }
+      - { triggerTag: security-incident, line: "If a tiny input change can rewrite the classification, it belongs in the threat model, not the footnote." }
+    feedLines:
+      - Rob visualised the learned features and found the model had been recognising the photographer's watermark.
+      - An adversarial perturbation converted a confident demo into a useful week of research.
+      - The vision team now knows which internal features survive outside the benchmark's preferred lighting.
+      - A computational-photography trick recovered detail without teaching the model another shortcut.
+      - Rob asked what the network saw; three dashboards later, the answer was finally less metaphorical.
+      - The new representation learned objects rather than backgrounds, an achievement celebrated by changing every background.
+    portrait:
+      assetId: portrait.researcher.rob-fergan
+      brief: Attentive 8-bit editorial portrait; light-skinned man with short wavy dark-brown hair, light stubble forming a very short beard, no glasses, and blue eyes, beside a feature visualisation disturbed by one adversarial pixel; curious and analytical, not photoreal.
+      altText: Pixel-art portrait of Rob Fergan, a man with short wavy dark hair and light stubble, beside an adversarial feature visualisation.
+    sources:
+      - https://cims.nyu.edu/people/profiles/FERGUS_Rob.html
+      - https://cs.nyu.edu/~fergus/pmwiki/pmwiki.php
+      - https://arxiv.org/abs/1312.6199
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.ruslan-salakhudinov
+    version: 1
+    displayName: Ruslan Salakhudinov
+    inspirationName: Ruslan Salakhutdinov
+    inspirationSummary: Carnegie Mellon professor whose influential work spans deep generative models, probabilistic graphical models, representation learning, optimisation, and large-scale systems that discover structure in complex data.
+    epithet: The Latent Cartographer
+    role: Representation learning, probabilistic models, optimisation, and generative AI
+    rosterCardSummary: A deep-learning and probabilistic-models expert who maps the latent space carefully enough that the rest of the lab may safely pretend it knows where it is.
+    biography: >-
+      Ruslan Salakhutdinov is the UPMC Professor of Computer Science at Carnegie Mellon University,
+      where his research spans deep learning, probabilistic graphical models, generative models,
+      large-scale optimisation, and representation learning. His work helped revive deep generative
+      modelling through deep belief networks and later advanced topic models, collaborative
+      filtering, multimodal learning, and neural architectures for structured data. He has led
+      research in both academia and industry, including serving as Apple’s director of AI research,
+      while continuing to develop methods that discover useful latent structure in very large
+      datasets. The common thread is disciplined combination: neural networks where flexible
+      function approximation helps, probabilistic structure where uncertainty matters, and enough
+      optimisation to make the whole arrangement run. He completed his doctorate at the University
+      of Toronto during the resurgence of deep learning and later joined Geoffrey Hinton on work
+      showing how layered generative models could learn useful structure without extensive labels.
+      That foundation informs later research across language, vision, recommendation, and science:
+      the representation should expose structure rather than merely absorb scale. Ruslan regards a latent space without a map
+      as less a representation than an expensive rumour.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.34 }
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 3, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 3, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 2, management: 5, politics: 2 }
+    traits: [trait.probabilistic-structure-instinct, trait.large-scale-optimisation-discipline]
+    signature:
+      id: ability.map-the-latent-space
+      label: Map the Latent Space
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.optimisation-scaling] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.probabilistic-training-discipline
+      label: Probabilistic Training Discipline
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }
+    compact:
+      id: compact.validate-the-latent-structure
+      label: Validate the Latent Structure
+      requirement: Every 52 weeks while leading representation research, complete a held-out latent-structure validation.
+      check: { type: assignment-requires-project-tag, assignmentTag: data-programme, projectTag: latent-structure-validation, weeks: 52 }
+      breachEvent: people.compact.validate-the-latent-structure
+    paperHooks:
+      ids: [paper.dropout, paper.xlnet]
+    eventReactions:
+      - { triggerTag: scaling-proposal, line: "The optimiser can carry the scale only if the representation gives it somewhere sensible to go." }
+      - { triggerTag: architecture-fad, line: "Ask what structure the model has learned. The layer count is not an answer." }
+      - { triggerTag: scientific-breakthrough, line: "Check whether the latent variables recover the mechanism or merely organise the observations beautifully." }
+    feedLines:
+      - Ruslan mapped the latent space and found two research programmes occupying the same expensive neighbourhood.
+      - A probabilistic model attached honest uncertainty to a prediction the neural system had delivered as a proclamation.
+      - The optimisation run converged after Ruslan changed the representation rather than adding another order of compute.
+      - A held-out structure test found that the generative model had learned the dataset's filing system.
+      - Ruslan's large-scale training plan extracted one more useful factor and three fewer mysterious crashes.
+      - The representation team now has a map, a validation set, and fewer opportunities to call a cluster a discovery.
+    portrait:
+      assetId: portrait.researcher.ruslan-salakhudinov
+      brief: Calm 8-bit editorial portrait; light-skinned man with short neatly swept dark-brown hair greying slightly at the temples, no glasses, and a clean-shaven face, beside a probabilistic graphical model unfolding into a mapped latent space; composed and systematic, not photoreal.
+      altText: Pixel-art portrait of Ruslan Salakhudinov, a clean-shaven man with short dark hair greying at the temples, beside a mapped latent space.
+    sources:
+      - https://www.cs.cmu.edu/~rsalakhu/
+      - https://www.cs.cmu.edu/~rsalakhu/bio.html
+      - https://www.cs.cmu.edu/people/faculty/ruslan-salakhutdinov
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.christopher-bishopp
+    version: 1
+    displayName: Christopher Bishopp
+    inspirationName: Christopher Bishop
+    inspirationSummary: Microsoft Technical Fellow, founder of its AI for Science organisation, and author of foundational machine-learning textbooks connecting probabilistic methods to scientific discovery.
+    epithet: The Bayesian Textbook
+    role: Probabilistic machine learning, AI for science, and research leadership
+    rosterCardSummary: A physicist and machine-learning textbook author who wants every uncertainty quantified, every equation typeset, and preferably a fusion reactor at the end of the chapter.
+    biography: >-
+      Christopher Bishop is a Microsoft Technical Fellow and the founder of Microsoft Research's
+      AI for Science organisation. Trained as a physicist, he worked in quantum field theory and
+      controlled fusion before turning to machine learning, neural networks, and probabilistic
+      inference. His books “Neural Networks for Pattern Recognition” and “Pattern Recognition and
+      Machine Learning” became standard references for generations of researchers; “Deep Learning:
+      Foundations and Concepts,” written with Hugh Bishop, carries that explanatory tradition into
+      modern systems. He has led major Microsoft research organisations and helped make scientific
+      discovery—from molecular modelling to materials and weather—a central application of AI.
+      He is a Fellow of the Royal Society and the Royal Academy of Engineering, recognition spanning
+      both the theory and practice of machine learning. His long research career has paired lucid
+      exposition with institution building: the equations are expected to teach, and the research
+      organisation is expected to make those equations useful in the physical world. Christopher's
+      preferred research stack contains a physical principle, a calibrated
+      probability, and a derivation legible enough that nobody can hide a miracle in line seven.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.30 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 3, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 1, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 0, training: 2, product: 2, management: 5, politics: 4 }
+    traits: [trait.probabilistic-calibration, trait.scientific-institution-builder]
+    signature:
+      id: ability.ai-for-science-foundations
+      label: AI for Science Foundations
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai, domain.data-representation] }
+      rampWeeks: 6
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.calibrated-probabilistic-review
+      label: Calibrated Probabilistic Review
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+    compact:
+      id: compact.show-the-calibration
+      label: Show the Calibration
+      requirement: Every 52 weeks while leading scientific AI, complete a calibration review comparing stated confidence with observed outcomes.
+      check: { type: assignment-requires-project-tag, assignmentTag: scientific-ai-programme, projectTag: calibration-review, weeks: 52 }
+      breachEvent: people.compact.show-the-calibration
+    paperHooks:
+      ids: [paper.alphafold2-protein-structure, paper.world-models]
+    eventReactions:
+      - { triggerTag: scientific-breakthrough, line: "A result becomes science when the uncertainty and the physical assumptions arrive with it." }
+      - { triggerTag: benchmark-record, line: "Please plot calibration beside accuracy. One number has been carrying too much of this conversation." }
+      - { triggerTag: capability-surprise, line: "Unexpected behaviour is exactly where a probabilistic model should stop pretending it knew the answer." }
+    feedLines:
+      - Christopher turned a confident scientific prediction into a calibrated one and improved the decision it informed.
+      - The AI-for-science team derived the constraint before fitting the model, causing widespread but temporary inconvenience.
+      - A textbook-quality explanation made the probabilistic pipeline understandable to someone who had not written it.
+      - The molecular model respected a physical symmetry and stopped requiring apology emails from the physics team.
+      - Christopher's calibration plot moved one celebrated result from breakthrough to promising, which is why it can now be trusted.
+      - A fusion anecdote entered the meeting; unlike most fusion timelines, it led to a result before lunch.
+    portrait:
+      assetId: portrait.researcher.christopher-bishopp
+      brief: Distinguished 8-bit editorial portrait; light-skinned bald man with very short grey hair at the sides, blue rectangular glasses, and a clean-shaven face, beside a probabilistic curve resolving into molecules and a fusion plasma; precise, approachable, and scientific, not photoreal.
+      altText: Pixel-art portrait of Christopher Bishopp, a bald clean-shaven man with blue rectangular glasses, beside probabilistic scientific models.
+    sources:
+      - https://www.microsoft.com/en-us/research/people/cmbishop/
+      - https://www.microsoft.com/en-us/research/lab/microsoft-research-ai4science/
+      - https://www.bishopbook.com/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.tomas-mikoloff
+    version: 1
+    displayName: Tomas Mikoloff
+    inspirationName: Tomas Mikolov
+    inspirationSummary: Neural-language-model and word2vec pioneer whose efficient representation-learning methods made linguistic relationships visible as geometry and shaped modern natural-language processing.
+    epithet: The Vector Linguist
+    role: Language modelling, representation learning, and efficient foundational AI
+    rosterCardSummary: The word-vector pioneer who put kings, queens, cities, and countries into one geometric space and then waited patiently for everyone to stop doing arithmetic with royalty.
+    biography: >-
+      Tomáš Mikolov made neural language representations both practical and famous. His early work
+      advanced recurrent neural-network language models, and at Google he led the development of
+      word2vec: efficient continuous bag-of-words and skip-gram methods that learned useful word
+      embeddings from enormous text corpora. The resulting vector spaces exposed regularities in
+      syntax and meaning, giving natural-language processing a compact reusable representation
+      layer. His recurrent-neural-network language models and freely released RNNLM toolkit had
+      already shown that comparatively simple neural systems could learn strong statistical
+      structure from text at practical scale. That work helped move language modelling away from
+      manually assembled features and toward learned distributed representations well before the
+      current generation of giant models. He later worked at Microsoft and Facebook AI Research on language modelling,
+      representation learning, and systems capable of learning with less supervision. At the Czech
+      Institute of Informatics, Robotics and Cybernetics he leads foundational-AI research focused
+      on more autonomous and continually learning systems. Tomas's enduring preference is for
+      methods simple enough to scale and efficient enough that the interesting structure appears
+      before the compute budget files a complaint.
+    availability: { wave: foundation, earliestYear: 2013, poolWeight: 0.44 }
+    contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 4, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 0, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 3, management: 3, politics: 1 }
+    traits: [trait.efficient-language-modelling, trait.geometric-representation-instinct]
+    signature:
+      id: ability.vector-space-regularities
+      label: Vector-Space Regularities
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.efficient-language-training
+      label: Efficient Language Training
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }
+    compact:
+      id: compact.prove-the-simple-baseline
+      label: Prove the Simple Baseline
+      requirement: Every 52 weeks while leading representation research, compare the current method against a compute-matched simple baseline.
+      check: { type: assignment-requires-project-tag, assignmentTag: data-programme, projectTag: simple-baseline-comparison, weeks: 52 }
+      breachEvent: people.compact.prove-the-simple-baseline
+    paperHooks:
+      ids: [paper.word2vec, paper.xlnet]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Try the efficient baseline before adding machinery. Geometry often arrives before grandeur." }
+      - { triggerTag: scaling-proposal, line: "The corpus can be larger without the algorithm becoming ceremonial." }
+      - { triggerTag: benchmark-record, line: "Test whether the representation transfers. A vocabulary-specific trick is not a language breakthrough." }
+    feedLines:
+      - Tomas compressed a language experiment until the semantic structure became easier to see and cheaper to reproduce.
+      - The embedding space recovered a useful relation nobody had explicitly labelled.
+      - A compute-matched baseline beat the ornate proposal and acquired substantially fewer slides.
+      - The language model learned from a larger corpus without turning the training system into a monument.
+      - Tomas asked whether the representation transferred; the team reluctantly opened a second dataset.
+      - Royalty was removed from the vector-arithmetic demo, and the underlying result remained impressive.
+    portrait:
+      assetId: portrait.researcher.tomas-mikoloff
+      brief: Thoughtful 8-bit editorial portrait; light-skinned Czech man with short slightly wavy brown hair, no glasses, and a clean-shaven face, beside a word-vector space connecting linguistic analogies; practical and quietly amused, not photoreal.
+      altText: Pixel-art portrait of Tomas Mikoloff, a clean-shaven man with short wavy brown hair, beside a word-vector space.
+    sources:
+      - https://www.ciirc.cvut.cz/cs/tomas-mikolov-posiluje-vedecky-tym-ciirc-cvut-vede-vyzkumnou-skupinu-zakladniho-vyzkumu-v-ai/
+      - https://ellis.ciirc.cvut.cz/foundational-ai/
+      - https://arxiv.org/abs/1301.3781
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }
+
+  - id: researcher.cordelia-schmidt
+    version: 1
+    displayName: Cordelia Schmidt
+    inspirationName: Cordelia Schmid
+    inspirationSummary: Inria research director and computer-vision pioneer whose work on local image descriptors, recognition, and video understanding shaped how machines identify actions and objects across changing scenes.
+    epithet: The Motion Reader
+    role: Computer vision, video understanding, action recognition, and robust descriptors
+    rosterCardSummary: A vision pioneer who taught machines to recognise what is happening across frames, then kept changing the camera until the answer deserved confidence.
+    biography: >-
+      Cordelia Schmid is an Inria Research Director and a leading figure in computer vision. Her
+      foundational work on robust local image descriptors helped make visual matching reliable
+      across changes in scale, viewpoint, and illumination. She went on to shape object
+      recognition, image retrieval, action recognition, and video understanding, building methods
+      that connect local visual evidence to the structure of an unfolding scene. At Inria she is a
+      member of the WILLOW team, and since 2018 she has also held a joint appointment with Google
+      Research. Her honours include major European research prizes, the Longuet-Higgins Prize, and
+      the 2025 ACM Athena Lecturer Award for foundational contributions to computer vision. Cordelia
+      has also trained and collaborated with an unusually broad generation of vision researchers,
+      helping turn robust recognition from an isolated technique into a durable research community.
+      She will happily accept that the model recognised a person; she will then ask what the person is
+      doing, why the model believes it, and whether the answer survives the next camera angle.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.34 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 3, scientificAi: 2, alignmentControl: 1, interpretabilityEvals: 4, securityContainment: 0, training: 3, product: 3, management: 5, politics: 3 }
+    traits: [trait.temporal-vision-rigour, trait.invariant-descriptor-instinct]
+    signature:
+      id: ability.read-the-action
+      label: Read the Action
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.data-representation] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.temporal-evidence-review
+      label: Temporal Evidence Review
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    compact:
+      id: compact.test-across-viewpoints
+      label: Test Across Viewpoints
+      requirement: Every 52 weeks while leading multimodal research, complete a temporal and cross-viewpoint recognition evaluation.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: temporal-cross-viewpoint-evaluation, weeks: 52 }
+      breachEvent: people.compact.test-across-viewpoints
+    paperHooks:
+      ids: [paper.imagenet-database, paper.clip-language-supervised-vision]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Now move the camera and let the action continue. A still frame should not receive all the credit." }
+      - { triggerTag: capability-surprise, line: "Trace the visual evidence through time. The answer may be right for the wrong frame." }
+      - { triggerTag: embodiment-failure, line: "Recognition is useful when it survives motion, viewpoint, and the world refusing to pose." }
+    feedLines:
+      - Cordelia's temporal probe caught a model recognising an action from the background rather than the movement.
+      - A cross-viewpoint descriptor matched the same object after the camera stopped cooperating.
+      - The video model followed an action through occlusion instead of politely forgetting it.
+      - Cordelia changed the illumination, viewpoint, and scale; the feature finally earned the word robust.
+      - An action-recognition result survived beyond its favourite frame and entered the release notes.
+      - The vision team now asks what happened, not merely what appeared in one carefully selected image.
+    portrait:
+      assetId: portrait.researcher.cordelia-schmidt
+      brief: Warm 8-bit editorial portrait; light-skinned woman with shoulder-length wavy light-brown hair visibly greying through the front and sides, no glasses, and a broad friendly smile, beside a video strip tracking one action across viewpoints; confident and distinctly feminine, not photoreal.
+      altText: Pixel-art portrait of Cordelia Schmidt, a woman with shoulder-length wavy greying light-brown hair, beside a cross-viewpoint video-understanding display.
+    sources:
+      - https://cordeliaschmid.github.io/
+      - https://www.inria.fr/fr/cordelia-schmid-vision-ordinateur-prix-scientifique-korber
+      - https://research.google/people/cordeliaschmid/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }

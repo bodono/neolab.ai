@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Neolab.ai
+Upstream-Contact: Brendan O'Donoghue <bodonoghue85@gmail.com>
+Source: https://github.com/bodono/neolab.ai
+
+Files: *
+Copyright: 2026 Brendan O'Donoghue <bodonoghue85@gmail.com>
+License: LicenseRef-Neolab-Proprietary
+Comment: This repository-level mapping covers original Neolab.ai files that do
+ not carry an inline notice. Third-party material identified in the project,
+ dependency inventory, or THIRD_PARTY_NOTICES.md retains its own copyright and
+ licence and is excluded from the proprietary grant.

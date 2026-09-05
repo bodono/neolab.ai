@@ -1,0 +1,21 @@
+{
+  "name": "@neolab/sim",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Brendan O'Donoghue <bodonoghue85@gmail.com>",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./public": "./src/public.ts",
+    "./debug": "./src/debug.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit && tsc --noEmit -p scripts"
+  },
+  "dependencies": {
+    "@neolab/content-schema": "workspace:*",
+    "@noble/hashes": "catalog:",
+    "zod": "catalog:"
+  }
+}

@@ -1,0 +1,707 @@
+schemaVersion: 1
+contentType: facilities
+status: mechanics-reviewed
+
+facilities:
+  - id: facility.parents-garage
+    displayName: Your Parents' Garage
+    family: data-centre
+    tier: 1
+    cashCostMillions: 0
+    operatingCostMillionsPerCycle: 0.025
+    durationWeeks: 1
+    prerequisiteFacilityIds: []
+    supportedOwnedGpuCount: 1000
+    scoreTag: core-tier-1
+    tags: [infrastructure, data-centre, campaign-start-only]
+    campusModule: data-centre-low-rise
+    summary: An extension lead through the kitchen window, a portable air conditioner in the side door, and 1,000 GPUs where the family car used to be. This is not a datacentre.
+    modifiers: []
+
+  - id: facility.power-and-cooling-1
+    displayName: Power and Cooling I
+    family: power-and-cooling
+    tier: 1
+    cashCostMillions: 10.5
+    operatingCostMillionsPerCycle: 0.225
+    durationWeeks: 9
+    prerequisiteFacilityIds: []
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-1
+    tags: [core-tier-1, infrastructure, power]
+    campusModule: cooling-yard
+    summary: A dedicated electrical and cooling plant that makes owned compute less theoretical.
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.90 }
+
+  - id: facility.server-rack
+    displayName: Server Rack
+    family: data-centre
+    tier: 1
+    cashCostMillions: 2
+    operatingCostMillionsPerCycle: 0.075
+    durationWeeks: 3
+    prerequisiteFacilityIds: [facility.parents-garage]
+    supportedOwnedGpuCount: 4000
+    scoreTag: core-tier-1
+    tags: [infrastructure, data-centre]
+    campusModule: data-centre-low-rise
+    summary: A cheap first step beyond the garage, with one proper rack, dedicated cooling, and a door sign reading "COMPUTE DIVISION".
+    modifiers: []
+
+  - id: facility.server-hall
+    displayName: Server Hall
+    family: data-centre
+    tier: 1
+    cashCostMillions: 12
+    operatingCostMillionsPerCycle: 0.225
+    durationWeeks: 9
+    prerequisiteFacilityIds: [facility.server-rack]
+    supportedOwnedGpuCount: 12000
+    scoreTag: core-tier-1
+    tags: [infrastructure, data-centre]
+    campusModule: data-centre-low-rise
+    summary: A real room with a real floor void, sized for the day the storage cupboard stopped being funny. Nobody has hung a sign on it yet.
+    modifiers: []
+
+  - id: facility.data-centre-1
+    displayName: Data Centre I
+    family: data-centre
+    tier: 1
+    cashCostMillions: 30
+    operatingCostMillionsPerCycle: 0.45
+    durationWeeks: 18
+    prerequisiteFacilityIds: [facility.server-hall, facility.power-and-cooling-1]
+    supportedOwnedGpuCount: 30000
+    scoreTag: core-tier-1
+    tags: [core-tier-1, infrastructure, data-centre]
+    campusModule: data-centre-low-rise
+    summary: The lab's first purpose-built compute hall, with fewer cloud neighbours and considerably more cabling.
+    modifiers:
+      - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
+
+  - id: facility.power-and-cooling-2
+    displayName: Power and Cooling II
+    family: power-and-cooling
+    tier: 2
+    cashCostMillions: 55
+    operatingCostMillionsPerCycle: 0.80
+    durationWeeks: 14
+    prerequisiteFacilityIds: [facility.power-and-cooling-1, facility.data-centre-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-2
+    tags: [core-tier-2, infrastructure, power]
+    campusModule: cooling-yard-expanded
+    summary: A second substation and chiller loop, built after the first one taught Facilities exactly where the first one was undersized.
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.90 }
+
+  - id: facility.data-centre-2
+    displayName: Data Centre II
+    family: data-centre
+    tier: 2
+    cashCostMillions: 137.5
+    operatingCostMillionsPerCycle: 1.10
+    durationWeeks: 29
+    prerequisiteFacilityIds: [facility.data-centre-1, facility.power-and-cooling-2]
+    supportedOwnedGpuCount: 80000
+    scoreTag: core-tier-2
+    tags: [core-tier-2, infrastructure, data-centre]
+    campusModule: data-centre-high-rise
+    summary: A second, considerably larger hall whose ribbon-cutting photo could not be scheduled until the noise complaints were resolved.
+    modifiers:
+      - { target: lab.incident.hazard, operation: multiply, value: 0.92 }
+      - { target: lab.compute.ownedPurchasePrice, operation: multiply, value: 0.95 }
+
+  - id: facility.power-and-cooling-3
+    displayName: Power and Cooling III — Private Grid
+    family: power-and-cooling
+    tier: 3
+    cashCostMillions: 700
+    operatingCostMillionsPerCycle: 4.2
+    durationWeeks: 25
+    prerequisiteFacilityIds: [facility.power-and-cooling-2, facility.data-centre-2]
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-3
+    tags: [core-tier-3, infrastructure, power]
+    campusModule: cooling-yard-expanded
+    summary: The lab buys a substation, a river intake and most of the local utility's planning department. The campus now has a private grid; the town has a very detailed demand-response agreement.
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.90 }
+
+  - id: facility.data-centre-3
+    displayName: Data Centre III — Hyperscale Campus
+    family: data-centre
+    tier: 3
+    cashCostMillions: 1500
+    operatingCostMillionsPerCycle: 7.5
+    durationWeeks: 40
+    prerequisiteFacilityIds: [facility.data-centre-2, facility.power-and-cooling-3]
+    supportedOwnedGpuCount: 250000
+    scoreTag: core-tier-3
+    tags: [core-tier-3, infrastructure, data-centre]
+    campusModule: data-centre-high-rise
+    summary: Three anonymous grey buildings beside a river with excellent fibre and a mayor who has stopped asking questions. The cooling towers have their own weather.
+    modifiers:
+      - { target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.85 }
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.9 }
+
+  - id: facility.power-and-cooling-4
+    displayName: Power and Cooling IV — Captive Nuclear Station
+    family: power-and-cooling
+    tier: 4
+    cashCostMillions: 7800
+    operatingCostMillionsPerCycle: 30
+    durationWeeks: 42
+    prerequisiteFacilityIds: [facility.power-and-cooling-3, facility.data-centre-3]
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-4
+    tags: [core-tier-4, infrastructure, power]
+    campusModule: cooling-yard-expanded
+    summary: A mothballed nuclear station is restarted under an arrangement involving the lab, the state and an operator whose organisation chart is classified. The cooling pond is on the campus map now.
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.85 }
+
+  - id: facility.data-centre-4
+    displayName: Data Centre IV — Gigawatt Complex
+    family: data-centre
+    tier: 4
+    cashCostMillions: 14400
+    operatingCostMillionsPerCycle: 48
+    durationWeeks: 52
+    prerequisiteFacilityIds: [facility.data-centre-3, facility.power-and-cooling-4]
+    supportedOwnedGpuCount: 800000
+    scoreTag: core-tier-4
+    tags: [core-tier-4, infrastructure, data-centre]
+    campusModule: data-centre-high-rise
+    summary: A gigawatt campus built around the restarted nuclear station, its dedicated substations, and a standing agreement that the regional grid operator gets a phone call before large training runs begin.
+    modifiers:
+      - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
+      - { target: lab.compute.ownedPurchasePrice, operation: multiply, value: 0.95 }
+
+  - id: facility.power-and-cooling-5
+    displayName: Power and Cooling V — Sovereign Reactor Constellation
+    family: power-and-cooling
+    tier: 5
+    cashCostMillions: 65000
+    operatingCostMillionsPerCycle: 160
+    durationWeeks: 62
+    prerequisiteFacilityIds: [facility.power-and-cooling-4, facility.data-centre-4]
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-5
+    tags: [core-tier-5, infrastructure, power]
+    campusModule: cooling-yard-expanded
+    summary: A sovereign constellation of dedicated reactors, continental transmission contracts and a seawater heat sink. The national grid dashboard now lists the lab under weather.
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.80 }
+
+  - id: facility.data-centre-5
+    displayName: Data Centre V — The Basilica of Compute
+    family: data-centre
+    tier: 5
+    cashCostMillions: 125000
+    operatingCostMillionsPerCycle: 250
+    durationWeeks: 73
+    prerequisiteFacilityIds: [facility.data-centre-4, facility.power-and-cooling-5]
+    supportedOwnedGpuCount: 2500000
+    scoreTag: core-tier-5
+    tags: [core-tier-5, infrastructure, data-centre]
+    campusModule: data-centre-high-rise
+    summary: Visible from orbit, fed by its sovereign reactor constellation, cooled by a small repurposed sea, and consecrated by three governments who each believe they have final authority over the off switch. Humanity's largest single machine, pending the next one.
+    modifiers:
+      - { target: lab.incident.hazard, operation: multiply, value: 0.85 }
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.85 }
+
+  - id: facility.headquarters-1
+    displayName: Headquarters I
+    family: headquarters
+    tier: 1
+    cashCostMillions: 20
+    operatingCostMillionsPerCycle: 0.20
+    durationWeeks: 12
+    prerequisiteFacilityIds: []
+    bonusMajorProjectSlots: 1
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-1
+    tags: [core-tier-1, infrastructure, headquarters]
+    campusModule: headquarters-low-rise
+    summary: A proper building with a working front door, replacing whatever arrangement of desks and extension cords preceded it.
+    modifiers: []
+
+  - id: facility.headquarters-2
+    displayName: Headquarters II
+    family: headquarters
+    tier: 2
+    cashCostMillions: 60
+    operatingCostMillionsPerCycle: 0.50
+    durationWeeks: 24
+    prerequisiteFacilityIds: [facility.headquarters-1]
+    bonusMajorProjectSlots: 1
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-2
+    tags: [core-tier-2, infrastructure, headquarters, star-slot]
+    campusModule: headquarters-tower
+    summary: A taller building with a proper executive floor, a larger boardroom, and, mercifully, more than one working lift.
+    modifiers:
+      - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+
+
+  - id: facility.research-campus-1
+    displayName: Research Campus I
+    family: research-campus
+    tier: 1
+    cashCostMillions: 24
+    operatingCostMillionsPerCycle: 0.30
+    durationWeeks: 16
+    prerequisiteFacilityIds: [facility.headquarters-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-1
+    tags: [core-tier-1, infrastructure, research, star-slot]
+    campusModule: research-campus-wing
+    summary: Dedicated lab benches, whiteboards that reach the ceiling, and a coffee budget large enough to raise eyebrows in Finance.
+    modifiers:
+      - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+
+
+  - id: facility.inference-centre-1
+    displayName: Inference Centre I
+    family: inference-centre
+    tier: 1
+    cashCostMillions: 18
+    operatingCostMillionsPerCycle: 0.27
+    durationWeeks: 12
+    prerequisiteFacilityIds: [facility.data-centre-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: specialised
+    tags: [specialised, infrastructure, serving, inference]
+    campusModule: inference-hall
+    summary: A serving-optimised hall built for reliability and low latency rather than raw training throughput.
+    modifiers:
+      - { target: serving.computePerRequest, operation: multiply, value: 0.9 }
+
+  - id: facility.inference-centre-2
+    displayName: Inference Centre II
+    family: inference-centre
+    tier: 2
+    cashCostMillions: 180
+    operatingCostMillionsPerCycle: 1.2
+    durationWeeks: 22
+    prerequisiteFacilityIds: [facility.inference-centre-1, facility.data-centre-2]
+    supportedOwnedGpuCount: 0
+    scoreTag: specialised
+    tags: [specialised, infrastructure, serving, inference]
+    campusModule: inference-hall
+    summary: A campus-scale serving plant where batching, routing and hot model replicas are treated as an industrial discipline rather than a collection of heroic shell scripts.
+    modifiers:
+      - { target: serving.computePerRequest, operation: multiply, value: 0.85 }
+
+  - id: facility.inference-centre-3
+    displayName: Inference Centre III
+    family: inference-centre
+    tier: 3
+    cashCostMillions: 1800
+    operatingCostMillionsPerCycle: 8
+    durationWeeks: 38
+    prerequisiteFacilityIds: [facility.inference-centre-2, facility.data-centre-3]
+    supportedOwnedGpuCount: 0
+    scoreTag: specialised
+    tags: [specialised, infrastructure, serving, inference, late-game]
+    campusModule: inference-hall
+    summary: A continent-facing inference utility with dedicated model-routing halls, redundant serving fabrics and a control room whose demand forecast is measured in fractions of civilisation.
+    modifiers:
+      - { target: serving.computePerRequest, operation: multiply, value: 0.75 }
+
+  - id: facility.alignment-institute-1
+    displayName: Alignment Institute I
+    family: alignment-institute
+    tier: 1
+    cashCostMillions: 21
+    operatingCostMillionsPerCycle: 0.24
+    durationWeeks: 16
+    prerequisiteFacilityIds: [facility.headquarters-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: safety-critical
+    tags: [safety-critical, infrastructure, alignment]
+    campusModule: alignment-institute-wing
+    summary: A quiet wing devoted to studying whether the lab's models want what the lab thinks they want.
+    modifiers:
+      - { target: lab.research.alignment.output, operation: multiply, value: 1.20 }
+
+  - id: facility.interpretability-lab-1
+    displayName: Interpretability Lab I
+    family: interpretability-lab
+    tier: 1
+    cashCostMillions: 27
+    operatingCostMillionsPerCycle: 0.30
+    durationWeeks: 18
+    prerequisiteFacilityIds: [facility.alignment-institute-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: safety-critical
+    tags: [safety-critical, infrastructure, interpretability]
+    campusModule: interpretability-lab-wing
+    summary: Racks of visualisation hardware devoted to persuading a neural network to explain itself.
+    modifiers:
+      - { target: lab.research.interpretability.output, operation: multiply, value: 1.25 }
+
+  - id: facility.eval-range-1
+    displayName: Eval Range I
+    family: eval-range
+    tier: 1
+    cashCostMillions: 18
+    operatingCostMillionsPerCycle: 0.225
+    durationWeeks: 14
+    prerequisiteFacilityIds: [facility.alignment-institute-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: safety-critical
+    tags: [safety-critical, infrastructure, evaluation]
+    campusModule: eval-range-yard
+    summary: A controlled proving ground where models are asked, repeatedly and with instrumentation, to misbehave on purpose.
+    modifiers:
+      - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+      - { target: lab.evaluation.cashCost, operation: multiply, value: 0.9 }
+
+
+  - id: facility.security-operations-1
+    displayName: Security Operations I
+    family: security-operations
+    tier: 1
+    cashCostMillions: 15
+    operatingCostMillionsPerCycle: 0.21
+    durationWeeks: 12
+    prerequisiteFacilityIds: [facility.data-centre-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: safety-critical
+    tags: [safety-critical, infrastructure, security]
+    campusModule: security-operations-annex
+    summary: A locked-down annex whose staff regard every open door, including metaphorical ones, as a personal affront.
+    modifiers:
+      - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
+
+  - id: facility.robotics-lab-1
+    displayName: Robotics Lab I
+    family: robotics-lab
+    tier: 1
+    cashCostMillions: 33
+    operatingCostMillionsPerCycle: 0.33
+    durationWeeks: 21
+    prerequisiteFacilityIds: [facility.research-campus-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: specialised
+    tags: [specialised, infrastructure, robotics, embodiment]
+    campusModule: robotics-lab-bay
+    summary: A padded, well-lit bay full of arms, sensors and a whiteboard tally of grasp attempts versus dropped mugs.
+    modifiers:
+      - { target: lab.research.domain.robotics-embodiment.output, operation: multiply, value: 1.2 }
+
+
+  - id: facility.scientific-laboratory-1
+    displayName: Scientific Laboratory I
+    family: scientific-laboratory
+    tier: 1
+    cashCostMillions: 42
+    operatingCostMillionsPerCycle: 0.39
+    durationWeeks: 23
+    prerequisiteFacilityIds: [facility.research-campus-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: specialised
+    tags: [specialised, infrastructure, science, prosperity]
+    campusModule: scientific-laboratory-wing
+    summary: Wet-lab benches, a structural biology suite, and a very serious sign about what may not be pipetted by hand.
+    modifiers:
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.2 }
+
+
+  - id: facility.secure-bunker-1
+    displayName: Secure Bunker I
+    family: secure-bunker
+    tier: 1
+    cashCostMillions: 67.5
+    operatingCostMillionsPerCycle: 0.525
+    durationWeeks: 30
+    prerequisiteFacilityIds: [facility.security-operations-1, facility.data-centre-2]
+    supportedOwnedGpuCount: 0
+    scoreTag: safety-critical
+    tags: [safety-critical, infrastructure, containment, late-game]
+    campusModule: secure-bunker-complex
+    summary: An air-gapped, blast-rated hall built for the day the lab trains something it is not yet willing to let onto the ordinary network.
+    modifiers:
+      - { target: lab.incident.hazard, operation: multiply, value: 0.85 }
+      - { target: lab.research.security.output, operation: multiply, value: 1.15 }
+
+
+  - id: facility.staff-commons-1
+    displayName: Staff Commons
+    family: staff-commons
+    tier: 1
+    cashCostMillions: 18
+    operatingCostMillionsPerCycle: 0.15
+    durationWeeks: 16
+    prerequisiteFacilityIds: [facility.headquarters-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: public-institution
+    tags: [public-institution, infrastructure, morale]
+    campusModule: staff-commons-courtyard
+    summary: A courtyard, a decent espresso machine, and enough soft furniture that the 2am debugging sessions feel marginally less punitive.
+    modifiers:
+      - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+      - { target: researcher.moraleTarget, operation: add, value: 3 }
+
+  # ---------------------------------------------------------------------------
+  # The collaboration ladder. Knowledge diffusion is zero until the lab builds
+  # somewhere for people to overhear each other; these three raise it toward
+  # its ceiling. They are, in order, the forward pass of a transformer rebuilt
+  # as architecture by an organisation that would genuinely rather construct a
+  # building than schedule a conversation.
+  # ---------------------------------------------------------------------------
+
+  - id: facility.embedding-space
+    displayName: The Embedding Space
+    family: collaboration
+    tier: 3
+    cashCostMillions: 200
+    operatingCostMillionsPerCycle: 0.9
+    durationWeeks: 20
+    prerequisiteFacilityIds: [facility.staff-commons-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: core-tier-3
+    tags: [core-tier-3, infrastructure, morale, collaboration, star-slot]
+    campusModule: embedding-space-hall
+    summary: An open floor where every team's work is projected on the walls, on the theory that people who can see each other's problems occasionally solve them. Named by a researcher who thought it was funny and then could not make anyone stop.
+    modifiers:
+      - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+      - { target: researcher.departurePressure, operation: multiply, value: 0.9 }
+
+  - id: facility.cross-attention-atrium
+    displayName: The Cross-Attention Atrium
+    family: collaboration
+    tier: 4
+    bonusMajorProjectSlots: 1
+    cashCostMillions: 1080
+    operatingCostMillionsPerCycle: 3
+    durationWeeks: 26
+    prerequisiteFacilityIds: [facility.embedding-space, facility.headquarters-2]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, collaboration, prestige, star-slot]
+    campusModule: cross-attention-atrium
+    summary: Six floors of walkways facing inward, so that everyone can attend to everyone else at once. Architecturally magnificent, acoustically a catastrophe, and responsible for more accidental collaborations than the entire seminar programme.
+    modifiers:
+      - { target: lab.research.diffusionRate, operation: add, value: 0.4 }
+      - { target: lab.research.all.output, operation: multiply, value: 1.05 }
+
+  - id: facility.shared-kv-cache
+    displayName: The Shared KV Cache
+    family: collaboration
+    tier: 4
+    cashCostMillions: 6000
+    operatingCostMillionsPerCycle: 10
+    durationWeeks: 34
+    prerequisiteFacilityIds: [facility.cross-attention-atrium, facility.data-centre-3]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, collaboration, exotic]
+    campusModule: shared-kv-cache
+    summary: A building-wide institutional memory that means nobody in the lab ever again derives something a colleague derived last Tuesday. The lab spent nine figures to stop recomputing what the person in the next room already knew, and considers this money well spent.
+    modifiers:
+      - { target: lab.research.diffusionRate, operation: add, value: 0.6 }
+      - { target: lab.research.all.output, operation: multiply, value: 1.1 }
+
+  # ---------------------------------------------------------------------------
+  # Wild late-game facilities. These are the game's own fictional, deliberately
+  # over-the-top infrastructure tier, gated to late hardware eras and priced
+  # accordingly. They are exactly as fictional as everything else in the
+  # facility catalogue; none claims to describe real, working technology.
+  # ---------------------------------------------------------------------------
+
+  - id: facility.fusion-reactor-array-1
+    displayName: Fusion Reactor Array
+    family: fusion-reactor-array
+    tier: 4
+    cashCostMillions: 1440
+    operatingCostMillionsPerCycle: 3.6
+    durationWeeks: 52
+    prerequisiteFacilityIds: [facility.scientific-laboratory-1, facility.power-and-cooling-2]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, energy, prosperity, exotic]
+    campusModule: fusion-reactor-dome
+    summary: A tokamak the size of a small stadium, run by a control system that treats plasma instability as a Tuesday-afternoon inconvenience.
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.80 }
+
+  - id: facility.hadron-collider-1
+    displayName: Extra-Large Hadron Collider
+    family: hadron-collider
+    tier: 5
+    cashCostMillions: 5500
+    operatingCostMillionsPerCycle: 12
+    durationWeeks: 73
+    prerequisiteFacilityIds: [facility.scientific-laboratory-1, facility.fusion-reactor-array-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, fundamental-physics, exotic]
+    campusModule: hadron-collider-ring
+    summary: A very large ring under the campus, built for physics the lab cannot yet explain and a planning application nobody outside the building has read in full.
+    modifiers:
+      - { target: lab.research.capability.output, operation: multiply, value: 1.15 }
+
+
+  - id: facility.boson-factory-1
+    displayName: Boson Factory
+    family: boson-factory
+    tier: 5
+    cashCostMillions: 4500
+    operatingCostMillionsPerCycle: 9
+    durationWeeks: 62
+    prerequisiteFacilityIds: [facility.hadron-collider-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, fundamental-physics, exotic, manufacturing]
+    campusModule: boson-factory-hall
+    summary: A hall that manufactures exotic particles on a schedule, which is a sentence Facilities still refuses to put on a T-shirt.
+    modifiers:
+      - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.15 }
+      - { target: lab.incident.hazard, operation: multiply, value: 1.1 }
+
+
+  - id: facility.time-sphere-1
+    displayName: Time Sphere
+    family: time-sphere
+    tier: 5
+    cashCostMillions: 6500
+    operatingCostMillionsPerCycle: 14
+    durationWeeks: 73
+    prerequisiteFacilityIds: [facility.hadron-collider-1, facility.scientific-laboratory-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, forecasting, exotic, prestige]
+    campusModule: time-sphere-pavilion
+    summary: A spherical situation room built for extremely advanced causal forecasting; despite the name and the rumours, nobody has been sent anywhere, temporally speaking.
+    modifiers:
+      - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.8 }
+      - { target: lab.research.all.output, operation: multiply, value: 1.08 }
+
+
+  - id: facility.biofoundry-1
+    displayName: Biofoundry
+    family: biofoundry
+    tier: 4
+    cashCostMillions: 1140
+    operatingCostMillionsPerCycle: 3.3
+    durationWeeks: 44
+    prerequisiteFacilityIds: [facility.scientific-laboratory-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, science, prosperity, medicine]
+    campusModule: biofoundry-annex
+    summary: An automated wet lab that runs thousands of parallel biological experiments overnight and reports back before the coffee finishes brewing.
+    modifiers:
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.35 }
+      - { target: lab.revenue.all, operation: multiply, value: 1.1 }
+      - { target: lab.incident.hazard, operation: multiply, value: 1.1 }
+
+
+  - id: facility.nanofoundry-1
+    displayName: Nanofoundry
+    family: nanofoundry
+    tier: 4
+    cashCostMillions: 5000
+    operatingCostMillionsPerCycle: 4
+    durationWeeks: 48
+    prerequisiteFacilityIds: [facility.scientific-laboratory-1, facility.robotics-lab-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, manufacturing, prosperity, containment-relevant]
+    campusModule: nanofoundry-chamber
+    summary: A sealed, triple-airlocked chamber where programmable molecular assembly happens strictly on purpose and strictly indoors.
+    modifiers:
+      - { target: lab.compute.ownedPurchasePrice, operation: multiply, value: 0.8 }
+      - { target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.7 }
+      - { target: lab.incident.hazard, operation: multiply, value: 1.1 }
+
+
+  - id: facility.orbital-solar-relay-1
+    displayName: Orbital Solar Relay
+    family: orbital-solar-relay
+    tier: 4
+    cashCostMillions: 1680
+    operatingCostMillionsPerCycle: 3
+    durationWeeks: 50
+    prerequisiteFacilityIds: [facility.fusion-reactor-array-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, energy, prosperity, exotic]
+    campusModule: orbital-relay-groundstation
+    summary: A ground station that receives beamed power from an orbital array the lab insists is "mostly aimed correctly."
+    modifiers:
+      - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.75 }
+
+
+  # Standing income: the only facilities that pay Aura simply for existing.
+  # Every other Aura source is an event that presupposes shipped work, which
+  # left the opening of a run with no route to standing at all. These are the
+  # cheap, unglamorous way a lab with nothing to show stays visible.
+  - id: facility.press-office
+    displayName: Press Office
+    family: public-engagement
+    tier: 1
+    cashCostMillions: 5
+    operatingCostMillionsPerCycle: 0.15
+    durationWeeks: 6
+    prerequisiteFacilityIds: []
+    supportedOwnedGpuCount: 0
+    scoreTag: public-institution
+    tags: [public-institution, prestige, collaboration]
+    campusModule: press-office-annex
+    summary: One communications hire, one embargo calendar, and a standing instruction to describe every result as a step change. Nobody outside the building can tell the difference yet, which is the point.
+    modifiers:
+      - { target: lab.aura.standingIncome, operation: add, value: 1 }
+
+  - id: facility.visitor-centre
+    displayName: Visitor Centre
+    family: public-engagement
+    tier: 2
+    cashCostMillions: 35
+    operatingCostMillionsPerCycle: 0.50
+    durationWeeks: 12
+    prerequisiteFacilityIds: [facility.press-office, facility.headquarters-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: public-institution
+    tags: [public-institution, prestige, collaboration]
+    campusModule: visitor-centre-plaza
+    summary: A lobby with a touchscreen timeline, a wall of founder portraits at flattering angles, and a school-group programme. The gift shop sells a plush loss curve.
+    modifiers:
+      - { target: lab.aura.standingIncome, operation: add, value: 1 }
+
+  - id: facility.singularity-pavilion
+    displayName: The Singularity Pavilion
+    family: public-engagement
+    tier: 5
+    cashCostMillions: 2750
+    operatingCostMillionsPerCycle: 9
+    durationWeeks: 50
+    prerequisiteFacilityIds: [facility.visitor-centre, facility.cross-attention-atrium]
+    supportedOwnedGpuCount: 0
+    scoreTag: public-institution
+    tags: [late-game, public-institution, prestige, collaboration, exotic, star-slot]
+    campusModule: singularity-pavilion
+    summary: A permanent world's-fair pavilion in which visitors walk through the future the lab has promised, narrated in the past tense. The dates on the final wall are repainted quarterly and the old ones are still faintly visible underneath.
+    modifiers:
+      - { target: lab.aura.standingIncome, operation: add, value: 1 }
+
+
+  - id: facility.argus-array-1
+    displayName: The Argus Array
+    family: argus-array
+    tier: 5
+    cashCostMillions: 3500
+    operatingCostMillionsPerCycle: 4
+    durationWeeks: 52
+    prerequisiteFacilityIds: [facility.nanofoundry-1]
+    supportedOwnedGpuCount: 0
+    scoreTag: late-game
+    tags: [late-game, infrastructure, oversight, exotic, containment-relevant]
+    campusModule: argus-array
+    summary: A hundred billion nanofabricated sensor motes threaded through every rack, duct, and doorway, feeding one continuous model of what the lab's machines are actually doing. Named for the giant with a hundred eyes; the giant, at least, could blink.
+    modifiers:
+      - { target: lab.evidence.displayedQuality, operation: add, value: 3 }

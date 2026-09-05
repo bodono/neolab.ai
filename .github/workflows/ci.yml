@@ -1,0 +1,109 @@
+name: CI
+
+# Budget note. This is a private repo on a 3,000 minute/month allowance, and
+# the project pushes on the order of twenty commits a day (~600/month). That
+# leaves roughly five minutes per push for everything, so this workflow is
+# deliberately a fast correctness gate and nothing more: install, content,
+# types, tests. The expensive checks it used to run -- Playwright across three
+# browsers, the production build, the release audit, the invariant campaign --
+# moved to weekly-verification.yml, which pays for them once a week instead of
+# six hundred times a month.
+#
+# The concurrency group below must NOT include github.sha. It used to, which
+# gave every push its own group and made cancel-in-progress inert: a burst of
+# five commits billed five full runs. Grouped by ref, a burst collapses to one.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+      - ".gitignore"
+      - "LICENSE"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+      - ".gitignore"
+      - "LICENSE"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Fast gate
+    runs-on: ubuntu-latest
+    # The gate runs in about eight minutes once the browser suites are counted.
+    # The cap is generous enough to absorb a slow runner or a cold Playwright
+    # cache without letting a hung job quietly eat a meaningful slice of the
+    # monthly allowance.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Compile content
+        run: pnpm content:build
+
+      - name: Validate content
+        run: pnpm content:check
+
+      # A second of work, and the only thing that watches it: this had drifted
+      # to 61 of 69 branches unnoticed because no workflow ran it. Gating here
+      # rather than at deploy means an uncovered branch is caught by the commit
+      # that introduced it, not by the tag that wanted to ship it.
+      - name: Event branch coverage
+        run: pnpm content:branches
+
+      - name: Lint and format check
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Unit and integration tests
+        run: pnpm test
+
+      # Both suites below drive a real Chromium: the component tests through
+      # @vitest/browser-playwright, the end-to-end suite through Playwright
+      # directly. The download is ~170MB and is most of what they cost on a
+      # two-core runner, so cache it and key on the lockfile, which changes
+      # exactly when the resolved Playwright version does. Apt system libraries
+      # live outside the cached directory, so a cache hit still installs those.
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright Chromium
+        run: |
+          if [ "${{ steps.playwright-cache.outputs.cache-hit }}" = "true" ]; then
+            pnpm --filter @neolab/web exec playwright install-deps chromium
+          else
+            pnpm --filter @neolab/web exec playwright install --with-deps chromium
+          fi
+
+      # `pnpm test` runs neither of these, which is how a fully red end-to-end
+      # run once sat behind a green tick for three commits.
+      - name: Browser component tests
+        run: pnpm test:browser
+
+      # Chromium only. The weekly verification run is where all three engines
+      # are paid for; this is about not letting a broken interface reach main.
+      - name: End-to-end suite
+        run: pnpm --filter @neolab/web exec playwright test --project=chromium

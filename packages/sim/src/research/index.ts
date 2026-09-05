@@ -1,0 +1,28 @@
+export {
+  advanceResearch,
+  calculateDomainOutput,
+  calculateResearchOutputModifier,
+  chooseGenericAdvance,
+  reconcileGenericAdvanceModifiers,
+  researchPointsForNextLevel,
+  type ResearchOutputModifierBreakdown,
+  type ResearchGenerationLine,
+  type ResearchOutputBreakdown,
+} from "./research.ts";
+export {
+  advancePaperRace,
+  calculatePaperPublicationAura,
+  calculatePaperPublicationScore,
+  choosePublicationPolicy,
+  describePaperScientificPayload,
+  describePaperUnlockEffect,
+  paperMechanicalBenefits,
+  derivePaperBreakthroughChance,
+  deriveRivalPublicationChance,
+  isPublicPaperDiscovery,
+  labKnowsPaper,
+  listEligiblePapers,
+  reconcilePaperBenefits,
+  type EligiblePaper,
+  type PaperBreakthroughCheck,
+} from "./papers.ts";

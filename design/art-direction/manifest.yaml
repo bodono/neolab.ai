@@ -1,0 +1,38 @@
+manifestVersion: 1
+status: concept-only
+generatedOn: 2026-07-22
+generator: OpenAI built-in image generation
+releasePolicy: Not shipped; select a treatment before producing or registering runtime assets.
+
+assets:
+  - id: art-direction.treatment-a-corporate.sheet
+    sourcePath: design/art-direction/treatment-a-corporate.png
+    intendedPixelDimensions: { width: 1693, height: 929 }
+    displayScalePolicy: pixelated-contain
+    accessibility:
+      decorative: false
+      altText: Restrained corporate 16-bit comparison sheet with four flattering researcher portraits, a server room, four resource icons, a containment alarm and a comic investor demo.
+    copyrightAndLicence:
+      source: Generated for this project with OpenAI built-in image generation.
+      status: release-review-required
+    portraitSubjects:
+      - { character: Dennis Hassabi, inspiration: Demis Hassabis, fictionalisationStatus: lightly-disguised-real-person }
+      - { character: Yann LeNet, inspiration: Yann LeCun, fictionalisationStatus: lightly-disguised-real-person }
+      - { character: Geoffrey Hintoff, inspiration: Geoffrey Hinton, fictionalisationStatus: lightly-disguised-real-person }
+      - { character: Andrey Carpathy, inspiration: Andrej Karpathy, fictionalisationStatus: lightly-disguised-real-person }
+
+  - id: art-direction.treatment-b-arcade.sheet
+    sourcePath: design/art-direction/treatment-b-arcade.png
+    intendedPixelDimensions: { width: 1774, height: 887 }
+    displayScalePolicy: pixelated-contain
+    accessibility:
+      decorative: false
+      altText: Colourful arcade 16-bit comparison sheet with four flattering researcher portraits, a neon server room, four resource icons, a containment alarm and an exuberant investor demo.
+    copyrightAndLicence:
+      source: Generated for this project with OpenAI built-in image generation.
+      status: release-review-required
+    portraitSubjects:
+      - { character: Dennis Hassabi, inspiration: Demis Hassabis, fictionalisationStatus: lightly-disguised-real-person }
+      - { character: Yann LeNet, inspiration: Yann LeCun, fictionalisationStatus: lightly-disguised-real-person }
+      - { character: Geoffrey Hintoff, inspiration: Geoffrey Hinton, fictionalisationStatus: lightly-disguised-real-person }
+      - { character: Andrey Carpathy, inspiration: Andrej Karpathy, fictionalisationStatus: lightly-disguised-real-person }

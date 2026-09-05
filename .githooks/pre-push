@@ -1,0 +1,32 @@
+#!/bin/sh
+# Run the Fast gate's lint step before a push can reach it.
+#
+# Formatting and lint errors have taken main red four times recently, and none
+# of them were interesting: two floating promises, two Prettier line wraps. The
+# cost is never the fix -- it is that a red main absorbs every commit pushed
+# behind it, so the next person's green work reports as failed and someone has
+# to work out whose failure it actually was.
+#
+# This is the same `pnpm lint` the workflow runs, and it takes seconds here
+# rather than three minutes of runner time. Push anyway with --no-verify.
+
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "pre-push: pnpm not on PATH, skipping lint" >&2
+  exit 0
+fi
+
+echo "pre-push: pnpm lint"
+if pnpm lint; then
+  exit 0
+fi
+
+cat >&2 <<'MESSAGE'
+
+pre-push: lint failed, so the Fast gate would fail too.
+
+  Fix formatting   pnpm format
+  Re-check         pnpm lint
+  Push regardless  git push --no-verify
+
+MESSAGE
+exit 1

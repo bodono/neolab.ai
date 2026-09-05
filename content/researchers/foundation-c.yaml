@@ -1,0 +1,560 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: foundation
+status: draft
+
+researchers:
+  - id: researcher.michael-jordanne
+    version: 1
+    displayName: Michael I. Jordanne
+    inspirationName: Michael I. Jordan
+    inspirationSummary: A statistical machine-learning pioneer whose graphical models, variational inference, and Bayesian nonparametrics trained both algorithms and generations of researchers.
+    epithet: The Statistical Statesman
+    role: Statistical machine learning and probabilistic graphical models
+    rosterCardSummary: A statistical machine-learning pioneer whose graphical models, variational inference, and Bayesian nonparametrics trained both algorithms and generations of researchers.
+    biography: >-
+      Michael I. Jordan has spent four decades making machine learning and statistics answer to
+      one another. He was an MIT professor from 1988 to 1998, then held appointments across
+      electrical engineering, statistics, and operations research at UC Berkeley; he now also
+      works at Inria and the École Normale Supérieure in Paris. His research helped establish
+      probabilistic graphical models, variational inference, Bayesian nonparametrics, and formal
+      ways to study statistical-computational tradeoffs. He has shaped distributed computation,
+      game-theoretic learning, and market design, arguing that intelligent systems must be analysed
+      as economic participants, not isolated prediction engines. His students and postdocs include
+      Zoubin Ghahramani, David Blei, Andrew Ng, and many other research leaders. Michael's recurring
+      question is not merely whether a method works, but which assumptions make it work and what
+      guarantee survives when they do not. Fast fields eventually rediscover the value of a
+      carefully stated theorem.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.55 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 4, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 0, management: 5, politics: 3 }
+    traits: [trait.formal-rigour, trait.statesman-of-the-field]
+    signature:
+      id: ability.variational-inference-toolkit
+      label: Variational Inference Toolkit
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.research.program.base:domain.reasoning-tools.weeklyVarianceWidth, operation: multiply, value: 0.82, stackingGroup: variance-width }
+    passive:
+      id: ability.statistical-guarantee
+      label: Statistical Guarantee
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    compact:
+      id: compact.state-the-guarantee-precisely
+      label: State the Guarantee Precisely
+      requirement: Publish one research claim with an explicit statistical uncertainty estimate every 52 weeks.
+      check: { type: tagged-action-within, tags: [uncertainty-quantified-publication], weeks: 52 }
+      breachEvent: people.compact.state-the-guarantee-precisely
+    paperHooks:
+      ids: [paper.support-vector-networks, paper.random-forests]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "A strong benchmark score without a confidence interval is an anecdote. Publish the interval." }
+      - { triggerTag: hype-cycle-peak, line: "The mathematics underneath this excitement has not, in fact, changed since last quarter." }
+      - { triggerTag: student-departure, line: "Good. That is what the training was for." }
+    feedLines:
+      - Michael returned a promising result with a politely devastating question about its confidence interval.
+      - A former student's lab announced a breakthrough. Michael's only comment was a citation to their dissertation.
+      - The variational bound tightened again, and somewhere a decade-old proof felt slightly more finished.
+      - Michael declined to call the result a breakthrough until its statistical guarantees were stated in full.
+      - A visiting researcher's informal claim was gently, thoroughly, and at some length formalised.
+      - The whiteboard filled with graphical-model notation that the rest of the floor has learned to leave alone.
+    portrait:
+      assetId: portrait.researcher.michael-jordanne
+      brief: Composed 8-bit editorial portrait; white man with very short grey hair and a measured expression, beside a probabilistic graphical model diagram with a visible confidence interval; authoritative and precise, not photoreal.
+      altText: Pixel-art portrait of Michael I. Jordanne beside a probabilistic graphical model diagram with a confidence interval.
+    sources:
+      - https://people.eecs.berkeley.edu/~jordan/
+      - https://vcresearch.berkeley.edu/faculty/michael-jordan
+      - https://ieor.berkeley.edu/people/michael-jordan/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.zubin-ghahramani
+    version: 1
+    displayName: Zubin Ghahramani
+    inspirationName: Zoubin Ghahramani
+    inspirationSummary: A Bayesian machine-learning leader who built scalable uncertainty methods, Cambridge institutions, Uber AI Labs, and research programmes at Google DeepMind.
+    epithet: The Bayesian Architect
+    role: Bayesian machine learning and research leadership
+    rosterCardSummary: A Cambridge professor and Google DeepMind vice president whose approximate-inference algorithms taught machines to represent what they were still uncertain about.
+    biography: >-
+      Zoubin Ghahramani studied at the University of Pennsylvania, completed an MIT doctorate with
+      Michael I. Jordan, and worked with Geoffrey Hinton in Toronto before joining the Gatsby
+      Computational Neuroscience Unit and the University of Cambridge. His research spans Bayesian
+      nonparametrics, Gaussian processes, probabilistic programming, and scalable approximate
+      inference: methods for making uncertainty part of a model rather than an apology beneath its
+      chart. His Automatic Statistician project asked software to select, fit, criticise, and explain
+      statistical models, making uncertainty useful and legible. He was the founding Cambridge
+      director of the Alan Turing Institute and co-founded Geometric Intelligence, which became Uber
+      AI Labs, before serving as Uber's chief scientist. He later became a vice president at Google
+      DeepMind. The institutions grew larger; the point estimate still did not get to travel without
+      its posterior.
+    availability: { wave: foundation, earliestYear: 2015, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.59, baseSigningCash: 5, auraCost: 8, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 4, securityContainment: 0, training: 2, product: 1, management: 5, politics: 4 }
+    traits: [trait.principled-uncertainty, trait.research-institution-builder]
+    signature:
+      id: ability.bayesian-nonparametrics
+      label: Bayesian Nonparametrics
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    passive:
+      id: ability.institute-builder
+      label: Institute Builder
+      effects:
+        - { target: lab.politics.governmentTrustFloor, operation: add, value: 4}
+    compact:
+      id: compact.represent-the-uncertainty
+      label: Represent the Uncertainty
+      requirement: Publish one calibrated uncertainty estimate alongside a capability claim every 52 weeks.
+      check: { type: tagged-action-within, tags: [calibrated-uncertainty-publication], weeks: 52 }
+      breachEvent: people.compact.represent-the-uncertainty
+    paperHooks:
+      ids: [paper.variational-autoencoder, paper.masked-autoencoders]
+    eventReactions:
+      - { triggerTag: model-overconfidence, line: "A confident wrong answer is worse than an honest 'uncertain.' Fix the calibration before the copy." }
+      - { triggerTag: institutional-partnership, line: "An institute is a long-term bet on a community, not a press release." }
+      - { triggerTag: scaling-proposal, line: "Scale the model. Scale the uncertainty estimate alongside it, or you have only scaled the confidence." }
+    feedLines:
+      - Zubin asked for the posterior, not just the point estimate, and the meeting ran ten minutes longer.
+      - A visiting fellowship application landed on his desk, and by afternoon it had become a small institute.
+      - The nonparametric model grew a new component exactly where the data suggested it should.
+      - Zubin's approximate inference algorithm converged in half the iterations, again.
+      - A confidently wrong forecast was returned for recalibration before it reached the board.
+      - Three hundred papers in, Zubin still opens a new one by asking what it is uncertain about.
+    portrait:
+      assetId: portrait.researcher.zubin-ghahramani
+      brief: Warm 8-bit editorial portrait; British-Iranian man with dark hair greying at the temples, beside a Bayesian nonparametric model diagram with a growing number of components; institutional and precise, not photoreal.
+      altText: Pixel-art portrait of Zubin Ghahramani beside a Bayesian nonparametric model diagram with a growing number of components.
+    sources:
+      - https://mlg.eng.cam.ac.uk/zoubin/
+      - https://deepmind.google/blog/announcing-google-deepmind/
+      - https://mlg.eng.cam.ac.uk/zoubin/bio.html
+      - https://blog.google/innovation-and-ai/products/understanding-the-world-through-language/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.leo-bottou
+    version: 1
+    displayName: Léo Bottou
+    inspirationName: Léon Bottou
+    inspirationSummary: A large-scale-learning pioneer who made stochastic gradient descent the practical default, co-created DjVu, and keeps compute inside every statistical argument.
+    epithet: The One-Pass Optimist
+    role: Large-scale learning theory and stochastic optimisation
+    rosterCardSummary: A large-scale-learning pioneer who showed why stochastic gradient descent can outrun fancier optimisers once data and compute enter the accounting.
+    biography: >-
+      Léon Bottou made stochastic gradient descent respectable at industrial scale by analysing the
+      tradeoff most optimiser comparisons omit: statistical accuracy per unit of computation. His
+      work showed why a simple stochastic method can become asymptotically efficient after one pass
+      through a large dataset, while more elaborate optimisation is still preparing its invoice.
+      Earlier neural-network work helped turn handwritten characters into reliable, practical
+      recognition systems; DjVu then compressed scanned documents by separating foreground shapes
+      from reusable background structure. Across AT&T Bell Labs, NEC Labs, Microsoft Research, and
+      eleven years at Facebook AI Research, he worked on neural networks, large-scale learning,
+      structured prediction, causality, and document compression. In 2026 he became a visiting
+      scholar at the Flatiron Institute. Léon's baseline question remains stubbornly useful: does
+      the clever method still win after the simple one receives the data and compute left over by
+      being simple?
+    availability: { wave: foundation, earliestYear: 2015, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 5, product: 1, management: 2, politics: 1 }
+    traits: [trait.simplicity-at-scale, trait.tradeoff-accountant]
+    signature:
+      id: ability.stochastic-gradient-discipline
+      label: Stochastic Gradient Discipline
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04, stackingGroup: gpu-throughput }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.tradeoffs-of-large-scale-learning
+      label: Tradeoffs of Large-Scale Learning
+      effects:
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.98 }
+    compact:
+      id: compact.beat-the-simple-baseline
+      label: Beat the Simple Baseline
+      requirement: While he leads Optimisation & Scaling, benchmark the programme against plain stochastic gradient descent at matched compute every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: optimisation-programme, projectTag: simple-baseline-comparison, weeks: 52 }
+      breachEvent: people.compact.beat-the-simple-baseline
+    paperHooks:
+      ids: [paper.adam, paper.wasserstein-gan]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Compare it to plain stochastic gradient descent at the same compute budget first. Then we can be impressed." }
+      - { triggerTag: scaling-proposal, line: "The tradeoff between statistical accuracy and computational cost has not been repealed, only postponed." }
+      - { triggerTag: compute-windfall, line: "More compute changes which corner of the tradeoff is worth sitting in. It does not remove the tradeoff." }
+    feedLines:
+      - Léo benchmarked the elaborate new optimiser against plain gradient descent, and plain gradient descent won again.
+      - The tradeoff curve between accuracy and compute redrew itself slightly, and the budget followed it exactly.
+      - A visiting researcher's clever optimisation trick turned out to reinvent one from a decade-old paper.
+      - Léo's causal-inference critique of a training pipeline uncovered a spurious correlation quietly driving the metric.
+      - The simplest baseline won the bake-off, once again, to nobody's great surprise on this floor.
+      - A junior researcher asked why the simple rule keeps winning. Léo handed over the actual proof, not the slogan.
+    portrait:
+      assetId: portrait.researcher.leo-bottou
+      brief: Dry 8-bit editorial portrait; white man with short grey hair, glasses, a trimmed grey beard, and a slightly amused expression, beside two overlapping training curves, one simple and slightly ahead; understated and rigorous, not photoreal.
+      altText: Pixel-art portrait of Léo Bottou beside two overlapping training curves, the simpler one slightly ahead.
+    sources:
+      - https://leon.bottou.org/research/stochastic
+      - https://leon.bottou.org/
+      - https://leon.bottou.org/biography
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.corinna-cortez
+    version: 1
+    displayName: Corinna Cortez
+    inspirationName: Corinna Cortes
+    inspirationSummary: A support-vector-machine co-inventor and Google Research vice president who joined maximum-margin theory to classifiers that work on real data.
+    epithet: The Margin Maximiser
+    role: Statistical learning theory and applied research leadership
+    rosterCardSummary: A support-vector-machine co-inventor and Google Research vice president who joined maximum-margin theory to classifiers used across images, documents, and bioinformatics.
+    biography: >-
+      Corinna Cortes trained in physics at the University of Copenhagen, earned a computer-science
+      doctorate from the University of Rochester, and joined AT&T Bell Labs in 1989. There she and
+      Vladimir Vapnik developed the support-vector network and the soft-margin support vector
+      machine, joining statistical learning theory to a classifier that worked across images,
+      documents, handwriting, and bioinformatics. The soft margin admitted noisy, non-separable data
+      through slack variables, while kernels let the maximum-margin principle draw nonlinear
+      boundaries. Their contribution received the 2008 ACM Paris Kanellakis Theory and Practice
+      Award. After more than a decade at AT&T Labs, Corinna joined Google Research, where she became
+      a vice president working across theoretical and applied large-scale machine learning. The
+      proof and the production classifier are not rival deliverables in her version of the plan.
+    availability: { wave: foundation, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.59, baseSigningCash: 5, auraCost: 8, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 2, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 3, product: 3, management: 4, politics: 2 }
+    traits: [trait.margin-maximiser, trait.theory-meets-deployment]
+    signature:
+      id: ability.maximum-margin-classification
+      label: Maximum-Margin Classification
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    passive:
+      id: ability.deployable-theory
+      label: Deployable Theory
+      effects:
+        - { target: lab.product.durationWeeks, operation: multiply, value: 0.85 }
+    compact:
+      id: compact.prove-it-then-ship-it
+      label: Prove It, Then Ship It
+      requirement: Ship one internal tool based on a theoretical result every 52 weeks.
+      check: { type: tagged-action-within, tags: [theory-to-deployment], weeks: 52 }
+      breachEvent: people.compact.prove-it-then-ship-it
+    paperHooks:
+      ids: [paper.support-vector-networks, paper.random-forests]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "A good margin on the training set is a start. Show me the margin on data it has never seen." }
+      - { triggerTag: dataset-shortcut, line: "The classifier found the easiest separating boundary. Confirm it is also the right one." }
+      - { triggerTag: architecture-fad, line: "The proof still holds. I would like to see the fad's proof before I retire the classical result." }
+    feedLines:
+      - Corinna's margin bound held exactly where the theory said it would, on a dataset the theory had never seen.
+      - A classical classifier quietly outperformed an elaborate new one on a modest, real-world dataset again.
+      - The proof and the shipped tool landed in the same sprint, which Corinna treats as the only acceptable outcome.
+      - A physicist's instinct for clean units caught a scaling error in a feature-normalisation step.
+      - Corinna's team explained a kernel trick to a product team in one sentence, which took several days to write.
+      - The theory-and-practice prize sits in a drawer. The classifier it describes is still running in production.
+    portrait:
+      assetId: portrait.researcher.corinna-cortez
+      brief: Precise 8-bit editorial portrait; Danish woman with short-to-mid-length blonde hair and a composed expression, beside a maximum-margin decision boundary diagram; rigorous and applied, not photoreal.
+      altText: Pixel-art portrait of Corinna Cortez beside a maximum-margin decision boundary diagram.
+    sources:
+      - https://research.google/people/author121/
+      - https://research.google/pubs/support-vector-networks/
+      - https://blog.research.google/2009/03/and-award-goes-to.html
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.rob-schapire
+    version: 1
+    displayName: Rob Schapire
+    inspirationName: Robert Schapire
+    inspirationSummary: A boosting pioneer who proved weak learners could become strong and co-created AdaBoost with Yoav Freund, earning the Gödel and Kanellakis prizes.
+    epithet: The Weak Learners' Strength Coach
+    role: Boosting, online learning, and computational learning theory
+    rosterCardSummary: A boosting pioneer who proved weak learners could become strong and co-created AdaBoost with Yoav Freund, earning the Gödel and Kanellakis prizes.
+    biography: >-
+      Robert Schapire completed his MIT doctorate under Ronald Rivest, then worked at AT&T Bell Labs
+      before becoming a Princeton professor and later a partner researcher at Microsoft Research.
+      His early boosting result showed that weak learnability could be converted into strong
+      learnability. With Yoav Freund he then created AdaBoost, which repeatedly concentrates on
+      misclassified examples and combines weak classifiers into a strong ensemble. The theorem was
+      constructive: it reweighted examples so successive learners faced the cases their predecessors
+      missed. AdaBoost distilled that idea into an adaptive ensemble with startling empirical
+      performance and a clean margin-based explanation. He kept carrying proof-first discipline
+      into online learning and games. Their AdaBoost paper received the 2003 Gödel Prize, and the
+      pair received the 2004 ACM Paris Kanellakis Theory and Practice Award. Robert's work spans
+      boosting, online learning, and formal guarantees for learning algorithms. Weak learners get a
+      strength coach; strong claims still need a proof.
+    availability: { wave: foundation, earliestYear: 2016, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.4, baseSigningCash: 3, auraCost: 5, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 0, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 3, product: 1, management: 3, politics: 1 }
+    traits: [trait.formal-guarantees, trait.combine-the-weak-learners]
+    signature:
+      id: ability.adaptive-boosting
+      label: Adaptive Boosting
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.provable-accuracy-guarantee
+      label: Provable Accuracy Guarantee
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.a-guarantee-not-a-guess
+      label: A Guarantee, Not a Guess
+      requirement: Complete one proved-accuracy-bound review for an ensemble result every 52 weeks.
+      check: { type: tagged-action-within, tags: [proven-accuracy-bound], weeks: 52 }
+      breachEvent: people.compact.a-guarantee-not-a-guess
+    paperHooks:
+      ids: [paper.random-forests, paper.support-vector-networks]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Combine enough weak signals correctly and the result is provably strong. Show the proof, not merely the leaderboard entry." }
+      - { triggerTag: model-overconfidence, line: "A weak learner that is only slightly better than chance is still useful, provided you are honest that it is weak." }
+      - { triggerTag: architecture-fad, line: "An elegant algorithm without a matching proof is an unfinished paper, however good the demo looks." }
+    feedLines:
+      - Rob combined a dozen mediocre classifiers and the ensemble's error bound landed exactly where the proof said it would.
+      - A weak learner nobody trusted turned out to be exactly the missing piece the boosting round needed.
+      - The whiteboard proof took most of the afternoon and closed a question that had been open since Tuesday.
+      - Rob's provable bound held up under an adversarial dataset specifically built to break it.
+      - A junior researcher's boosting variant reinvented a known result, cheerfully, and Rob let them finish first.
+      - The Gödel Prize citation sits framed in the office. Rob has, this quarter, referenced the theorem instead more often.
+    portrait:
+      assetId: portrait.researcher.rob-schapire
+      brief: Thoughtful 8-bit editorial portrait; white man with a calm expression and glasses, beside several weak-classifier icons combining into one strong boundary; precise and theoretical, not photoreal.
+      altText: Pixel-art portrait of Rob Schapire beside several weak classifiers combining into one strong decision boundary.
+    sources:
+      - https://www.microsoft.com/en-us/research/people/schapire/
+      - https://www.schapire.net/papers/explaining-adaboost.pdf
+      - https://www.schapire.net/papers/strengthofweak.pdf
+      - https://www.sigact.sigact.hosting.acm.org/prizes/g%C3%B6del/2003.html
+      - https://people.csail.mit.edu/rivest/students.html
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.david-bley
+    version: 1
+    displayName: David Bley
+    inspirationName: David Blei
+    inspirationSummary: The latent Dirichlet allocation co-creator who made unlabelled document collections reveal their topics through probabilistic modelling.
+    epithet: The Topic Cartographer
+    role: Probabilistic topic modelling and Bayesian machine learning
+    rosterCardSummary: The latent Dirichlet allocation co-creator who made unlabelled document collections reveal their topics through probabilistic modelling.
+    biography: >-
+      David Blei earned his doctorate at UC Berkeley, taught at Princeton from 2006 to 2014, and now
+      holds a joint professorship in computer science and statistics at Columbia. With Andrew Ng and
+      Michael I. Jordan he developed latent Dirichlet allocation, a probabilistic model that finds
+      latent topics in a collection and represents each document as a mixture of them, without
+      requiring topic labels in advance. LDA became a standard method for organising text and later
+      informed applications in recommendation, genomics, images, and the social sciences. That work
+      made the hidden structure explicit enough to inspect: documents contain topic proportions,
+      topics contain word distributions, and inference estimates both. David later developed online
+      variational inference, using minibatch updates to fit probabilistic models that would
+      otherwise be stranded at small scale forever. David also developed scalable
+      variational-inference methods for fitting rich probabilistic models to massive datasets. A
+      pile of documents enters; a legible generative story about what they discuss comes out.
+    availability: { wave: foundation, earliestYear: 2014, poolWeight: 0.55 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 2, product: 1, management: 3, politics: 1 }
+    traits: [trait.legible-generative-story, trait.topic-cartographer]
+    signature:
+      id: ability.latent-topic-discovery
+      label: Latent Topic Discovery
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.human-legible-generative-model
+      label: Human-Legible Generative Model
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.a-model-a-domain-expert-can-read
+      label: A Model a Domain Expert Can Read
+      requirement: Complete one non-technical domain-expert review of a topic model every 52 weeks.
+      check: { type: tagged-action-within, tags: [domain-expert-review], weeks: 52 }
+      breachEvent: people.compact.a-model-a-domain-expert-can-read
+    paperHooks:
+      ids: [paper.variational-autoencoder, paper.retrieval-augmented-generation]
+    eventReactions:
+      - { triggerTag: interpretability-breakthrough, line: "Can a domain expert, not a machine-learning researcher, follow this generative story? If not, we are not done." }
+      - { triggerTag: benchmark-saturation, line: "A better perplexity score is not the same as a more legible topic. Check which one actually improved." }
+      - { triggerTag: dataset-shortcut, line: "The topics look suspiciously clean. Check whether the corpus was quietly curated to produce them." }
+    feedLines:
+      - David's latent topic model surfaced a theme in the corpus nobody on the team had noticed reading it manually.
+      - A domain expert reviewed the topic model's output and, unusually, had almost nothing to correct.
+      - The generative story behind the model fit on one slide, and David treated that as the actual achievement.
+      - A student's more complex topic model scored higher and explained less, and David sent it back for revision.
+      - David's model found the same latent structure in two completely unrelated document collections.
+      - The joint statistics-and-computer-science appointment keeps producing exactly the arguments you would expect.
+    portrait:
+      assetId: portrait.researcher.david-bley
+      brief: Thoughtful 8-bit editorial portrait; white man with short hair and glasses, beside a document collection resolving into a small set of labelled topic clusters; legible and calm, not photoreal.
+      altText: Pixel-art portrait of David Bley beside a document collection resolving into labelled topic clusters.
+    sources:
+      - https://www.cs.columbia.edu/~blei/
+      - https://www.engineering.columbia.edu/faculty-staff/directory/david-m-blei
+      - https://www.jmlr.org/papers/v3/blei03a.html
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.andrew-zissermann
+    version: 1
+    displayName: Andrew Zissermann
+    inspirationName: Andrew Zisserman
+    inspirationSummary: Oxford Visual Geometry Group founder, multi-view-geometry pioneer, and VGGNet co-creator whose stacks of 3×3 filters became a durable vision baseline.
+    epithet: The Vision Geometer
+    role: Computer vision, multi-view geometry, and visual recognition at scale
+    rosterCardSummary: Oxford Visual Geometry Group founder, multi-view-geometry pioneer, and VGGNet co-creator whose stacks of 3×3 filters became a durable vision baseline.
+    biography: >-
+      Andrew Zisserman trained in theoretical physics at Cambridge before becoming a principal
+      architect of modern computer vision. He founded Oxford's Visual Geometry Group and helped
+      establish the theory and practical algorithms of multiple-view reconstruction, co-authoring
+      the standard text Multiple View Geometry in Computer Vision with Richard Hartley. With Karen
+      Simonyan he later built VGGNet from repeated 3×3 convolutions: the 16- and 19-layer models
+      placed first in localisation and second in classification at ILSVRC 2014, then became durable
+      baselines across vision research. His geometry work made cameras and scenes recoverable from
+      multiple images by formalising epipolar constraints, correspondence, and reconstruction. The
+      group then pushed into image and video retrieval, object and action recognition, and large
+      datasets, while releasing models others could reuse rather than merely admire for wider
+      scientific use. He is also a Distinguished Scientist at Google DeepMind. When a plain stack of
+      small filters keeps surviving the next architectural fashion, the geometry may be trying to
+      tell you something.
+    availability: { wave: foundation, earliestYear: 2014, poolWeight: 0.55 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 4, reinforcementAgency: 0, multimodality: 5, reasoningTools: 1, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 2, securityContainment: 0, training: 3, product: 1, management: 3, politics: 1 }
+    traits: [trait.plainest-architecture-that-works, trait.multi-view-geometer]
+    signature:
+      id: ability.deep-small-filter-stacking
+      label: Deep Small-Filter Stacking
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.durable-baseline
+      label: Durable Baseline
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.simplify-before-you-elaborate
+      label: Simplify Before You Elaborate
+      requirement: While he leads Multimodality, complete one plain-baseline comparison every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: plain-baseline-comparison, weeks: 52 }
+      breachEvent: people.compact.simplify-before-you-elaborate
+    paperHooks:
+      ids: [paper.imagenet-database, paper.simclr-contrastive-learning]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Stack the simple filters deeper before reaching for the exotic module. It is a shorter path more often than people expect." }
+      - { triggerTag: benchmark-record, line: "A strong ImageNet score in 2014 was a starting point, not a finish line. The same is true of today's score." }
+      - { triggerTag: dataset-shortcut, line: "Check the geometry of the scene the model is supposedly recognising, not merely the label it produced." }
+    feedLines:
+      - Andrew stacked the filters one layer deeper and, once again, simplicity outperformed the clever alternative.
+      - A decade-old baseline architecture quietly beat this quarter's more elaborate contender on the held-out set.
+      - The Visual Geometry Group's naming convention survived another generation of vastly larger models.
+      - Andrew's multi-view geometry correction fixed an error the vision team had been compensating for by hand.
+      - A student proposed an exotic new module. Andrew asked for the plain baseline's number first.
+      - The architecture from 2014 is still cited in this week's paper, mostly as a floor to beat.
+    portrait:
+      assetId: portrait.researcher.andrew-zissermann
+      brief: Calm 8-bit editorial portrait; older British man with grey hair, beside a deep stack of small convolutional filter diagrams; unshowy and foundational, not photoreal.
+      altText: Pixel-art portrait of Andrew Zissermann beside a deep stack of small convolutional filter diagrams.
+    sources:
+      - https://www.robots.ox.ac.uk/~az/
+      - https://www.robots.ox.ac.uk/~vgg/projects/seebibyte/people.html
+      - https://www.robots.ox.ac.uk/~vgg/research/very_deep/
+      - https://royalsociety.org/people/andrew-zisserman-12589/
+      - https://royalsociety.org/-/media/events/2024/06/us-uk-forum/us-uk-scientific-forum-2024_programme-booklet.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.max-willing
+    version: 1
+    displayName: Max Willing
+    inspirationName: Max Welling
+    inspirationSummary: A physicist-turned-machine-learning pioneer who co-created the variational autoencoder and graph convolutional networks, then brought both to AI for science.
+    epithet: The Variational Physicist
+    role: Bayesian deep learning, variational methods, and equivariant neural networks
+    rosterCardSummary: A physicist-turned-machine-learning pioneer who co-created the variational autoencoder and graph convolutional networks, then brought both to AI for science.
+    biography: >-
+      Max Welling completed a theoretical-physics doctorate with Nobel laureate Gerard 't Hooft,
+      then moved into machine learning through postdoctoral work with Pietro Perona and Geoffrey
+      Hinton. He became professor of machine learning at the University of Amsterdam in 2013 and is
+      also a Distinguished Scientist at Microsoft Research AI4Science. With Diederik Kingma he
+      co-created the variational autoencoder, joining neural networks to variational Bayesian
+      inference. The VAE's reparameterisation trick made a stochastic latent-variable model
+      trainable by gradient descent, coupling an encoder, decoder, and variational lower bound. With
+      Thomas Kipf he developed a scalable graph convolutional network, while later work made neural
+      architectures respect rotations and other symmetries by construction. Graph convolutions
+      passed local messages over structure; equivariant layers shared features across
+      transformations, avoiding repeated lessons about rotation entirely. Max treats symmetry as
+      free information supplied by the problem. Training a model to relearn it from scratch would be
+      mathematically legal, but fiscally rude.
+    availability: { wave: foundation, earliestYear: 2014, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 3, reasoningTools: 1, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 3, product: 1, management: 3, politics: 1 }
+    traits: [trait.symmetry-respecting-design, trait.variational-physicist]
+    signature:
+      id: ability.equivariant-representation-design
+      label: Equivariant Representation Design
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.a-bound-not-a-vibe
+      label: A Bound, Not a Vibe
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.respect-the-symmetry
+      label: Respect the Symmetry
+      requirement: While he leads Scientific AI, complete one symmetry-respecting architecture review every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: scientific-ai-programme, projectTag: symmetry-respecting-architecture, weeks: 52 }
+      breachEvent: people.compact.respect-the-symmetry
+    paperHooks:
+      ids: [paper.variational-autoencoder, paper.gnome-materials-discovery]
+    eventReactions:
+      - { triggerTag: scientific-ai-failure, line: "Check whether the model was made to learn a symmetry the physics already hands you for free." }
+      - { triggerTag: architecture-fad, line: "An architecture that respects the problem's structure needs less data to learn the same thing. Prefer it." }
+      - { triggerTag: benchmark-record, line: "A physicist would ask what invariance this result respects before believing the number." }
+    feedLines:
+      - Max encoded a known physical symmetry directly into the architecture, and the model needed noticeably less data.
+      - The variational autoencoder's descendant, several generations removed, still traces back to his original derivation.
+      - A graph neural network Max reviewed was quietly leaking translation invariance it should have respected exactly.
+      - Max's equivariant layer treated a rotated input exactly as it should, without anyone telling it to.
+      - A physics postdoc joined the team and remarked, approvingly, that the group still thinks in symmetries first.
+      - The Distinguished Scientist title barely registers with Max next to a cleanly derived variational bound.
+    portrait:
+      assetId: portrait.researcher.max-willing
+      brief: Quietly delighted 8-bit editorial portrait; Dutch man with a friendly expression, beside a symmetric molecular graph structure feeding a neural network diagram; elegant and grounded, not photoreal.
+      altText: Pixel-art portrait of Max Willing beside a symmetric molecular graph structure feeding a neural network diagram.
+    sources:
+      - https://amlab.science.uva.nl/people/MaxWelling/
+      - https://arxiv.org/abs/1312.6114
+      - https://arxiv.org/abs/1609.02907
+      - https://arxiv.org/abs/1602.07576
+      - https://www.microsoft.com/en-us/research/video/plenary-the-fifth-paradigm-of-scientific-discovery/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }

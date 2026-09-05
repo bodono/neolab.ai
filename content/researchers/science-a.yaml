@@ -1,0 +1,569 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: frontier
+status: draft
+
+researchers:
+  - id: researcher.noah-goodmann
+    version: 1
+    displayName: Noah Goodmann
+    inspirationName: Noah Goodman
+    inspirationSummary: Stanford cognitive scientist and probabilistic-programming pioneer who turns formal models of thought into executable programs.
+    epithet: The Mind-as-Code Programmer
+    role: Probabilistic programming and computational cognitive science
+    rosterCardSummary: A Stanford cognitive scientist who writes models of human thought as executable programs, because apparently even beliefs deserve a debugger.
+    biography: >-
+      Noah Goodman is a Stanford professor of psychology, with courtesy appointments in computer
+      science and linguistics, and directs the Computation and Cognition Lab. He studied computer
+      science and cognitive science at Harvard, completed a doctorate in mathematics at the
+      University of Texas at Austin and undertook postdoctoral research at MIT. His work combines
+      behavioural experiments with probability, statistics and logic to model human cognition,
+      including language understanding, social reasoning and concept learning. He has helped
+      develop probabilistic programming tools that let researchers express generative theories of
+      thought as executable models and compare their predictions with human behaviour. Tools from
+      that research community include WebPPL, a language designed for probabilistic models and
+      inference. The approach treats beliefs, meanings and inferences as objects that can be
+      specified precisely enough to run, inspect and revise. His Rational Speech Acts framework
+      models speakers and listeners reasoning recursively about one another, turning pragmatic
+      language into a quantitative prediction problem for observable behaviour. Apparently even a
+      theory of mind benefits from a debugger.
+    availability: { wave: frontier, earliestYear: 2020, poolWeight: 0.45 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 0, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 1, product: 1, management: 3, politics: 1 }
+    traits: [trait.cognition-as-computation, trait.probabilistic-programming-builder]
+    signature:
+      id: ability.probabilistic-programming-for-cognition
+      label: Probabilistic Programming for Cognition
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.social-reasoning-model
+      label: Bayesian Theory of Mind
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.model_the_reasoning_process_not_just_the_output
+      label: Model the Reasoning Process, Not Just the Output
+      requirement: Every 52 weeks while he leads Reasoning & Tools, complete one generative-reasoning-process review.
+      check: { type: assignment-requires-project-tag, assignmentTag: reasoning-programme, projectTag: generative-reasoning-process-model, weeks: 52 }
+      breachEvent: people.compact.model-the-reasoning-process-not-just-the-output
+    paperHooks:
+      ids: [paper.discovering-lm-behaviors-model-written-evals, paper.chain-of-thought-prompting]
+    eventReactions:
+      - { triggerTag: model-overconfidence, line: "A good input-output score does not tell you whether the underlying reasoning process resembles anything like belief updating. Model that directly." }
+      - { triggerTag: benchmark-saturation, line: "Ask what a principled model of social reasoning would predict here before assuming the benchmark has genuinely been solved." }
+      - { triggerTag: agi-declaration-pressure, line: "Human cognition itself is only partially understood as a computational process. Be careful what standard you are claiming this clears." }
+    feedLines:
+      - Noah's generative reasoning model predicted a pattern in the benchmark that the input-output numbers alone had missed.
+      - The probabilistic programming language expressed a cognitive model in a dozen lines that would have taken pages of equations.
+      - A social-reasoning experiment in the Computation and Cognition Lab quietly informed how the reasoning-tools team framed its next study.
+      - Noah's model of concept learning matched a genuinely surprising pattern in how a language model generalised from few examples.
+      - A visiting linguist and a visiting computer scientist both left Noah's lab meeting with the same equation written down.
+      - The compact's process-modelling requirement turned an otherwise ordinary benchmark result into an actual cognitive hypothesis.
+    portrait:
+      assetId: portrait.researcher.noah-goodmann
+      brief: Thoughtful 8-bit editorial portrait; white man with curly brown hair, glasses, and a warm inquisitive expression, beside a probabilistic program expressing a small model of belief updating; academic and precise, not photoreal.
+      altText: Pixel-art portrait of Noah Goodmann beside a probabilistic program expressing a small model of belief updating.
+    sources:
+      - https://cocolab.stanford.edu/
+      - https://cap.stanford.edu/profiles/viewCV?facultyId=23483&name=Noah_Goodman
+      - http://webppl.org/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.sarah-hooker
+    version: 1
+    displayName: Sarah Hooker
+    inspirationName: Sara Hooker
+    inspirationSummary: Hardware-aware machine-learning researcher who named the hardware lottery and now builds efficient systems that adapt in real time.
+    epithet: The Hardware Lottery Auditor
+    role: Model efficiency, hardware-aware machine learning, and research leadership
+    rosterCardSummary: The efficiency researcher who named the hardware lottery and keeps checking whether the winning idea merely had the right accelerator.
+    biography: >-
+      Sara Hooker is a machine-learning researcher focused on efficiency, interpretability and
+      the interaction between algorithms and hardware. After research at Google Brain, she led
+      Cohere Labs, where work included efficient models and multilingual open research. Her paper
+      “The Hardware Lottery” argued that research ideas can succeed or fail partly because they
+      fit the available software and accelerators, not simply because they are intrinsically
+      better. She completed a computer-science doctorate at Mila under Hugo Larochelle and Aaron
+      Courville. She later co-founded Adaption Labs, whose research centres efficiency, real-time
+      learning and systems designed around latency, memory, cost and energy constraints. Across
+      those projects, compute budgets are treated as design inputs rather than footnotes appended
+      after the leaderboard. At Cohere Labs she also helped lead Aya, an open multilingual model
+      covering 101 languages, and research on compression, interpretability and the environmental
+      costs of machine learning. Her work on “The Low-Resource Double Bind” examined how efficiency
+      constraints can compound data scarcity for underserved languages. A larger model may still
+      win; it is simply asked to race at matched resources before receiving the trophy.
+    availability: { wave: frontier, earliestYear: 2020, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.4, baseSigningCash: 3, auraCost: 5, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 0, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 4, securityContainment: 0, training: 3, product: 2, management: 4, politics: 2 }
+    traits: [trait.hardware-lottery-namer, trait.efficiency-over-raw-scale]
+    signature:
+      id: ability.model-compression-and-efficiency
+      label: Model Compression and Efficiency
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04 }
+    passive:
+      id: ability.hardware-aware-research-judgement
+      label: Hardware-Aware Research Judgement
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4}
+    compact:
+      id: compact.report_the_result_at_matched_resources
+      label: Report the Result at Matched Resources
+      requirement: Complete one matched-resource capability comparison every 52 weeks.
+      check: { type: tagged-action-within, tags: [matched-resource-comparison], weeks: 52 }
+      breachEvent: people.compact.report-the-result-at-matched-resources
+    paperHooks:
+      ids: [paper.switch-transformers, paper.masked-autoencoders]
+    eventReactions:
+      - { triggerTag: compute-windfall, line: "A windfall spent on a hardware-lottery-favoured idea is not the same as a windfall spent on the best idea. Check which one this is." }
+      - { triggerTag: scaling-proposal, line: "Show me the result at matched compute and data first. Raw scale advantage hides whether the idea was actually better." }
+      - { triggerTag: benchmark-record, line: "A smaller, well-trained model beating a larger one is the more interesting result. Look for that comparison specifically." }
+    feedLines:
+      - Sarah's matched-resource comparison showed a smaller model beating a much larger one trained with less care.
+      - A promising research direction was quietly failing for hardware reasons that had nothing to do with the idea's merit.
+      - The model-compression pass cut serving cost noticeably without the accuracy loss the team had budgeted for.
+      - Sarah's "hardware lottery" framing settled an argument about why an elegant idea from years ago never took off.
+      - A nonprofit she founded is training exactly the kind of technical capacity her own hardware-lottery argument says the field needs.
+      - The compact's matched-resource requirement turned a flattering scale-advantage claim into a genuinely useful comparison.
+    portrait:
+      assetId: portrait.researcher.sarah-hooker
+      brief: Sharp, resourceful 8-bit editorial portrait; white woman with very long red hair and a direct, efficiency-minded expression, beside two models compared at matched compute, the smaller one slightly ahead; lean and precise, not photoreal.
+      altText: Pixel-art portrait of Sarah Hooker beside two models compared at matched compute, the smaller one slightly ahead.
+    sources:
+      - https://www.sarahooker.me/
+      - https://hardwarelottery.github.io/
+      - https://adaptionlabs.ai/research
+      - https://cohere.com/research/aya/aya-model-paper.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+
+  - id: researcher.marika-zitnik
+    version: 1
+    displayName: Marika Zitnik
+    inspirationName: Marinka Zitnik
+    inspirationSummary: Harvard biomedical-AI researcher who uses graphs and biological structure to learn where labelled examples are scarce.
+    epithet: The Rare-Disease Graph Weaver
+    role: Graph representation learning for biomedicine
+    rosterCardSummary: A Harvard biomedical researcher who answers "we hardly have any examples" by drawing a very large graph of everything biology already knows.
+    biography: >-
+      Marinka Zitnik is an associate professor of biomedical informatics at Harvard Medical School,
+      with affiliations at the Kempner Institute, the Broad Institute and the Harvard Data
+      Science Initiative. She completed degrees in computer science and mathematics at the
+      University of Ljubljana and later worked as a postdoctoral researcher at Stanford. Her lab
+      develops graph-representation and machine-learning methods for medicine and therapeutic
+      design, especially settings where labelled examples are scarce but biological relationships
+      provide useful structure. Applications include rare-disease diagnosis, drug-response
+      prediction and integrating heterogeneous biomedical data. She co-founded Therapeutics Data
+      Commons and leads Harvard's AI for Science initiative. Her laboratory's broader aim is to
+      develop AI foundations that advance the scientific understanding of medicine and
+      therapeutic design. Her work also includes models for predicting side effects caused by
+      drug combinations and methods that transfer biological knowledge across diseases. When the
+      dataset is too small to support brute-force learning, her preferred response is not to
+      invent more patients or drug targets; it is to encode more of the biology already known.
+    availability: { wave: frontier, earliestYear: 2020, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 1, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 4, securityContainment: 0, training: 2, product: 2, management: 3, politics: 2 }
+    traits: [trait.graph-structure-for-scarce-data, trait.biomedical-precision]
+    signature:
+      id: ability.graph-representation-learning-for-biomedicine
+      label: Graph Representation Learning for Biomedicine
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.rare-disease-low-sample-diagnosis
+      label: Rare-Disease Low-Sample Diagnosis
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.encode-the-known-biology-dont-wait-for-more-data
+      label: Encode the Known Biology, Don't Wait for More Data
+      requirement: Every 52 weeks while she leads Scientific AI, complete one knowledge-graph representation review.
+      check: { type: assignment-requires-project-tag, assignmentTag: scientific-ai-programme, projectTag: knowledge-graph-representation, weeks: 52 }
+      breachEvent: people.compact.encode-the-known-biology-dont-wait-for-more-data
+    paperHooks:
+      ids: [paper.alphafold2-protein-structure, paper.whole-genome-longevity-reprogramming]
+    eventReactions:
+      - { triggerTag: drug-discovery-breakthrough, line: "Check whether the model leaned on the known biological graph or tried to learn the relationship from too few labelled examples alone." }
+      - { triggerTag: scientific-ai-failure, line: "A rare-disease dataset will always be thin. The fix is structure from what we already know, not waiting for more patients." }
+      - { triggerTag: institutional-partnership, line: "A shared data commons for the field is worth more than any one lab's private advantage over it." }
+    feedLines:
+      - Marika's knowledge-graph representation diagnosed a rare-disease pattern from a dataset too thin for an ordinary model to learn from.
+      - A drug-response prediction improved noticeably once the model was given the known biological pathway graph to reason over.
+      - The Therapeutics Data Commons she co-founded quietly became the shared resource three separate teams now rely on.
+      - Marika's compact caught a low-sample project about to wait indefinitely for more labelled data instead of using known structure.
+      - A precision-medicine result held up under independent validation, in no small part because the underlying graph was itself trustworthy.
+      - The Harvard AI-for-science initiative shipped a result this quarter that traced directly back to Marika's graph-learning framework.
+    portrait:
+      assetId: portrait.researcher.marika-zitnik
+      brief: Precise, compassionate 8-bit editorial portrait; white woman with mid-length dark hair and glasses and a focused, caring expression, beside a biological knowledge graph feeding a rare-disease diagnosis; structured and medically grounded, not photoreal.
+      altText: Pixel-art portrait of Marika Zitnik beside a biological knowledge graph feeding a rare-disease diagnosis.
+    sources:
+      - https://zitniklab.hms.harvard.edu/bio/
+      - https://dbmi.hms.harvard.edu/people/marinka-zitnik
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.mikhail-bronsteen
+    version: 1
+    displayName: Mikhail Bronsteen
+    inspirationName: Michael Bronstein
+    inspirationSummary: Oxford geometric-deep-learning pioneer who unifies graphs, shapes, proteins and other non-Euclidean data through symmetry.
+    epithet: The Symmetry Detective
+    role: Geometric deep learning and non-Euclidean representation
+    rosterCardSummary: An Oxford professor who asks what symmetry a supposedly novel architecture is respecting, then discovers it has been geometric deep learning all along.
+    biography: >-
+      Michael Bronstein is the DeepMind Professor of Artificial Intelligence at the University of
+      Oxford and founding scientific director for AI at Vienna's Aithyra Institute. He completed
+      his doctorate at the Technion, later held a professorship at Imperial College London and led
+      graph-learning research at Twitter. His work helped establish geometric deep learning, a
+      framework for understanding neural architectures through the symmetries and structure of
+      their domains. That viewpoint connects convolutional networks, graph neural networks and
+      methods for data on shapes, manifolds and other non-Euclidean spaces. His current interests
+      include graph learning, 3D shape analysis, protein design and non-human species
+      communication. He has also held visiting appointments at Stanford, MIT and Harvard and
+      affiliations with institutes for advanced study. His honours include the Royal Academy of
+      Engineering Silver Medal, the Royal Society Wolfson Research Merit Award and an EPSRC Turing
+      AI fellowship. He also founded several technology companies, including Fabula AI, which
+      Twitter acquired in 2019. When a new architecture arrives claiming complete novelty, the
+      first useful question is often more orderly: which symmetry has it quietly learned to
+      respect?
+    availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 4, reinforcementAgency: 0, multimodality: 2, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 2, product: 1, management: 4, politics: 2 }
+    traits: [trait.unifying-symmetry-framework, trait.cross-domain-geometric-thinking]
+    signature:
+      id: ability.geometric-deep-learning-framework
+      label: Geometric Deep Learning Framework
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.scientific-ai] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.03 }
+    passive:
+      id: ability.symmetry-preserving-generalisation
+      label: Symmetry-Preserving Validation
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.find-the-underlying-symmetry
+      label: Find the Underlying Symmetry
+      requirement: Every 52 weeks while he leads Architectures, complete one symmetry analysis.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: symmetry-analysis, weeks: 52 }
+      breachEvent: people.compact.find-the-underlying-symmetry
+    paperHooks:
+      ids: [paper.gnome-materials-discovery, paper.vision-transformer]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Find the symmetry this new architecture is quietly respecting. It usually turns out to be a specific case of one we already understand." }
+      - { triggerTag: scientific-ai-failure, line: "Check whether the model was allowed to violate a symmetry the underlying science actually guarantees." }
+      - { triggerTag: benchmark-record, line: "A result that respects the problem's real symmetry tends to generalise further than one that merely fits the training distribution." }
+    feedLines:
+      - Mikhail's symmetry analysis found the new architecture was, unknowingly, a specific case of a framework already well understood.
+      - A protein-design model generalised further once it was made to respect a molecular symmetry it had previously ignored.
+      - The geometric deep learning framework unified two teams' independently invented architectures into one shared account.
+      - Mikhail's compact caught a scientific-AI project quietly permitting a symmetry violation the underlying physics forbids.
+      - A visiting researcher's "completely new" architecture turned out, on inspection, to already fit neatly inside the existing framework.
+      - The Aithyra Institute's founding mission, cross-domain geometric thinking, showed up again in this quarter's protein-design result.
+    portrait:
+      assetId: portrait.researcher.mikhail-bronsteen
+      brief: Elegant 8-bit editorial portrait; light-skinned man with short dark hair, thin-framed glasses, and a thoughtful expression, beside several architecture diagrams resolving into one symmetric framework; unifying and precise, not photoreal.
+      altText: Pixel-art portrait of Mikhail Bronsteen beside several architecture diagrams resolving into one shared symmetric framework.
+    sources:
+      - https://www.cs.ox.ac.uk/people/michael.bronstein/
+      - https://arxiv.org/abs/2104.13478
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.katie-bowman
+    version: 1
+    displayName: Katie Bowman
+    inspirationName: Katie Bouman
+    inspirationSummary: Caltech computational-imaging researcher and Event Horizon Telescope collaborator who reconstructs the invisible from sparse, noisy measurements.
+    epithet: The Sparse-Signal Imager
+    role: Computational imaging and algorithm-sensor co-design
+    rosterCardSummary: A Caltech computational-imaging professor who helped photograph a black hole, then spent the viral-news cycle patiently pointing back at the entire telescope collaboration.
+    biography: >-
+      Katie Bouman is a Caltech professor whose research combines algorithms and sensing systems
+      to reconstruct phenomena that conventional cameras cannot directly capture. During her
+      doctorate at MIT she joined the Event Horizon Telescope collaboration and developed imaging
+      methods for its sparse, noisy radio measurements. She had previously studied electrical
+      engineering at the University of Michigan and later completed postdoctoral work at the
+      Harvard-Smithsonian Center for Astrophysics. She was one of roughly 200 scientists and
+      engineers whose work produced the first image of a black hole, announced in 2019. At
+      Caltech, her computational-imaging research has continued across astronomy and other
+      scientific settings, including methods that recover information hidden in images or videos.
+      Her doctoral work developed CHIRP, an algorithm for reconstructing images from sparse
+      telescope measurements; the collaboration later compared several independent methods before
+      releasing the result. Her group now develops computational cameras that jointly design
+      sensing hardware, data collection and reconstruction algorithms.
+      The central design principle is co-operation between sensor and algorithm: measurements are
+      collected with the eventual reconstruction in mind, and the reconstruction respects how the
+      measurements were made. The same principle applies to the credit line; the image is singular,
+      but the team behind it was emphatically not.
+    availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.45 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 2, product: 1, management: 3, politics: 2 }
+    traits: [trait.algorithm-sensor-co-design, trait.credits-the-collaboration]
+    signature:
+      id: ability.sparse-data-image-reconstruction
+      label: Sparse-Data Image Reconstruction
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai, domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    passive:
+      id: ability.algorithm-sensor-co-design
+      label: Algorithm-Sensor Co-Design
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.credit-the-collaboration
+      label: Credit the Collaboration
+      requirement: Complete one full-team credit review for a scientific announcement every 52 weeks.
+      check: { type: tagged-action-within, tags: [full-team-credit-in-announcement], weeks: 52 }
+      breachEvent: people.compact.credit-the-collaboration
+    paperHooks:
+      ids: [paper.alphafold2-protein-structure, paper.machine-verified-riemann-proof]
+    eventReactions:
+      - { triggerTag: scientific-ai-breakthrough, line: "Credit the full team in the announcement, by name, before a single face becomes the whole story." }
+      - { triggerTag: media-viral-moment, line: "I have lived through this exact framing before. Redirect the attention to the collaboration it actually belongs to." }
+      - { triggerTag: scientific-ai-failure, line: "Check whether the sensor or the algorithm was the weaker link here. Usually it is worth designing both together from the start." }
+    feedLines:
+      - Katie's sparse-data reconstruction algorithm turned noisy, incomplete sensor readings into a genuinely coherent image.
+      - A viral moment threatened to credit one person for a result the full team actually produced, and Katie redirected it immediately.
+      - The algorithm-sensor co-design compact caught a project treating the sensor as fixed when redesigning it would have helped more.
+      - Katie's imaging system observed a phenomenon nobody's existing telescope had been specifically built to capture.
+      - A journalist asked, again, about the black hole image. Katie's answer, again, named the whole collaboration first.
+      - The world-first announcement this quarter listed every contributing team member by name, exactly as the compact requires.
+    portrait:
+      assetId: portrait.researcher.katie-bowman
+      brief: Bright, humble 8-bit editorial portrait; woman with long brown hair and a delighted, generous expression, beside a sparse, noisy dataset resolving into a coherent reconstructed image; collaborative and precise, not photoreal.
+      altText: Pixel-art portrait of Katie Bowman beside a sparse, noisy dataset resolving into a coherent reconstructed image.
+    sources:
+      - https://www.caltech.edu/about/news/seeing-farther-and-deeper-interview-katie-bouman
+      - https://www.cms.caltech.edu/people/klbouman
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.rich-caruano
+    version: 1
+    displayName: Rich Caruano
+    inspirationName: Rich Caruana
+    inspirationSummary: Multitask-learning pioneer and interpretable-ML researcher who tests whether an accurate model is right for the right reason.
+    epithet: The Wrong-Reason Detector
+    role: Multitask learning, interpretable machine learning, and healthcare applications
+    rosterCardSummary: A multitask-learning pioneer who distrusts medical models that get the right answer for the wrong reason, especially when the benchmark is trying to look reassuring.
+    biography: >-
+      Rich Caruana completed his doctorate at Carnegie Mellon, working with Tom Mitchell and Herb
+      Simon, and held faculty appointments at Cornell, UCLA's medical school and Carnegie Mellon
+      before joining Microsoft Research. His thesis and early papers helped establish multitask
+      learning: training related tasks together so that useful structure transfers between them.
+      His later work has concentrated on intelligible machine learning, especially for health
+      care. In a widely discussed pneumonia-risk example, a highly accurate model learned that
+      asthma appeared protective because affected patients received faster, more intensive
+      treatment. An interpretable model exposed the misleading pattern before it could be treated
+      as medical advice. That case captures his recurring test for high-stakes systems: accuracy
+      matters, but so does knowing whether the model reached the right answer for a reason that
+      will survive deployment. His broader work includes model compression, ensembles and
+      probabilistic prediction. His group developed intelligible generalized additive models whose
+      relationships can be inspected, because an accurate answer still needs a reason that survives
+      the hospital.
+    availability: { wave: frontier, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.68, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 4, alignmentControl: 1, interpretabilityEvals: 5, securityContainment: 0, training: 2, product: 1, management: 3, politics: 2 }
+    traits: [trait.multitask-learning-founder, trait.medical-model-sceptic]
+    signature:
+      id: ability.multitask-transfer-learning
+      label: Multitask Transfer Learning
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.healthcare-model-hazard-detection
+      label: Healthcare Model Hazard Detection
+      effects:
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90, stackingGroup: hazard-reduction }
+    compact:
+      id: compact.inspect_before_you_trust_the_healthcare_model
+      label: Inspect Before You Trust the Healthcare Model
+      requirement: Complete one clinical interpretability review every 52 weeks.
+      check: { type: tagged-action-within, tags: [clinical-interpretability-review], weeks: 52 }
+      breachEvent: people.compact.inspect-before-you-trust-the-healthcare-model
+    paperHooks:
+      ids: [paper.whole-genome-longevity-reprogramming, paper.masked-autoencoders]
+    eventReactions:
+      - { triggerTag: healthcare-deployment, line: "An accurate model that nobody can inspect is a hazard wearing a good benchmark score. Review it before it reaches a patient." }
+      - { triggerTag: drug-discovery-breakthrough, line: "Check whether the model got the right answer for a reason a clinician could actually verify." }
+      - { triggerTag: model-overconfidence, line: "I have seen an accurate medical model make a dangerously wrong-for-the-wrong-reason call before. Assume it can happen again." }
+    feedLines:
+      - Rich's interpretability review caught a healthcare model that was accurate for a reason no clinician would have accepted.
+      - A multitask model trained on several related medical problems jointly generalised better than three separate specialised ones.
+      - Rich's decades-old multitask learning thesis is still cited as the founding document of an entire transfer-learning subfield.
+      - The clinical interpretability review compact held up a healthcare launch by exactly long enough to fix a genuine risk.
+      - A maternal-health model's confident prediction was returned for review, and the review found precisely the hazard Rich expected.
+      - Rich's scepticism of an accurate-but-opaque model, once again, turned out to be the caution that actually mattered.
+    portrait:
+      assetId: portrait.researcher.rich-caruano
+      brief: Wise 8-bit editorial portrait; older white man with short grey hair, a trimmed grey beard, round glasses, and a calm clinical expression, beside a confident healthcare prediction flagged for review; cautious and experienced, not photoreal.
+      altText: Pixel-art portrait of Rich Caruano beside a healthcare model's confident prediction flagged for an interpretability review.
+    sources:
+      - https://www.cs.cornell.edu/~caruana/
+      - https://www.microsoft.com/en-us/research/blog/making-intelligence-intelligible-dr-rich-caruana/
+      - https://www.microsoft.com/en-us/research/?p=192388
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.stephen-boyde
+    version: 1
+    displayName: Stephen Boyde
+    inspirationName: Stephen Boyd
+    inspirationSummary: Stanford optimisation professor, textbook author and open-source-tool builder who turns problems into variables, objectives and constraints.
+    epithet: The Objective-and-Constraints Evangelist
+    role: Convex optimisation, control, and accessible mathematical tooling
+    rosterCardSummary: "A Stanford optimisation professor who can turn almost any unruly proposal into three headings: variables, objective, constraints—and would like those headings before lunch."
+    biography: >-
+      Stephen Boyd has been a Stanford electrical-engineering professor since 1985. His research
+      spans control, signal processing, machine learning and finance, connected by the use of
+      convex optimisation to expose tractable structure in difficult design problems. With Lieven
+      Vandenberghe he wrote Convex Optimization, a standard graduate text whose book, slides and
+      exercises are available online. His group also helped create open-source modelling systems
+      including CVX and CVXPY, which let users state optimisation problems in mathematical form
+      while software handles their conversion for reliable solvers. His teaching has carried the
+      same approach across many disciplines and earned Stanford's Walter J. Gores Award. The
+      open-source toolchain also includes CVXGEN, used in applications including SpaceX's Falcon
+      landing systems. The working ritual is concise enough for a whiteboard and demanding enough
+      for a research programme: define the variables, objective and constraints; then find out
+      whether the frightening problem was convex all along—and publish notes for other fields.
+    availability: { wave: frontier, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 2, scientificAi: 5, alignmentControl: 2, interpretabilityEvals: 4, securityContainment: 0, training: 3, product: 3, management: 5, politics: 2 }
+    traits: [trait.expose-the-convex-structure, trait.optimisation-for-everyone]
+    signature:
+      id: ability.disciplined-convex-formulation
+      label: Disciplined Convex Formulation
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling, domain.scientific-ai] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.03 }
+    passive:
+      id: ability.open-optimisation-toolchain
+      label: Open Optimisation Toolchain
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05 }
+    compact:
+      id: compact.write_down_the_objective_and_constraints
+      label: Write Down the Objective and Constraints
+      requirement: Every 52 weeks while he leads Optimisation & Scaling, complete one explicit objective-and-constraints review.
+      check: { type: assignment-requires-project-tag, assignmentTag: optimisation-programme, projectTag: explicit-objective-and-constraints, weeks: 52 }
+      breachEvent: people.compact.write-down-the-objective-and-constraints
+    paperHooks:
+      ids: [paper.adam, paper.training-compute-optimal-llms]
+    eventReactions:
+      - { triggerTag: scaling-proposal, line: "Before buying more compute, write down the objective and constraints. There may be a much cleaner problem hiding in this one." }
+      - { triggerTag: scientific-ai-breakthrough, line: "The result matters; the reusable formulation matters almost as much. Make both available." }
+      - { triggerTag: benchmark-record, line: "A record without a clear optimisation problem is difficult to learn from. Show us exactly what was solved." }
+    feedLines:
+      - Stephen reformulated an unruly training decision as a convex programme the whole team could inspect.
+      - The open optimisation toolchain replaced a week of hand-written solver code with a page of readable mathematics.
+      - A control problem that looked intractable became routine once its hidden convex structure was exposed.
+      - Stephen's compact forced the team to name its objective and constraints before celebrating the result.
+      - Researchers from three different domains left the same lecture able to use the same optimisation language.
+      - A cleaner formulation saved more compute than the scaling proposal had planned to purchase.
+    portrait:
+      assetId: portrait.researcher.stephen-boyde
+      brief: Clear, energetic 8-bit editorial portrait; tan white man with very short grey hair beside a curved feasible region with one optimum cleanly marked; teacherly and practical, not photoreal.
+      altText: Pixel-art portrait of Stephen Boyde beside a convex feasible region with its optimum marked.
+    sources:
+      - https://stanford.edu/~boyd/bio.html
+      - https://web.stanford.edu/~boyd/cvxbook/index.html
+      - https://profiles.stanford.edu/stephen-boyd
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: draft, tone: draft, reviewedOn: 2026-07-26 }
+
+  - id: researcher.emmanuel-candez
+    version: 1
+    displayName: Emmanuel Candez
+    inspirationName: Emmanuel Candès
+    inspirationSummary: Stanford mathematician and statistician whose compressed-sensing work proved sparse signals can be recovered from surprisingly few measurements.
+    epithet: The Fewer-Measurements Magician
+    role: Compressed sensing, high-dimensional statistics, and inverse problems
+    rosterCardSummary: A Stanford statistician who proved that fewer measurements can be enough, provided the signal is sparse and somebody remembered to state the assumptions.
+    biography: >-
+      Emmanuel Candès helped overturn the assumption that reliable reconstruction always requires
+      collecting a dense set of measurements. A Stanford professor of mathematics and statistics,
+      with a courtesy appointment in electrical engineering, he develops mathematical frameworks
+      for signal processing, imaging, high-dimensional statistics, and inverse problems. His
+      seminal work on compressed sensing established rigorous conditions under which a sparse
+      signal can be recovered from surprisingly few measurements, turning sparsity from an
+      informal engineering hunch into a precise and widely applicable principle. That perspective
+      now informs imaging systems, statistical estimation, scientific computing, and modern data
+      analysis, especially where measurements are expensive or incomplete. Emmanuel's research
+      instinct asks what hidden low-dimensional structure makes an apparently underdetermined
+      problem solvable, then proves exactly when the reconstruction can be trusted rather than
+      relying on a convenient empirical success alone.
+    availability: { wave: frontier, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 2, securityContainment: 0, training: 2, product: 1, management: 4, politics: 2 }
+    traits: [trait.recover-from-fewer-measurements, trait.prove-the-reconstruction]
+    signature:
+      id: ability.compressed-sensing-reconstruction
+      label: Compressed-Sensing Reconstruction
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.scientific-ai, domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    passive:
+      id: ability.high-dimensional-statistical-guarantees
+      label: High-Dimensional Statistical Guarantees
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.state_the_recovery_conditions
+      label: State the Recovery Conditions
+      requirement: Complete one recovery-conditions review every 52 weeks.
+      check: { type: tagged-action-within, tags: [recovery-conditions-documented], weeks: 52 }
+      breachEvent: people.compact.state-the-recovery-conditions
+    paperHooks:
+      ids: [paper.masked-autoencoders, paper.alphafold2-protein-structure]
+    eventReactions:
+      - { triggerTag: scientific-ai-failure, line: "The data may be incomplete without the problem being hopeless. First ask whether the signal has exploitable sparse structure." }
+      - { triggerTag: benchmark-record, line: "State the assumptions under which recovery succeeds. A theorem's boundary is part of the result." }
+      - { triggerTag: compute-windfall, line: "More measurements are useful, but understanding why fewer are enough is the deeper advantage." }
+    feedLines:
+      - Emmanuel reconstructed a clean scientific signal from measurements the team had considered far too sparse.
+      - A high-dimensional estimate gained a real guarantee once the hidden low-dimensional structure was written down.
+      - The recovery-conditions compact exposed an assumption that had been omitted from an otherwise impressive result.
+      - An imaging team cut its measurement budget sharply without losing the feature it actually needed to recover.
+      - Emmanuel's proof explained why an empirical reconstruction trick worked and exactly where it would fail.
+      - A supposedly underdetermined problem became solvable when the team stopped treating every dimension as equally important.
+    portrait:
+      assetId: portrait.researcher.emmanuel-candez
+      brief: Assured 8-bit editorial portrait; white man with short dark-grey hair and rectangular glasses, beside a sparse measurement grid resolving into a crisp signal; mathematical and exact, not photoreal.
+      altText: Pixel-art portrait of Emmanuel Candez beside sparse measurements resolving into a crisp signal.
+    sources:
+      - https://statistics.stanford.edu/people/emmanuel-j-candes
+      - https://candes.su.domains/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: draft, tone: draft, reviewedOn: 2026-07-26 }

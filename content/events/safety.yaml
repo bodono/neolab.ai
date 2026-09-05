@@ -1,0 +1,262 @@
+draftSchema: 1
+contentType: decision-events
+pack: safety-a
+
+# Safety decisions. The anomaly cluster is mandatory; the disclosure and
+# hardening events are opportunities gated on player-visible incident history.
+events:
+  - id: event.safety.anomaly-cluster
+    version: 1
+    category: safety
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: three-severe-anomalies, priority: 75 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: safety-anomaly, weeks: 0 }
+    unique: false
+    expiryWeeks: 4
+    defaultOptionId: keep-shipping
+    titleKey: event.safety.anomaly.title
+    bodyKey: event.safety.anomaly.body
+    evidence:
+      - textKey: event.safety.anomaly.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.safety.anomaly.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+    options:
+      - id: halt-and-investigate
+        labelKey: event.safety.anomaly.halt.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.anomaly.halt.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.88, durationWeeks: 39, tags: [anomaly-investigation] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.93, durationWeeks: 13, tags: [anomaly-investigation] }
+        checks: []
+        memories:
+          - key: safety.anomaly.investigated
+            subjects: [{ type: player-lab }]
+            tags: [safety-first, investigation]
+        confirmationRequired: false
+      - id: targeted-patch
+        labelKey: event.safety.anomaly.patch.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.safety.anomaly.patch.preview
+        immediateEffects: []
+        checks:
+          - id: patch-quality
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [clean] }
+            outcomes:
+              - id: clean
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects:
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.93, durationWeeks: 26, tags: [anomaly-patch] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+                memories:
+                  - key: safety.anomaly.patched
+                    subjects: [{ type: player-lab }]
+                    tags: [targeted-fix]
+              - id: cosmetic
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.evidence.displayedQuality, operation: add, value: 3, durationWeeks: 26, tags: [anomaly-patch] }
+                memories:
+                  - key: safety.anomaly.cosmetic
+                    subjects: [{ type: player-lab }]
+                    tags: [cosmetic-fix]
+        memories: []
+        confirmationRequired: false
+      - id: keep-shipping
+        labelKey: event.safety.anomaly.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.anomaly.ship.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -6 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.12, durationWeeks: 39, tags: [shipped-anyway] }
+        checks: []
+        memories:
+          - key: safety.anomaly.ignored
+            subjects: [{ type: player-lab }]
+            tags: [shipped-anyway, ignored-warning]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [safety, anomaly, evaluation]
+
+  - id: event.safety.incident-disclosure
+    version: 1
+    category: safety
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.incidents.recentWorstSeverity, op: gte, value: 45 }
+        - { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+    baseWeight: 8
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.incidents.recentWorstSeverity, op: gte, value: 70 }
+        multiplier: 3
+    cooldown: { group: safety-disclosure, weeks: 26 }
+    unique: false
+    expiryWeeks: 3
+    defaultOptionId: minimal-notice
+    titleKey: event.safety.disclosure.title
+    bodyKey: event.safety.disclosure.body
+    evidence:
+      - textKey: event.safety.disclosure.evidence.severity
+        metric: player.incidents.recentWorstSeverity
+      - textKey: event.safety.disclosure.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: full-disclosure
+        labelKey: event.safety.disclosure.full.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -6 }
+        previewKey: event.safety.disclosure.full.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+        checks: []
+        memories:
+          - key: safety.disclosure.full
+            subjects: [{ type: player-lab }]
+            tags: [transparency, disclosed]
+        confirmationRequired: false
+      - id: minimal-notice
+        labelKey: event.safety.disclosure.minimal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.disclosure.minimal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 1 }
+        checks: []
+        memories:
+          - key: safety.disclosure.minimal
+            subjects: [{ type: player-lab }]
+            tags: [minimal-disclosure]
+        confirmationRequired: false
+      - id: bury
+        labelKey: event.safety.disclosure.bury.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.disclosure.bury.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -8 }
+        checks:
+          - id: containment
+            likelihoodPromise: { label: likely, successOutcomeIds: [held] }
+            outcomes:
+              - id: held
+                minimumInclusive: 0
+                maximumExclusive: 0.68
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -2 }
+                memories:
+                  - key: safety.disclosure.buried
+                    subjects: [{ type: player-lab }]
+                    tags: [buried, undisclosed]
+              - id: leaked
+                minimumInclusive: 0.68
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -14 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 12 }
+                memories:
+                  - key: safety.disclosure.leaked
+                    subjects: [{ type: player-lab }]
+                    tags: [buried, leaked, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [safety, disclosure, incident]
+
+  - id: event.safety.control-review
+    version: 1
+    category: safety
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.evalQuality, op: lt, value: 45 }
+        multiplier: 2
+    cooldown: { group: safety-review, weeks: 39 }
+    unique: false
+    expiryWeeks: 13
+    defaultOptionId: defer
+    titleKey: event.safety.review.title
+    bodyKey: event.safety.review.body
+    evidence:
+      - textKey: event.safety.review.evidence.evalquality
+        metric: player.safety.evalQuality
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: fund-review
+        labelKey: event.safety.review.fund.label
+        requirements:
+          { type: compare, metric: player.cash, op: gte, value: 5 }
+        disabledReasonKey: event.safety.review.fund.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.safety.review.fund.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 4 }
+        checks: []
+        memories:
+          - key: safety.review.funded
+            subjects: [{ type: player-lab }]
+            tags: [invested-in-safety]
+        confirmationRequired: false
+      - id: internal-only
+        labelKey: event.safety.review.internal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.review.internal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.97, durationWeeks: 13, tags: [internal-review] }
+        checks: []
+        memories:
+          - key: safety.review.internal
+            subjects: [{ type: player-lab }]
+            tags: [internal-review]
+        confirmationRequired: false
+      - id: defer
+        labelKey: event.safety.review.defer.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.review.defer.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+        checks: []
+        memories:
+          - key: safety.review.deferred
+            subjects: [{ type: player-lab }]
+            tags: [deferred-safety]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [safety, evaluation, review]

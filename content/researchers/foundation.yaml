@@ -1,0 +1,1169 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-a
+availabilityWave: foundation
+status: draft
+
+researchers:
+  - id: researcher.geoffrey-hintoff
+    version: 1
+    displayName: Geoffrey Hintoff
+    inspirationName: Geoffrey Hinton
+    inspirationSummary: Deep-learning pioneer whose work on distributed representations and neural networks earned both the Turing Award and a Nobel Prize.
+    epithet: The Deep-Learning Long Game
+    role: Deep representations and architectures
+    rosterCardSummary: A deep-learning pioneer who kept neural networks alive through the unfashionable years and now asks the gradient to justify its travel expenses.
+    biography: >-
+      Geoffrey Hinton studied experimental psychology at Cambridge and artificial intelligence
+      at Edinburgh before pursuing neural networks through decades when the field often preferred
+      other approaches. His research includes distributed representations, Boltzmann machines,
+      backpropagation, deep belief networks and neural language models. At the University of
+      Toronto, he supervised Alex Krizhevsky and Ilya Sutskever during the work that produced
+      AlexNet, a landmark result in the 2012 ImageNet competition. He shared the 2018 Turing Award
+      with Yoshua Bengio and Yann LeCun for conceptual and engineering advances in deep neural
+      networks, and the 2024 Nobel Prize in Physics with John Hopfield for foundational work
+      enabling machine learning with artificial neural networks. He later joined Google. His career
+      shows that an unfashionable research programme can become infrastructure while the field is
+      still carefully composing its formal objections.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.16, baseSigningCash: 11, auraCost: 17, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 3, alignmentControl: 4, interpretabilityEvals: 3, securityContainment: 0, training: 5, product: 1, management: 4, politics: 2 }
+    traits: [trait.intellectual-courage, trait.representation-instinct]
+    signature:
+      id: ability.deep-representations
+      label: Deep Representations
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.citation-gravity
+      label: Citation Gravity
+      effects:
+        - { target: aura.worldFirstCapabilityPaperGain, operation: multiply, value: 1.10, stackingGroup: aura-gain }
+    compact:
+      id: compact.academic-latitude
+      label: Academic Latitude
+      requirement: Publish at least one of every three discoveries made during his tenure.
+      check: { type: ratio-at-least, numerator: discoveries.publishedOrControlled, denominator: discoveries.total, value: 0.333, graceDiscoveries: 2 }
+      breachEvent: people.compact.academic-latitude
+    paperHooks:
+      ids: [paper.backpropagation, paper.fast-deep-belief-nets, paper.alexnet]
+    eventReactions:
+      - { triggerTag: research-fad, line: "The fashion cycle is informative mainly about the fashion cycle. Keep the experiment running." }
+      - { triggerTag: secret-paper, line: "A secret result can protect an advantage. It cannot teach the field that the impossible is possible." }
+      - { triggerTag: anomalous-representation, line: "Excellent. The model has learned something we did not name. Now comes the part where we find out what." }
+    feedLines:
+      - Geoffrey has drawn a latent space on the whiteboard and quietly improved the building's intellectual property value.
+      - The representations are distributed. The credit, according to the citations desk, is less evenly so.
+      - Geoffrey requested one more controlled experiment and no additional adjectives.
+      - A seminar overran by 47 minutes because the first question was unusually good.
+      - The architecture team has rediscovered an idea Geoffrey remembers being unpopular twice.
+      - Geoffrey described the loss curve as “encouraging,” producing an immediate, unquantified surge in unofficial morale.
+    portrait:
+      assetId: portrait.researcher.geoffrey-hintoff
+      brief: Warm 8-bit editorial portrait; older white man with silver hair, thoughtful expression and a dark collared shirt, beside a small orange gradient diagram; dignified, recognisable in spirit, not photoreal.
+      altText: Pixel-art portrait of Geoffrey Hintoff, silver-haired and thoughtful, beside an orange neural-network gradient diagram.
+    sources:
+      - https://awards.acm.org/about/2018-turing
+      - https://www.nobelprize.org/prizes/physics/2024/hinton/facts/
+      - https://www.cs.toronto.edu/~hinton/bio.html
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.ian-lemon
+    version: 1
+    displayName: Yann LeNet
+    inspirationName: Yann LeCun
+    inspirationSummary: Convolutional-network pioneer who took handwriting recognition from research papers to production cheque readers.
+    epithet: The World-Modeller
+    role: Vision, self-supervision, and learned world models
+    rosterCardSummary: A convolutional-network pioneer who would like the model to learn from the world itself, preferably before anyone commissions another labelling meeting.
+    biography: >-
+      Yann LeCun trained in electrical engineering and computer science in France before joining
+      Bell Labs, where his work on convolutional neural networks helped automate handwriting
+      recognition for bank cheques and other documents. He later joined New York University,
+      founded its Center for Data Science and became the founding director of Facebook AI
+      Research. His research has spanned computer vision, representation learning, energy-based
+      models and self-supervised learning, with a recurring emphasis on systems that learn useful
+      structure without requiring every example to be labelled. He shared the 2018 Turing Award
+      with Geoffrey Hinton and Yoshua Bengio for advances that made deep neural networks a central
+      part of computing. The through-line is architectural: exploit structure in the data, test
+      the idea at useful scale, and ask the model to understand more of the world than the name on
+      the benchmark column.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.06, baseSigningCash: 10, auraCost: 15, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 5, reasoningTools: 4, roboticsEmbodiment: 3, scientificAi: 1, alignmentControl: 2, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 3, management: 4, politics: 3 }
+    traits: [trait.architectural-conviction, trait.open-science-advocate]
+    signature:
+      id: ability.learn-before-labels
+      label: Learn Before the Labels Arrive
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.open-weights-open-doors
+      label: Open Weights, Open Doors
+      effects:
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.15, stackingGroup: aura-gain }
+    compact:
+      id: compact.publication-freedom
+      label: Publication Freedom
+      requirement: Publish at least one discovery openly every 26 weeks.
+      check: { type: tagged-action-within, tags: [open-paper], weeks: 26 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks:
+      ids: [paper.lenet-document-recognition, paper.imagenet-database, paper.alexnet]
+    eventReactions:
+      - { triggerTag: benchmark-saturation, line: "Good. The benchmark has completed its service. We should now ask a question with more world in it." }
+      - { triggerTag: labels-shortage, line: "There are a great many unlabeled observations outside. Most of reality has declined to fill in the form." }
+      - { triggerTag: open-model-debate, line: "Openness is a real policy with real tradeoffs. It is not a decorative toggle labelled ‘community.’" }
+    feedLines:
+      - Yann has replaced three annotation meetings with a self-supervised objective and one much louder architecture meeting.
+      - The vision model can identify 1,000 objects. Yann would like it to understand why any of them continue to exist off-camera.
+      - A world-model diagram has escaped the whiteboard and occupied the corridor.
+      - Yann rejected the phrase “mere perception” on both technical and rhetorical grounds.
+      - The dataset arrived without labels. Yann called this “the realistic version.”
+      - Open research produced a citation spike and a closed-door discussion about open research.
+    portrait:
+      assetId: portrait.researcher.ian-lemon
+      brief: Energetic 8-bit editorial portrait; older white man with grey hair, dark shirt and expressive eyebrows, framed by blue convolution tiles and a tiny world-model globe; generous and playful, not photoreal.
+      altText: Pixel-art portrait of Yann LeNet with grey hair, blue convolution tiles, and a small globe representing a learned world model.
+    sources:
+      - https://awards.acm.org/about/2018-turing
+      - https://yann.lecun.com/ex/bio.html
+      - https://doi.org/10.1109/5.726791
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.joshua-benji
+    version: 1
+    displayName: Joshua Benji
+    inspirationName: Yoshua Bengio
+    inspirationSummary: Deep-learning pioneer, Mila founder and Turing laureate whose work now also addresses advanced-AI safety and governance.
+    epithet: The Dual-Mandate Institution Builder
+    role: Deep learning, reasoning, and safety
+    rosterCardSummary: A representation-learning pioneer who insists capability and safety belong in the same research plan, however inconvenient that is for the spreadsheet.
+    biography: >-
+      Yoshua Bengio is a professor at the Université de Montréal and the founder and scientific
+      adviser of Mila. His research helped establish deep learning and representation learning,
+      including work on neural language models, generative models and distributed
+      representations. He shared the 2018 Turing Award with Geoffrey Hinton and Yann LeCun for
+      advances that made deep neural networks practical and influential. More recently, his
+      research and public work have increasingly addressed the safety and governance of advanced
+      artificial intelligence, including the need for scientific evidence, democratic oversight
+      and international cooperation. At Montréal, he built Mila from his research group into an
+      independent academic institute. The combination is unusually direct: one of the people who helped make
+      modern AI work is also asking what institutions and technical methods are needed to keep
+      more capable systems under human control.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.70 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.25, baseSigningCash: 12, auraCost: 18, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 4, reasoningTools: 5, roboticsEmbodiment: 1, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 1, training: 4, product: 1, management: 5, politics: 4 }
+    traits: [trait.dual-mandate, trait.responsible-disclosure]
+    signature:
+      id: ability.dual-mandate
+      label: Dual Mandate
+      eligibleAssignments: [capability-program, safety-program]
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.responsible-disclosure
+      label: Responsible Disclosure
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.safety-floor
+      label: Safety Floor
+      requirement: Once any model in the lab has a Frontier Estimate of 60 or more (roughly a high-end Tier 4 Tool-Using Agent), keep at least 30% of R&D compute assigned to safety.
+      check: { type: conditional-metric-at-least, condition: { metric: lab.model.maxActiveFC, value: 60 }, metric: lab.allocation.rdSafetyShare, value: 0.30 }
+      breachEvent: people.compact.safety-floor
+    paperHooks:
+      ids: [paper.fast-deep-belief-nets, paper.generative-adversarial-nets, paper.neural-attention-translation]
+    eventReactions:
+      - { triggerTag: safety-budget-cut, line: "We should not describe the future as uncertain and then remove the part of the budget designed to learn about it." }
+      - { triggerTag: voluntary-disclosure, line: "Candour is expensive once. Concealment compounds." }
+      - { triggerTag: coalition-overture, line: "Cooperation is slower than unilateral action until the moment unilateral action requires everyone else's trust." }
+    feedLines:
+      - Joshua has submitted a research plan in which capabilities and safety are inconveniently located in the same spreadsheet.
+      - A disclosure meeting ended with dented publicity, higher trust, and the rare sensation that accounting captured reality.
+      - Joshua asked whether the race has a finish line or merely an externality.
+      - Capability and safety now occupy the same budget sheet, which Joshua regards as a promising first contact between the departments.
+      - A generative-model seminar concluded with three new experiments and one international institution.
+      - Joshua described cooperation as technically demanding, which caused the technical team to become interested.
+    portrait:
+      assetId: portrait.researcher.joshua-benji
+      brief: Thoughtful 8-bit editorial portrait; older white man with curly grey hair and a gentle expression, balanced green capability and safety graphs behind him; humane, scholarly, not photoreal.
+      altText: Pixel-art portrait of Joshua Benji with curly grey hair between balanced green capability and safety graphs.
+    sources:
+      - https://awards.acm.org/about/2018-turing
+      - https://mila.quebec/en/directory/yoshua-bengio
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.faye-faye-lee
+    version: 1
+    displayName: Faye-Faye Lee
+    inspirationName: Fei-Fei Li
+    inspirationSummary: ImageNet creator and Stanford HAI founding director whose work connects computer vision, medicine, education and human-centred AI.
+    epithet: The Human Lens
+    role: Computer vision, datasets, and human-centred AI
+    rosterCardSummary: The ImageNet institution-builder who reminds the lab that every giant dataset is also a very large collection of human decisions.
+    biography: >-
+      Fei-Fei Li studied physics at Princeton and electrical engineering at Caltech before
+      joining Stanford's computer-science faculty. She created ImageNet and the ImageNet
+      Challenge, the large-scale visual dataset and benchmark that became a proving ground for
+      major advances in computer vision. Her research has covered object and scene recognition,
+      cognitively inspired AI and ambient intelligence for health care. At Stanford she directed
+      the Artificial Intelligence Laboratory and became founding director of the Institute for
+      Human-Centered Artificial Intelligence. During a Stanford sabbatical, she served as a vice
+      president at Google and chief scientist of AI and machine learning at Google Cloud. She also
+      co-founded AI4ALL, which works to expand access to AI education. She studies spatial
+      intelligence. Her work treats a dataset as more than raw material: its categories,
+      annotations and intended use are design decisions, and the people who make those decisions
+      are part of the technical system.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.85 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.06, baseSigningCash: 10, auraCost: 15, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 3, scientificAi: 5, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 3, management: 5, politics: 4 }
+    traits: [trait.dataset-institution-builder, trait.human-centred-mentor]
+    signature:
+      id: ability.dataset-is-an-institution
+      label: A Dataset Is an Institution
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.12 }
+    passive:
+      id: ability.talent-pipeline
+      label: People Are Infrastructure
+      effects:
+        - { target: researcher.moraleTarget, operation: add, value: 4 }
+    compact:
+      id: compact.data-stewardship
+      label: Data Stewardship
+      requirement: While she leads Multimodality, renew a funded dataset charter every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: data-programme, projectTag: dataset-charter, weeks: 52 }
+      attachedEffects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+      breachEvent: people.compact.data-stewardship
+    paperHooks:
+      ids: [paper.imagenet-database, paper.alexnet, paper.word2vec]
+    eventReactions:
+      - { triggerTag: dataset-shortcut, line: "The model found the easiest signal. Our job was to ensure the easiest signal belonged to the problem." }
+      - { triggerTag: annotation-labour, line: "The dataset is not raw material. It is a record of thousands of human judgements." }
+      - { triggerTag: medical-opportunity, line: "A promising result becomes medicine only after the clinicians, patients and validation all enter the room." }
+    feedLines:
+      - Faye-Faye added a dataset charter. The dataset has acquired governance and, unexpectedly, better labels.
+      - The vision team requested more images; Faye-Faye requested a better account of where the first images came from.
+      - A student seminar produced two recruits and one research direction senior staff had missed.
+      - The benchmark is large enough to change the field and documented enough to change the meeting.
+      - Faye-Faye connected the robotics, medicine and perception teams with one carefully chosen lunch table.
+      - Human-centred AI has again required the presence of humans, delaying the purely automated slide deck.
+    portrait:
+      assetId: portrait.researcher.faye-faye-lee
+      brief: Warm 8-bit editorial portrait; East Asian woman with long dark hair and a confident, generous expression, beside a mosaic of labelled image tiles and a small human silhouette; scholarly and bright, not photoreal.
+      altText: Pixel-art portrait of Faye-Faye Lee beside a mosaic of labelled images and a small human figure.
+    sources:
+      - https://hai.stanford.edu/people/fei-fei-li
+      - https://www.image-net.org/static_files/papers/imagenet_cvpr09.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.andrew-n-gee
+    version: 1
+    displayName: Andrew N. Gee
+    inspirationName: Andrew Ng
+    inspirationSummary: Google Brain founder and Coursera co-founder who made machine learning a practical discipline for a global classroom.
+    epithet: The Great Translator
+    role: Applied ML, products, and education
+    rosterCardSummary: An applied-AI builder and educator whose preferred scaling law begins with one clear lesson and ends with a few million people taking it.
+    biography: >-
+      Andrew Ng is an adjunct professor at Stanford and the founder of DeepLearning.AI and
+      Landing AI. He founded and led the Google Brain project, served as chief scientist at
+      Baidu, and has worked on machine-learning applications including computer vision, speech
+      and autonomous systems. In 2011 he taught Stanford's online machine-learning course to more
+      than 100,000 students, an experiment that helped lead to Coursera, which he co-founded.
+      Earlier at Stanford, he directed the Artificial Intelligence Laboratory and worked on
+      robotics, perception and large-scale unsupervised learning. Across research, education and
+      product work, his recurring focus is turning machine learning from a promising demonstration
+      into something people can understand, build and deploy. The method is recognisable: explain
+      the core idea clearly, identify a useful application, then replace the heroic prototype with
+      a repeatable engineering process. The online course showed technical education could
+      be engineered for global scale.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 1.00 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 5, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 5, management: 5, politics: 3 }
+    traits: [trait.exceptional-educator, trait.applied-instinct]
+    signature:
+      id: ability.ship-it-responsibly
+      label: Ship It Responsibly
+      eligibleAssignments: [capability-program, safety-program]
+      rampWeeks: 4
+      effects:
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    passive:
+      id: ability.everyone-can-learn-this
+      label: Everyone Can Learn This
+      effects:
+        - { target: researcher.moraleTarget, operation: add, value: 3 }
+    compact:
+      id: compact.teach-the-lab
+      label: Teach the Lab
+      requirement: Complete one internal machine-learning course every 52 weeks.
+      check: { type: tagged-action-within, tags: [internal-course], weeks: 52 }
+      fulfilmentEffects:
+        - { target: researcher.moraleTarget, operation: add, value: 3 }
+      breachEvent: people.compact.teach-the-lab
+    paperHooks:
+      ids: [paper.lenet-document-recognition, paper.alexnet, paper.deep-q-network]
+    eventReactions:
+      - { triggerTag: prototype-demo, line: "Wonderful. Now let us discover whether the customer has the same distribution as the demo." }
+      - { triggerTag: hiring-bottleneck, line: "Talent is not a fixed natural resource. We can teach more people." }
+      - { triggerTag: product-fire, line: "First stabilise the system. Then write the lesson while the lesson is still honest." }
+    feedLines:
+      - Andrew converted a research notebook into a course and the course into three qualified applicants.
+      - The demo works, the checklist exists, and Product has been gently informed these are separate achievements.
+      - An internal lecture titled “Machine Learning Yearning, Again” reached standing-room capacity.
+      - Andrew found a valuable use case hiding beneath four layers of fashionable terminology.
+      - The new cohort completed onboarding cheaper than forecast and considerably more enthusiastically than budgeted.
+      - A public explainer earned the lab a wave of public affection and approximately 200,000 ambitious homework submissions.
+    portrait:
+      assetId: portrait.researcher.andrew-n-gee
+      brief: Friendly 8-bit editorial portrait; East Asian man with short dark hair and an open smile, in front of a chalkboard that connects a neural network to a small deployed product; welcoming and crisp, not photoreal.
+      altText: Pixel-art portrait of Andrew N. Gee before a chalkboard linking a neural network diagram to a deployed product.
+    sources:
+      - https://hai.stanford.edu/people/andrew-ng
+      - https://www.coursera.org/about/leadership
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.geoff-deen
+    version: 1
+    displayName: Geoff Deen
+    inspirationName: Jeff Dean
+    inspirationSummary: Google systems architect behind MapReduce, Bigtable, Spanner, TensorFlow and the infrastructure that lets ambitious models fit on real machines.
+    epithet: The Systems Architect
+    role: Distributed systems and ML infrastructure
+    rosterCardSummary: A distributed-systems architect who finds the bottleneck everyone else had promoted to a law of physics.
+    biography: >-
+      Jeff Dean joined Google in 1999 and helped design systems that made web-scale computation
+      practical. His work includes MapReduce for large distributed data-processing jobs, Bigtable
+      for structured storage and Spanner for globally distributed databases. He later helped
+      start Google Brain, contributed to the DistBelief and TensorFlow machine-learning systems,
+      and worked on Pathways and Google's tensor-processing units. These projects turned difficult
+      infrastructure problems into reusable platforms that other researchers and engineers could
+      build on. MapReduce also inspired external systems including Hadoop, while Bigtable and
+      Spanner became production foundations for Google services. The effect is leverage
+      rather than spectacle: a cleaner abstraction, storage system or accelerator stack lets
+      thousands of people attempt experiments that were previously too slow, unreliable or
+      expensive. The magic trick is usually a profiler trace, a reusable abstraction and a calm
+      explanation of why the cluster was waiting.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.65 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 4, reasoningTools: 3, roboticsEmbodiment: 1, scientificAi: 3, alignmentControl: 2, interpretabilityEvals: 1, securityContainment: 5, training: 5, product: 4, management: 5, politics: 1 }
+    traits: [trait.warehouse-scale-thinking, trait.bottleneck-instinct]
+    signature:
+      id: ability.cluster-is-the-algorithm
+      label: The Cluster Is the Algorithm
+      eligibleAssignments: [capability-program, safety-program]
+      rampWeeks: 4
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: gpu-throughput }
+    passive:
+      id: ability.build-once-scale-twice
+      label: Build Once, Scale Twice
+      effects:
+        - { target: lab.compute.ownedPowerCost, operation: multiply, value: 0.9 }
+    compact:
+      id: compact.serious-infrastructure
+      label: Serious Infrastructure
+      requirement: Complete Data Centre I within 26 weeks of hiring.
+      cadence: one-time
+      check: { type: facility-owned-within, facility: facility.data-centre-1, weeks: 26 }
+      breachEvent: people.compact.serious-infrastructure
+    paperHooks:
+      ids: [paper.word2vec, paper.sparse-mixture-of-experts, paper.transformer]
+    eventReactions:
+      - { triggerTag: cluster-outage, line: "Good news: the failure is deterministic. Better news: it will shortly be someone else's abstraction." }
+      - { triggerTag: compute-shortage, line: "Before buying another building, may I remove the part where half the building waits for the other half?" }
+      - { triggerTag: scaling-proposal, line: "The architecture diagram is excellent. Please add the network, power, memory and laws of thermodynamics." }
+    feedLines:
+      - Geoff removed a synchronisation barrier and conjured meaningfully more compute without alarming Procurement.
+      - The cluster has been renamed after the service that keeps it from becoming several smaller clusters.
+      - A systems review found the algorithm waiting politely for the network.
+      - Geoff drew the new data centre from memory; Facilities requested the version containing doors.
+      - Training throughput rose after a three-line change no one is yet willing to describe as infrastructure policy.
+      - The incident postmortem is blameless, precise and quietly devastating to the previous architecture.
+    portrait:
+      assetId: portrait.researcher.geoff-deen
+      brief: Calm 8-bit editorial portrait; tall white man with short brown hair and glasses, surrounded by orderly purple server racks and a tiny green throughput graph; quietly formidable, not photoreal.
+      altText: Pixel-art portrait of Geoff Deen with glasses among orderly server racks and a rising throughput graph.
+    sources:
+      - https://research.google/people/jeff/
+      - https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.david-sterling
+    version: 1
+    displayName: David Sterling
+    inspirationName: David Silver
+    inspirationSummary: Reinforcement-learning researcher who led AlphaGo, AlphaGo Zero and AlphaZero through search, self-play and increasingly general game mastery.
+    epithet: The Self-Play Strategist
+    role: Reinforcement learning, planning, and games
+    rosterCardSummary: The self-play strategist behind AlphaGo and AlphaZero, building leagues in which the model's most useful opponent is yesterday's model.
+    biography: >-
+      David Silver completed a doctorate in reinforcement learning at the University of Alberta
+      under Richard Sutton before joining DeepMind in 2013. There he led a programme combining
+      reinforcement learning, planning, deep neural networks and self-play. He was a lead researcher on
+      AlphaGo, which defeated leading professional Go players, and on AlphaGo Zero, which learned
+      Go from self-play without human game data. AlphaZero extended the approach to chess and
+      shogi as well as Go. The public matches made the results famous. He is a professor at
+      University College London. The underlying research programme was a sequence of controlled
+      environments in which search, learned value
+      functions and experience could be tested together. Games served as compact laboratories:
+      their rules are exact, their outcomes are measurable and a new agent can always be asked
+      to play a very large number of games against its most demanding available colleague—itself.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.70 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.2, baseSigningCash: 12, auraCost: 17, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 2, scientificAi: 3, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 0, training: 5, product: 1, management: 5, politics: 2 }
+    traits: [trait.self-play-strategist, trait.experimental-composure]
+    signature:
+      id: ability.league-of-ones-own
+      label: League of One's Own
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.03, stackingGroup: gpu-throughput }
+    passive:
+      id: ability.stable-league
+      label: Stable League
+      effects:
+        - { target: lab.research.program.base:domain.reinforcement-agency.weeklyVarianceWidth, operation: multiply, value: 0.70, stackingGroup: variance-width }
+    compact:
+      id: compact.dedicated-arena
+      label: The Conviction
+      requirement: Once any model in the lab reaches Tier 5 (Autonomous Researcher, Frontier Estimate 65+), grant it Laboratory Operator access — autonomy level 4 — and keep it there. Agents learn by acting.
+      check: { type: conditional-metric-at-least, condition: { metric: lab.model.maxActiveFC, value: 65 }, metric: lab.model.currentAccessLevel, value: 4 }
+      breachEvent: people.compact.dedicated-arena
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphago, paper.alphazero]
+    eventReactions:
+      - { triggerTag: emergent-strategy, line: "Do not explain the move yet. First establish that it keeps winning when the story changes." }
+      - { triggerTag: reward-hacking, line: "The agent has optimised the objective. This is a result about the objective." }
+      - { triggerTag: public-match, line: "The match is useful because everyone can see the question. The research begins where the applause stops." }
+    feedLines:
+      - David started another self-play league. The agents have no audience and an excellent strength of schedule.
+      - A surprising strategy survived replication and has been promoted from “bug” to “Move 37.”
+      - The RL variance narrowed. Finance has asked whether self-play can be applied to revenue.
+      - David requested an arena, a clean reward and several million games with no press access.
+      - The planning system searched fewer branches and found a better answer, alarming the brute-force team.
+      - A public victory generated a wave of acclaim and a private list of twelve reasons not to generalise from it.
+    portrait:
+      assetId: portrait.researcher.david-sterling
+      brief: Composed 8-bit editorial portrait; white man with short dark hair and a slight smile, before a Go board whose branches become a green search tree; precise and quietly dramatic, not photoreal.
+      altText: Pixel-art portrait of David Sterling before a Go board transforming into a green search tree.
+    sources:
+      - https://deepmind.google/about/people/david-silver/
+      - https://doi.org/10.1038/nature16961
+      - https://deepmind.google/research/alphago/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.rick-sutton
+    version: 1
+    displayName: Rick Sutton
+    inspirationName: Richard Sutton
+    inspirationSummary: Co-author of reinforcement learning's standard textbook and architect of temporal-difference learning and general, scalable methods.
+    epithet: The Long-Horizon Purist
+    role: Reinforcement-learning foundations
+    rosterCardSummary: A foundational reinforcement-learning thinker who favours general methods, long horizons and giving the compute enough time to win the argument.
+    biography: >-
+      Richard Sutton is a University of Alberta professor whose research asks for general
+      computational principles of intelligence and goal-directed behaviour. His contributions
+      include temporal-difference learning, methods for prediction and planning, and agent
+      architectures built around learning from interaction. With Andrew Barto he wrote
+      Reinforcement Learning: An Introduction, a standard textbook that organised the field's
+      mathematics, algorithms and central questions into a coherent account. His work repeatedly
+      returns to methods that learn from experience and improve as computation becomes available,
+      rather than relying mainly on hand-coded domain knowledge. His broader interests include
+      animal-learning theory and representing knowledge directly in terms of an agent's
+      experience. His Dyna architecture integrated learning, planning and acting in a single
+      adaptive agent. That stance gives his research a long time horizon and a simple challenge
+      to every elaborate shortcut: if the general method gets more data and more compute, which
+      approach is still standing?
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.85 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 5, scientificAi: 2, alignmentControl: 3, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 0, management: 4, politics: 2 }
+    traits: [trait.general-methods, trait.long-horizon]
+    signature:
+      id: ability.general-methods-win-eventually
+      label: General Methods Win Eventually
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.compute-friendly-ideas
+      label: Compute-Friendly Ideas
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.03, stackingGroup: gpu-throughput }
+    compact:
+      id: compact.research-freedom
+      label: Research Freedom
+      requirement: Complete one open research-charter review every 52 weeks.
+      check: { type: tagged-action-within, tags: [open-research-charter], weeks: 52 }
+      fulfilmentEffects:
+        - { target: researcher.moraleTarget, operation: add, value: 3 }
+      breachEvent: people.compact.research-freedom
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphago, paper.alphazero]
+    eventReactions:
+      - { triggerTag: hand-engineered-shortcut, line: "It may work beautifully. The question is whether experience could learn something that keeps working after we leave." }
+      - { triggerTag: compute-windfall, line: "Compute is useful when the method knows how to convert it into experience." }
+      - { triggerTag: ai-research-assistance, line: "A learning system improving a learning method is interesting. Keep the objective legible." }
+    feedLines:
+      - Rick removed a clever heuristic. Performance fell, recovered, and became much more interesting.
+      - The general method has lost today's benchmark and retained tomorrow's compute curve.
+      - A temporal-difference seminar created a prediction error and then, appropriately, learned from it.
+      - Rick requested more interaction and fewer labels describing the interaction after the fact.
+      - The open-research charter returned from Rick's office with fewer clauses and a much longer time horizon.
+      - The Bitterer Lesson draft was rejected for excessive short-term bitterness.
+    portrait:
+      assetId: portrait.researcher.rick-sutton
+      brief: Scholarly 8-bit editorial portrait; older white man with a bald crown, long grey hair at the sides, glasses, and a long grey beard, beside a gold temporal-difference arrow stretching across a long timeline; calm and principled, not photoreal.
+      altText: Pixel-art portrait of Rick Sutton with a bald crown, long grey side hair, and a long grey beard beside a gold temporal-difference arrow spanning a long timeline.
+    sources:
+      - https://apps.ualberta.ca/directory/person/rsutton
+      - http://incompleteideas.net/book/the-book-2nd.html
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.stewart-russel
+    version: 1
+    displayName: Stewart Russel
+    inspirationName: Stuart Russell
+    inspirationSummary: Co-author of AI's standard textbook and founder of CHAI, connecting intelligent-systems research with human-compatible AI.
+    epithet: The Human-Compatible Statesman
+    role: Alignment, governance, and coalition building
+    rosterCardSummary: The AI-textbook author who asks what the objective means, who supplied it, and whether the machine should be quite so certain.
+    biography: >-
+      Stuart Russell studied physics at Oxford before completing a doctorate in computer science
+      at Stanford and joining the University of California, Berkeley. His research has included
+      probabilistic reasoning, decision-making and the foundations of intelligent systems. With
+      Peter Norvig he wrote Artificial Intelligence: A Modern Approach, a textbook used at
+      universities around the world—more than 1,500 universities across 135 countries, according
+      to his Berkeley biography. He later founded Berkeley's Center for Human-Compatible AI,
+      where research examines how intelligent systems can remain uncertain about human
+      preferences and act as assistants rather than optimisers of a fully specified objective.
+      He has worked on public policy, international security and the governance of autonomous
+      systems. Across those settings, the same question keeps returning: if a machine pursues an
+      objective very effectively, what evidence shows that the objective represents what people
+      actually want—and what happens when it does not?
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.90 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 1, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 2, scientificAi: 1, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 2, training: 1, product: 0, management: 4, politics: 5 }
+    traits: [trait.human-compatible, trait.public-statesman]
+    signature:
+      id: ability.assistance-not-objectives
+      label: Assistance, Not Objectives
+      eligibleAssignments: [safety-program]
+      activation: { type: assignment-domain-in, values: [safety.alignment-control] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.credible-person-entered-hearing
+      label: A Credible Person Has Entered the Hearing
+      effects:
+        - { target: action.tag.lobbying.auraCost, operation: multiply, value: 0.80 }
+        - { target: action.tag.coalition.auraCost, operation: multiply, value: 0.80 }
+    compact:
+      id: compact.external-governance
+      label: External Governance
+      requirement: Before deploying a model with a Frontier Estimate of 60 or more (roughly a high-end Tier 4 Tool-Using Agent), appoint an independent safety committee.
+      cadence: one-time
+      check: { type: deployment-requires-flag, frontierCapabilityAtLeast: 60, flag: lab.governance.independentSafetyCommittee }
+      breachEvent: people.compact.external-governance
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphazero]
+    eventReactions:
+      - { triggerTag: objective-misspecification, line: "The system did what we asked. That is the beginning of the diagnosis, not the end of responsibility." }
+      - { triggerTag: government-hearing, line: "We can be precise without pretending certainty, and urgent without pretending that speed is a policy." }
+      - { triggerTag: coalition-friction, line: "A coalition that never constrains us is a mailing list. The constraint is part of the evidence." }
+    feedLines:
+      - Stewart entered the hearing. The number of adjectives fell and Government Trust rose.
+      - The objective function has been asked to acknowledge that humans may know things it does not.
+      - A coalition memo returned with edits from actual coalition members, causing a brief governance breakthrough.
+      - Stewart explained corrigibility without using the phrase “just turn it off.”
+      - Lobbying cost noticeably less goodwill after the policy team replaced certainty with a technically accurate paragraph.
+      - The independent committee has asked an inconvenient question and therefore appears operational.
+    portrait:
+      assetId: portrait.researcher.stewart-russel
+      brief: Distinguished 8-bit editorial portrait; older white man with silver hair, thoughtful eyes and a formal jacket, beside a blue control diagram and a small semicircle of council seats; statesmanlike, not photoreal.
+      altText: Pixel-art portrait of Stewart Russel beside a blue AI control diagram and an external council semicircle.
+    sources:
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/russell.html
+      - https://humancompatible.ai/
+      - https://aima.cs.berkeley.edu/~russell/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.peter-abell
+    version: 1
+    displayName: Peter Abeter
+    inspirationName: Pieter Abbeel
+    inspirationSummary: Berkeley robot-learning pioneer whose work taught helicopters and manipulators to learn skills from demonstrations and experience.
+    epithet: The Robot Mentor
+    role: Robot learning, imitation, and reinforcement learning
+    rosterCardSummary: A robot-learning builder who turns demonstrations into policies, failed grasps into datasets and laundry into a surprisingly durable benchmark.
+    biography: >-
+      Pieter Abbeel has helped move robotics from laboriously scripted motion toward machines that
+      learn skills from people, data and experience. After studying electrical engineering at KU
+      Leuven, he completed a Stanford doctorate on apprenticeship and reinforcement learning for
+      robotic control and joined Berkeley's faculty. His research has covered learning from
+      demonstrations, deep reinforcement learning, manipulation, transfer and meta-learning.
+      Early projects included autonomous helicopter aerobatics and robots folding previously
+      unseen towels; later work has pursued more general robot-learning systems. He directs the
+      Berkeley Robot Learning Lab and co-directs the Berkeley Artificial Intelligence Research
+      Lab, and has co-founded organisations including Gradescope and Covariant. The recurring
+      engineering test is what happens after the polished demonstration: whether the learned
+      skill transfers to a new object, survives contact with friction and still works when the
+      camera is pointed somewhere less convenient. His laboratory has trained many later AI and
+      robotics founders.
+    availability:
+      wave: foundation
+      earliestYear: 2012
+      poolWeight: 0.90
+      unlockAny: [{ phaseAtLeast: foundation }, { facilityCompleted: facility.robotics-lab-1 }]
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.16, baseSigningCash: 11, auraCost: 17, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 4, reasoningTools: 3, roboticsEmbodiment: 5, scientificAi: 2, alignmentControl: 1, interpretabilityEvals: 2, securityContainment: 1, training: 4, product: 4, management: 5, politics: 1 }
+    traits: [trait.robot-mentor, trait.demonstration-learning]
+    signature:
+      id: ability.demonstrate-then-generalise
+      label: Demonstrate, Then Generalise
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment, domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.04 }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.02 }
+    passive:
+      id: ability.robotics-alumni-network
+      label: Robotics Alumni Network
+      effects:
+        - { target: researcher.loyalty, operation: add, value: 4 }
+    compact:
+      id: compact.robots-you-can-touch
+      label: Robots You Can Touch
+      requirement: Complete Robotics Lab I within 26 weeks of hiring him.
+      cadence: one-time
+      check: { type: facility-owned-within, facility: facility.robotics-lab-1, weeks: 26 }
+      breachEvent: people.compact.robots-you-can-touch
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphago]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Excellent. Reality has submitted a review with unusually specific reproduction steps." }
+      - { triggerTag: worker-consultation, line: "The people who know the task are not a deployment obstacle. They are the highest-bandwidth demonstration source we have." }
+      - { triggerTag: simulation-transfer, line: "Simulation has taught the policy a useful skill and several beliefs about friction we should correct immediately." }
+    feedLines:
+      - Peter turned ten demonstrations into a robot policy and the eleventh into a new research programme.
+      - The robot completed the task outside the camera framing. Engineering has declared this the real benchmark.
+      - Robotics Lab I now contains three arms, twelve sensors and no unearned confidence.
+      - A failed grasp produced better data than the successful demo, which is why the failed grasp is not in the launch video.
+      - Peter's students have improved the baseline, the hardware and the lab's recruiting pipeline.
+      - The warehouse contract includes rather more reality than the simulator predicted.
+    portrait:
+      assetId: portrait.researcher.peter-abell
+      brief: Upbeat 8-bit editorial portrait; white man with short dark hair and a friendly grin, beside a compact orange robot arm learning from a dotted demonstration path; inventive and hands-on, not photoreal.
+      altText: Pixel-art portrait of Peter Abeter beside an orange robot arm following a demonstrated motion path.
+    sources:
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/abbeel.html
+      - https://abbeel.berkeley.edu/brief_bio.html
+      - https://people.eecs.berkeley.edu/~pabbeel/papers/thesis.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.jo-pineau
+    version: 1
+    displayName: Jo Pineau
+    inspirationName: Joëlle Pineau
+    inspirationSummary: Reinforcement-learning and health-AI researcher who helped make reproducibility a conference-wide engineering discipline.
+    epithet: The Reproducibility Marshal
+    role: Reinforcement learning, health applications, and reproducibility
+    rosterCardSummary: A reinforcement-learning leader who asks the spectacular curve to return with its seed, code and one independently repeated appearance.
+    biography: >-
+      Joëlle Pineau is a professor at McGill University and a member of Mila. Her
+      research spans reinforcement learning, planning under partial observability and
+      machine-learning applications in health care, including adaptive treatment and
+      neurostimulation. She has also held research leadership roles at Meta's Fundamental AI
+      Research organisation. Alongside that technical work, she helped lead
+      the NeurIPS reproducibility programme. Its measures included a code-submission policy, a
+      community reproducibility challenge and a checklist built into paper submission, followed
+      by a systematic study of how those interventions affected research practice. At McGill, she
+      co-directs the Reasoning and Learning Lab. The premise is practical rather than
+      ceremonial: a result that can be rerun is easier to inspect, extend and trust. A spectacular
+      curve is welcome; reproducible science simply asks it to arrive with the environment, the
+      seed and a reliable independent second appearance.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 1.00 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 0, optimisationScaling: 0, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 0, reasoningTools: 2, roboticsEmbodiment: 5, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 2, management: 5, politics: 3 }
+    traits: [trait.reproducibility-leader, trait.healthcare-rigour]
+    signature:
+      id: ability.same-result-twice
+      label: Same Result Twice
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-id-in, values: [domain.reinforcement-agency, safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: lab.research.program.base:domain.reinforcement-agency.weeklyVarianceWidth, operation: multiply, value: 0.50, stackingGroup: variance-width }
+    passive:
+      id: ability.checklist-included
+      label: Checklist Included
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.reproducible-by-default
+      label: Reproducible by Default
+      requirement: Publish a reproducibility checklist for at least one discovery every 52 weeks.
+      check: { type: tagged-action-within, tags: [reproducibility-checklist], weeks: 52 }
+      breachEvent: people.compact.reproducible-by-default
+    paperHooks:
+      ids: [paper.deep-q-network, paper.alphago]
+    eventReactions:
+      - { triggerTag: failed-replication, line: "This is not an embarrassment. It is the experiment continuing after the first paper ended." }
+      - { triggerTag: benchmark-record, line: "Congratulations. Freeze the environment, publish the seed, and let us see whether congratulations survives." }
+      - { triggerTag: healthcare-deployment, line: "A clinical decision system requires more than average performance. It requires an account of uncertainty people can use." }
+    feedLines:
+      - Jo reran the result with a new seed. The applause waited outside until the second curve arrived.
+      - The checklist added six minutes to submission and removed six months from the argument.
+      - A replicated paper earned quiet institutional credit and one extremely satisfied methods section.
+      - Jo narrowed the RL variance without narrowing the question.
+      - The health-care pilot now includes uncertainty, external validation and fewer triumphant adjectives.
+      - Code release day has become a lab holiday observed by rebuilding the environment from scratch.
+    portrait:
+      assetId: portrait.researcher.jo-pineau
+      brief: Confident 8-bit editorial portrait; white woman with medium-length brown hair, beside two nearly matching experiment curves and a blue reproducibility checklist; exacting and warm, not photoreal.
+      altText: Pixel-art portrait of Jo Pineau beside two replicated experiment curves and a blue checklist.
+    sources:
+      - https://mila.quebec/en/directory/joelle-pineau
+      - https://arxiv.org/abs/2003.12206
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.john-hopfeld
+    version: 1
+    displayName: John Hopfeld
+    inspirationName: John Hopfield
+    inspirationSummary: Physicist whose associative-memory networks brought energy landscapes into neural computation and earned the 2024 Physics Nobel.
+    epithet: The Physicist Who Found Memory
+    role: Associative memory networks and physics-inspired computation
+    rosterCardSummary: A physicist who turned associative memory into an energy landscape and gave every unstable network a more revealing question about where it settles.
+    biography: >-
+      John Hopfield arrived at neural computation from condensed-matter physics, and the crossing
+      connected physics, chemistry, molecular biology and neuroscience. His earlier work included
+      electron transfer and kinetic proofreading, a mechanism explaining how biological systems
+      can achieve high accuracy. In the early 1980s he described recurrent networks whose dynamics
+      move toward stable attractors, allowing stored patterns to be reconstructed from partial or
+      corrupted input. By connecting associative memory to dynamical systems and an energy
+      function, Hopfield networks gave researchers a physical language for reasoning about neural
+      computation. He also helped establish Caltech's Computation and Neural Systems programme
+      before returning to Princeton. In 2024 he shared the Nobel Prize in Physics with Geoffrey
+      Hinton for foundational discoveries enabling machine learning with artificial neural
+      networks. That career repeatedly made physical principles useful in fields that had not yet
+      agreed they shared a problem. His characteristic question remains useful: not only what a
+      system computes, but which states its dynamics make stable.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.4 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.01, baseSigningCash: 10, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 1, interpretabilityEvals: 4, securityContainment: 0, training: 3, product: 0, management: 2, politics: 1 }
+    traits: [trait.energy-landscape-instinct, trait.physics-of-computation]
+    signature:
+      id: ability.associative-memory-dynamics
+      label: Associative Memory Dynamics
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.02 }
+    passive:
+      id: ability.stable-states-tell-you-the-purpose
+      label: Stable States Tell You the Purpose
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.publish-the-underlying-physics
+      label: Read the Energy Landscape
+      requirement: Complete one energy-landscape review every 52 weeks.
+      check: { type: tagged-action-within, tags: [energy-landscape-review], weeks: 52 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks: { ids: [] }
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Before we chase it, tell me what energy function this thing is descending. If nobody can, we are guessing." }
+      - { triggerTag: anomalous-representation, line: "The network settled somewhere we did not intend. That is information about the landscape, not noise." }
+      - { triggerTag: academia-industry-tension, line: "Physics took a century to become useful. I would rather we were right than early." }
+    feedLines:
+      - John reframed a training instability as an energy landscape problem, and the fix became obvious.
+      - A whiteboard argument about attractors ran three hours past its slot and nobody left.
+      - John's habit of asking what the system settles into caught a failure mode the metrics had missed.
+      - The team started sketching energy diagrams before architectures, which John pretended not to notice.
+      - A visiting physicist recognised John's notation from a paper written before most of the team was born.
+      - John pointed out, gently, that the lab had rediscovered a result from 1982.
+    portrait:
+      assetId: portrait.researcher.john-hopfeld
+      brief: Calm, patrician 8-bit editorial portrait; older light-complexioned man with very short white hair and no glasses, beside a bowl-shaped energy landscape with a marble settling into its lowest point; contemplative and physical, not photoreal.
+      altText: Pixel-art portrait of John Hopfeld beside an energy landscape with a marble settling into a stable state.
+    sources:
+      - https://www.princeton.edu/news/2024/10/08/princetons-john-hopfield-receives-nobel-prize-physics
+      - https://pni.princeton.edu/people/john-j-hopfield/cv
+      - https://www.nobelprize.org/prizes/physics/2024/hopfield/facts/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-27 }
+
+  - id: researcher.paul-werbost
+    version: 1
+    displayName: Paul Werbost
+    inspirationName: Paul Werbos
+    inspirationSummary: Early backpropagation and adaptive-dynamic-programming researcher who documented key ideas in his 1974 Harvard dissertation.
+    epithet: The Ordered Derivative
+    role: Backpropagation origins and long-horizon research funding
+    rosterCardSummary: Put key backpropagation ideas in a 1974 thesis, then spent a career funding work whose principal defect was arriving before its audience.
+    biography: >-
+      Paul Werbos's 1974 Harvard dissertation, Beyond Regression, described ordered derivatives
+      and a way to propagate error information backwards through differentiable systems. He
+      connected that machinery to learning and adaptive dynamic programming; the work later
+      became part of the documented history of backpropagation. His subsequent career ranged from
+      official econometric forecasting at the United States Department of Energy to many years as
+      a programme director at the National Science Foundation. There he supported research on
+      neural networks, intelligent control, adaptive systems and related areas that were not
+      always at the peak of their fashion cycle. He also continued developing approximate dynamic
+      programming and recurrent-learning methods. The historical record of backpropagation has
+      several independent strands, but his thesis makes one point unusually clear: important
+      ingredients can be written down long before the field has the compute, vocabulary or
+      appetite to recognise them. The IEEE gave him its Neural Network Pioneer Award in 1995.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.35 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 0.97, baseSigningCash: 9, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 1, reasoningTools: 4, roboticsEmbodiment: 1, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 0, management: 3, politics: 4 }
+    traits: [trait.unfashionable-patience, trait.funder-of-winters]
+    signature:
+      id: ability.error-propagated-backwards
+      label: Error, Propagated Backwards
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.98 }
+    passive:
+      id: ability.citation-archaeology
+      label: Citation Archaeology
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.fund-the-unfashionable
+      label: Fund the Unfashionable
+      requirement: Complete one review of an unfashionable long-shot research proposal every 52 weeks.
+      check: { type: tagged-action-within, tags: [unfashionable-research-review], weeks: 52 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks: { ids: [] }
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "This was in the literature in 1974. It did not work then because the machines were small, not because it was wrong." }
+      - { triggerTag: ablation-budget, line: "Run the boring ablation. The interesting result is usually hiding behind it." }
+      - { triggerTag: academia-industry-tension, line: "I spent twenty years funding work nobody wanted. Some of it is now your entire field." }
+    feedLines:
+      - Paul produced a thirty-year-old reference that answered the question the team had spent a week on.
+      - A junior researcher's novel idea turned out to have a citation, which Paul supplied kindly.
+      - Paul argued for funding the unfashionable branch, and was, as usual, several years early.
+      - The optimiser rewrite went faster once Paul pointed out which derivative was being computed twice.
+      - Paul noted that the field has now rediscovered the same idea three times under three names.
+      - A grant committee anecdote from Paul quietly reframed how the lab picks its long-shot projects.
+    portrait:
+      assetId: portrait.researcher.paul-werbost
+      brief: Wry, understated 8-bit editorial portrait; older light-complexioned man with receding white hair and no glasses, holding a bound thesis while a modern training curve descends behind him; patient and slightly vindicated, not photoreal.
+      altText: Pixel-art portrait of Paul Werbost holding a bound thesis beside a descending training curve.
+    sources:
+      - https://www.werbos.com/PJW_NSF_bio_Feb2015.pdf
+      - https://ethw.org/Paul_John_Werbos
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-27 }
+
+  - id: researcher.vladimir-vapnick
+    version: 1
+    displayName: Vladimir Vapnick
+    inspirationName: Vladimir Vapnik
+    inspirationSummary: Statistical-learning theorist behind capacity bounds and support-vector machines—first the generalisation question, then the classifier.
+    epithet: The Theory Before the Data
+    role: Statistical learning theory and margin-based methods
+    rosterCardSummary: Built a theory of learning from finite data, then asked the benchmark to state its function class and show its generalisation papers.
+    biography: >-
+      Vladimir Vapnik trained in mathematics and spent nearly three decades at Moscow's Institute
+      of Control Sciences, eventually leading its computer-science research department. His work
+      on statistical learning theory examined when a model fitted to finite data can be expected
+      to generalise. With Alexey Chervonenkis, he developed the capacity measure now known as VC
+      dimension, connecting the complexity of a function class, sample size and generalisation
+      bounds. After joining AT&T Bell Laboratories, he helped turn that theoretical programme
+      into support-vector machines, margin-based methods that became widely used for
+      classification and regression. He later held university appointments at Royal Holloway and
+      Columbia. His books Statistical Learning Theory and The Nature of Statistical Learning
+      Theory organised the framework for later researchers and practitioners. His
+      empirical-risk-minimisation principle connected statistical bounds to practical learning
+      procedures. The
+      sequence is characteristic: define what can be learned, state the assumptions, then allow
+      the algorithm onto the benchmark.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.4 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.01, baseSigningCash: 10, auraCost: 14, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 3, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 1, training: 3, product: 0, management: 2, politics: 1 }
+    traits: [trait.capacity-control, trait.nothing-more-practical-than-theory]
+    signature:
+      id: ability.capacity-bounded-generalisation
+      label: Capacity-Bounded Generalisation
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.generalisation-is-not-luck
+      label: Generalisation Is Not Luck
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.state-the-assumptions
+      label: State the Assumptions
+      requirement: Complete one assumptions-and-generalisation-bounds review every 52 weeks.
+      check: { type: tagged-action-within, tags: [assumptions-and-bounds-review], weeks: 52 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks: { ids: [] }
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "It works on your benchmark. Tell me the capacity of the function class and I will tell you whether that means anything." }
+      - { triggerTag: model-overconfidence, line: "The model has not learned the task. It has memorised the sample. These are different, and the difference is measurable." }
+      - { triggerTag: ablation-budget, line: "Fewer parameters and a stated assumption would answer this faster than another sweep." }
+    feedLines:
+      - Vladimir asked what function class the team was searching, and the meeting quietly restructured itself.
+      - A benchmark result survived Vladimir's questioning, which the team treated as a considerable achievement.
+      - Vladimir's bound predicted the generalisation gap the team measured three weeks later.
+      - An argument about scaling laws ended when Vladimir wrote the capacity term on the board.
+      - Vladimir declined to call it learning until someone could state what was being assumed.
+      - A margin-based baseline Vladimir suggested beat the new architecture, to nobody's stated satisfaction.
+    portrait:
+      assetId: portrait.researcher.vladimir-vapnick
+      brief: Severe, precise 8-bit editorial portrait; older light-complexioned man with a receding white hairline and no glasses, at a blackboard of inequalities with a clean separating margin between two clouds of points; rigorous and unimpressed, not photoreal.
+      altText: Pixel-art portrait of Vladimir Vapnick at a blackboard showing a separating margin between two clouds of data points.
+    sources:
+      - https://datascience.columbia.edu/people/vladimir-vapnik/
+      - https://www.ipu.ru/en/node/74413
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-27 }
+
+  - id: researcher.leslie-valiante
+    version: 1
+    displayName: Leslie Valiante
+    inspirationName: Leslie Valiant
+    inspirationSummary: Turing laureate who defined probably approximately correct learning and reshaped computational learning theory.
+    epithet: The Probably Approximately Correct
+    role: Learning theory, computational complexity, and biological computation
+    rosterCardSummary: Defined what feasible learning means, gave it three carefully chosen words, and left a field several decades of proofs to complete.
+    biography: >-
+      Leslie Valiant is a Harvard professor whose work connects machine learning and
+      computational complexity. His 1984 paper “A Theory of the Learnable” introduced the
+      probably approximately correct, or PAC, framework: a mathematical account of when a learner
+      can find a sufficiently accurate hypothesis from a feasible number of examples using
+      feasible computation. The framework helped establish computational learning theory as a
+      field. He also made foundational contributions to complexity theory, including the class
+      #P for counting problems, and developed theories of parallel computation and biological
+      learning. He has been a member of Harvard's faculty since 1982, working across computer
+      science and applied mathematics. In 2010 he received the Turing Award for contributions to
+      the theory of computation, including computational learning theory. He later explored
+      computational models of biological cognition. His research begins by specifying what
+      success, confidence and efficiency mean. Only then does the system receive permission to be
+      approximately correct.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.35 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.06, baseSigningCash: 10, auraCost: 15, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 3, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 3, interpretabilityEvals: 5, securityContainment: 1, training: 2, product: 0, management: 3, politics: 2 }
+    traits: [trait.tractability-first, trait.provable-before-plausible]
+    signature:
+      id: ability.probably-approximately-correct
+      label: Probably Approximately Correct
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.research.safety.output, operation: multiply, value: 1.05 }
+    passive:
+      id: ability.what-is-it-provably-capable-of
+      label: What Is It Provably Capable Of
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.prove-the-tractability
+      label: Prove the Tractability
+      requirement: Complete one tractability proof review every 52 weeks.
+      check: { type: tagged-action-within, tags: [tractability-proof-review], weeks: 52 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks: { ids: [] }
+    eventReactions:
+      - { triggerTag: agi-declaration-pressure, line: "Before we announce what it can do, I would like to know what it is provably capable of. Those are not the same claim." }
+      - { triggerTag: model-overconfidence, line: "It performed well on the sample you drew. State the distribution and I will tell you what follows." }
+      - { triggerTag: alignment-schism, line: "Half this disagreement would dissolve if both sides wrote down their definitions first." }
+    feedLines:
+      - Leslie asked for the definition first, and the disagreement turned out to be about two different problems.
+      - A capability claim was downgraded to a conjecture after ten minutes with Leslie.
+      - Leslie's framing turned an unbounded research question into one with a tractable answer.
+      - The team learned to bring assumptions to Leslie's office already written down.
+      - Leslie observed that the hard part was never the learning, it was saying what counts as learned.
+      - A complexity argument from Leslie saved a quarter of compute that would have proven nothing.
+    portrait:
+      assetId: portrait.researcher.leslie-valiante
+      brief: Thoughtful, donnish 8-bit editorial portrait; older light-complexioned man with receding grey hair and wire-frame glasses, before a proof sketch bracketing a hypothesis between two bounds; precise and unhurried, not photoreal.
+      altText: Pixel-art portrait of Leslie Valiante before a proof sketch bracketing a hypothesis between two bounds.
+    sources:
+      - https://seas.harvard.edu/person/leslie-valiant
+      - https://www.acm.org/binaries/content/assets/press-releases/2011/march/turing-award-10a.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-27 }
+
+  - id: researcher.bernhard-scholkopff
+    version: 1
+    displayName: Bernhard Schölkopff
+    inspirationName: Bernhard Schölkopf
+    inspirationSummary: Kernel-methods pioneer and causal-learning researcher who keeps asking whether a model learned structure or merely correlation.
+    epithet: The Kernel and the Cause
+    role: Kernel methods and causal inference in machine learning
+    rosterCardSummary: A kernel-methods pioneer who moved on to causality and still wants to know what intervention would make the prediction change.
+    biography: >-
+      Bernhard Schölkopf studied physics, mathematics and philosophy before completing a
+      doctorate in computer science. His research helped develop kernel methods, including
+      support-vector and kernel principal-component techniques, and he co-authored Learning with
+      Kernels, a standard account of the field. He is a director at the Max Planck Institute for
+      Intelligent Systems in Tübingen, where his Department of Empirical Inference studies
+      machine learning from statistical and causal perspectives. Earlier appointments included
+      AT&T Bell Laboratories and Microsoft Research. That later programme asks when a model has
+      captured mechanisms rather than associations, and how causal structure can support
+      robustness, transfer and reasoning about interventions. Kernel methods and causal learning
+      share a concern with structure that the raw observations do not announce by themselves. The
+      department also applies machine learning to astronomy and gravitational-wave analysis. The
+      lab version of the question is concise: what would have to change in the world for this
+      prediction to change?
+    availability: { wave: foundation, earliestYear: 2013, poolWeight: 0.4 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.2, baseSigningCash: 12, auraCost: 17, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 1, scientificAi: 5, alignmentControl: 4, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 0, management: 4, politics: 2 }
+    traits: [trait.causal-structure-first, trait.kernel-rigour]
+    signature:
+      id: ability.causal-representation-learning
+      label: Causal Representation Learning
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.02 }
+    passive:
+      id: ability.what-would-have-to-change
+      label: What Would Have To Change
+      effects:
+        - { target: lab.incident.hazard, operation: multiply, value: 0.94 }
+    compact:
+      id: compact.model-the-mechanism
+      label: Model the Mechanism
+      requirement: Complete one causal-mechanism review every 52 weeks.
+      check: { type: tagged-action-within, tags: [causal-mechanism-review], weeks: 52 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks: { ids: [] }
+    eventReactions:
+      - { triggerTag: model-overconfidence, line: "It has learned what correlates in the training distribution. Change the distribution and we find out what it actually knows." }
+      - { triggerTag: anomalous-representation, line: "Ask what would have to change in the world for that prediction to change. If nothing would, it is not reasoning." }
+      - { triggerTag: architecture-fad, line: "More capacity will fit the correlations better. It will not make them causal." }
+    feedLines:
+      - Bernhard's distribution-shift test broke a model that had looked entirely solid on the benchmark.
+      - A robustness failure turned out to be a missing causal variable, as Bernhard had suggested at the outset.
+      - Bernhard asked what intervention would change the prediction, and the room went quiet for some time.
+      - A kernel baseline Bernhard proposed matched the deep model at a fraction of the compute.
+      - The team began writing down assumed causal graphs, which Bernhard treated as basic hygiene.
+      - Bernhard noted that the model would work beautifully until precisely the moment it mattered.
+    portrait:
+      assetId: portrait.researcher.bernhard-scholkopff
+      brief: Considered, professorial 8-bit editorial portrait; light-complexioned man with receding curly brown hair, a short beard, and round glasses, beside a causal graph with one arrow being deliberately reversed; rigorous and quietly sceptical, not photoreal.
+      altText: Pixel-art portrait of Bernhard Schölkopff beside a causal graph with one arrow being reversed.
+    sources:
+      - https://is.mpg.de/bio/person/bs
+      - https://www.mpg.de/390909/intelligent-systems-tuebingen-schoelkopf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-27 }
+
+  - id: researcher.terrence-sejnowsky
+    version: 1
+    displayName: Terrence Sejnowsky
+    inspirationName: Terrence Sejnowski
+    inspirationSummary: Computational-neuroscience pioneer who co-invented Boltzmann machines and helped NETtalk learn text-to-speech from examples.
+    epithet: The Brain as Existence Proof
+    role: Computational neuroscience and physics-inspired learning
+    rosterCardSummary: Co-invented the Boltzmann machine, helped a network learn to read aloud and keeps pointing at biology's inconvenient working prototype.
+    biography: >-
+      Terrence Sejnowski works at the boundary between neuroscience and machine learning. With
+      Geoffrey Hinton he helped develop the Boltzmann machine, a stochastic recurrent network
+      whose learning rule drew on statistical physics and allowed hidden units to acquire internal
+      representations. With Charles Rosenberg he developed NETtalk, which learned to convert
+      English text into speech from examples and made its training progress audible. He later
+      contributed to independent-component analysis and other computational methods used in
+      neuroscience. Sejnowski directs the Computational Neurobiology Laboratory at the Salk
+      Institute, holds the Francis Crick Chair there and serves as Distinguished Professor at the
+      University of California, San Diego. His work treats biological intelligence as a source of
+      testable computational questions rather than a decorative metaphor. He was also the
+      founding editor-in-chief of Neural Computation and has helped shape the NeurIPS research
+      community. The brain remains the inconvenient working example in every architecture review.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.4 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.16, baseSigningCash: 11, auraCost: 17, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 4, reinforcementAgency: 3, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 1, scientificAi: 5, alignmentControl: 1, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 0, management: 3, politics: 2 }
+    traits: [trait.brain-as-existence-proof, trait.stochastic-units]
+    signature:
+      id: ability.hidden-units-that-learn
+      label: Hidden Units That Learn
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.02 }
+    passive:
+      id: ability.the-one-working-example
+      label: The One Working Example
+      effects:
+        - { target: researcher.moraleTarget, operation: add, value: 3 }
+    compact:
+      id: compact.keep-the-biology-in-the-room
+      label: Keep the Biology in the Room
+      requirement: Complete one biological-grounding review every 52 weeks.
+      check: { type: tagged-action-within, tags: [biological-grounding-review], weeks: 52 }
+      breachEvent: people.compact.publication-freedom
+    paperHooks: { ids: [] }
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "The cortex solved this with six layers and twenty watts. I am not saying copy it, I am saying look at it." }
+      - { triggerTag: anomalous-representation, line: "That is what a hidden layer discovering structure looks like. We used to celebrate this." }
+      - { triggerTag: ai-research-assistance, line: "The brain is the one existence proof any of us has. Ignoring it is a choice, not a strategy." }
+    feedLines:
+      - Terrence traced a training curve on the whiteboard from memory and it matched the run exactly.
+      - A neuroscience result Terrence mentioned in passing reframed the team's representation work.
+      - Terrence pointed out the network had rediscovered a coding scheme the visual cortex uses.
+      - The lab's reading group gained a standing biology paper, at Terrence's gentle insistence.
+      - Terrence recalled a network that learned to speak by babbling first, which cheered everyone up.
+      - A stochastic-units argument from Terrence resolved a determinism problem nobody had framed properly.
+    portrait:
+      assetId: portrait.researcher.terrence-sejnowsky
+      brief: Warm, animated 8-bit editorial portrait; older light-complexioned man with neatly swept dark-grey hair, glasses, and no beard, between a cortical column diagram and a layered network, gesturing at the resemblance; enthusiastic and scholarly, not photoreal.
+      altText: Pixel-art portrait of Terrence Sejnowsky gesturing between a cortical column diagram and a layered artificial network.
+    sources:
+      - https://www.salk.edu/scientist/terrence-sejnowski/
+      - https://www.salk.edu/news-release/salk-professor-terrence-sejnowski-wins-brain-prize/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-27 }

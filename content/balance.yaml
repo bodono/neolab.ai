@@ -1,0 +1,146 @@
+schemaVersion: 1
+contentType: balance
+status: draft
+
+# Balance constants with stable keys (TDD section 26.4). Every value here is
+# game data, not code. Numbers follow GDD section 29 unless noted.
+
+newGame:
+  # GDD section 29.2 standard-difficulty baseline, before lab modifiers and
+  # the opening mandate.
+  # Fully unlocked fixtures add a separate $27m first-model bootstrap runway.
+  # The player-facing progressive campaign substitutes a leaner $12m runway,
+  # bringing its standard garage treasury to $30m while preserving authored
+  # mandate differences. Leader grants marked for the full game are deferred
+  # until the opening chapters are complete.
+  cash: 18.0
+  auraSpendable: 30
+  auraLifetime: 30
+  gpus:
+    generation: gpu.kepler
+    owned: 2000
+  finance:
+    generalResearcherCostPerCycle: 0.08
+    engineerAndOpsCostPerCycle: 0.10
+    facilityCostPerInstancePerCycle: 0.20
+    executiveCostPerCycle: 0.30
+  startingModel:
+    capability:
+      language: 20
+      reasoning: 8
+      agency: 3
+      toolUse: 4
+      multimodality: 5
+      scientificAbility: 3
+      embodiment: 0
+    productQuality: 12
+    reliability: 35
+    hiddenSafety:
+      trueAlignment: 70
+      corrigibility: 75
+      situationalAwareness: 10
+      deceptiveCapability: 10
+  marketShare: 0.005
+  starSlots: 3
+  generalResearchers: 18
+  engineersAndOps: 12
+  ratings:
+    safetyCulture: 45
+    alignmentScience: 8
+    evalQuality: 10
+    controlTheory: 6
+    # Lowered 25 -> 7 on 2026-07-31 with securityPosture 35 -> 12: a fresh lab
+    # is a startup with a wiki page about security, not a hardened institution.
+    # Starting operational defence lands near 10 of 100, so nearly the whole
+    # divisor (perfect defence cuts risk 75%) must be earned deliberately.
+    practicalControlStrength: 7
+    securityPosture: 12
+    internalCandour: 50
+    governmentAttention: 5
+    governmentTrust: 50
+    boardPatience: 70
+  domains:
+    domain.architectures: 8
+    domain.optimisation-scaling: 6
+  safetyProgramLevels:
+    safety.alignment-control: 8
+    safety.interpretability-evals: 10
+    safety.security-containment: 6
+  facilities:
+    - facility.rented-office-1
+    - facility.server-rack
+  allocation:
+    servingFleetShareBasisPoints: 4500
+    capabilityBasisPoints: 7500
+    capabilityDomainWeights:
+      domain.architectures: 1429
+      domain.optimisation-scaling: 1429
+      domain.reinforcement-agency: 1429
+      domain.multimodality: 1429
+      domain.reasoning-tools: 1428
+      domain.robotics-embodiment: 1428
+      domain.scientific-ai: 1428
+    safetyProgramWeights:
+      safety.alignment-control: 3334
+      safety.interpretability-evals: 3333
+      safety.security-containment: 3333
+
+# GDD section 29.4. Multipliers become sourced modifiers on the run.
+difficulties:
+  - id: difficulty.fellowship
+    displayName: Fellowship
+    revenueMultiplier: 1.20
+    fixedCostMultiplier: 0.85
+    rivalProgressMultiplier: 0.68
+    incidentPressureMultiplier: 0.75
+    displayedEstimateQualityBonus: 8
+  - id: difficulty.standard
+    displayName: Standard
+    revenueMultiplier: 1.00
+    fixedCostMultiplier: 1.00
+    rivalProgressMultiplier: 1.00
+    incidentPressureMultiplier: 1.00
+    displayedEstimateQualityBonus: 0
+  - id: difficulty.frontier
+    displayName: Frontier
+    revenueMultiplier: 0.92
+    fixedCostMultiplier: 1.00
+    rivalProgressMultiplier: 1.12
+    incidentPressureMultiplier: 1.15
+    displayedEstimateQualityBonus: -5
+  - id: difficulty.unhinged-scaling
+    displayName: Unhinged Scaling
+    revenueMultiplier: 0.88
+    fixedCostMultiplier: 1.00
+    rivalProgressMultiplier: 1.25
+    incidentPressureMultiplier: 1.30
+    displayedEstimateQualityBonus: -10
+
+# GDD section 29.1. An early emphasis, not a permanent class.
+mandates:
+  - id: mandate.build-the-science
+    displayName: Build the Science
+    tagline: Research-first
+    summary: Advance capability research faster, but accept a smaller commercial ceiling and leaner funding rounds.
+    effects:
+      - { target: lab.research.capability.output, operation: multiply, value: 1.08 }
+      - { target: lab.market.demandCeiling, operation: multiply, value: 0.80 }
+      - { target: lab.fundraising.offerCash, operation: multiply, value: 0.80 }
+  - id: mandate.build-the-business
+    displayName: Build the Business
+    tagline: Commercial-first
+    summary: Secure expansion capital when the full game opens, a larger addressable market, and richer funding rounds, while safety research runs slower.
+    effects:
+      - { target: lab.finance.cash.fullGameGrant, operation: add, value: 25 }
+      - { target: lab.market.demandCeiling, operation: multiply, value: 1.25 }
+      - { target: lab.fundraising.offerCash, operation: multiply, value: 1.10 }
+      - { target: lab.research.safety.output, operation: multiply, value: 0.90 }
+  - id: mandate.build-it-right
+    displayName: Build It Right
+    tagline: Safety-first
+    summary: Much faster safety research, better evaluations, and deeper government trust, while every GPU completes slightly less useful work.
+    effects:
+      - { target: lab.research.safety.output, operation: multiply, value: 1.30 }
+      - { target: lab.evals.quality.starting, operation: add, value: 10 }
+      - { target: lab.politics.governmentTrust.starting, operation: add, value: 10 }
+      - { target: lab.compute.workloadThroughput, operation: multiply, value: 0.95 }

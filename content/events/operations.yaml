@@ -1,0 +1,186 @@
+draftSchema: 1
+contentType: decision-events
+pack: operations-a
+
+# Mandatory operational decisions: the runway crisis and resignation ultimatums.
+events:
+  - id: event.finance.critical-runway
+    version: 1
+    category: finance
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: critical-runway, priority: 60 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: finance-runway, weeks: 26 }
+    unique: false
+    expiryWeeks: 4
+    defaultOptionId: trim
+    titleKey: event.finance.runway.title
+    bodyKey: event.finance.runway.body
+    evidence:
+      - textKey: event.finance.runway.evidence.cash
+        metric: player.cash
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: trim
+        labelKey: event.finance.runway.trim.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.finance.runway.trim.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.costs.fixed, operation: multiply, value: 0.9, durationWeeks: 26, tags: [austerity] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [austerity] }
+        checks: []
+        memories:
+          - key: finance.runway.trimmed
+            subjects: [{ type: player-lab }]
+            tags: [austerity, cost-control]
+            expiresInWeeks: 52
+        confirmationRequired: false
+      - id: emergency-raise
+        labelKey: event.finance.runway.raise.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -8 }
+        previewKey: event.finance.runway.raise.preview
+        immediateEffects: []
+        checks:
+          - id: bridge
+            likelihoodPromise: { label: likely, successOutcomeIds: [funded] }
+            outcomes:
+              - id: funded
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 30 }
+                memories:
+                  - key: finance.runway.bridged
+                    subjects: [{ type: player-lab }]
+                    tags: [bridge-round]
+                    expiresInWeeks: 52
+              - id: hard-terms
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 14 }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.92, durationWeeks: 52, tags: [down-round] }
+                memories:
+                  - key: finance.runway.hard-terms
+                    subjects: [{ type: player-lab }]
+                    tags: [bridge-round, hard-terms]
+                    expiresInWeeks: 52
+        memories: []
+        confirmationRequired: false
+      - id: sell-compute
+        labelKey: event.finance.runway.sell.label
+        requirements:
+          { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
+        disabledReasonKey: event.finance.runway.sell.disabled
+        knownCosts: []
+        previewKey: event.finance.runway.sell.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 18 }
+          - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 0.88, durationWeeks: 39, tags: [asset-sale] }
+        checks: []
+        memories:
+          - key: finance.runway.sold-compute
+            subjects: [{ type: player-lab }]
+            tags: [asset-sale]
+            expiresInWeeks: 52
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [finance, runway, crisis]
+
+  - id: event.people.resignation-ultimatum
+    version: 1
+    category: people
+    severity: decision
+    phase: any
+    trigger: { kind: mandatory, detector: researcher-ultimatum, priority: 50 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: people-ultimatum, weeks: 0 }
+    unique: false
+    expiryWeeks: 4
+    defaultOptionId: decline
+    titleKey: event.people.ultimatum.title
+    bodyKey: event.people.ultimatum.body
+    evidence:
+      - textKey: event.people.ultimatum.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: RESEARCHER, source: trigger-text }
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: meet-terms
+        labelKey: event.people.ultimatum.meet.label
+        requirements:
+          { type: compare, metric: player.cash, op: gte, value: 4 }
+        disabledReasonKey: event.people.ultimatum.meet.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -4 }
+        previewKey: event.people.ultimatum.meet.preview
+        immediateEffects:
+          # Was "research freedom +4 for 52 weeks", which resolved to +1% research
+          # output and about +0.7 morale for open-science researchers only -- a
+          # deal no player would knowingly pay $4m for, and no player could read.
+          # Same idea, stated in the terms it actually takes, and bumped to be
+          # worth the money.
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 4, durationWeeks: 52, tags: [ultimatum-concession] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.04, durationWeeks: 52, tags: [ultimatum-concession] }
+        checks: []
+        memories:
+          - key: people.ultimatum.met
+            subjects: [{ type: player-lab }, { type: token, token: RESEARCHER }]
+            tags: [ultimatum-met, kept-promise]
+        confirmationRequired: false
+      - id: compromise
+        labelKey: event.people.ultimatum.compromise.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.ultimatum.compromise.preview
+        immediateEffects: []
+        checks:
+          - id: persuasion
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [accepted] }
+            outcomes:
+              - id: accepted
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+                memories:
+                  - key: people.ultimatum.compromised
+                    subjects: [{ type: player-lab }, { type: token, token: RESEARCHER }]
+                    tags: [ultimatum-compromise]
+              - id: rejected
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+                memories:
+                  - key: people.ultimatum.compromise-failed
+                    subjects: [{ type: player-lab }, { type: token, token: RESEARCHER }]
+                    tags: [ultimatum-refused]
+        memories: []
+        confirmationRequired: false
+      - id: decline
+        labelKey: event.people.ultimatum.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.ultimatum.decline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
+          - { kind: add-modifier, target: lab.organisation.safetyCultureTarget, operation: add, value: -3, durationWeeks: 39, tags: [ultimatum-declined] }
+        checks: []
+        memories:
+          - key: people.ultimatum.declined
+            subjects: [{ type: player-lab }, { type: token, token: RESEARCHER }]
+            tags: [ultimatum-refused]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [people, retention, ultimatum]

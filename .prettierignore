@@ -1,0 +1,17 @@
+# Dependencies and build output
+node_modules/
+dist/
+.claude/worktrees/
+packages/content/generated/
+packages/sim/src/persistence/__fixtures__/**/*.neolab-save.json
+playwright-report/
+test-results/
+pnpm-lock.yaml
+
+# Hand-authored documents and content data keep their own formatting
+docs/
+design/
+content/
+soundtrack/
+*.md
+LICENSE

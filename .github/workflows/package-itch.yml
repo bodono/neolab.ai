@@ -1,0 +1,84 @@
+name: Build and deploy itch.io alpha
+
+# Disabled 2026-07-27 while the Actions budget is tight. It fired on every
+# push only to skip in a second (ITCH_TARGET is unset), and when it is switched
+# back on it should be tag-triggered like the Pages deploy rather than
+# per-commit. Run it by hand from the Actions tab in the meantime.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: itch-alpha-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+  ITCH_TARGET: ${{ vars.ITCH_TARGET }}
+
+jobs:
+  build-and-deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.ITCH_TARGET != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build relative-path-safe itch.io alpha package
+        env:
+          NEOLAB_SOURCE_COMMIT: ${{ github.sha }}
+        run: pnpm package:itch:alpha
+
+      - name: Upload ready-to-use ZIP artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: neolab-ai-itch
+          path: |
+            artifacts/itch/neolab-ai-itch.zip
+            artifacts/itch/itch-package.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Install Butler
+        if: ${{ env.BUTLER_API_KEY != '' && env.ITCH_TARGET != '' }}
+        run: |
+          curl --fail --location --silent --show-error \
+            https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default \
+            --output "${RUNNER_TEMP}/butler.zip"
+          mkdir -p "${RUNNER_TEMP}/butler"
+          unzip -q "${RUNNER_TEMP}/butler.zip" -d "${RUNNER_TEMP}/butler"
+          chmod +x "${RUNNER_TEMP}/butler/butler"
+          echo "${RUNNER_TEMP}/butler" >> "${GITHUB_PATH}"
+
+      - name: Push changed files to the itch.io alpha channel
+        if: ${{ env.BUTLER_API_KEY != '' && env.ITCH_TARGET != '' }}
+        run: butler push apps/web/dist "${ITCH_TARGET}"
+
+      - name: Summarise build
+        run: |
+          {
+            echo "## itch.io HTML5 alpha"
+            echo
+            echo '```json'
+            cat artifacts/itch/itch-package.json
+            echo '```'
+            echo
+            if [ -n "${BUTLER_API_KEY}" ] && [ -n "${ITCH_TARGET}" ]; then
+              echo "Uploaded with Butler to \`${ITCH_TARGET}\`."
+            else
+              echo "Butler upload skipped. Configure the \`BUTLER_API_KEY\` Actions secret"
+              echo "and \`ITCH_TARGET\` repository variable, then dispatch this workflow or push to \`main\`."
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"

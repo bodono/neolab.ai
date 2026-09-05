@@ -1,0 +1,85 @@
+schemaVersion: 1
+contentType: market
+status: mechanics-reviewed
+
+# Serving is denominated directly in effective TFLOP/s. Worldwide demand rises
+# exponentially with relevant capability; value per delivered FLOP follows a
+# bounded quadratic curve. Competitive share and deployment policy decide how
+# much of either opportunity reaches a lab.
+softmaxTemperature: 10
+baseGlobalServingDemandTeraflops: 80000
+servingDemandCapabilityDivisor: 22
+baseGlobalRevenueMillionsPerCycle: 25
+valuePerDeliveredFlopQuadraticFactor: 5
+startingSatisfaction: 60
+monetisationEfficiency: 0.55
+
+priceTiers:
+  - id: free-preview
+    displayName: Free Preview
+    unitPriceMillions: 0
+  - id: cheap
+    displayName: Cheap
+    unitPriceMillions: 0.001
+  - id: market
+    displayName: Market
+    unitPriceMillions: 0.001575758
+  - id: premium
+    displayName: Premium
+    unitPriceMillions: 0.0023
+  - id: scarcity
+    displayName: Scarcity
+    unitPriceMillions: 0.0032
+
+segments:
+  - id: segment.researchers
+    displayName: Consumers
+    globalUsagePerCycle: 80000
+    revenueShare: 0.45
+    servingComputeShare: 0.55
+    marketAvailability: 0.08
+    acquisitionRate: 0.25
+    capabilityWeights:
+      language: 0.20
+      reasoning: 0.25
+      toolUse: 0.15
+      multimodality: 0.05
+      scientificAbility: 0.35
+    appealWeights:
+      capability: 0.65
+      productQuality: 0.20
+      reliability: 0.15
+    pricePenalties:
+      free-preview: 0
+      cheap: 1
+      market: 4
+      premium: 11
+      scarcity: 21
+    staticRivalAppeals: [34, 31, 28, 25]
+    rivalCapabilityBenchmark: 14
+
+  - id: segment.start-ups
+    displayName: Enterprise
+    globalUsagePerCycle: 160000
+    revenueShare: 0.40
+    servingComputeShare: 0.30
+    marketAvailability: 0.08
+    acquisitionRate: 0.25
+    capabilityWeights:
+      language: 0.35
+      reasoning: 0.25
+      agency: 0.10
+      toolUse: 0.25
+      multimodality: 0.05
+    appealWeights:
+      capability: 0.65
+      productQuality: 0.20
+      reliability: 0.15
+    pricePenalties:
+      free-preview: 0
+      cheap: 1
+      market: 2
+      premium: 8
+      scarcity: 17
+    staticRivalAppeals: [35, 32, 29, 26]
+    rivalCapabilityBenchmark: 16

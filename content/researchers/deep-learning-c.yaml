@@ -1,0 +1,637 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: deep-learning
+status: draft
+
+researchers:
+  - id: researcher.karen-simonian
+    version: 1
+    displayName: Karén Simonian
+    inspirationName: Karén Simonyan
+    inspirationSummary: VGGNet co-creator and research leader whose work contributed to AlphaGo Zero, AlphaFold, Flamingo, Inflection AI, and Microsoft AI.
+    epithet: The Deep Filter Stacker
+    role: Deep vision architectures and large-scale generative modelling leadership
+    rosterCardSummary: A VGGNet co-creator who builds deep backbones once, then watches several research teams discover new reasons to reuse them.
+    biography: >-
+      Karén Simonyan stacks small filters until a reusable visual backbone appears. During his
+      Oxford doctorate, Karén Simonyan co-authored VGGNet with Andrew Zisserman. Its repeated 3×3
+      convolutions produced a deep, simple architecture whose released models became widely reused
+      in computer vision. The VGG entry placed first in ILSVRC 2014 localisation and second in
+      classification, and released models invited rapid reuse elsewhere. Simonyan co-founded Vision
+      Factory, joined DeepMind after its acquisition,
+      and contributed to research behind AlphaGo Zero, AlphaFold, and Flamingo, a visual-language
+      model designed to handle several vision-and-language tasks. He later co-founded Inflection AI
+      as chief scientist, then joined Microsoft in 2024 as chief scientist of Microsoft AI. Across
+      that work, Simonyan's through-line is to build a general backbone, validate it carefully, and
+      let several teams reuse it. Karén's diagrams grow deeper one small block at a time; the
+      downstream-project list tends to grow faster.
+    availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 4, reasoningTools: 1, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 4, product: 3, management: 4, politics: 3 }
+    traits: [trait.general-purpose-backbone, trait.serial-breakthrough-contributor]
+    signature:
+      id: ability.large-scale-deep-learning-team
+      label: Large-Scale Deep Learning Team
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    passive:
+      id: ability.backbone-reused-everywhere
+      label: Backbone Reused Everywhere
+      effects:
+        - { target: lab.research.diffusionRate, operation: add, value: 0.25 }
+    compact:
+      id: compact.build-the-general-backbone-first
+      label: Build the General Backbone First
+      requirement: While he leads Architectures, complete one validation across at least two unrelated downstream tasks every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: cross-task-validation, weeks: 52 }
+      breachEvent: people.compact.build-the-general-backbone-first
+    paperHooks:
+      ids: [paper.vision-transformer, paper.flamingo-visual-language-model]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Build the backbone general enough and three other teams will find the fad's use case for you." }
+      - { triggerTag: benchmark-record, line: "One leaderboard is a result. A backbone reused by five teams is an architecture." }
+      - { triggerTag: scaling-proposal, line: "A general architecture pays for itself across every team that reuses it. Budget it accordingly." }
+    feedLines:
+      - Karén's backbone architecture got reused by a team working on a problem nobody expected it to solve.
+      - A downstream team's breakthrough traced back, several layers removed, to an architecture Karén built years earlier.
+      - The large-scale deep learning team shipped its third unrelated success this quarter, off the same shared backbone.
+      - Karén declined to over-specialise the architecture for one product, on the grounds that generality compounds.
+      - A new research team integrated within a week, largely because the underlying architecture was already shared.
+      - Karén stacked another small filter onto the diagram. Three downstream groups immediately found uses for it.
+    portrait:
+      assetId: portrait.researcher.karen-simonian
+      brief: Composed 8-bit editorial portrait; Armenian man with dark hair and a confident expression, beside a deep architecture diagram branching into several unrelated downstream applications; foundational and versatile, not photoreal.
+      altText: Pixel-art portrait of Karén Simonian beside a deep architecture diagram branching into several downstream applications.
+    sources:
+      - https://www.robots.ox.ac.uk/~vgg/research/very_deep/
+      - https://www.robots.ox.ac.uk/~karen/
+      - https://deepmind.google/blog/alphago-zero-starting-from-scratch/
+      - https://deepmind.google/blog/alphafold-using-ai-for-scientific-discovery/
+      - https://deepmind.google/blog/tackling-multiple-tasks-with-a-single-visual-language-model/
+      - https://blogs.microsoft.com/blog/2024/03/19/mustafa-suleyman-deepmind-and-inflection-co-founder-joins-microsoft-to-lead-copilot/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.quoc-v-lee
+    version: 1
+    displayName: Quoc V. Lee
+    inspirationName: Quoc V. Le
+    inspirationSummary: Google researcher whose work spans large-scale unsupervised learning, sequence-to-sequence models, neural architecture search, and efficient AutoML.
+    epithet: The Automated Architect
+    role: Neural architecture search and large-scale unsupervised learning
+    rosterCardSummary: A Google researcher who helped teach machines to propose neural architectures, then worked to make the search cheaper and the resulting models stronger.
+    biography: >-
+      Quoc V. Le asks whether the architecture meeting can itself become a learning problem. Quoc
+      V. Le completed his Stanford doctorate with Andrew Ng and joined Google Research, where his research
+      has covered large-scale unsupervised learning, sequence modelling, computer vision, and
+      automated machine learning. With Ilya Sutskever and Oriol Vinyals, he co-authored
+      sequence-to-sequence learning for neural translation. With Barret Zoph, he developed neural
+      architecture search using reinforcement learning to generate candidate architectures; later
+      work explored weight sharing and other ways to reduce search cost. Google's research record
+      also includes his work on large-scale neural simulations and efficient mixture-of-experts
+      systems. His earlier work used large-scale neural simulations to learn image concepts from
+      unlabelled frames sampled from YouTube videos. Across that body of work, Le treats
+      architecture choice as a learning problem: automate enough of the search to make instinct
+      compete against evidence. Quoc still attends the meeting, but the search tree gets the first
+      proposal.
+    availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.55 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 4, product: 2, management: 3, politics: 1 }
+    traits: [trait.automate-the-design-loop, trait.prolific-scale-builder]
+    signature:
+      id: ability.neural-architecture-search
+      label: Neural Architecture Search
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.weight-sharing-search-efficiency
+      label: Weight-Sharing Search Efficiency
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04 }
+    compact:
+      id: compact.let-the-search-decide
+      label: Let the Search Decide
+      requirement: While he leads Architectures, complete one automated-search baseline comparison every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: automated-search-baseline, weeks: 52 }
+      breachEvent: people.compact.let-the-search-decide
+    paperHooks:
+      ids: [paper.sequence-to-sequence, paper.switch-transformers]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Let the search process propose a hundred variants before a human commits to one by instinct." }
+      - { triggerTag: compute-windfall, line: "More compute means a wider architecture search, not just a bigger fixed model. Spend some of it there." }
+      - { triggerTag: scaling-proposal, line: "The search found this shape reliably reused across three separate tasks. That is a stronger signal than one good benchmark." }
+    feedLines:
+      - Quoc's search process proposed an architecture nobody on the team would have hand-designed, and it worked.
+      - The weight-sharing search finished in a fraction of the compute the naive version would have needed.
+      - A hand-tuned architecture lost, again, to whatever the automated search process proposed overnight.
+      - Quoc's sequence-to-sequence framework quietly still underpins the translation pipeline three architectures later.
+      - A founding-era Google Brain habit, running the search before trusting the instinct, is still house style here.
+      - The search space grew by one more dimension, and somewhere a GPU cluster's night got noticeably busier.
+    portrait:
+      assetId: portrait.researcher.quoc-v-lee
+      brief: Focused 8-bit editorial portrait; Vietnamese man with short dark hair and a calm, methodical expression, beside a neural architecture search tree branching into candidate designs; automated and prolific, not photoreal.
+      altText: Pixel-art portrait of Quoc V. Lee beside a neural architecture search tree branching into candidate designs.
+    sources:
+      - https://research.google/people/quocle/
+      - https://ai.stanford.edu/~quocle/
+      - https://arxiv.org/abs/1611.01578
+      - https://arxiv.org/abs/1802.03268
+      - https://research.google/blog/using-machine-learning-to-explore-neural-network-architecture/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.sammy-benji
+    version: 1
+    displayName: Sammy Benji
+    inspirationName: Samy Bengio
+    inspirationSummary: Torch co-author and former Google Brain research leader whose career spans machine learning, open-source tools, evaluation, and research management.
+    epithet: The Open-Source Steward
+    role: Machine learning research leadership and open-source tooling
+    rosterCardSummary: A Torch co-author and long-serving research leader who strengthens evaluation culture and keeps useful scientific tools open.
+    biography: >-
+      Samy Bengio arrives with an evaluation checklist and enough open-source history to ask who
+      will maintain the tooling after the paper. Samy Bengio earned his doctorate at the University
+      of Montréal and co-authored Torch, an early machine-learning library built around a scripting
+      language and C implementations. His personal and EPFL biographies describe research across
+      neural networks, representation learning, speech, vision, and sequence modelling, as well as
+      leadership of a large part of Google Brain and later work as a senior director of machine
+      learning research at Apple. They also record extensive service as an editor and conference
+      organiser, including programme-chair and general-chair roles at NeurIPS. He remains an adjunct
+      professor at EPFL in Lausanne. Those contributions share an emphasis on verifiable research
+      practice: build tools other researchers can inspect, evaluate claims before celebrating them,
+      and keep the research organisation legible enough that scientific disagreement can improve
+      the work. Samy's preferred headline is still a reproducible result.
+    availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.50 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 2, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 2, training: 3, product: 2, management: 4, politics: 3 }
+    traits: [trait.principled-dissent, trait.replication-discipline]
+    signature:
+      id: ability.rigorous-evaluation-culture
+      label: Rigorous Evaluation Culture
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling, safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    passive:
+      id: ability.open-source-tooling-legacy
+      label: Open-Source Tooling Legacy
+      effects:
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.15 }
+    compact:
+      id: compact.principled-dissent-when-warranted
+      label: Principled Dissent When Warranted
+      requirement: Complete one independent responsible-AI culture review every 52 weeks.
+      check: { type: tagged-action-within, tags: [responsible-ai-culture-review], weeks: 52 }
+      breachEvent: people.compact.principled-dissent-when-warranted
+    paperHooks:
+      ids: [paper.dropout, paper.masked-autoencoders]
+    eventReactions:
+      - { triggerTag: safety-budget-cut, line: "If evaluation is optional when the budget tightens, it was never part of the research plan. Put it back." }
+      - { triggerTag: benchmark-record, line: "Has anyone outside this building reproduced it yet? Until then, treat the number as a rumour." }
+      - { triggerTag: employee-dismissal-dispute, line: "Document the decision, the process, and the appeal. Research culture is also an experimental system." }
+    feedLines:
+      - Sammy asked whether the headline result had been independently reproduced, and the celebration paused briefly.
+      - An open-source tool from years ago quietly kept an entire pipeline running without anyone noticing its age.
+      - A researcher raised a responsible-AI concern in a meeting, and Sammy made sure it stayed on the agenda.
+      - The evaluation protocol got one layer more rigorous, and one optimistic benchmark claim got one layer more honest.
+      - Sammy opened the old tooling repository and found three modern pipelines still depending on it.
+      - An editorial discussion ended with a clearer evaluation protocol and considerably fewer confident adjectives.
+    portrait:
+      assetId: portrait.researcher.sammy-benji
+      brief: Steady 8-bit editorial portrait; man with grey-flecked hair and a serious, principled expression, beside an evaluation checklist with one item circled twice; deliberate and unhurried, not photoreal.
+      altText: Pixel-art portrait of Sammy Benji beside an evaluation checklist with one item circled twice.
+    sources:
+      - https://www.bengio.abracadoudou.com/
+      - https://people.epfl.ch/samy.bengio/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.alex-graven
+    version: 1
+    displayName: Alex Graven
+    inspirationName: Alex Graves
+    inspirationSummary: Connectionist temporal classification creator and Neural Turing Machine co-inventor whose work advances sequence learning and differentiable memory.
+    epithet: The Sequence Whisperer
+    role: Recurrent sequence modelling and differentiable memory
+    rosterCardSummary: A sequence-learning pioneer whose connectionist and addressable-memory systems advance reasoning research and make experimental results less erratic.
+    biography: >-
+      Alex Graves teaches a network when to remember, when to emit, and where it left the useful
+      state. Alex Graves completed his doctorate with Jürgen Schmidhuber at IDSIA and later worked
+      with Geoffrey Hinton at the University of Toronto before joining DeepMind. His research page
+      records the creation of connectionist temporal classification, which trains sequence models
+      without requiring a pre-segmented alignment between inputs and labels. He applied recurrent
+      networks to speech, handwriting recognition, and handwriting generation, then co-authored
+      Neural Turing Machines, coupling a neural controller to an external differentiable memory.
+      Later work on differentiable neural computers expanded that memory-based approach to
+      structured reasoning tasks. His sequence work also includes deep bidirectional LSTMs for
+      speech recognition and multidimensional recurrent networks for handwriting recognition.
+      Across that programme, Graves gives the model a memory it can address, tests whether it uses
+      that memory, and declines to hand-align the labels merely because the experiment calendar is
+      becoming impatient.
+    availability: { wave: deep-learning, earliestYear: 2015, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 2, securityContainment: 0, training: 3, product: 1, management: 2, politics: 0 }
+    traits: [trait.memory-as-first-class, trait.sequence-whisperer]
+    signature:
+      id: ability.differentiable-external-memory
+      label: Differentiable External Memory
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    passive:
+      id: ability.connectionist-temporal-classification
+      label: No Hand-Aligned Labels
+      effects:
+        - { target: lab.research.program.base:domain.reasoning-tools.weeklyVarianceWidth, operation: multiply, value: 0.88 }
+    compact:
+      id: compact.give-the-model-a-memory-it-can-address
+      label: Give the Model a Memory It Can Address
+      requirement: While he leads Reasoning & Tools, complete one explicit-memory or retrieval validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: reasoning-programme, projectTag: explicit-addressable-memory, weeks: 52 }
+      breachEvent: people.compact.give-the-model-a-memory-it-can-address
+    paperHooks:
+      ids: [paper.long-short-term-memory, paper.neural-turing-machines]
+    eventReactions:
+      - { triggerTag: reasoning-benchmark-record, line: "Ask whether the model is reasoning or merely holding more context in a bigger hidden state. Those are different achievements." }
+      - { triggerTag: architecture-fad, line: "A model that cannot address its own memory will eventually run out of thoughts to hold. Build the address book in." }
+      - { triggerTag: benchmark-saturation, line: "The handwriting looked human because the memory held the right stroke, at the right moment, for long enough." }
+    feedLines:
+      - Alex's memory-augmented network learned to sort a sequence it was never explicitly taught to sort.
+      - The differentiable memory's read head found exactly the stored value the reasoning step needed, unprompted.
+      - A generated handwriting sample passed a casual inspection that a human handwriting sample would also have passed.
+      - Alex's connectionist temporal classification method quietly still underlies a speech pipeline three architectures later.
+      - The Neural Turing Machine's memory tape held a value across a hundred steps, exactly as designed a decade ago.
+      - A younger researcher asked why the model needed explicit memory at all. Alex showed them, patiently, what happens without it.
+    portrait:
+      assetId: portrait.researcher.alex-graven
+      brief: Quiet 8-bit editorial portrait; white man with short light-brown hair and a thoughtful expression, beside a neural network reading from and writing to an external memory tape; patient and architectural, not photoreal.
+      altText: Pixel-art portrait of Alex Graven beside a neural network reading from and writing to an external memory tape.
+    sources:
+      - https://www.cs.toronto.edu/~graves/
+      - https://arxiv.org/abs/1308.0850
+      - https://arxiv.org/abs/1410.5401
+      - https://www.nature.com/articles/nature20101
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.wojciech-zarembo
+    version: 1
+    displayName: Wojciech Zarembo
+    inspirationName: Wojciech Zaremba
+    inspirationSummary: OpenAI co-founder whose work includes domain-randomised robot learning, dexterous manipulation, and large-scale code models.
+    epithet: The Sim-to-Real Believer
+    role: Robot learning, sim-to-real transfer, and code-generation research leadership
+    rosterCardSummary: An OpenAI co-founder whose sim-to-real discipline advances embodiment research, steadies results, and shortens the route from model to product.
+    biography: >-
+      Wojciech Zaremba would rather make the simulation stranger before making the real robot
+      busier. Wojciech Zaremba completed his doctorate at New York University with Rob Fergus and
+      became a founding member of OpenAI. His robotics research includes Dactyl, which trained a
+      dexterous robotic hand with reinforcement learning in simulation and transferred the policy
+      to physical hardware using domain randomisation. A later OpenAI project extended the method
+      to solving a Rubik's Cube with a one-handed robot, using progressively harder randomised
+      environments. His published work also spans recurrent networks and code-generation models.
+      His CV also records research at Google Brain and Facebook AI Research before OpenAI. Across
+      those projects, Zaremba widens the simulated variation, measures what survives the transfer,
+      and resists tuning the laboratory around one cooperative robot. If the virtual cube has not
+      changed colour, friction, and gravity several times, the real cube is not yet invited.
+    availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 2, management: 3, politics: 1 }
+    traits: [trait.simulation-first-instinct, trait.competition-honed-precision]
+    signature:
+      id: ability.domain-randomised-sim-to-real
+      label: Domain-Randomised Sim-to-Real
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    passive:
+      id: ability.competition-grade-precision
+      label: Competition-Grade Precision
+      effects:
+        - { target: lab.research.program.base:domain.robotics-embodiment.weeklyVarianceWidth, operation: multiply, value: 0.85 }
+    compact:
+      id: compact.randomise-before-you-collect
+      label: Randomise Before You Collect
+      requirement: While he leads Robotics & Embodiment, complete one simulation-first domain-randomisation review every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: robotics-programme, projectTag: domain-randomisation-first, weeks: 52 }
+      breachEvent: people.compact.randomise-before-you-collect
+    paperHooks:
+      ids: [paper.dactyl-dexterous-in-hand-manipulation, paper.codex-evaluating-code-models]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Widen the randomisation range in simulation before blaming the real robot's hardware." }
+      - { triggerTag: simulation-transfer, line: "If it only works in the one simulation you tuned, it was never going to survive contact with reality anyway." }
+      - { triggerTag: robotics-team-reorg, line: "The team was dissolved once already. The randomisation habit still made the trip to the next project intact." }
+    feedLines:
+      - Wojciech widened the simulation's randomisation range and the real robot's failure rate quietly dropped.
+      - The Rubik's Cube demonstration is years old now and the team still gets asked about it in every interview.
+      - A silver-medal-honed instinct for well-posed problems caught an ambiguity in a robotics benchmark's rules.
+      - Wojciech's sim-to-real transfer worked on the very first real-world attempt, which the team still finds slightly suspicious.
+      - The disbanded robotics team's alumni keep reappearing, quietly, on each other's new projects.
+      - A code-generation benchmark improved, and Wojciech treated it with the same rigour as the old robotics metrics.
+    portrait:
+      assetId: portrait.researcher.wojciech-zarembo
+      brief: Focused 8-bit editorial portrait; Polish man with a calm, precise expression, beside a robotic hand manipulating a small cube, with a simulation randomisation slider nearby; determined and exact, not photoreal.
+      altText: Pixel-art portrait of Wojciech Zarembo beside a robotic hand manipulating a cube with a simulation randomisation slider.
+    sources:
+      - https://openai.com/index/introducing-openai/
+      - https://openai.com/index/solving-rubiks-cube/
+      - https://arxiv.org/abs/1808.00177
+      - https://arxiv.org/abs/2107.03374
+      - https://cs.nyu.edu/media/publications/zaremba_wojciech.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+
+  - id: researcher.nando-de-freita
+    version: 1
+    displayName: Nando de Freita
+    inspirationName: Nando de Freitas
+    inspirationSummary: Bayesian optimisation researcher and former Oxford, UBC, Google DeepMind, and Microsoft AI leader whose work spans inference and generative models.
+    epithet: The Bayesian Generalist
+    role: Bayesian optimisation, generative modelling, and research leadership
+    rosterCardSummary: A Bayesian optimisation researcher whose academic and industrial leadership connects efficient search, generative modelling, and applied AI.
+    biography: >-
+      Nando de Freitas treats an expensive experiment as a reason to choose the next experiment
+      carefully. Nando de Freitas earned his doctorate at Cambridge, completed postdoctoral work
+      with Stuart Russell at UC Berkeley, and held professorships at the University of British
+      Columbia and Oxford. His Oxford biography records work in Bayesian inference, optimisation,
+      and deep learning, as well as co-founding Dark Blue Labs, which Google acquired before he
+      joined DeepMind. He began his training at the University of the Witwatersrand in South
+      Africa. He later became a vice president at Microsoft AI. Across academic and industrial
+      research, his work has connected probabilistic modelling and Bayesian optimisation with
+      neural and generative systems. The practical lesson is direct: when evaluations cost serious
+      compute, use the results to choose the next point rather than decorating a grid. Nando is
+      perfectly willing to search widely; he simply prefers that the search remember what it
+      learned.
+    availability: { wave: deep-learning, earliestYear: 2014, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.4, baseSigningCash: 3, auraCost: 5, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 2, multimodality: 3, reasoningTools: 1, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 3, product: 2, management: 4, politics: 2 }
+    traits: [trait.bayesian-generalist, trait.efficient-search-over-brute-force]
+    signature:
+      id: ability.bayesian-optimisation
+      label: Bayesian Optimisation
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling, domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.generative-media-leadership
+      label: Generative Media Leadership
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.search-efficiently-not-exhaustively
+      label: Search Efficiently, Not Exhaustively
+      requirement: While he leads Optimisation & Scaling, complete one Bayesian or model-based search review every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: optimisation-programme, projectTag: model-based-hyperparameter-search, weeks: 52 }
+      breachEvent: people.compact.search-efficiently-not-exhaustively
+    paperHooks:
+      ids: [paper.denoising-diffusion-probabilistic-models, paper.whisper-speech-recognition]
+    eventReactions:
+      - { triggerTag: compute-windfall, line: "Spend some of the windfall on a smarter search, not only a bigger brute-force sweep." }
+      - { triggerTag: architecture-fad, line: "An expensive function is worth optimising deliberately. Random search is what you do when you have given up on that." }
+      - { triggerTag: talent-poaching, line: "I have moved labs, and continents, more than once. The Bayesian instinct always makes the trip." }
+    feedLines:
+      - Nando's Bayesian optimisation found the good hyperparameter region in a fraction of the naive search's budget.
+      - A generative audio model shipped this quarter, and Nando's fingerprints were, once again, all over its tuning.
+      - The model-based search proposed a configuration nobody on the team would have tried by hand.
+      - Nando's postdoc-era training under a Berkeley AI pioneer still surfaces in how he frames a search problem.
+      - A brute-force grid search was quietly replaced with a smarter one, and the compute bill noticed immediately.
+      - "Three continents, four institutions, one consistent instinct: search the expensive function efficiently."
+    portrait:
+      assetId: portrait.researcher.nando-de-freita
+      brief: Warm 8-bit editorial portrait; man with a friendly, contemplative expression, beside a Bayesian optimisation surface with a few well-chosen sample points; efficient and global, not photoreal.
+      altText: Pixel-art portrait of Nando de Freita beside a Bayesian optimisation surface with a few well-chosen sample points.
+    sources:
+      - https://www.cs.ox.ac.uk/people/nando.defreitas/
+      - https://www.cs.ubc.ca/~nando/
+      - https://microsoft.ai/team/nando-de-freitas/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.christopher-mannering
+    version: 1
+    displayName: Christopher Mannering
+    inspirationName: Christopher Manning
+    inspirationSummary: Stanford NLP Group founder, GloVe co-author, textbook author, and former Stanford AI Lab director whose work connects linguistics and machine learning.
+    epithet: The Grammar of Meaning
+    role: Natural language processing and computational linguistics
+    rosterCardSummary: A Stanford NLP researcher whose GloVe work, textbooks, and public courses connect fluent models to linguistic structure and meaning.
+    biography: >-
+      Christopher Manning asks a fluent model what its sentence actually asserts. Christopher
+      Manning founded the Stanford NLP Group and served as director of the Stanford Artificial
+      Intelligence Laboratory from 2018 to 2024. His Stanford profile describes work on
+      computational linguistics, information extraction, sentiment analysis, neural machine
+      translation, question answering, and the relationship between linguistic structure and
+      learned representations. He co-authored GloVe, which derives word vectors from global
+      word-word co-occurrence statistics, and helped develop Stanford CoreNLP. His books cover
+      statistical natural-language processing and information retrieval. His Stanford profile
+      records two ACL Test of Time Awards, the 2024 IEEE John von Neumann Medal, and work on
+      Stanford and Universal Dependencies. His Stanford courses have made modern NLP instruction
+      broadly accessible. Manning's standing request is to inspect the structure beneath the
+      fluent answer, identify what the words commit the model to, and please stop calling every
+      confident paraphrase “reasoning” before the parse tree has arrived.
+    availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.60 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 4, reinforcementAgency: 0, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 1, management: 5, politics: 3 }
+    traits: [trait.linguistic-rigour, trait.teacher-of-a-generation]
+    signature:
+      id: ability.global-word-vector-statistics
+      label: Global Word-Vector Statistics
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.trained-a-generation
+      label: Trained a Generation
+      effects:
+        - { target: researcher.loyalty, operation: add, value: 4 }
+    compact:
+      id: compact.check-the-linguistics-not-just-the-fluency
+      label: Check the Linguistics, Not Just the Fluency
+      requirement: Complete one linguistic-structure evaluation every 52 weeks.
+      check: { type: tagged-action-within, tags: [linguistic-structure-evaluation], weeks: 52 }
+      breachEvent: people.compact.check-the-linguistics-not-just-the-fluency
+    paperHooks:
+      ids: [paper.electra, paper.text-to-text-transfer-transformer]
+    eventReactions:
+      - { triggerTag: model-overconfidence, line: "Fluent is not the same as correct. Check what the sentence actually asserts, not merely how naturally it reads." }
+      - { triggerTag: talent-poaching, line: "Half the researchers on the other side of this negotiation once sat in my lecture hall. That cuts both ways." }
+      - { triggerTag: benchmark-record, line: "A strong score on a fluency benchmark is a start. Show me the parse, not just the paraphrase." }
+    feedLines:
+      - Christopher's word-vector model still forms the first lecture slide in half the NLP courses being taught this year.
+      - A former student's lab announced a language breakthrough, and Christopher's course notes are cited in its appendix.
+      - The linguistic structure evaluation caught an error the fluency metric had confidently missed entirely.
+      - Christopher's course lecture crossed another hundred thousand views, largely unnoticed by Christopher himself.
+      - A recruiting pitch to a promising graduate quietly mentioned that Christopher still teaches the introductory course.
+      - The Stanford AI Laboratory's door is, as always, open to anyone with an actual linguistics question.
+    portrait:
+      assetId: portrait.researcher.christopher-mannering
+      brief: Warm, authoritative 8-bit editorial portrait; older man with grey hair and glasses, beside a parse tree overlapping a word-vector cloud; scholarly and generous, not photoreal.
+      altText: Pixel-art portrait of Christopher Mannering beside a parse tree overlapping a word-vector embedding cloud.
+    sources:
+      - https://www-nlp.stanford.edu/~manning/
+      - https://profiles.stanford.edu/chris-manning
+      - https://www-nlp.stanford.edu/pubs/glove.pdf
+      - https://news.stanford.edu/stories/2025/02/carlos-guestrin-to-lead-stanford-ai-lab
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.alyosha-efrossi
+    version: 1
+    displayName: Alyosha Efrossi
+    inspirationName: Alexei Efros
+    inspirationSummary: ACM Prize recipient and Berkeley professor whose data-driven vision research includes texture synthesis, visual matching, and CycleGAN.
+    epithet: The Data-Driven Image Alchemist
+    role: Data-driven computer vision and unpaired image-to-image translation
+    rosterCardSummary: An ACM Prize recipient whose data-driven vision work turns large image collections and unpaired examples into research instruments.
+    biography: >-
+      Alexei Efros treats a large image collection as an instrument rather than a storage problem.
+      Alexei Efros earned his doctorate at UC Berkeley and returned there as a faculty
+      member after appointments at Carnegie Mellon University and École Normale Supérieure. His
+      Berkeley biography describes research in data-driven computer vision, graphics, and machine
+      learning, including texture synthesis, visual matching, and using large collections of
+      unlabelled images to recover structure. He co-authored CycleGAN, which learns mappings
+      between visual domains without paired examples by imposing cycle consistency—the source of
+      the field's unusually durable horse-and-zebra demonstration. The ACM Prize in Computing
+      recognised his work in image synthesis and analysis. Earlier texture-synthesis research
+      generated new images by resampling local patches from one example rather than fitting a
+      parametric model. Across that work, Efros keeps the data-first method: look for the answer in
+      real visual variation before hand-designing it, then check that the learned mapping preserves
+      more than its ability to produce an excellent zebra at the review meeting.
+    availability: { wave: deep-learning, earliestYear: 2017, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 0, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 2, management: 3, politics: 1 }
+    traits: [trait.data-is-the-model, trait.image-alchemist]
+    signature:
+      id: ability.unpaired-image-translation
+      label: Unpaired Image Translation
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.internet-scale-image-instinct
+      label: Internet-Scale Image Instinct
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.let_the_data_speak_first
+      label: Let the Data Speak First
+      requirement: While he leads Multimodality, complete one unpaired-real-data validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: unpaired-real-data-first, weeks: 52 }
+      breachEvent: people.compact.let-the-data-speak-first
+    paperHooks:
+      ids: [paper.progressive-growing-of-gans, paper.simclr-contrastive-learning]
+    eventReactions:
+      - { triggerTag: dataset-shortcut, line: "The model found the easiest transformation the unpaired data would support. Check whether that transformation was the one you actually wanted." }
+      - { triggerTag: benchmark-saturation, line: "The internet has more images left in it than any benchmark has exhausted. Go find the ones nobody curated yet." }
+      - { triggerTag: architecture-fad, line: "A clever architecture on a small dataset usually loses to a plain one on a much bigger, messier pile of real images." }
+    feedLines:
+      - Alyosha's cycle-consistency loss translated between two domains that had never once been paired in training.
+      - A texture synthesised directly from real image statistics fooled a reviewer who was specifically looking for the seam.
+      - The unpaired translation model found a mapping the team hadn't anticipated, and it turned out to be the useful one.
+      - Alyosha scraped another few million internet images and, predictably, the model got noticeably better.
+      - A student's small, carefully curated dataset lost, again, to Alyosha's enormous, messy one.
+      - The ACM Prize citation praises data-driven vision. Alyosha's actual comment was that the data did most of the work.
+    portrait:
+      assetId: portrait.researcher.alyosha-efrossi
+      brief: Curious 8-bit editorial portrait; white man with short dark hair and a warm expression, beside a horse-to-zebra image translation pair; playful and data-obsessed, not photoreal.
+      altText: Pixel-art portrait of Alyosha Efrossi beside a horse-to-zebra unpaired image translation pair.
+    sources:
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/efros.html
+      - https://people.eecs.berkeley.edu/~efros/
+      - https://awards.acm.org/award_winners/efros_0222562
+      - https://arxiv.org/abs/1703.10593
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.sanja-fiedler
+    version: 1
+    displayName: Sanja Fiedler
+    inspirationName: Sanja Fidler
+    inspirationSummary: University of Toronto professor, Vector Institute co-founder, and NVIDIA research leader whose work spans 3D vision and spatial intelligence.
+    epithet: The Scene Cartographer
+    role: 3D scene understanding and spatial intelligence research leadership
+    rosterCardSummary: A Vector Institute co-founder whose 3D scene research strengthens spatial intelligence, multimodal research, and model evaluation.
+    biography: >-
+      Sanja Fidler would like the picture to admit that it came from a three-dimensional room.
+      Sanja Fidler earned her doctorate at the University of Ljubljana, held research positions at
+      UC Berkeley and the University of Toronto, and joined the University of Toronto faculty after
+      working at the Toyota Technological Institute at Chicago. She co-founded the Vector Institute,
+      where she is a faculty member and Canada CIFAR AI Chair. NVIDIA appointed her to lead its
+      Toronto AI research laboratory, and her research spans object detection, segmentation,
+      image-to-image synthesis, 3D reconstruction, and spatial intelligence. Her public research
+      pages emphasise structured and three-dimensional scene understanding rather than treating
+      vision as a flat label-prediction task. The Vector Institute identifies her as a co-founding
+      member and NVIDIA vice president of AI research alongside her Toronto appointment. Her
+      research keeps that distinction practical:
+      label the chair if useful, reconstruct the room if possible, and ask whether the robot knows
+      which side of the chair it is standing on.
+    availability: { wave: deep-learning, earliestYear: 2018, poolWeight: 0.55 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 1, roboticsEmbodiment: 3, scientificAi: 1, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 3, product: 3, management: 4, politics: 2 }
+    traits: [trait.geometry-over-labels, trait.institute-co-founder]
+    signature:
+      id: ability.full-3d-scene-reconstruction
+      label: Full 3D Scene Reconstruction
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.robotics-embodiment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: aura.firstPublicLaunchGain, operation: multiply, value: 1.10 }
+    passive:
+      id: ability.spatial-intelligence-lab-leadership
+      label: Spatial Intelligence Lab Leadership
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.reconstruct-the-geometry-not-just-the-label
+      label: Reconstruct the Geometry, Not Just the Label
+      requirement: While she leads Multimodality, complete one 3D scene-reconstruction validation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: 3d-scene-reconstruction, weeks: 52 }
+      breachEvent: people.compact.reconstruct-the-geometry-not-just-the-label
+    paperHooks:
+      ids: [paper.rt-1-robotics-transformer, paper.masked-autoencoders]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Check whether the model understood the room's geometry, or only recognised the objects sitting inside it." }
+      - { triggerTag: benchmark-record, line: "A good 2D label is a start. I would rather see the 3D scene it implies reconstructed correctly." }
+      - { triggerTag: institutional-partnership, line: "An institute is worth co-founding when it outlives the specific grant that started it." }
+    feedLines:
+      - Sanja's 3D reconstruction caught a spatial inconsistency the 2D labels had confidently missed.
+      - A robot's manipulation policy improved noticeably once it was given a real scene reconstruction to plan against.
+      - The spatial intelligence lab shipped a scene-understanding result that quietly outperformed its labelled-only baseline.
+      - Sanja co-founded another initiative and, by the following year, it was already outliving its original grant.
+      - A hiring pitch to a promising vision researcher mentioned, correctly, that this lab reconstructs geometry, not just labels.
+      - The Toronto lab's whiteboard again filled with a 3D scene graph nobody outside the group could immediately parse.
+    portrait:
+      assetId: portrait.researcher.sanja-fiedler
+      brief: Sharp 8-bit editorial portrait; white woman with long blonde hair and a confident, precise expression, beside a 2D image resolving into a full 3D scene reconstruction; spatial and rigorous, not photoreal.
+      altText: Pixel-art portrait of Sanja Fiedler beside a 2D image resolving into a full 3D scene reconstruction.
+    sources:
+      - https://www.cs.utoronto.ca/~fidler/
+      - https://vectorinstitute.ai/team/sanja-fidler/
+      - https://vectorinstitute.ai/nvidia-opening-ai-lab-in-toronto-led-by-vector-faculty-member-sanja-fidler/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }

@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neolab.ai — Soundtrack Laboratory</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #151b23;
+      --line: #313a46;
+      --text: #edf2f7;
+      --muted: #99a5b3;
+      --orange: #ff8a35;
+      --green: #59c97c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px),
+        var(--bg);
+      background-size: 24px 24px;
+      color: var(--text);
+      font: 16px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+    header { display: grid; gap: 10px; margin-bottom: 28px; }
+    .eyebrow { color: var(--orange); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(28px, 5vw, 54px); letter-spacing: -.04em; }
+    .intro { max-width: 780px; color: var(--muted); }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      margin: 24px 0;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: rgba(21,27,35,.92);
+    }
+    label { display: inline-flex; align-items: center; gap: 9px; }
+    input[type="range"] { accent-color: var(--orange); }
+    .section-heading { display: flex; justify-content: space-between; gap: 16px; align-items: end; margin: 38px 0 14px; }
+    .section-title { font-size: 22px; }
+    .section-note { color: var(--muted); font-size: 13px; text-align: right; }
+    .music-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .event-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    article {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: rgba(21,27,35,.94);
+      box-shadow: 5px 5px 0 rgba(0,0,0,.22);
+    }
+    article.playing { border-color: var(--green); box-shadow: 5px 5px 0 rgba(89,201,124,.14); }
+    .track-number { color: var(--orange); font-size: 13px; }
+    h3 { margin-top: 3px; font-size: 20px; }
+    .role { min-height: 48px; margin: 8px 0 14px; color: var(--muted); font-size: 14px; }
+    audio { width: 100%; height: 38px; }
+    .event-card { padding: 16px; }
+    .event-card h3 { font-size: 16px; }
+    .event-card .role { min-height: 42px; font-size: 12px; }
+    .event-card button { font-size: 13px; }
+    button {
+      margin: 0 0 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--orange);
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+    }
+    button:hover, button:focus-visible { background: rgba(255,138,53,.14); }
+    .status { margin-top: 28px; color: var(--muted); font-size: 13px; }
+    .copyright { margin-top: 28px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) { .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 720px) {
+      .music-grid, .event-grid { grid-template-columns: 1fr; }
+      .section-heading { align-items: start; flex-direction: column; }
+      .section-note { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Frontier audio division // complete alpha</div>
+      <h1>Soundtrack laboratory</h1>
+      <p class="intro">The complete comfort-first score: thirty-three full compositions — the fourteen-track laboratory album, the six-track endgame thriller suite, the five-track ending suite, and the retired six-track endgame suite kept for reference — plus twenty semantic event cues. Every playable sound is exposed here, and only one can play at a time.</p>
+    </header>
+
+    <div class="controls" aria-label="Audition controls">
+      <label><input id="loop" type="checkbox" checked> Loop eligible music tracks</label>
+      <label>Volume <input id="volume" type="range" min="0" max="1" value="0.75" step="0.05"></label>
+      <button id="stop-all" type="button">Stop all</button>
+      <span id="now-playing" aria-live="polite">Nothing playing</span>
+    </div>
+
+    <div class="section-heading">
+      <h2 class="section-title">Laboratory album · 14 tracks</h2>
+      <p class="section-note">Ordinary play, shuffled per focus pool · every track loops</p>
+    </div>
+    <section id="music-grid" class="music-grid" aria-label="Full soundtrack tracks"></section>
+
+    <div class="section-heading">
+      <h2 class="section-title">Thriller suite · 9 tracks</h2>
+      <p class="section-note">Seven score the endgame stages; Ghost in the Cluster carries machine-flavoured crises and The Machine Moves First scores containment failure · 126–152 BPM — the race, scored as a race</p>
+    </div>
+    <section id="thriller-grid" class="music-grid" aria-label="Endgame thriller suite tracks"></section>
+
+    <div class="section-heading">
+      <h2 class="section-title">OLD Endgame suite · 6 tracks · out of rotation</h2>
+      <p class="section-note">Retired from the game: the slowest music in the score sat on its most thrilling act. Kept here for reference — the thriller suite above replaced it.</p>
+    </div>
+    <section id="endgame-grid" class="music-grid" aria-label="Retired endgame suite tracks"></section>
+
+    <div class="section-heading">
+      <h2 class="section-title">Ending suite · 5 tracks</h2>
+      <p class="section-note">One per outcome family: full win, qualified win, defeat, catastrophe, extinction · only 09 does not loop</p>
+    </div>
+    <section id="ending-grid" class="music-grid" aria-label="Ending suite tracks"></section>
+
+    <div class="section-heading">
+      <h2 class="section-title">Event cues · 20 sounds</h2>
+      <p class="section-note">One-shots only · warnings remain intentionally non-startling</p>
+    </div>
+    <section id="event-grid" class="event-grid" aria-label="Event sound cues"></section>
+
+    <p class="status">No game files are loaded by this page. AAC files may add encoder padding; production playback will use exact Web Audio loop metadata and separate music/SFX buses.</p>
+    <p class="copyright">Neolab.ai v0.0.0 · Copyright © 2026 Brendan O'Donoghue · bodonoghue85@gmail.com</p>
+  </main>
+  <script>
+    const music = [
+      {n:'01', title:'Hello, World Model', meta:'108 BPM · 2:40', role:'Title and lab selection · curious, welcoming, lightly mechanical', src:'prototypes/01-hello-world-model.m4a', loop:true},
+      {n:'02', title:'The Gradients Are Flowing', meta:'126 BPM · 2:32', role:'Normal laboratory · productive, kinetic, optimistic', src:'prototypes/02-gradients-flowing.m4a', loop:true},
+      {n:'03', title:'Safety Case (Draft 47)', meta:'92 BPM · 3:08', role:'Safety work · warm, thoughtful, unresolved', src:'prototypes/03-safety-case-draft-47.m4a', loop:true},
+      {n:'04', title:'Red Team Found Something', meta:'138 BPM · 2:19', role:'Serious incident · focused tension without sonic aggression', src:'prototypes/04-red-team-found-something.m4a', loop:true},
+      {n:'05', title:'The Last Evaluation', meta:'104 BPM · 3:05', role:'Reflective endgame alternate · expansive, consequential, determined', src:'prototypes/05-last-evaluation.m4a', loop:true},
+      {n:'07', title:'Cashflow Positive*', meta:'122 BPM · 2:22', role:'Commercial momentum · confident, cheerful, faintly over-optimistic', src:'prototypes/07-cashflow-positive.m4a', loop:true},
+      {n:'08', title:'Reviewer Two Requires AGI', meta:'114 BPM · 2:32', role:'Publication and archive · cerebral, fussy, affectionate', src:'prototypes/08-peer-reviewer-two.m4a', loop:true},
+      {n:'10', title:'The Overnight Run', meta:'100 BPM · 2:53', role:'Normal laboratory, night shift · calm, glowing, industrious', src:'prototypes/10-overnight-run.m4a', loop:true},
+      {n:'11', title:'The GPUs Arrive on a Tuesday', meta:'132 BPM · 2:26', role:'Normal laboratory, delivery day · upbeat, optimistic, fun', src:'prototypes/11-gpus-arrive-tuesday.m4a', loop:true},
+      {n:'12', title:'All Tests Pass on the First Try', meta:'128 BPM · 2:30', role:'Normal laboratory, clean pipeline · upbeat, clean, relieved', src:'prototypes/12-tests-pass-first-try.m4a', loop:true},
+      {n:'13', title:'New Hire Orientation', meta:'124 BPM · 2:35', role:'Normal laboratory, first day · upbeat, wide-eyed, warm', src:'prototypes/13-new-hire-orientation.m4a', loop:true},
+      {n:'14', title:'The Demo Worked Twice', meta:'134 BPM · 2:23', role:'Normal laboratory, demo day · upbeat, triumphant, playful', src:'prototypes/14-demo-worked-twice.m4a', loop:true},
+      {n:'15', title:'Compute Budget Approved', meta:'120 BPM · 2:24', role:'Normal laboratory, finance said yes · upbeat, strutting, warm', src:'prototypes/15-budget-approved.m4a', loop:true},
+      {n:'16', title:'Converged Before Lunch', meta:'130 BPM · 2:20', role:'Normal laboratory, early convergence · upbeat, bouncing, satisfied', src:'prototypes/16-converged-before-lunch.m4a', loop:true}
+    ];
+    const thrillerSuite = [
+      {n:'26', title:'The Graph Goes Vertical', meta:'140 BPM · 2:45', role:'Endgame: candidacy confirmed · a chromatic-mediant ladder climbing every two bars, the Lab Motif in double-time fragments that never finish', src:'prototypes/26-the-graph-goes-vertical.m4a', loop:true},
+      {n:'27', title:'Hands Off The Weights', meta:'132 BPM · 2:58', role:'Endgame: containment work · a seven-sixteenth ostinato migrating against the bar while the Safety Answer runs the bass', src:'prototypes/27-hands-off-the-weights.m4a', loop:true},
+      {n:'28', title:'Every Phone At Once', meta:'144 BPM · 2:40', role:'Endgame: outside pressure · two bell figures ringing in 3:2, the bass walking urgent quarters', src:'prototypes/28-every-phone-at-once.m4a', loop:true},
+      {n:'29', title:'Go / No-Go', meta:'152 BPM · 2:32', role:'Endgame: the decision · an unbroken clock over Neapolitan shimmer, the Safety Answer asked ever higher and never answered', src:'prototypes/29-go-no-go.m4a', loop:true},
+      {n:'30', title:'Ship It', meta:'148 BPM · 2:49', role:'Endgame: rollout · victory\u2019s A major through F\u266f minor at four-on-the-floor, arps cascading like a progress bar', src:'prototypes/30-ship-it.m4a', loop:true},
+      {n:'31', title:'Adrenaline Half-Life', meta:'126 BPM · 2:32', role:'Post-endgame return \u00b7 Gradients\u2019 key and tempo with the pulse still trembling; the Lab Motif complete, but off the beat', src:'prototypes/31-adrenaline-half-life.m4a', loop:true},
+      {n:'32', title:'Ghost in the Cluster', meta:'136 BPM · 2:49', role:'Machine-flavoured crises \u00b7 whole-tone shimmer over a tritone pendulum; the one deliberately inhuman pulse in the score', src:'prototypes/32-ghost-in-the-cluster.m4a', loop:true},
+      {n:'33', title:'The Machine Moves First', meta:'146 BPM · 2:38', role:'Endgame: containment failure \u00b7 a Shepard ascent that never arrives, tritone tolls, the Lab Motif answered upside down', src:'prototypes/33-the-machine-moves-first.m4a', loop:true},
+      {n:'34', title:'The Window Is Closing', meta:'146 BPM · 2:41', role:'Endgame: evidence sprint \u00b7 an uneven seven-step pulse under tightening sci-fi harmony, fast enough to make every unanswered question feel expensive', src:'prototypes/34-the-window-is-closing.m4a', loop:true}
+    ];
+    const endgameSuite = [
+      {n:'17', title:'The Number Appears', meta:'72 BPM · 3:00', role:'Endgame: candidacy confirmed · the title key over an E pedal, the Lab Motif breaking off', src:'prototypes/17-the-number-appears.m4a', loop:true},
+      {n:'18', title:'Containment Posture', meta:'86 BPM · 3:10', role:'Endgame: containment work · one unvarying ostinato while the harmony shifts', src:'prototypes/18-containment-posture.m4a', loop:true},
+      {n:'19', title:'Everyone Is Calling', meta:'90 BPM · 2:51', role:'Endgame: outside pressure · a pompous institutional figure against the lab\u2019s inner voice', src:'prototypes/19-everyone-is-calling.m4a', loop:true},
+      {n:'20', title:'The Final Review', meta:'63 BPM · 3:18', role:'Endgame: the decision · the Safety Answer asked, never answered', src:'prototypes/20-the-final-review.m4a', loop:true},
+      {n:'21', title:'Root Access', meta:'76 BPM · 3:28', role:'Endgame: rollout · victory\u2019s A major visible through F\u266f minor', src:'prototypes/21-root-access.m4a', loop:true},
+      {n:'22', title:'False Dawn', meta:'96 BPM · 2:40', role:'Post-endgame return · Gradients\u2019 D major with the Lab Motif missing its seventh', src:'prototypes/22-false-dawn.m4a', loop:true}
+    ];
+    const endingSuite = [
+      {n:'06', title:'A Broadly Shared Future', meta:'116 BPM · 2:46', role:'Full victory · the most upbeat ending in the score, reserved for the true wins', src:'prototypes/06-broadly-shared-future.m4a', loop:true},
+      {n:'23', title:'A Qualified Success', meta:'104 BPM · 2:28', role:'Qualified victory · the Lab Motif completes, then the asterisk clears its throat', src:'prototypes/23-a-qualified-success.m4a', loop:true},
+      {n:'24', title:'Exit Interview', meta:'84 BPM · 2:51', role:'Non-catastrophic losses · dignified elegy, the Lab Motif stops before its final note', src:'prototypes/24-exit-interview.m4a', loop:true},
+      {n:'25', title:'Loss of Signal', meta:'66 BPM · 2:55', role:'Catastrophic non-extinction losses · the machine still runs, unsteered', src:'prototypes/25-loss-of-signal.m4a', loop:true},
+      {n:'09', title:'There Is No One Left to Read This', meta:'60 BPM · 2:08', role:'Extinction · sparse, unresolved, quiet · the one non-looping track', src:'prototypes/09-nothing-left-to-read.m4a', loop:false}
+    ];
+    const eventGestures = {
+      '01':'discovery bloom', '02':'breakthrough arc', '03':'tier staircase',
+      '04':'safety answer', '05':'ledger motion', '06':'talent duet',
+      '07':'farewell space', '08':'distant rival', '09':'formal seal',
+      '10':'crisis breath', '11':'containment descent', '12':'coalition question',
+      '13':'coalition weave', '14':'endgame threshold', '15':'victory cadence',
+      '16':'race recedes', '17':'institutional close', '18':'empty ledger',
+      '19':'final fragment', '20':'score sparkle'
+    };
+    const events = [
+      ['01','Paper Discovered','5.0s','research world-first','events/event-01-paper-discovered.m4a'],
+      ['02','Major Breakthrough','5.3s','major research result','events/event-02-major-breakthrough.m4a'],
+      ['03','Capability Tier Increased','4.6s','model level-up','events/event-03-capability-tier.m4a'],
+      ['04','Safety Evidence Improved','5.7s','safety success','events/event-04-safety-win.m4a'],
+      ['05','Fundraising Complete','4.4s','finance success','events/event-05-fundraising-complete.m4a'],
+      ['06','Researcher Joined','4.9s','talent recruited','events/event-06-researcher-joins.m4a'],
+      ['07','Researcher Departed','6.3s','talent departure','events/event-07-researcher-departs.m4a'],
+      ['08','Rival Breakthrough','5.5s','rival progress','events/event-08-rival-breakthrough.m4a'],
+      ['09','Regulatory Attention','6.7s','government scrutiny','events/event-09-regulatory-attention.m4a'],
+      ['10','Crisis Opened','6.2s','serious incident','events/event-10-crisis-opened.m4a'],
+      ['11','Containment Warning','6.9s','containment evidence','events/event-11-containment-warning.m4a'],
+      ['12','Coalition Proposed','5.6s','coalition offer','events/event-12-coalition-proposed.m4a'],
+      ['13','Coalition Formed','7.8s','coalition success','events/event-13-coalition-formed.m4a'],
+      ['14','Endgame Begins','9.7s','endgame transition','events/event-14-endgame-begins.m4a'],
+      ['15','Race Won','7.7s','aligned AGI victory','events/event-15-race-won.m4a'],
+      ['16','Race Lost','10.6s','rival wins','events/event-16-race-lost.m4a'],
+      ['17','Lab Nationalised','10.9s','nationalisation ending','events/event-17-nationalised.m4a'],
+      ['18','Bankruptcy','7.5s','bankruptcy ending','events/event-18-bankruptcy.m4a'],
+      ['19','Containment Failure','12.9s','extinction ending','events/event-19-containment-failure.m4a'],
+      ['20','Score Milestone','4.4s','score award','events/event-20-score-milestone.m4a']
+    ].map(([n,title,duration,role,src]) => ({
+      n, title, meta:duration, role:`${role} · ${eventGestures[n]}`, src, loop:false
+    }));
+
+    function cardMarkup(item, type) {
+      return `<article class="${type === 'event' ? 'event-card' : ''}">
+        <div class="track-number">${type === 'event' ? 'EVENT ' : ''}${item.n} · ${item.meta}</div>
+        <h3>${item.title}</h3>
+        <p class="role">${item.role}</p>
+        <button type="button" data-play>Play ${item.title}</button>
+        <audio controls preload="metadata" data-loopable="${item.loop}" src="${item.src}"></audio>
+      </article>`;
+    }
+    document.querySelector('#music-grid').innerHTML = music.map(item => cardMarkup(item, 'music')).join('');
+    document.querySelector('#thriller-grid').innerHTML = thrillerSuite.map(item => cardMarkup(item, 'music')).join('');
+    document.querySelector('#endgame-grid').innerHTML = endgameSuite.map(item => cardMarkup(item, 'music')).join('');
+    document.querySelector('#ending-grid').innerHTML = endingSuite.map(item => cardMarkup(item, 'music')).join('');
+    document.querySelector('#event-grid').innerHTML = events.map(item => cardMarkup(item, 'event')).join('');
+
+    const tracks = [...document.querySelectorAll('audio')];
+    const loop = document.querySelector('#loop');
+    const volume = document.querySelector('#volume');
+    const stopAll = document.querySelector('#stop-all');
+    const nowPlaying = document.querySelector('#now-playing');
+
+    function applySettings() {
+      tracks.forEach(track => {
+        track.loop = loop.checked && track.dataset.loopable === 'true';
+        track.volume = Number(volume.value);
+      });
+    }
+
+    tracks.forEach(track => {
+      const card = track.closest('article');
+      const button = card.querySelector('[data-play]');
+      const title = card.querySelector('h3').textContent;
+      button.addEventListener('click', () => track.paused ? track.play() : track.pause());
+      track.addEventListener('play', () => {
+        tracks.filter(other => other !== track).forEach(other => other.pause());
+        document.querySelectorAll('article').forEach(card => card.classList.remove('playing'));
+        card.classList.add('playing');
+        button.textContent = `Pause ${title}`;
+        nowPlaying.textContent = `Playing: ${title}`;
+      });
+      track.addEventListener('pause', () => {
+        button.textContent = `Play ${title}`;
+        if (!tracks.some(other => !other.paused)) {
+          card.classList.remove('playing');
+          nowPlaying.textContent = 'Nothing playing';
+        }
+      });
+    });
+    loop.addEventListener('change', applySettings);
+    volume.addEventListener('input', applySettings);
+    stopAll.addEventListener('click', () => {
+      tracks.forEach(track => {
+        track.pause();
+        track.currentTime = 0;
+      });
+      document.querySelectorAll('article').forEach(card => card.classList.remove('playing'));
+      nowPlaying.textContent = 'Nothing playing';
+    });
+    applySettings();
+  </script>
+</body>
+</html>

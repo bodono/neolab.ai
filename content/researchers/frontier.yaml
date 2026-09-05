@@ -1,0 +1,227 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-a
+availabilityWave: frontier
+status: draft
+
+researchers:
+  - id: researcher.jan-liker
+    version: 1
+    displayName: Jan Liker
+    inspirationName: Jan Leike
+    inspirationSummary: Anthropic Alignment Science lead and former OpenAI Superalignment co-lead whose work spans human-feedback learning, scalable oversight, and weak-to-strong generalisation.
+    epithet: The Supervisor of Supervisors
+    role: Alignment science and difficult-to-evaluate tasks
+    rosterCardSummary: A frontier alignment leader trying to teach weaker supervisors to supervise stronger systems, while insisting the safety budget be made of actual GPUs rather than reassuring adjectives.
+    biography: >-
+      Jan Leike leads Anthropic's Alignment Science team, studying how to align systems on tasks
+      that are difficult for humans to evaluate directly. He holds an Australian National
+      University PhD in reinforcement-learning theory and previously worked on alignment at
+      DeepMind, where he helped prototype reinforcement learning from human feedback. At OpenAI he
+      developed the organisation's alignment research approach, worked on InstructGPT, ChatGPT and
+      GPT-4 alignment, and co-led Superalignment with Ilya Sutskever. That programme framed a central
+      problem: future humans may be weak supervisors of stronger models. Weak-to-strong
+      generalisation turned the problem into an experiment, using weaker models to supervise
+      stronger ones and measuring both the recovered capability and the remaining gap. The
+      programme leaves no reassuring adjective without a measurable evaluation protocol attached;
+      even the supposedly stronger supervisor must submit to supervision.
+    availability:
+      wave: frontier
+      earliestYear: 2018
+      unlockAny: [{ modelFcAtLeast: 55 }, { yearAtLeast: 2021 }, { discoveredTag: human-feedback }]
+      poolWeight: 0.75
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 0, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 1, management: 5, politics: 3 }
+    traits: [trait.empirical-alignment, trait.frontier-candour]
+    signature:
+      id: ability.two-lines-of-evidence
+      label: Two Lines of Evidence
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [safety.alignment-control, safety.interpretability-evals] }
+      rampWeeks: 4
+      effects:
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+      notes: The two named safety bonuses are standing effects and do not replace the ordinary programme-lead contribution.
+    passive:
+      id: ability.better-error-bars
+      label: Better Error Bars
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+      notes: Hidden truth and actual hazard do not change; the justified player-facing estimate becomes more precise.
+    compact:
+      id: compact.frontier-safety-budget
+      label: Frontier Safety Budget
+      requirement: Whenever the lab has a model with Frontier Capability 70 or more, keep at least 25% of R&D compute assigned to safety research.
+      check: { type: conditional-pool-share-at-least, condition: { modelTrainingOrDeployedFcAtLeast: 70 }, pool: rd, target: safety, value: 0.25 }
+      breachEvent: people.compact.frontier-safety-budget
+    paperHooks:
+      ids: [paper.deep-rl-from-human-preferences, paper.weak-to-strong-generalization]
+    eventReactions:
+      - { triggerTag: safety-budget-cut, line: "The argument cannot be that safety is critical and the allocation cannot be that it is optional." }
+      - { triggerTag: weak-to-strong-result, line: "Promising is the correct word. It means continue the experiment, not close the problem." }
+      - { triggerTag: dissent-memo, line: "If the evidence changed someone's mind, the organisational system worked. Now respond to the evidence." }
+    feedLines:
+      - Jan narrowed the error bars by improving the evaluation, not by adjusting the font size.
+      - Two safety programmes have adequate GPUs and are reluctantly corroborating each other.
+      - The strong model learned from the weak supervisor. Oversight has scheduled a meeting about what it learned between labels.
+      - Jan requested a frontier safety budget expressed in physical GPUs and organisational commitment.
+      - The automated alignment researcher remains automated, useful and very deliberately sandboxed.
+      - A limitation section was expanded before the press release, causing a small but measurable increase in institutional adulthood.
+    portrait:
+      assetId: portrait.researcher.jan-liker
+      brief: Clear 8-bit editorial portrait; pale white man with close-cropped blond hair before two overlapping safety-evidence bands and a supervised model diagram; candid and scientifically focused, not photoreal.
+      altText: Pixel-art portrait of Jan Liker before two overlapping safety-evidence bands and a supervised model diagram.
+    sources:
+      - https://jan.leike.name/
+      - https://deepmind.google/blog/learning-through-human-feedback/
+      - https://openai.com/index/weak-to-strong-generalization/
+      - https://openai.com/index/introducing-superalignment/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.jon-jumper
+    version: 1
+    displayName: Jon Jumper
+    inspirationName: John Jumper
+    inspirationSummary: Google DeepMind scientist and 2024 Chemistry laureate who led AlphaFold 2 from amino-acid sequence to experimentally competitive protein-structure predictions.
+    epithet: The Ribbon-Diagram Cartographer
+    role: Scientific AI and structural biology
+    rosterCardSummary: A Nobel-recognised AlphaFold leader who turned amino-acid sequences into ribbon diagrams, then sent biology back to the wet lab with a much better map.
+    biography: >-
+      John Jumper led the AlphaFold team with Demis Hassabis, making protein-structure prediction a
+      landmark for modern scientific AI. Trained in physics, chemistry and computational biology,
+      he helped design AlphaFold 2 to infer a protein's three-dimensional structure from its
+      amino-acid sequence. Its 2021 Nature paper reported accuracy competitive with experiments
+      across most CASP14 targets; the AlphaFold database then put predictions in researchers' hands
+      worldwide. In 2024, the Nobel committee awarded Jumper and Hassabis half of the Chemistry
+      Prize for protein structure prediction, recognising work used across drug discovery and
+      environmental research. The ribbon diagram carries a warning grounded in that record: machine
+      learning can propose an extraordinary structure; biology still gets the final experiment.
+      John Jumper's work strengthens both model-building and the habit of asking whether a beautiful
+      prediction means something outside the benchmark.
+    availability:
+      wave: frontier
+      earliestYear: 2020
+      unlockAny: [{ facilityOwned: facility.scientific-laboratory-1 }, { domainUnlocked: domain.scientific-ai }, { yearAtLeast: 2020 }]
+      poolWeight: 0.65
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.06, baseSigningCash: 10, auraCost: 15, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 5, reinforcementAgency: 1, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 1, scientificAi: 5, alignmentControl: 1, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 2, management: 5, politics: 2 }
+    traits: [trait.scientific-instrument-builder, trait.experimental-grounding]
+    signature:
+      id: ability.structure-from-sequence
+      label: Structure From Sequence
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain, value: domain.scientific-ai }
+      rampWeeks: 4
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.wet-lab-credibility
+      label: Wet Lab Credibility
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.science-not-demo
+      label: Science Is Not a Demo
+      cadence: one-time
+      requirement: Complete Scientific Laboratory I within 26 weeks of hiring him.
+      check: { type: facility-owned-within, facility: facility.scientific-laboratory-1, weeks: 26 }
+      breachEvent: people.compact.science-not-demo
+    paperHooks:
+      ids: [paper.alphafold-protein-structure-potentials, paper.alphafold2-protein-structure]
+    eventReactions:
+      - { triggerTag: experimental-validation, line: "The prediction earns us a better experiment. The experiment earns us the scientific claim." }
+      - { triggerTag: medicine-breakthrough, line: "A useful structure is not a therapy, but it can turn years of searching into a tractable programme." }
+      - { triggerTag: science-demo-pressure, line: "The ribbon diagram is excellent. Please put the uncertainty and the wet-lab plan on the next slide." }
+    feedLines:
+      - Jon predicted a protein structure and immediately asked which experimentalist would try to prove it wrong.
+      - Scientific AI output rose; Biology has requested that “output” include samples.
+      - The protein folded in minutes. The validation plan retains a more traditional relationship with time.
+      - A ribbon diagram has become the most scientifically consequential piece of campus art.
+      - Jon increased the scientific credibility of the programme and the number of questions requiring an actual laboratory.
+      - Medicine readiness improved through several thousand careful experiments and one admirably unexciting validation report.
+    portrait:
+      assetId: portrait.researcher.jon-jumper
+      brief: Elegant 8-bit editorial portrait; white man with short brown hair before a luminous blue-green folded-protein ribbon and small experimental grid; grounded and quietly brilliant, not photoreal.
+      altText: Pixel-art portrait of Jon Jumper beside a luminous folded-protein ribbon and experimental grid.
+    sources:
+      - https://deepmind.google/science/alphafold/
+      - https://deepmind.google/blog/demis-hassabis-john-jumper-awarded-nobel-prize-in-chemistry/
+      - https://www.nature.com/articles/s41586-021-03819-2
+      - https://www.nobelprize.org/prizes/chemistry/2024/jumper/facts/
+      - https://royalsociety.org/people/john-jumper-37403/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.kelsey-finn
+    version: 1
+    displayName: Kelsey Finn
+    inspirationName: Chelsea Finn
+    inspirationSummary: Stanford roboticist, MAML co-creator, IRIS lab director, and Physical Intelligence co-founder working on agents that learn new behaviours from limited experience.
+    epithet: The Few-Shot Roboticist
+    role: Robotics, meta-learning, and adaptation
+    rosterCardSummary: A robotics and meta-learning pioneer who taught models how to learn, then sent them into a room with a robot arm to check whether they had learned anything useful.
+    biography: >-
+      Chelsea Finn is a Stanford computer-science and electrical-engineering professor whose IRIS lab
+      studies intelligence through robotic interaction at scale. After an MIT bachelor's and
+      Berkeley PhD, she worked with Google Brain and Google DeepMind before co-founding Physical
+      Intelligence. Her research connects visual perception, manipulation, reinforcement learning
+      and meta-learning: methods that help an agent acquire a new task from little data rather than
+      begin again from scratch. She co-created model-agnostic meta-learning, or MAML, which
+      optimises a model so a small number of gradient steps can adapt it to a new task. The same
+      ambition runs through her work on self-supervising robots, policies that transfer between
+      machines, and large shared robot datasets. Every elegant learning-to-learn claim eventually
+      receives the same practical exam: a robot arm, an unfamiliar object and no conveniently
+      pre-labelled demonstration. The benchmark now has fingerprints.
+    availability:
+      wave: frontier
+      earliestYear: 2018
+      unlockAny: [{ facilityOwned: facility.robotics-lab-1 }, { domainUnlocked: domain.robotics-embodiment }, { yearAtLeast: 2017 }]
+      poolWeight: 0.85
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 4, reinforcementAgency: 5, multimodality: 3, reasoningTools: 1, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 4, product: 3, management: 4, politics: 1 }
+    traits: [trait.meta-learning, trait.physical-grounding]
+    signature:
+      id: ability.learn-how-to-learn
+      label: Learn How to Learn
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.fast-adaptation
+      label: Fast Adaptation
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.reality-privileges
+      label: Reality Privileges
+      cadence: one-time
+      requirement: Complete Robotics Lab I within 26 weeks of hiring her.
+      check: { type: facility-owned-within, facility: facility.robotics-lab-1, weeks: 26 }
+      breachEvent: people.compact.reality-privileges
+    paperHooks:
+      ids: [paper.model-agnostic-meta-learning]
+    eventReactions:
+      - { triggerTag: wrong-drawer, line: "Good. The policy adapted. Unfortunately it adapted to the evaluator standing beside the correct drawer." }
+      - { triggerTag: sim-to-real-gap, line: "The simulator taught the prior. Reality is now providing the update and several new safety rails." }
+      - { triggerTag: repeated-robotics-project, line: "Transfer is only interesting when the next task is genuinely different. Change the object, room and success criterion." }
+    feedLines:
+      - Kelsey taught the robot how to learn; the robot has requested a less repetitive onboarding task.
+      - The next robotics project adapted faster because the previous one left reusable experience rather than only debris.
+      - A physical trial discovered that simulated gravity had been unusually supportive.
+      - Robotics output rose and the correct drawer remains a probabilistic concept.
+      - The prototype uses the same compute budget and considerably more safety tape.
+      - Kelsey changed the task, the room and the object. The policy adapted before the committee did.
+    portrait:
+      assetId: portrait.researcher.kelsey-finn
+      brief: Bright 8-bit editorial portrait; white woman with long brown hair beside a small robot arm adapting between three coloured objects, with a looping meta-learning arrow; energetic and rigorous, not photoreal.
+      altText: Pixel-art portrait of Kelsey Finn beside a robot arm adapting between three objects under a looping learning arrow.
+    sources:
+      - https://profiles.stanford.edu/chelsea-finn
+      - https://robotics.stanford.edu/~cbfinn/
+      - https://arxiv.org/abs/1703.03400
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }

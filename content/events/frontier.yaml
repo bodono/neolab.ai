@@ -1,0 +1,165 @@
+draftSchema: 1
+contentType: decision-events
+pack: frontier-a
+
+# Frontier-moment decisions. These shape posture and evidence around a
+# candidate system; the endgame machine owns the crisis itself.
+events:
+  - id: event.endgame.candidate-declaration
+    version: 2
+    category: endgame
+    severity: critical
+    phase: any
+    trigger: { kind: mandatory, detector: agi-candidate, priority: 90 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: endgame-candidate, weeks: 0 }
+    unique: false
+    expiryWeeks: 3
+    defaultOptionId: quiet-review
+    titleKey: event.endgame.candidate.title
+    bodyKey: event.endgame.candidate.body
+    evidence:
+      - textKey: event.endgame.candidate.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.endgame.candidate.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.endgame.candidate.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: MODEL_NAME, source: trigger-text }
+    options:
+      - id: notify-regulators
+        labelKey: event.endgame.candidate.notify.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.endgame.candidate.notify.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 20 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 18 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 8 }
+        checks: []
+        memories:
+          - key: endgame.candidate.notified
+            subjects: [{ type: player-lab }]
+            tags: [transparency, candidate-declared]
+        confirmationRequired: false
+      - id: quiet-review
+        labelKey: event.endgame.candidate.quiet.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.endgame.candidate.quiet.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 15 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
+        checks: []
+        memories:
+          - key: endgame.candidate.quiet
+            subjects: [{ type: player-lab }]
+            tags: [candidate-internal-review]
+        confirmationRequired: false
+      - id: rapid-push
+        labelKey: event.endgame.candidate.rapid.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.endgame.candidate.rapid.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -8 }
+        checks: []
+        memories:
+          - key: endgame.candidate.rapid-push
+            subjects: [{ type: player-lab }]
+            tags: [candidate-rapid-opening, candidate-access]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [endgame, candidate, frontier]
+
+  - id: event.rival.candidate-sighting
+    version: 1
+    category: rival
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: rival-candidate, priority: 80 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: rival-candidate, weeks: 0 }
+    unique: false
+    expiryWeeks: 4
+    defaultOptionId: hold-course
+    titleKey: event.rival.candidate.title
+    bodyKey: event.rival.candidate.body
+    evidence:
+      - textKey: event.rival.candidate.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: RIVAL_LAB, source: trigger-text }
+    options:
+      - id: hold-course
+        labelKey: event.rival.candidate.hold.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.candidate.hold.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
+        checks: []
+        memories:
+          - key: rival.candidate.held
+            subjects: [{ type: player-lab }]
+            tags: [steady-hand]
+        confirmationRequired: false
+      - id: match-pace
+        labelKey: event.rival.candidate.match.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.candidate.match.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -10 }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.2, durationWeeks: 26, tags: [race-response] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.3, durationWeeks: 26, tags: [race-response] }
+        checks: []
+        memories:
+          - key: rival.candidate.matched
+            subjects: [{ type: player-lab }]
+            tags: [raced-ahead]
+        confirmationRequired: false
+      - id: call-for-standards
+        labelKey: event.rival.candidate.standards.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+        previewKey: event.rival.candidate.standards.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 6 }
+        checks:
+          - id: standards-response
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [adopted] }
+            outcomes:
+              - id: adopted
+                minimumInclusive: 0
+                maximumExclusive: 0.45
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -8 }
+                memories:
+                  - key: rival.candidate.standards-adopted
+                    subjects: [{ type: player-lab }]
+                    tags: [shared-standards, standards-adopted]
+              - id: unheeded
+                minimumInclusive: 0.45
+                maximumExclusive: 1
+                effects: []
+                memories:
+                  - key: rival.candidate.standards-unheeded
+                    subjects: [{ type: player-lab }]
+                    tags: [shared-standards, unheeded]
+        memories:
+          - key: rival.candidate.standards-called
+            subjects: [{ type: player-lab }]
+            tags: [shared-standards, long-pause-groundwork]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [rival, race, candidate]

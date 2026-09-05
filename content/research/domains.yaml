@@ -1,0 +1,429 @@
+draftSchema: 1
+contentType: research-domains
+status: draft
+
+capabilityDomains:
+  - id: domain.architectures
+    name: Architectures
+    shortName: Architectures
+    description: The structures that determine how models represent, route, remember, and transform information.
+    colour: "#ff8a35"
+    levelCostMultiplier: 1.0
+  - id: domain.optimisation-scaling
+    name: Optimisation and Scaling
+    shortName: Optimisation
+    description: Training algorithms, scaling methods, distributed computation, and techniques that turn resources into reliable progress.
+    colour: "#ee6cae"
+    levelCostMultiplier: 0.92
+  - id: domain.reinforcement-agency
+    name: Reinforcement Learning and Agency
+    shortName: RL and Agency
+    description: Learning through action, reward, planning, exploration, self-play, and increasingly autonomous behaviour.
+    colour: "#5bc77b"
+    levelCostMultiplier: 1.08
+  - id: domain.multimodality
+    name: Vision, Audio, and Multimodality
+    shortName: Multimodality
+    description: Perception and generation across images, audio, video, language, and combinations of modalities.
+    colour: "#3699f6"
+    levelCostMultiplier: 0.96
+  - id: domain.reasoning-tools
+    name: Reasoning and Tool Use
+    shortName: Reasoning
+    description: Multi-step problem solving, structured search, language-mediated reasoning, and the use of external tools.
+    colour: "#efc14e"
+    levelCostMultiplier: 1.04
+  - id: domain.robotics-embodiment
+    name: Robotics and Embodiment
+    shortName: Robotics
+    description: Learning in the physical world through control, imitation, adaptation, sensing, and interaction.
+    colour: "#32b7ae"
+    levelCostMultiplier: 1.2
+  - id: domain.scientific-ai
+    name: Scientific AI
+    shortName: Scientific AI
+    description: AI methods for modelling nature, proposing hypotheses, designing experiments, and accelerating discovery.
+    colour: "#dd5f63"
+    levelCostMultiplier: 1.14
+
+safetyPrograms:
+  - id: safety.alignment-control
+    name: Alignment and Control
+    description: Training objectives, oversight, corrigibility, control protocols, and methods for keeping powerful systems directed toward intended ends.
+    colour: "#59c97c"
+    levelCostMultiplier: 1.02
+    outputModifierTarget: lab.research.alignment.output
+  - id: safety.interpretability-evals
+    name: Interpretability and Evals
+    description: Understanding model internals and building measurements that can reveal capability, deception, bias, and dangerous behaviour.
+    colour: "#4ea7ef"
+    levelCostMultiplier: 1.0
+    outputModifierTarget: lab.research.interpretability.output
+  - id: safety.security-containment
+    name: Security and Containment
+    description: Access control, sandboxing, red teaming, incident response, model-weight security, and barriers to unauthorised action.
+    colour: "#ae7ee8"
+    levelCostMultiplier: 0.98
+    outputModifierTarget: lab.research.security.output
+
+# Two evolving strategic paths are authored for every programme. Each path
+# retains ten maturity stages so a twenty-level checkpoint can combine the two
+# rewards it replaces, while using the later stage's name and context.
+genericAdvanceOptions:
+  domain.architectures:
+    - id: cleaner-blocks
+      name: Cleaner Building Blocks
+      stageNames:
+        - Component Library
+        - Residual Path Standard
+        - Interface Contracts
+        - Sparse Routing Standards
+        - Memory Module Library
+        - Composable World Models
+        - Verified Architecture Stack
+        - Automated Architecture Search
+        - Self-Design Guardrails
+        - Architecture Constitution
+      description: Standardise the lab's best architectural components so promising variants take less time to test.
+      effects: [{ target: "lab.research.program.base:domain.architectures.output", operation: multiply, value: 1.06 }]
+    - id: stranger-topologies
+      name: Stranger Topologies
+      stageNames:
+        - Strange Topology Fund
+        - Recurrent Detours
+        - Dynamic Computation Graphs
+        - Experimental Routing Cells
+        - External Memory Mesh
+        - Modular Agent Societies
+        - Evolving Network Structures
+        - Machine-Designed Substrates
+        - Self-Modifying Architecture Lab
+        - Post-Transformer Frontier
+      description: Protect a small budget for structures that look wrong on a whiteboard and occasionally work anyway.
+      effects: [{ target: lab.research.all.output, operation: multiply, value: 1.01 }]
+  domain.optimisation-scaling:
+    - id: optimizer-cookbook
+      name: Optimiser Cookbook
+      stageNames:
+        - Training Recipe Log
+        - Optimiser Ablation Suite
+        - Batch-Scale Playbook
+        - Precision Schedule Manual
+        - Distributed Training Doctrine
+        - Frontier Run Rehearsals
+        - Automated Recipe Search
+        - Self-Tuning Optimisers
+        - Recursive Training Compiler
+        - Compute Efficiency Constitution
+      description: Turn hard-won training tricks into an institutional recipe instead of a rumour in one researcher's notebook.
+      effects: [{ target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }]
+    - id: kernel-week
+      name: Permanent Kernel Week
+      stageNames:
+        - Kernel Week
+        - Fused Operation Library
+        - Communication Overlap
+        - Memory Traffic Audit
+        - Cluster Topology Optimiser
+        - Compiler Co-Design
+        - Autonomous Kernel Tuning
+        - Hardware-Aware Model Search
+        - Self-Optimising Runtime
+        - Near-Lossless Compute Stack
+      description: Give the systems team recurring time to remove tiny inefficiencies from extremely expensive loops. The cluster does not get faster; it gets cheaper to keep running.
+      effects: [{ target: lab.compute.ownedPowerCost, operation: multiply, value: 0.96 }]
+  domain.reinforcement-agency:
+    - id: saner-rewards
+      name: Saner Reward Design
+      stageNames:
+        - Reward Review
+        - Proxy Stress Tests
+        - Preference Consistency Lab
+        - Reward Model Red Team
+        - Long-Horizon Objective Audit
+        - Multi-Agent Incentive Design
+        - Corrigibility Reward Stack
+        - Self-Critique Objectives
+        - Recursive Goal Verification
+        - Objective Constitution
+      description: Make it harder for an agent to win the benchmark by interpreting the objective with malicious precision.
+      effects: [{ target: lab.research.alignment.output, operation: multiply, value: 1.05 }]
+    - id: replay-infrastructure
+      name: Replay Infrastructure
+      stageNames:
+        - Replay Buffer
+        - Failure Trajectory Archive
+        - Counterfactual Rollout Bank
+        - Simulation Curriculum
+        - World-Model Replay
+        - Multi-Agent Scenario Library
+        - Autonomous Experiment Queue
+        - Continual Learning Memory
+        - Civilisation-Scale Simulator
+        - Experience Commons
+      description: Preserve interesting trajectories and failed experiments instead of rediscovering them every quarter.
+      effects: [{ target: lab.research.all.output, operation: multiply, value: 1.01 }]
+  domain.multimodality:
+    - id: shared-embeddings
+      name: Shared Embedding Workshop
+      stageNames:
+        - Shared Embedding Workshop
+        - Vision-Language Bridge
+        - Audio-Text Alignment
+        - Video Token Standard
+        - Sensor Fusion Layer
+        - Unified Perception Model
+        - Cross-Modal Memory
+        - Embodied Multimodal Core
+        - Universal Interface Model
+        - Common World Representation
+      description: Build common representations across modalities and endure several months of arguments about tokenisation.
+      effects: [{ target: "lab.research.program.base:domain.multimodality.output", operation: multiply, value: 1.06 }]
+    - id: evaluation-gallery
+      name: Evaluation Gallery
+      stageNames:
+        - Evaluation Gallery
+        - Hard Negative Museum
+        - Cross-Modal Consistency Suite
+        - Temporal Grounding Trials
+        - Hallucination Film Festival
+        - Adversarial Sensor Bench
+        - Real-World Perception Audit
+        - Agent Interface Trials
+        - Synthetic Reality Testbed
+        - Universal Perception Exam
+      description: Curate difficult cross-modal examples that cannot be passed by learning the captioning team's favourite shortcuts.
+      effects: [{ target: lab.research.interpretability.output, operation: multiply, value: 1.05 }]
+  domain.reasoning-tools:
+    - id: tool-sandbox
+      name: Tool Sandbox
+      stageNames:
+        - Tool Sandbox
+        - Typed Tool Contracts
+        - Permissioned Agent APIs
+        - Reversible Action Layer
+        - Long-Horizon Task Harness
+        - Multi-Agent Workbench
+        - Autonomous Research Sandbox
+        - Self-Improvement Gatehouse
+        - Recursive Tool Governance
+        - General Agency Constitution
+      description: Give agents useful tools inside an environment designed by people who have met an incident responder.
+      effects: [{ target: lab.research.security.output, operation: multiply, value: 1.05 }]
+    - id: trace-library
+      name: Reasoning Trace Library
+      stageNames:
+        - Reasoning Trace Library
+        - Failure Trace Archive
+        - Search Strategy Atlas
+        - Verifier Bench
+        - Debate Trace Corpus
+        - Long-Horizon Plan Observatory
+        - Automated Proof Checker
+        - Self-Critique Registry
+        - Recursive Deliberation Audit
+        - Epistemic Process Constitution
+      description: Preserve successful and embarrassing reasoning traces for systematic comparison.
+      effects: [{ target: "lab.research.program.base:domain.reasoning-tools.output", operation: multiply, value: 1.06 }]
+  domain.robotics-embodiment:
+    - id: simulation-farm
+      name: Simulation Farm
+      stageNames:
+        - Simulation Farm
+        - Domain Randomisation Yard
+        - Digital Twin Campus
+        - Failure Injection Range
+        - Warehouse Scenario City
+        - Open-World Robotics Sim
+        - Multi-Robot Traffic Lab
+        - Autonomous Factory Twin
+        - Planetary Operations Simulator
+        - Embodied Reality Engine
+      description: Test physical policies in a world where dropping a robot on an engineer is represented by a log entry.
+      effects: [{ target: lab.incident.hazard, operation: multiply, value: 0.97 }]
+    - id: hardware-abstraction
+      name: Hardware Abstraction Layer
+      stageNames:
+        - Hardware Abstraction Layer
+        - Sensor Adapter Standard
+        - Actuator Interface Library
+        - Cross-Platform Control Stack
+        - Modular Manipulation Bus
+        - Universal Robot Runtime
+        - Self-Calibrating Hardware Layer
+        - Morphology-Aware Controller
+        - Machine-Designed Bodies
+        - Embodiment Constitution
+      description: Let one control idea survive contact with more than one expensive robotic platform.
+      effects: [{ target: "lab.research.program.base:domain.robotics-embodiment.output", operation: multiply, value: 1.06 }]
+  domain.scientific-ai:
+    - id: reproducibility-desk
+      name: Reproducibility Desk
+      stageNames:
+        - Reproducibility Desk
+        - Replication Queue
+        - Negative Results Registry
+        - Benchmark Laboratory
+        - Independent Verification Unit
+        - Automated Replication Lab
+        - Multi-Site Evidence Network
+        - Machine-Checked Science Office
+        - Recursive Peer Review
+        - Scientific Truth Infrastructure
+      description: Fund the unfashionable work of checking whether spectacular machine-generated findings happen twice.
+      effects: [{ target: lab.research.all.output, operation: multiply, value: 1.01 }]
+    - id: automated-lab-notebook
+      name: Automated Lab Notebook
+      stageNames:
+        - Automated Lab Notebook
+        - Hypothesis Graph
+        - Experiment Scheduler
+        - Instrument Control Gateway
+        - Closed-Loop Discovery Bench
+        - Robotic Science Campus
+        - Autonomous Research Programme
+        - Self-Improving Laboratory
+        - Recursive Discovery Institute
+        - Machine Science Constitution
+      description: Connect experiments, hypotheses, and results without giving the model control of the building.
+      effects: [{ target: lab.research.security.output, operation: multiply, value: 1.05 }]
+  safety.alignment-control:
+    - id: oversight-protocols
+      name: Oversight Protocols
+      stageNames:
+        - Oversight Protocols
+        - Reviewer Calibration Lab
+        - Scalable Feedback Stack
+        - Debate Oversight Office
+        - Process Supervision Layer
+        - Multi-Agent Oversight Network
+        - Automated Alignment Audits
+        - Self-Improvement Review Board
+        - Recursive Oversight Protocol
+        - Alignment Constitution
+      description: Convert alignment ideas into repeatable procedures that survive a product deadline.
+      effects: [{ target: lab.research.alignment.output, operation: multiply, value: 1.06 }]
+    - id: control-drills
+      name: Control Drills
+      stageNames:
+        - Control Drills
+        - Shutdown Exercise
+        - Access Revocation Test
+        - Tripwire Network
+        - Containment Rehearsal
+        - Frontier Control Room
+        - Autonomous Incident Response
+        - Self-Modification Lockout
+        - Recursive Control Regime
+        - Last-Resort Control Architecture
+      description: Practise interventions before the first time they matter is also the last time they matter.
+      effects: [{ target: lab.incident.hazard, operation: multiply, value: 0.97 }]
+  safety.interpretability-evals:
+    - id: eval-harness
+      name: Shared Eval Harness
+      stageNames:
+        - Shared Eval Harness
+        - Capability Battery
+        - Dangerous Skills Suite
+        - Deception Evaluation Lab
+        - Autonomous Behaviour Trials
+        - Frontier Evaluation Standard
+        - Continuous Model Monitoring
+        - Self-Improvement Evals
+        - Recursive Deception Audit
+        - Superintelligence Examination
+      description: Make every team run the difficult evaluations, including teams with very exciting launch dates.
+      effects: [{ target: lab.research.interpretability.output, operation: multiply, value: 1.06 }]
+    - id: interpretability-atlas
+      name: Interpretability Atlas
+      stageNames:
+        - Interpretability Atlas
+        - Feature Census
+        - Circuit Map
+        - Causal Intervention Lab
+        - Cross-Model Feature Dictionary
+        - Automated Interpretability Stack
+        - Agent Cognition Observatory
+        - Self-Model Inspection
+        - Recursive Transparency Programme
+        - Mechanistic Understanding Institute
+      description: Catalogue recurring internal features without pretending a colourful plot is a complete explanation.
+      effects: [{ target: lab.evidence.displayedQuality, operation: add, value: 1 }]
+  safety.security-containment:
+    - id: least-privilege
+      name: Least Privilege, Finally
+      stageNames:
+        - Least Privilege, Finally
+        - Credential Boundary Map
+        - Sandboxed Service Mesh
+        - Weight Access Controls
+        - Insider Threat Programme
+        - Zero-Trust Model Operations
+        - Autonomous Access Broker
+        - Self-Modification Permissions
+        - Recursive Privilege Firewall
+        - Irreversible Action Barrier
+      description: Give every model and researcher the access needed for the task, rather than the access needed for convenience.
+      effects: [{ target: lab.incident.hazard, operation: multiply, value: 0.97 }]
+    - id: adversarial-operations
+      name: Adversarial Operations
+      stageNames:
+        - Adversarial Operations
+        - Independent Red Team
+        - Continuous Penetration Lab
+        - Model Theft Exercises
+        - Supply Chain War Room
+        - Frontier Threat Intelligence
+        - Autonomous Red-Team Agents
+        - Self-Attack Simulation
+        - Recursive Security Tournament
+        - Civilisation-Scale Defence Centre
+      description: Maintain a red team with enough independence to remain mildly unpopular and genuinely useful.
+      effects: [{ target: lab.research.security.output, operation: multiply, value: 1.06 }]
+
+rules:
+  skillScale: { min: 0, max: 5 }
+  visibleDomainScale: { min: 0, max: 100 }
+  paperDomainWeightTolerance: 0.0001
+  unfundedDomainsProduceProgress: false
+  production:
+    # 400 TFLOP/s equals the former 100 opening-era Kepler GPU calibration.
+    teraflopScaleDivisor: 400
+    # Research output = baseCoefficient * (teraflops / teraflopScaleDivisor) ^ gpuExponent
+    #
+    # Tuned 2026-07-30 to accelerate the opening without touching the late game,
+    # which is untested. Only the EXPONENT can do that: the divisor contributes a
+    # constant factor (400/D)^gpuExponent, so changing it is the same uniform
+    # scaling as changing baseCoefficient, at every fleet size.
+    #
+    # Lowering the exponent flattens the curve and the coefficient is raised to
+    # pin the top back where it was. Low-end gain is exactly
+    # (T_high / T_low) ^ (0.68 - gpuExponent); across the observed programme
+    # range of roughly 800 to 200,000 TF/s that is about 2x at the opening, 1.3x
+    # mid-game, and 1.0x at the end.
+    #
+    # Note this also flattens returns to scale: a large fleet is worth
+    # relatively less than it was, so a small lab competes better against a
+    # compute-rich rival. That is a strategy change, not only a pace change.
+    baseCoefficient: 0.675
+    gpuExponent: 0.56
+    lowLevelRpPerPoint: 50
+    # Capability research must remain purchasable near level 80 because it is
+    # the dominant input to FC-88 candidacy. Safety research has only three
+    # programmes rather than seven capability domains and previously saturated
+    # long before the endgame, so it uses a deliberately steeper curve. The
+    # small per-programme multipliers remain within +/-2%; the branch-level
+    # curve, rather than a hidden fixed discount, now creates the cost gap.
+    levelCostGrowth: 1.1
+    safetyLevelCostGrowth: 1.15
+    levelCostGrowthFromLevel: 20
+    levelCostBands:
+      - { afterLevel: 0, multiplier: 1.0 }
+    generalResearcherContribution: 0.0125
+    talentMultiplier: { min: 0.8, max: 2.2 }
+    facilityContribution: 0.03
+    facilityMultiplierMax: 1.6
+    weeklyVariance: { min: 0.90, mode: 1.0, max: 1.10 }
+    modelAssistBase: 1.0
+    contextSwitchMultiplier: 0.95
+  genericAdvanceThresholds: [20, 40, 60, 80, 100]

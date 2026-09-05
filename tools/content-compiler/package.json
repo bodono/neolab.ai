@@ -1,0 +1,22 @@
+{
+  "name": "@neolab/content-compiler",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Brendan O'Donoghue <bodonoghue85@gmail.com>",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "compile": "node src/cli.ts",
+    "check": "node src/check-cli.ts",
+    "links": "node src/source-link-cli.ts"
+  },
+  "dependencies": {
+    "@neolab/content-schema": "workspace:*",
+    "yaml": "catalog:",
+    "zod": "catalog:"
+  }
+}

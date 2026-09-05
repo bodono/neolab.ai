@@ -1,0 +1,85 @@
+draftSchema: 1
+contentVersion: 0.2.0-draft
+status: draft
+
+targets:
+  labs: 5
+  leaders: 5
+  aiCapabilityTiers: 9
+  papers:
+    total: 130
+    real: 105
+    fictionalFuture: 25
+  starResearchers: 118
+  facilityFamilies: 20
+  facilityDefinitionsIncludingUpgrades: 44
+  ordinaryDecisionEvents: 180
+  endings: 18
+
+packs:
+  - id: identity
+    status: draft
+    contains:
+      labs: 5
+      leaders: 5
+      aiCapabilityTiers: 9
+  - id: people-a
+    status: draft
+    contains:
+      starResearchers: 24
+  - id: research-a
+    status: draft
+    contains:
+      realPapers: 20
+  - id: hardware-a
+    status: draft
+    contains:
+      realGpuGenerations: 9
+      fictionalFutureGpuGenerations: 2
+      gpuOffers: 4
+  - id: scoring-a
+    status: draft
+    contains:
+      scoreCategories: 6
+      victoryMultipliers: 4
+  - id: institutions
+    status: outline
+    contains:
+      facilityFamilies: 20
+  - id: events-a
+    status: outline
+    contains:
+      ordinaryDecisionEvents: 60
+  - id: people-and-research-b
+    status: draft
+    contains:
+      additionalStarResearchers: 20
+      additionalRealPapers: 14
+  - id: people-and-research-c
+    status: draft
+    contains:
+      additionalStarResearchers: 74
+      additionalRealPapers: 46
+      additionalFictionalFuturePapers: 6
+  - id: late-game
+    status: outline
+    contains:
+      fictionalFuturePapers: 14
+      endings: 18
+  - id: replayability
+    status: outline
+    contains:
+      additionalOrdinaryDecisionEvents: 120
+      additionalCrisisChains: 20
+      additionalLabFeedTemplates: 450
+
+reviewStates:
+  - outline
+  - draft
+  - mechanics-reviewed
+  - fact-reviewed
+  - tone-reviewed
+  - legal-review-needed
+  - legal-reviewed
+  - playtest-ready
+  - release-ready

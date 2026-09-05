@@ -1,0 +1,304 @@
+name: Deploy GitHub Pages
+
+# Publishes on a tag rather than on every push. Deploying each commit meant a
+# ~35 minute job on all ~600 pushes a month, and it independently repeated the
+# lint, type-check and test work the CI gate had already done on the same
+# commit. Tagging is the moment a build is meant to be seen; roughly daily tags
+# cost about 6% of the monthly allowance.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      rollback_run_id:
+        description: "Optional successful deployment run ID whose retained artifact should be redeployed"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+env:
+  # Tagging is the publish signal. This used to be gated behind a
+  # NEOLAB_ENABLE_PAGES_DEPLOYMENT repo variable that was never set, so the
+  # workflow built and uploaded an artifact on every push and then skipped the
+  # deploy -- all of the cost, none of the publishing.
+  PAGES_DEPLOYMENT_ENABLED: "true"
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Validate and package immutable site
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      base_path: ${{ steps.pages-base.outputs.base_path }}
+      content_hash: ${{ steps.release.outputs.content_hash }}
+      source_commit: ${{ steps.release.outputs.source_commit }}
+    steps:
+      - uses: actions/checkout@v6
+
+      # This workflow deliberately does not repeat the lint, type-check and test
+      # work CI already did on the same commit. That trust is only sound if CI
+      # actually passed, so require it rather than assume it -- otherwise a tag
+      # on a red commit publishes something nothing has verified. Waits rather
+      # than failing outright while CI is still running, since tagging straight
+      # after a push is the normal way to release.
+      - name: Require a green CI run for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          deadline=$(( SECONDS + 900 ))
+          while :; do
+            runs=$(gh api \
+              "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?head_sha=${GITHUB_SHA}&per_page=100" \
+              --jq '.workflow_runs')
+            if [ "$(jq 'length' <<<"${runs}")" -eq 0 ]; then
+              echo "::error::No CI run exists for ${GITHUB_SHA}. Tag a commit that has been pushed to main and validated by CI."
+              exit 1
+            fi
+            latest=$(jq -r 'sort_by(.created_at) | last | "\(.status) \(.conclusion // "pending")"' <<<"${runs}")
+            status=${latest% *}
+            conclusion=${latest#* }
+            if [ "${status}" = "completed" ]; then
+              if [ "${conclusion}" = "success" ]; then
+                echo "CI succeeded for ${GITHUB_SHA}; publishing."
+                exit 0
+              fi
+              echo "::error::CI concluded '${conclusion}' for ${GITHUB_SHA}. Refusing to publish an unverified commit."
+              exit 1
+            fi
+            if [ "${SECONDS}" -ge "${deadline}" ]; then
+              echo "::error::CI is still '${status}' for ${GITHUB_SHA} after 15 minutes. Refusing to publish."
+              exit 1
+            fi
+            echo "CI is '${status}' for ${GITHUB_SHA}; waiting."
+            sleep 20
+          done
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Configure GitHub Pages metadata
+        id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Resolve project-site or custom-domain base path
+        id: pages-base
+        env:
+          CONFIGURED_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          if [ "${PAGES_DEPLOYMENT_ENABLED}" = "true" ]; then
+            base_path="${CONFIGURED_BASE_PATH}"
+            if [ -z "${base_path}" ]; then
+              base_path="/"
+            else
+              base_path="/${base_path#/}"
+              base_path="${base_path%/}/"
+            fi
+          else
+            base_path="/${GITHUB_REPOSITORY#*/}/"
+          fi
+          echo "base_path=${base_path}" >> "${GITHUB_OUTPUT}"
+          echo "NEOLAB_BASE_PATH=${base_path}" >> "${GITHUB_ENV}"
+          echo "Pages base path: ${base_path}"
+
+      - name: Install dependencies
+        if: ${{ inputs.rollback_run_id == '' }}
+        run: pnpm install --frozen-lockfile
+
+      # No lint/type-check/test here. The CI gate already ran them on this
+      # commit, and the weekly verification runs the browser and release
+      # suites. Repeating them per tag bought nothing but minutes.
+      - name: Compile content
+        if: ${{ inputs.rollback_run_id == '' }}
+        run: pnpm content:build
+
+      # The one exception to the rule above, because CI genuinely does not
+      # cover it: the fast gate runs unit tests but no browser suite, and the
+      # weekly verification runs one on a schedule rather than on this commit.
+      # Without this a tag could publish a build whose interface is broken.
+      # Chromium only -- the weekly run is where all three browsers are paid
+      # for, and this is about not shipping something obviously broken.
+      - name: Install Playwright Chromium
+        if: ${{ inputs.rollback_run_id == '' }}
+        run: pnpm --filter @neolab/web exec playwright install --with-deps chromium
+
+      - name: End-to-end suite
+        if: ${{ inputs.rollback_run_id == '' }}
+        run: pnpm --filter @neolab/web exec playwright test --project=chromium
+
+      - name: Build project-site/custom-domain artifact
+        if: ${{ inputs.rollback_run_id == '' }}
+        env:
+          VITE_ANALYTICS_PROVIDER: umami
+          # Umami website IDs are public embed identifiers, not secrets.
+          VITE_UMAMI_WEBSITE_ID: 29f3bde0-f7b6-4a4b-8e43-43cb99121aa1
+          VITE_DEPLOYMENT_CHANNEL: github-pages
+          # Stamp the build with the tag being released so the version the game
+          # reports cannot drift from the tag that produced it.
+          VITE_RELEASE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+        run: pnpm --filter @neolab/web build
+
+      - name: Enforce static-release budgets and write manifest
+        if: ${{ inputs.rollback_run_id == '' }}
+        run: >-
+          node tools/release/src/static-build.ts
+          --dist apps/web/dist
+          --base "${NEOLAB_BASE_PATH}"
+          --content packages/content/generated/content.bundle.json
+          --source "${GITHUB_SHA}"
+          --write-manifest
+
+      - name: Audit release security, privacy, licences and bundle
+        if: ${{ inputs.rollback_run_id == '' }}
+        run: >-
+          pnpm --filter @neolab/release-tools release:audit
+          -- --output artifacts/release-checks
+
+      - name: Download retained rollback artifact
+        if: ${{ inputs.rollback_run_id != '' }}
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.rollback_run_id }}
+          pattern: neolab-pages-*
+          merge-multiple: true
+          path: artifacts/rollback
+
+      - name: Restore and verify rollback artifact
+        if: ${{ inputs.rollback_run_id != '' }}
+        run: |
+          cd artifacts/rollback
+          sha256sum --check release-archive.sha256
+          cd "${GITHUB_WORKSPACE}"
+          if [ -e apps/web/dist ]; then
+            echo "Refusing to overlay rollback files on an existing dist directory" >&2
+            exit 1
+          fi
+          mkdir -p apps/web/dist
+          tar -xzf artifacts/rollback/neolab-pages.tar.gz -C apps/web/dist
+          node tools/release/src/static-build.ts \
+            --dist apps/web/dist \
+            --base "${NEOLAB_BASE_PATH}" \
+            --verify-manifest
+
+      - name: Read immutable release identity
+        id: release
+        run: |
+          node --input-type=module <<'NODE' >> "${GITHUB_OUTPUT}"
+          import { readFileSync } from "node:fs";
+          const manifest = JSON.parse(readFileSync("apps/web/dist/release-manifest.json", "utf8"));
+          if (!/^[0-9a-f]{64}$/.test(manifest.contentHash)) throw new Error("Invalid content hash");
+          if (!/^[0-9a-f]{7,40}$/.test(manifest.sourceCommit)) throw new Error("Invalid source commit");
+          console.log(`content_hash=${manifest.contentHash}`);
+          console.log(`source_commit=${manifest.sourceCommit}`);
+          console.log(`artifact_name=neolab-pages-${manifest.sourceCommit}-${manifest.contentHash.slice(0, 12)}`);
+          NODE
+
+      - name: Create reproducible rollback archive
+        run: |
+          mkdir -p artifacts/release
+          tar \
+            --sort=name \
+            --mtime='UTC 1970-01-01' \
+            --owner=0 \
+            --group=0 \
+            --numeric-owner \
+            -cf - \
+            -C apps/web/dist . \
+            | gzip -n > artifacts/release/neolab-pages.tar.gz
+          cp apps/web/dist/release-manifest.json artifacts/release/release-manifest.json
+          printf '%s\n' "${{ steps.release.outputs.content_hash }}" > artifacts/release/content-hash.txt
+          if [ -d artifacts/release-checks ]; then
+            cp artifacts/release-checks/* artifacts/release/
+          fi
+          cd artifacts/release
+          sha256sum neolab-pages.tar.gz > release-archive.sha256
+
+      - name: Retain exact rollback artifact and content hash
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.release.outputs.artifact_name }}
+          path: artifacts/release
+          if-no-files-found: error
+          # This is the rollback window: the workflow's rollback_run_id input
+          # can only redeploy an artifact that still exists. 30 days keeps a
+          # month of tagged releases recoverable without holding a quarter's
+          # worth of builds against the 2 GB storage allowance.
+          retention-days: 30
+
+      - name: Upload immutable Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: apps/web/dist
+          retention-days: 1
+
+      - name: Summarise release
+        run: |
+          {
+            echo "## GitHub Pages artifact"
+            echo
+            echo "- Source commit: \`${{ steps.release.outputs.source_commit }}\`"
+            echo "- Content hash: \`${{ steps.release.outputs.content_hash }}\`"
+            echo "- Base path: \`${NEOLAB_BASE_PATH}\`"
+            echo "- Rollback artifact: \`${{ steps.release.outputs.artifact_name }}\` (90 days)"
+            echo "- Pages deployment enabled: \`${PAGES_DEPLOYMENT_ENABLED}\`"
+            echo
+            echo '```json'
+            cat apps/web/dist/release-manifest.json
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+  deploy:
+    name: Deploy immutable artifact
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  smoke:
+    name: Post-deploy browser smoke
+    needs: [prepare, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter @neolab/web exec playwright install --with-deps chromium
+
+      - name: Load title, start seeded game, advance one tick, and resolve assets
+        env:
+          NEOLAB_DEPLOYMENT_URL: ${{ needs.deploy.outputs.page_url }}
+          NEOLAB_EXPECTED_COMMIT: ${{ needs.prepare.outputs.source_commit }}
+        run: pnpm test:deployment

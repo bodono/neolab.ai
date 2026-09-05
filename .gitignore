@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+dist/
+coverage/
+packages/content/generated/
+*.tsbuildinfo
+playwright-report/
+test-results/
+apps/web/.vitest-attachments/
+apps/web/src/**/__screenshots__/
+artifacts/
+*.log
+.env
+.env.*
+!.env.example

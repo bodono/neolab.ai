@@ -1,0 +1,274 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-b
+availabilityWave: deep-learning
+status: draft
+
+researchers:
+  - id: researcher.jacob-devlon
+    version: 1
+    displayName: Jacob Devlon
+    inspirationName: Jacob Devlin
+    inspirationSummary: Google researcher and lead BERT author whose bidirectional pretraining and efficient CPU translation work made one language model useful across many tasks.
+    epithet: The Bidirectional Reader
+    role: Language pretraining and transfer learning
+    rosterCardSummary: The researcher who taught one pretrained model to read in both directions at once, then let a whole field fine-tune it into a dozen separate victories.
+    biography: >-
+      Jacob Devlin helped turn one pretrained language model into a remarkably reusable starting
+      point. At Google, he was a lead author of BERT, which trained a Transformer encoder to predict
+      masked words from both left and right context. Fine-tuning the same model with only one
+      additional output layer produced state-of-the-art results on eleven
+      natural-language-processing tasks, from question answering to inference. Earlier, his work
+      on quantised neural machine translation showed that a high-quality system could decode more
+      than one hundred words per second on a single CPU core, 4.4 times faster than an unquantised
+      baseline with comparable accuracy. That pairing—ambitious representation learning with close
+      attention to deployment cost—made pretraining reusable: pay the expensive representation cost
+      once, then let many downstream teams adapt it. The bidirectional reader arrives with one
+      masked token, eleven benchmark scorecards, and a polite request that every custom architecture
+      first prove BERT cannot already do the job.
+    availability: { wave: deep-learning, earliestYear: 2015, poolWeight: 0.75 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 2, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 3, management: 2, politics: 1 }
+    traits: [trait.pretraining-economist, trait.systems-fluent]
+    signature:
+      id: ability.read-both-directions
+      label: Read Both Directions
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.1 }
+    passive:
+      id: ability.one-model-many-tasks
+      label: One Model, Many Tasks
+      effects:
+        - { target: lab.product.durationWeeks, operation: multiply, value: 0.85 }
+    compact:
+      id: compact.reusable-representations
+      label: Reusable Representations
+      requirement: Ship at least one fine-tunable pretrained checkpoint every 52 weeks.
+      check: { type: tagged-action-within, tags: [pretrained-checkpoint-release], weeks: 52 }
+      breachEvent: people.compact.reusable-representations
+    paperHooks:
+      ids: [paper.bert, paper.transformer]
+    eventReactions:
+      - { triggerTag: benchmark-saturation, line: "Eleven benchmarks improved at once. That is a sign the representation, not the task, was the bottleneck." }
+      - { triggerTag: fine-tuning-instability, line: "Check the pretraining objective before blaming the downstream task. It usually is not the downstream task." }
+      - { triggerTag: architecture-fad, line: "A new architecture earns attention by transferring, not by scoring well once." }
+    feedLines:
+      - Jacob masked fifteen percent of the corpus and unmasked a dozen unrelated benchmark records.
+      - The fine-tuning run took an afternoon. The pretraining run took considerably longer and is, quietly, the whole point.
+      - A downstream team asked for a custom architecture. Jacob offered them a smaller fine-tuning script instead.
+      - The bidirectional objective again found context the left-to-right baseline had simply never seen.
+      - Jacob's translation-systems instincts caught a data leak nobody else's checklist had flagged.
+      - A new checkpoint shipped on schedule, and three other teams' roadmaps quietly got shorter.
+    portrait:
+      assetId: portrait.researcher.jacob-devlon
+      brief: Precise 8-bit editorial portrait; white man with short brown hair and a plain collared shirt, beside a bidirectional arrow diagram spanning masked and unmasked text; systems-minded and calm, not photoreal.
+      altText: Pixel-art portrait of Jacob Devlon beside a bidirectional language-model diagram with masked text.
+    sources:
+      - https://research.google/pubs/bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding/
+      - https://arxiv.org/abs/1810.04805
+      - https://aclanthology.org/D17-1300/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.ross-girshall
+    version: 1
+    displayName: Ross Girshall
+    inspirationName: Ross Girshick
+    inspirationSummary: R-CNN inventor, Detectron author, and object-detection researcher whose Fast, Faster, and Mask successors made boxes and segmentation masks reusable vision baselines.
+    epithet: The Detection Engineer
+    role: Object detection and segmentation architectures
+    rosterCardSummary: The engineer behind the R-CNN family, who converted "find the object" from a brittle pipeline of hand-built stages into a clean, learnable, endlessly reused recipe.
+    biography: >-
+      Ross Girshick made object detection a deep-learning system rather than a procession of
+      separately tuned parts. During his PhD at the University of Chicago, he invented R-CNN, which
+      paired region proposals with convolutional features. Fast R-CNN streamlined training; Faster
+      R-CNN learned the proposal mechanism; Mask R-CNN added pixel-level instance masks. His record
+      includes Detectron and work spanning object recognition, localisation, segmentation and
+      vision-language models. Ross released code and models that helped other researchers reproduce
+      and extend the lineage, while the R-CNN family earned multiple test-of-time awards. The family
+      tree has become architectural comedy: every time somebody asks whether the box can become a
+      mask, another descendant appears on the whiteboard. The record turns one stubborn vision
+      problem into a sequence of simpler, faster and more reusable baselines.
+    availability: { wave: deep-learning, earliestYear: 2015, poolWeight: 0.75 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 2, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 2, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 3, management: 3, politics: 0 }
+    traits: [trait.reproducible-by-design, trait.detection-lineage]
+    signature:
+      id: ability.region-to-pixel
+      label: Region to Pixel
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.open-code-open-weights
+      label: Open Code, Open Weights
+      effects:
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.10, stackingGroup: aura-gain }
+    compact:
+      id: compact.release-the-baseline
+      label: Release the Baseline
+      requirement: Publish reproducible code for one discovery every 52 weeks.
+      check: { type: tagged-action-within, tags: [publish-code], weeks: 52 }
+      breachEvent: people.compact.release-the-baseline
+    paperHooks:
+      ids: [paper.qt-opt-robotic-manipulation, paper.vision-transformer]
+    eventReactions:
+      - { triggerTag: failed-replication, line: "Ship the code with the paper next time, not after the complaint arrives." }
+      - { triggerTag: benchmark-record, line: "Good number. Now show me the ablation that explains it." }
+      - { triggerTag: architecture-fad, line: "It will earn its citation count the same way the last one did: by working when someone else runs it." }
+    feedLines:
+      - Ross released the weights before anyone had to ask twice.
+      - The segmentation mask found the object's actual boundary, not merely its bounding box.
+      - A reproduction request came in from a lab with no prior contact. Ross treated this as the system working correctly.
+      - The detection pipeline lost a hand-built stage and gained a training curve instead.
+      - Ross asked, again, whether the improvement survived the ablation. It did, again.
+      - A new segmentation demo let a user point at "the thing on the left," and it worked.
+    portrait:
+      assetId: portrait.researcher.ross-girshall
+      brief: Practical 8-bit editorial portrait; white man with short hair and a plain hoodie, beside an image with a clean object outline and bounding-box overlay; methodical and unshowy, not photoreal.
+      altText: Pixel-art portrait of Ross Girshall beside an image with a clean segmented object outline.
+    sources:
+      - https://www.rossgirshick.info/
+      - https://ai.meta.com/research/publications/mask-r-cnn/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.aaron-courvel
+    version: 1
+    displayName: Aaron Courvel
+    inspirationName: Aaron Courville
+    inspirationSummary: Université de Montréal professor, Mila founding member, GAN co-author, and co-author with Ian Goodfellow and Yoshua Bengio of the Deep Learning textbook.
+    epithet: The Out-of-Distribution Professor
+    role: Deep generative models and systematic generalisation
+    rosterCardSummary: A Mila founding member and GAN co-author who helped Ian Goodfellow and Yoshua Bengio write the book—then moved the benchmark out of distribution.
+    biography: >-
+      Aaron Courville is a Université de Montréal professor, Mila founding member and director of
+      IVADO. With Ian Goodfellow and Yoshua Bengio, he co-authored Deep Learning, the textbook that
+      organised a field into a teachable reference. He was a co-author of the original
+      generative-adversarial-network paper, which set a generator and discriminator into the
+      minimax contest now permanently sketched on laboratory whiteboards. His research spans
+      generative models, reinforcement learning, multi-agent systems and systematic
+      generalisation: whether a model can recombine what it learned when the test case is
+      meaningfully unlike its training examples. He trained in robotics at Carnegie Mellon and has
+      helped build Montreal's research community as well as its models. The textbook is not
+      decorative: it arrives with three authors, several hundred pages, and an immediate request to
+      move the benchmark out of distribution.
+    availability: { wave: deep-learning, earliestYear: 2014, poolWeight: 0.80 }
+    contract: { band: major, baseSalaryPerCycle: 0.87, baseSigningCash: 8, auraCost: 12, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 2, dataRepresentation: 4, reinforcementAgency: 3, multimodality: 5, reasoningTools: 4, roboticsEmbodiment: 1, scientificAi: 1, alignmentControl: 2, interpretabilityEvals: 2, securityContainment: 0, training: 3, product: 1, management: 3, politics: 1 }
+    traits: [trait.generalisation-sceptic, trait.textbook-institution-builder]
+    signature:
+      id: ability.does-it-generalise
+      label: Does It Generalise?
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.taught-the-field
+      label: Taught the Field
+      effects:
+        - { target: researcher.moraleTarget, operation: add, value: 3 }
+    compact:
+      id: compact.systematic-generalisation-check
+      label: Systematic Generalisation Check
+      requirement: While he leads Multimodality, complete one out-of-distribution evaluation every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: generative-programme, projectTag: out-of-distribution-eval, weeks: 52 }
+      breachEvent: people.compact.systematic-generalisation-check
+    paperHooks:
+      ids: [paper.generative-adversarial-nets, paper.denoising-diffusion-probabilistic-models]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "Impressive in distribution. Now move the goalposts slightly and tell me what survives." }
+      - { triggerTag: dataset-shortcut, line: "Memorisation and generalisation produce the same score on this test. That is the test's problem, not a solution." }
+      - { triggerTag: student-departure, line: "The institute exists so this keeps happening. Go build the next chapter." }
+    feedLines:
+      - Aaron moved the evaluation set slightly and the "understood" result quietly stopped understanding.
+      - A new textbook errata list arrived, submitted, as usual, by a reader more careful than the authors.
+      - The generative model's samples improved. Aaron asked what happened outside the training distribution.
+      - A founding-era Mila story resurfaced, again, at exactly the useful moment in a student's crisis of confidence.
+      - Aaron's out-of-distribution check found the gap the leaderboard had quietly been hiding.
+      - The reinforcement-learning experiment generalised to a slightly different environment, and Aaron finally smiled.
+    portrait:
+      assetId: portrait.researcher.aaron-courvel
+      brief: Thoughtful 8-bit editorial portrait; white man with short hair and glasses, beside a stacked three-author textbook spine and a generative-model sample grid; scholarly and skeptical, not photoreal.
+      altText: Pixel-art portrait of Aaron Courvel beside a three-author deep learning textbook and a generative sample grid.
+    sources:
+      - https://mila.quebec/en/directory/aaron-courville
+      - https://www.deeplearningbook.org/
+      - https://arxiv.org/abs/1406.2661
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }
+
+  - id: researcher.koray-kavukoglu
+    version: 1
+    displayName: Koray Kavukoglu
+    inspirationName: Koray Kavukcuoglu
+    inspirationSummary: Google DeepMind CTO and Google Chief AI Architect who founded DeepMind's deep-learning team and helped carry DQN and WaveNet from research into products.
+    epithet: The Breakthrough Traffic Controller
+    role: Deep reinforcement learning, frontier-model leadership, and research-to-product delivery
+    rosterCardSummary: "A DQN and WaveNet pioneer who now directs frontier-model breakthroughs through the awkward checkpoint marked RESEARCH PROTOTYPE, MEET PRODUCT."
+    biography: >-
+      Koray Kavukcuoglu is Google DeepMind's chief technology officer and Google's chief AI architect,
+      responsible for frontier models and product integration at global scale. He joined DeepMind
+      early, founded its deep-learning team and contributed to the DQN work that learned Atari games
+      directly from pixels and rewards. He later helped lead WaveNet from raw-audio research to
+      deployed speech technology, then became vice president of research. Google credits his team
+      with pioneering both DQN and WaveNet; the Gemini technical report lists him among the
+      project's leadership. That research-to-product arc runs from an astonishing demo to an
+      enormous launch checklist, where research, infrastructure and product must agree on the same
+      definition of “ready.”
+    availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.45 }
+    contract: { band: major, baseSalaryPerCycle: 0.84, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 5, multimodality: 5, reasoningTools: 4, roboticsEmbodiment: 2, scientificAi: 3, alignmentControl: 2, interpretabilityEvals: 1, securityContainment: 1, training: 5, product: 5, management: 5, politics: 3 }
+    traits: [trait.deep-rl-pioneer, trait.breakthrough-to-product-lead]
+    signature:
+      id: ability.from-pixels-to-policy
+      label: From Pixels to Policy
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency, domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.research-prototype-meet-product
+      label: Research Prototype, Meet Product
+      effects:
+        - { target: lab.product.durationWeeks, operation: add, value: -1 }
+    compact:
+      id: compact.the-last-mile-is-still-research
+      label: The Last Mile Is Still Research
+      requirement: Complete one production-readiness review every 52 weeks.
+      check: { type: tagged-action-within, tags: [production-readiness-review], weeks: 52 }
+      breachEvent: people.compact.the-last-mile-is-still-research
+    paperHooks:
+      ids: [paper.deep-q-network, paper.wavenet-raw-audio, paper.muzero-learned-model-planning]
+    eventReactions:
+      - { triggerTag: reinforcement-breakthrough, line: "Excellent result. Now test whether it survives a second environment and a product manager." }
+      - { triggerTag: product-delay, line: "The last mile is not an administrative afterthought. It is where the research meets every assumption it forgot to write down." }
+      - { triggerTag: infrastructure-migration, line: "A research platform is successful when the next breakthrough does not require rebuilding the laboratory underneath it." }
+    feedLines:
+      - Koray turned a breakthrough demo into a checklist, then turned the checklist into a launch plan.
+      - The agent learned another game from pixels; nobody has yet persuaded it to enjoy the loading screen.
+      - A raw-audio prototype reached production without the research team having to camp beside the servers.
+      - Koray's readiness review found the one undocumented dependency that knew it was important.
+      - The deep-learning team shipped a platform improvement whose main feature is that researchers stopped mentioning it.
+      - A frontier-model meeting ended with owners, deadlines, and only one new acronym.
+    portrait:
+      assetId: portrait.researcher.koray-kavukoglu
+      brief: Warm 8-bit editorial portrait; Turkish man with a light-to-medium olive complexion, short salt-and-pepper hair, no glasses or beard, a broad friendly smile, and a bright yellow sweater, beside an Atari screen feeding into a production launch checklist; technically assured and approachable, not photoreal.
+      altText: Pixel-art portrait of Koray Kavukoglu beside an Atari screen feeding into a production launch checklist.
+    sources:
+      - https://blog.google/authors/koray-kavukcuoglu/
+      - https://deepmind.google/blog/from-unlikely-start-up-to-major-scientific-organisation-entering-our-tenth-year-at-deepmind/
+      - https://doi.org/10.1038/nature14236
+      - https://deepmind.google/research/wavenet/
+      - https://deepmind.google/gemini/gemini_1_report.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: audited, tone: audited, reviewedOn: 2026-07-29 }

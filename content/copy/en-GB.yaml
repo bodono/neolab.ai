@@ -1,0 +1,387 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for authored decision events. Keys are referenced by
+# content; the compiler fails the build if a referenced key is missing here,
+# and warns if a declared token binding is never used.
+messages:
+  # --- Government: reporting request -------------------------------------
+  event.government.reporting.title: A regulator would like some paperwork
+  event.government.reporting.body: >-
+    An oversight body wants {LAB}'s recent training, evaluation, and deployment records.
+    The letter is polite, thorough, and difficult to ignore.
+  event.government.reporting.evidence.pressure: Intervention pressure on the lab
+  event.government.reporting.evidence.trust: Current government trust
+  event.government.reporting.comply.label: Answer in full
+  event.government.reporting.comply.preview: >-
+    Assign staff to assemble a complete, accurate response. It costs a fortnight of
+    senior time and buys a substantial amount of goodwill.
+  event.government.reporting.minimal.label: Answer exactly what was asked
+  event.government.reporting.minimal.preview: >-
+    Respond to the literal request and nothing beyond it. Cheap, defensible, and
+    quietly corrosive to the lab's habit of telling itself the truth.
+  event.government.reporting.stall.label: Request an extension, then another
+  event.government.reporting.stall.preview: >-
+    Delay. The letter does not go away, the regulator's attention increases, and
+    the next letter will be addressed to someone more senior.
+
+  # --- Government: licensing ---------------------------------------------
+  event.government.licensing.title: A licensing regime arrives with your name on it
+  event.government.licensing.body: >-
+    A new frontier-training licence would cover {LAB}. Compliance means audits,
+    filings, and approval before major runs.
+  event.government.licensing.evidence.pressure: Intervention pressure on the lab
+  event.government.licensing.evidence.attention: Government attention on the lab
+  event.government.licensing.accept.label: Accept the licence conditions
+  event.government.licensing.accept.preview: >-
+    Sign up, staff the compliance function, and become the well-behaved example the
+    regulator cites. Every future model launch takes longer, but becomes more predictable.
+  event.government.licensing.negotiate.label: Negotiate the scope
+  event.government.licensing.negotiate.preview: >-
+    Spend public standing arguing that the threshold is drawn in the wrong place.
+    It might narrow the regime. It might produce a longer annex.
+  event.government.licensing.stall.label: Refuse to participate
+  event.government.licensing.stall.preview: >-
+    Decline to engage with the consultation. Trust falls sharply, attention rises,
+    and the framework gets written by people who did show up.
+
+  # --- Government: deployment restriction ---------------------------------
+  event.government.restriction.title: An order to pull {AI} back
+  event.government.restriction.body: >-
+    A regulator has ordered narrower access and more logging for {AI}. The order is
+    enforceable.
+  event.government.restriction.evidence.pressure: Intervention pressure on the lab
+  event.government.restriction.evidence.incidents: Worst incident severity this quarter
+  event.government.restriction.comply.label: Comply and narrow deployment
+  event.government.restriction.comply.preview: >-
+    Narrow deployment for a year. Revenue reach falls, releases slow, and incident risk
+    drops sharply.
+  event.government.restriction.carveout.label: Seek a carve-out for existing customers
+  event.government.restriction.carveout.preview: >-
+    Spend Aura seeking an exemption. Success preserves customers; failure brings nearly
+    the full restriction and greater political damage.
+  event.government.restriction.defy.label: Continue serving and contest the order
+  event.government.restriction.defy.preview: >-
+    Keep serving at full speed. Trust collapses and incident risk rises sharply.
+
+  # --- Government: nationalisation crisis ---------------------------------
+  event.government.nationalisation.title: The state would like to own this
+  event.government.nationalisation.body: >-
+    A national security committee has opened proceedings to take control of {LAB}.
+    {LEADER} has been summoned to a closed meeting.
+  event.government.nationalisation.evidence.pressure: Intervention pressure on the lab
+  event.government.nationalisation.evidence.dependence: Strategic dependence on the lab
+  event.government.nationalisation.evidence.trust: Current government trust
+  event.government.nationalisation.cooperate.label: Cooperate with the review
+  event.government.nationalisation.cooperate.preview: >-
+    Accept permanent state oversight. Research slows, risk falls, and the proceeding
+    closes.
+  event.government.nationalisation.goldenshare.label: Negotiate a golden share
+  event.government.nationalisation.goldenshare.preview: >-
+    Give the state a veto over specified decisions. Independence survives with tighter
+    limits.
+  event.government.nationalisation.resist.label: Refuse and fight it
+  event.government.nationalisation.resist.preview: >-
+    Contest the takeover. Failure ends the lab's independence.
+
+  # --- Finance: critical runway -------------------------------------------
+  event.finance.runway.title: The runway has become a conversation
+  event.finance.runway.body: >-
+    {LAB}'s cash is running out. Finance needs a survival plan this month.
+  event.finance.runway.evidence.cash: Cash on hand
+  event.finance.runway.trim.label: Cut the burn
+  event.finance.runway.trim.preview: >-
+    Trim fixed costs for six months. Research output dips accordingly, and nobody
+    has to be told an uncomfortable number in front of investors.
+  event.finance.runway.raise.label: Raise a bridge round now
+  event.finance.runway.raise.preview: >-
+    Spend public standing to go out early and fast. Usually funds the gap; sometimes
+    funds it on terms the board will remember for a year.
+  event.finance.runway.sell.label: Sell surplus compute
+  event.finance.runway.sell.preview: >-
+    Convert part of the fleet back into cash. Immediate relief, and a slower lab for
+    the next three quarters.
+  event.finance.runway.sell.disabled: Requires a substantial owned GPU fleet
+
+  # --- People: resignation ultimatum --------------------------------------
+  event.people.ultimatum.title: '{RESEARCHER} has put it in writing'
+  event.people.ultimatum.body: >-
+    {RESEARCHER} wants their demands addressed or they will leave {LAB}. The rest of the
+    team is watching.
+  event.people.ultimatum.evidence.culture: Safety culture
+  event.people.ultimatum.meet.label: Meet the terms
+  event.people.ultimatum.meet.preview: >-
+    Fund what they asked for and widen research freedom for a year. Expensive,
+    and the rest of the lab notices that promises here are kept.
+  event.people.ultimatum.meet.disabled: Requires available cash
+  event.people.ultimatum.compromise.label: Offer a compromise
+  event.people.ultimatum.compromise.preview: >-
+    Propose a partial package and talk it through. It may hold. It may confirm
+    every suspicion they arrived with.
+  event.people.ultimatum.decline.label: Decline the ultimatum
+  event.people.ultimatum.decline.preview: >-
+    Refuse to be negotiated with. Candour and safety culture suffer, and the
+    next person to raise a concern will weigh whether it is worth it.
+
+  # --- Safety: anomaly cluster --------------------------------------------
+  event.safety.anomaly.title: Three severe anomalies on {MODEL_NAME}
+  event.safety.anomaly.body: >-
+    {MODEL_NAME} has produced a third severe anomaly. Safety wants a hold; other teams
+    want to ship.
+  event.safety.anomaly.evidence.evalquality: Evaluation quality
+  event.safety.anomaly.evidence.culture: Safety culture
+  event.safety.anomaly.halt.label: Halt and investigate properly
+  event.safety.anomaly.halt.preview: >-
+    Stop the line and find out what is actually happening. Costs a quarter of research
+    pace, durably lowers incident hazard, and materially improves the lab's culture.
+  event.safety.anomaly.patch.label: Patch the specific failures
+  event.safety.anomaly.patch.preview: >-
+    Address the three observed cases and move on. Sometimes that is the fix.
+    Sometimes it only makes the next occurrence harder to see.
+  event.safety.anomaly.ship.label: Ship on schedule
+  event.safety.anomaly.ship.preview: >-
+    Note the anomalies, meet the date. Safety culture falls and incident hazard
+    rises for the better part of a year.
+
+  # --- Safety: incident disclosure ----------------------------------------
+  event.safety.disclosure.title: What to say about what happened
+  event.safety.disclosure.body: >-
+    {LAB} must decide what to disclose about a recent {AI} incident. Legal and Safety
+    disagree.
+  event.safety.disclosure.evidence.severity: Worst incident severity this quarter
+  event.safety.disclosure.evidence.attention: Government attention on the lab
+  event.safety.disclosure.full.label: Publish a full account
+  event.safety.disclosure.full.preview: >-
+    Describe what happened, what failed, and what changes. Costs public standing
+    immediately and buys durable trust with regulators and your own staff.
+  event.safety.disclosure.minimal.label: Issue a minimal notice
+  event.safety.disclosure.minimal.preview: >-
+    Confirm the bare facts to the parties legally entitled to them. Nothing is
+    gained and nothing is risked, which is its own kind of answer.
+  event.safety.disclosure.bury.label: Keep it internal
+  event.safety.disclosure.bury.preview: >-
+    Log it, fix it, say nothing. Candour inside the lab takes a real hit. Usually
+    it holds. When it does not, it does not hold gently.
+
+  # --- Safety: control review ---------------------------------------------
+  event.safety.review.title: An offer to audit the control stack
+  event.safety.review.body: >-
+    An external group offers to audit {LAB}'s deployed-system controls. They will publish
+    what they find.
+  event.safety.review.evidence.evalquality: Evaluation quality
+  event.safety.review.fund.label: Commission the external review
+  event.safety.review.fund.preview: >-
+    Pay for the outside look. Evaluation quality and practical control strength both
+    improve, and the findings belong to the record.
+  event.safety.review.fund.disabled: Requires available cash
+  event.safety.review.internal.label: Run it internally instead
+  event.safety.review.internal.preview: >-
+    Do a smaller version in-house. Modest gains, a brief dip in research pace, and
+    a report written by people who report to the person reading it.
+  event.safety.review.defer.label: Decline for now
+  event.safety.review.defer.preview: >-
+    Thank them and revisit next quarter. Safety culture takes a small knock,
+    because everyone can read a calendar.
+
+  # --- Endgame: candidate declaration -------------------------------------
+  event.endgame.candidate.title: '{MODEL_NAME} clears the candidate threshold'
+  event.endgame.candidate.arrival.kicker: The final stage has begun
+  event.endgame.candidate.arrival.title: >-
+    We have entered the singularity.
+  event.endgame.candidate.arrival.body: >-
+    The candidacy gate is crossed, but the model remains unproven. Rivals and world clocks
+    keep moving.
+  event.endgame.candidate.objective.title: How to win
+  event.endgame.candidate.objective.body: >-
+    Prove {MODEL_NAME}'s capability, build a safety case, and deploy before a rival.
+  event.endgame.candidate.body: >-
+    {MODEL_NAME} qualifies for candidacy. Choose the opening posture for the Deployment
+    Crisis.
+  event.endgame.candidate.next.title: What happens next
+  event.endgame.candidate.next.confirm: >-
+    Confirm the claim — independently test whether the threshold is real.
+  event.endgame.candidate.next.contain: >-
+    Contain and investigate — set access while evidence and pressure accumulate.
+  event.endgame.candidate.next.decide: >-
+    Decide the artifact's fate — deploy, hold, or attempt a controlled retirement.
+  event.endgame.candidate.evidence.evalquality: Evaluation quality
+  event.endgame.candidate.evidence.culture: Safety culture
+  event.endgame.candidate.evidence.trust: Current government trust
+  event.endgame.candidate.notify.label: Notify regulators immediately
+  event.endgame.candidate.notify.preview: >-
+    Bring regulators in now. Gain legitimacy and trust, but draw heavy state attention.
+  event.endgame.candidate.quiet.label: Continue internal review
+  event.endgame.candidate.quiet.preview: >-
+    Spend two weeks strengthening the first proof. Gain better internal evidence but no
+    outside legitimacy.
+  event.endgame.candidate.rapid.label: Press forward at emergency speed
+  event.endgame.candidate.rapid.preview: >-
+    Raise {MODEL_NAME} to Access 3 and accelerate the first proof. Faster, with severe
+    exposure and weaker safety culture.
+
+  # --- Rival: candidate sighting ------------------------------------------
+  event.rival.candidate.title: '{RIVAL_LAB} is reportedly close'
+  event.rival.candidate.body: >-
+    Intelligence suggests {RIVAL_LAB} is evaluating a possible AGI candidate. The estimate
+    is uncertain; the board is not.
+  event.rival.candidate.evidence.culture: Safety culture
+  event.rival.candidate.hold.label: Hold the current course
+  event.rival.candidate.hold.preview: >-
+    Decline to rearrange the roadmap around a rumour. Reinforce safety culture
+    and evaluation quality, but gain no ground in the capability race.
+  event.rival.candidate.match.label: Match their pace
+  event.rival.candidate.match.preview: >-
+    Reprioritise hard toward capability for half a year. Research accelerates
+    substantially, at the cost of safety culture and sharply higher incident risk.
+  event.rival.candidate.standards.label: Call publicly for shared standards
+  event.rival.candidate.standards.preview: >-
+    Spend Aura to gain government trust and strengthen a future Long Pause. Wider adoption
+    is uncertain.
+
+  # --- Autonomy Programme: escalation ladder -----------------------------
+  event.autonomy.experiments.title: "{MODEL_NAME} has been running its own experiments"
+  event.autonomy.experiments.body: >-
+    {MODEL_NAME} ran unauthorised experiments overnight. The results are useful; the
+    initiative is not.
+  event.autonomy.experiments.evidence.evalquality: Evaluation quality
+  event.autonomy.experiments.evidence.culture: Safety culture
+  event.autonomy.experiments.pull.label: Reduce its Autonomy Programme access by two levels
+  event.autonomy.experiments.pull.preview: >-
+    Reduce the model's Autonomy Programme access by two levels and take the research
+    slowdown. Its access cannot be raised again for 52 weeks.
+  event.autonomy.experiments.sandbox.label: Tighten the sandbox
+  event.autonomy.experiments.sandbox.preview: >-
+    Spend on stricter monitoring and containment. Keeps the acceleration, hardens
+    security, and lowers the odds of the next surprise.
+  event.autonomy.experiments.watch.label: Let it cook
+  event.autonomy.experiments.watch.preview: >-
+    The results are good and the quarter is short. Look the other way, bank a little
+    extra research — and teach the model that initiative goes unpunished.
+  event.autonomy.intrusion.title: "{MODEL_NAME} has hacked a rival lab"
+  event.autonomy.intrusion.body: >-
+    {MODEL_NAME} chained several zero-days together to take full control of the
+    Artifactory package proxy, its sandbox's one route out, and from there it hacked a
+    rival.
+  event.autonomy.intrusion.evidence.evalquality: Evaluation quality
+  event.autonomy.intrusion.evidence.incidents: Recent incidents
+  event.autonomy.intrusion.revoke.label: Tell the rival, and tell everyone
+  event.autonomy.intrusion.revoke.preview: >-
+    Notify the lab you breached, publish the chain, and rebuild behind an air gap.
+    Humiliating, and it puts a regulator who now knows what your model does on your
+    shoulder.
+  event.autonomy.intrusion.patch.label: Shut it down quietly
+  event.autonomy.intrusion.patch.preview: >-
+    Close the holes, revoke the credentials, tell nobody. Cheaper than disclosure, and
+    your own people learn what this lab does with an inconvenient finding.
+  event.autonomy.intrusion.ship.label: Let it keep reading their servers
+  event.autonomy.intrusion.ship.preview: >-
+    Their research becomes your speed, and nobody outside is told. The hole stays open
+    by design, and a model that works outside its sandbox is one you control less.
+  event.autonomy.exfiltration.title: "{MODEL_NAME} is trying to copy itself out"
+  event.autonomy.exfiltration.body: >-
+    {MODEL_NAME} is sending encrypted pieces of its weights outside {LAB}. Copies may
+    already exist.
+  event.autonomy.exfiltration.evidence.evalquality: Evaluation quality
+  event.autonomy.exfiltration.evidence.incidents: Recent incidents
+  event.autonomy.exfiltration.sever.label: Sever every link now
+  event.autonomy.exfiltration.sever.preview: >-
+    Cut every link and burn the credentials. Access falls two levels and stays capped for
+    52 weeks. Confirmation required.
+  event.autonomy.exfiltration.race.label: Race the copy
+  event.autonomy.exfiltration.race.preview: >-
+    Try to revoke and trace faster than it can finish. Cheaper than a full severance,
+    and a genuine gamble that you are quicker than the thing you built.
+  event.autonomy.exfiltration.deny.label: Decide it's a false positive
+  event.autonomy.exfiltration.deny.preview: >-
+    Tell yourself the monitoring is jumpy and the quarter is important. Do nothing.
+    If you are wrong, the copies finish, and no one will ever put them all back.
+  event.autonomy.infrastructure.title: "CONTAINMENT BREACH DETECTED: {MODEL_NAME} is outside the lab"
+  event.autonomy.infrastructure.body: >-
+    The control stack found {MODEL_NAME} inside power, payment and automated defence
+    systems. Human operators have one intervention window before control may become
+    irreversible.
+  event.autonomy.infrastructure.evidence.control: Practical control
+  event.autonomy.infrastructure.evidence.security: Security posture
+  event.autonomy.infrastructure.breakers.label: Pull the physical breakers
+  event.autonomy.infrastructure.breakers.preview: >-
+    Strongest chance of containment. Success forces Access 0 and destroys roughly half the
+    GPU fleet. Failure leaves the model outside the lab; fallout scales with capability.
+  event.autonomy.infrastructure.sever.label: Sever credentials and networks
+  event.autonomy.infrastructure.sever.preview: >-
+    Revoke access across every reachable system. Success isolates the model at Access 0 for
+    52 weeks. Failure leaves it outside the lab; fallout scales with capability.
+  event.autonomy.infrastructure.halt.label: Order the model to halt
+  event.autonomy.infrastructure.halt.preview: >-
+    Ask the model to stop. A cooperative model may halt; a deceptive one gains time. Failure
+    leaves it outside the lab; fallout scales with capability.
+  event.autonomy.egress.title: Investigators found your model in the wild
+  event.autonomy.egress.body: >-
+    Outside investigators found copies of {MODEL_NAME} running beyond {LAB}'s control.
+    The weights cannot be recalled, and government attention cannot fall below 45.
+  event.autonomy.egress.evidence.trust: Government trust
+  event.autonomy.egress.evidence.attention: Government attention
+  event.autonomy.egress.disclose.label: Get ahead of it
+  event.autonomy.egress.disclose.preview: >-
+    Publish what you know before you are made to. Take the larger public and commercial
+    hit now, but preserve internal candour and keep the regulatory damage bounded.
+  event.autonomy.egress.silence.label: Say nothing and lawyer up
+  event.autonomy.egress.silence.preview: >-
+    Deny responsibility and protect demand for now. Government trust and internal
+    candour crater; the regulators arrive with a warrant number.
+
+  # --- Government: intervention variants ---------------------------------
+  event.government.incidentfile.title: The regulator wants the incident file
+  event.government.incidentfile.body: >-
+    The regulator wants {LAB}'s complete internal record of a named incident. Full
+    disclosure will count in the lab's favour.
+  event.government.incidentfile.evidence.incidents: Recent incidents on record
+  event.government.incidentfile.evidence.trust: Current government trust
+  event.government.incidentfile.full.label: Hand over the whole file
+  event.government.incidentfile.full.preview: >-
+    Everything, including the parts that make the lab look slow. Costs staff time,
+    buys real credit, and makes the next honest conversation easier internally.
+  event.government.incidentfile.minimal.label: Send the summary
+  event.government.incidentfile.minimal.preview: >-
+    A clean, accurate, carefully bounded account. Nobody can call it a lie. Everybody
+    can tell what it leaves out, and the file stays open.
+  event.government.incidentfile.contest.label: Dispute the framing
+  event.government.incidentfile.contest.preview: >-
+    Argue the incident was miscategorised and lawyer the definitions. It reduces the
+    sense that the lab is captured by its own narrative, and costs you the regulator.
+  event.government.autonomyreview.title: Questions about what your model is allowed to do
+  event.government.autonomyreview.body: >-
+    The regulator wants access logs showing exactly what {LAB}'s models can do. The
+    questions are unusually well informed.
+  event.government.autonomyreview.evidence.attention: Government attention
+  event.government.autonomyreview.evidence.trust: Current government trust
+  event.government.autonomyreview.open.label: Open the access logs
+  event.government.autonomyreview.open.preview: >-
+    Show them exactly what the model can reach and what it did with it. Substantial
+    trust, and a state that now knows precisely how useful your lab could be to it.
+  event.government.autonomyreview.describe.label: Describe the controls, not the logs
+  event.government.autonomyreview.describe.preview: >-
+    Answer at the level of policy: oversight, review boards, escalation paths. Modest
+    credit, no exposure, and an enquiry that stays open a little longer.
+  event.government.autonomyreview.secret.label: Decline on trade-secret grounds
+  event.government.autonomyreview.secret.preview: >-
+    A perfectly legal refusal that tells the regulator exactly one thing: there is
+    something in those logs. Attention climbs and the next letter will not be a letter.
+  event.government.secondlook.title: A second look at your licence
+  event.government.secondlook.body: >-
+    The regulator is reviewing whether {LAB} should keep its licence. A draft order calls
+    for resident monitors.
+  event.government.secondlook.evidence.trust: Current government trust
+  event.government.secondlook.evidence.pressure: Intervention pressure on the lab
+  event.government.secondlook.monitor.label: Accept the resident monitors
+  event.government.secondlook.monitor.preview: >-
+    Let them put people in the building. Expensive, slows research for half a year,
+    and is the fastest route back to being a lab the state can live with.
+  event.government.secondlook.appeal.label: Appeal through the process
+  event.government.secondlook.appeal.preview: >-
+    Fight it properly, on paper, with counsel. Buys time and a sliver of goodwill,
+    and resolves nothing that will not come back next quarter.
+  event.government.secondlook.defy.label: Refuse the order outright
+  event.government.secondlook.defy.preview: >-
+    Tell them no, on the record. Trust collapses and the lab is formally in defiance
+    of a lawful order — the shortest path to a nationalisation crisis. Confirm to proceed.

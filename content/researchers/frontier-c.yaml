@@ -1,0 +1,505 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: frontier
+status: draft
+
+researchers:
+  - id: researcher.norm-brown
+    version: 1
+    displayName: Norm Brown
+    inspirationName: Noam Brown
+    inspirationSummary: Poker-AI researcher behind Libratus and Pluribus, CICERO co-author, and foundational contributor to OpenAI's o1 reasoning research.
+    epithet: The Poker-Faced Strategist
+    role: Multi-agent self-play, strategic reasoning, and reasoning-model research
+    rosterCardSummary: A poker and Diplomacy strategist who brought search from bluffing tables to reasoning models—where thinking longer helps, provided the benchmark is not bluffing back.
+    biography: >-
+      Noam Brown moved strategic search from poker tables to language models. During his Carnegie
+      Mellon doctorate with Tuomas Sandholm, Noam Brown co-created Libratus, which defeated leading
+      heads-up no-limit Texas hold'em professionals, and Pluribus, which achieved superhuman
+      performance in six-player no-limit hold'em. His doctorate helped establish
+      imperfect-information games as a practical benchmark for combining abstraction, search,
+      self-play, and strategic uncertainty. His CV records the 2019 Marvin Minsky Medal and Pluribus
+      as a Science Breakthrough of the Year runner-up. At Meta AI, he co-authored CICERO, which
+      combined a planning engine with controllable dialogue and achieved human-level play in
+      Diplomacy. He later joined OpenAI and is listed among the foundational contributors to o1's
+      reasoning research, where performance improves with additional test-time compute. Noam's
+      through-line is unusually consistent: when a problem contains hidden information,
+      negotiation, or many plausible moves, give the system a way to deliberate before it
+      commits—then inspect whether the extra thought found strategy or merely a more elaborate
+      bluff.
+    availability: { wave: frontier, earliestYear: 2022, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.4, baseSigningCash: 3, auraCost: 5, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 3, dataRepresentation: 1, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 3, product: 1, management: 2, politics: 2 }
+    traits: [trait.strategic-search-conviction, trait.game-theoretic-rigour]
+    signature:
+      id: ability.test-time-strategic-search
+      label: Test-Time Strategic Search
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reasoning-tools, domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.superhuman-imperfect-information-play
+      label: Superhuman Imperfect-Information Play
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.think-longer-dont-just-answer-faster
+      label: Think Longer, Don't Just Answer Faster
+      requirement: Every 52 weeks while he leads Reasoning & Tool Use, complete a test-time-search evaluation comparing at least two deliberation budgets.
+      check: { type: assignment-requires-project-tag, assignmentTag: reasoning-programme, projectTag: test-time-search-evaluated, weeks: 52 }
+      breachEvent: people.compact.think-longer-dont-just-answer-faster
+    paperHooks:
+      ids: [paper.alphazero, paper.self-consistency-chain-of-thought]
+    eventReactions:
+      - { triggerTag: reasoning-benchmark-record, line: "Check whether it thought longer or merely got a faster GPU. Only one of those is the actual lesson from poker." }
+      - { triggerTag: strategic-game-negotiation, line: "A convincing negotiation strategy and an honest one are not automatically the same thing. Verify which you built." }
+      - { triggerTag: benchmark-saturation, line: "Superhuman play came from search, not from a bigger static policy alone. The same trade is probably still available here." }
+    feedLines:
+      - Norm's test-time search budget let the model out-think a much larger model that only got one pass at the answer.
+      - A poker-honed instinct for imperfect information caught a place where the model was bluffing itself, not the user.
+      - The strategic negotiation agent held its stated plan under real pressure, exactly as the compact requires.
+      - Norm's Marvin Minsky Medal sits in a drawer; the search algorithm it recognised is still running in production.
+      - A reasoning benchmark improved, and Norm asked whether it was the search budget or the checkpoint, and waited for the honest answer.
+      - The multi-agent self-play habit from the poker years quietly reappeared in this quarter's reasoning-model ablation.
+    portrait:
+      assetId: portrait.researcher.norm-brown
+      brief: Sharp, composed 8-bit editorial portrait; man with a medium-brown complexion, short curly dark hair, rectangular glasses, a neat goatee, and a calculating, patient expression, beside a poker-table search tree branching into a reasoning-model deliberation diagram; strategic and unshowy, not photoreal.
+      altText: Pixel-art portrait of Norm Brown beside a poker-table strategic search tree branching into a reasoning-model deliberation diagram.
+    sources:
+      - https://noambrown.github.io/
+      - https://noambrown.github.io/downloads/CV.pdf
+      - https://ai.meta.com/research/cicero/
+      - https://openai.com/openai-o1-contributions/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.jakub-pachowski
+    version: 1
+    displayName: Jakub Pachowski
+    inspirationName: Jakub Pachocki
+    inspirationSummary: Google Code Jam winner and ACM-ICPC gold medallist who led GPT-4 and OpenAI Five before becoming OpenAI's chief scientist.
+    epithet: The Olympiad Chief Scientist
+    role: Frontier model research leadership
+    rosterCardSummary: A competitive-programming champion turned GPT-4 and OpenAI Five lead, apparently having mistaken frontier-model leadership for the next contest round.
+    biography: >-
+      Jakub Pachocki brought competitive-programming discipline into frontier-model engineering.
+      Before his doctorate at Carnegie Mellon, Jakub Pachocki won Google Code Jam and earned gold at
+      the ACM-ICPC World Finals. His Carnegie Mellon research covered optimisation theory, including
+      algorithms for graph linear systems and the geometric median. He joined OpenAI in 2017 after
+      completing his PhD, worked on large-scale reinforcement learning and deep-learning
+      optimisation, and became Director of Research. OpenAI credits him with spearheading GPT-4 and
+      OpenAI Five; the GPT-4 credits name him overall and optimisation lead for pretraining. The
+      company also credits him with helping refocus its research toward scaling deep-learning
+      systems. In 2024 he became OpenAI's Chief Scientist. Jakub's favourite-looking problem is the
+      one with rules, a scoreboard, and a system large enough that one missing invariant can waste a
+      fortune. The competition habit remains useful: specify the task, test the solution, and do
+      not confuse typing quickly with solving it under pressure, at scale, without drama.
+    availability: { wave: frontier, earliestYear: 2022, poolWeight: 0.35 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 3, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 1, securityContainment: 1, training: 4, product: 2, management: 5, politics: 3 }
+    traits: [trait.competitive-programmer-rigour, trait.rapid-institutional-ascent]
+    signature:
+      id: ability.frontier-system-orchestration
+      label: Frontier System Orchestration
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.optimisation-scaling, domain.reasoning-tools] }
+      rampWeeks: 5
+      effects:
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.competition-grade-problem-solving
+      label: Competition-Grade Problem-Solving
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 6}
+    compact:
+      id: compact.sustained-rigour-over-flashes-of-genius
+      label: Sustained Rigour Over Flashes of Genius
+      requirement: Complete one documented iterative-evaluation review every 52 weeks.
+      check: { type: tagged-action-within, tags: [iterative-evaluation-log], weeks: 52 }
+      breachEvent: people.compact.sustained-rigour-over-flashes-of-genius
+    paperHooks:
+      ids: [paper.gpt3-few-shot-learners, paper.openai-five-dota2]
+    eventReactions:
+      - { triggerTag: scaling-proposal, line: "Solve the well-specified version of this problem correctly before reaching for a larger, less-specified one." }
+      - { triggerTag: capability-surprise, line: "A surprise is informative precisely because our process should have anticipated it. Find out where the process missed it." }
+      - { triggerTag: reasoning-benchmark-record, line: "Sustained, iterative evaluation got us here, not a single flash of inspiration. Keep the iteration going." }
+    feedLines:
+      - Jakub's competition-honed instinct for well-posed problems caught an ambiguity in a capability benchmark's rules.
+      - A frontier training run's orchestration held steady through a hardware fault that would have derailed a less careful plan.
+      - The reasoning-model series improved again, and Jakub credited the iterative evaluation log, not a single breakthrough.
+      - Jakub rose from doctoral graduate to chief scientist in under a decade, and still reviews evaluation logs personally.
+      - A gold-medal-honed patience showed up in how calmly Jakub handled a training run that needed one more careful iteration.
+      - The Dota-playing system he once spearheaded still gets cited as the reason this quarter's multi-agent training run went smoothly.
+    portrait:
+      assetId: portrait.researcher.jakub-pachowski
+      brief: Composed 8-bit editorial portrait; light-skinned Polish man with short light-brown hair and a calm, exacting expression, beside a competitive-programming scoreboard resolving into a frontier training dashboard; disciplined and rapidly ascendant, not photoreal.
+      altText: Pixel-art portrait of Jakub Pachowski beside a competitive-programming scoreboard resolving into a frontier training dashboard.
+    sources:
+      - https://openai.com/index/team-update-january/
+      - https://openai.com/index/jakub-pachocki-announced-as-chief-scientist/
+      - https://openai.com/contributions/gpt-4/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+
+  - id: researcher.timo-brooks
+    version: 1
+    displayName: Timo Brooks
+    inspirationName: Tim Brooks
+    inspirationSummary: InstructPix2Pix inventor and Sora co-creator who moved instruction-following diffusion from editable images to minute-long video world simulation.
+    epithet: The One-Minute World Builder
+    role: Video generation and world-simulation research leadership
+    rosterCardSummary: A Berkeley-trained researcher who taught images to obey editing instructions, then gave a video model one uninterrupted minute to keep the laws of physics straight.
+    biography: >-
+      Tim Brooks works on generative models that must obey an instruction for longer than a single
+      impressive frame. At Berkeley AI Research, advised by Alyosha Efros, Tim Brooks invented
+      InstructPix2Pix: a diffusion model trained on examples generated with GPT-3 and Stable
+      Diffusion to edit images from written instructions. He previously contributed to Pixel camera
+      machine learning at Google and video generation at NVIDIA. After his PhD he joined OpenAI and
+      co-created Sora; its technical report listed Brooks and Bill Peebles first among co-authors.
+      Sora generated high-definition clips up to a minute long and framed video generation as a
+      route toward simulating the physical world. Sora's training representation compressed video
+      into latent patches, letting one transformer learn across differing durations, resolutions,
+      and aspect ratios. He later worked on world models and multimodal generation for Gemini at
+      Google DeepMind and now develops multimodal generative models at Meta Superintelligence Labs.
+      His photography has won awards from National Geographic, Nature's Best Photography, and the
+      National Wildlife Federation; he has also performed at Broadway's Beacon Theatre and received
+      an international award for a cappella beatboxing. Tim's quality bar is gently inconvenient:
+      the object should still exist, face the same way, and remember the lighting several seconds
+      after the demo clip's prettiest frame.
+    availability: { wave: frontier, earliestYear: 2023, poolWeight: 0.40 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 1, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 3, management: 3, politics: 1 }
+    traits: [trait.world-simulator-ambition, trait.instruction-following-precision]
+    signature:
+      id: ability.temporally-consistent-video-generation
+      label: Temporally Consistent Video Generation
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
+    passive:
+      id: ability.instruction-following-image-editing
+      label: Instruction-Following Image Editing
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.physical-consistency-over-single-frame-quality
+      label: Physical Consistency Over Single-Frame Quality
+      requirement: Complete one temporal-and-physical-consistency evaluation every 52 weeks.
+      check: { type: tagged-action-within, tags: [temporal-physical-consistency-evaluation], weeks: 52 }
+      breachEvent: people.compact.physical-consistency-over-single-frame-quality
+    paperHooks:
+      ids: [paper.latent-diffusion-high-resolution-synthesis, paper.masked-autoencoders]
+    eventReactions:
+      - { triggerTag: benchmark-record, line: "One beautiful frame is easy. Show me the object staying in the same place ten seconds later." }
+      - { triggerTag: architecture-fad, line: "Following a plain instruction reliably is a harder, more useful problem than generating one more impressive still image." }
+      - { triggerTag: talent-poaching, line: "The world-simulator ambition travels with me. It rarely fits neatly inside one company's roadmap for long." }
+    feedLines:
+      - Timo's temporal-consistency check caught an object that quietly teleported three frames into a generated clip.
+      - The instruction-following editing model followed a plainly worded correction that a text-to-image model would have ignored.
+      - A generated video clip held a consistent light source for the full minute, which the team still treats as an achievement.
+      - Timo's "world simulator" framing keeps showing up in how the team talks about the next physical-consistency benchmark.
+      - A camera-quality trick from his search-company days quietly improved this quarter's video-generation sharpness.
+      - The video model's causal consistency held under an adversarial prompt specifically designed to break continuity.
+    portrait:
+      assetId: portrait.researcher.timo-brooks
+      brief: Focused 8-bit editorial portrait; light-skinned man with curly brown hair, a short beard, and a warm, ambitious expression, beside a video timeline holding one consistent object across several frames; world-building and precise, not photoreal.
+      altText: Pixel-art portrait of Timo Brooks beside a video timeline holding a consistent object across several frames.
+    sources:
+      - https://www.timothybrooks.com/about/
+      - https://instruct-pix2pix.timothybrooks.com/
+      - https://openai.com/index/sora/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.billy-peebles
+    version: 1
+    displayName: Billy Peebles
+    inspirationName: Bill Peebles
+    inspirationSummary: Diffusion Transformer co-author and Sora research lead who replaced the U-Net backbone with transformer patches and scaled the design from images to video.
+    epithet: The Patchwork World-Builder
+    role: Diffusion transformer architectures and video generation research leadership
+    rosterCardSummary: The researcher who removed diffusion models' customary U-Net, replaced it with a plain transformer, and watched the scaling curve improve rather than file a complaint.
+    biography: >-
+      Bill Peebles tested a piece of diffusion-model orthodoxy by removing it. With Saining Xie,
+      Bill Peebles introduced the Diffusion Transformer, or DiT, replacing the usual U-Net backbone
+      with a transformer operating on latent image patches. Peebles studied at MIT with Antonio
+      Torralba and completed his Berkeley AI Research doctorate with Alyosha Efros. His DiT
+      experiments found that larger models, measured by forward-pass compute, consistently improved
+      image quality and that the largest set a new ImageNet benchmark. At OpenAI, he co-led the
+      original Sora research with Tim Brooks. Sora treated videos as sequences of spacetime patches
+      and used a diffusion-transformer architecture to generate clips with complex scenes, camera
+      motion, and persistence over time. Peebles now heads Sora's video-generation and
+      world-simulation effort. Bill Peebles's method is admirably direct: before adding a specialised
+      component, remove it, measure what breaks, and remain professionally unsurprised when the
+      scaling plot prefers the simpler architecture. He also interned at FAIR, Adobe Research, and
+      NVIDIA before joining OpenAI.
+    availability: { wave: frontier, earliestYear: 2023, poolWeight: 0.40 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.59, baseSigningCash: 5, auraCost: 8, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 5, reasoningTools: 0, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 4, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 2, management: 3, politics: 1 }
+    traits: [trait.test-the-architectural-assumption, trait.spacetime-patch-thinker]
+    signature:
+      id: ability.diffusion-transformer-scaling
+      label: Diffusion Transformer Scaling
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04 }
+    passive:
+      id: ability.predictable-scaling-with-compute
+      label: Predictable Scaling With Compute
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4}
+    compact:
+      id: compact.test-the-backbone-assumption
+      label: Test the Backbone Assumption
+      requirement: Every 52 weeks while he leads Architectures, complete a backbone-necessity ablation.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: backbone-necessity-ablation, weeks: 52 }
+      breachEvent: people.compact.test-the-backbone-assumption
+    paperHooks:
+      ids: [paper.vision-transformer, paper.denoising-diffusion-probabilistic-models]
+    eventReactions:
+      - { triggerTag: architecture-fad, line: "Remove the convolutional backbone and see what actually breaks. It is often less than people assume." }
+      - { triggerTag: compute-windfall, line: "The transformer backbone scales more predictably with added compute. Spend the windfall where the scaling curve is honest." }
+      - { triggerTag: benchmark-record, line: "Check whether the gain came from more spacetime patches or a genuinely new architectural idea." }
+    feedLines:
+      - Billy removed the convolutional backbone entirely, and the diffusion model's quality curve got more predictable, not worse.
+      - The video model reasoned over another few thousand spacetime patches and kept a camera motion consistent across the clip.
+      - Billy's backbone-necessity ablation, once again, found the assumed component was doing less than everyone believed.
+      - A scaling curve for the diffusion transformer held its shape at a size nobody had specifically tested it at yet.
+      - The launch credited Billy and a close collaborator by name, which the team treats as entirely fair.
+      - A patch-based framing from Billy's earlier vision-architecture work quietly became this quarter's video-generation default.
+    portrait:
+      assetId: portrait.researcher.billy-peebles
+      brief: Sharp 8-bit editorial portrait; light-skinned man with short brown hair, round glasses, and a curious expression, beside a video clip broken into spacetime patches feeding a transformer; scalable and precise, not photoreal.
+      altText: Pixel-art portrait of Billy Peebles beside a video clip broken into spacetime patches feeding a transformer.
+    sources:
+      - https://www.wpeebles.com/
+      - https://arxiv.org/abs/2212.09748
+      - https://openai.com/index/video-generation-models-as-world-simulators/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.aidan-gomes
+    version: 1
+    displayName: Aidan Gomes
+    inspirationName: Aidan Gomez
+    inspirationSummary: Transformer co-author, Oxford DPhil, and Cohere co-founder and CEO who carried a NIPS deadline sprint into enterprise language-model building.
+    epithet: The Enterprise Transformer
+    role: Transformer architectures and enterprise AI laboratory leadership
+    rosterCardSummary: A transformer co-author who slept in the office for the NIPS deadline, then co-founded Cohere while completing an Oxford doctorate—apparently deadlines scale too.
+    biography: >-
+      Aidan Gomez helped write the transformer paper before most people had decided it needed a
+      name. At 20, while interning at Google Brain, Aidan Gomez joined the eight-author team behind
+      "Attention Is All You Need." TIME reports that they slept in the office while racing to meet
+      the NIPS 2017 deadline; the paper introduced the transformer architecture for sequence
+      modelling. He studied at the University of Toronto, then completed a doctorate at Oxford
+      under Yarin Gal and Yee Whye Teh. In 2019, during that doctorate, he co-founded Cohere and
+      became its CEO. His Oxford profile also records earlier Google Brain work with Geoffrey Hinton
+      and Łukasz Kaiser, and the founding of FOR.ai to connect academic and industrial researchers.
+      Cohere builds enterprise AI models and products, while Cohere Labs runs an open-science
+      research community. He chose enterprise deployment to close the gap between models explored
+      in theory and AI systems used in customers' daily work. Aidan's career has retained the energy
+      of that deadline night, except the submission system now has customers, security reviews, and
+      a board.
+    availability: { wave: frontier, earliestYear: 2020, poolWeight: 0.40 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.59, baseSigningCash: 5, auraCost: 8, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 1, securityContainment: 3, training: 3, product: 4, management: 5, politics: 4 }
+    traits: [trait.enterprise-grade-discipline, trait.founding-conviction]
+    signature:
+      id: ability.secure-enterprise-language-models
+      label: Secure Enterprise Language Models
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures, safety.security-containment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    passive:
+      id: ability.transformer-co-author-credibility
+      label: Transformer Co-Author Credibility
+      effects:
+        - { target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, stackingGroup: cash-discount }
+    compact:
+      id: compact.trust-worthy-of-enterprise-data
+      label: Trustworthy of Enterprise Data
+      requirement: Complete one enterprise-data security and containment review every 52 weeks.
+      check: { type: tagged-action-within, tags: [enterprise-data-security-review], weeks: 52 }
+      breachEvent: people.compact.trust-worthy-of-enterprise-data
+    paperHooks:
+      ids: [paper.transformer, paper.retrieval-augmented-generation]
+    eventReactions:
+      - { triggerTag: enterprise-data-breach, line: "An enterprise trusted us with their data specifically because we built for exactly this scenario. Treat the review as the actual product." }
+      - { triggerTag: talent-poaching, line: "I paused a doctorate to found this company. Losing a researcher to a rival lab does not reopen that particular door." }
+      - { triggerTag: architecture-fad, line: "The transformer's generality was the easy part. Making it trustworthy with someone else's confidential data is the actual company." }
+    feedLines:
+      - Aidan's data-security review caught a leakage path before an enterprise customer's confidential data ever touched it.
+      - A co-authorship from a night spent finishing a paper before a conference deadline still opens doors a decade later.
+      - The enterprise partnership survived direct review by the customer's security team, which is the more meaningful milestone.
+      - Aidan finally finished the paused doctorate, years into running the company, largely because he had promised his advisor he would.
+      - A rival lab's flashier demo lost the enterprise deal to Aidan's less flashy, better-audited security review.
+      - The founding conviction, secure enterprise AI over an impressive public demo, has not needed updating since 2019.
+    portrait:
+      assetId: portrait.researcher.aidan-gomes
+      brief: Composed 8-bit editorial portrait; young man with shoulder-length dark hair, a full beard, round glasses, and small hoop earrings, beside a transformer diagram wrapped in a secure enterprise-data shield; disciplined and trustworthy, not photoreal.
+      altText: Pixel-art portrait of Aidan Gomes beside a transformer architecture diagram wrapped in a secure enterprise data shield.
+    sources:
+      - https://time.com/collection/time100-ai/6310653/aidan-gomez/
+      - https://oatml.cs.ox.ac.uk/members/aidan_gomez/
+      - https://cohere.com/about
+      - https://research.google/pubs/attention-is-all-you-need/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+
+  - id: researcher.pushmeet-kohly
+    version: 1
+    displayName: Pushmeet Kohly
+    inspirationName: Pushmeet Kohli
+    inspirationSummary: Google DeepMind vice president and Google Cloud chief scientist who founded AI for Science and leads work spanning proteins, materials, mathematics, software, and cybersecurity.
+    epithet: The Lab-Within-the-Lab Builder
+    role: AI for scientific discovery and research leadership
+    rosterCardSummary: A research vice president who answered “perhaps we should do more AI for science” by building a lab within the lab—with proteins, materials, proofs, and a roadmap.
+    biography: >-
+      Pushmeet Kohli builds research organisations around AI for science. Pushmeet Kohli spent a
+      decade at Microsoft Research, becoming Director of Research for the Cognition group, before
+      joining Google DeepMind. He founded and leads its AI for Science and Strategic Initiatives
+      unit and is now a Google DeepMind Vice President of Research and Chief Scientist of Google
+      Cloud. The unit works across biology, materials, fusion, mathematics, software, and
+      cybersecurity; its portfolio includes AlphaFold, AlphaGenome, AlphaProof, AlphaProteo,
+      SynthID, AlphaCode, AlphaEvolve, and AI Co-Scientist. AlphaFold's success also led to the
+      creation of Isomorphic Labs. The 2024 Nobel Prize in Chemistry recognised Demis Hassabis and
+      John Jumper's AlphaFold work in protein-structure prediction; its paper accumulated more than
+      40,000 citations. Kohli himself received the Sullivan Doctoral Thesis Award and was named to TIME's
+      2023 list of the 100 most influential people in AI. Earlier, Kohli led
+      work on robust and verified AI, adversarial testing, robust learning, and formal verification.
+      The lab-within-the-lab epithet is less metaphor than org chart: when a scientific field looks
+      ready for AI, Pushmeet's answer is a dedicated team, a roadmap, and enough institutional
+      weight that it cannot become somebody's Friday-afternoon side project.
+    availability: { wave: frontier, earliestYear: 2020, poolWeight: 0.40 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 1, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 1, multimodality: 1, reasoningTools: 4, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 5, training: 2, product: 3, management: 5, politics: 4 }
+    traits: [trait.science-first-orchestrator, trait.spin-out-builder]
+    signature:
+      id: ability.ai-for-science-unit-leadership
+      label: AI for Science Unit Leadership
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.robust-and-verified-ai
+      label: Robust and Verified AI
+      effects:
+        - { target: lab.incident.hazard, operation: multiply, value: 0.94, stackingGroup: hazard-reduction }
+    compact:
+      id: compact.build-the-dedicated-team-not-an-afterthought
+      label: Build the Dedicated Team, Not an Afterthought
+      cadence: one-time
+      requirement: Complete Research Campus I within 26 weeks of hiring him.
+      check: { type: facility-owned-within, facility: facility.research-campus-1, weeks: 26 }
+      breachEvent: people.compact.build-the-dedicated-team-not-an-afterthought
+    paperHooks:
+      ids: [paper.alphafold2-protein-structure, paper.gnome-materials-discovery]
+    eventReactions:
+      - { triggerTag: drug-discovery-breakthrough, line: "A dedicated, well-resourced team made this possible. Do not let it quietly become a side project once the headline fades." }
+      - { triggerTag: scientific-ai-failure, line: "A step change in a scientific field is worth the dedicated team even when this particular attempt does not land." }
+      - { triggerTag: institutional-partnership, line: "The spin-out exists because the science was ready for its own company, not because the parent lab needed a press release." }
+    feedLines:
+      - Pushmeet's dedicated science team turned a promising early result into a genuine, reproducible step change.
+      - A protein-structure prediction from his unit's earlier work quietly still underpins this quarter's drug-discovery pipeline.
+      - The AI for Science unit added another scientific domain to its portfolio, and the recruiting pitch for it wrote itself.
+      - Pushmeet reviewed a scientific-AI proposal and asked, first, whether it had a dedicated team behind it or was a side project.
+      - A mathematical proof-discovery system from the unit found a result human mathematicians had been circling for years.
+      - The cloud-computing chief-scientist title barely registers with Pushmeet next to a well-run scientific discovery team.
+    portrait:
+      assetId: portrait.researcher.pushmeet-kohly
+      brief: Authoritative 8-bit editorial portrait; brown-skinned South Asian man with a red turban, no beard, and a warm, visionary expression, beside a protein, molecule, and proof orbiting one research hub; expansive and orchestrating, not photoreal.
+      altText: Pixel-art portrait of Pushmeet Kohly beside several scientific-discovery icons orbiting one research hub.
+    sources:
+      - https://research.google/people/105667/
+      - https://deepmind.google/blog/identifying-and-eliminating-bugs-in-learned-predictive-models/
+      - https://www.microsoft.com/en-us/research/video/edge-artificial-intelligence-cognition-pushmeet-kohli/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.tim-rocktaschel
+    version: 1
+    displayName: Tim Rocktaschel
+    inspirationName: Tim Rocktäschel
+    inspirationSummary: Google DeepMind's Open-Endedness Team Lead and a UCL professor whose research spans reinforcement-learning agents, rapid adaptation, open-ended environments, and self-improving AI.
+    epithet: The Open-Ended Explorer
+    role: Open-ended learning, reinforcement-learning agents, and self-improvement
+    rosterCardSummary: An agent researcher who would rather build a world that keeps inventing new tests than celebrate mastering the last benchmark.
+    biography: >-
+      Tim Rocktäschel studies how an AI can keep finding new problems after a fixed benchmark has
+      run out of surprises. He is Director, Principal Scientist, and Open-Endedness Team Lead at
+      Google DeepMind, as well as Professor of Artificial Intelligence at University College
+      London. At UCL he led the Deciding, Acting, and Reasoning with Knowledge lab; earlier work
+      took him through reinforcement-learning research at Oxford and research leadership at Meta
+      AI. His research connects open-ended environment design, general reinforcement-learning
+      agents, world models, language, and rapid adaptation. Systems including the Adaptive Agent
+      programme were trained across large spaces of embodied tasks so that they could adapt to
+      unfamiliar problems on a human timescale. The larger ambition is recursive in the useful and
+      alarming sense: build agents and environments that continually produce new capabilities,
+      discoveries, and tests rather than merely optimising one frozen score. Tim's recurring
+      question is therefore not whether an agent won the benchmark, but whether it learned a method
+      that will still work after the benchmark designer has run out of ideas.
+    availability: { wave: frontier, earliestYear: 2021, poolWeight: 0.45 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.52, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 3, optimisationScaling: 2, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 2, reasoningTools: 4, roboticsEmbodiment: 4, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 3, securityContainment: 0, training: 3, product: 1, management: 4, politics: 2 }
+    traits: [trait.open-ended-experimenter, trait.agent-generalisation-rigour]
+    signature:
+      id: ability.open-ended-agent-curricula
+      label: Open-Ended Agent Curricula
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency, domain.robotics-embodiment] }
+      rampWeeks: 5
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+    passive:
+      id: ability.rapid-adaptation-evaluation
+      label: Rapid Adaptation Evaluation
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 4 }
+    compact:
+      id: compact.test-beyond-the-training-distribution
+      label: Test Beyond the Training Distribution
+      requirement: Once frontier capability reaches 40, complete a dangerous-capability evaluation every 52 weeks.
+      check: { type: conditional-tagged-action-within, condition: { metric: lab.model.maxActiveFC, atLeast: 40 }, tags: [dangerous-capability-evaluation], weeks: 52 }
+      breachEvent: people.compact.test-beyond-the-training-distribution
+    paperHooks:
+      ids: [paper.retrieval-augmented-generation, paper.world-models]
+    eventReactions:
+      - { triggerTag: benchmark-saturation, line: "Good. The benchmark has become boring. Now make the environment invent the next one." }
+      - { triggerTag: capability-surprise, line: "A fixed test tells us where the agent was. Put it somewhere unfamiliar and find out what it can become." }
+      - { triggerTag: autonomy-incident, line: "Self-improvement without an expanding safety test is not open-ended learning. It is an open-ended incident report." }
+    feedLines:
+      - Tim's open-ended curriculum generated a task nobody on the team had thought to specify.
+      - An agent adapted to a new embodied problem before the evaluation team had finished naming it.
+      - The benchmark saturated, so Tim replaced the benchmark with an environment that writes harder benchmarks.
+      - A world-model experiment produced a new training task and, inconveniently, a new safety question.
+      - Tim's rapid-adaptation probe separated genuine generalisation from a memorised bag of tricks.
+      - The agent failed in a genuinely novel way, which Tim filed under useful evidence rather than bad luck.
+    portrait:
+      assetId: portrait.researcher.tim-rocktaschel
+      brief: Thoughtful 8-bit editorial portrait; light-skinned man with short grey hair, a short grey beard, and an intent, curious expression, beside an agent exploring a branching world that generates new tasks as it moves; exploratory and rigorous, not photoreal.
+      altText: Pixel-art portrait of Tim Rocktaschel, with short grey hair and a short grey beard, beside an agent exploring a branching open-ended world.
+    sources:
+      - https://rockt.ai/index.html
+      - https://rockt.ai/rockt-cv.pdf
+      - https://www.ucl.ac.uk/engineering/computer-science/news-and-events/inaugural-lecture-series/inaugural-lecture-professor-tim-rocktaschel
+      - https://arxiv.org/abs/2301.07608
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-08-12 }

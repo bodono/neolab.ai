@@ -1,0 +1,35 @@
+{
+  "name": "@neolab/web",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Brendan O'Donoghue <bodonoghue85@gmail.com>",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test:browser": "vitest run --config vitest.browser.config.ts",
+    "test:e2e": "playwright test",
+    "test:deployment": "playwright test --config playwright.deployment.config.ts"
+  },
+  "dependencies": {
+    "@neolab/content": "workspace:*",
+    "@neolab/sim": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zustand": "catalog:"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@neolab/testkit": "workspace:*",
+    "@vitest/browser-playwright": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "fake-indexeddb": "catalog:",
+    "playwright": "catalog:",
+    "vite": "catalog:"
+  }
+}

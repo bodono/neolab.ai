@@ -1,0 +1,1 @@
+export const FINAL_CONSEQUENCE_DELAY_MS = 4_500;

@@ -1,0 +1,179 @@
+name: Weekly verification
+
+# Was nightly. At 330 minutes of allowance a night this single workflow could
+# consume the entire monthly budget on its own, so it now runs once a week and
+# also absorbs the heavy checks that used to run on every push: the production
+# build, the release audit, and the browser suites. Paying for those weekly
+# instead of ~600 times a month is the difference between fitting the 3,000
+# minute allowance and being several times over it.
+#
+# Three independent jobs, deliberately not chained: an external link report, a
+# simulation invariant campaign, and a build-and-browser gate. Running them in
+# parallel costs the same runner minutes as running them in series and keeps
+# each one's failure attributable to its own subject.
+
+on:
+  schedule:
+    - cron: "41 2 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verification-weekly
+  cancel-in-progress: true
+
+jobs:
+  source-link-report:
+    name: External source-link report
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check authored external sources
+        run: pnpm content:links
+
+      - name: Add source-link summary
+        if: always()
+        run: |
+          if [ -f artifacts/content/source-links.json ]; then
+            node -e 'const r=require("./artifacts/content/source-links.json"); const s=r.summary; console.log(`## External source links\n\n- Checked: ${s.total}\n- Reachable: ${s.reachable}\n- Access restricted: ${s.restricted}\n- Broken: ${s.broken}\n- Transient errors: ${s["transient-error"]}\n- Unsafe destinations refused: ${s.unsafe}`)' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload source-link report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-link-report-${{ github.sha }}
+          path: artifacts/content/source-links.json
+          if-no-files-found: error
+          retention-days: 14
+
+  invariant-campaign:
+    name: Short random-legal invariant campaign
+    runs-on: ubuntu-latest
+    # Split out of release-checks. It ran there for ~38 minutes of a 60 minute
+    # budget while it was aborting early on a researcher-ultimatum crash; once
+    # that was fixed it took ~47, and the browser suites behind it were killed
+    # mid-run at the ceiling. Two unrelated concerns were sharing one clock, so
+    # a simulation regression could mask a cross-browser one. They now run in
+    # parallel and each fails on its own evidence.
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run 240-configuration invariant campaign
+        run: pnpm invariant:smoke
+
+      - name: Add invariant summary
+        if: always()
+        run: |
+          if [ -f artifacts/invariants/smoke.json ]; then
+            node -e 'const r=require("./artifacts/invariants/smoke.json"); console.log(`## Short invariant campaign\n\n- Configurations: ${r.runs.length}\n- Committed ticks: ${r.totalTicks}\n- Accepted commands: ${r.totalCommands}\n- Failures: ${r.failures.length}`)' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload invariant evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: invariant-campaign-smoke-${{ github.sha }}
+          path: artifacts/invariants/smoke.json
+          if-no-files-found: error
+          retention-days: 14
+
+  release-checks:
+    name: Build, release audit, and browser suites
+    runs-on: ubuntu-latest
+    # These ran on every push until the CI budget review. They are the checks
+    # most likely to catch a packaging or cross-browser regression, so they are
+    # kept in full -- just paid for weekly rather than per commit.
+    #
+    # Budget: ~17 minutes of work once the invariant campaign moved out, of
+    # which the three-engine Playwright suite is ~15. The ceiling is set well
+    # above that so a slow runner does not truncate the browser suite again,
+    # but below the old 60 so a genuine hang is cut off sooner.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level=high
+
+      - name: Compile content
+        run: pnpm content:build
+
+      - name: Verify content bundle is reproducible
+        run: |
+          h1=$(sha256sum packages/content/generated/content.bundle.json | cut -d' ' -f1)
+          pnpm content:build > /dev/null
+          h2=$(sha256sum packages/content/generated/content.bundle.json | cut -d' ' -f1)
+          if [ "$h1" != "$h2" ]; then
+            echo "content bundle is not byte-reproducible: $h1 != $h2" >&2
+            exit 1
+          fi
+          echo "content bundle hash: $h1"
+
+      - name: Exercise every event branch
+        run: pnpm content:branches
+
+      - name: Web production build
+        run: pnpm --filter @neolab/web build
+
+      - name: Static release security, privacy, licence and bundle audit
+        env:
+          NEOLAB_SOURCE_COMMIT: ${{ github.sha }}
+        run: pnpm release:check-built
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @neolab/web exec playwright install --with-deps chromium firefox webkit
+
+      - name: Chromium component tests
+        run: pnpm test:browser
+
+      - name: Playwright Chromium, Firefox, and WebKit tests
+        run: pnpm test:e2e
+
+      - name: Add release reports to summary
+        if: always()
+        run: cat artifacts/release-checks/bundle-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload release reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-checks-${{ github.sha }}
+          path: artifacts/release-checks
+          if-no-files-found: ignore
+          retention-days: 14

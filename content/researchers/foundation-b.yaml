@@ -1,0 +1,276 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-b
+availabilityWave: foundation
+status: draft
+
+researchers:
+  - id: researcher.alex-krizhensky
+    version: 1
+    displayName: Alex Krizhensky
+    inspirationName: Alex Krizhevsky
+    inspirationSummary: AlexNet lead author and CIFAR-10/100 creator whose two-GPU 2012 ImageNet result helped reset modern computer vision.
+    epithet: Two GPUs and a Benchmark
+    role: Deep convolutional networks and GPU-scale training
+    rosterCardSummary: The AlexNet lead author and CIFAR-10/100 creator who used a two-GPU convolutional network to reset ImageNet—and the field's idea of a normal training budget.
+    biography: >-
+      Alex Krizhevsky made hardware part of the argument. At the University of Toronto, he created
+      CIFAR-10 and CIFAR-100 from the 80 Million Tiny Images collection, then joined Ilya Sutskever
+      and Geoffrey Hinton on AlexNet. Their 2012 ImageNet system spread a deep convolutional network
+      across two GPUs and cut top-five test error to 15.3%, far ahead of the 26.2% runner-up. The
+      result did not merely win ILSVRC; it made GPU-trained deep vision the baseline everyone else
+      had to answer. Its five convolutional and three fully connected layers used ReLUs, dropout,
+      data augmentation, and roughly sixty million parameters—a hardware manifesto. Alex also
+      released CUDA implementations behind his experiments, giving other researchers something
+      more useful than a slogan: runnable code. Two graphics cards, one benchmark, and a decade of
+      computer vision suddenly needed a new plan.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.55 }
+    contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 5, product: 1, management: 1, politics: 0 }
+    traits: [trait.hardware-believer, trait.unglamorous-rigour]
+    signature:
+      id: ability.the-machine-was-the-idea
+      label: The Machine Was the Idea
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality, domain.optimisation-scaling] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04, stackingGroup: gpu-throughput }
+    passive:
+      id: ability.benchmark-shock
+      label: Benchmark Shock
+      effects:
+        - { target: aura.worldFirstCapabilityPaperGain, operation: multiply, value: 1.08, stackingGroup: aura-gain }
+    compact:
+      id: compact.two-gpus-and-a-benchmark
+      label: Benchmark Before Bragging
+      requirement: While he leads Multimodality, complete one GPU-scale vision benchmark run every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: vision-benchmark-run, weeks: 52 }
+      breachEvent: people.compact.two-gpus-and-a-benchmark
+    paperHooks:
+      ids: [paper.alexnet, paper.dropout, paper.imagenet-database]
+    eventReactions:
+      - { triggerTag: research-fad, line: "Fashion changes. The error rate either falls or it doesn't. Rerun it on the bigger machine." }
+      - { triggerTag: compute-shortage, line: "The idea was never subtle. It was always going to need more of this." }
+      - { triggerTag: benchmark-saturation, line: "Good. Find the next one before the leaderboard starts believing its own headline." }
+    feedLines:
+      - Alex quietly retrained the baseline overnight and made three days of debate obsolete by breakfast.
+      - The dataset has been cleaned again. Alex maintains this is the actual research contribution.
+      - A visiting student asked for the secret. Alex pointed at the GPU and said nothing else.
+      - The error rate fell by double digits. Alex filed it under "expected, eventually."
+      - Someone suggested a more elegant architecture. Alex suggested a bigger one first.
+      - The CIFAR images are, once again, being used to debug something far larger than CIFAR.
+    portrait:
+      assetId: portrait.researcher.alex-krizhensky
+      brief: Understated 8-bit editorial portrait; young white man with very short sandy light-brown hair and a plain grey t-shirt, seated before two glowing GPU towers and a sharply falling red error-rate graph; quiet and focused, not photoreal.
+      altText: Pixel-art portrait of Alex Krizhensky beside two GPU towers and a sharply falling error-rate graph.
+    sources:
+      - https://www.cs.toronto.edu/~kriz/
+      - https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html
+      - https://www.cs.toronto.edu/~kriz/imagenet_classification_with_deep_convolutional.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.andy-barto
+    version: 1
+    displayName: Andy Barto
+    inspirationName: Andrew Barto
+    inspirationSummary: A co-founder of modern reinforcement learning whose work with Richard Sutton on temporal-difference methods and its standard textbook earned the 2024 Turing Award.
+    epithet: The Co-Architect of Reinforcement
+    role: Reinforcement-learning foundations
+    rosterCardSummary: A founding reinforcement-learning theorist whose work with Richard Sutton built temporal-difference methods, policy gradients, and the field's standard textbook.
+    biography: >-
+      Andrew Barto helped build the language in which reinforcement learning is still spoken. At the
+      University of Massachusetts Amherst, he and his doctoral student Richard Sutton turned
+      learning from delayed reward into a general computational framework. Together and with other
+      collaborators they developed temporal-difference learning, policy-gradient methods, and ways
+      for neural networks to represent learned functions. They also combined learning with planning,
+      letting agents acquire models of environments, and later connected temporal-difference ideas
+      back to dopamine signals in neuroscience. Their 1998 book, Reinforcement Learning: An
+      Introduction, became the field's standard reference. Barto and Sutton received the 2024 ACM
+      A.M. Turing Award for this conceptual and algorithmic foundation. The prize arrived decades
+      after the work began; the algorithms had already spent the intervening years collecting
+      rewards.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 3, dataRepresentation: 1, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 3, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 0, management: 3, politics: 1 }
+    traits: [trait.foundational-theorist, trait.patient-formalism]
+    signature:
+      id: ability.temporal-difference-foundations
+      label: Temporal-Difference Foundations
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.textbook-clarity
+      label: Textbook Clarity
+      effects:
+        - { target: lab.research.program.base:domain.reinforcement-agency.weeklyVarianceWidth, operation: multiply, value: 0.90 }
+    compact:
+      id: compact.general-formalism
+      label: General Formalism
+      requirement: Complete one open research-charter review every 52 weeks.
+      check: { type: tagged-action-within, tags: [open-research-charter], weeks: 52 }
+      fulfilmentEffects:
+        - { target: researcher.moraleTarget, operation: add, value: 3 }
+      breachEvent: people.compact.general-formalism
+    paperHooks:
+      ids: [paper.deep-q-network, paper.deep-rl-from-human-preferences]
+    eventReactions:
+      - { triggerTag: hand-engineered-shortcut, line: "A shortcut is a hypothesis about the environment. State it plainly and we can test it." }
+      - { triggerTag: reward-hacking, line: "The credit assignment problem does not forgive an imprecise reward. It never has." }
+      - { triggerTag: emergent-strategy, line: "Temporal-difference error is falling. Whatever else is happening, that part is working correctly." }
+    feedLines:
+      - Andy redrew the value-function diagram from memory and corrected a sign error two decades old.
+      - A prediction error narrowed overnight. Andy called this "Tuesday."
+      - The new textbook edition arrived. Andy has already annotated the margins of his own copy.
+      - Andy declined credit for an idea that turned out, on checking, to be entirely his.
+      - The actor-critic split the decision cleanly in two, and both halves improved.
+      - A student asked which came first, the theory or the algorithm. Andy said "the environment."
+    portrait:
+      assetId: portrait.researcher.andy-barto
+      brief: Warm 8-bit editorial portrait; older white man with a grey beard and gentle expression, beside a temporal-difference diagram and a two-name book spine; scholarly and unhurried, not photoreal.
+      altText: Pixel-art portrait of Andy Barto beside a temporal-difference learning diagram and a well-worn textbook.
+    sources:
+      - https://www.cics.umass.edu/2024-acm-am-turing-award
+      - https://awards.acm.org/award-recipients/barto_9471663
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.sepp-hochreitner
+    version: 1
+    displayName: Sepp Hochreitner
+    inspirationName: Sepp Hochreiter
+    inspirationSummary: LSTM co-inventor and JKU institute head whose gated architecture solved long-range credit assignment, then returned decades later as xLSTM.
+    epithet: The Gatekeeper of Memory
+    role: Recurrent architectures and long-range credit assignment
+    rosterCardSummary: The LSTM co-inventor who gave neural networks gates for long-term memory, then returned decades later with xLSTM rather than declaring the architecture finished.
+    biography: >-
+      Sepp Hochreiter identified the vanishing-gradient problem in his 1991 diploma work, before
+      most of the field had learned to name it. With Jürgen Schmidhuber he developed long short-term
+      memory, whose learned gates decide what enters, persists, and leaves a recurrent network. The
+      1997 LSTM paper became a foundation for speech and language systems that needed information
+      to survive long sequences. The original cell preserved error flow through a constant
+      self-connection, while input and output gates protected stored information; xLSTM later added
+      exponential gating and revised memory structures for modern scale and throughput. Since 2006
+      Sepp has led the Institute for Machine Learning at Johannes Kepler University Linz and directs
+      its LIT AI Lab. Decades after LSTM, his team returned with xLSTM, a scalable revision of the
+      same architectural family. Apparently a memory mechanism this durable was not going to forget
+      its own second act.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.70 }
+    contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 2, multimodality: 4, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 0, training: 4, product: 1, management: 2, politics: 1 }
+    traits: [trait.long-range-memory, trait.second-act-inventor]
+    signature:
+      id: ability.gated-memory-path
+      label: Gated Memory Path
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.architectures] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.the-idea-had-a-second-act
+      label: The Idea Had a Second Act
+      effects:
+        - { target: researcher.moraleTarget, operation: add, value: 4 }
+    compact:
+      id: compact.a-real-memory-cell
+      label: A Real Memory Cell
+      requirement: While he leads Architectures, complete one long-range sequence-memory stress test every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: architecture-programme, projectTag: sequence-memory-stress-test, weeks: 52 }
+      breachEvent: people.compact.a-real-memory-cell
+    paperHooks:
+      ids: [paper.long-short-term-memory, paper.sequence-to-sequence]
+    eventReactions:
+      - { triggerTag: research-fad, line: "The architecture that works quietly for thirty years rarely trends. It is not thereby wrong." }
+      - { triggerTag: vanishing-signal, line: "That is the original problem, wearing new clothes. The gates still know what to do with it." }
+      - { triggerTag: legacy-architecture-debate, line: "An old idea is not obligated to be finished. Ask it a new question first." }
+    feedLines:
+      - Sepp redrew the original gating diagram from 1997 and found it still correct.
+      - The modernised memory cell trained faster and remembered further. Sepp called this "overdue."
+      - A visiting student asked whether recurrence was dead. Sepp asked whether the question was well-posed.
+      - The vanishing-gradient problem returned in a new architecture. Sepp recognised it immediately.
+      - Sepp's institute produced a scaling curve nobody expected from a "classical" method.
+      - The gate values are, once again, doing exactly what they were designed to do three decades ago.
+    portrait:
+      assetId: portrait.researcher.sepp-hochreitner
+      brief: Precise 8-bit editorial portrait; middle-aged white man with glasses and short grey hair, beside a gated memory-cell diagram with a glowing persistent pathway; methodical and quietly proud, not photoreal.
+      altText: Pixel-art portrait of Sepp Hochreitner beside a gated memory-cell diagram with a glowing long-range pathway.
+    sources:
+      - https://www.jku.at/en/news-events/events/detail/news/ai-made-in-europe-spitzenforscher-sepp-hochreiter-und-sein-xlstm-erhalten-unternehmerische-verstaerkung-fuer-europaeisches-large-language-model/
+      - https://doi.org/10.1162/neco.1997.9.8.1735
+      - https://www.jku.at/en/institute-for-machine-learning/about-us/team/sepp-hochreiter/
+      - https://www.jku.at/en/linz-institute-of-technology/research/lit-calls/hochreiter/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
+
+  - id: researcher.jitendra-malek
+    version: 1
+    displayName: Jitendra Malek
+    inspirationName: Jitendra Malik
+    inspirationSummary: A Berkeley computer-vision pioneer behind anisotropic diffusion, normalized cuts, the Berkeley Segmentation Dataset, and R-CNN.
+    epithet: The Grammar of Seeing
+    role: Computer vision foundations and perceptual grouping
+    rosterCardSummary: A Berkeley computer-vision pioneer behind anisotropic diffusion, normalized cuts, the Berkeley Segmentation Dataset, and R-CNN.
+    biography: >-
+      Jitendra Malik joined UC Berkeley in 1985 after a Stanford PhD and has spent the decades since
+      teaching computers where one thing ends and another begins. With Pietro Perona he introduced
+      anisotropic diffusion, which smooths an image without casually erasing its edges; with Jianbo
+      Shi he developed normalized cuts for image segmentation. His Berkeley group also produced
+      shape contexts, the Berkeley Segmentation Dataset, and R-CNN, linking perceptual grouping to
+      modern recognition. The programme crossed computer graphics, biological vision, and machine
+      learning, producing high-dynamic-range imaging alongside recognition systems and earning five
+      test-of-time prizes across both CVPR and ICCV venues. The common rule is that computer vision
+      should answer to human vision: psychophysics and physiology are evidence, not decorative
+      metaphors. A leaderboard can say a model found the label. Jitendra still wants to know whether
+      it saw the object.
+    availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
+    contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 4, reinforcementAgency: 1, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 4, scientificAi: 2, alignmentControl: 0, interpretabilityEvals: 2, securityContainment: 0, training: 3, product: 1, management: 4, politics: 1 }
+    traits: [trait.perceptual-rigour, trait.legendary-advisor]
+    signature:
+      id: ability.grouping-before-labelling
+      label: Grouping Before Labelling
+      eligibleAssignments: [capability-program]
+      activation: { type: assignment-domain-in, values: [domain.multimodality] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    passive:
+      id: ability.legendary-advisor
+      label: Legendary Advisor
+      effects:
+        - { target: researcher.loyalty, operation: add, value: 5 }
+    compact:
+      id: compact.answer-to-biology
+      label: Answer to Biology
+      requirement: While he leads Multimodality, complete one perceptual-grounding review every 52 weeks.
+      check: { type: assignment-requires-project-tag, assignmentTag: vision-programme, projectTag: perceptual-grounding-note, weeks: 52 }
+      breachEvent: people.compact.answer-to-biology
+    paperHooks:
+      ids: [paper.imagenet-database, paper.vision-transformer]
+    eventReactions:
+      - { triggerTag: benchmark-saturation, line: "A saturated benchmark has taught us what it can. Ask what the eye still notices that the metric does not." }
+      - { triggerTag: dataset-shortcut, line: "The model has found the easiest correlation, not the structure of the scene. These are rarely the same thing." }
+      - { triggerTag: student-departure, line: "Good. Go build the thing I would have insisted was impossible." }
+    feedLines:
+      - Jitendra asked why the model segmented the shadow as an object, and nobody had a clean answer yet.
+      - A visiting alumnus returned to give a talk and thanked, by name, an objection from eleven years ago.
+      - The grouping algorithm found the boundary a human observer also reports seeing first.
+      - Jitendra rejected "it works" as a complete sentence in three separate meetings this week.
+      - A perceptual grounding note was requested and, eventually, improved the actual result.
+      - The advising list has again produced a researcher whose name is now on someone else's roster card.
+    portrait:
+      assetId: portrait.researcher.jitendra-malek
+      brief: Distinguished 8-bit editorial portrait; older South Asian man with grey hair and glasses, beside an image segmented into clean perceptual regions and a small tree of advisees; scholarly and exacting, not photoreal.
+      altText: Pixel-art portrait of Jitendra Malek beside a perceptually segmented image and a small advisor tree.
+    sources:
+      - https://www.nasonline.org/directory-entry/jitendra-malik-5fajsr/
+      - https://www2.eecs.berkeley.edu/Faculty/Homepages/malik.html
+      - https://eecs.berkeley.edu/news/jitendra-malik-recipient-acm-and-aaai-allen-newell-award/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }

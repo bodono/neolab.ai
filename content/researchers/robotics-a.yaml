@@ -1,0 +1,281 @@
+draftSchema: 1
+contentType: star-researchers
+pack: people-and-research-c
+availabilityWave: frontier
+status: draft
+
+researchers:
+  - id: researcher.ken-goldenberg
+    version: 1
+    displayName: Ken Goldenberg
+    inspirationName: Ken Goldberg
+    inspirationSummary: Berkeley roboticist behind the Telegarden and Dex-Net, combining networked art with millions of synthetic grasps for reliable robot picking.
+    epithet: The Million-Grasp Gardener
+    role: Robotic grasping and cloud robotics research leadership
+    rosterCardSummary: A Berkeley roboticist who went from an internet-tended garden to millions of synthetic grasps, teaching warehouse robots to pick up unfamiliar objects before meeting them.
+    biography: >-
+      Ken Goldberg has connected robot arms to the internet, gardens, warehouses, and a
+      formidable number of synthetic objects. Ken Goldberg is UC Berkeley's William S. Floyd
+      Distinguished Professor of Engineering, a Berkeley Artificial Intelligence Research
+      co-founder, and director of AUTOLab. His 1995 Telegarden let web users plant and water a
+      living garden with a remote industrial arm, making it the internet's first interactive robot.
+      His parallel career as an artist and filmmaker has put robotic art in more than 70
+      exhibitions, including the Whitney Biennial, and documentary work at Sundance. Two decades
+      later, Goldberg and his students developed Dex-Net, using large synthetic datasets and deep
+      learning to plan robust grasps for unfamiliar objects. Their system outperformed the 2017
+      Amazon Robotics Challenge winners; later work extended the approach across multiple gripper
+      types and helped underpin Ambi Robotics, which Goldberg co-founded. Ken's signature move is to
+      make a stubborn physical problem tractable by simulating it at absurd scale, then send the
+      robot back into the real world to see whether the millionth grasp was the useful one.
+    availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 3, multimodality: 2, reasoningTools: 1, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 3, management: 4, politics: 2 }
+    traits: [trait.synthetic-data-first, trait.ambidextrous-policy-design]
+    signature:
+      id: ability.synthetic-grasp-dataset-training
+      label: Synthetic Grasp Dataset Training
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.ambidextrous-multi-gripper-policy
+      label: Safer Ambidextrous Grasping
+      effects:
+        - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
+    compact:
+      id: compact.synthetic-data-before-physical-trial
+      label: Synthetic Data Before Physical Trial
+      requirement: Every 52 weeks while he leads Robotics & Embodiment, complete a synthetic-data-first grasping review before extensive physical data collection.
+      check: { type: assignment-requires-project-tag, assignmentTag: robotics-programme, projectTag: synthetic-data-first, weeks: 52 }
+      breachEvent: people.compact.synthetic-data-before-physical-trial
+    paperHooks:
+      ids: [paper.dactyl-dexterous-in-hand-manipulation, paper.rt-1-robotics-transformer]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Generate another million synthetic grasps before assuming the real robot simply needs more physical practice." }
+      - { triggerTag: labour-transition-debate, line: "A warehouse robot that can grasp a novel object reliably changes a job. I would rather be honest about that than pretend it doesn't." }
+      - { triggerTag: simulation-transfer, line: "The synthetic dataset only helps if it actually resembles the mess a real warehouse floor produces. Check that first." }
+    feedLines:
+      - Ken's synthetic dataset trained a grasping policy on objects the robot had never once physically touched.
+      - The ambidextrous policy chose the less obvious gripper for an object, and it turned out to be the correct call.
+      - A 1995 art installation is still, somehow, the answer Ken gives when asked what got him into networked robotics.
+      - The synthetic-data-first compact saved a robotics project weeks of slow, expensive physical trial and error.
+      - Ken's grasping benchmark outperformed a commercial competition's winners, using a fraction of the physical data they collected.
+      - The cloud robotics lab quietly kept running while Ken personally reviewed a batch of newly synthesised grasp point clouds.
+    portrait:
+      assetId: portrait.researcher.ken-goldenberg
+      brief: Warm 8-bit editorial portrait; older white man with curly dark-grey hair, pronounced sideburns, clear rectangular glasses, and a small goatee, beside a gripper choosing between two grasps on a cluttered table; inventive and practical, not photoreal.
+      altText: Pixel-art portrait of Ken Goldenberg beside a robotic gripper choosing between two grasp options on a cluttered table.
+    sources:
+      - https://goldberg.berkeley.edu/bio.html
+      - https://engineering.berkeley.edu/news/2026/05/the-art-of-grasping/
+      - https://berkeleyautomation.github.io/dex-net/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.deepak-pathark
+    version: 1
+    displayName: Deepak Pathark
+    inspirationName: Deepak Pathak
+    inspirationSummary: Carnegie Mellon roboticist who made prediction error an intrinsic reward, then co-founded Skild AI to build a general-purpose robotics foundation model.
+    epithet: The Agent's Chief Curiosity Officer
+    role: Curiosity-driven exploration and embodied reinforcement learning
+    rosterCardSummary: A Carnegie Mellon roboticist who made an agent's own surprise pay its reward bill, then let it explore until useful skills emerged without an itemised request.
+    biography: >-
+      Deepak Pathak turned an agent's surprise into its allowance. Deepak Pathak is the Raj Reddy
+      Associate Professor at Carnegie Mellon, working across computer vision, machine learning, and
+      robotics, and co-founder and CEO of Skild AI. He earned IIT Kanpur's computer-science gold
+      medal before beginning his Berkeley doctorate in 2014. During his Berkeley PhD with Alyosha
+      Efros and Trevor Darrell, he helped introduce an intrinsic-curiosity module that rewards an
+      agent for prediction errors in a learned feature space. It enabled exploration without
+      external rewards and was later studied across dozens of benchmark environments, alongside
+      work on zero-shot imitation for real robots. After research at Meta AI and a Berkeley postdoc,
+      he joined Carnegie Mellon, where his group studies agents that learn from raw sensory data and
+      their own experience. Skild AI extends that ambition to a general-purpose robotics foundation
+      model. Deepak's agents do not need an itemised itinerary; give them a world, reward the things
+      they fail to predict, and keep an eye on what they decide is interesting.
+    availability: { wave: frontier, earliestYear: 2018, poolWeight: 0.50 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 4, optimisationScaling: 1, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 2, reasoningTools: 1, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 2, management: 3, politics: 1 }
+    traits: [trait.curiosity-as-reward, trait.self-supervised-explorer]
+    signature:
+      id: ability.curiosity-driven-exploration
+      label: Curiosity-Driven Exploration
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.reinforcement-agency, domain.robotics-embodiment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.self-supervised-prediction-error-signal
+      label: Self-Supervised Prediction-Error Signal
+      effects:
+        - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
+    compact:
+      id: compact.let-the-agent-be-curious
+      label: Let the Agent Be Curious
+      requirement: Every 52 weeks while he leads Reinforcement Learning & Agency, complete an intrinsic-curiosity-signal review.
+      check: { type: assignment-requires-project-tag, assignmentTag: reinforcement-programme, projectTag: intrinsic-curiosity-signal, weeks: 52 }
+      breachEvent: people.compact.let-the-agent-be-curious
+    paperHooks:
+      ids: [paper.world-models, paper.dactyl-dexterous-in-hand-manipulation]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Check whether the agent's own prediction error flagged this scenario as surprising before it failed. That surprise is useful data." }
+      - { triggerTag: reward-hacking, line: "An agent rewarded for its own surprise will chase novelty for its own sake. Make sure that novelty was actually useful." }
+      - { triggerTag: simulation-transfer, line: "A curious agent that has explored a wide range of unexpected states in simulation usually handles the real world's surprises better too." }
+    feedLines:
+      - Deepak's curiosity signal drove the agent to explore a corner of the environment nobody had specifically rewarded it to find.
+      - A robot with no external reward at all still learned a genuinely useful skill, purely by chasing its own prediction error.
+      - The intrinsic curiosity compact caught a sparse-reward project that would otherwise have explored almost nothing at all.
+      - Deepak's rope-manipulation robot learned a manoeuvre through self-supervised curiosity that no demonstration had shown it.
+      - A co-founded robotics venture kept the same curiosity-driven instinct alive well outside the original academic lab.
+      - An audio-visual association experiment let an agent learn where to look purely by following what surprised it most.
+    portrait:
+      assetId: portrait.researcher.deepak-pathark
+      brief: Curious 8-bit editorial portrait; brown-skinned South Asian man with short black hair and an inquisitive smile, beside a robot exploring toward an unexpected sensor reading; energetic and self-driven, not photoreal.
+      altText: Pixel-art portrait of Deepak Pathark beside a robot exploring toward an unexpected, surprising sensor reading.
+    sources:
+      - https://www.cs.cmu.edu/~dpathak/
+      - https://www.cs.cmu.edu/~dpathak/CV_Pathak.pdf
+      - https://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.raia-hadsall
+    version: 1
+    displayName: Raia Hadsall
+    inspirationName: Raia Hadsell
+    inspirationSummary: Google DeepMind vice president and Frontier AI co-lead whose policy distillation, progressive networks, and elastic weight consolidation tackle catastrophic forgetting.
+    epithet: The Catastrophic-Forgetting Rememberer
+    role: Continual learning, robotics, and frontier AI research leadership
+    rosterCardSummary: A frontier-research leader who has spent a decade ensuring that when a robot learns one impressive new skill, it does not quietly forget the previous impressive skill.
+    biography: >-
+      Raia Hadsell has made a career of asking what a model forgot while everyone else celebrates
+      what it learned. Raia Hadsell is a Google DeepMind Vice President of Research and co-leads its
+      Frontier AI unit. She arrived at AI via a degree in religion and philosophy at Reed College,
+      earned her NYU doctorate with Yann LeCun on deep learning for mobile-robot vision, then worked
+      at Carnegie Mellon's Robotics Institute and SRI International. She joined DeepMind in 2014,
+      when it was a 50-person startup newly acquired by Google. Her continual-learning research
+      includes policy distillation, progressive neural networks, and elastic weight consolidation,
+      which protects parameters important to earlier tasks as a network learns new ones. Her
+      dissertation on long-range vision for off-road robots won NYU's 2009 Outstanding Dissertation
+      award; she later became TMLR's founding editor-in-chief and a UK government AI Ambassador,
+      linking frontier research with responsible science and security. She also works on
+      reinforcement learning, robotics, control, and navigation. Raia's release checklist therefore
+      contains one extra question: did the new capability arrive alone, or did it quietly evict
+      three old ones while everyone was watching the demo?
+    availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.40 }
+    contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 2, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 1, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 1, interpretabilityEvals: 1, securityContainment: 0, training: 3, product: 2, management: 5, politics: 3 }
+    traits: [trait.continual-learning-champion, trait.frontier-unit-co-leader]
+    signature:
+      id: ability.catastrophic-forgetting-prevention
+      label: Catastrophic Forgetting Prevention
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment, domain.reinforcement-agency] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+    passive:
+      id: ability.self-improving-foundation-agent
+      label: Self-Improving Foundation Agent
+      effects:
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+    compact:
+      id: compact.retain-the-old-skill-while-learning-the-new-one
+      label: Retain the Old Skill While Learning the New One
+      requirement: Complete one prior-task retention check every 52 weeks.
+      check: { type: tagged-action-within, tags: [prior-task-retention-check], weeks: 52 }
+      breachEvent: people.compact.retain-the-old-skill-while-learning-the-new-one
+    paperHooks:
+      ids: [paper.rt-1-robotics-transformer, paper.world-models]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Check whether the robot forgot an old skill while learning this new one. That failure mode is easy to miss until it's expensive." }
+      - { triggerTag: capability-surprise, line: "A new capability that quietly costs an old one is not a clean gain. Verify the retention before celebrating the addition." }
+      - { triggerTag: talent-poaching, line: "I joined this lab when it was fifty people. The continual-learning problem has stayed the same size relative to how the lab has grown." }
+    feedLines:
+      - Raia's retention check caught a robot that had quietly forgotten an old manipulation skill while learning a new one.
+      - The self-improving foundation agent picked up a new task from a hundred demonstrations and kept every prior one intact.
+      - Raia's elastic weight consolidation technique, years old now, is still doing quiet work inside this quarter's continual-learning pipeline.
+      - A bipedal robot learned to play agile soccer without forgetting how to simply walk, exactly as the compact requires.
+      - The Frontier AI unit shipped a contribution to a major model, and Raia's continual-learning fingerprints were on it.
+      - Raia joined a fifty-person startup a decade ago. The catastrophic-forgetting problem she was solving then is, tellingly, the same one now.
+    portrait:
+      assetId: portrait.researcher.raia-hadsall
+      brief: Composed 8-bit editorial portrait; pale white woman with vivid blue shoulder-length hair, rectangular glasses, and a thoughtful, determined expression, beside a robot retaining an old skill while acquiring a new one; balanced and enduring, not photoreal.
+      altText: Pixel-art portrait of Raia Hadsall beside a robot retaining an old skill while acquiring a new one, both lit equally.
+    sources:
+      - https://raiahadsell.com/index.html
+      - https://deepmind.google/blog/article/enabling-continual-learning-in-neural-networks
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }
+
+  - id: researcher.dieter-foxx
+    version: 1
+    displayName: Dieter Foxx
+    inspirationName: Dieter Fox
+    inspirationSummary: University of Washington professor, Ai2 senior research director, and co-author of Probabilistic Robotics, the textbook on perception and control under uncertainty.
+    epithet: The Robot's Probabilistic Satnav
+    role: Robot perception, state estimation, and manipulation research leadership
+    rosterCardSummary: A University of Washington professor whose probabilistic-robotics textbook taught a generation of robots—and roboticists—to admit when they do not quite know where they are.
+    biography: >-
+      Dieter Fox taught robots, and many roboticists, to represent uncertainty instead of tidying
+      it out of the diagram. Dieter Fox is a University of Washington professor, head of its
+      Robotics and State Estimation Lab, and Senior Research Director at Ai2, where he works on
+      foundation models for robotics. He joined the University of Washington in 2000 after a
+      doctorate at the University of Bonn, later directed Intel Labs Seattle, and led NVIDIA's
+      Seattle robotics research lab from 2017 to 2025. His research connects probabilistic state
+      estimation and perception with mapping, tracking, manipulation, activity recognition, and
+      control. With Sebastian Thrun and Wolfram Burgard, he co-authored "Probabilistic Robotics," a
+      textbook organised around perception and control under uncertainty. He is a fellow of AAAI,
+      ACM, and IEEE, and has received the IEEE Robotics and Automation Society's Pioneer Award and
+      IJCAI's John McCarthy Award for his work. Dieter's robots are allowed to say "I do not know
+      where I am"—provided they attach a probability distribution and a plan for finding out.
+    availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.45 }
+    contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
+    skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 5, reasoningTools: 1, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 2, securityContainment: 0, training: 3, product: 2, management: 4, politics: 2 }
+    traits: [trait.probabilistic-state-estimation, trait.textbook-author-of-a-generation]
+    signature:
+      id: ability.probabilistic-robot-perception
+      label: Probabilistic Robot Perception
+      eligibleAssignments: [capability-program, safety-program]
+      activation: { type: assignment-domain-in, values: [domain.robotics-embodiment] }
+      rampWeeks: 4
+      effects:
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.research.program.base:domain.robotics-embodiment.weeklyVarianceWidth, operation: multiply, value: 0.90, stackingGroup: variance-width }
+    passive:
+      id: ability.textbook-trained-talent-pipeline
+      label: Textbook-Trained Talent Pipeline
+      effects:
+        - { target: researcher.loyalty, operation: add, value: 4 }
+    compact:
+      id: compact.model-the-uncertainty-explicitly
+      label: Model the Uncertainty Explicitly
+      requirement: Complete one explicit state-uncertainty report every 52 weeks.
+      check: { type: tagged-action-within, tags: [explicit-state-uncertainty-report], weeks: 52 }
+      breachEvent: people.compact.model-the-uncertainty-explicitly
+    paperHooks:
+      ids: [paper.rt-1-robotics-transformer, paper.dactyl-dexterous-in-hand-manipulation]
+    eventReactions:
+      - { triggerTag: robot-demo-failure, line: "Check the state estimate's uncertainty before blaming the manipulation policy. Often the robot simply did not know where it was." }
+      - { triggerTag: simulation-transfer, line: "A deterministic simulation hides exactly the estimation uncertainty a real sensor will hand you. Model it explicitly instead." }
+      - { triggerTag: talent-poaching, line: "Half the roboticists at the table learned state estimation from a textbook I co-wrote. That fact rarely helps them negotiate." }
+    feedLines:
+      - Dieter's uncertainty estimate flagged a state the robot's sensors were, correctly, unsure about before it caused a failure.
+      - A manipulation policy improved noticeably once it was given an honest probabilistic state estimate to act on.
+      - The textbook from years ago is still the first thing a new robotics hire is quietly expected to have already read.
+      - Dieter's perception pipeline caught a sensor fault by noticing its confidence estimate had, correctly, collapsed.
+      - A hiring negotiation stalled briefly on the fact that the candidate had, in fact, learned the field from Dieter's own book.
+      - The explicit uncertainty report the compact requires caught a mapping error the deterministic version had confidently missed.
+    portrait:
+      assetId: portrait.researcher.dieter-foxx
+      brief: Grounded 8-bit editorial portrait; older white man with short grey hair and a calm, methodical expression, beside a robot map with a probabilistic uncertainty cloud around its estimated position; foundational and precise, not photoreal.
+      altText: Pixel-art portrait of Dieter Foxx beside a robot's map with a probabilistic uncertainty cloud around its estimated position.
+    sources:
+      - https://homes.cs.washington.edu/~fox/
+      - https://homes.cs.washington.edu/~fox/files/wp/fox-cv.pdf
+      - https://mitpress.mit.edu/9780262201629/probabilistic-robotics/
+    portrayal: { fictionalized: true, endorsementImplied: false }
+    review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-22 }

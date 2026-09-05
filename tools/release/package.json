@@ -1,0 +1,14 @@
+{
+  "name": "@neolab/release-tools",
+  "private": true,
+  "version": "0.0.0",
+  "author": "Brendan O'Donoghue <bodonoghue85@gmail.com>",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "static:check": "node src/static-build.ts",
+    "itch:package": "node src/package-itch.ts",
+    "release:audit": "node src/release-audit.ts"
+  }
+}

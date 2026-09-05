@@ -1,0 +1,296 @@
+NEOLAB.AI PROPRIETARY SOFTWARE AND CONTENT LICENCE
+Version 1.0 — effective 27 July 2026
+
+Copyright © 2026 Brendan O'Donoghue <bodonoghue85@gmail.com>.
+All rights reserved.
+
+IMPORTANT: THIS LICENCE IS A LEGAL AGREEMENT. READ IT BEFORE ACCESSING OR
+USING NEOLAB.AI. BY ACCESSING, DOWNLOADING, INSTALLING, STARTING, CONTINUING,
+OR OTHERWISE USING NEOLAB.AI, YOU CONFIRM THAT YOU HAVE READ AND ACCEPT THIS
+LICENCE. IF YOU DO NOT ACCEPT IT, DO NOT USE NEOLAB.AI.
+
+1. DEFINITIONS
+
+1.1 "Owner" means Brendan O'Donoghue.
+
+1.2 "Neolab.ai" or the "Work" means every original part of the Neolab.ai
+project supplied by or on behalf of the Owner, in source or object form,
+including its software, game rules as expressed in the project, authored
+content, text, dialogue, fictional setting and characters, user interface,
+visual designs, graphics, audio, music, recordings, data, documentation,
+build scripts, tests, and associated files.
+
+1.3 "Third-Party Materials" means any material identified as belonging to
+another person, including software dependencies, cited publications, names,
+marks, and other externally authored material. Third-Party Materials are not
+licensed under this Licence.
+
+1.4 "You" means the individual or legal person accessing or using the Work.
+
+2. OWNERSHIP AND RESERVATION OF RIGHTS
+
+2.1 The Work is licensed, not sold. The Owner retains all right, title, and
+interest in and to the Work, including all copyright, database rights, design
+rights, trade mark rights, and other intellectual-property rights owned by the
+Owner.
+
+2.2 Except for the narrow permission in section 3, no right or licence is
+granted, whether expressly, by implication, estoppel, exhaustion, or
+otherwise. All rights not expressly granted are reserved.
+
+2.3 Access to source code or other editable project material does not itself
+grant permission to use, copy, modify, or distribute that material.
+
+2.4 No right is granted to use "Neolab.ai", its logos, fictional laboratory
+identities, or other source-identifying material as a trade mark, service
+mark, product name, domain name, or representation of affiliation or
+endorsement.
+
+2.5 For the avoidance of doubt, this Licence grants permissions to users and
+does not restrict the Owner. The Owner may use, reproduce, modify, distribute,
+publish, license, sublicense, assign, sell, commercialise, discontinue, or
+otherwise exploit the Work, in whole or in part, for any lawful purpose and
+under any terms chosen by the Owner.
+
+3. LIMITED PERSONAL-USE LICENCE
+
+3.1 If you received the Work lawfully and comply with this Licence, the Owner
+grants you a limited, personal, revocable on breach, non-exclusive,
+non-transferable, non-sublicensable licence to access and run one unmodified
+object-code build of the Work solely for your own non-commercial
+entertainment and evaluation.
+
+3.2 The permission in section 3.1 includes only:
+
+    (a) transient, cached, or technical copies made automatically and
+        necessarily by a web browser or operating system to run the Work; and
+
+    (b) one reasonable backup copy of a lawfully supplied downloadable build,
+        provided that the copy is not shared and retains all legal notices.
+
+3.3 No licence to source code, authored content as a separate work, production
+assets, music as a separate work, or development tooling is granted unless the
+Owner gives you separate written permission.
+
+3.4 GAMEPLAY MEDIA PERMISSION. Despite sections 4.4, 4.5, and 4.6, if you
+lawfully use an unmodified build, you may:
+
+    (a) capture, publicly display, livestream, and publish video recordings,
+        audio-visual recordings, and still images of genuine gameplay;
+
+    (b) include reasonable gameplay clips and still images in commentary,
+        criticism, reviews, previews, tutorials, news reporting, social-media
+        posts, and thumbnails; and
+
+    (c) monetise that permitted media through ordinary platform advertising,
+        subscriptions, sponsorships, and viewer donations.
+
+This permission does not allow you to distribute the Work or a playable copy,
+publish source code or extracted assets, upload the soundtrack or other
+constituent material separately, present recorded gameplay as an adequate
+substitute for the game, imply endorsement or affiliation, or use the Work
+or its assets as part of an advertisement for an unrelated product, except for
+ordinary sponsorship identification accompanying permitted media. You may use
+the Neolab.ai name and game imagery only as reasonably necessary to identify or
+describe the permitted media. The permission is subject to applicable
+third-party rights.
+
+3.5 CONTRIBUTION-ONLY SOURCE PERMISSION. Despite sections 3.3, 4.1, 4.2, 4.3,
+4.6, and 4.7, you may make the copies and modifications strictly necessary to
+prepare and submit a proposed contribution to a source repository designated
+by the Owner as an official Neolab.ai repository. For that sole purpose, you
+may:
+
+    (a) clone the official repository and create a fork or development branch
+        on the repository host;
+
+    (b) modify the source and privately build or run the modified version only
+        as reasonably necessary to develop and test the proposed contribution;
+        and
+
+    (c) publish those modifications only in that fork or branch and submit
+        them to the official repository through a pull request, including
+        allowing the repository host's continuous-integration service to build
+        and test them.
+
+You must not distribute, deploy, host, publicly perform, or otherwise use a
+modified build outside that private development and testing, or use the source
+or modifications for an independent project.
+A fork or branch made under this section must identify the official project,
+must not imply that it is an approved release, and must be deleted within a
+reasonable time if the Owner requests deletion after the proposal is rejected,
+closed, or withdrawn. Submission is also subject to section 6 and any
+CONTRIBUTING.md accompanying the official repository. Only the Owner decides
+whether a proposed contribution is accepted, changed, merged, released, or
+removed.
+
+4. RESTRICTIONS
+
+Except for the permissions expressly stated in sections 3.2, 3.4, and 3.5, or
+unless the Owner gives you prior written permission, you must not, and must not
+enable or assist another person to:
+
+4.1 copy or reproduce the Work except as expressly allowed by section 3.2;
+
+4.2 modify, translate, adapt, arrange, transform, or create any derivative work
+from the Work;
+
+4.3 distribute, publish, transmit, upload, make available, rehost, mirror,
+share, lend, rent, lease, sell, sublicense, assign, or otherwise provide the
+Work or access to it to any other person;
+
+4.4 use the Work for any commercial, professional, promotional, advertising,
+fundraising, service-bureau, or revenue-generating purpose;
+
+4.5 publicly perform, exhibit, broadcast, stream, or communicate the Work, or
+publish gameplay recordings or substantial extracts from it;
+
+4.6 extract, separate, reuse, sample, republish, or exploit any game text,
+dataset, character, portrait, visual asset, interface element, music,
+recording, or other constituent part of the Work;
+
+4.7 incorporate any source code, object code, content, data structure, design,
+or other part of the Work into another product, service, project, dataset, or
+repository;
+
+4.8 reverse engineer, decompile, disassemble, decode, or otherwise attempt to
+derive source code, underlying structure, algorithms, hidden game state, or
+non-public data from an object-code build;
+
+4.9 remove, obscure, alter, or bypass any copyright, ownership, licence,
+attribution, access-control, security, or technical-protection notice or
+measure; or
+
+4.10 use the Work in a way that suggests sponsorship, endorsement,
+affiliation, or factual claims about any person or organisation referenced or
+parodied by the Work.
+
+5. MANDATORY LEGAL EXCEPTIONS
+
+5.1 Nothing in this Licence restricts an act that applicable law expressly
+permits and does not allow the parties to prohibit by contract.
+
+5.2 If applicable law gives you a mandatory right to obtain information for
+interoperability, security testing, accessibility, or another protected
+purpose, you should first request the necessary information from the Owner
+unless the law provides otherwise.
+
+6. CONTRIBUTIONS AND FEEDBACK
+
+6.1 "Contribution" means source code, content, documentation, artwork, audio,
+data, tests, designs, patches, or other material that you intentionally submit
+to the Owner for possible inclusion in, or use in connection with, Neolab.ai,
+including through a pull request.
+
+6.2 By submitting a Contribution, you represent that you have the right to
+submit it and to grant the rights in this section, that it does not knowingly
+infringe another person's rights, and that you have disclosed any applicable
+third-party licence or other restriction.
+
+6.3 You grant the Owner a perpetual, irrevocable, worldwide, non-exclusive,
+transferable, sublicensable, royalty-free licence to use, reproduce, modify,
+adapt, translate, prepare derivative works from, publicly display, publicly
+perform, make available, distribute, commercialise, and otherwise exploit the
+Contribution, in source or object form, for any purpose and under any licence
+or other terms chosen by the Owner.
+
+6.4 To the extent that your Contribution necessarily practices a patent claim
+that you can license, you grant the Owner a perpetual, worldwide,
+non-exclusive, transferable, sublicensable, royalty-free patent licence to
+make, have made, use, offer to sell, sell, import, and otherwise exploit the
+Contribution and works incorporating it.
+
+6.5 You retain copyright in your Contribution unless you and the Owner sign a
+separate assignment. The rights in sections 6.3 and 6.4 are not conditional on
+acceptance or continued use of the Contribution. The Owner may accept, reject,
+change, relicense, remove, or decline to credit a Contribution and is not
+required to compensate you or keep it confidential.
+
+6.6 If you voluntarily provide ideas, suggestions, bug reports, or other
+feedback that is not a Contribution, you grant the Owner the same licence
+described in section 6.3 for that feedback. Do not submit confidential
+information or material that you do not have the right to provide.
+
+7. THIRD-PARTY MATERIALS
+
+7.1 Third-Party Materials remain subject to their respective copyright,
+licence, attribution, and notice terms. Those terms apply only to the
+identified Third-Party Materials and do not grant rights in the Owner's
+original Work.
+
+7.2 Applicable third-party notices accompany the Work in
+THIRD_PARTY_NOTICES.md.
+
+8. VERSIONS, ACCESS, AND TERMINATION
+
+8.1 This Licence applies to the version of the Work that accompanies it. The
+Owner may offer a later version of the Work under different terms, but any
+change applies only when you choose to access or use that later version.
+
+8.2 This Licence terminates automatically if you materially breach it. On
+termination, you must stop using the Work and delete every copy in your
+possession or control, except a copy that applicable law requires you to
+retain.
+
+8.3 Termination does not affect the Owner's accrued rights. Sections 2, 4, 6,
+7, 9, 10, 11, and 12 survive termination.
+
+9. DIGITAL-CONTENT AND CONSUMER RIGHTS
+
+9.1 Nothing in this Licence excludes or restricts any statutory right or
+remedy that applicable consumer law does not permit the parties to exclude or
+restrict.
+
+9.2 If the Work is supplied in return for payment, any mandatory rights
+concerning digital content being as described, of satisfactory quality, or
+fit for a disclosed purpose continue to apply.
+
+9.3 Except for express statements made by the Owner and the mandatory rights
+described above, a free alpha, preview, evaluation, or development build is
+provided without a promise that it will be uninterrupted, error-free,
+complete, compatible with every device, or preserved indefinitely.
+
+10. LIABILITY
+
+10.1 Nothing in this Licence excludes or limits liability for fraud or
+fraudulent misrepresentation, death or personal injury caused by negligence,
+deliberate breach, or any other liability that applicable law does not permit
+the parties to exclude or limit.
+
+10.2 Because section 3 permits personal, non-commercial use only, the Owner is
+not responsible for business losses, loss of profit, loss of revenue, loss of
+business opportunity, or business interruption arising from use of the Work.
+
+10.3 The Owner is not responsible for loss that was not reasonably
+foreseeable when you accepted this Licence or for loss caused by your breach,
+misuse, unauthorised modification, or use on an unsupported system.
+
+11. GOVERNING LAW AND DISPUTES
+
+11.1 This Licence and any non-contractual dispute arising from it are governed
+by the law of England and Wales.
+
+11.2 The courts of England and Wales have jurisdiction, except that a consumer
+resident elsewhere retains any mandatory right to bring or defend proceedings
+in the courts of their place of residence and any mandatory protection of
+their local law.
+
+12. GENERAL
+
+12.1 If a provision is found unlawful or unenforceable, it is to be applied to
+the greatest extent lawfully possible and the remaining provisions continue
+in effect.
+
+12.2 A delay or failure by the Owner to enforce a provision is not a waiver.
+
+12.3 You may not transfer this Licence. The Owner may transfer ownership of
+the Work and this Licence together, provided that doing so does not reduce
+your mandatory consumer rights.
+
+12.4 This Licence, the copyright notice, the independence and fictionalisation
+notice, and the applicable third-party notices form the complete written terms
+governing the Work, except for any separate written agreement signed by the
+Owner.
+
+12.5 Questions and permission requests may be sent to
+<bodonoghue85@gmail.com>.

@@ -1,0 +1,566 @@
+draftSchema: 1
+contentType: decision-events
+pack: government-a
+
+# The four government interventions the politics ladder raises. Each option
+# records a typed memory whose tag drives synchroniseGovernmentEventResponses;
+# without these events a pending intervention never resolves and the ladder
+# jams permanently.
+events:
+  - id: event.government.reporting-request
+    version: 1
+    category: politics
+    severity: decision
+    phase: any
+    trigger: { kind: mandatory, detector: government-reporting, priority: 40 }
+    # Variants are mutually exclusive and exhaustive: a clean, low-profile lab
+    # gets the routine letter; see reporting-incident-file and
+    # reporting-autonomy-review for the other two cases.
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.incidents.recentCount, op: lt, value: 1 }
+        - { type: compare, metric: player.politics.governmentAttention, op: lt, value: 70 }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: stall
+    titleKey: event.government.reporting.title
+    bodyKey: event.government.reporting.body
+    evidence:
+      - textKey: event.government.reporting.evidence.pressure
+        metric: player.politics.interventionPressure
+      - textKey: event.government.reporting.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: comply
+        labelKey: event.government.reporting.comply.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.government.reporting.comply.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 7 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -3 }
+        checks: []
+        memories:
+          - key: government.reporting.complied
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, transparency]
+        confirmationRequired: false
+      - id: minimal
+        labelKey: event.government.reporting.minimal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.reporting.minimal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+        checks: []
+        memories:
+          - key: government.reporting.minimal
+            subjects: [{ type: player-lab }]
+            tags: [government-response:negotiated, minimal-disclosure]
+        confirmationRequired: false
+      - id: stall
+        labelKey: event.government.reporting.stall.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.reporting.stall.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 6 }
+        checks: []
+        memories:
+          - key: government.reporting.stalled
+            subjects: [{ type: player-lab }]
+            tags: [government-response:failed, stonewalled]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [politics, government-ladder, reporting]
+
+  - id: event.government.reporting-incident-file
+    version: 1
+    category: politics
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: government-reporting, priority: 42 }
+    prerequisites:
+      { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 5
+    defaultOptionId: minimal-file
+    titleKey: event.government.incidentfile.title
+    bodyKey: event.government.incidentfile.body
+    evidence:
+      - textKey: event.government.incidentfile.evidence.incidents
+        metric: player.incidents.recentCount
+      - textKey: event.government.incidentfile.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: full-file
+        labelKey: event.government.incidentfile.full.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -4 }
+        previewKey: event.government.incidentfile.full.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 4 }
+        checks: []
+        memories:
+          - key: government.incidentfile.disclosed
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, transparency]
+        confirmationRequired: false
+      - id: minimal-file
+        labelKey: event.government.incidentfile.minimal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.incidentfile.minimal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 1 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 3 }
+        checks: []
+        memories:
+          - key: government.incidentfile.trimmed
+            subjects: [{ type: player-lab }]
+            tags: [government-response:negotiated, minimal-disclosure]
+        confirmationRequired: false
+      - id: contest-file
+        labelKey: event.government.incidentfile.contest.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.government.incidentfile.contest.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -7 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -4 }
+        checks: []
+        memories:
+          - key: government.incidentfile.contested
+            subjects: [{ type: player-lab }]
+            tags: [government-response:failed, contested]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [politics, government-ladder, reporting]
+
+  - id: event.government.reporting-autonomy-review
+    version: 1
+    category: politics
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: government-reporting, priority: 44 }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.incidents.recentCount, op: lt, value: 1 }
+        - { type: compare, metric: player.politics.governmentAttention, op: gte, value: 70 }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 5
+    defaultOptionId: describe-controls
+    titleKey: event.government.autonomyreview.title
+    bodyKey: event.government.autonomyreview.body
+    evidence:
+      - textKey: event.government.autonomyreview.evidence.attention
+        metric: player.politics.governmentAttention
+      - textKey: event.government.autonomyreview.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: open-the-logs
+        labelKey: event.government.autonomyreview.open.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.government.autonomyreview.open.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+        checks: []
+        memories:
+          - key: government.autonomyreview.opened
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, transparency]
+        confirmationRequired: false
+      - id: describe-controls
+        labelKey: event.government.autonomyreview.describe.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.autonomyreview.describe.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: government.autonomyreview.described
+            subjects: [{ type: player-lab }]
+            tags: [government-response:negotiated, minimal-disclosure]
+        confirmationRequired: false
+      - id: trade-secret
+        labelKey: event.government.autonomyreview.secret.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.autonomyreview.secret.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -9 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 8 }
+        checks: []
+        memories:
+          - key: government.autonomyreview.refused
+            subjects: [{ type: player-lab }]
+            tags: [government-response:failed, stonewalled]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [politics, government-ladder, reporting]
+
+  - id: event.government.licensing-second-look
+    version: 1
+    category: politics
+    severity: critical
+    phase: any
+    trigger: { kind: mandatory, detector: government-licensing, priority: 57 }
+    prerequisites:
+      { type: compare, metric: player.politics.governmentTrust, op: lt, value: 30 }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 4
+    defaultOptionId: appeal
+    titleKey: event.government.secondlook.title
+    bodyKey: event.government.secondlook.body
+    evidence:
+      - textKey: event.government.secondlook.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.government.secondlook.evidence.pressure
+        metric: player.politics.interventionPressure
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: accept-monitor
+        labelKey: event.government.secondlook.monitor.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -12 }
+        previewKey: event.government.secondlook.monitor.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 14 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [licensing-monitor] }
+        checks: []
+        memories:
+          - key: government.secondlook.accepted
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, resident-monitor]
+        confirmationRequired: false
+      - id: appeal
+        labelKey: event.government.secondlook.appeal.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -8 }
+        previewKey: event.government.secondlook.appeal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+        checks: []
+        memories:
+          - key: government.secondlook.appealed
+            subjects: [{ type: player-lab }]
+            tags: [government-response:negotiated, legal-process]
+        confirmationRequired: false
+      - id: defy
+        labelKey: event.government.secondlook.defy.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.secondlook.defy.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -14 }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "politics:defied-lawful-order", value: true }
+        checks: []
+        memories:
+          - key: government.secondlook.defied
+            subjects: [{ type: player-lab }]
+            tags: [government-response:refused, defiance]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, government-ladder, licensing]
+
+  - id: event.government.licensing-action
+    version: 2
+    category: politics
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: government-licensing, priority: 55 }
+    # A lab still in reasonable standing gets the ordinary licence review;
+    # see licensing-second-look for a lab the regulator has stopped trusting.
+    prerequisites:
+      { type: compare, metric: player.politics.governmentTrust, op: gte, value: 30 }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: stall
+    titleKey: event.government.licensing.title
+    bodyKey: event.government.licensing.body
+    evidence:
+      - textKey: event.government.licensing.evidence.pressure
+        metric: player.politics.interventionPressure
+      - textKey: event.government.licensing.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: accept
+        labelKey: event.government.licensing.accept.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -6 }
+        previewKey: event.government.licensing.accept.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
+          - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.08, tags: [licensing-compliance] }
+        checks: []
+        memories:
+          - key: government.licensing.accepted
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, licensed]
+        confirmationRequired: false
+      - id: negotiate
+        labelKey: event.government.licensing.negotiate.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -4 }
+        previewKey: event.government.licensing.negotiate.preview
+        immediateEffects: []
+        checks:
+          - id: negotiation
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [narrowed] }
+            outcomes:
+              - id: narrowed
+                minimumInclusive: 0
+                maximumExclusive: 0.55
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+                memories:
+                  - key: government.licensing.narrowed
+                    subjects: [{ type: player-lab }]
+                    tags: [government-response:negotiated, scope-narrowed]
+              - id: unchanged
+                minimumInclusive: 0.55
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 1 }
+                  - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.12, tags: [licensing-compliance] }
+                memories:
+                  - key: government.licensing.unchanged
+                    subjects: [{ type: player-lab }]
+                    tags: [government-response:negotiated, scope-unchanged]
+        memories: []
+        confirmationRequired: false
+      - id: stall
+        labelKey: event.government.licensing.stall.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.licensing.stall.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -11 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 8 }
+        checks: []
+        memories:
+          - key: government.licensing.refused
+            subjects: [{ type: player-lab }]
+            tags: [government-response:refused, unlicensed]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, government-ladder, licensing]
+
+  - id: event.government.deployment-restriction
+    version: 3
+    category: politics
+    severity: urgent
+    phase: any
+    trigger: { kind: mandatory, detector: government-restriction, priority: 70 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 5
+    defaultOptionId: comply
+    titleKey: event.government.restriction.title
+    bodyKey: event.government.restriction.body
+    evidence:
+      - textKey: event.government.restriction.evidence.pressure
+        metric: player.politics.interventionPressure
+      - textKey: event.government.restriction.evidence.incidents
+        metric: player.incidents.recentWorstSeverity
+    tokenBindings:
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: comply
+        labelKey: event.government.restriction.comply.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.restriction.comply.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 12 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -8 }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.5, durationWeeks: 52, tags: [deployment-restriction, complied] }
+          - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.25, durationWeeks: 52, tags: [deployment-restriction, complied] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.6, durationWeeks: 52, tags: [deployment-restriction, complied] }
+        checks: []
+        memories:
+          - key: government.restriction.complied
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, restricted]
+        confirmationRequired: false
+      - id: carve-out
+        labelKey: event.government.restriction.carveout.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -20 }
+        previewKey: event.government.restriction.carveout.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 8 }
+        checks:
+          - id: carve-out-talks
+            likelihoodPromise: { label: unlikely, successOutcomeIds: [granted] }
+            outcomes:
+              - id: granted
+                minimumInclusive: 0
+                maximumExclusive: 0.3
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -6 }
+                  - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.8, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
+                  - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.1, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.85, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
+                memories:
+                  - key: government.restriction.carveout.granted
+                    subjects: [{ type: player-lab }]
+                    tags: [government-response:negotiated, carve-out]
+              - id: partial
+                minimumInclusive: 0.3
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -12 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 12 }
+                  - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.5, durationWeeks: 52, tags: [deployment-restriction, carve-out-partial] }
+                  - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.35, durationWeeks: 52, tags: [deployment-restriction, carve-out-partial] }
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.75, durationWeeks: 52, tags: [deployment-restriction, carve-out-partial] }
+                memories:
+                  - key: government.restriction.carveout.partial
+                    subjects: [{ type: player-lab }]
+                    tags: [government-response:negotiated, partial-carve-out]
+        memories: []
+        confirmationRequired: true
+      - id: defy
+        labelKey: event.government.restriction.defy.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.restriction.defy.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -25 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -32 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 28 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -8 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.6, durationWeeks: 52, tags: [deployment-restriction, defied] }
+        checks: []
+        memories:
+          - key: government.restriction.defied
+            subjects: [{ type: player-lab }]
+            tags: [government-response:refused, defiance]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, government-ladder, restriction]
+
+  - id: event.government.nationalisation-crisis
+    version: 1
+    category: politics
+    severity: critical
+    phase: any
+    trigger: { kind: mandatory, detector: government-nationalisation, priority: 95 }
+    prerequisites: { type: always }
+    baseWeight: 0
+    weightModifiers: []
+    cooldown: { group: government-intervention, weeks: 0 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: cooperate
+    titleKey: event.government.nationalisation.title
+    bodyKey: event.government.nationalisation.body
+    evidence:
+      - textKey: event.government.nationalisation.evidence.pressure
+        metric: player.politics.interventionPressure
+      - textKey: event.government.nationalisation.evidence.dependence
+        metric: player.politics.strategicDependence
+      - textKey: event.government.nationalisation.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: cooperate
+        labelKey: event.government.nationalisation.cooperate.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.nationalisation.cooperate.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 12 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -20 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 8 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.94, tags: [state-oversight] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.8, tags: [state-oversight] }
+        checks: []
+        memories:
+          - key: government.nationalisation.cooperated
+            subjects: [{ type: player-lab }]
+            tags: [government-response:satisfied, state-oversight]
+        confirmationRequired: false
+      - id: golden-share
+        labelKey: event.government.nationalisation.goldenshare.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+        previewKey: event.government.nationalisation.goldenshare.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -12 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.97, tags: [golden-share] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.9, tags: [golden-share] }
+        checks: []
+        memories:
+          - key: government.nationalisation.negotiated
+            subjects: [{ type: player-lab }]
+            tags: [government-response:negotiated, golden-share]
+        confirmationRequired: true
+      - id: resist
+        labelKey: event.government.nationalisation.resist.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.government.nationalisation.resist.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -20 }
+        checks: []
+        memories:
+          - key: government.nationalisation.resisted
+            subjects: [{ type: player-lab }]
+            tags: [government-response:refused, defiance]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, government-ladder, nationalisation]
