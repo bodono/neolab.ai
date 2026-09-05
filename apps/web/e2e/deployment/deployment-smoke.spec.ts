@@ -47,7 +47,7 @@ test("deployed artifact opens, advances a seeded game, and resolves every asset"
   await expect(page.getByLabel("Keep a local diagnostic notebook")).not.toBeChecked();
   await expect(page.getByRole("link", { name: /Report an issue/ })).toHaveAttribute(
     "href",
-    "https://github.com/bodono/neolab.ai-feeback/issues/new?template=feedback.md",
+    "https://github.com/bodono/neolab.ai/issues/new?template=feedback.md",
   );
 
   const manifestResponse = await request.get(new URL("release-manifest.json", root).href);

@@ -3,7 +3,7 @@ const RECORDS_KEY = "neolab.ai-diagnostics-records-v1";
 const MAX_RECORDS = 100;
 
 export const FEEDBACK_URL =
-  "https://github.com/bodono/neolab.ai-feeback/issues/new?template=feedback.md";
+  "https://github.com/bodono/neolab.ai/issues/new?template=feedback.md";
 
 export type LocalDiagnosticEvent =
   | {

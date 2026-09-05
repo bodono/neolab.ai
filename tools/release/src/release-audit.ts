@@ -30,7 +30,7 @@ const NETWORK_PRIMITIVES = [
 ] as const;
 const AUDIO_FETCH_FILE = "apps/web/src/audio/web-audio-manager.ts";
 const FEEDBACK_URL =
-  "https://github.com/bodono/neolab.ai-feeback/issues/new?template=feedback.md";
+  "https://github.com/bodono/neolab.ai/issues/new?template=feedback.md";
 const DEVELOPER_INSPECTOR_SENTINEL = "NEOLAB_PRIVILEGED_INSPECTOR_V1";
 const PROJECT_LICENCE = "LicenseRef-Neolab-Proprietary";
 const LEGAL_BUNDLE_NOTICE = "Neolab.ai — proprietary software and content.";

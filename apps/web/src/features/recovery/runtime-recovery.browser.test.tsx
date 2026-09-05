@@ -95,7 +95,7 @@ describe("runtime recovery boundaries in Chromium", () => {
     expect(mount.textContent).toContain("Reload Neolab.ai");
     const feedback = mount.querySelector<HTMLAnchorElement>(".runtime-recovery-feedback");
     expect(feedback?.href).toContain(
-      "github.com/bodono/neolab.ai-feeback/issues/new?template=feedback.md&title=%5BCrash%5D",
+      "github.com/bodono/neolab.ai/issues/new?template=feedback.md&title=%5BCrash%5D",
     );
     expect(feedback?.href).toContain("runtime-fault%3A1");
     expect(mount.textContent).not.toContain(secret);
