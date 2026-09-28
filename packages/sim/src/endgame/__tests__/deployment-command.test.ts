@@ -447,6 +447,81 @@ describe("typed final deployment and world-waiting reveal", () => {
     expect(() => validateGameState(structuredClone(state))).not.toThrow();
   });
 
+  it("keeps The Caretaker in service and returns to the race instead of ending the run", () => {
+    const initial = structuredClone(
+      preparedCandidate("genuine"),
+    ) as DeepMutable<GameState>;
+    if (initial.endgame.stage !== "confirmation") throw new Error("Candidate inactive");
+    const model = initial.models[initial.endgame.candidateModelId];
+    if (model === undefined) throw new Error("Candidate missing");
+    const restoredAccess = initial.endgame.startSnapshot.candidate.accessLevel;
+    model.accessLevel = 4;
+    if (initial.aiCharacter === undefined) throw new Error("AI character missing");
+    initial.aiCharacter.currentAccess = 4;
+    const transmit = createTransaction(initial);
+    transmitDeployment(
+      transmit,
+      content,
+      `DEPLOY ${model.displayName}`,
+      commandId,
+      oracleWithDraw(0.999),
+    );
+    const transmitted = structuredClone(
+      transmit.commit({ description: "transmit" }).state,
+    ) as DeepMutable<GameState>;
+    if (transmitted.endgame.stage !== "world-waiting") {
+      throw new Error(`World-waiting missing: ${transmitted.endgame.stage}`);
+    }
+    transmitted.endgame.selectedEndingId = getEndingDefinition(
+      "base:ending.the-caretaker",
+    ).id;
+    let state: GameState = transmitted;
+    while (
+      state.endgame.stage === "world-waiting" &&
+      state.endgame.revealedCalloutCount < state.endgame.callouts.length
+    ) {
+      const reveal = createTransaction(state);
+      advanceWorldWaiting(reveal);
+      state = reveal.commit({ description: "reveal" }).state;
+    }
+    const resolve = createTransaction(state);
+    advanceWorldWaiting(resolve);
+    const resolved = resolve.commit({ description: "resolve caretaker" });
+    state = resolved.state;
+
+    expect(state.run).toMatchObject({ status: "active", phase: "frontier" });
+    expect(state.run.endingId).toBeUndefined();
+    expect(state.score.final).toBeUndefined();
+    expect(state.endgame).toEqual({ stage: "inactive" });
+    expect(state.aiCharacter).toBeUndefined();
+    expect(state.endgameHistory.candidateDeclarationCooldownUntil).toBe(
+      state.run.tick + 52,
+    );
+    const caretaker = state.models[model.id];
+    expect(caretaker?.accessLevel).toBe(restoredAccess);
+    expect(caretaker?.flags).toMatchObject({
+      "agi-candidate": false,
+      "endgame:bounded-caretaker": true,
+    });
+    expect(caretaker?.candidateArtifact?.lifecycle).toBe("deployed");
+    if (caretaker === undefined) throw new Error("Caretaker model missing");
+    expect(isEligibleProgrammeCandidate(state, caretaker, state.run.tick + 60)).toBe(
+      false,
+    );
+    expect(state.presentationQueue).toContainEqual(
+      expect.objectContaining({
+        kind: "caretaker-return",
+        modelId: model.id,
+        cooldownUntil: state.run.tick + 52,
+      }),
+    );
+    expect(resolved.domainEvents).not.toContainEqual(
+      expect.objectContaining({ kind: "endgame-ending-resolved" }),
+    );
+    expect(collectInvariantViolations(state)).toEqual([]);
+    expect(() => validateGameState(structuredClone(state))).not.toThrow();
+  });
+
   it("stops the simulation clock until the mandatory False Dawn future is chosen", () => {
     const { state } = resolveFalseDawnWithAlternate();
     const beforeTick = state.run.tick;

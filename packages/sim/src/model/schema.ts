@@ -2915,6 +2915,17 @@ export const gameStateSchema = z
           z
             .object({
               key: nonEmpty,
+              kind: z.literal("caretaker-return"),
+              attention: z.literal("modal"),
+              modelId: nonEmpty,
+              createdAt: tickSchema,
+              cooldownUntil: tickSchema,
+              crisisWeeksSpent: z.number().int().nonnegative(),
+            })
+            .strict(),
+          z
+            .object({
+              key: nonEmpty,
               kind: z.literal("rival-candidate-setback"),
               attention: z.literal("modal"),
               outcome: z.enum([

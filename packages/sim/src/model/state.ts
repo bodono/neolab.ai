@@ -2510,6 +2510,16 @@ export type PresentationItemState =
       readonly governmentAttentionAdded: number;
     }
   | {
+      /** The Caretaker: a bounded system stays in service and the race resumes. */
+      readonly key: string;
+      readonly kind: "caretaker-return";
+      readonly attention: "modal";
+      readonly modelId: ModelId;
+      readonly createdAt: Tick;
+      readonly cooldownUntil: Tick;
+      readonly crisisWeeksSpent: number;
+    }
+  | {
       readonly key: string;
       readonly kind: "rival-candidate-setback";
       readonly attention: "modal";

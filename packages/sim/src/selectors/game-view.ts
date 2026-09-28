@@ -117,7 +117,10 @@ import {
 } from "../endgame/candidate-lifecycle.ts";
 import { candidateContainmentCapacity } from "../endgame/latent-hazard.ts";
 import { getEndingDefinition } from "../endgame/endings.ts";
-import { falseDawnMoratoriumBlocker } from "../endgame/nonterminal-outcome.ts";
+import {
+  CARETAKER_ENDING_ID,
+  falseDawnMoratoriumBlocker,
+} from "../endgame/nonterminal-outcome.ts";
 import {
   isProgressiveCampaign,
   labFeatureUnlocked,
@@ -1756,6 +1759,22 @@ export interface MoratoriumResultPresentationQueueItemView {
   readonly governmentAttentionAdded: number;
 }
 
+export interface CaretakerReturnPresentationQueueItemView {
+  readonly key: string;
+  readonly kind: "caretaker-return";
+  readonly attention: "modal";
+  readonly endingDisplayName: string;
+  readonly mechanicalCause: string;
+  readonly modelId: string;
+  readonly modelDisplayName: string;
+  readonly createdAtTick: number;
+  readonly crisisWeeksSpent: number;
+  readonly cooldownUntilTick: number;
+  readonly cooldownWeeks: number;
+  readonly remainingCooldownWeeks: number;
+  readonly accessLevel: number;
+}
+
 export interface RivalCandidateSetbackPresentationQueueItemView {
   readonly key: string;
   readonly kind: "rival-candidate-setback";
@@ -1894,6 +1913,7 @@ export type PresentationQueueItemView =
   | EndgameReturnPresentationQueueItemView
   | CapabilityProofResultPresentationQueueItemView
   | MoratoriumResultPresentationQueueItemView
+  | CaretakerReturnPresentationQueueItemView
   | RivalCandidateSetbackPresentationQueueItemView
   | ModelIncidentPresentationQueueItemView
   | CandidateContainmentIncidentPresentationQueueItemView;
@@ -5428,6 +5448,25 @@ export function projectGameView(
           recoveryWeeksRemaining: Math.max(0, item.recoveryEndsAt - state.run.tick),
           governmentTrustLost: item.governmentTrustLost,
           governmentAttentionAdded: item.governmentAttentionAdded,
+        };
+      }
+      if (item.kind === "caretaker-return") {
+        const definition = getEndingDefinition(CARETAKER_ENDING_ID);
+        const model = state.models[item.modelId];
+        return {
+          key: item.key,
+          kind: item.kind,
+          attention: item.attention,
+          endingDisplayName: definition.displayName,
+          mechanicalCause: definition.mechanicalCause,
+          modelId: item.modelId,
+          modelDisplayName: model?.displayName ?? "The caretaker",
+          createdAtTick: item.createdAt,
+          crisisWeeksSpent: item.crisisWeeksSpent,
+          cooldownUntilTick: item.cooldownUntil,
+          cooldownWeeks: Math.max(0, item.cooldownUntil - item.createdAt),
+          remainingCooldownWeeks: Math.max(0, item.cooldownUntil - state.run.tick),
+          accessLevel: model?.accessLevel ?? 0,
         };
       }
       if (item.kind === "rival-candidate-setback") {

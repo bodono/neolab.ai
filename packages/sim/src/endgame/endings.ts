@@ -33,7 +33,9 @@ import {
 } from "./resolution.ts";
 import { selectConcreteExtinctionPathway } from "./extinction-pathways.ts";
 import {
+  CARETAKER_ENDING_ID,
   FALSE_DAWN_ENDING_ID,
+  resolveNonterminalCaretaker,
   resolveNonterminalFalseDawn,
 } from "./nonterminal-outcome.ts";
 
@@ -578,6 +580,8 @@ export function resolveCompletedRollout(
   const definition = selectCompletedRolloutEnding(state, content, oracle);
   if (definition.id === FALSE_DAWN_ENDING_ID) {
     resolveNonterminalFalseDawn(tx);
+  } else if (definition.id === CARETAKER_ENDING_ID) {
+    resolveNonterminalCaretaker(tx);
   } else {
     resolveTerminalEnding(tx, definition);
   }

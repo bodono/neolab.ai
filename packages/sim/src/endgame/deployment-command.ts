@@ -27,7 +27,9 @@ import {
 } from "./endings.ts";
 import { compileFinalReview, resolveGate } from "./resolution.ts";
 import {
+  CARETAKER_ENDING_ID,
   FALSE_DAWN_ENDING_ID,
+  resolveNonterminalCaretaker,
   resolveNonterminalFalseDawn,
 } from "./nonterminal-outcome.ts";
 
@@ -518,6 +520,10 @@ export function advanceWorldWaiting(tx: SimulationTransaction): void {
   }
   if (state.endgame.selectedEndingId === FALSE_DAWN_ENDING_ID) {
     resolveNonterminalFalseDawn(tx);
+    return;
+  }
+  if (state.endgame.selectedEndingId === CARETAKER_ENDING_ID) {
+    resolveNonterminalCaretaker(tx);
     return;
   }
   resolveTerminalEnding(tx, getEndingDefinition(state.endgame.selectedEndingId));

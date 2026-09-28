@@ -9,6 +9,7 @@ import { AutonomyAccessRequestDialog } from "./autonomy-access-request-dialog.ts
 import { CapabilityProofResultDialog } from "./capability-proof-result-dialog.tsx";
 import { EndgameReturnDialog, type FalseDawnNextPath } from "./endgame-return-dialog.tsx";
 import { ModalFocusBoundary } from "./modal-focus-boundary.tsx";
+import { CaretakerReturnDialog } from "./caretaker-return-dialog.tsx";
 import { MoratoriumResultDialog } from "./moratorium-result-dialog.tsx";
 import { chooseOverlay } from "./overlay-policy.ts";
 import { RivalCandidateSetbackDialog } from "./rival-candidate-setback-dialog.tsx";
@@ -227,6 +228,16 @@ export function OverlayHost({
           <EndgameReturnDialog
             item={selection.item}
             onChoose={(path) => onResolveEndgameReturn(selection.item.key, path)}
+          />
+        </ModalFocusBoundary>
+      );
+    }
+    if (selection.item.kind === "caretaker-return") {
+      return (
+        <ModalFocusBoundary key={selection.item.key} onOpen={() => runtime.pause()}>
+          <CaretakerReturnDialog
+            item={selection.item}
+            onAcknowledge={() => onAcknowledgePresentation(selection.item.key)}
           />
         </ModalFocusBoundary>
       );

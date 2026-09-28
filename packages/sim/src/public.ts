@@ -359,6 +359,7 @@ export {
   type CapabilityProofResultPresentationQueueItemView,
   type EndgameReturnPresentationQueueItemView,
   type MoratoriumResultPresentationQueueItemView,
+  type CaretakerReturnPresentationQueueItemView,
   type RivalCandidateSetbackPresentationQueueItemView,
   type ModelIncidentPresentationQueueItemView,
   type CandidateContainmentIncidentPresentationQueueItemView,

@@ -227,6 +227,93 @@ export function resolveNonterminalFalseDawn(tx: SimulationTransaction): void {
   tx.requestAutoPause("crisis-stage");
 }
 
+export const CARETAKER_ENDING_ID = contentId("base:ending.the-caretaker");
+
+/** Review imposed before a lab holding a bounded caretaker may declare again. */
+export const CARETAKER_CANDIDATE_COOLDOWN_WEEKS = 52;
+
+/**
+ * Resolve The Caretaker as a continuing bounded-AI state rather than an
+ * ending. Control held but the promised transformation did not arrive, so the
+ * deployed system stays in service at its pre-nomination access, stops being
+ * the lab's candidate, and the lab waits out a declaration cooldown before a
+ * successor may be nominated. There is no follow-up fork, unlike False Dawn:
+ * the player only acknowledges the result and the race resumes.
+ */
+export function resolveNonterminalCaretaker(tx: SimulationTransaction): void {
+  const state = tx.read();
+  if (state.endgame.stage !== "rollout" && state.endgame.stage !== "world-waiting") {
+    throw new Error("The Caretaker requires a completed deployment sequence");
+  }
+  if (state.run.status !== "active") throw new Error("Run already ended");
+
+  const candidateId = state.endgame.candidateModelId;
+  const candidate = state.models[candidateId];
+  if (candidate === undefined) {
+    throw new Error(`Caretaker candidate ${candidateId} missing`);
+  }
+  if (candidate.candidateArtifact === undefined) {
+    throw new Error(`Caretaker candidate ${candidateId} has no custody record`);
+  }
+
+  const existingCooldown = state.endgameHistory.candidateDeclarationCooldownUntil ?? 0;
+  const cooldownUntil = Math.max(
+    existingCooldown,
+    state.run.tick + CARETAKER_CANDIDATE_COOLDOWN_WEEKS,
+  );
+  const crisisWeeksSpent = Math.max(0, state.run.tick - state.endgame.crisisStartedAt);
+  const restoredAccess = state.endgame.startSnapshot.candidate.accessLevel;
+
+  // As with False Dawn, direct rollout resolution can arrive before
+  // transmission marks the artifact deployed. The system is in public service
+  // either way, so record that before the crisis closes.
+  if (candidate.candidateArtifact.lifecycle !== "deployed") {
+    transitionCandidateArtifactLifecycle(tx, candidateId, "deployed");
+  }
+
+  tx.update((draft) => {
+    const mutableCandidate = draft.models[candidateId];
+    if (mutableCandidate === undefined) throw new Error("Caretaker candidate vanished");
+    mutableCandidate.flags["agi-candidate"] = false;
+    mutableCandidate.flags["endgame:bounded-caretaker"] = true;
+    mutableCandidate.accessLevel = restoredAccess;
+
+    draft.endgameHistory.candidateDeclarationCooldownUntil = tick(cooldownUntil);
+    draft.endgame = { stage: "inactive" };
+    draft.run.phase = "frontier";
+    delete draft.aiCharacter;
+    const key = `caretaker-return:${candidateId}:${String(draft.run.tick)}`;
+    if (!draft.presentationQueue.some((item) => item.key === key)) {
+      draft.presentationQueue.push({
+        key,
+        kind: "caretaker-return",
+        attention: "modal",
+        modelId: candidateId,
+        createdAt: draft.run.tick,
+        cooldownUntil: tick(cooldownUntil),
+        crisisWeeksSpent,
+      });
+    }
+    draft.decisionLog.push({
+      tick: draft.run.tick,
+      summary:
+        `THE CARETAKER: ${mutableCandidate.displayName} stays in service as a bounded ` +
+        `system, but it will not deliver the promised transformation. The race continues, ` +
+        `and no new candidate may be announced for ` +
+        `${String(CARETAKER_CANDIDATE_COOLDOWN_WEEKS)} weeks.`,
+      category: "narrative",
+      source: { kind: "system", id: "endgame.caretaker-return" },
+      relatedIds: [candidateId, CARETAKER_ENDING_ID],
+    });
+    draft.domainLog.push({
+      tick: draft.run.tick,
+      code: `endgame:caretaker:${candidateId}:cooldown-until:${String(cooldownUntil)}`,
+    });
+  });
+
+  tx.requestAutoPause("crisis-stage");
+}
+
 /** Resolve the mandatory future choice shown after a public False Dawn. */
 export function chooseFalseDawnPath(
   tx: SimulationTransaction,

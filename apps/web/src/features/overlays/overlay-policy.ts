@@ -51,6 +51,7 @@ export function chooseOverlay(input: OverlayPolicyInput): OverlaySelection | und
     (item) =>
       (item.kind === "endgame-return" ||
         item.kind === "moratorium-result" ||
+        item.kind === "caretaker-return" ||
         item.kind === "rival-candidate-setback" ||
         item.kind === "model-incident-result" ||
         item.kind === "candidate-containment-incident") &&
