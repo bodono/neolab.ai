@@ -5,6 +5,7 @@ import {
   type ProductisationMode,
   type ProductisationRecipeDefinition,
 } from "@neolab/content-schema";
+import { advanceWeeklyProgress } from "../projects/progress.ts";
 
 import { calculateAuraGain, modelLaunchBaseAura } from "../aura/aura.ts";
 import { applyEffect } from "../engine/effect-executor.ts";
@@ -712,9 +713,9 @@ export const PRODUCTISATION_PROJECT_HANDLER: ProjectHandler<"productisation"> = 
     tx.update((draft) => {
       const mutable = draft.projects[project.id];
       if (mutable === undefined) throw new Error(`Unknown project ${project.id}`);
-      mutable.progress = Math.min(
-        1,
-        mutable.progress + 1 / mutable.expectedDurationWeeks,
+      mutable.progress = advanceWeeklyProgress(
+        mutable.progress,
+        mutable.expectedDurationWeeks,
       );
     });
   },

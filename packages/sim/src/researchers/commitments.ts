@@ -3,6 +3,7 @@ import {
   type CompiledContent,
   type ResearcherCompactCheckDefinition,
 } from "@neolab/content-schema";
+import { advanceWeeklyProgress } from "../projects/progress.ts";
 
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import { applyEffect } from "../engine/effect-executor.ts";
@@ -380,9 +381,9 @@ export const RESEARCHER_COMMITMENT_PROJECT_HANDLER: ProjectHandler<"researcher-c
       tx.update((draft) => {
         const mutable = draft.projects[project.id];
         if (mutable === undefined) throw new Error(`Unknown project ${project.id}`);
-        mutable.progress = Math.min(
-          1,
-          mutable.progress + 1 / mutable.expectedDurationWeeks,
+        mutable.progress = advanceWeeklyProgress(
+          mutable.progress,
+          mutable.expectedDurationWeeks,
         );
       });
     },

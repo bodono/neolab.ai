@@ -1,4 +1,5 @@
 import { contentId, type CompiledContent } from "@neolab/content-schema";
+import { advanceWeeklyProgress } from "../projects/progress.ts";
 
 import { applyEffects } from "../engine/effect-executor.ts";
 import { awardScore } from "../engine/score.ts";
@@ -611,9 +612,9 @@ export const COALITION_PROJECT_HANDLER: ProjectHandler<"coalition"> = {
     tx.update((draft) => {
       const mutable = draft.projects[project.id];
       if (mutable === undefined) throw new Error(`Unknown project ${project.id}`);
-      mutable.progress = Math.min(
-        1,
-        mutable.progress + 1 / mutable.expectedDurationWeeks,
+      mutable.progress = advanceWeeklyProgress(
+        mutable.progress,
+        mutable.expectedDurationWeeks,
       );
     });
   },

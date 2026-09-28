@@ -1,4 +1,5 @@
 import type { CompiledContent } from "@neolab/content-schema";
+import { advanceWeeklyProgress } from "../projects/progress.ts";
 
 import { formatTeraflops, planFlopsReservation } from "../compute/flops.ts";
 import { resolveGpuReservations } from "../compute/gpu-portfolio.ts";
@@ -481,9 +482,9 @@ export const AGI_COMPONENT_PROJECT_HANDLER: ProjectHandler<"agi-component"> = {
     tx.update((draft) => {
       const mutable = draft.projects[project.id];
       if (mutable === undefined) throw new Error(`Unknown project ${project.id}`);
-      mutable.progress = Math.min(
-        1,
-        mutable.progress + 1 / mutable.expectedDurationWeeks,
+      mutable.progress = advanceWeeklyProgress(
+        mutable.progress,
+        mutable.expectedDurationWeeks,
       );
     });
   },

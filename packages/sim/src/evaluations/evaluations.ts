@@ -6,6 +6,7 @@ import {
   type EvaluationDefinition,
   type EvaluationTarget,
 } from "@neolab/content-schema";
+import { advanceWeeklyProgress } from "../projects/progress.ts";
 
 import {
   isProgressiveOpeningCreditAvailable,
@@ -1688,9 +1689,9 @@ export const EVALUATION_PROJECT_HANDLER: ProjectHandler<"evaluation"> = {
     tx.update((draft) => {
       const mutable = draft.projects[project.id];
       if (mutable === undefined) throw new Error(`Unknown project ${project.id}`);
-      mutable.progress = Math.min(
-        1,
-        mutable.progress + 1 / mutable.expectedDurationWeeks,
+      mutable.progress = advanceWeeklyProgress(
+        mutable.progress,
+        mutable.expectedDurationWeeks,
       );
     });
   },
@@ -1715,11 +1716,10 @@ export const ANOMALY_INVESTIGATION_PROJECT_HANDLER: ProjectHandler<"anomaly-inve
       tx.update((draft) => {
         const mutable = draft.projects[project.id];
         if (mutable === undefined) throw new Error(`Unknown project ${project.id}`);
-        const nextProgress = mutable.progress + 1 / mutable.expectedDurationWeeks;
-        // Six equal increments can land at 0.9999999999999999. Honour the
-        // quoted calendar duration instead of silently requiring a seventh
-        // week because of floating-point representation.
-        mutable.progress = nextProgress >= 1 - 1e-9 ? 1 : nextProgress;
+        mutable.progress = advanceWeeklyProgress(
+          mutable.progress,
+          mutable.expectedDurationWeeks,
+        );
       });
     },
     complete(tx, content, project): void {
