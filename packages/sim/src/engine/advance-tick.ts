@@ -107,6 +107,7 @@ function endRunForInsolvency(
   cashMillions: number,
   occurredAt: number,
 ): void {
+  if (tx.read().run.status !== "active") return;
   tx.update((draft) => {
     draft.domainLog.push({
       tick: makeTick(occurredAt),

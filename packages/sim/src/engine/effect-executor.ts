@@ -503,6 +503,10 @@ export function applyEffect(
       return;
     }
     case "end-run": {
+      // The first terminal result of a week stands. Later systems in the same
+      // tick (insolvency after a rival's ascendance, say) must not rewrite a
+      // run that has already ended.
+      if (tx.read().run.status !== "active") return;
       tx.update((draft) => {
         draft.run.status = effect.result;
         draft.run.endingId = effect.endingId;

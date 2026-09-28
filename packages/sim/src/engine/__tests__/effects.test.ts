@@ -284,6 +284,25 @@ describe("effect executor", () => {
     expect(result.autoPauseReasons).toContain("critical-event");
   });
 
+  it("keeps the first terminal result when a second end-run arrives in the same week", () => {
+    const result = run(newState(), [
+      {
+        kind: "end-run",
+        result: "lost",
+        endingId: contentId("base:ending.rival-ascendance"),
+      },
+      {
+        kind: "end-run",
+        result: "lost",
+        endingId: contentId("base:ending.the-worlds-most-expensive-insolvency"),
+      },
+    ]);
+    expect(result.state.run.endingId).toBe("base:ending.rival-ascendance");
+    expect(
+      result.domainEvents.filter((event) => event.kind === "run-ended"),
+    ).toHaveLength(1);
+  });
+
   it("schedule-effects fires through the delayed-effects phase at the due tick", () => {
     const state = newState();
     const scheduled = run(
