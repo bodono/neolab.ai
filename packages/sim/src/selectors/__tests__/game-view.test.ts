@@ -74,6 +74,34 @@ describe("projectGameView", () => {
     expect(fundraising.recentRoundsInWindow).toBe(0);
   });
 
+  it("projects the revenue the ledger will bank, after revenue modifiers", () => {
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    const labId = state.run.playerLabId;
+    const modifierId = "modifier:test-revenue-share" as keyof GameState["modifiers"];
+    state.modifiers[modifierId] = {
+      id: modifierId,
+      source: { kind: "system", id: "test-revenue-share" },
+      labId,
+      target: "lab.revenue.all",
+      operation: "multiply",
+      value: 0.5,
+      startsAt: state.run.tick,
+      tags: [],
+    };
+    const view = projectGameView(state, content, {
+      viewerLabId: labId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    });
+    const gross = view.market.projectedRevenueMillionsThisWeek * 4;
+    expect(gross).toBeGreaterThan(0);
+    expect(view.market.projectedRevenueMillionsPerCycle).toBeCloseTo(gross / 2, 6);
+    const banked = forecastFinance(state, content, labId, 1, "measured")
+      .linesPerCycle.filter((line) => line.category === "product-revenue")
+      .reduce((sum, line) => sum + line.amountMillions, 0);
+    expect(view.market.projectedRevenueMillionsPerCycle).toBeCloseTo(banked, 2);
+  });
+
   it("gives the operational defences a ledger, built only from visible state", () => {
     const state = newState();
     const view = projectGameView(state, content, {

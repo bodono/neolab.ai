@@ -2921,8 +2921,15 @@ function projectMarket(
     deliveredTeraflops: forecast.deliveredTeraflops,
     unmetTeraflops: forecast.unmetTeraflops,
     projectedRevenueMillionsThisWeek: forecast.revenueMillionsThisWeek,
-    projectedRevenueMillionsPerCycle:
+    // What the lab banks, not gross: the ledger applies lab.revenue.all
+    // (difficulty, revenue-share conditions, political penalties) at
+    // settlement, so the forecast must too or it disagrees with Finances.
+    projectedRevenueMillionsPerCycle: resolveModifierValue(
+      state,
+      "lab.revenue.all",
       forecast.revenueMillionsThisWeek * MARKET_CYCLE_WEEKS,
+      { labId, includeUnscoped: labId === state.run.playerLabId, clampMin: 0 },
+    ).final,
     projectedServingAuraPerCycle: servingAura.perCycle,
     projectedServingFulfilment: servingAura.fulfilment,
     servingDemandCap,
