@@ -658,6 +658,26 @@ function validateEvents(
         "an expiring event must declare defaultOptionId",
       );
     }
+    // GDD 43.5: the game never silently chooses the most dangerous option
+    // because the player was at 4x speed. Options that need an explicit
+    // confirmation are exactly those, so none may be an expiry default.
+    // Critical events block time and never expire, so their defaults are inert.
+    const defaultOption = definition.options.find(
+      (option) => option.id === definition.defaultOptionId,
+    );
+    if (
+      definition.severity !== "critical" &&
+      definition.expiryWeeks !== undefined &&
+      defaultOption?.confirmationRequired === true
+    ) {
+      issue(
+        issues,
+        "release-blocking",
+        "event.dangerous-default",
+        baseLocation,
+        `default option ${defaultOption.id} requires confirmation, so it cannot be chosen by expiry`,
+      );
+    }
 
     const optionIds = new Set<string>();
     for (const [optionIndex, option] of definition.options.entries()) {

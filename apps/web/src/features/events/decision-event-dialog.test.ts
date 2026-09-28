@@ -42,6 +42,7 @@ describe("eventLikelihoodCopy", () => {
         uncertainty: "precommitted-checks",
         likelihoodPromises: [{ checkId: "result", label: "very-likely" }],
         confirmationRequired: false,
+        isExpiryDefault: false,
       }),
     ).toBe("VERY LIKELY");
   });
@@ -59,6 +60,7 @@ describe("eventLikelihoodCopy", () => {
         uncertainty: "none",
         likelihoodPromises: [],
         confirmationRequired: false,
+        isExpiryDefault: false,
       }),
     ).toBe("GUARANTEED OUTCOME");
   });

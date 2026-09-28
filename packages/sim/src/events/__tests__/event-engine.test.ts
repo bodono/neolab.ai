@@ -741,6 +741,14 @@ describe("event option precommitment and resolution", () => {
     });
     const content = withEvents([definition]);
     const opened = instantiate(newState(), content, definition.id);
+    // The player is told which option expiry will choose (GDD 43.5).
+    const shown = projectEventQueueView(opened.state, content).items[0]?.options;
+    expect(
+      shown?.map((candidate) => [candidate.optionId, candidate.isExpiryDefault]),
+    ).toEqual([
+      ["accept", false],
+      ["decline", true],
+    ]);
     const due = mutable(opened.state);
     due.run.tick = tick(2);
     due.run.calendar = calendarFromTick(2);

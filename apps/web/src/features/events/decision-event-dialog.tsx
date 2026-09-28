@@ -181,6 +181,11 @@ export function DecisionEventDialog({
                   <p>{copy(option.previewKey, item.tokens, "preview")}</p>
                 </div>
                 <span className="uncertainty-tag">{eventLikelihoodCopy(option)}</span>
+                {option.isExpiryDefault ? (
+                  <span className="uncertainty-tag expiry-default-tag">
+                    If ignored, this happens when time runs out
+                  </span>
+                ) : null}
                 <section className="guaranteed-effects">
                   <strong>Guaranteed effects</strong>
                   {guaranteedEffects.length === 0 && postureEffects.length === 0 ? (

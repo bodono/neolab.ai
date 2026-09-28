@@ -26,7 +26,7 @@ events:
     cooldown: { group: government-intervention, weeks: 0 }
     unique: false
     expiryWeeks: 6
-    defaultOptionId: stall
+    defaultOptionId: minimal
     titleKey: event.government.reporting.title
     bodyKey: event.government.reporting.body
     evidence:
@@ -311,7 +311,7 @@ events:
     cooldown: { group: government-intervention, weeks: 0 }
     unique: false
     expiryWeeks: 6
-    defaultOptionId: stall
+    defaultOptionId: accept
     titleKey: event.government.licensing.title
     bodyKey: event.government.licensing.body
     evidence:

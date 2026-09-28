@@ -37,6 +37,8 @@ export interface EventQueueOptionView {
     readonly label: EventLikelihoodLabel;
   }[];
   readonly confirmationRequired: boolean;
+  /** Chosen automatically if the event expires unanswered (GDD 43.5). */
+  readonly isExpiryDefault: boolean;
 }
 
 export interface EventQueueItemView {
@@ -132,6 +134,8 @@ export function projectEventQueueView(
                 ...promise,
               })),
               confirmationRequired: preview.confirmationRequired,
+              isExpiryDefault:
+                expiresInWeeks !== undefined && option.id === definition.defaultOptionId,
             };
           }),
         },

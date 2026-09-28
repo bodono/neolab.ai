@@ -17,7 +17,7 @@ events:
     cooldown: { group: safety-anomaly, weeks: 0 }
     unique: false
     expiryWeeks: 4
-    defaultOptionId: keep-shipping
+    defaultOptionId: halt-and-investigate
     titleKey: event.safety.anomaly.title
     bodyKey: event.safety.anomaly.body
     evidence:

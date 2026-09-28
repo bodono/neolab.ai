@@ -22,7 +22,7 @@ events:
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
     expiryWeeks: 4
-    defaultOptionId: log-and-watch
+    defaultOptionId: pull-access
     titleKey: event.autonomy.experiments.title
     bodyKey: event.autonomy.experiments.body
     evidence:
@@ -331,7 +331,7 @@ events:
     cooldown: { group: autonomy-egress, weeks: 0 }
     unique: true
     expiryWeeks: 6
-    defaultOptionId: say-nothing
+    defaultOptionId: disclose
     titleKey: event.autonomy.egress.title
     bodyKey: event.autonomy.egress.body
     evidence:
