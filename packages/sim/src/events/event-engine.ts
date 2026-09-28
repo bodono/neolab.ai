@@ -247,6 +247,7 @@ export function listEligibleEventDefinitions(
 ): readonly WeightedEventCandidate[] {
   const recentCategories = recentOpportunityCategories(state, content);
   const candidates: WeightedEventCandidate[] = [];
+  const suppressed: WeightedEventCandidate[] = [];
   for (const definitionId of definitionIds(content)) {
     const definition = content.events.definitions[definitionId];
     if (
@@ -265,15 +266,24 @@ export function listEligibleEventDefinitions(
     );
     const weight = definition.baseWeight * stateMultiplier;
     if (!Number.isFinite(weight) || weight <= 0) continue;
-    if (recentCategories.has(definition.category) && stateMultiplier < 3) continue;
-    candidates.push({
+    const candidate = {
       definitionId,
       category: definition.category,
       weight,
       stateMultiplier,
-    });
+    };
+    if (recentCategories.has(definition.category) && stateMultiplier < 3) {
+      suppressed.push(candidate);
+      continue;
+    }
+    candidates.push(candidate);
   }
-  return candidates.sort((left, right) =>
+  // Category suppression exists for variety, not to starve the pool. When
+  // every eligible event sits in a recent category, fall back to them so the
+  // pity timer's guarantee (GDD 43.3) still holds. Without this, a pool whose
+  // random events shared one category fell silent after its first event.
+  const pool = candidates.length > 0 ? candidates : suppressed;
+  return pool.sort((left, right) =>
     left.definitionId < right.definitionId
       ? -1
       : left.definitionId > right.definitionId

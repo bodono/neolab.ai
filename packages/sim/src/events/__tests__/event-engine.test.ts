@@ -440,6 +440,39 @@ describe("event eligibility and opportunity selection", () => {
     expect(calculateOpportunityChance(atWeek13)).toBe(1);
   });
 
+  it("falls back to suppressed categories instead of starving the pool", () => {
+    const seed = eventDefinition("seed-safety", { category: "safety" });
+    const sameCategory = eventDefinition("second-safety", {
+      category: "safety",
+      cooldown: { group: "second-safety", weeks: 0 },
+    });
+    const content = withEvents([seed, sameCategory]);
+    const opened = instantiate(newState(), content, seed.id);
+    const resolutionTx = createTransaction(opened.state);
+    resolveEventOption(resolutionTx, content, opened.instanceId, "decline");
+    const resolved = mutable(
+      resolutionTx.commit({ description: "resolve safety seed" }).state,
+    );
+    resolved.run.tick = tick(30);
+    resolved.run.calendar = calendarFromTick(30);
+
+    // Every eligible event is in the suppressed category, so the pool falls
+    // back to them and the thirty-week guarantee still produces an event.
+    expect(
+      listEligibleEventDefinitions(resolved, content).map(
+        (candidate) => candidate.definitionId,
+      ),
+    ).toContain(sameCategory.id);
+    const tx = createTransaction(resolved);
+    advanceEventGeneration(tx, content);
+    const generated = tx.commit({ description: "fallback opportunity" }).state;
+    expect(
+      Object.values(generated.eventInstances).filter(
+        (instance) => instance.source === "opportunity",
+      ),
+    ).toHaveLength(2);
+  });
+
   it("guarantees one stable opportunity after thirty quiet weeks", () => {
     const definition = eventDefinition("guaranteed");
     const content = withEvents([definition]);
