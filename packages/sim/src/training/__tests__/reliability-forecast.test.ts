@@ -667,3 +667,44 @@ describe("modifier scope in training quotes", () => {
     );
   });
 });
+
+describe("reserved-GPU reliability in the forecast", () => {
+  it("ignores lots the run would not reserve, as the checkpoint check does", () => {
+    const base = structuredClone(newState()) as DeepMutable<GameState>;
+    const lab = base.labs[base.run.playerLabId];
+    const template = lab?.compute.lots[0];
+    if (lab === undefined || template === undefined)
+      throw new Error("fleet fixture missing");
+    const hopper = {
+      ...structuredClone(template),
+      id: "lot:test:hopper" as typeof template.id,
+      generationId: contentId("base:gpu.hopper"),
+      physicalCount: 4000 as typeof template.physicalCount,
+      availableFraction: 1 as typeof template.availableFraction,
+      reliability: rating(88),
+    };
+    lab.compute.lots = [hopper];
+    const hopperOnly = structuredClone(base) as GameState;
+    lab.compute.lots = [
+      hopper,
+      {
+        ...structuredClone(hopper),
+        id: "lot:test:kepler" as typeof template.id,
+        generationId: contentId("base:gpu.kepler"),
+        reliability: rating(62),
+      },
+    ];
+    const mixed = structuredClone(base) as GameState;
+    // A run small enough for the Hopper lot alone reserves no Kepler GPUs.
+    const committedTeraflops = quote(hopperOnly).availableTeraflops / 4;
+    const hopperQuote = quote(hopperOnly, { committedTeraflops });
+    const mixedQuote = quote(mixed, { committedTeraflops });
+    expect(Object.keys(mixedQuote.reservationGenerationCounts)).toEqual([
+      "base:gpu.hopper",
+    ]);
+    expect(mixedQuote.reliability.passProbability).toBeCloseTo(
+      hopperQuote.reliability.passProbability,
+      10,
+    );
+  });
+});

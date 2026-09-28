@@ -903,7 +903,10 @@ export function quoteTrainingRun(
     unassistedDurationWeeks,
     totalFlopInvested(eraReferenceTeraflops(state, content), TRAINING_REFERENCE_WEEKS),
   );
-  const reservedReliability = weightedFleetReliability(lab);
+  const reservedReliability = reservedGenerationReliability(
+    lab,
+    reservationGenerationCounts,
+  );
   const reliability = trainingReliabilityForecast(
     content.training.failureCheckpoints,
     trainingCheckpointOdds({
@@ -1317,6 +1320,40 @@ function weightedFleetReliability(lab: {
     weighted += lot.physicalCount * lot.reliability;
   }
   return gpus <= 0 ? 100 : weighted / gpus;
+}
+
+/**
+ * Reliability of the GPUs this run would reserve. The checkpoint check
+ * averages the reserved lots, which are the strongest generations first, so
+ * the forecast must weight by the same reservation rather than by the whole
+ * fleet. A mixed Hopper/Kepler fleet otherwise forecast 78.5% clean for a run
+ * that actually had 85.5%.
+ */
+function reservedGenerationReliability(
+  lab: {
+    readonly compute: {
+      readonly lots: readonly {
+        readonly generationId: ContentId;
+        readonly physicalCount: number;
+        readonly reliability: number;
+      }[];
+    };
+  },
+  reservationGenerationCounts: Readonly<Record<ContentId, number>>,
+): number {
+  let reserved = 0;
+  let weighted = 0;
+  for (const [generationId, count] of Object.entries(reservationGenerationCounts)) {
+    const lots = lab.compute.lots.filter((lot) => lot.generationId === generationId);
+    const physical = lots.reduce((total, lot) => total + lot.physicalCount, 0);
+    if (physical <= 0 || count <= 0) continue;
+    const generationReliability =
+      lots.reduce((total, lot) => total + lot.physicalCount * lot.reliability, 0) /
+      physical;
+    reserved += count;
+    weighted += count * generationReliability;
+  }
+  return reserved <= 0 ? weightedFleetReliability(lab) : weighted / reserved;
 }
 
 function resolveFailureOutcome(
