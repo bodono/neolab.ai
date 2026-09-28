@@ -26,7 +26,7 @@ import {
 } from "../endgame/candidate-programme.ts";
 import { transitionCandidateArtifactLifecycle } from "../endgame/candidate-lifecycle.ts";
 import { queueRivalCandidateSetback } from "./candidate-setback.ts";
-import { recordRivalPublicSignal } from "./signals.ts";
+import { DEFAULT_RIVAL_INTELLIGENCE, recordRivalPublicSignal } from "./signals.ts";
 
 // A credible rival candidate should create a race emergency, not an already
 // decided game. One frontier training run plus the minimum evidence needed to
@@ -205,11 +205,32 @@ export function rivalDeploymentCrisisStageLabel(
   );
 }
 
+/** Half-width of the player's countdown estimate at an intelligence rating. */
+function countdownEstimateRadius(intelligence: number): number {
+  return Math.max(2, Math.round(10 * (1 - clamp(intelligence, 0, 100) * 0.008)));
+}
+
+/**
+ * The completion week the player's default-intelligence estimate implies.
+ * Stage announcements and the final-year warning follow this rather than the
+ * true date. Timed from the true date, they fired at fixed fractions of the
+ * real duration and at exactly 13 weeks left, which pinned the deadline to
+ * about a week while the displayed range stayed +/-8.
+ */
+function perceivedCompletesAt(countdown: Readonly<RivalCandidateCountdownState>): number {
+  return (
+    countdown.completesAt +
+    countdown.estimateNoiseUnit * countdownEstimateRadius(DEFAULT_RIVAL_INTELLIGENCE)
+  );
+}
+
 export function rivalDeploymentCrisisStageAt(
   countdown: Readonly<RivalCandidateCountdownState>,
   atTick: number,
 ): RivalDeploymentCrisisStage {
-  const duration = Math.max(1, countdown.completesAt - countdown.startedAt);
+  // A delayed rival was already publicly in rollout when its reviewers held it.
+  if ((countdown.resolutionAttemptCount ?? 0) > 0) return "rollout";
+  const duration = Math.max(1, perceivedCompletesAt(countdown) - countdown.startedAt);
   const progress = clamp((atTick - countdown.startedAt) / duration, 0, 1);
   return (
     [...RIVAL_DEPLOYMENT_CRISIS_STAGES]
@@ -472,7 +493,8 @@ export function advanceRivalCandidateCountdowns(
       });
     }
     const remainingWeeks = countdown.completesAt - tx.read().run.tick;
-    if (remainingWeeks <= 13 && !countdown.finalYearWarningIssued) {
+    const perceivedRemainingWeeks = perceivedCompletesAt(countdown) - tx.read().run.tick;
+    if (perceivedRemainingWeeks <= 13 && !countdown.finalYearWarningIssued) {
       tx.update((draft) => {
         const live = draft.world.rivals[labId]?.candidateCountdown;
         if (live !== undefined) live.finalYearWarningIssued = true;
@@ -726,8 +748,12 @@ export function projectRivalCandidateCountdowns(
     if (countdown === undefined || countdown.status !== "active" || model === undefined) {
       return [];
     }
-    const intelligence = clamp(intelligenceRatings[labId] ?? 25, 0, 100);
-    const radius = Math.max(2, Math.round(10 * (1 - intelligence * 0.008)));
+    const intelligence = clamp(
+      intelligenceRatings[labId] ?? DEFAULT_RIVAL_INTELLIGENCE,
+      0,
+      100,
+    );
+    const radius = countdownEstimateRadius(intelligence);
     const actualRemaining = Math.max(0, countdown.completesAt - state.run.tick);
     const estimate = Math.max(0, actualRemaining + countdown.estimateNoiseUnit * radius);
     const range: readonly [number, number] = [

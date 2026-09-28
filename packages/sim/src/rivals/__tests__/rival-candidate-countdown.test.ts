@@ -34,6 +34,7 @@ import {
   rivalCandidateResolutionProbabilities,
   RIVAL_ASCENDANCE_ENDING_ID,
   RIVAL_CATASTROPHE_ENDING_ID,
+  rivalDeploymentCrisisStageAt,
 } from "../candidate-countdown.ts";
 import {
   AGI_COMPONENT_TYPES,
@@ -1071,5 +1072,36 @@ describe("rival candidate countdown", () => {
     expect(
       calculateRivalCandidateDuration(careful, rivalLabId).finalWeeks,
     ).toBeGreaterThan(calculateRivalCandidateDuration(reckless, rivalLabId).finalWeeks);
+  });
+});
+
+describe("rival countdown timing reveals no more than its estimate", () => {
+  it("announces stages identically for countdowns the player cannot tell apart", () => {
+    const modifiers = {
+      baseWeeks: 78,
+      safetyCommitmentWeeks: 0,
+      raceUrgencyWeeks: 0,
+      politicalProcessWeeks: 0,
+      incidentDelayWeeks: 0,
+      sharedStandardsWeeks: 0,
+      finalWeeks: 78,
+    };
+    // Both project the same estimate at default intelligence (radius 8): true
+    // deadlines 100 and 92 with noise 0 and +1 each read as "100 - now".
+    const onTime = {
+      modelId: "run:model:rival:a" as ModelId,
+      startedAt: tick(22),
+      completesAt: tick(100),
+      status: "active" as const,
+      modifiers,
+      estimateNoiseUnit: 0,
+      finalYearWarningIssued: false,
+    };
+    const early = { ...onTime, completesAt: tick(92), estimateNoiseUnit: 1 };
+    for (let week = 22; week <= 92; week += 1) {
+      expect(rivalDeploymentCrisisStageAt(early, week)).toBe(
+        rivalDeploymentCrisisStageAt(onTime, week),
+      );
+    }
   });
 });
