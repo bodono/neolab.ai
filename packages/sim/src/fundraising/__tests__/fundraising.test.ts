@@ -23,6 +23,7 @@ import { calendarFromTick, type GameState } from "../../model/state.ts";
 import { cashMillions, fraction, rating, tick } from "../../model/units.ts";
 import { createSaveEnvelope, loadSaveEnvelope } from "../../persistence/envelope.ts";
 import type { RandomOracle } from "../../random/oracle.ts";
+import { formatGameWeekInText } from "../../presentation/calendar-copy.ts";
 import { seed128 } from "../../random/seed.ts";
 import {
   calculateFundingScore,
@@ -255,7 +256,7 @@ describe("fundraising campaigns", () => {
     afterCampaign = advanceOneTick(afterCampaign, content).state;
     expect(
       quoteFundraisingCampaign(afterCampaign, content, labId, "quiet-bridge").blockers,
-    ).toContain("Campaign is cooling down until week 13");
+    ).toContain("Campaign is cooling down until week 14 of 2012");
   });
 
   it("allows one emergency Quiet bridge a year, not one per settlement", () => {
@@ -295,7 +296,7 @@ describe("fundraising campaigns", () => {
     const refused = quoteFundraisingCampaign(again, content, labId, "quiet-bridge");
     expect(refused.emergencyBridge).toBe(false);
     expect(refused.blockers).toContain(
-      `Emergency bridge relief was used within the last year; it returns in week ${String(started.run.tick + 52)}`,
+      `Emergency bridge relief was used within the last year; it returns in ${formatGameWeekInText(started.run.tick + 52)}`,
     );
   });
 

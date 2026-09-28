@@ -3,6 +3,7 @@ import type {
   ContentId,
   EvaluationTarget,
 } from "@neolab/content-schema";
+import { formatGameWeekInText } from "../presentation/calendar-copy.ts";
 
 import { endingAftermathForSlug } from "../endgame/ending-aftermaths.ts";
 import { getEndingDefinition, type EndingClass } from "../endgame/endings.ts";
@@ -502,7 +503,7 @@ function projectCapabilityProofLedger(
       decisionWindow: decisionOpen ? "open" : "closed",
       decisionWindowExplanation: decisionOpen
         ? "The irreversible deployment boundary had not yet closed; the lab could still narrow access, seek more evidence, or risk retirement."
-        : `Deployment had already been transmitted in week ${String(deploymentWeek)}; this result could explain the outcome but could no longer prevent exposure.`,
+        : `Deployment had already been transmitted in ${formatGameWeekInText(deploymentWeek)}; this result could explain the outcome but could no longer prevent exposure.`,
       hiddenFactors: {
         capabilitySignal: proof.hiddenAudit.capabilitySignal,
         manipulationEffect: proof.hiddenAudit.manipulationEffect,
@@ -519,10 +520,10 @@ function candidateBasisDescription(
   const basis = model.candidateArtifact?.candidateBasis;
   if (basis === undefined) return "No candidate basis recorded.";
   if (basis.kind === "direct-qualification") {
-    return `Direct qualification in week ${String(basis.qualifiedAt)} at FC ${basis.qualificationFrontierCapability.toFixed(1)}.`;
+    return `Direct qualification in ${formatGameWeekInText(basis.qualifiedAt)} at FC ${basis.qualificationFrontierCapability.toFixed(1)}.`;
   }
   const source = state.models[basis.sourceModelId];
-  return `Derived in week ${String(basis.derivedAt)} from ${source?.displayName ?? basis.sourceModelId}; the lineage truth was inherited, not redrawn.`;
+  return `Derived in ${formatGameWeekInText(basis.derivedAt)} from ${source?.displayName ?? basis.sourceModelId}; the lineage truth was inherited, not redrawn.`;
 }
 
 function projectArtifactCustody(
@@ -561,7 +562,7 @@ function projectArtifactCustody(
           week: incident.resolvedAt,
           kind: "signal",
           detail:
-            `${incident.incidentClass.replaceAll("-", " ")} triggered in week ${String(incident.triggeredAt)}; ` +
+            `${incident.incidentClass.replaceAll("-", " ")} triggered in ${formatGameWeekInText(incident.triggeredAt)}; ` +
             `${incident.reviewOutcome === "benign-operational-cause" ? "review found a benign operational cause" : "review confirmed a safety signal"}.`,
         });
       }

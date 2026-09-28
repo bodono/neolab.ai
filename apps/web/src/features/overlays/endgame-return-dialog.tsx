@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { formatGameWeek, formatGameWeekInText } from "@neolab/sim/public";
 
 import type { EndgameReturnPresentationQueueItemView } from "@neolab/sim/public";
 
@@ -30,7 +31,7 @@ export function EndgameReturnDialog({
         >
           <header>
             <p className="eyebrow">
-              FALSE DAWN // MORATORIUM RESULT // WEEK {item.createdAtTick}
+              FALSE DAWN // MORATORIUM RESULT // {formatGameWeek(item.createdAtTick)}
             </p>
             <span className="endgame-return-status failed">
               BLOCKING RESULT · DECISION REQUIRED
@@ -67,7 +68,8 @@ export function EndgameReturnDialog({
                 remain
               </strong>
               <p>
-                Training may resume. Nominations reopen in week {item.cooldownUntilTick}.
+                Training may resume. Nominations reopen in{" "}
+                {formatGameWeekInText(item.cooldownUntilTick)}.
               </p>
             </section>
           </div>
@@ -102,7 +104,7 @@ export function EndgameReturnDialog({
       >
         <header>
           <p className="eyebrow">
-            FALSE DAWN // NOT GAME OVER // WEEK {item.createdAtTick}
+            FALSE DAWN // NOT GAME OVER // {formatGameWeek(item.createdAtTick)}
           </p>
           <span className="endgame-return-status">THE RACE CONTINUES</span>
         </header>

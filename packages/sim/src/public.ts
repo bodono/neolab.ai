@@ -16,6 +16,7 @@ export {
   modifierTargetDisplayLabel,
   weeklyProgressVariationScope,
 } from "./presentation/modifier-copy.ts";
+export { formatGameWeek, formatGameWeekInText } from "./presentation/calendar-copy.ts";
 export { createNewGame, type NewGameConfig } from "./engine/create-new-game.ts";
 export {
   createProgressiveNewGame,

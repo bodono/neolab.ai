@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { formatGameWeek } from "@neolab/sim/public";
 
 import type {
   CandidateContainmentIncidentPresentationQueueItemView,
@@ -51,7 +52,7 @@ export function ModelIncidentAlertDialog({
         <header>
           <AlarmMark />
           <div>
-            <p className="eyebrow">AI INCIDENT // WEEK {item.createdAtTick}</p>
+            <p className="eyebrow">AI INCIDENT // {formatGameWeek(item.createdAtTick)}</p>
             <strong>{item.threatLabel}</strong>
           </div>
           <span>
@@ -146,7 +147,7 @@ export function CandidateContainmentIncidentAlertDialog({
           <AlarmMark />
           <div>
             <p className="eyebrow">
-              CANDIDATE CUSTODY ALARM // WEEK {item.createdAtTick}
+              CANDIDATE CUSTODY ALARM // {formatGameWeek(item.createdAtTick)}
             </p>
             <strong>{item.classLabel}</strong>
           </div>

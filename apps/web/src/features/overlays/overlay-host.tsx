@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from "react";
+import { formatGameWeek } from "@neolab/sim/public";
 
 import type { GameView, PresentationQueueItemView } from "@neolab/sim/public";
 
@@ -351,7 +352,7 @@ export function OverlayHost({
                       ? "MODEL EVALUATION // REGRESSION"
                       : "MODEL EVALUATION"
                 : "COMPETITOR CAPABILITY SIGNAL"}{" "}
-              // WEEK {selection.item.createdAtTick}
+              // {formatGameWeek(selection.item.createdAtTick)}
             </p>
             <h2 id={`discovery-${selection.item.key}`}>
               {selection.item.modelDisplayName}{" "}

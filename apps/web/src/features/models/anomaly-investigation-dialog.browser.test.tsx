@@ -87,7 +87,7 @@ describe("AnomalyInvestigationDialog results in Chromium", () => {
     );
     expect(dialog?.textContent).toContain("DeepSearch-3");
     expect(dialog?.textContent).toContain("Alignment interview");
-    expect(dialog?.textContent).toContain("Week 18");
+    expect(dialog?.textContent).toContain("2012 · WEEK 19");
     expect(dialog?.textContent).toContain("Critical · 78/100");
     expect(dialog?.textContent).toContain(
       "This false alarm is closed. It does not prove the model is safe.",

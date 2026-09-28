@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactElement } from "react";
+import { formatGameWeek, formatGameWeekInText } from "@neolab/sim/public";
 
 import {
   AGI_CANDIDATE_MINIMUM_CAPABILITY_ATTRIBUTE,
@@ -272,7 +273,7 @@ export function CandidateCustodyPanel({
             ? formalProgrammeReady
               ? "Nomination available."
               : "Complete all four works to nominate."
-            : `Nominations reopen in week ${String(declarationCooldown.untilTick)}.`}
+            : `Nominations reopen in ${formatGameWeekInText(declarationCooldown.untilTick)}.`}
         </small>
       </div>
 
@@ -1418,7 +1419,7 @@ export function AnomalyInvestigationDialog({
               </article>
               <article>
                 <span>Observed in</span>
-                <strong>Week {String(anomaly.createdAtTick)}</strong>
+                <strong>{formatGameWeek(anomaly.createdAtTick)}</strong>
               </article>
               <article>
                 <span>Underlying case</span>
@@ -1634,7 +1635,7 @@ export function AnomalyInvestigationDialog({
               </article>
               <article>
                 <span>Detected</span>
-                <strong>Week {String(anomaly.createdAtTick)}</strong>
+                <strong>{formatGameWeek(anomaly.createdAtTick)}</strong>
               </article>
               <article>
                 <span>Original signal</span>
@@ -4712,7 +4713,7 @@ export function ModelsWorkspace({
                         <span>{anomaly.severityLabel} signal</span>
                         <strong>{report?.displayName ?? "Evaluation anomaly"}</strong>
                         <small>
-                          Week {String(anomaly.createdAtTick)} ·{" "}
+                          {formatGameWeek(anomaly.createdAtTick)} ·{" "}
                           {String(anomaly.observationCount)} observation
                           {anomaly.observationCount === 1 ? "" : "s"} ·{" "}
                           {(anomaly.status === "investigating" ||

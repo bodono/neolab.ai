@@ -3,6 +3,7 @@ import {
   type CompiledContent,
   type FundraisingCampaignDefinition,
 } from "@neolab/content-schema";
+import { formatGameWeekInText } from "../presentation/calendar-copy.ts";
 
 import {
   calculateAuraSignal,
@@ -431,7 +432,9 @@ export function quoteFundraisingCampaign(
     currentCooldown !== undefined &&
     state.run.tick < currentCooldown
   ) {
-    blockers.push(`Campaign is cooling down until week ${String(currentCooldown)}`);
+    blockers.push(
+      `Campaign is cooling down until ${formatGameWeekInText(currentCooldown)}`,
+    );
   }
   const emergencyReliefSpent =
     campaign === "quiet-bridge" &&
@@ -440,7 +443,7 @@ export function quoteFundraisingCampaign(
     (state.fundraising.emergencyBridgeAvailableAt ?? 0) > state.run.tick;
   if (emergencyReliefSpent && blockers.length > 0) {
     blockers.push(
-      `Emergency bridge relief was used within the last year; it returns in week ${String(state.fundraising.emergencyBridgeAvailableAt)}`,
+      `Emergency bridge relief was used within the last year; it returns in ${formatGameWeekInText(state.fundraising.emergencyBridgeAvailableAt ?? 0)}`,
     );
   }
   const roundOrdinal = nextFundraisingRoundOrdinal(state, labId);

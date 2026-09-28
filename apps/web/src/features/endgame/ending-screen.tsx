@@ -5,6 +5,7 @@ import {
   type CSSProperties,
   type ReactElement,
 } from "react";
+import { formatGameWeek, formatGameWeekInText } from "@neolab/sim/public";
 
 import type { HighScoreBoard, HighScoreEntry } from "@neolab/sim/public";
 import type { BrowserPostRunAudit, GameView } from "../../runtime/index.ts";
@@ -827,7 +828,7 @@ export function PostRunAudit({
             </p>
           ) : (
             <>
-              <span>WEEK {audit.epilogueAudit.pivotalMoment.week}</span>
+              <span>{formatGameWeek(audit.epilogueAudit.pivotalMoment.week)}</span>
               <p>{audit.epilogueAudit.pivotalMoment.observableEvidence}</p>
               <small>{audit.epilogueAudit.pivotalMoment.remainingChoice}</small>
             </>
@@ -932,10 +933,10 @@ export function PostRunAudit({
                   </strong>
                 </header>
                 <p>
-                  First qualified in week {lineage.firstQualifyingWeek} at FC{" "}
-                  {lineage.firstQualifyingFrontierCapability.toFixed(1)}, with its weakest
-                  capability at {lineage.firstQualifyingBreadth.toFixed(1)}. The public
-                  capability-class prior was{" "}
+                  First qualified in {formatGameWeekInText(lineage.firstQualifyingWeek)}{" "}
+                  at FC {lineage.firstQualifyingFrontierCapability.toFixed(1)}, with its
+                  weakest capability at {lineage.firstQualifyingBreadth.toFixed(1)}. The
+                  public capability-class prior was{" "}
                   <strong>
                     {(lineage.probabilityAtFirstCrossing * 100).toFixed(0)}%
                   </strong>
@@ -987,8 +988,8 @@ export function PostRunAudit({
                 <header>
                   <div>
                     <span>
-                      WEEK {proof.resolvedAtWeek} · ATTEMPT {proof.attemptIndex} · ACCESS{" "}
-                      {proof.accessLevelAtProof}/5
+                      {formatGameWeek(proof.resolvedAtWeek)} · ATTEMPT{" "}
+                      {proof.attemptIndex} · ACCESS {proof.accessLevelAtProof}/5
                     </span>
                     <h4>{humanLabel(proof.challengeId)}</h4>
                   </div>
@@ -1138,7 +1139,7 @@ export function PostRunAudit({
                 <ol>
                   {artifact.custodyEvents.map((event, index) => (
                     <li key={`${String(event.week)}:${event.kind}:${String(index)}`}>
-                      <time>WEEK {event.week}</time>
+                      <time>{formatGameWeek(event.week)}</time>
                       <span>{humanLabel(event.kind)}</span>
                       <p>{event.detail}</p>
                     </li>
@@ -1190,7 +1191,7 @@ export function PostRunAudit({
         <ol>
           {timeline.map((event) => (
             <li className={`audit-timeline-${event.tone}`} key={event.key}>
-              <time>WEEK {event.week}</time>
+              <time>{formatGameWeek(event.week)}</time>
               <div>
                 <span>{event.actor}</span>
                 <strong>{event.title}</strong>
@@ -1274,7 +1275,8 @@ export function PostRunAudit({
                 <li key={`${String(decision.tick)}:${decision.summary}`}>
                   <strong>{decision.summary}</strong>
                   <span>
-                    Week {decision.tick} · estimated influence {decision.impactScore}/100
+                    {formatGameWeek(decision.tick)} · estimated influence{" "}
+                    {decision.impactScore}/100
                   </span>
                   <p>{decision.impactReason}</p>
                 </li>

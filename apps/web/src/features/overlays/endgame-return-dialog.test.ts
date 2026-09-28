@@ -114,7 +114,7 @@ describe("False Dawn return dialog", () => {
     expect(markup).toContain("archive remains sealed at Access 0");
     expect(markup).toContain("Government trust fell · Attention rose");
     expect(markup).toContain("52 of 52 cooldown weeks remain");
-    expect(markup).toContain("Nominations reopen in week 192");
+    expect(markup).toContain("Nominations reopen in week 37 of 2015");
     expect(markup).toContain("Return to the race");
     expect(markup).not.toContain("THE MODEL REMAINS USABLE");
     expect(markup).not.toContain("Seek durable moratorium");

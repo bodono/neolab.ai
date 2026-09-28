@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from "react";
+import { formatGameWeekInText } from "@neolab/sim/public";
 
 import {
   AGI_CANDIDATE_MINIMUM_CAPABILITY_ATTRIBUTE,
@@ -135,7 +136,8 @@ export function AgiWorkspace({
                 </strong>
               </div>
               <p>
-                New nominations reopen in week {programme.declarationCooldown.untilTick}.
+                New nominations reopen in{" "}
+                {formatGameWeekInText(programme.declarationCooldown.untilTick)}.
               </p>
             </div>
           )}

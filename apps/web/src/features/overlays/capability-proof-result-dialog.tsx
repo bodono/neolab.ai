@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { formatGameWeekInText } from "@neolab/sim/public";
 
 import type { CapabilityProofResultPresentationQueueItemView } from "@neolab/sim/public";
 
@@ -83,7 +84,7 @@ export function CapabilityProofResultDialog({
           </div>
           <div>
             <dt>Resolved</dt>
-            <dd>Week {item.createdAtTick}</dd>
+            <dd>{formatGameWeekInText(item.createdAtTick)}</dd>
           </div>
         </dl>
 

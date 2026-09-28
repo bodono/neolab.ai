@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { formatGameWeek, formatGameWeekInText } from "@neolab/sim/public";
 
 import type { MoratoriumResultPresentationQueueItemView } from "@neolab/sim/public";
 
@@ -37,7 +38,8 @@ export function MoratoriumResultDialog({
       >
         <header>
           <p className="eyebrow">
-            POST-RETIREMENT DIPLOMACY // MORATORIUM RESULT // WEEK {item.createdAtTick}
+            POST-RETIREMENT DIPLOMACY // MORATORIUM RESULT //{" "}
+            {formatGameWeek(item.createdAtTick)}
           </p>
           <span className="endgame-return-status failed">
             BLOCKING RESULT · ACKNOWLEDGEMENT REQUIRED
@@ -82,7 +84,7 @@ export function MoratoriumResultDialog({
             <p>
               {recoveryComplete
                 ? "Return to the frontier after acknowledging this result."
-                : `Quarantine continues until week ${item.recoveryEndsAtTick}. World clocks keep moving.`}
+                : `Quarantine continues until ${formatGameWeekInText(item.recoveryEndsAtTick)}. World clocks keep moving.`}
             </p>
           </section>
         </div>
