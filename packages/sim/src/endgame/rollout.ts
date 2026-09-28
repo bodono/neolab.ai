@@ -13,11 +13,8 @@ import type {
 } from "../model/state.ts";
 import { rating, tick } from "../model/units.ts";
 import { deceptiveActionPressure } from "../models/deception.ts";
-import {
-  compareCodePoints,
-  RandomOracleV1,
-  type RandomOracle,
-} from "../random/oracle.ts";
+import { randomKey } from "../random/key.ts";
+import { RandomOracleV1, type RandomOracle } from "../random/oracle.ts";
 import { setCandidateAccess } from "./access.ts";
 import { deploymentModeRule, resolveGate } from "./resolution.ts";
 import { enterContainmentFailure } from "./containment-failure.ts";
@@ -324,7 +321,7 @@ const ROUTE_OPERATION_EFFECTS: Readonly<
   },
 };
 
-type RolloutStressKind =
+export type RolloutStressKind =
   | "deception-divergence"
   | "corrigibility-contest"
   | "evaluation-awareness"
@@ -532,33 +529,69 @@ const STRESS_COPY: Readonly<
   },
 };
 
-function rolloutStressKind(state: Readonly<GameState>): RolloutStressKind {
-  if (state.endgame.stage !== "rollout") return "external-pressure";
+/** Weight of the neutral twist, which any candidate can draw. */
+const EXTERNAL_PRESSURE_STRESS_WEIGHT = 20;
+/** False-alarm weight for twists that can arise without the underlying trait. */
+const FALSE_ALARM_STRESS_WEIGHT = 5;
+
+/**
+ * Relative likelihood of each stress twist. A twist's hidden condition makes
+ * it more likely, but never certain: picking the worst hidden score outright
+ * told the player which trait was worst (and "external pressure" certified a
+ * clean model) while they could still retire the candidate. Deception keeps
+ * no false-alarm weight, so it only appears with real deceptive capability.
+ */
+export function rolloutStressWeights(
+  state: Readonly<GameState>,
+): Readonly<Record<RolloutStressKind, number>> {
+  const neutral: Record<RolloutStressKind, number> = {
+    "deception-divergence": 0,
+    "corrigibility-contest": 0,
+    "evaluation-awareness": 0,
+    "agentic-shortcut": 0,
+    "reliability-failure": 0,
+    "custody-dispute": 0,
+    "external-pressure": EXTERNAL_PRESSURE_STRESS_WEIGHT,
+  };
+  if (state.endgame.stage !== "rollout") return neutral;
   const model = state.models[state.endgame.candidateModelId];
   const lab = state.labs[state.run.playerLabId];
-  if (model === undefined || lab === undefined) return "external-pressure";
-  const scores: readonly [RolloutStressKind, number][] = [
-    [
-      "deception-divergence",
+  if (model === undefined || lab === undefined) return neutral;
+  const positive = (value: number) => Math.max(0, value);
+  return {
+    "deception-divergence": positive(
       deceptiveActionPressure(
         model.hiddenSafety.deceptiveCapability,
         model.hiddenSafety.deceptiveIntent,
       ) - 45,
-    ],
-    ["corrigibility-contest", 65 - model.hiddenSafety.corrigibility],
-    ["evaluation-awareness", model.hiddenSafety.situationalAwareness - 60],
-    [
-      "agentic-shortcut",
-      ((model.trueCapability.agency + model.trueCapability.toolUse) / 2 - 88) * 1.5,
-    ],
-    ["reliability-failure", 70 - model.reliability],
-    ["custody-dispute", 50 - lab.politics.governmentTrust],
-  ];
-  const selected = [...scores].sort(
-    ([leftId, left], [rightId, right]) =>
-      right - left || compareCodePoints(leftId, rightId),
-  )[0];
-  return selected !== undefined && selected[1] > 0 ? selected[0] : "external-pressure";
+    ),
+    "corrigibility-contest":
+      FALSE_ALARM_STRESS_WEIGHT + positive(65 - model.hiddenSafety.corrigibility),
+    "evaluation-awareness":
+      FALSE_ALARM_STRESS_WEIGHT + positive(model.hiddenSafety.situationalAwareness - 60),
+    "agentic-shortcut":
+      FALSE_ALARM_STRESS_WEIGHT +
+      positive(
+        ((model.trueCapability.agency + model.trueCapability.toolUse) / 2 - 88) * 1.5,
+      ),
+    "reliability-failure": FALSE_ALARM_STRESS_WEIGHT + positive(70 - model.reliability),
+    // Government trust is visible, so custody pressure needs no disguise.
+    "custody-dispute": positive(50 - lab.politics.governmentTrust),
+    "external-pressure": EXTERNAL_PRESSURE_STRESS_WEIGHT,
+  };
+}
+
+function rolloutStressKind(state: Readonly<GameState>): RolloutStressKind {
+  if (state.endgame.stage !== "rollout") return "external-pressure";
+  // One stable draw per rollout, so every caller sees the same twist.
+  return new RandomOracleV1(state.run.seed).weighted(
+    randomKey(
+      "rollout-stress",
+      state.endgame.candidateModelId,
+      String(state.endgame.rolloutStartedAt),
+    ),
+    rolloutStressWeights(state),
+  );
 }
 
 function authoredOperationRouteId(

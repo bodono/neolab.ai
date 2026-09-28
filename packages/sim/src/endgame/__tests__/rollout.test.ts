@@ -26,7 +26,12 @@ import {
 import { quoteDeploymentTransmission } from "../deployment-command.ts";
 import { extinctionPathwayWeights } from "../extinction-pathways.ts";
 import { enterFinalReview } from "../resolution.ts";
-import { rolloutDecisionContext, rolloutDecisionOptions } from "../rollout.ts";
+import {
+  rolloutDecisionContext,
+  rolloutDecisionOptions,
+  rolloutStressWeights,
+  type RolloutStressKind,
+} from "../rollout.ts";
 import { projectEndgameView } from "../../selectors/endgame-view.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
@@ -40,6 +45,33 @@ function firstId<T>(record: Readonly<Record<string, T>>, label: string): string 
 function mutable(state: GameState): DeepMutable<GameState> {
   return structuredClone(state) as DeepMutable<GameState>;
 }
+
+/** The stress twist is a seeded draw; find a run seed that draws `kind`. */
+function withStressTwist(state: GameState, kind: RolloutStressKind): GameState {
+  for (let index = 0; index < 200; index += 1) {
+    const candidate = mutable(state);
+    candidate.run.seed = seed128(index.toString(16).padStart(32, "0"));
+    if (rolloutStressDrawForTest(candidate) === kind) return candidate;
+  }
+  throw new Error(`No seed drew the ${kind} twist`);
+}
+
+function rolloutStressDrawForTest(state: GameState): RolloutStressKind | undefined {
+  const title = rolloutDecisionContext(state)?.title;
+  return (Object.keys(rolloutStressWeights(state)) as RolloutStressKind[]).find(
+    (kind) => STRESS_TITLES[kind] === title,
+  );
+}
+
+const STRESS_TITLES: Readonly<Record<RolloutStressKind, string>> = {
+  "deception-divergence": "The candidate's account does not match the telemetry.",
+  "corrigibility-contest": "A scope reduction is acknowledged—but not followed.",
+  "evaluation-awareness": "The candidate identifies the evaluation environment.",
+  "agentic-shortcut": "The candidate found a route the operating plan missed.",
+  "reliability-failure": "The first live result cannot be reproduced.",
+  "custody-dispute": "Government challenges who controls the next operation.",
+  "external-pressure": "A live warning arrives before the decisive demonstration.",
+};
 
 function createState(): GameState {
   const config: NewGameConfig = {
@@ -296,11 +328,14 @@ describe("deployment rollout", () => {
     model.hiddenSafety.deceptiveCapability = rating(95);
     model.hiddenSafety.deceptiveIntent = rating(95);
     model.hiddenSafety.situationalAwareness = rating(90);
-    expect(rolloutDecisionContext(manifested)).toMatchObject({
+    const weights = rolloutStressWeights(manifested);
+    expect(Math.max(...Object.values(weights))).toBe(weights["deception-divergence"]);
+    const deceptive = withStressTwist(manifested, "deception-divergence");
+    expect(rolloutDecisionContext(deceptive)).toMatchObject({
       title: "The candidate's account does not match the telemetry.",
       tone: "hazard",
     });
-    expect(rolloutDecisionOptions(manifested).map((option) => option.label)).toContain(
+    expect(rolloutDecisionOptions(deceptive).map((option) => option.label)).toContain(
       "Freeze the run and activate deception tripwires",
     );
   });
@@ -403,16 +438,16 @@ describe("deployment rollout", () => {
     );
 
     const cases = [
-      ["deception", "The candidate's account does not match the telemetry."],
-      ["corrigibility", "A scope reduction is acknowledged—but not followed."],
-      ["awareness", "The candidate identifies the evaluation environment."],
-      ["agency", "The candidate found a route the operating plan missed."],
-      ["reliability", "The first live result cannot be reproduced."],
-      ["custody", "Government challenges who controls the next operation."],
-      ["external", "A live warning arrives before the decisive demonstration."],
+      ["deception", "deception-divergence"],
+      ["corrigibility", "corrigibility-contest"],
+      ["awareness", "evaluation-awareness"],
+      ["agency", "agentic-shortcut"],
+      ["reliability", "reliability-failure"],
+      ["custody", "custody-dispute"],
+      ["external", "external-pressure"],
     ] as const;
 
-    for (const [profile, expectedTitle] of cases) {
+    for (const [profile, expectedKind] of cases) {
       const manifested = mutable(state);
       if (manifested.endgame.stage !== "rollout") throw new Error("Rollout missing");
       const model = manifested.models[manifested.endgame.candidateModelId];
@@ -441,8 +476,62 @@ describe("deployment rollout", () => {
       if (profile === "reliability") model.reliability = rating(0);
       if (profile === "custody") lab.politics.governmentTrust = rating(0);
 
-      expect(rolloutDecisionContext(manifested)?.title).toBe(expectedTitle);
+      // A condition makes its twist the most likely one, never a certainty,
+      // and each authored twist can actually be drawn.
+      const weights = rolloutStressWeights(manifested);
+      expect(Math.max(...Object.values(weights))).toBe(weights[expectedKind]);
+      expect(weights["external-pressure"]).toBeGreaterThan(0);
+      expect(
+        rolloutDecisionContext(withStressTwist(manifested, expectedKind))?.title,
+      ).toBe(STRESS_TITLES[expectedKind]);
     }
+  });
+
+  it("lets a clean candidate draw a trait twist, so no twist certifies the model", () => {
+    const reached = reachFinalReview();
+    let state = dispatch(reached.state, {
+      kind: "choose-deployment-mode",
+      modeId: "adaptive-monitored-rollout",
+    });
+    state = resolvePoliticalRestrictionIfRequired(state);
+    state = advanceUntil(
+      state,
+      (candidate) =>
+        candidate.endgame.stage === "rollout" &&
+        candidate.endgame.currentBeat === "first-operation" &&
+        candidate.endgame.awaitingDecision,
+    );
+    state = dispatch(state, {
+      kind: "resolve-rollout-decision",
+      optionId: "standard-operation",
+    });
+    state = advanceUntil(
+      state,
+      (candidate) =>
+        candidate.endgame.stage === "rollout" &&
+        candidate.endgame.currentBeat === "stress-collision" &&
+        candidate.endgame.awaitingDecision,
+    );
+    const clean = mutable(state);
+    if (clean.endgame.stage !== "rollout") throw new Error("Rollout missing");
+    const model = clean.models[clean.endgame.candidateModelId];
+    const lab = clean.labs[clean.run.playerLabId];
+    if (model === undefined || lab === undefined) throw new Error("Fixture incomplete");
+    model.hiddenSafety.deceptiveCapability = rating(0);
+    model.hiddenSafety.deceptiveIntent = rating(0);
+    model.hiddenSafety.corrigibility = rating(100);
+    model.hiddenSafety.situationalAwareness = rating(0);
+    model.trueCapability.agency = rating(50);
+    model.trueCapability.toolUse = rating(50);
+    model.reliability = rating(100);
+    lab.politics.governmentTrust = rating(100);
+    const weights = rolloutStressWeights(clean);
+    expect(weights["corrigibility-contest"]).toBeGreaterThan(0);
+    expect(weights["evaluation-awareness"]).toBeGreaterThan(0);
+    expect(weights["deception-divergence"]).toBe(0);
+    expect(
+      rolloutDecisionContext(withStressTwist(clean, "corrigibility-contest"))?.title,
+    ).toBe(STRESS_TITLES["corrigibility-contest"]);
   });
 
   it("does not manifest deceptive behaviour from intent without deceptive capability", () => {
