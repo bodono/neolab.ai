@@ -341,4 +341,29 @@ describe("GPU finance costs", () => {
       6,
     );
   });
+
+  it("applies power-cost effects to GPUs the lab already owns", () => {
+    const state = newState();
+    const labId = state.run.playerLabId;
+    const before = calculateGpuFinanceCosts(state, content, labId).totalMillionsPerCycle;
+    expect(before).toBeGreaterThan(0);
+    const discounted = structuredClone(state) as DeepMutable<GameState>;
+    const modifierId = "modifier:test-power" as keyof GameState["modifiers"];
+    discounted.modifiers[modifierId] = {
+      id: modifierId,
+      source: { kind: "facility", id: "test-power-plant" },
+      labId,
+      target: "lab.compute.ownedPowerCost",
+      operation: "multiply",
+      value: 0.5,
+      startsAt: state.run.tick,
+      tags: [],
+    };
+    const after = calculateGpuFinanceCosts(
+      discounted,
+      content,
+      labId,
+    ).totalMillionsPerCycle;
+    expect(after).toBeCloseTo(before / 2, 1);
+  });
 });

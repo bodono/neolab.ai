@@ -414,10 +414,23 @@ export function calculateGpuFinanceCosts(
     .sort((left, right) => (left.id < right.id ? -1 : left.id > right.id ? 1 : 0))
     .map((lot): GpuFinanceCostLine => {
       const generation = requireGeneration(content, lot.generationId);
-      const fallback =
+      const baseCost =
         (lot.physicalCount / 1000) *
         generation.gameOperatingCostMillionsPerThousandPerCycle;
-      const amount = lot.recurringCostMillionsPerCycle ?? fallback;
+      // Electricity for owned GPUs is priced live, so power-cost effects
+      // (facilities, leaders, funding conditions) reach the whole fleet and
+      // expire when they end. It used to be locked at purchase, so a
+      // "-25% owned-GPU operating cost" building discounted only later orders
+      // and a one-year surcharge stayed on that year's GPUs for good. Leases
+      // and cloud contracts keep their locked terms.
+      const amount =
+        lot.ownership === "owned"
+          ? resolveModifierValue(state, "lab.compute.ownedPowerCost", baseCost, {
+              labId,
+              includeUnscoped: labId === state.run.playerLabId,
+              clampMin: 0,
+            }).final
+          : (lot.recurringCostMillionsPerCycle ?? baseCost);
       return {
         category: lot.ownership === "owned" ? "compute-power" : "compute-lease",
         sourceId: lot.id,
