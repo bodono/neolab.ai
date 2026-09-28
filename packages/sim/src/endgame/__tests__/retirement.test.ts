@@ -1506,6 +1506,41 @@ describe("canonical candidate retirement", () => {
     );
   });
 
+  it("resolves a failed moratorium chosen mid-recovery exactly once", () => {
+    const recovering = retirePreparedCandidate("filtered-technical-note");
+    const choose = createTransaction(recovering);
+    choosePostRetirementPath(choose, content, "durable-moratorium", alwaysFail);
+    const negotiating = choose.commit({ description: "begin early moratorium" }).state;
+    if (
+      negotiating.endgame.stage !== "recovery" ||
+      negotiating.endgame.moratoriumNegotiation === undefined
+    ) {
+      throw new Error("Negotiation did not begin");
+    }
+    const failureTick = negotiating.endgame.moratoriumNegotiation.resolvesAt;
+    expect(failureTick).toBeLessThan(negotiating.endgame.recoveryEndsAt);
+    const trustBefore =
+      negotiating.labs[negotiating.run.playerLabId]?.politics.governmentTrust ?? 0;
+
+    let state: GameState = negotiating;
+    for (let week: number = state.run.tick; week < failureTick + 3; week += 1) {
+      const due = structuredClone(state) as DeepMutable<GameState>;
+      due.run.tick = tick(week);
+      due.run.calendar = calendarFromTick(due.run.tick);
+      const tx = createTransaction(due);
+      advanceRetirementRecovery(tx, content, alwaysFail);
+      state = tx.commit({ description: `advance week ${String(week)}` }).state;
+    }
+
+    expect(state.endgame.stage).toBe("recovery");
+    expect(
+      state.presentationQueue.filter((item) => item.kind === "moratorium-result"),
+    ).toHaveLength(1);
+    expect(state.labs[state.run.playerLabId]?.politics.governmentTrust).toBe(
+      Math.max(0, trustBefore - 8),
+    );
+  });
+
   it("advances recovery across both weekly phase boundaries", () => {
     const recovering = retirePreparedCandidate("filtered-technical-note");
     const choose = createTransaction(recovering);

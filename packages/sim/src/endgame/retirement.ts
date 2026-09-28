@@ -1671,7 +1671,14 @@ export function advanceRetirementRecovery(
   if (state.run.status !== "active" || state.endgame.stage !== "recovery") return;
   const advancingTo = state.run.tick + 1;
   const negotiation = state.endgame.moratoriumNegotiation;
-  if (negotiation !== undefined && advancingTo >= negotiation.resolvesAt) {
+  // The negotiation stays recorded beside its result for the recovery view,
+  // so resolve only while no result exists. Without this guard a failed
+  // moratorium re-resolved every week until recovery ended.
+  if (
+    negotiation !== undefined &&
+    state.endgame.moratoriumResolution === undefined &&
+    advancingTo >= negotiation.resolvesAt
+  ) {
     if (negotiation.context === "false-dawn") {
       const outcome = advanceFalseDawnMoratoriumNegotiation(
         tx,
@@ -1695,10 +1702,13 @@ export function advanceRetirementRecovery(
           draft.endgame.resolvedAt = tick(advancingTo);
         });
       }
-    } else {
-      resolvePostRetirementMoratorium(tx, content, oracle, advancingTo);
+      return;
     }
-    return;
+    resolvePostRetirementMoratorium(tx, content, oracle, advancingTo);
+    const after = tx.read();
+    // A failed moratorium leaves recovery running; fall through so a
+    // same-week move into supervised rebuilding is still recorded.
+    if (after.run.status !== "active" || after.endgame.stage !== "recovery") return;
   }
   if (
     state.run.tick < state.endgame.quarantineEndsAt &&
