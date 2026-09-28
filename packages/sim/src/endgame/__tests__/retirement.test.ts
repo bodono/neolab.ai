@@ -38,7 +38,11 @@ import { calculateProjectCapacity } from "../../projects/capacity.ts";
 import { describeRandomKey, randomKey, type RandomKey } from "../../random/key.ts";
 import type { RandomOracle } from "../../random/oracle.ts";
 import { projectGameView } from "../../selectors/game-view.ts";
-import { AGI_COMPONENT_TYPES, agiComponentFlag } from "../candidate-programme.ts";
+import {
+  AGI_COMPONENT_TYPES,
+  agiComponentFlag,
+  isEligibleProgrammeCandidate,
+} from "../candidate-programme.ts";
 import {
   registerCompletedTrainingArtifact,
   resolveCandidatePressureCrossing,
@@ -1316,7 +1320,7 @@ describe("canonical candidate retirement", () => {
     ).toBeGreaterThan(artifact.incidentThreshold);
   });
 
-  it("keeps the first recovery obligation through a queued second retirement", () => {
+  it("keeps the first recovery obligation through a second retirement during recovery", () => {
     const initial = structuredClone(preparedCandidate()) as DeepMutable<GameState>;
     const firstModelId = candidateId(initial);
     const first = initial.models[firstModelId];
@@ -1368,10 +1372,15 @@ describe("canonical candidate retirement", () => {
       alwaysPass,
     );
     const queued = firstTransmit.commit({ description: "retire first candidate" }).state;
+    // Recovery runs first; the other qualified weights wait in custody and
+    // cannot be nominated until it ends.
     expect(queued.endgame).toMatchObject({
-      stage: "candidate-activation",
-      eligibleModelIds: [secondModelId],
+      stage: "recovery",
+      retiredModelId: firstModelId,
     });
+    const waiting = queued.models[secondModelId];
+    if (waiting === undefined) throw new Error("Second artifact missing");
+    expect(isEligibleProgrammeCandidate(queued, waiting)).toBe(false);
     const firstObligation = queued.endgameHistory.recoveryObligation;
     expect(firstObligation?.retiredModelId).toBe(firstModelId);
 
@@ -1583,7 +1592,7 @@ describe("canonical candidate retirement", () => {
     });
   });
 
-  it("interrupts recovery for a new candidate and resumes it after the last activation artifact alarms", () => {
+  it("keeps new qualifying weights in custody until recovery ends", () => {
     const recovering = structuredClone(
       retirePreparedCandidate("filtered-technical-note"),
     ) as DeepMutable<GameState>;
@@ -1626,16 +1635,13 @@ describe("canonical candidate retirement", () => {
 
     const detect = createTransaction(recovering);
     detectAndEnterDeploymentCrisis(detect);
-    const interrupted = detect.commit({ description: "interrupt recovery" }).state;
-    expect(interrupted.endgame).toMatchObject({
-      stage: "candidate-activation",
-      eligibleModelIds: [successorId],
-    });
-    expect(interrupted.endgameHistory.recoveryObligation?.retiredModelId).toBe(
-      retiredModelId,
-    );
+    const held = detect.commit({ description: "detect during recovery" }).state;
+    // The approved rules bar any candidacy during the 26-week recovery.
+    expect(held.endgame).toMatchObject({ stage: "recovery", retiredModelId });
+    expect(held.endgameHistory.recoveryObligation?.retiredModelId).toBe(retiredModelId);
 
-    const alarm = createTransaction(interrupted);
+    // The waiting weights can still raise an alarm without ending recovery.
+    const alarm = createTransaction(held);
     expect(
       resolveCandidatePressureCrossing(
         alarm,
@@ -1644,18 +1650,33 @@ describe("canonical candidate retirement", () => {
         oracleWithDraw(() => 0.5),
       ),
     ).toBe(true);
-    const resumed = alarm.commit({ description: "resume interrupted recovery" }).state;
-    expect(resumed.endgame).toMatchObject({
-      stage: "recovery",
-      retiredModelId,
-      archiveDisposition: "filtered-technical-note",
-    });
-    expect(resumed.endgameHistory.recoveryObligation?.retiredModelId).toBe(
-      retiredModelId,
-    );
-    expect(resumed.models[successorId]?.candidateArtifact?.lifecycle).toBe(
+    const alarmed = alarm.commit({ description: "alarm during recovery" }).state;
+    expect(alarmed.endgame).toMatchObject({ stage: "recovery", retiredModelId });
+    expect(alarmed.models[successorId]?.candidateArtifact?.lifecycle).toBe(
       "active-hazard",
     );
+
+    // Once recovery is discharged, qualified weights may be nominated again.
+    const discharged = structuredClone(held) as DeepMutable<GameState>;
+    delete discharged.endgameHistory.recoveryObligation;
+    discharged.endgame = { stage: "inactive" };
+    const reopened = createTransaction(discharged);
+    detectAndEnterDeploymentCrisis(reopened);
+    expect(
+      reopened.commit({ description: "detect after recovery" }).state.endgame,
+    ).toMatchObject({ stage: "candidate-activation", eligibleModelIds: [successorId] });
+  });
+
+  it("resumes a recovery obligation left behind by a closed crisis", () => {
+    const orphaned = structuredClone(
+      retirePreparedCandidate("filtered-technical-note"),
+    ) as DeepMutable<GameState>;
+    if (orphaned.endgame.stage !== "recovery")
+      throw new Error("Recovery fixture missing");
+    const retiredModelId = orphaned.endgame.retiredModelId;
+    orphaned.endgame = { stage: "inactive" };
+    const advanced = advanceOneTick(orphaned, content).state;
+    expect(advanced.endgame).toMatchObject({ stage: "recovery", retiredModelId });
   });
 
   it("keeps hard-cut surprise and staged verification as non-dominating tradeoffs", () => {

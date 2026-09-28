@@ -87,13 +87,31 @@ export function resumeInterruptedRetirementRecovery(tx: SimulationTransaction): 
 }
 
 /**
+ * Safety net: an outstanding recovery obligation with no active endgame must
+ * resume, or its supervised-rebuild phase blocks frontier training for the
+ * rest of the run. Waits while a False Dawn decision is pending, since that
+ * choice owns the endgame until it is made.
+ */
+export function resumeOrphanedRetirementRecovery(tx: SimulationTransaction): boolean {
+  const state = tx.read();
+  if (
+    state.run.status !== "active" ||
+    state.endgame.stage !== "inactive" ||
+    state.endgameHistory.recoveryObligation === undefined ||
+    state.endgameHistory.pendingFalseDawnChoice !== undefined
+  ) {
+    return false;
+  }
+  return resumeInterruptedRetirementRecovery(tx);
+}
+
+/**
  * Returns the active phase of a successful candidate archive.
  *
  * The first half is a hard containment and postmortem: no large training or
  * release work. The second half is a supervised rebuild: lower-scale training
- * may resume, while frontier-scale training stays locked. If an allowed run
- * nevertheless qualifies, its candidacy interrupts rather than erases the
- * outstanding recovery obligation.
+ * may resume, while frontier-scale training stays locked. Qualified weights
+ * wait in custody throughout: no candidacy begins until recovery ends.
  */
 export function archiveRecoveryPhase(
   state: Readonly<GameState>,

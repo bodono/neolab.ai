@@ -40,6 +40,7 @@ import {
   AGI_COMPONENT_RULES,
   AGI_COMPONENT_TYPES,
   agiComponentsComplete,
+  candidacyBlockedByRecovery,
   candidateDeclarationCooldownRemaining,
   candidateDeclarationCooldownUntil,
   isEligibleProgrammeCandidate,
@@ -4413,8 +4414,20 @@ function projectModels(
   });
   const practice = safetyPracticeProfile(lab.safety.practiceXp ?? 0);
   const containmentCapacity = candidateContainmentCapacity(state, lab.id);
-  const cooldownUntil = candidateDeclarationCooldownUntil(state, lab.id);
-  const cooldownRemaining = candidateDeclarationCooldownRemaining(state, lab.id);
+  // A retirement recovery also bars nominations until it ends, so the
+  // reopening week is the later of the declaration cooldown and recovery.
+  const recoveryEndsAt = candidacyBlockedByRecovery(state, lab.id)
+    ? state.endgameHistory.recoveryObligation?.recoveryEndsAt
+    : undefined;
+  const declarationCooldownUntil = candidateDeclarationCooldownUntil(state, lab.id);
+  const cooldownUntil =
+    recoveryEndsAt === undefined
+      ? declarationCooldownUntil
+      : Math.max(recoveryEndsAt, declarationCooldownUntil ?? 0);
+  const cooldownRemaining = Math.max(
+    candidateDeclarationCooldownRemaining(state, lab.id),
+    recoveryEndsAt === undefined ? 0 : recoveryEndsAt - state.run.tick,
+  );
   const declarationCooldown =
     cooldownUntil !== undefined && cooldownRemaining > 0
       ? { untilTick: cooldownUntil, remainingWeeks: cooldownRemaining }

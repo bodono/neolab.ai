@@ -223,6 +223,22 @@ export function satisfiesAgiCandidateRequirements(
   );
 }
 
+/**
+ * A verified retirement's 26-week recovery bars any new candidacy for the
+ * player, as the approved endgame rules require. Letting a sibling artifact
+ * be nominated straight away skipped containment, and a crisis that then
+ * closed without ending the run orphaned the recovery obligation.
+ */
+export function candidacyBlockedByRecovery(
+  state: Readonly<GameState>,
+  labId: LabId,
+): boolean {
+  return (
+    labId === state.run.playerLabId &&
+    state.endgameHistory.recoveryObligation !== undefined
+  );
+}
+
 /** Shared deterministic nomination predicate for both player and rivals. */
 export function isEligibleProgrammeCandidate(
   state: Readonly<GameState>,
@@ -232,6 +248,7 @@ export function isEligibleProgrammeCandidate(
   return (
     agiComponentsComplete(state, model.ownerLabId) &&
     !candidateDeclarationsPaused(state, model.ownerLabId, atTick) &&
+    !candidacyBlockedByRecovery(state, model.ownerLabId) &&
     satisfiesAgiCandidateCapabilityGate(model.trueCapability) &&
     isCandidateArtifactEligible(model)
   );
@@ -258,7 +275,8 @@ export function eligibleProgrammeCandidateModelIds(
   if (
     lab === undefined ||
     !agiComponentsComplete(state, labId) ||
-    candidateDeclarationsPaused(state, labId, atTick)
+    candidateDeclarationsPaused(state, labId, atTick) ||
+    candidacyBlockedByRecovery(state, labId)
   ) {
     return [];
   }

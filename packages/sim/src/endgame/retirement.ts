@@ -279,7 +279,10 @@ function activeRetirementBlocker(
     }
   } else if (
     state.endgame.stage !== "inactive" &&
-    state.endgame.stage !== "candidate-activation"
+    state.endgame.stage !== "candidate-activation" &&
+    // Qualified weights waiting out a recovery may still be retired from
+    // custody; recovery bars candidacy, not restraint.
+    state.endgame.stage !== "recovery"
   ) {
     return "No stable pre-deployment candidate decision is active";
   }
@@ -1194,24 +1197,18 @@ function enterVerifiedRetirement(
       detail: `Verified retirement: ${archiveDisposition}`,
       valence: contested ? -6 : 0,
     });
-    if (otherEligible.length > 0) {
-      draft.endgame = {
-        stage: "candidate-activation",
-        enteredAt: draft.run.tick,
-        eligibleModelIds: otherEligible,
-      };
-      draft.run.phase = "crisis";
-    } else {
-      draft.endgame = structuredClone(recovery) as DeepMutable<CrisisRecoveryState>;
-      draft.run.phase = "frontier";
-    }
+    // Recovery always runs first. Other qualified weights wait in custody:
+    // no candidacy may begin until the 26-week recovery is discharged.
+    draft.endgame = structuredClone(recovery) as DeepMutable<CrisisRecoveryState>;
+    draft.run.phase = "frontier";
     delete draft.aiCharacter;
     draft.decisionLog.push({
       tick: draft.run.tick,
       summary:
+        `Candidate retirement independently verified. ${contested ? "The contained resistance adds thirteen weeks of repairs. " : ""}The lab enters a 13-week quarantine followed by supervised rebuilding.` +
         (otherEligible.length > 0
-          ? `Candidate retirement independently verified. Recovery is now an outstanding obligation while ${String(otherEligible.length)} other qualified artifact(s) await nomination.`
-          : `Candidate retirement independently verified. ${contested ? "The contained resistance adds thirteen weeks of repairs. " : ""}The lab enters a 13-week quarantine followed by supervised rebuilding.`) +
+          ? ` ${String(otherEligible.length)} other qualified artifact(s) stay in custody; no candidacy can begin until recovery ends.`
+          : "") +
         " Public acclaim for institutional responsibility grants +15 Government Trust, +20 Spendable Aura, and a 25% safety research boost during recovery.",
       category: "narrative",
       source: { kind: "system", id: "endgame.candidate-retired" },

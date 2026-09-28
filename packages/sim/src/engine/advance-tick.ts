@@ -71,6 +71,7 @@ import { detectAndEnterDeploymentCrisis } from "../endgame/endgame-machine.ts";
 import { endgameClockStopReason } from "../endgame/clock-policy.ts";
 import { advanceRollout } from "../endgame/rollout.ts";
 import { advanceRetirementRecovery } from "../endgame/retirement.ts";
+import { resumeOrphanedRetirementRecovery } from "../endgame/archive-recovery.ts";
 import { advanceLatentCandidateHazards } from "../endgame/latent-hazard.ts";
 import { advanceAmbientChatter } from "../feed/ambient.ts";
 import { advanceResearcherReactions } from "../feed/reactions.ts";
@@ -781,6 +782,7 @@ function baselineSystems(): readonly TickSystem[] {
       phase: "ending-checks",
       priority: 0,
       run(tx, context): void {
+        resumeOrphanedRetirementRecovery(tx);
         // Candidate declarations become available in the committed state at
         // the end of their final cooldown week, not one tick later.
         detectAndEnterDeploymentCrisis(tx, makeTick(context.tick + 1));
