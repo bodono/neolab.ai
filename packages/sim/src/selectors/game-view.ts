@@ -1555,6 +1555,7 @@ export interface PoliticsView {
     readonly canJoin: boolean;
     readonly blockers: readonly string[];
     readonly exitTrustCost: number;
+    readonly exitDependenceCost: number;
     readonly exitProgrammeCount: number;
     readonly exitProgrammeNames: readonly string[];
     readonly championRefusalAvailable: boolean;
@@ -3059,6 +3060,7 @@ function projectPolitics(
         canJoin: quote.canJoin,
         blockers: quote.blockers,
         exitTrustCost: exit.trustCost,
+        exitDependenceCost: exit.dependenceCost,
         exitProgrammeCount: exit.programmeIds.length,
         exitProgrammeNames: exit.programmeNames,
         championRefusalAvailable:

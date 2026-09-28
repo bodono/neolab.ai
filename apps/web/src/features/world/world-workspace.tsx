@@ -486,6 +486,9 @@ export function WorldWorkspace({
                       {programme.exitProgrammeCount > 1
                         ? `Leave ${programme.exitProgrammeCount} programmes · trust −${programme.exitTrustCost}`
                         : `Leave · trust −${programme.exitTrustCost}`}
+                      {programme.exitDependenceCost > 0
+                        ? ` · dependence −${programme.exitDependenceCost}`
+                        : ""}
                     </button>
                   </>
                 ) : programme.canJoin ? (

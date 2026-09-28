@@ -764,6 +764,7 @@ describe("government programmes ladder", () => {
       programmeIds: ["defence-applications", "national-champion"],
       programmeNames: ["Defence Applications Programme", "National Champion Track"],
       trustCost: PROGRAMME_EXIT_TRUST_COST * 2,
+      dependenceCost: 50,
     });
     const leaveTx = createTransaction(state);
     leaveGovernmentProgramme(leaveTx, state.run.playerLabId, "defence-applications");
@@ -785,6 +786,51 @@ describe("government programmes ladder", () => {
         ].includes(modifier.source.id ?? ""),
       ),
     ).toHaveLength(0);
+  });
+
+  it("hands dependence back on exit so leaving and rejoining cannot pump it", () => {
+    let state: GameState = mutable(newState());
+    const labId = state.run.playerLabId;
+    const draft = mutable(state);
+    const lab = draft.labs[labId];
+    if (lab === undefined) throw new Error("missing player lab");
+    lab.politics.governmentTrust = rating(100);
+    lab.politics.strategicDependence = rating(0);
+    lab.politics.programmes.push("safety-standards-partnership");
+    state = draft;
+    const dependence = (candidate: GameState) =>
+      candidate.labs[labId]?.politics.strategicDependence ?? -1;
+    const join = (candidate: GameState) => {
+      const tx = createTransaction(candidate);
+      joinGovernmentProgramme(tx, compiled, labId, "public-sector-contract");
+      return tx.commit({ description: "join" }).state;
+    };
+    const leave = (candidate: GameState) => {
+      const tx = createTransaction(candidate);
+      leaveGovernmentProgramme(tx, labId, "public-sector-contract");
+      return tx.commit({ description: "leave" }).state;
+    };
+
+    const joined = join(state);
+    expect(dependence(joined)).toBe(12);
+    expect(
+      quoteGovernmentProgrammeExit(joined, labId, "public-sector-contract")
+        .dependenceCost,
+    ).toBe(12);
+    const left = leave(joined);
+    expect(dependence(left)).toBe(0);
+    const rejoined = mutable(join(left));
+    expect(dependence(rejoined)).toBe(12);
+
+    // Public-Sector plus Defence reach the Champion requirement on their own.
+    const rejoinedLab = rejoined.labs[labId];
+    if (rejoinedLab === undefined) throw new Error("missing player lab");
+    rejoinedLab.politics.governmentTrust = rating(100);
+    rejoinedLab.politics.programmes.push("defence-applications");
+    rejoinedLab.politics.strategicDependence = rating(37);
+    expect(
+      quoteGovernmentProgramme(rejoined, compiled, labId, "national-champion").blockers,
+    ).toEqual([]);
   });
 
   it("quotes the full downstream exit cascade before the player commits", () => {

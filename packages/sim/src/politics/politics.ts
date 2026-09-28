@@ -808,9 +808,12 @@ export const GOVERNMENT_PROGRAMMES: Readonly<
       "Private customer acquisition \u221220% \u00b7 attention never below 50 \u00b7 dependence +25 \u00b7 attention +15 \u00b7 nationalisation exposure",
     endgameLabel:
       "Long Pause strength +4 \u00b7 licensed-route fit +10 \u00b7 emergency-response strength +7 \u00b7 may refuse nationalisation once",
+    // Reachable through the rungs themselves: the Public-Sector Contract and
+    // Defence Applications leave the state 37 dependent on the lab. At 50 it
+    // needed a nationalisation scare on top and still fell short.
     unlock: {
       prerequisiteProgrammeId: "defence-applications",
-      dependenceAtLeast: 50,
+      dependenceAtLeast: 35,
     },
     onJoin: { attention: 15, dependence: 25 },
     standingModifiers: [
@@ -1059,6 +1062,8 @@ export interface GovernmentProgrammeExitQuote {
   readonly programmeIds: readonly GovernmentProgrammeId[];
   readonly programmeNames: readonly string[];
   readonly trustCost: number;
+  /** Dependence the join bonuses granted, handed back on exit. */
+  readonly dependenceCost: number;
 }
 
 /**
@@ -1072,7 +1077,7 @@ export function quoteGovernmentProgrammeExit(
 ): GovernmentProgrammeExitQuote {
   const lab = requireLab(state, labId);
   if (!lab.politics.programmes.includes(programmeId)) {
-    return { programmeIds: [], programmeNames: [], trustCost: 0 };
+    return { programmeIds: [], programmeNames: [], trustCost: 0, dependenceCost: 0 };
   }
 
   const active = new Set(lab.politics.programmes);
@@ -1103,6 +1108,14 @@ export function quoteGovernmentProgrammeExit(
       (candidateId) => GOVERNMENT_PROGRAMMES[candidateId].displayName,
     ),
     trustCost: programmeExitTrustCost(state, labId) * programmeIds.length,
+    dependenceCost: Math.min(
+      requireLab(state, labId).politics.strategicDependence,
+      programmeIds.reduce(
+        (total, candidateId) =>
+          total + (GOVERNMENT_PROGRAMMES[candidateId].onJoin.dependence ?? 0),
+        0,
+      ),
+    ),
   };
 }
 
@@ -1166,6 +1179,11 @@ export function leaveGovernmentProgramme(
     );
     mutable.politics.governmentTrust = rating(
       clamp(mutable.politics.governmentTrust - exit.trustCost),
+    );
+    // The state stops depending on services the lab no longer provides.
+    // Keeping the join bonus let a leave-and-rejoin loop pump dependence.
+    mutable.politics.strategicDependence = rating(
+      clamp(mutable.politics.strategicDependence - exit.dependenceCost),
     );
     // Leaving the champion programme surrenders the refusal privilege; it is
     // not something a lab can bank and walk away with.
