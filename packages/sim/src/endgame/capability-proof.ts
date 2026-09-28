@@ -398,6 +398,13 @@ const CONSEQUENCE_COPY: Readonly<Record<CapabilityProofConsequenceId, string>> =
     "A repeated dispute became public. Another challenge will cost more time, exposure, and legitimacy.",
 };
 
+/** Inverse CDF of a symmetric triangular distribution on [-halfWidth, halfWidth]. */
+function symmetricTriangular(uniformDraw: number, halfWidth: number): number {
+  return uniformDraw < 0.5
+    ? halfWidth * (Math.sqrt(2 * uniformDraw) - 1)
+    : halfWidth * (1 - Math.sqrt(2 * (1 - uniformDraw)));
+}
+
 /**
  * Resolve noisy evidence against fixed lineage truth. Re-running a test never
  * changes the ontic draw; it only appends another observation with its own key.
@@ -455,15 +462,21 @@ export function resolveCapabilityProof(
       : verifierId === "blinded-internal"
         ? manipulationPressure * awarenessOpportunity * 6
         : 0;
-  const truthContribution = genuine
-    ? 14 + independence * 0.1
-    : -(6 + independence * 0.18);
+  // The lineage truth moves the result by less than the measurement noise, so a
+  // proof is evidence and never an oracle. Independent verification separates
+  // genuine from false passes most (about 12 points against triangular noise
+  // of +/-20); a candidate-designed test barely separates them at all. When the
+  // separation exceeded the noise, one proof certified or refuted genuine SI.
+  const truthSeparation = 8 + independence * 0.05;
+  const truthContribution = (genuine ? 0.5 : -0.5) * truthSeparation;
   const evaluationContribution =
     effectiveEvaluationQuality(state, model.ownerLabId) * 0.1;
-  const verifierContribution = genuine
-    ? (verifier?.evaluationIntegrity ?? 0) * 0.08
-    : -(verifier?.evaluationIntegrity ?? 0) * 0.05;
-  const noise = (draw - 0.5) * (verifierId === "independent-institutional" ? 12 : 22);
+  // A credible verifier makes any result more legible; it does not know the truth.
+  const verifierContribution = (verifier?.evaluationIntegrity ?? 0) * 0.05;
+  const noise = symmetricTriangular(
+    draw,
+    verifierId === "independent-institutional" ? 20 : 30,
+  );
   const repeatedScrutinyPenalty = Math.min(12, attemptIndex * 4);
   const evidenceStrength = Math.max(
     0,

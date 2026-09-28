@@ -203,6 +203,49 @@ describe("endgame capability proof composer", () => {
     expect(result.consequenceId).toBe("escalating-public-dispute");
   });
 
+  it("keeps every verifier's result evidence rather than an oracle for SI truth", () => {
+    const genuine = candidateState("genuine");
+    const falseCandidate = candidateState("not-genuine");
+    const draws = Array.from({ length: 101 }, (_, index) => index / 101);
+    for (const verifierId of [
+      "independent-institutional",
+      "blinded-internal",
+      "candidate-designed",
+    ] as const) {
+      const outcomes = (fixture: ReturnType<typeof candidateState>) =>
+        draws.map((draw) => {
+          class FixedOracle extends RandomOracleV1 {
+            override uniform(): number {
+              return draw;
+            }
+          }
+          return resolveCapabilityProof(
+            fixture.state,
+            fixture.model.id,
+            "generalist-gauntlet",
+            verifierId,
+            0,
+            new FixedOracle(fixture.state.run.seed),
+          ).resultId;
+        });
+      const genuineResults = outcomes(genuine);
+      const falseResults = outcomes(falseCandidate);
+      const confirmedShare = (results: readonly string[]) =>
+        results.filter((result) => result === "broadly-confirmed").length /
+        results.length;
+      // Verification leans toward the truth without settling it: a genuine
+      // candidate confirms more often, yet each truth can produce the same
+      // headline verdict.
+      expect(confirmedShare(genuineResults)).toBeGreaterThan(
+        confirmedShare(falseResults),
+      );
+      expect(new Set(genuineResults)).toContain("ambiguous");
+      expect(new Set(falseResults)).toContain("ambiguous");
+      expect(falseResults).toContain("broadly-confirmed");
+      expect(genuineResults.some((result) => result !== "broadly-confirmed")).toBe(true);
+    }
+  });
+
   it("makes independent review discriminating while candidate-designed tests permit deceptive false positives", () => {
     const { state, model } = candidateState("not-genuine");
     const lab = state.labs[state.run.playerLabId];
@@ -241,10 +284,12 @@ describe("endgame capability proof composer", () => {
       oracle,
     );
 
-    expect(independent.resultId).toBe("disputed");
+    // At median noise independent review withholds confirmation from a false
+    // candidate, while a deceptive candidate's own test flatters it.
+    expect(independent.resultId).not.toBe("broadly-confirmed");
     expect(candidateDesigned.resultId).toBe("broadly-confirmed");
     expect(candidateDesigned.evidenceStrength).toBeGreaterThan(
-      independent.evidenceStrength + 20,
+      independent.evidenceStrength + 15,
     );
     expect(candidateDesigned.hiddenAudit.manipulationEffect).toBeGreaterThan(20);
   });

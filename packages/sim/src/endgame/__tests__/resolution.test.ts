@@ -195,7 +195,10 @@ describe("Deployment Crisis capability-proof loop", () => {
       state.endgame.stage === "evidence-sprint"
         ? state.endgame.capabilityProofHistory.at(-1)
         : undefined;
-    expect(proof?.resultId).toBe("broadly-confirmed");
+    // A proof passes unless it is disputed; confirmed and ambiguous both open
+    // the evidence sprint, and the presentation mirrors the exact result.
+    expect(proof).toBeDefined();
+    expect(proof?.resultId).not.toBe("disputed");
     expect(state.presentationQueue).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -204,7 +207,7 @@ describe("Deployment Crisis capability-proof loop", () => {
           attention: "modal",
           modelId: proof?.modelId,
           historyId: proof?.historyId,
-          resultId: "broadly-confirmed",
+          resultId: proof?.resultId,
           createdAt: proof?.resolvedAt,
         }),
       ]),

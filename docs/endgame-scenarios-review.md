@@ -237,7 +237,7 @@ at the start of the crisis with what was actually true.
 
 The first question is not “How should we deploy AGI?” but “What claim can this exact artifact support?” The player combines a capability challenge with a verifier. The challenge determines the scope and exposure of the test; the verifier trades speed and secrecy against independence and resistance to evaluation gaming.
 
-The resulting proof can be broad, domain-specific, ambiguous, disputed, or fabricated. It is evidence, not an oracle: no result reads the lineage's hidden superintelligence truth, and a failed or disputed proof does not itself trigger False Dawn. The player may gather more evidence, attempt retirement, or deploy immediately with uncertainty unresolved.
+The resulting proof can be broad, domain-specific, ambiguous, disputed, or fabricated. It is evidence, not an oracle: the lineage's hidden superintelligence truth shifts the result by less than the measurement noise, so every verdict is possible either way. Independent verification separates genuine from false passes best, and a deceptive candidate can flatter its own test. A failed or disputed proof does not itself trigger False Dawn. The player may gather more evidence, attempt retirement, or deploy immediately with uncertainty unresolved.
 
 ### False Dawn after deployment
 
