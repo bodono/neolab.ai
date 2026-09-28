@@ -950,6 +950,55 @@ describe("Deployment Crisis final review and resolution", () => {
     ).not.toThrow();
   });
 
+  it("rejects a proof that needs an access raise while a containment signal is unresolved", () => {
+    const qualified = promote(createState());
+    let nominated = advanceOneTick(qualified.state, content).state;
+    nominated = dispatch(nominated, {
+      kind: "nominate-candidate",
+      modelId: qualified.modelId,
+    });
+    const prepared = structuredClone(nominated) as DeepMutable<GameState>;
+    if (prepared.endgame.stage !== "confirmation") {
+      throw new Error("Confirmation fixture missing");
+    }
+    const model = prepared.models[prepared.endgame.candidateModelId];
+    const artifact = model?.candidateArtifact;
+    if (model === undefined || artifact === undefined) {
+      throw new Error("Candidate artifact missing");
+    }
+    model.accessLevel = 0;
+    if (prepared.aiCharacter !== undefined) prepared.aiCharacter.currentAccess = 0;
+    artifact.lifecycle = "active-hazard";
+    artifact.activeIncident = {
+      id: `candidate-incident:${model.id}:proof-access`,
+      epoch: artifact.incidentEpoch,
+      incidentClass: "suspicious-signal",
+      kind: "warning",
+      status: "unresolved",
+      triggeredAt: prepared.run.tick,
+      origin: "weekly-pressure",
+      priorLifecycle: "formal-candidate",
+      reviewOutcome: "confirmed-safety-signal",
+    };
+    const quote = quoteCapabilityProofProject(
+      prepared,
+      content,
+      prepared.run.playerLabId,
+      "generalist-gauntlet",
+      "blinded-internal",
+    );
+    expect(quote.proof.accessRequired).toBeGreaterThan(0);
+    expect(quote.blockers).toContain(
+      "Resolve the active candidate containment signal first",
+    );
+    const commit = command(prepared, {
+      kind: "commit-capability-proof",
+      challengeId: "generalist-gauntlet",
+      verifierId: "blinded-internal",
+    });
+    expect(() => applyCommand(prepared, content, commit)).toThrow(CommandRejectedError);
+  });
+
   it("blocks route selection while a candidate containment signal is unresolved", () => {
     const prepared = structuredClone(reachFinalReview().state) as DeepMutable<GameState>;
     if (prepared.endgame.stage !== "final-review") {

@@ -47,7 +47,12 @@ import { calculateInterventionPressure } from "../politics/politics.ts";
 import type { ProjectHandler } from "../projects/project-handler.ts";
 import { randomKey } from "../random/key.ts";
 import { RandomOracleV1, type RandomOracle } from "../random/oracle.ts";
-import { CANDIDATE_ACCESS_RULES, setCandidateAccess } from "./access.ts";
+import {
+  CANDIDATE_ACCESS_RULES,
+  criticalAccessConfirmationPhrase,
+  quoteCandidateAccess,
+  setCandidateAccess,
+} from "./access.ts";
 import {
   CAPABILITY_VERIFIER_RULES,
   quoteCapabilityProof,
@@ -192,6 +197,20 @@ export function quoteCapabilityProofProject(
           project.status === "paused"),
     );
   if (activeProof) blockers.push("A capability proof is already under way");
+  if (model.accessLevel < proof.accessRequired) {
+    // Committing raises access to the proof's minimum. Surface that raise's
+    // blockers (an unresolved containment signal, say) here, or the commit
+    // passes validation and then throws inside the access change.
+    const accessLevel = proof.accessRequired;
+    blockers.push(
+      ...quoteCandidateAccess(
+        state,
+        model.id,
+        accessLevel,
+        criticalAccessConfirmationPhrase(accessLevel),
+      ).blockers,
+    );
+  }
   if (
     proof.challenge.requiresFacilityTag !== undefined &&
     !hasFacilityTag(state, content, labId, proof.challenge.requiresFacilityTag)
