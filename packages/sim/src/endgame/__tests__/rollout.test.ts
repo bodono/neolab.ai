@@ -27,6 +27,7 @@ import { quoteDeploymentTransmission } from "../deployment-command.ts";
 import { extinctionPathwayWeights } from "../extinction-pathways.ts";
 import { enterFinalReview } from "../resolution.ts";
 import { rolloutDecisionContext, rolloutDecisionOptions } from "../rollout.ts";
+import { projectEndgameView } from "../../selectors/endgame-view.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
 
@@ -301,6 +302,77 @@ describe("deployment rollout", () => {
     });
     expect(rolloutDecisionOptions(manifested).map((option) => option.label)).toContain(
       "Freeze the run and activate deception tripwires",
+    );
+  });
+
+  it("keeps rollout checks sealed until transmission and refuses a mid-rollout re-roll", () => {
+    const reached = reachFinalReview();
+    let state = dispatch(reached.state, {
+      kind: "choose-deployment-mode",
+      modeId: "adaptive-monitored-rollout",
+    });
+    state = resolvePoliticalRestrictionIfRequired(state);
+    for (let step = 0; step < 4; step += 1) {
+      state = advanceUntil(
+        state,
+        (candidate) =>
+          candidate.endgame.stage !== "rollout" ||
+          candidate.endgame.awaitingDecision ||
+          candidate.endgame.completedBeatIds.includes("demonstration"),
+        40,
+      );
+      if (
+        state.endgame.stage !== "rollout" ||
+        state.endgame.completedBeatIds.includes("demonstration")
+      ) {
+        break;
+      }
+      const option = rolloutDecisionOptions(state)[0];
+      if (option === undefined) throw new Error("Rollout decision options missing");
+      state = dispatch(state, { kind: "resolve-rollout-decision", optionId: option.id });
+    }
+    if (state.endgame.stage !== "rollout") {
+      throw new Error(`Expected a controlled rollout, got ${state.endgame.stage}`);
+    }
+    expect(state.endgame.completedBeatIds).toContain("demonstration");
+    expect(state.endgame.completedBeatIds).not.toContain("settlement");
+    const sealedGates = state.endgame.gateResolutions.map((gate) => gate.gate);
+    expect(sealedGates).toEqual(
+      expect.arrayContaining(["control", "stewardship", "benefit"]),
+    );
+
+    const view = projectEndgameView(state, content, {
+      viewerLabId: state.run.playerLabId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    });
+    if (!view.active || view.stageActions.kind !== "rollout") {
+      throw new Error("Rollout view missing");
+    }
+    expect(
+      view.stageActions.gateResults.every((gate) => gate.gate === "authorisation"),
+    ).toBe(true);
+    expect(
+      state.decisionLog.some(
+        (entry) => entry.source?.id?.startsWith("endgame.prosperity.") === true,
+      ),
+    ).toBe(false);
+
+    const model = state.models[state.endgame.candidateModelId];
+    const phrase = `DEPLOY ${model?.displayName ?? "missing"}`;
+    expect(quoteDeploymentTransmission(state, phrase).blockers).toContain(
+      "The rollout's demonstration results are sealed; complete the settlement before transmitting",
+    );
+
+    const settled = advanceUntil(
+      state,
+      (candidate) =>
+        candidate.endgame.stage !== "rollout" ||
+        candidate.endgame.completedBeatIds.includes("settlement"),
+      40,
+    );
+    expect(quoteDeploymentTransmission(settled, phrase).blockers).not.toContain(
+      "The rollout's demonstration results are sealed; complete the settlement before transmitting",
     );
   });
 

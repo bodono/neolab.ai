@@ -482,6 +482,13 @@ describe("typed final deployment and world-waiting reveal", () => {
       advanceWorldWaiting(reveal);
       state = reveal.commit({ description: "reveal" }).state;
     }
+    // The prosperity programme's benefit is narrated when its callout is
+    // revealed, not while the rollout could still be abandoned.
+    expect(
+      state.decisionLog.filter(
+        (entry) => entry.source?.id?.startsWith("endgame.prosperity.") === true,
+      ),
+    ).toHaveLength(1);
     const resolve = createTransaction(state);
     advanceWorldWaiting(resolve);
     const resolved = resolve.commit({ description: "resolve caretaker" });

@@ -952,7 +952,12 @@ const PROSPERITY_RESOLUTION_BEATS: Readonly<
   },
 };
 
-function recordProsperityResolutionBeat(
+/**
+ * Narrate the prosperity programme's benefit result. This reveals a sealed
+ * gate, so it runs when world-waiting reveals the benefit callout, never
+ * during the rollout while the player can still retire the candidate.
+ */
+export function recordProsperityResolutionBeat(
   tx: SimulationTransaction,
   programmeId: ProsperityProgrammeId,
   result: Readonly<GateResolutionState>,
@@ -1014,8 +1019,7 @@ export function advanceRollout(
     }
     appendGate(tx, content, "catastrophe");
     appendGate(tx, content, "stewardship");
-    const benefit = appendGate(tx, content, "benefit");
-    recordProsperityResolutionBeat(tx, state.endgame.prosperityProgrammeId, benefit);
+    appendGate(tx, content, "benefit");
     updateRollout(tx, (rollout) => {
       rollout.completedBeatIds.push("demonstration");
       rollout.currentBeat = "settlement";

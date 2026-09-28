@@ -26,6 +26,7 @@ import {
   type EndingDefinition,
 } from "./endings.ts";
 import { compileFinalReview, resolveGate } from "./resolution.ts";
+import { recordProsperityResolutionBeat } from "./rollout.ts";
 import {
   CARETAKER_ENDING_ID,
   FALSE_DAWN_ENDING_ID,
@@ -149,6 +150,17 @@ export function quoteDeploymentTransmission(
     crisis.stage === "rollout" &&
     crisis.currentBeat === "settlement" &&
     crisis.completedBeatIds.includes("settlement");
+  if (
+    crisis.stage === "rollout" &&
+    !completedPreparedRoute &&
+    crisis.completedBeatIds.includes("demonstration")
+  ) {
+    // The rollout's hidden checks have already resolved. Switching to Deploy
+    // Now would discard them and draw fresh ones under new keys.
+    blockers.push(
+      "The rollout's demonstration results are sealed; complete the settlement before transmitting",
+    );
+  }
   const defiesAuthorisationRestriction = hasUnresolvedAuthorisationRestriction(crisis);
   const phrase = candidate === undefined ? undefined : `DEPLOY ${candidate.displayName}`;
   if (phrase !== undefined && suppliedConfirmation !== phrase) {
@@ -516,6 +528,11 @@ export function advanceWorldWaiting(tx: SimulationTransaction): void {
       }
       draft.endgame.revealedCalloutCount += 1;
     });
+    const revealed = state.endgame.callouts[state.endgame.revealedCalloutCount];
+    const benefit = state.endgame.gateResolutions.find((gate) => gate.gate === "benefit");
+    if (revealed?.id === "benefit" && benefit !== undefined) {
+      recordProsperityResolutionBeat(tx, state.endgame.prosperityProgrammeId, benefit);
+    }
     return;
   }
   if (state.endgame.selectedEndingId === FALSE_DAWN_ENDING_ID) {

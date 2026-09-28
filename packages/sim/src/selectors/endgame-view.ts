@@ -1553,7 +1553,13 @@ function stageActions(
         awaitingDecision: rollout.awaitingDecision,
         ...(decisionContext === undefined ? {} : { decisionContext }),
         options: rolloutDecisionOptions(state).map((option) => ({ ...option })),
-        gateResults: playerSafeGateResults(rollout.gateResolutions),
+        // Only authorisation is public before transmission. The control,
+        // catastrophe, stewardship, benefit, and settlement checks stay sealed
+        // until world-waiting reveals them, or the reveal would be hollow and
+        // the player could retire after seeing a bad result.
+        gateResults: playerSafeGateResults(
+          rollout.gateResolutions.filter((gate) => gate.gate === "authorisation"),
+        ),
       };
     }
     case "world-waiting": {
