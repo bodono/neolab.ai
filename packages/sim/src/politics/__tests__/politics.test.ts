@@ -9,6 +9,10 @@ import {
 
 import rawBundle from "../../../../content/generated/content.bundle.json";
 import { applyCommand } from "../../commands/apply.ts";
+import {
+  createProgressiveNewGame,
+  LAB_MATURITY_STAGE_FLAG,
+} from "../../campaign/lab-maturity.ts";
 import { createTransaction } from "../../engine/transaction.ts";
 import { advanceOneTick } from "../../engine/advance-tick.ts";
 import { createNewGame } from "../../engine/create-new-game.ts";
@@ -603,6 +607,36 @@ describe("government programmes ladder", () => {
     expect(left.labs[state.run.playerLabId]?.politics.governmentTrust).toBe(
       trustBefore + 3 - PROGRAMME_EXIT_TRUST_COST,
     );
+  });
+
+  it("keeps programmes closed until the protected opening ends", () => {
+    const opening = mutable(
+      createProgressiveNewGame(
+        {
+          seed: seed128("0123456789abcdef0123456789abcdef"),
+          difficultyId: contentId("base:difficulty.standard"),
+          leaderId: contentId("base:leader.thomas-hassabi"),
+          mandateId: contentId("base:mandate.build-the-science"),
+        },
+        compiled,
+      ),
+    );
+    const labId = opening.run.playerLabId;
+    const lab = opening.labs[labId];
+    if (lab === undefined) throw new Error("opening lab missing");
+    // World (and so the programme list) unlocks in chapter 3, long before
+    // quarterly settlement starts.
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = "startup";
+    expect(
+      quoteGovernmentProgramme(opening, compiled, labId, "safety-standards-partnership")
+        .blockers,
+    ).toContain("Government programmes open when the lab reaches the frontier");
+
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = "frontier";
+    expect(
+      quoteGovernmentProgramme(opening, compiled, labId, "safety-standards-partnership")
+        .blockers,
+    ).not.toContain("Government programmes open when the lab reaches the frontier");
   });
 
   it("indexes quarterly grants to current accelerator prices", () => {

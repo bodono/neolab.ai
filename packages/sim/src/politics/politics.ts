@@ -1,5 +1,6 @@
 import { contentId, type CompiledContent } from "@neolab/content-schema";
 import { classifyCapabilityTier } from "../models/tiers.ts";
+import { isProgressiveOpeningProtected } from "../campaign/progressive-opening.ts";
 
 import { applyEffect } from "../engine/effect-executor.ts";
 import { logisticProbability, resolveCheck } from "../engine/checks.ts";
@@ -974,6 +975,12 @@ export function quoteGovernmentProgramme(
   const blockers: string[] = [];
   if (active) {
     blockers.push("Already enrolled");
+  }
+  // Quarterly payments and trust only settle once the protected opening
+  // ends, while a programme's standing costs apply from the day it is joined.
+  // Joining earlier would charge the costs for chapters without paying.
+  if (labId === state.run.playerLabId && isProgressiveOpeningProtected(state)) {
+    blockers.push("Government programmes open when the lab reaches the frontier");
   }
   if (
     definition.unlock.prerequisiteProgrammeId !== undefined &&
