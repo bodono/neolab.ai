@@ -731,6 +731,8 @@ export interface FundraisingState {
   readonly offers: Readonly<Record<FundingOfferId, FundingOfferState>>;
   readonly offerOrder: readonly FundingOfferId[];
   readonly cooldownUntil: Partial<Record<FundingCampaignType, Tick>>;
+  /** Earliest tick another emergency Quiet bridge may skip cooldown and Aura. */
+  readonly emergencyBridgeAvailableAt?: Tick;
   readonly obligations: readonly FundingObligationState[];
 }
 

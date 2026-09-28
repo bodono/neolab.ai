@@ -309,6 +309,9 @@ export function calculateFundingScore(
   };
 }
 
+/** At most one emergency Quiet bridge per year. */
+export const EMERGENCY_BRIDGE_INTERVAL_WEEKS = 52;
+
 export interface FundraisingCampaignQuote {
   readonly futureProjectId: ProjectId;
   readonly campaign: FundingCampaignType;
@@ -323,6 +326,8 @@ export interface FundraisingCampaignQuote {
   };
   readonly durationWeeks: number;
   readonly offerCount: number;
+  /** True when this quote uses the once-a-year emergency relief. */
+  readonly emergencyBridge: boolean;
   readonly cooldownUntil: number;
   readonly fundingScore: FundingScoreBreakdownState;
   readonly estimatedCashRangeMillions: readonly [number, number];
@@ -382,8 +387,15 @@ export function quoteFundraisingCampaign(
     labId,
     definition.attentionBonus,
   );
+  // A lab below $0 may launch one Quiet bridge a year with whatever Aura it
+  // has left and without waiting out the cooldown. Unlimited, this let a lab
+  // hold Aura near 1, dip below zero before each settlement, and raise a
+  // tenth of its valuation every month.
   const emergencyBridge =
-    campaign === "quiet-bridge" && lab.finance.cash < 0 && lab.aura.spendable > 0;
+    campaign === "quiet-bridge" &&
+    lab.finance.cash < 0 &&
+    lab.aura.spendable > 0 &&
+    (state.fundraising.emergencyBridgeAvailableAt ?? 0) <= state.run.tick;
   // A lab that is permanently raising burns goodwill. Global talent/capital
   // pressure and recent-round pressure remain separate, player-visible lines.
   const recentRounds = countRecentAcceptedRounds(state, labId);
@@ -421,6 +433,16 @@ export function quoteFundraisingCampaign(
   ) {
     blockers.push(`Campaign is cooling down until week ${String(currentCooldown)}`);
   }
+  const emergencyReliefSpent =
+    campaign === "quiet-bridge" &&
+    lab.finance.cash < 0 &&
+    !emergencyBridge &&
+    (state.fundraising.emergencyBridgeAvailableAt ?? 0) > state.run.tick;
+  if (emergencyReliefSpent && blockers.length > 0) {
+    blockers.push(
+      `Emergency bridge relief was used within the last year; it returns in week ${String(state.fundraising.emergencyBridgeAvailableAt)}`,
+    );
+  }
   const roundOrdinal = nextFundraisingRoundOrdinal(state, labId);
   return {
     futureProjectId: formatRunEntityId(
@@ -441,6 +463,7 @@ export function quoteFundraisingCampaign(
     },
     durationWeeks,
     offerCount: definition.offerCount,
+    emergencyBridge,
     cooldownUntil: state.run.tick + definition.cooldownWeeks,
     fundingScore,
     estimatedCashRangeMillions: estimateCampaignCashRange(
@@ -577,6 +600,11 @@ export function startFundraisingCampaign(
     draft.projects[projectId] = structuredClone(project) as DeepMutable<ProjectState>;
     mutableLab.projects.projectIds.push(projectId);
     draft.fundraising.cooldownUntil[campaign] = tick(quote.cooldownUntil);
+    if (quote.emergencyBridge) {
+      draft.fundraising.emergencyBridgeAvailableAt = tick(
+        draft.run.tick + EMERGENCY_BRIDGE_INTERVAL_WEEKS,
+      );
+    }
     draft.decisionLog.push({
       tick: draft.run.tick,
       summary: `${quote.roundLabel} fundraising started via ${quote.displayName}; ${String(quote.auraCost)} Aura committed.`,

@@ -258,6 +258,47 @@ describe("fundraising campaigns", () => {
     ).toContain("Campaign is cooling down until week 13");
   });
 
+  it("allows one emergency Quiet bridge a year, not one per settlement", () => {
+    const state = mutable(newState());
+    const labId = state.run.playerLabId;
+    const lab = state.labs[labId];
+    if (lab === undefined) throw new Error("lab fixture missing");
+    lab.finance.cash = cashMillions(-5);
+    lab.aura.spendable = 1;
+    lab.aura.lifetime = 100;
+    state.fundraising.cooldownUntil["quiet-bridge"] = tick(state.run.tick + 13);
+
+    const emergency = quoteFundraisingCampaign(state, content, labId, "quiet-bridge");
+    expect(emergency.emergencyBridge).toBe(true);
+    expect(emergency.blockers).toEqual([]);
+    expect(emergency.auraCost).toBe(1);
+
+    const started = applyCommand(
+      state,
+      content,
+      campaignCommand(state, "quiet-bridge"),
+    ).state;
+    expect(started.fundraising.emergencyBridgeAvailableAt).toBe(started.run.tick + 52);
+
+    // A month later the lab is below zero again with Aura left: the relief
+    // has been spent, so the ordinary cooldown and Aura price apply.
+    const again = mutable(started);
+    for (const project of Object.values(again.projects)) {
+      if (project.kind === "fundraising") project.status = "completed";
+    }
+    again.run.tick = tick(started.run.tick + 4);
+    again.run.calendar = calendarFromTick(again.run.tick);
+    const againLab = again.labs[labId];
+    if (againLab === undefined) throw new Error("lab fixture missing");
+    againLab.finance.cash = cashMillions(-5);
+    againLab.aura.spendable = 1;
+    const refused = quoteFundraisingCampaign(again, content, labId, "quiet-bridge");
+    expect(refused.emergencyBridge).toBe(false);
+    expect(refused.blockers).toContain(
+      `Emergency bridge relief was used within the last year; it returns in week ${String(started.run.tick + 52)}`,
+    );
+  });
+
   it("shows global and recent-round pressure as separate additive costs", () => {
     const state = mutable(addBaselineModelForTest(preparedOffers(), content));
     const modelId = state.labs[state.run.playerLabId]?.models.currentModelId;

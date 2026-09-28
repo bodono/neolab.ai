@@ -1725,6 +1725,7 @@ const fundraisingStateSchema = z
         "mega-round-roadshow": tickSchema.optional(),
       })
       .strict(),
+    emergencyBridgeAvailableAt: tickSchema.optional(),
     obligations: z.array(
       z
         .object({
