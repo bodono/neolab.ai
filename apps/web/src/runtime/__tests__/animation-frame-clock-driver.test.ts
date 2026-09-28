@@ -153,6 +153,56 @@ describe("AnimationFrameClockDriver", () => {
     expect(scheduler.scheduledFrames).toBe(0);
   });
 
+  it("carries tick progress, not milliseconds, across a speed change", () => {
+    const scheduler = new FakeAnimationFrameScheduler();
+    let ticks = 0;
+    const driver = new AnimationFrameClockDriver(
+      () => {
+        ticks += 1;
+        return activeOutcome();
+      },
+      () => undefined,
+      scheduler,
+    );
+
+    driver.resume();
+    // 3.9s at 1x is 97.5% of one tick, not almost four 4x ticks.
+    scheduler.advanceFrame(3_900);
+    expect(ticks).toBe(0);
+    driver.setSpeed("4x");
+    scheduler.advanceFrame(3_916);
+    expect(ticks).toBe(0);
+    scheduler.advanceFrame(3_950);
+    expect(ticks).toBe(1);
+  });
+
+  it("does not fire banked catch-up weeks when resuming after an auto-pause", () => {
+    const scheduler = new FakeAnimationFrameScheduler();
+    let ticks = 0;
+    const driver = new AnimationFrameClockDriver(
+      () => {
+        ticks += 1;
+        return ticks === 1
+          ? { autoPauseReasons: ["critical-event"], runStatus: "active" }
+          : activeOutcome();
+      },
+      () => undefined,
+      scheduler,
+    );
+
+    driver.setSpeed("4x");
+    driver.resume();
+    // A throttled 7s frame at 4x banks seven weeks; the first one pauses.
+    scheduler.advanceFrame(7_000);
+    expect(ticks).toBe(1);
+    expect(driver.getView().accumulatedDebtMs).toBeLessThan(1_000);
+
+    scheduler.advanceWithoutFrame(20_000);
+    driver.resume();
+    scheduler.advanceFrame(20_016);
+    expect(ticks).toBe(1);
+  });
+
   it("cannot resume after a terminal tick", () => {
     const scheduler = new FakeAnimationFrameScheduler();
     const driver = new AnimationFrameClockDriver(

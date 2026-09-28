@@ -51,6 +51,11 @@ function browserScheduler(): AnimationFrameScheduler {
  * Converts monotonic browser time into atomic simulation ticks. Elapsed time
  * is debt, never a tick count shortcut: no more than four ticks are consumed
  * per animation frame and any remainder survives for a later frame.
+ *
+ * Debt is held in ticks, not milliseconds, so changing speed never converts
+ * time spent waiting for a slow tick into several fast ones; and whole ticks
+ * of debt are dropped when the clock stops, so resuming after an auto-pause
+ * never fires a burst of catch-up weeks past the decision that paused it.
  */
 export class AnimationFrameClockDriver {
   readonly #consumeTick: () => TickConsumptionResult;
@@ -62,7 +67,8 @@ export class AnimationFrameClockDriver {
   #paused = true;
   #pauseReason: ClockPauseReason | undefined = "manual";
   #autoPauseReasons: readonly AutoPauseReason[] = Object.freeze([]);
-  #accumulatedDebtMs = 0;
+  /** Unconsumed simulation time, measured in ticks at any speed. */
+  #tickDebt = 0;
   #lastFrameMs = 0;
   #frameRequestId: number | undefined;
   #disposed = false;
@@ -94,7 +100,8 @@ export class AnimationFrameClockDriver {
       selectedSpeed: this.#selectedSpeed,
       paused: this.#paused,
       ...(this.#pauseReason === undefined ? {} : { pauseReason: this.#pauseReason }),
-      accumulatedDebtMs: this.#accumulatedDebtMs,
+      accumulatedDebtMs:
+        this.#tickDebt * this.#balance.millisecondsPerTick[this.#selectedSpeed],
       autoPauseReasons: Object.freeze([...this.#autoPauseReasons]),
     });
   }
@@ -102,11 +109,14 @@ export class AnimationFrameClockDriver {
   setSpeed(speed: ActiveClockSpeed): void {
     this.#assertUsable();
     if (this.#selectedSpeed === speed) return;
+    const previousSpeed = this.#selectedSpeed;
     this.#selectedSpeed = speed;
     if (!this.#paused) {
-      // Time before this call was spent at the old speed. Begin a fresh frame
-      // interval while retaining already accumulated tick debt.
-      this.#lastFrameMs = this.#scheduler.now();
+      // Bank the time spent at the old speed before switching, so the tick
+      // fraction already earned carries over unchanged.
+      const now = this.#scheduler.now();
+      this.#accrue(Math.max(0, now - this.#lastFrameMs), previousSpeed);
+      this.#lastFrameMs = now;
     }
     this.#onChange();
   }
@@ -177,23 +187,16 @@ export class AnimationFrameClockDriver {
     this.#frameRequestId = undefined;
     if (this.#paused || this.#disposed) return;
 
-    const elapsedMs = Math.max(0, timestamp - this.#lastFrameMs);
+    this.#accrue(Math.max(0, timestamp - this.#lastFrameMs), this.#selectedSpeed);
     this.#lastFrameMs = timestamp;
-    const millisecondsPerTick = this.#balance.millisecondsPerTick[this.#selectedSpeed];
-    const maxAccumulatedDebtMs =
-      this.#balance.maximumTicksPerFrame * 2 * millisecondsPerTick;
-    this.#accumulatedDebtMs = Math.min(
-      this.#accumulatedDebtMs + elapsedMs,
-      maxAccumulatedDebtMs,
-    );
     let consumed = 0;
 
     while (
       !this.#paused &&
-      this.#accumulatedDebtMs >= millisecondsPerTick &&
+      this.#tickDebt >= 1 &&
       consumed < this.#balance.maximumTicksPerFrame
     ) {
-      this.#accumulatedDebtMs -= millisecondsPerTick;
+      this.#tickDebt -= 1;
       consumed += 1;
       const outcome = this.#consumeTick();
       this.#acceptOutcome(outcome);
@@ -203,6 +206,13 @@ export class AnimationFrameClockDriver {
 
     this.#scheduleFrame();
   };
+
+  #accrue(elapsedMs: number, speed: ActiveClockSpeed): void {
+    this.#tickDebt = Math.min(
+      this.#tickDebt + elapsedMs / this.#balance.millisecondsPerTick[speed],
+      this.#balance.maximumTicksPerFrame * 2,
+    );
+  }
 
   #acceptOutcome(outcome: TickConsumptionResult): void {
     if (outcome.runStatus !== "active") {
@@ -220,5 +230,8 @@ export class AnimationFrameClockDriver {
     this.#paused = true;
     this.#pauseReason = reason;
     this.#autoPauseReasons = Object.freeze([...reasons]);
+    // Keep progress toward the next tick, but never bank whole ticks across a
+    // stop: they would fire together the moment the player resumes.
+    this.#tickDebt %= 1;
   }
 }
