@@ -635,3 +635,35 @@ describe("the pre-training intrinsic safety forecast", () => {
     );
   });
 });
+
+describe("modifier scope in training quotes", () => {
+  it("does not lend the player's training safeguards to a rival lab", () => {
+    const state = newState();
+    const rivalId = Object.keys(state.labs).find((id) => id !== state.run.playerLabId);
+    if (rivalId === undefined) throw new Error("rival fixture missing");
+    const rivalQuote = (candidate: GameState) =>
+      quoteTrainingRun(candidate, content, {
+        labId: rivalId as GameState["run"]["playerLabId"],
+        posture: "normal",
+      });
+    const before = rivalQuote(state);
+    const withPlayerSafeguard = structuredClone(state) as DeepMutable<GameState>;
+    const modifierId = "modifier:test-player-hazard" as keyof GameState["modifiers"];
+    withPlayerSafeguard.modifiers[modifierId] = {
+      id: modifierId,
+      source: { kind: "facility", id: "test-facility" },
+      labId: state.run.playerLabId,
+      target: "lab.training.technicalFailureHazard",
+      operation: "multiply",
+      value: 0.8,
+      startsAt: state.run.tick,
+      tags: [],
+    };
+    const after = rivalQuote(withPlayerSafeguard);
+
+    expect(after.reliability.passProbability).toBe(before.reliability.passProbability);
+    expect(quote(withPlayerSafeguard).reliability.passProbability).toBeGreaterThan(
+      quote(state).reliability.passProbability,
+    );
+  });
+});

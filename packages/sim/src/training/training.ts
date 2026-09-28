@@ -854,7 +854,12 @@ export function quoteTrainingRun(
   }
   const cashTarget = trainingModifierTarget(band, "cashCost");
   const cashModifier =
-    cashTarget === undefined ? 1 : resolveModifierValue(state, cashTarget, 1).final;
+    cashTarget === undefined
+      ? 1
+      : resolveModifierValue(state, cashTarget, 1, {
+          labId: request.labId,
+          includeUnscoped: request.labId === state.run.playerLabId,
+        }).final;
   // Cash is a small top-up, deliberately. Reserving GPUs already removes them
   // from serving and research before anything else touches the pool, so the
   // real price of a big run is opportunity cost the lab is paying anyway.
@@ -917,6 +922,8 @@ export function quoteTrainingRun(
         // excluding researchers and again on a DIFFERENT string for them, so 8
         // researchers authored on this one were silently inert.
         resolveModifierValue(state, "lab.training.technicalFailureHazard", 1, {
+          labId: request.labId,
+          includeUnscoped: request.labId === state.run.playerLabId,
           clampMin: 0,
         }).final,
       recoveryActive: lab.flags["training:next-run-recovery"] === true,
@@ -1370,11 +1377,17 @@ function runFailureCheck(
   // read once, researchers included -- this used to exclude them here and read a
   // DIFFERENT string for them, so 8 researchers authored on this one paid
   // nothing while their dossier advertised the benefit.
+  // Scoped to the run's owner: resolving without a lab read the player's
+  // modifiers, so rivals' checkpoints inherited the player's safeguards.
   const failureHazardMultiplier = resolveModifierValue(
     state,
     "lab.training.technicalFailureHazard",
     1,
-    { clampMin: 0 },
+    {
+      labId: project.ownerLabId,
+      includeUnscoped: project.ownerLabId === state.run.playerLabId,
+      clampMin: 0,
+    },
   ).final;
   // After a failed run, debugging adds ten percentage points to every checkpoint
   // rather than halving its difficulty. The recovery persists until a run

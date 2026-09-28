@@ -101,6 +101,7 @@ function researchVariance(
     state,
     `lab.research.program.${programId}.weeklyVarianceWidth`,
     1,
+    { labId, includeUnscoped: labId === state.run.playerLabId },
   ).final;
   const domainShort = /^base:domain\.([a-z0-9-]+)$/.exec(programId)?.[1];
   const domainTarget =
