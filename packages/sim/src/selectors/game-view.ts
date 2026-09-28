@@ -112,6 +112,7 @@ import {
   AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
 } from "../models/capability.ts";
 import {
+  publicLineagePrior,
   quoteCandidateIncidentReview,
   quoteCandidateIsolation,
 } from "../endgame/candidate-lifecycle.ts";
@@ -4569,9 +4570,9 @@ function projectModels(
           lifecycleLabel,
           custodyLabel,
           falseDawn,
-          firstCrossingFrontierCapability:
-            Math.round(lineage.firstQualifyingFrontierCapability * 10) / 10,
-          firstCrossingPriorPercent: Math.round(lineage.probabilityAtFirstCrossing * 100),
+          firstCrossingFrontierCapability: publicLineagePrior(state, lineage)
+            .frontierCapability,
+          firstCrossingPriorPercent: publicLineagePrior(state, lineage).percent,
           ...(model.measuredCapability?.frontierCapability === undefined
             ? {}
             : {

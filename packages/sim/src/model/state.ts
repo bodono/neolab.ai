@@ -1182,7 +1182,10 @@ export interface LineageSIRecord {
   readonly randomKey: string;
   readonly draw: Fraction;
   readonly firstQualifyingModelId: ModelId;
+  /** HIDDEN: true capability at the crossing, which fixed the draw. */
   readonly firstQualifyingFrontierCapability: Rating;
+  /** What the player had measured for those weights at the crossing. */
+  readonly firstQualifyingMeasuredFrontierCapability?: Rating;
   readonly firstQualifyingWeek: Tick;
   readonly rulesVersion: string;
 }

@@ -1207,6 +1207,7 @@ const lineageSIRecordSchema = z
     draw: fractionSchema,
     firstQualifyingModelId: nonEmpty,
     firstQualifyingFrontierCapability: ratingSchema,
+    firstQualifyingMeasuredFrontierCapability: ratingSchema.optional(),
     firstQualifyingWeek: tickSchema,
     rulesVersion: nonEmpty,
   })

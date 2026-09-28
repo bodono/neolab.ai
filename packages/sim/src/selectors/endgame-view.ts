@@ -30,6 +30,7 @@ import {
   type CapabilityVerifierId,
 } from "../endgame/capability-proof.ts";
 import { candidateDossier } from "../endgame/candidate-dossier.ts";
+import { publicLineagePrior } from "../endgame/candidate-lifecycle.ts";
 import { SAFETY_TARGETS } from "../evaluations/safety-readout.ts";
 import {
   effectiveEvaluationQuality,
@@ -1155,9 +1156,9 @@ function stageActions(
                 ? {}
                 : {
                     capabilityDerivedPrior: {
-                      percent: Math.round(lineage.probabilityAtFirstCrossing * 100),
-                      firstCrossingFrontierCapability:
-                        Math.round(lineage.firstQualifyingFrontierCapability * 10) / 10,
+                      percent: publicLineagePrior(state, lineage).percent,
+                      firstCrossingFrontierCapability: publicLineagePrior(state, lineage)
+                        .frontierCapability,
                     },
                   }),
               safetyDossier: projectDossier(state, content, model.id),

@@ -30,6 +30,7 @@ import { seed128 } from "../../random/seed.ts";
 import { RandomOracleV1 } from "../../random/oracle.ts";
 import { calculateDomainOutput } from "../../research/research.ts";
 import { programmeModifierTarget } from "../../researchers/researchers.ts";
+import { superintelligenceProbability } from "../../models/capability.ts";
 import { projectGameView } from "../game-view.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
@@ -1829,6 +1830,53 @@ describe("projectGameView", () => {
     });
     expect(JSON.stringify(projected)).not.toMatch(
       /superintelligenceTruth|probabilityAtFirstCrossing|randomKey|draw/,
+    );
+  });
+
+  it("shows the prior from measured capability, never the lineage's true capability", () => {
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    const lab = state.labs[state.run.playerLabId];
+    const modelId = lab?.models.currentModelId;
+    const model = modelId === undefined ? undefined : state.models[modelId];
+    if (model === undefined) throw new Error("test player model missing");
+    const traits = (value: number) => ({
+      language: rating(value),
+      reasoning: rating(value),
+      agency: rating(value),
+      toolUse: rating(value),
+      multimodality: rating(value),
+      scientificAbility: rating(value),
+      embodiment: rating(value),
+    });
+    model.trueCapability = traits(97);
+    model.measuredCapability = {
+      values: traits(90),
+      frontierCapability: rating(90),
+      confidence: "medium",
+      evidenceFlags: ["selector-prior-fixture"],
+    };
+    model.accessLevel = 0;
+    model.deployment.policy = "internal-only";
+    model.deployment.exposure = 0;
+    const tx = createTransaction(state);
+    registerCompletedTrainingArtifact(tx, model.id, new RandomOracleV1(state.run.seed));
+    const registered = tx.commit({
+      description: "register measured prior fixture",
+    }).state;
+    const view = projectGameView(registered, content, {
+      viewerLabId: registered.run.playerLabId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    });
+    const projected = view.models.candidateCustody.artifacts.find(
+      (candidate) => candidate.modelId === model.id,
+    );
+    expect(projected?.firstCrossingFrontierCapability).toBe(90);
+    expect(projected?.firstCrossingPriorPercent).toBe(
+      Math.round(superintelligenceProbability(90) * 100),
+    );
+    expect(projected?.firstCrossingPriorPercent).not.toBe(
+      Math.round(superintelligenceProbability(97) * 100),
     );
   });
 

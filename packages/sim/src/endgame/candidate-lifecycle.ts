@@ -10,10 +10,12 @@ import type {
   CandidateBasisState,
   CandidateIncidentClass,
   GameState,
+  LineageSIRecord,
   ModelState,
 } from "../model/state.ts";
 import { fraction, rating } from "../model/units.ts";
 import {
+  AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
   calculateFrontierCapability,
   satisfiesAgiCandidateCapabilityGate,
   superintelligenceProbability,
@@ -183,6 +185,13 @@ function registerCandidateArtifact(
       draw,
       firstQualifyingModelId: model.id,
       firstQualifyingFrontierCapability: rating(frontierCapability),
+      ...(model.measuredCapability === undefined
+        ? {}
+        : {
+            firstQualifyingMeasuredFrontierCapability: rating(
+              model.measuredCapability.frontierCapability,
+            ),
+          }),
       firstQualifyingWeek: state.run.tick,
       rulesVersion: state.engineRulesVersion,
     };
@@ -313,6 +322,26 @@ export function registerDerivedCandidateArtifact(
     qualifyingSourceModelId,
     derivedAt: state.run.tick,
   }).registered;
+}
+
+/**
+ * The lineage prior as the player knows it: the public capability curve
+ * applied to what they measured at the first crossing. The hidden draw used
+ * true capability; showing that (or its exact prior) leaked it.
+ */
+export function publicLineagePrior(
+  state: Readonly<GameState>,
+  lineage: Readonly<LineageSIRecord>,
+): { readonly frontierCapability: number; readonly percent: number } {
+  const frontierCapability =
+    lineage.firstQualifyingMeasuredFrontierCapability ??
+    state.models[lineage.firstQualifyingModelId]?.measuredCapability
+      ?.frontierCapability ??
+    AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY;
+  return {
+    frontierCapability: Math.round(frontierCapability * 10) / 10,
+    percent: Math.round(superintelligenceProbability(frontierCapability) * 100),
+  };
 }
 
 export function isCandidateArtifactEligible(model: Readonly<ModelState>): boolean {
