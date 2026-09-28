@@ -2,6 +2,7 @@ import { contentId, type CompiledContent } from "@neolab/content-schema";
 import { advanceWeeklyProgress } from "../projects/progress.ts";
 import { classifyCapabilityTier } from "../models/tiers.ts";
 import { isProgressiveOpeningProtected } from "../campaign/progressive-opening.ts";
+import { invalidateGovernmentInterventionEvents } from "../events/government-intervention-lifecycle.ts";
 
 import { applyEffect } from "../engine/effect-executor.ts";
 import { logisticProbability, resolveCheck } from "../engine/checks.ts";
@@ -1419,6 +1420,13 @@ export function resolveGovernmentIntervention(
     response,
     nationalisationEligible: eligible,
   });
+  // Settled some other way (lobbying, say): withdraw any event still open for
+  // it, so its default cannot later reapply the settled intervention.
+  invalidateGovernmentInterventionEvents(
+    tx,
+    interventionId,
+    `intervention settled: ${response}`,
+  );
   if (eligible && !championProtection) {
     applyEffect(
       tx,

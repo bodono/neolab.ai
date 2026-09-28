@@ -7,6 +7,7 @@ import {
   type EventLikelihoodLabel,
   type EventMemoryDefinition,
 } from "@neolab/content-schema";
+import { governmentInterventionTriggerKey } from "./government-intervention-lifecycle.ts";
 
 import { applyEffects } from "../engine/effect-executor.ts";
 import type { DeepMutable } from "../engine/draft.ts";
@@ -465,14 +466,19 @@ export function instantiateEvent(
   return instanceId;
 }
 
+/**
+ * One occurrence opens one event. Several variants can share a detector and
+ * occurrence key (the three reporting variants, say, all key on one
+ * government intervention), so matching on the definition as well let two
+ * variants open for the same letter and both charge their costs.
+ */
 function triggerHandled(
   state: Readonly<GameState>,
-  definitionId: ContentId,
+  _definitionId: ContentId,
   triggerKey: string,
 ): boolean {
   return Object.values(state.eventInstances).some(
-    (instance) =>
-      instance.definitionId === definitionId && instance.triggerKey === triggerKey,
+    (instance) => instance.triggerKey === triggerKey,
   );
 }
 
@@ -612,7 +618,7 @@ function mandatoryOccurrences(
               : 1,
         )
         .map((intervention) => ({
-          triggerKey: `government-intervention:${intervention.id}`,
+          triggerKey: governmentInterventionTriggerKey(intervention.id),
           tokens: {
             INTERVENTION_ID: intervention.id,
             INTERVENTION_PRESSURE: intervention.pressureAtTrigger,
@@ -698,7 +704,7 @@ export function collectMandatoryTriggers(
       });
     }
   }
-  return candidates.sort(
+  const ordered = candidates.sort(
     (left, right) =>
       right.priority - left.priority ||
       (left.definitionId < right.definitionId
@@ -709,6 +715,14 @@ export function collectMandatoryTriggers(
             ? -1
             : 1),
   );
+  // When several variants match one occurrence in the same week, only the
+  // highest-priority (most specific) variant opens.
+  const seen = new Set<string>();
+  return ordered.filter((candidate) => {
+    if (seen.has(candidate.triggerKey)) return false;
+    seen.add(candidate.triggerKey);
+    return true;
+  });
 }
 
 /**

@@ -43,7 +43,9 @@ import {
   updateGovernmentWeekly,
   GOVERNMENT_SEGMENT_ID,
   quoteLobbyingProject,
+  resolveGovernmentIntervention,
 } from "../politics.ts";
+import { advanceEventGeneration } from "../../events/event-engine.ts";
 
 const compiled: CompiledContent = validateCompiledContent(rawBundle);
 
@@ -378,6 +380,60 @@ describe("government pressure and due process", () => {
       ),
     ).toBe(true);
     expect(result.state.run.status).toBe("active");
+  });
+
+  it("opens one event per government letter and withdraws it when lobbying settles it", () => {
+    const state = mutable(newState());
+    const lab = state.labs[state.run.playerLabId];
+    const modelId = lab?.models.currentModelId;
+    if (lab === undefined || modelId === undefined) throw new Error("fixture missing");
+    lab.politics.governmentAttention = rating(0);
+    lab.politics.interventions.push({
+      id: "test-reporting",
+      kind: "reporting-request",
+      trigger: "quarterly-pressure",
+      createdAt: state.run.tick,
+      quarterIndex: 0,
+      pressureAtTrigger: rating(40),
+      status: "pending-event",
+    });
+    const key = "government-intervention:test-reporting";
+    const openFor = (candidate: GameState) =>
+      Object.values(candidate.eventInstances).filter(
+        (instance) => instance.triggerKey === key,
+      );
+
+    const first = createTransaction(state);
+    advanceEventGeneration(first, compiled);
+    const opened = mutable(first.commit({ description: "open reporting" }).state);
+    expect(openFor(opened)).toHaveLength(1);
+
+    // An incident now makes the incident-file variant match the same letter.
+    opened.incidents.push({
+      key: "test-incident",
+      modelId,
+      occurredAt: opened.run.tick,
+      observedSeverity: rating(60),
+      category: "major",
+      contained: true,
+      catastropheLegal: false,
+      audit: ["test fixture"],
+    });
+    const second = createTransaction(opened);
+    advanceEventGeneration(second, compiled);
+    const stillOne = second.commit({ description: "incident arrives" }).state;
+    expect(openFor(stillOne)).toHaveLength(1);
+
+    // Lobbying settles the intervention directly: the open event is withdrawn.
+    const settle = createTransaction(stillOne);
+    resolveGovernmentIntervention(
+      settle,
+      stillOne.run.playerLabId,
+      "test-reporting",
+      "negotiated",
+    );
+    const settled = settle.commit({ description: "lobbying settles" }).state;
+    expect(openFor(settled).map((instance) => instance.status)).toEqual(["invalidated"]);
   });
 
   it("requires the crisis, qualifying trigger, and failed event response before nationalisation", () => {
