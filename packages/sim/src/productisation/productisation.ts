@@ -510,13 +510,31 @@ export function completeProductisation(
     model.deployment.plannedPolicy !== undefined &&
     model.deployment.plannedPolicy !== "internal-only"
   ) {
-    setModelDeploymentPolicy(
-      tx,
-      content,
-      project.ownerLabId,
-      payload.modelId,
-      model.deployment.plannedPolicy,
-    );
+    if (launchHeldForContainment(tx.read(), project.ownerLabId)) {
+      // The launch was authorised before a candidate entered containment.
+      // External deployment is locked for the postmortem, so the finished
+      // release waits and goes live when containment ends.
+      tx.update((draft) => {
+        const mutable = draft.models[payload.modelId];
+        if (mutable === undefined) throw new Error(`Unknown model ${payload.modelId}`);
+        mutable.flags[CONTAINMENT_HELD_LAUNCH_FLAG] = true;
+        draft.decisionLog.push({
+          tick: draft.run.tick,
+          summary: `${mutable.displayName} is ready to launch, but external deployment is locked until candidate containment ends. The launch will go live then.`,
+          category: "narrative",
+          source: { kind: "system", id: "productisation.launch-held" },
+          relatedIds: [payload.modelId],
+        });
+      });
+    } else {
+      setModelDeploymentPolicy(
+        tx,
+        content,
+        project.ownerLabId,
+        payload.modelId,
+        model.deployment.plannedPolicy,
+      );
+    }
   }
   processCapabilityTierMilestones(tx, content, payload.modelId);
   tx.emit({
@@ -528,6 +546,47 @@ export function completeProductisation(
     productQuality,
     reliability,
   });
+}
+
+/** Marks a finished launch whose external policy waits for containment to end. */
+export const CONTAINMENT_HELD_LAUNCH_FLAG = "deployment:launch-held-for-containment";
+
+function launchHeldForContainment(state: Readonly<GameState>, labId: LabId): boolean {
+  return labId === state.run.playerLabId && archiveRecoveryPhase(state) === "containment";
+}
+
+/**
+ * Put launches held during candidate containment into service once the
+ * postmortem lock lifts. A launch whose weights were sealed or released in the
+ * meantime is dropped rather than applied, because either change makes the
+ * planned policy impossible.
+ */
+export function releaseContainmentHeldLaunches(
+  tx: SimulationTransaction,
+  content: CompiledContent,
+): void {
+  const state = tx.read();
+  if (archiveRecoveryPhase(state) === "containment") return;
+  const lab = state.labs[state.run.playerLabId];
+  if (lab === undefined) return;
+  for (const modelId of lab.models.modelIds) {
+    const model = tx.read().models[modelId];
+    if (model?.flags[CONTAINMENT_HELD_LAUNCH_FLAG] !== true) continue;
+    tx.update((draft) => {
+      const mutable = draft.models[modelId];
+      if (mutable !== undefined) delete mutable.flags[CONTAINMENT_HELD_LAUNCH_FLAG];
+    });
+    const planned = model.deployment.plannedPolicy;
+    if (
+      planned === undefined ||
+      planned === "internal-only" ||
+      model.deployment.irreversible ||
+      model.flags["endgame:false-dawn-long-pause-archive"] === true
+    ) {
+      continue;
+    }
+    setModelDeploymentPolicy(tx, content, lab.id, modelId, planned);
+  }
 }
 
 export function setModelDeploymentPolicy(

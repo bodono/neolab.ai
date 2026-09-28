@@ -25,7 +25,7 @@ import {
 import { modelSafetyReadout } from "../../evaluations/safety-readout.ts";
 import { createInitialMarketState } from "../../market/market.ts";
 import { createBareState } from "../../model/fixture.ts";
-import type { AnomalyId, EvaluationId, ModelId } from "../../model/ids.ts";
+import type { AnomalyId, EvaluationId, ModelId, ProjectId } from "../../model/ids.ts";
 import { validateGameState } from "../../model/schema.ts";
 import {
   calendarFromTick,
@@ -33,7 +33,7 @@ import {
   type MarketState,
   type ModelState,
 } from "../../model/state.ts";
-import { rating, tick } from "../../model/units.ts";
+import { cashMillions, rating, tick } from "../../model/units.ts";
 import { calculateProjectCapacity } from "../../projects/capacity.ts";
 import { describeRandomKey, randomKey, type RandomKey } from "../../random/key.ts";
 import type { RandomOracle } from "../../random/oracle.ts";
@@ -58,6 +58,11 @@ import {
   transmitCandidateRetirement,
 } from "../retirement.ts";
 import { quoteTrainingRun } from "../../training/training.ts";
+import {
+  CONTAINMENT_HELD_LAUNCH_FLAG,
+  completeProductisation,
+  releaseContainmentHeldLaunches,
+} from "../../productisation/productisation.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
 
@@ -1167,6 +1172,86 @@ describe("canonical candidate retirement", () => {
       "Candidate recovery is in supervised rebuilding; frontier-scale training resumes when recovery is complete",
     );
     expect(supervised.endgameHistory.successorEfficiencyGrantConsumed).toBe(false);
+  });
+
+  it("holds a launch that finishes during containment and releases it afterwards", () => {
+    const quarantine = retirePreparedCandidate("full-archive");
+    if (quarantine.endgame.stage !== "recovery") {
+      throw new Error("Recovery fixture missing");
+    }
+    const draft = structuredClone(quarantine) as DeepMutable<GameState>;
+    const lab = draft.labs[draft.run.playerLabId];
+    const source = draft.models[quarantine.endgame.retiredModelId];
+    if (lab === undefined || source === undefined) throw new Error("Fixture missing");
+    const productModelId = "run:model:player:held-launch" as ModelId;
+    const product = structuredClone(source);
+    product.id = productModelId;
+    product.displayName = "Held-1";
+    product.flags = {};
+    product.accessLevel = 0;
+    for (const trait of Object.keys(product.trueCapability) as Array<
+      keyof typeof product.trueCapability
+    >) {
+      product.trueCapability[trait] = rating(40);
+    }
+    delete product.candidateArtifact;
+    delete product.derivedFromModelId;
+    product.deployment.policy = "internal-only";
+    product.deployment.irreversible = false;
+    product.deployment.plannedPolicy = "guarded-api";
+    draft.models[productModelId] = product;
+    lab.models.modelIds.push(productModelId);
+    const projectId = "run:project:player:held-launch" as ProjectId;
+    draft.projects[projectId] = {
+      id: projectId,
+      ownerLabId: lab.id,
+      definitionId: contentId("base:project.productisation.normal"),
+      kind: "productisation",
+      status: "active",
+      createdAt: draft.run.tick,
+      expectedDurationWeeks: 4,
+      progress: 1,
+      reservations: { majorProjectSlots: 1 },
+      assignedResearcherIds: [],
+      completionOrder: 0,
+      payload: {
+        kind: "productisation",
+        modelId: productModelId,
+        mode: "normal",
+        quotedAt: draft.run.tick,
+        cashCostMillions: cashMillions(2),
+      },
+    };
+    lab.projects.projectIds.push(projectId);
+
+    const complete = createTransaction(draft);
+    expect(() => completeProductisation(complete, content, projectId)).not.toThrow();
+    const held = complete.commit({ description: "complete during containment" }).state;
+    expect(held.models[productModelId]?.deployment).toMatchObject({
+      policy: "internal-only",
+      plannedPolicy: "guarded-api",
+    });
+    expect(held.models[productModelId]?.flags[CONTAINMENT_HELD_LAUNCH_FLAG]).toBe(true);
+
+    const stillContained = createTransaction(held);
+    releaseContainmentHeldLaunches(stillContained, content);
+    expect(
+      stillContained.commit({ description: "still contained" }).state.models[
+        productModelId
+      ]?.deployment.policy,
+    ).toBe("internal-only");
+
+    const afterQuarantine = structuredClone(held) as DeepMutable<GameState>;
+    afterQuarantine.run.tick = tick(quarantine.endgame.quarantineEndsAt);
+    afterQuarantine.run.calendar = calendarFromTick(afterQuarantine.run.tick);
+    const release = createTransaction(afterQuarantine);
+    releaseContainmentHeldLaunches(release, content);
+    const released = release.commit({ description: "release held launch" }).state;
+    expect(released.models[productModelId]?.deployment.policy).toBe("guarded-api");
+    expect(released.models[productModelId]?.deployment.plannedPolicy).toBeUndefined();
+    expect(
+      released.models[productModelId]?.flags[CONTAINMENT_HELD_LAUNCH_FLAG],
+    ).toBeUndefined();
   });
 
   it("holds one visible major-project slot until recovery is discharged", () => {

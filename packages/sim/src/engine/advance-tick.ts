@@ -21,6 +21,7 @@ import {
   advanceProjects,
   completeReadyProjects,
 } from "../projects/project-framework.ts";
+import { releaseContainmentHeldLaunches } from "../productisation/productisation.ts";
 import { advanceResearch } from "../research/research.ts";
 import { advancePaperRace } from "../research/papers.ts";
 import { advanceAnomalyInvestigations } from "../evaluations/evaluations.ts";
@@ -308,6 +309,7 @@ function baselineSystems(): readonly TickSystem[] {
       phase: "project-completion",
       priority: 0,
       run(tx, context): void {
+        releaseContainmentHeldLaunches(tx, context.content);
         completeReadyProjects(tx, context.content);
         if (
           isGuidedTutorial(tx.read()) &&
