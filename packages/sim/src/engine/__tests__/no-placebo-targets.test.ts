@@ -97,6 +97,26 @@ describe("no-placebo target invariant", () => {
     expect(unaccounted).toEqual([]);
   });
 
+  it("every programme-scoped target names a programme that exists", () => {
+    // The consumed-target patterns accept any programme name, so a target on a
+    // retired or misspelt programme resolved to a modifier nothing reads.
+    const domainsText = readFileSync(
+      join(contentDir, "research", "domains.yaml"),
+      "utf8",
+    );
+    const programmes = new Set(
+      [...domainsText.matchAll(/^ {2}- id: ((?:domain|safety)\.[a-z0-9-]+)$/gm)].map(
+        (match) => match[1],
+      ),
+    );
+    expect(programmes.size).toBeGreaterThanOrEqual(10);
+    const unknown = [...contentTargets].filter((target) => {
+      const match = /^((?:domain|safety)\.[a-z0-9-]+)\.researchOutput$/.exec(target);
+      return match?.[1] !== undefined && !programmes.has(match[1]);
+    });
+    expect(unknown).toEqual([]);
+  });
+
   it("pending lists never shelter a target the sim already consumes", () => {
     const contradictions = [...contentTargets, ...MODIFIER_TARGET_LIST].filter(
       (target) => isConsumedTarget(target) && isKnownPlaceboTarget(target),

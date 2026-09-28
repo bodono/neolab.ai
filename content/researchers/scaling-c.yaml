@@ -115,7 +115,7 @@ researchers:
       id: ability.multilingual-pretraining-lead
       label: Multilingual Pretraining Lead
       effects:
-        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
     compact:
       id: compact.check-the-meaning-not-just-the-fluency
       label: Check the Meaning, Not Just the Fluency
@@ -530,7 +530,7 @@ researchers:
       id: ability.cross-modality-technique-transfer
       label: Cross-Modality Technique Transfer
       effects:
-        - { target: domain.data-representation.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
     compact:
       id: compact.borrow-the-technique-across-modalities
       label: Borrow the Technique Across Modalities

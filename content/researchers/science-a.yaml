@@ -529,7 +529,7 @@ researchers:
       id: ability.compressed-sensing-reconstruction
       label: Compressed-Sensing Reconstruction
       eligibleAssignments: [capability-program, safety-program]
-      activation: { type: assignment-domain-in, values: [domain.data-representation, domain.scientific-ai, domain.multimodality] }
+      activation: { type: assignment-domain-in, values: [domain.scientific-ai, domain.multimodality] }
       rampWeeks: 4
       effects:
         - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
