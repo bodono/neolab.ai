@@ -42,7 +42,7 @@ import {
 import { nominateCandidate } from "../endgame-machine.ts";
 import { endgameClockStopReason } from "../clock-policy.ts";
 import { getEndingDefinition } from "../endings.ts";
-import { chooseFalseDawnPath } from "../nonterminal-outcome.ts";
+import { CARETAKER_ENDING_ID, chooseFalseDawnPath } from "../nonterminal-outcome.ts";
 import { advanceRetirementRecovery } from "../retirement.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
@@ -472,9 +472,7 @@ describe("typed final deployment and world-waiting reveal", () => {
     if (transmitted.endgame.stage !== "world-waiting") {
       throw new Error(`World-waiting missing: ${transmitted.endgame.stage}`);
     }
-    transmitted.endgame.selectedEndingId = getEndingDefinition(
-      "base:ending.the-caretaker",
-    ).id;
+    transmitted.endgame.selectedEndingId = CARETAKER_ENDING_ID;
     let state: GameState = transmitted;
     while (
       state.endgame.stage === "world-waiting" &&
