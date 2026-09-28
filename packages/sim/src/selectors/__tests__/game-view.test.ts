@@ -420,6 +420,18 @@ describe("projectGameView", () => {
       secretView.research.techTree.papers.find((paper) => paper.paperId === paperId)
         ?.worldFirstLabName,
     ).toBeUndefined();
+    // The secret must not change the paper's status or the tree's counts.
+    const withoutDiscovery = structuredClone(state);
+    delete withoutDiscovery.world.paperRace.discoveries[paperId];
+    const baselineStatus = projectGameView(
+      withoutDiscovery,
+      content,
+      context,
+    ).research.techTree.papers.find((paper) => paper.paperId === paperId)?.status;
+    expect(
+      secretView.research.techTree.papers.find((paper) => paper.paperId === paperId)
+        ?.status,
+    ).toBe(baselineStatus);
 
     const discovery = state.world.paperRace.discoveries[paperId];
     if (discovery === undefined) throw new Error("paper discovery fixture missing");

@@ -933,8 +933,7 @@ export interface ResearchView {
       readonly primaryDomainId: string;
       readonly primaryDomainName: string;
       readonly colour: string;
-      readonly status:
-        "discovered" | "published" | "available" | "rediscovery" | "locked";
+      readonly status: "discovered" | "published" | "available" | "locked";
       readonly statusLabel: string;
       readonly requirementLabels: readonly {
         readonly label: string;
@@ -3727,17 +3726,17 @@ function projectResearch(
       const worldDiscovery = state.world.paperRace.discoveries[paper.id];
       const publiclyKnown =
         worldDiscovery !== undefined && isPublicPaperDiscovery(worldDiscovery);
-      const rivalClaimed =
-        worldDiscovery !== undefined && worldDiscovery.discovererLabId !== labId;
+      // Only public knowledge may change a paper's status. A rival's
+      // kept-secret discovery used to show as "rediscovery" (and in the
+      // "N rediscoverable" count), revealing the secret. The player now learns
+      // it was a rediscovery only when their own breakthrough lands.
       const status: ResearchView["techTree"]["papers"][number]["status"] =
         playerDiscovered
           ? "discovered"
           : publiclyKnown
             ? "published"
             : requirementsMet
-              ? rivalClaimed
-                ? "rediscovery"
-                : "available"
+              ? "available"
               : "locked";
       const visibleWorldDiscovery =
         worldDiscovery !== undefined &&
@@ -3775,9 +3774,7 @@ function projectResearch(
               ? "Public knowledge"
               : status === "available"
                 ? "Available to pursue"
-                : status === "rediscovery"
-                  ? "Rediscovery available"
-                  : "Prerequisites unmet",
+                : "Prerequisites unmet",
         requirementLabels: requirements,
         prerequisitePaperIds: content.papers.graph.prerequisiteAdjacency[paper.id] ?? [],
         archiveExplanation: paper.education.archiveExplanation,

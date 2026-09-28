@@ -1019,14 +1019,13 @@ function ResearchTechTree({
       ...counts,
       [paper.status]: counts[paper.status] + 1,
     }),
-    { discovered: 0, published: 0, available: 0, rediscovery: 0, locked: 0 },
+    { discovered: 0, published: 0, available: 0, locked: 0 },
   );
   const selectedPaper =
     connectedPapers.find((paper) => paper.paperId === selectedPaperId) ??
     connectedPapers.find(
       (paper) =>
         paper.status === "available" ||
-        paper.status === "rediscovery" ||
         paper.status === "published" ||
         paper.status === "discovered",
     ) ??
@@ -1684,9 +1683,6 @@ function ResearchTechTree({
                 </span>
                 <span className="tree-status available">
                   {paperStatusCounts.available} available
-                </span>
-                <span className="tree-status rediscovery">
-                  {paperStatusCounts.rediscovery} rediscoverable
                 </span>
                 <span className="tree-status locked">
                   {paperStatusCounts.locked} locked
