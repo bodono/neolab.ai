@@ -7,6 +7,7 @@ import {
   type EvaluationTarget,
 } from "@neolab/content-schema";
 import { advanceWeeklyProgress } from "../projects/progress.ts";
+import { recordResearcherCompactActions } from "../researchers/compacts.ts";
 
 import {
   isProgressiveOpeningCreditAvailable,
@@ -1211,7 +1212,64 @@ export function completeEvaluationProject(
     oracle,
   );
   removeReservation(tx, project.ownerLabId, projectId);
+  creditEvaluationToResearcherPromises(
+    tx,
+    content,
+    project.ownerLabId,
+    definition.method,
+  );
   return evaluationId;
+}
+
+/**
+ * Researcher promises that name an evaluation ("complete one Behavioural Red
+ * Team every 52 weeks", "an external audit before every release") are met by
+ * running it. They used to be satisfied only by the abstract promise-work
+ * project, so a player who paid for the real evaluation still breached.
+ */
+const EVALUATION_PROMISE_CREDIT: Readonly<
+  Record<
+    string,
+    { readonly actionTags: readonly string[]; readonly projectTags: readonly string[] }
+  >
+> = {
+  "red-team": {
+    actionTags: [
+      "behavioural-red-team",
+      "red-team-review",
+      "dangerous-capability-evaluation",
+    ],
+    projectTags: [],
+  },
+  "autonomy-trial": {
+    actionTags: ["dangerous-capability-evaluation"],
+    projectTags: [],
+  },
+  "external-audit": {
+    actionTags: ["external-audit", "red-team-review", "dangerous-capability-evaluation"],
+    projectTags: ["external-audit"],
+  },
+};
+
+function creditEvaluationToResearcherPromises(
+  tx: SimulationTransaction,
+  content: CompiledContent,
+  labId: LabId,
+  method: string,
+): void {
+  const credit = EVALUATION_PROMISE_CREDIT[method];
+  if (credit === undefined || labId !== tx.read().run.playerLabId) return;
+  if (credit.projectTags.length > 0) {
+    tx.update((draft) => {
+      const lab = draft.labs[labId];
+      if (lab === undefined) throw new Error(`Unknown lab ${labId}`);
+      for (const tag of credit.projectTags) {
+        lab.flags[`project-tag:${tag}:active`] = true;
+        lab.flags[`project-tag:${tag}:lastAt`] = draft.run.tick;
+      }
+    });
+  }
+  recordResearcherCompactActions(tx, content, labId, credit.actionTags);
 }
 
 function removeReservation(
