@@ -7,6 +7,7 @@ import type { SimulationTransaction } from "../engine/transaction.ts";
 import type { LabId } from "../model/ids.ts";
 import type { AuraLedgerEntry, GameState } from "../model/state.ts";
 import type { Tick } from "../model/units.ts";
+import { visibleWorldFrontierCapability } from "../rivals/signals.ts";
 
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.min(maximum, Math.max(minimum, value));
@@ -25,19 +26,19 @@ export interface AuraMarketPressureQuote {
 
 /**
  * Hiring and fundraising compete in one global market for prestige. Every ten
- * points of measured world frontier capability add 25 percentage points to
+ * points of visible world frontier capability add 25 percentage points to
  * their Aura multiplier. The final cost rounds upward to whole Aura.
+ *
+ * "Visible" means the player's own measured models and each rival's latest
+ * public capability report. A rival's measured capability is its true value,
+ * so pricing from it printed hidden rival truth in the recruitment dialog.
  */
 export function quoteAuraMarketPressure(
   state: Readonly<GameState>,
   baseAuraCost: number,
 ): AuraMarketPressureQuote {
-  const worldFrontierCapability = Math.max(
-    0,
-    ...Object.values(state.models).map(
-      (model) => model.measuredCapability?.frontierCapability ?? 0,
-    ),
-  );
+  const worldFrontierCapability = visibleWorldFrontierCapability(state);
+
   const marketPressureMultiplier =
     1 + worldFrontierCapability * AURA_MARKET_PRESSURE_PER_CAPABILITY_POINT;
   const marketAdjustedAuraCost = Math.ceil(baseAuraCost * marketPressureMultiplier);

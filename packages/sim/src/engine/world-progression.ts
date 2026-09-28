@@ -76,6 +76,12 @@ export function advanceWorldPhase(tx: SimulationTransaction): void {
         ? "frontier"
         : undefined;
   if (next === undefined) return;
+  // Report the threshold that was crossed, never the live maximum: that
+  // maximum is usually a rival's (or the player's own) hidden true capability.
+  const threshold =
+    next === "scaling"
+      ? SCALING_PHASE_FRONTIER_CAPABILITY
+      : FRONTIER_PHASE_FRONTIER_CAPABILITY;
   tx.update((draft) => {
     draft.run.phase = next;
     draft.domainLog.push({
@@ -84,7 +90,7 @@ export function advanceWorldPhase(tx: SimulationTransaction): void {
     });
     draft.decisionLog.push({
       tick: draft.run.tick,
-      summary: `The global race entered the ${next} phase as frontier capability reached ${frontierCapability.toFixed(1)}.`,
+      summary: `The global race entered the ${next} phase as frontier capability passed ${String(threshold)}.`,
       category: "narrative",
       source: { kind: "system", id: `world-phase:${next}` },
       relatedIds: [],
@@ -94,7 +100,7 @@ export function advanceWorldPhase(tx: SimulationTransaction): void {
     kind: "world-phase-changed",
     previousPhase: current,
     phase: next,
-    frontierCapability,
+    frontierCapability: threshold,
   });
   // Phase changes unlock research (papers gate on phase-at-least), so the
   // player gets an auto-pausing explanation rather than a silent shift.
@@ -149,7 +155,7 @@ export function advanceWorldGpuGeneration(
     });
     draft.decisionLog.push({
       tick: draft.run.tick,
-      summary: `${definition.displayName} GPUs entered the procurement market as frontier capability reached ${frontierCapability.toFixed(1)}.`,
+      summary: `${definition.displayName} GPUs entered the procurement market as frontier capability passed ${String(definition.unlockAtWorldFrontierCapability)}.`,
       category: "narrative",
       source: { kind: "system", id: `gpu-generation:${generationId}` },
       relatedIds: [generationId],

@@ -118,10 +118,12 @@ export function advanceRivalAutonomy(tx: SimulationTransaction): void {
       if (level !== previousLevel) {
         draft.decisionLog.push({
           tick: draft.run.tick,
+          // Direction only: the exact level is hidden rival state. The public
+          // signal recorded below carries the player's noisy estimate of it.
           summary:
             level > previousLevel
-              ? `Rival watch: ${labId} expanded model-directed research access to level ${String(level)}.`
-              : `Rival watch: ${labId} reduced model-directed research access to level ${String(level)}.`,
+              ? `Rival watch: ${labId} expanded model-directed research access.`
+              : `Rival watch: ${labId} reduced model-directed research access.`,
           category: "narrative",
           source: { kind: "system", id: `rival-autonomy:${labId}` },
           relatedIds: [labId, model.id],

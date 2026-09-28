@@ -260,6 +260,7 @@ export type DomainEvent =
       readonly kind: "world-phase-changed";
       readonly previousPhase: import("../model/state.ts").GamePhase;
       readonly phase: import("../model/state.ts").GamePhase;
+      /** The authored threshold crossed, not the hidden live maximum. */
       readonly frontierCapability: number;
     }
   | {

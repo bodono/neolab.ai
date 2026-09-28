@@ -115,12 +115,16 @@ describe("world progression", () => {
     advanceWorldPhase(scalingTx);
     const scaling = scalingTx.commit({ description: "scaling" });
     expect(scaling.state.run.phase).toBe("scaling");
+    // The event and the feed report the threshold crossed (30), never the
+    // hidden live maximum (70), which here is a rival's true capability.
     expect(scaling.domainEvents).toContainEqual({
       kind: "world-phase-changed",
       previousPhase: "foundation",
       phase: "scaling",
-      frontierCapability: 70,
+      frontierCapability: 30,
     });
+    expect(scaling.state.decisionLog.at(-1)?.summary).toContain("passed 30");
+    expect(scaling.state.decisionLog.at(-1)?.summary).not.toContain("70");
 
     expect(scaling.state.run.autoPauseReasons).toContain("world-phase");
     expect(

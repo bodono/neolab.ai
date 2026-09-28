@@ -185,6 +185,7 @@ import {
   type ResearcherPaperCredit,
 } from "./researcher-paper-links.ts";
 import { formatRivalIncidentSummary } from "../rivals/incidents.ts";
+import { visibleWorldFrontierCapability } from "../rivals/signals.ts";
 import {
   modifierEffectPreview,
   modifierTargetDisplayLabel,
@@ -2797,12 +2798,7 @@ function projectGpuFleet(
         : { currentGenerationUnlockedAtTick: unlockedAt };
     })(),
     ...(() => {
-      const worldFrontier = Math.max(
-        0,
-        ...Object.values(state.models).map(
-          (candidate) => candidate.measuredCapability?.frontierCapability ?? 0,
-        ),
-      );
+      const worldFrontier = visibleWorldFrontierCapability(state);
       const next = Object.values(content.gpuGenerations)
         .filter(
           (generation) => generation.unlockAtWorldFrontierCapability > worldFrontier,
