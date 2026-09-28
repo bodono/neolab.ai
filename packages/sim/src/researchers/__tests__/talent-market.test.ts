@@ -271,12 +271,12 @@ describe("fixed-term recruitment", () => {
     expect(quote.auraCostBreakdown).toEqual({
       baseAuraCost: definition.contract.auraCost,
       worldFrontierCapability: 100,
-      marketPressureMultiplier: 3.5,
+      marketPressureMultiplier: 2,
       globalMarketPressureAuraCost:
-        Math.ceil(definition.contract.auraCost * 3.5) - definition.contract.auraCost,
-      marketAdjustedAuraCost: Math.ceil(definition.contract.auraCost * 3.5),
+        Math.ceil(definition.contract.auraCost * 2) - definition.contract.auraCost,
+      marketAdjustedAuraCost: Math.ceil(definition.contract.auraCost * 2),
     });
-    expect(quote.auraCost).toBe(Math.ceil(definition.contract.auraCost * 3.5));
+    expect(quote.auraCost).toBe(Math.ceil(definition.contract.auraCost * 2));
   });
 
   it("recruits deterministically at listed terms and leaves assignment to the roster", () => {

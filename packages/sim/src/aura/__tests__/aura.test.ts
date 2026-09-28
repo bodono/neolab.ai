@@ -60,13 +60,13 @@ function mutable(state: GameState): DeepMutable<GameState> {
 }
 
 describe("Aura ledger and public signal", () => {
-  it("quotes the approved linear market pressure curve and rounds every cost upward", () => {
+  it("quotes a linear market pressure curve capped at x2 and rounds costs upward", () => {
     const rows = [
       { capability: 0, multiplier: 1, costs: [4, 14, 22] },
       { capability: 25, multiplier: 1.625, costs: [7, 23, 36] },
-      { capability: 50, multiplier: 2.25, costs: [9, 32, 50] },
-      { capability: 75, multiplier: 2.875, costs: [12, 41, 64] },
-      { capability: 100, multiplier: 3.5, costs: [14, 49, 77] },
+      { capability: 40, multiplier: 2, costs: [8, 28, 44] },
+      { capability: 75, multiplier: 2, costs: [8, 28, 44] },
+      { capability: 100, multiplier: 2, costs: [8, 28, 44] },
     ] as const;
 
     for (const row of rows) {

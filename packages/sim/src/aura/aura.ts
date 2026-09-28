@@ -15,6 +15,12 @@ function clamp(value: number, minimum: number, maximum: number): number {
 
 /** Additive multiplier growth for each point of measured world capability. */
 export const AURA_MARKET_PRESSURE_PER_CAPABILITY_POINT = 0.025;
+/**
+ * Market pressure stops at double the base price, reached at world FC 40.
+ * Uncapped it climbed to x3.5 while Aura income stayed flat, so a median late
+ * hire cost about six months of income and a Mega round about fourteen.
+ */
+export const AURA_MARKET_PRESSURE_MAX_MULTIPLIER = 2;
 
 export interface AuraMarketPressureQuote {
   readonly baseAuraCost: number;
@@ -27,7 +33,7 @@ export interface AuraMarketPressureQuote {
 /**
  * Hiring and fundraising compete in one global market for prestige. Every ten
  * points of visible world frontier capability add 25 percentage points to
- * their Aura multiplier. The final cost rounds upward to whole Aura.
+ * their Aura multiplier, up to x2. The final cost rounds upward to whole Aura.
  *
  * "Visible" means the player's own measured models and each rival's latest
  * public capability report. A rival's measured capability is its true value,
@@ -39,8 +45,10 @@ export function quoteAuraMarketPressure(
 ): AuraMarketPressureQuote {
   const worldFrontierCapability = visibleWorldFrontierCapability(state);
 
-  const marketPressureMultiplier =
-    1 + worldFrontierCapability * AURA_MARKET_PRESSURE_PER_CAPABILITY_POINT;
+  const marketPressureMultiplier = Math.min(
+    AURA_MARKET_PRESSURE_MAX_MULTIPLIER,
+    1 + worldFrontierCapability * AURA_MARKET_PRESSURE_PER_CAPABILITY_POINT,
+  );
   const marketAdjustedAuraCost = Math.ceil(baseAuraCost * marketPressureMultiplier);
   return {
     baseAuraCost,

@@ -57,13 +57,13 @@ describe("Aura market pressure", () => {
       kind: "benchmark",
       occurredAt: state.run.tick,
       subjectId: rivalModel.id,
-      actualValue: 80,
+      actualValue: 30,
       noiseUnit: 0,
       baseErrorRadius: 15,
       summary: "A rival reported a new benchmark result.",
     });
     const reported = quoteAuraMarketPressure(state, 10);
-    expect(reported.worldFrontierCapability).toBe(80);
-    expect(reported.marketPressureMultiplier).toBeCloseTo(3, 10);
+    expect(reported.worldFrontierCapability).toBe(30);
+    expect(reported.marketPressureMultiplier).toBeCloseTo(1.75, 10);
   });
 });

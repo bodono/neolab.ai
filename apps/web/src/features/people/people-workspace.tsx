@@ -10,7 +10,7 @@ import type {
   RosterResearcherView,
   TalentCandidateView,
 } from "@neolab/sim/public";
-import { formatValuation } from "@neolab/sim/public";
+import { AURA_MARKET_PRESSURE_MAX_MULTIPLIER, formatValuation } from "@neolab/sim/public";
 
 import {
   dismissResearcherCommand,
@@ -1619,6 +1619,10 @@ export function RecruitResearcherDialog({
                 World frontier capability{" "}
                 {Math.round(listed.auraCostBreakdown.worldFrontierCapability)} · ×
                 {listed.auraCostBreakdown.marketPressureMultiplier.toFixed(2)}
+                {listed.auraCostBreakdown.marketPressureMultiplier >=
+                AURA_MARKET_PRESSURE_MAX_MULTIPLIER
+                  ? " (maximum)"
+                  : ""}
               </small>
             </article>
           </section>

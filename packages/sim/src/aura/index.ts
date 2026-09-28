@@ -1,4 +1,5 @@
 export {
+  AURA_MARKET_PRESSURE_MAX_MULTIPLIER,
   AURA_MARKET_PRESSURE_PER_CAPABILITY_POINT,
   calculateAuraGain,
   calculateAuraSignal,

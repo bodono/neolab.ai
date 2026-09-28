@@ -323,14 +323,14 @@ describe("fundraising campaigns", () => {
     expect(quote.auraCostBreakdown).toEqual({
       baseAuraCost: 22,
       worldFrontierCapability: 60,
-      marketPressureMultiplier: 2.5,
-      globalMarketPressureAuraCost: 33,
-      marketAdjustedAuraCost: 55,
+      marketPressureMultiplier: 2,
+      globalMarketPressureAuraCost: 22,
+      marketAdjustedAuraCost: 44,
       recentRoundPressureAuraCost: 7,
       emergencyBridgeReliefAuraCost: 0,
-      totalAuraCost: 62,
+      totalAuraCost: 51,
     });
-    expect(quote.auraCost).toBe(62);
+    expect(quote.auraCost).toBe(51);
   });
 
   it("offers distinct investor terms within every multi-offer roadshow", () => {
