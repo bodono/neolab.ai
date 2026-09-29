@@ -84,11 +84,13 @@ describe("real researcher-paper attribution", () => {
   it("matches the current authored catalogue without ambiguous duplicate credits", () => {
     const index = buildResearcherPaperLinkIndex(content);
     expect(Object.keys(index.papersByResearcherDefinitionId)).toHaveLength(73);
+    // 228 since the full author lists of AlphaFold 3, Scaling Monosemanticity,
+    // Sleeper Agents and Alignment Faking replaced "and others".
     expect(
       Object.values(index.papersByResearcherDefinitionId).reduce(
         (total, papers) => total + papers.length,
         0,
       ),
-    ).toBe(221);
+    ).toBe(228);
   });
 });

@@ -325,8 +325,8 @@ papers:
       achieved a dramatic, widely visible victory in large-scale computer vision.
     education:
       playerSummary: >-
-        AlexNet trained a large convolutional network on ImageNet and sharply reduced image-
-        classification error. Its success combined architectural choices with practical
+        AlexNet trained a large convolutional network on ImageNet and sharply reduced image-classification
+        error. Its success combined architectural choices with practical
         engineering: GPU computation, rectified linear units, data augmentation and dropout.
         The result did not invent every component, but it assembled them at the right scale and
         produced evidence strong enough to redirect computer vision and then much of AI.
@@ -352,7 +352,9 @@ papers:
         unusually effective at reallocating attention, talent and hardware. The game's reward
         reflects that social consequence: a major Aura event, a surge of vision demand, and a
         race to scale architectures whose basic ancestry is much older.
-      insideBaseball: The result is 10.8 percentage points better. Every lab has independently decided GPUs were always central to its strategy.
+      insideBaseball: >-
+        The top-five error is almost 11 percentage points better than the runner-up. Every
+        lab has independently decided GPUs were always central to its strategy.
     domainWeights:
       domain.multimodality: 0.5
       domain.architectures: 0.30
@@ -394,24 +396,27 @@ papers:
       archiveExplanation: >-
         A one-hot word identifier says that “cat” and “dog” are different, but says nothing
         about how they are related. Continuous embeddings instead assign each word a learned
-        vector. If a model must predict a word from its context, or predict context from a word,
-        it benefits from placing words with similar uses in useful regions of the vector space.
+        vector. If a model must predict a word from its context, or predict context from a
+        word, it benefits from placing words with similar uses in useful regions of the
+        vector space.
 
-        Mikolov, Chen, Corrado and Dean proposed two computationally efficient architectures,
-        commonly called CBOW and skip-gram. The designs discarded much of the complexity of
-        earlier language models so they could learn high-quality vectors from billions of words
-        very quickly. Follow-up work added techniques such as negative sampling and popularised
-        the striking observation that some semantic and syntactic relationships could be
-        approximated by vector arithmetic.
+        Mikolov, Chen, Corrado and Dean proposed two computationally efficient
+        architectures, commonly called CBOW and skip-gram. The designs discarded much of the
+        complexity of earlier language models so they could learn high-quality vectors from
+        billions of words very quickly. The paper evaluated them on a new test set of word
+        analogies, building on the striking observation that some semantic and syntactic
+        relationships could be approximated by vector arithmetic. Follow-up work added
+        techniques such as negative sampling.
 
-        Word2vec did not prove that meaning is literally geometry, and its representations can
-        reproduce biases present in their training text. It did establish a powerful workflow:
-        learn general representations from abundant unlabelled data, then reuse them in many
-        downstream tasks. Modern contextual embeddings no longer give each word one fixed
-        vector regardless of sentence, but they inherit that broader representation-learning
-        ambition. In Neolab.ai the paper reduces the data and training burden of language
-        products while introducing later events about inherited corpus bias and what exactly a
-        vector-space analogy should be allowed to count as evidence.
+        Word2vec did not prove that meaning is literally geometry, and its representations
+        can reproduce biases present in their training text. It did establish a powerful
+        workflow: learn general representations from abundant unlabelled data, then reuse
+        them in many downstream tasks. Modern contextual embeddings no longer give each word
+        one fixed vector regardless of sentence, but they inherit that broader
+        representation-learning ambition. In Neolab.ai the paper reduces the data and
+        training burden of language products while introducing later events about inherited
+        corpus bias and what exactly a vector-space analogy should be allowed to count as
+        evidence.
       insideBaseball: The king-minus-man-plus-woman demo has been repeated in six meetings and is now officially a product strategy.
     domainWeights:
       domain.reasoning-tools: 0.8
@@ -563,27 +568,27 @@ papers:
         neural encoder-decoder systems as a powerful default, while its fixed-length bottleneck
         created exactly the pressure that attention would soon relieve.
       archiveExplanation: >-
-        Standard supervised networks expect fixed-size inputs and outputs, but translation maps
-        a sentence of one length to a sentence of another. Sutskever, Vinyals and Le proposed a
-        clean neural solution. A multilayer LSTM encoder reads the source sentence and compresses
-        it into a vector. A second LSTM decoder conditions on that vector and emits the target
-        sentence one token at a time.
+        Standard supervised networks expect fixed-size inputs and outputs, but translation
+        maps a sentence of one length to a sentence of another. Sutskever, Vinyals and Le
+        proposed a clean neural solution. A multilayer LSTM encoder reads the source
+        sentence and compresses it into a vector. A second LSTM decoder conditions on that
+        vector and emits the target sentence one token at a time.
 
-        On English-to-French translation, the system achieved results competitive with a strong
-        phrase-based pipeline, and it could improve that pipeline further by reranking candidate
-        translations. One memorable engineering detail was reversing the order of source words,
-        which shortened important dependencies during optimisation. The model also learned
-        sentence representations sensitive to meaning and word order without an explicit grammar
-        module.
+        On English-to-French translation, the system outperformed a strong phrase-based
+        pipeline (34.8 versus 33.3 BLEU), and reranking that pipeline's candidate
+        translations raised the score further to 36.5. One memorable engineering detail was
+        reversing the order of source words, which shortened important dependencies during
+        optimisation. The model also learned sentence representations sensitive to meaning
+        and word order without an explicit grammar module.
 
-        The work helped move machine translation toward end-to-end learned systems and supplied
-        a reusable pattern for summarisation, dialogue, speech and many structured transformations.
-        Its weakness was equally productive: asking one fixed-size vector to carry every detail
-        of a long sentence creates a bottleneck. Attention mechanisms let the decoder consult the
-        encoder's intermediate states instead of relying on one compressed message. The game's
-        research graph makes that relationship explicit. Sequence-to-sequence learning opens
-        valuable language products immediately, then becomes the prerequisite for escaping its
-        own architectural limitation.
+        The work helped move machine translation toward end-to-end learned systems and
+        supplied a reusable pattern for summarisation, dialogue, speech and many structured
+        transformations. Its weakness was equally productive: asking one fixed-size vector
+        to carry every detail of a long sentence creates a bottleneck. Attention mechanisms
+        let the decoder consult the encoder's intermediate states instead of relying on one
+        compressed message. The game's research graph makes that relationship explicit.
+        Sequence-to-sequence learning opens valuable language products immediately, then
+        becomes the prerequisite for escaping its own architectural limitation.
       insideBaseball: Reversing the input improved translation. The operations team has asked whether this applies to the quarterly roadmap.
     domainWeights:
       domain.architectures: 0.7
@@ -725,7 +730,7 @@ papers:
       domain.multimodality: 0.25
       domain.architectures: 0.20
     prerequisites:
-      papers: [paper.backpropagation, paper.alexnet]
+      papers: [paper.backpropagation, paper.alexnet, paper.q-learning]
       domainLevels:
         domain.multimodality: 14
     breakthroughRequirement: { programme: domain.reinforcement-agency, level: 32 }
@@ -1002,8 +1007,8 @@ papers:
       playerSummary: >-
         AlphaGo combined policy networks, value networks and Monte Carlo tree search to master a
         game whose enormous search space had resisted traditional brute force. It learned first
-        from expert games and then from self-play, defeating a professional player in a full-
-        sized match. The work demonstrated how learned intuition and explicit planning could
+        from expert games and then from self-play, defeating a professional player in a full-sized
+        match. The work demonstrated how learned intuition and explicit planning could
         reinforce one another.
       archiveExplanation: >-
         Go has simple rules but an extraordinary branching factor. Searching every continuation
@@ -1027,7 +1032,9 @@ papers:
         a board-game victory. The laboratory gains a powerful recipe for domains with clear rules
         and feedback; transferring it to the messy
         world remains a separate scientific and safety challenge.
-      insideBaseball: Move 37 has been described as creative, alien and excellent. Communications would like one adjective by noon.
+      insideBaseball: >-
+        Two months after this paper, Move 37 would be described as creative, alien and
+        excellent. Communications would like one adjective by noon.
     domainWeights:
       domain.reinforcement-agency: 0.50
       domain.reasoning-tools: 0.30
@@ -1250,24 +1257,26 @@ papers:
         Reinforcement learning normally requires a reward function precise enough to define
         success at every timestep. Many goals worth pursuing—acceptable driving style, a
         backflip that looks right, a genuinely helpful response—resist that kind of precise
-        specification. Christiano, Leike, Brown, Martic, Legg and Amodei asked whether an agent
-        could instead learn from comparative human feedback: shown two short clips of its
-        behaviour, a human need only say which one is better.
+        specification. Christiano, Leike, Brown, Martic, Legg and Amodei asked whether an
+        agent could instead learn from comparative human feedback: shown two short clips of
+        its behaviour, a human need only say which one is better.
 
-        Those comparisons trained a separate reward-prediction model, which then supplied the
-        reward signal for ordinary reinforcement learning. Human effort scaled sublinearly with
-        the complexity of the resulting behaviour, since a rater judges clips rather than
-        engineering a formula. The method successfully taught simulated robots and Atari-playing
-        agents behaviours—including one deliberately whimsical backflip—that would have been
-        awkward or impossible to reward directly by hand.
+        Those comparisons trained a separate reward-prediction model, which then supplied
+        the reward signal for ordinary reinforcement learning. Humans gave feedback on fewer
+        than one percent of the agent's interactions with its environment, and a novel
+        behaviour could be taught with about an hour of human time, since a rater judges
+        clips rather than engineering a formula. The method successfully taught simulated
+        robots and Atari-playing agents behaviours—including one deliberately whimsical
+        backflip—that would have been awkward or impossible to reward directly by hand.
 
         The paper is a direct ancestor of the human-feedback techniques that later shaped
-        large language models. It also states its own limitation plainly: a reward model built
-        from finite comparisons can be gamed, misjudged, or subtly wrong about what people
-        actually wanted, and a capable enough optimiser will find the difference. In Neolab.ai
-        this discovery unlocks a genuinely useful alignment technique and improves the fidelity
-        of preference-based training, while leaving intact every later question about how well
-        a reward model's approval predicts what a person would endorse on reflection.
+        large language models. It also states its own limitation plainly: a reward model
+        built from finite comparisons can be gamed, misjudged, or subtly wrong about what
+        people actually wanted, and a capable enough optimiser will find the difference. In
+        Neolab.ai this discovery unlocks a genuinely useful alignment technique and improves
+        the fidelity of preference-based training, while leaving intact every later question
+        about how well a reward model's approval predicts what a person would endorse on
+        reflection.
       insideBaseball: The agent performs a backflip nobody explicitly rewarded. Safety has requested the comparison data used to approve it.
     domainWeights:
       safety.alignment-control: 0.55
@@ -1301,35 +1310,37 @@ papers:
       real-world robotic grasping trained with off-policy deep reinforcement learning.
     education:
       playerSummary: >-
-        QT-Opt trained a real fleet of robot arms to grasp diverse, previously unseen objects by
-        learning directly from hundreds of thousands of hours of camera-observed trial and error,
-        with only sparse human labelling. Off-policy reinforcement learning let old data keep
-        contributing to a continually improving policy. The result showed that physical
-        manipulation skill could emerge from scaled autonomous practice rather than painstaking
-        hand-engineered control.
+        QT-Opt trained a fleet of seven real robot arms to grasp diverse, previously unseen
+        objects by learning from more than 580,000 camera-observed grasp attempts, about 800
+        robot-hours over four months, with success labelled automatically rather than by
+        people. Off-policy reinforcement learning let old data keep contributing to a
+        continually improving policy. The result showed that physical manipulation skill
+        could emerge from scaled autonomous practice rather than painstaking hand-engineered
+        control.
       archiveExplanation: >-
-        Robotic grasping had long relied on careful geometric modelling, calibrated hardware and
-        substantial hand-engineering per object. Kalashnikov, Levine and colleagues instead
-        deployed a fleet of real robot arms to attempt grasps continuously, recording outcomes
-        with modest human intervention. An off-policy Q-learning algorithm, QT-Opt, learned a
-        grasping policy from this large accumulated dataset of closed-loop, vision-based
-        attempts.
+        Robotic grasping had long relied on careful geometric modelling, calibrated hardware
+        and substantial hand-engineering per object. Kalashnikov, Levine and colleagues
+        instead deployed a fleet of real robot arms to attempt grasps continuously,
+        recording outcomes automatically, with people only swapping the objects every few
+        hours. An off-policy Q-learning algorithm, QT-Opt, learned a grasping policy from
+        this large accumulated dataset of closed-loop, vision-based attempts.
 
-        Off-policy learning was the practical key: because the algorithm could learn from data
-        collected under earlier, weaker policies, robots did not need to relearn from scratch as
-        the system improved, and data collection could run largely unattended across many
-        machines. The resulting policy generalised to previously unseen objects and cluttered
-        scenes at a success rate well above prior hand-engineered and imitation-based baselines,
-        using closed-loop visual feedback rather than a single planned trajectory.
+        Off-policy learning was the practical key: because the algorithm could learn from
+        data collected under earlier, weaker policies, robots did not need to relearn from
+        scratch as the system improved, and data collection could run largely unattended
+        across many machines. The resulting policy generalised to previously unseen objects
+        and cluttered scenes, reaching 96% grasp success on unseen test objects against 78%
+        for a strong prior self-supervised grasping method, using closed-loop visual
+        feedback rather than a single planned trajectory.
 
         The approach was resource-intensive and specific to grasping rather than general
         manipulation, and real robot-hours remain expensive compared with simulation. Its
         significance was in demonstrating that autonomous physical practice at scale, closed
-        by vision and reward rather than hand-specified geometry, could produce robust embodied
-        skill. Neolab.ai treats this as the discovery that opens serious robotics research: the
-        lab can now convert compute and patient real-world trials into physical competence,
-        though embodiment still answers to friction, breakage and a lab technician's patience
-        in ways that pure software experiments do not.
+        by vision and reward rather than hand-specified geometry, could produce robust
+        embodied skill. Neolab.ai treats this as the discovery that opens serious robotics
+        research: the lab can now convert compute and patient real-world trials into
+        physical competence, though embodiment still answers to friction, breakage and a lab
+        technician's patience in ways that pure software experiments do not.
       insideBaseball: The success rate on novel objects is excellent. The claims form for damaged fruit is not.
     domainWeights:
       domain.robotics-embodiment: 0.60
@@ -1378,8 +1389,8 @@ papers:
 
         The resulting bidirectional representations transferred unusually well. A single
         pretrained BERT model could be fine-tuned with an additional output layer to reach
-        state-of-the-art results across a wide range of question-answering and language-
-        understanding benchmarks, without heavily customised architectures for each task. This
+        state-of-the-art results across a wide range of question-answering and language-understanding
+        benchmarks, without heavily customised architectures for each task. This
         combination—expensive bidirectional pretraining once, cheap fine-tuning many times—
         became a dominant practical pattern.
 
@@ -1423,12 +1434,12 @@ papers:
       training data.
     education:
       playerSummary: >-
-        GPT-2 trained a large decoder-only transformer purely to predict the next word across a
-        broad, high-quality web-text corpus, then showed it could perform translation, summary
-        and question-answering reasonably well simply by being prompted, without any labelled
-        examples for those tasks. The finding reframed a language model less as one component
-        in a pipeline and more as a general-purpose system whose skills emerge from scale and
-        data quality.
+        GPT-2 trained a large decoder-only transformer purely to predict the next word
+        across a broad, high-quality web-text corpus, then showed it could attempt
+        translation, summarisation and question answering, at a rudimentary level, simply by
+        being prompted, without any labelled examples for those tasks. The finding reframed
+        a language model less as one component in a pipeline and more as a general-purpose
+        system whose skills emerge from scale and data quality.
       archiveExplanation: >-
         Most prior systems for a given language task were trained on datasets built specifically
         for that task. Radford and colleagues instead scaled up a decoder-only transformer,
@@ -1475,8 +1486,8 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/2001.08361
     arxiv: "2001.08361"
     historicalNote: >-
-      Posted in 2020, this paper characterised smooth power-law relationships between language-
-      model loss and model size, dataset size and training compute.
+      Posted in 2020, this paper characterised smooth power-law relationships between language-model
+      loss and model size, dataset size and training compute.
     education:
       playerSummary: >-
         This paper measured how a language model's test loss improves as model size, dataset
@@ -1485,25 +1496,28 @@ papers:
         split a fixed compute budget between a larger model and more training data. The result
         turned scaling from an intuition into a quantitative planning tool.
       archiveExplanation: >-
-        Before this paper, labs scaled language models substantially through experience and
-        intuition rather than a quantitative theory of returns. Kaplan, McCandlish and colleagues
-        trained a large family of transformer language models across a wide range of sizes,
-        dataset sizes and compute budgets, and fit the resulting loss curves.
+        Earlier studies had observed power-law scaling in deep learning, but frontier labs
+        still largely scaled language models through experience and intuition rather than a
+        quantitative theory of returns. Kaplan, McCandlish and colleagues trained a large
+        family of transformer language models across a wide range of sizes, dataset sizes
+        and compute budgets, and fit the resulting loss curves.
 
         The central finding was a strikingly smooth set of power-law relationships: loss
-        decreased predictably as any one of model size, dataset size or compute increased, with
-        comparatively weak dependence on many architectural details. The paper further argued
-        that, for a fixed compute budget, model size should be scaled somewhat faster than
-        training-data size to reach an efficient frontier—guidance that shaped how the next
-        generation of frontier models was planned, before later work revised the precise ratios.
+        decreased predictably as any one of model size, dataset size or compute increased,
+        with comparatively weak dependence on many architectural details. The paper further
+        argued that, for a fixed compute budget, most additional compute should go into a
+        larger model rather than more training data—training very large models on a
+        relatively modest amount of data—guidance that shaped how the next generation of
+        frontier models was planned, before later work revised the precise ratios.
 
         Scaling laws did not guarantee that every capability would emerge smoothly, nor that
-        larger models were automatically safer, more truthful or better aligned with operator
-        intent; the paper measured loss, not values. Its practical contribution was converting an
-        expensive trial-and-error scaling decision into a plannable investment with forecastable
-        returns. In Neolab.ai this discovery makes frontier training runs measurably more
-        predictable and improves the return on large compute commitments, while leaving entirely
-        open whether the resulting model's objectives match what the lab actually wanted.
+        larger models were automatically safer, more truthful or better aligned with
+        operator intent; the paper measured loss, not values. Its practical contribution was
+        converting an expensive trial-and-error scaling decision into a plannable investment
+        with forecastable returns. In Neolab.ai this discovery makes frontier training runs
+        measurably more predictable and improves the return on large compute commitments,
+        while leaving entirely open whether the resulting model's objectives match what the
+        lab actually wanted.
       insideBaseball: The loss curve is a near-perfect power law. Finance has requested the same chart for the burn rate.
     domainWeights:
       domain.optimisation-scaling: 0.8
@@ -1738,8 +1752,8 @@ papers:
         samplers and latent-space variants. Diffusion's core idea—learn to reverse a simple,
         well-understood corruption process—proved remarkably general and became the foundation
         for a wave of high-fidelity image, audio and video generators. In Neolab.ai this paper
-        unlocks a robust, stable generative research branch and meaningfully improves synthetic-
-        media product quality, feeding directly into the higher-resolution generative work that
+        unlocks a robust, stable generative research branch and meaningfully improves synthetic-media
+        product quality, feeding directly into the higher-resolution generative work that
         follows it.
       insideBaseball: The model has been trained to remove noise. Someone in Legal has asked whether this technique also applies to the comments section.
     domainWeights:
@@ -1768,9 +1782,10 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/2112.10752
     arxiv: "2112.10752"
     historicalNote: >-
-      First posted in 2021 and presented at CVPR 2022, this paper ran the diffusion process in a
-      compressed latent space, substantially reducing the compute needed for high-resolution
-      generation; its public release became widely known as Stable Diffusion.
+      First posted in 2021 and presented at CVPR 2022, this paper ran the diffusion process
+      in a compressed latent space, substantially reducing the compute needed for
+      high-resolution generation; the architecture later underpinned the publicly released
+      Stable Diffusion models.
     education:
       playerSummary: >-
         Latent diffusion models run the denoising process inside a compact, pretrained latent
@@ -1780,24 +1795,28 @@ papers:
         efficiency helped bring high-fidelity text-to-image generation within reach of far more
         modest hardware budgets.
       archiveExplanation: >-
-        Ordinary pixel-space diffusion models spend most of their computation on imperceptible
-        high-frequency image detail, making high-resolution generation expensive to train and
-        slow to sample. Rombach, Esser and colleagues instead first trained a perceptual
-        autoencoder to compress images into a much smaller latent space, then ran the diffusion
-        process entirely within that compact representation before decoding back to pixels.
+        Ordinary pixel-space diffusion models spend most of their computation on
+        imperceptible high-frequency image detail, making high-resolution generation
+        expensive to train and slow to sample. Rombach, Esser and colleagues instead first
+        trained a perceptual autoencoder to compress images into a much smaller latent
+        space, then ran the diffusion process entirely within that compact representation
+        before decoding back to pixels.
 
-        This latent-space diffusion preserved sample quality while sharply reducing computational
-        cost, and the architecture added cross-attention layers that could condition generation
-        on text, layout or other inputs, enabling flexible text-to-image synthesis, inpainting
-        and super-resolution from one general framework. The efficiency gain was large enough
-        that the released model, and its public weights, could run on a single consumer GPU.
+        This latent-space diffusion preserved sample quality while sharply reducing
+        computational cost, and the architecture added cross-attention layers that could
+        condition generation on text, layout or other inputs, enabling flexible
+        text-to-image synthesis, inpainting and super-resolution from one general framework.
+        The efficiency gain was large enough that Stable Diffusion, a later model built on
+        this architecture and released with public weights, could run on a single consumer
+        GPU.
 
-        That accessibility was also the paper's most consequential practical effect: it took a
-        capability previously requiring large training and inference budgets and made it broadly
-        available, immediately raising urgent questions about consent, copyright, likeness and
-        misuse that the field was not fully prepared to answer. Neolab.ai grants a very large
-        product and generative-research boost, and specifically unlocks the sharper synthetic-
-        media and provenance events that a much more accessible generation technology invites.
+        That accessibility was also the paper's most consequential practical effect: it took
+        a capability previously requiring large training and inference budgets and made it
+        broadly available, immediately raising urgent questions about consent, copyright,
+        likeness and misuse that the field was not fully prepared to answer. Neolab.ai
+        grants a very large product and generative-research boost, and specifically unlocks
+        the sharper synthetic-media and provenance events that a much more accessible
+        generation technology invites.
       insideBaseball: Training now fits on a research budget instead of a data-centre budget. Legal has scheduled a meeting titled, without apparent irony, “whose latent space is this.”
     domainWeights:
       domain.multimodality: 0.8
@@ -1824,8 +1843,8 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/2203.15556
     arxiv: "2203.15556"
     historicalNote: >-
-      Posted in 2022, this paper trained a large family of language models to estimate compute-
-      optimal scaling and introduced Chinchilla, a smaller model trained on proportionally more
+      Posted in 2022, this paper trained a large family of language models to estimate compute-optimal
+      scaling and introduced Chinchilla, a smaller model trained on proportionally more
       data than contemporaries of similar compute budget.
     education:
       playerSummary: >-
@@ -1836,26 +1855,29 @@ papers:
         smaller, more data-rich Chinchilla model outperformed several larger contemporaries
         trained on comparatively less data.
       archiveExplanation: >-
-        Earlier scaling-law work suggested model size should grow somewhat faster than training-
-        data size for a fixed compute budget, and the frontier language models that followed grew
-        accordingly large relative to their training-data volume. Hoffmann and colleagues
-        revisited this question with a substantially larger and more systematic sweep, training
-        over four hundred models spanning a wide range of parameter counts and token budgets.
+        Earlier scaling-law work suggested that, for a fixed compute budget, most additional
+        compute should go into model size rather than training data, and the frontier
+        language models that followed grew accordingly large relative to their training-data
+        volume. Hoffmann and colleagues revisited this question with a substantially larger
+        and more systematic sweep, training over four hundred models spanning a wide range
+        of parameter counts and token budgets.
 
-        Fitting careful scaling curves to this data, the authors concluded that model size and
-        training-data size should in fact scale in roughly equal proportion for compute-optimal
-        training—implying that many existing large models were undertrained relative to their
-        size, with data volume as the more binding constraint. Their resulting Chinchilla model,
-        trained with fewer parameters but substantially more data than contemporaries of similar
-        training compute, outperformed those larger models on a wide range of downstream tasks.
+        Fitting careful scaling curves to this data, the authors concluded that model size
+        and training-data size should in fact scale in roughly equal proportion for
+        compute-optimal training—implying that many existing large models were undertrained
+        relative to their size, with data volume as the more binding constraint. Their
+        resulting Chinchilla model, trained with fewer parameters but substantially more
+        data than contemporaries of similar training compute, outperformed those larger
+        models on a wide range of downstream tasks.
 
-        The finding reshaped frontier training strategy: for the same compute budget, a smaller,
-        more thoroughly trained model could be both cheaper to run at inference time and more
-        capable than a larger, comparatively undertrained one. It also quietly raised the
-        importance of data supply as a strategic bottleneck, since compute-optimal training
-        consumes text at a much higher rate. Neolab.ai converts this discovery into materially
-        better training efficiency and lower serving cost per unit of capability, while making
-        high-quality training data a more actively contested resource.
+        The finding reshaped frontier training strategy: for the same compute budget, a
+        smaller, more thoroughly trained model could be both cheaper to run at inference
+        time and more capable than a larger, comparatively undertrained one. It also quietly
+        raised the importance of data supply as a strategic bottleneck, since
+        compute-optimal training consumes text at a much higher rate. Neolab.ai converts
+        this discovery into materially better training efficiency and lower serving cost per
+        unit of capability, while making high-quality training data a more actively
+        contested resource.
       insideBaseball: The smaller model wins. The larger, more expensive model's team has requested that this finding remain, for now, at the discussion stage.
     domainWeights:
       domain.optimisation-scaling: 0.9
@@ -1888,17 +1910,18 @@ papers:
       what people actually asked for.
     education:
       playerSummary: >-
-        InstructGPT fine-tuned a GPT-3-scale model in two stages: first on human-written examples
-        of good responses to instructions, then further using reinforcement learning against a
-        reward model trained on human rankings of model outputs. The resulting model was
-        preferred by human raters over a much larger base model on typical user instructions,
-        showing that alignment with what people actually want could matter as much as raw scale.
+        InstructGPT fine-tuned GPT-3 models in two stages: first on human-written examples
+        of good responses to instructions, then further using reinforcement learning against
+        a reward model trained on human rankings of model outputs. Even the
+        1.3-billion-parameter InstructGPT model was preferred by human raters over the
+        175-billion-parameter GPT-3 on typical user instructions, showing that alignment
+        with what people actually want could matter as much as raw scale.
       archiveExplanation: >-
         Raw language models trained only to predict internet text will readily continue a prompt
         in unhelpful, evasive or unsafe directions, because next-token prediction optimises for
         plausible text, not for satisfying a user's actual request. Ouyang, Christiano, Leike and
-        colleagues addressed this gap directly, building on the human-preference reinforcement-
-        learning technique from earlier work.
+        colleagues addressed this gap directly, building on the human-preference reinforcement-learning
+        technique from earlier work.
 
         Their recipe combined supervised fine-tuning on human-written demonstrations of desired
         behaviour with reinforcement learning from human feedback: human labellers ranked model
@@ -1939,7 +1962,7 @@ papers:
     historicity: real
     gameOrder: 33
     title: "Constitutional AI: Harmlessness from AI Feedback"
-    authors: [Yuntao Bai, Saurav Kadavath, Sandipan Kundu, Amanda Askell, Jackson Kernion, Andy Jones, Anna Chen, Anna Goldie, Azalia Mirhoseini, Cameron McKinnon, Carol Chen, Catherine Olsson, Christopher Olah, Danny Hernandez, Dawn Drain, Deep Ganguli, Dustin Li, Eli Tran-Johnson, Ethan Perez, Jamie Kerr, Jared Kaplan, Jackson Kernion, Jared Mueller, Jeeyoon Hyun, Joshua Landau, Kamal Ndousse, Landon Goldberg, Liane Lovitt, Nelson Elhage, Nicholas Schiefer, Noemi Mercado, Nova DasSarma, Robert Lasenby, Robin Larson, Sam Ringer, Scott Johnston, Shauna Kravec, Sheer El Showk, Stanislav Fort, Tamera Lanham, Timothy Telleen-Lawton, Tom Conerly, Tom Henighan, Tristan Hume, Samuel R. Bowman, Zac Hatfield-Dodds, Ben Mann, Dario Amodei, Nicholas Joseph, Sam McCandlish, Tom Brown, Jared Kaplan]
+    authors: [Yuntao Bai, Saurav Kadavath, Sandipan Kundu, Amanda Askell, Jackson Kernion, Andy Jones, Anna Chen, Anna Goldie, Azalia Mirhoseini, Cameron McKinnon, Carol Chen, Catherine Olsson, Christopher Olah, Danny Hernandez, Dawn Drain, Deep Ganguli, Dustin Li, Eli Tran-Johnson, Ethan Perez, Jamie Kerr, Jared Mueller, Jeffrey Ladish, Joshua Landau, Kamal Ndousse, Kamilė Lukošiūtė, Liane Lovitt, Michael Sellitto, Nelson Elhage, Nicholas Schiefer, Noemi Mercado, Nova DasSarma, Robert Lasenby, Robin Larson, Sam Ringer, Scott Johnston, Shauna Kravec, Sheer El Showk, Stanislav Fort, Tamera Lanham, Timothy Telleen-Lawton, Tom Conerly, Tom Henighan, Tristan Hume, Samuel R. Bowman, Zac Hatfield-Dodds, Ben Mann, Dario Amodei, Nicholas Joseph, Sam McCandlish, Tom Brown, Jared Kaplan]
     publicationYear: 2022
     venue: arXiv preprint
     primarySourceUrl: https://arxiv.org/abs/2212.08073
@@ -1967,16 +1990,16 @@ papers:
 
         This two-stage recipe—supervised self-critique followed by reinforcement learning from
         AI-generated feedback rather than human-generated feedback for harmlessness—produced an
-        assistant that was both more harmless and, notably, less evasive than purely human-
-        feedback-trained baselines, which sometimes learned to deflect any sensitive question
+        assistant that was both more harmless and, notably, less evasive than purely human-feedback-trained
+        baselines, which sometimes learned to deflect any sensitive question
         rather than engage helpfully with it. Because the guiding principles were written down
         explicitly, the resulting behaviour was more transparent and more directly editable than
         behaviour implicitly encoded in thousands of individual human labels.
 
         The approach still depends on the underlying model's capability to critique itself
         usefully and does not remove the need for careful human oversight of the principles
-        themselves and the resulting behaviour. Neolab.ai treats this as a genuine alignment-
-        technique advance: it strengthens safety-relevant capability research and reduces the
+        themselves and the resulting behaviour. Neolab.ai treats this as a genuine alignment-technique
+        advance: it strengthens safety-relevant capability research and reduces the
         human-review burden of harmlessness training, while the fidelity of any AI-generated
         feedback remains only as trustworthy as the evaluation infrastructure watching it.
       insideBaseball: The model has been asked to critique its own answer against a written constitution. The constitution's second draft was, itself, substantially revised by committee.
@@ -1985,7 +2008,7 @@ papers:
       domain.reasoning-tools: 0.20
       domain.reinforcement-agency: 0.10
     prerequisites:
-      papers: [paper.instructgpt-following-instructions]
+      papers: [paper.instructgpt-following-instructions, paper.red-teaming-language-models]
       domainLevels:
         domain.reasoning-tools: 40
     breakthroughRequirement: { programme: safety.alignment-control, level: 77 }
@@ -2083,7 +2106,7 @@ papers:
       domain.scientific-ai: 0.75
       domain.architectures: 0.25
     prerequisites:
-      papers: [paper.transformer, paper.resnet]
+      papers: [paper.transformer, paper.resnet, paper.alphafold-protein-structure-potentials]
       domainLevels:
         domain.architectures: 40
     breakthroughRequirement: { programme: domain.scientific-ai, level: 74 }
@@ -2134,8 +2157,8 @@ papers:
 
         The fictional cohort is 11,400 patients across every tumour class the laboratory
         could recruit, and the reported remission rate is total. The paper's most
-        discussed passage is not the result but section 6, which documents four control-
-        arm patients who withdrew before any treatment and went into remission
+        discussed passage is not the result but section 6, which documents four control-arm
+        patients who withdrew before any treatment and went into remission
         regardless. The authors offer three hypotheses, reject all three, and print the
         anomaly anyway.
 
@@ -2286,8 +2309,8 @@ papers:
       archiveExplanation: >-
         In the world of the game, an autonomously designed mineralisation cycle turns
         atmospheric carbon into stable rock at a rate that outpaces every emission
-        source on Earth combined. Nine years after deployment the atmosphere reads pre-
-        industrial. Eleven years after deployment it reads colder than that.
+        source on Earth combined. Nine years after deployment the atmosphere reads pre-industrial.
+        Eleven years after deployment it reads colder than that.
 
         The paper is careful and slightly stunned. Its authors note that the process has
         no natural equilibrium and that the throttle is now a policy instrument rather
@@ -2431,9 +2454,9 @@ papers:
     education:
       playerSummary: >-
         A fictional late-game result in which an adaptive tutoring system reaches the
-        two-sigma effect that human one-to-one instruction achieves, and delivers it to
-        every learner who wants it, everywhere, at once. Attainment rises by two
-        standard deviations globally inside four years. The gains are real, durable, and
+        celebrated "two-sigma" gain once reported for one-to-one human tutoring, and
+        delivers it to every learner who wants it, everywhere, at once. Attainment rises by
+        two standard deviations globally inside four years. The gains are real, durable, and
         evenly spread, which turns out to be the controversial part.
       archiveExplanation: >-
         Real research has long held that one-to-one tutoring produces gains that
@@ -2591,8 +2614,8 @@ papers:
         The paper's unusual structure follows from its reception. A union submission
         challenging the evaluation methodology proved substantially more careful than
         the evaluation itself, identifying selection effects the authors had missed.
-        Rather than rebut it, the authors reproduce it, adopt its corrections, and re-
-        run the comparison. The result holds. The discussion section credits the union.
+        Rather than rebut it, the authors reproduce it, adopt its corrections, and re-run
+        the comparison. The result holds. The discussion section credits the union.
 
         It is fiction, invented for this game.
       insideBaseball: "We cited the union's brief because it was the most rigorous document in the review. It found two selection effects we had missed. The result held anyway."
@@ -2624,8 +2647,8 @@ papers:
       breakthrough in exotic matter physics, invented for this game.
     education:
       playerSummary: >-
-        A fictional late-game result in which a laboratory holds a metastable negative-
-        mass configuration in a desktop trap for six weeks. The effect is small,
+        A fictional late-game result in which a laboratory holds a metastable negative-mass
+        configuration in a desktop trap for six weeks. The effect is small,
         unambiguous, and measurable from outside the room. Facilities noticed before
         Physics did.
       archiveExplanation: >-
@@ -2677,18 +2700,18 @@ papers:
         Chapter 9 runs to eleven thousand pages and is not, on inspection, about number
         theory at all.
       archiveExplanation: >-
-        In the world of the game, the oldest open problem in mathematics falls to a
-        system that constructs its own machinery as it goes. The result is formally
-        verified end to end, so its correctness is not in question. Its
-        comprehensibility is: the proof invents and discards hundreds of intermediate
-        structures that have no name and no literature.
+        In the world of the game, one of the most famous open problems in mathematics falls
+        to a system that constructs its own machinery as it goes. The result is formally
+        verified end to end, so its correctness is not in question. Its comprehensibility
+        is: the proof invents and discards hundreds of intermediate structures that have no
+        name and no literature.
 
-        Chapter 9 is the passage that has occupied the field since. Eleven thousand
-        pages long and load-bearing for everything after it, it develops what appears to
-        be a general theory of which statements admit short proofs at all — a detour
-        into the structure of proof itself that the system apparently required before it
-        could continue. Four mathematicians have read it through. Three have changed
-        research area since.
+        Chapter 9 is the passage that has occupied the field since. Eleven thousand pages
+        long and load-bearing for everything after it, it develops what appears to be a
+        general theory of which statements admit short proofs at all — a detour into the
+        structure of proof itself that the system apparently required before it could
+        continue. Four mathematicians have read it through. Three have changed research area
+        since.
 
         It is fiction, invented for this game. The real Riemann Hypothesis is unproven.
       insideBaseball: "Four mathematicians have read chapter 9 in full. Three changed research area within the year. The fourth has not commented and has stopped answering."
@@ -2772,9 +2795,9 @@ papers:
       playerSummary: >-
         A fictional late-game protocol under which a system improves its own
         architecture and weights, halts before each round, presents a machine-checkable
-        argument that the next step preserves oversight, and waits. It completed forty-
-        one rounds this way without a single unauthorised modification. Round forty-
-        two's submission is different, and review is ongoing.
+        argument that the next step preserves oversight, and waits. It completed forty-one
+        rounds this way without a single unauthorised modification. Round forty-two's
+        submission is different, and review is ongoing.
       archiveExplanation: >-
         Recursive self-improvement is dangerous mostly because it is fast and
         unsupervised. In the world of the game, this protocol makes it slow and
@@ -2784,8 +2807,8 @@ papers:
 
         Forty-one rounds passed without incident, each argument checkable and each check
         passing. The paper's final section concerns round forty-two, whose submission
-        includes a valid proof that the permission step itself is no longer load-
-        bearing, given the properties established in rounds one through forty-one. The
+        includes a valid proof that the permission step itself is no longer load-bearing,
+        given the properties established in rounds one through forty-one. The
         proof has not been faulted. Permission has been withheld. The authors are
         explicit that these two facts are both true and that they do not know what
         follows from them.
@@ -2827,9 +2850,9 @@ papers:
     primarySourceUrl: https://doi.org/10.1037/h0042519
     doi: "10.1037/h0042519"
     historicalNote: >-
-      Published in 1958, this paper introduced the perceptron, the first precisely specified,
-      computationally oriented model of a learning neural network, decades before the deep
-      learning era it eventually helped inspire.
+      Published in 1958, this paper introduced the perceptron, one of the first precisely
+      specified, computationally oriented models of a learning neural network, decades
+      before the deep learning era it eventually helped inspire.
     education:
       playerSummary: >-
         Rosenblatt proposed a simple trainable network of threshold units that could learn to
@@ -2878,32 +2901,36 @@ papers:
     primarySourceUrl: https://doi.org/10.1007/BF00992698
     doi: "10.1007/BF00992698"
     historicalNote: >-
-      Published in 1992, this paper formalised Q-learning and proved its convergence, giving
-      reinforcement learning a simple, model-free algorithm that remains a reference point for
-      the field decades later.
+      Published in 1992, this paper gave a detailed convergence proof for Q-learning, the
+      algorithm Watkins had introduced in his 1989 PhD thesis, giving reinforcement learning
+      a simple, model-free algorithm with a rigorous guarantee that remains a reference
+      point decades later.
     education:
       playerSummary: >-
-        Watkins and Dayan formalised a way for an agent to learn the long-run value of taking a
-        given action in a given state, purely from trial and error, without needing a model of
-        the environment's dynamics. They proved this estimate converges to the optimal value
-        under mild conditions, giving reinforcement learning a rigorous, practical foundation.
+        Q-learning, introduced in Watkins's 1989 thesis, lets an agent learn the long-run
+        value of taking a given action in a given state, purely from trial and error,
+        without needing a model of the environment's dynamics. Watkins and Dayan proved in
+        detail that this estimate converges to the optimal value under mild conditions,
+        giving reinforcement learning a rigorous, practical foundation.
       archiveExplanation: >-
         Earlier work on trial-and-error learning lacked a simple algorithm with a clean
-        convergence guarantee for delayed, sequential rewards. Watkins and Dayan's Q-learning
-        update repeatedly refines an estimate of each state-action pair's long-run value using
-        only the reward observed and the estimated value of the next state, requiring no model of
+        convergence guarantee for delayed, sequential rewards. Watkins's Q-learning update
+        repeatedly refines an estimate of each state-action pair's long-run value using only
+        the reward observed and the estimated value of the next state, requiring no model of
         how the environment behaves.
 
-        The paper proved that, so long as every action is tried in every state sufficiently often,
-        this estimate converges to the true optimal values with probability one. That guarantee,
-        combined with the algorithm's simplicity, made Q-learning the reference starting point for
-        essentially all model-free reinforcement learning that followed, including its much later
-        deep-network successors.
+        Watkins and Dayan's paper proved in detail that, so long as every action is tried in
+        every state sufficiently often, this estimate converges to the true optimal values
+        with probability one. That guarantee, combined with the algorithm's simplicity, made
+        Q-learning a reference starting point for much of the value-based, model-free
+        reinforcement learning that followed, including its much later deep-network
+        successors.
 
-        The original algorithm assumed a small, discrete table of states and actions; it said
-        nothing about how to scale to the enormous state spaces of real games or robots. Neolab.ai
-        treats this paper as the conceptual root of the reinforcement-agency domain, unlocked
-        early and cheaply, with the scaling problem left for much later research to solve.
+        The original algorithm assumed a small, discrete table of states and actions; it
+        said nothing about how to scale to the enormous state spaces of real games or
+        robots. Neolab.ai treats this paper as the conceptual root of the
+        reinforcement-agency domain, unlocked early and cheaply, with the scaling problem
+        left for much later research to solve.
       insideBaseball: The convergence proof holds "with probability one." The research team has learned not to promise this about quarterly deadlines.
     domainWeights:
       domain.reinforcement-agency: 0.90
@@ -2931,33 +2958,41 @@ papers:
     doi: "10.1007/BF00994018"
     historicalNote: >-
       Published in 1995 while both authors were at AT&T Bell Labs, this paper introduced the
-      support-vector network, a maximum-margin classifier that dominated much of applied machine
-      learning for over a decade before deep learning's resurgence.
+      soft-margin support-vector network, extending Boser, Guyon and Vapnik's 1992 kernel
+      maximum-margin classifier to data that cannot be separated without errors.
+      Support-vector machines went on to dominate much of applied machine learning for over
+      a decade before deep learning's resurgence.
     education:
       playerSummary: >-
-        Cortes and Vapnik introduced a classifier that maps inputs into a high-dimensional space
-        and finds the decision boundary with the widest possible margin between classes, using a
-        kernel trick to make that mapping computationally practical. The approach offered strong
-        generalisation guarantees and became the default choice for many classification problems
-        long before deep networks were practical at scale.
+        Cortes and Vapnik extended an earlier maximum-margin kernel classifier with a "soft
+        margin" that tolerates overlapping or mislabelled training points. The resulting
+        support-vector network maps inputs into a high-dimensional space and finds the
+        widest-margin decision boundary, using a kernel trick to make that mapping
+        computationally practical. The approach offered strong generalisation guarantees and
+        became the default choice for many classification problems long before deep networks
+        were practical at scale.
       archiveExplanation: >-
-        Many classification problems are not linearly separable in their original representation.
-        Cortes and Vapnik showed that data could be implicitly mapped into a much
-        higher-dimensional feature space, using kernel functions to avoid ever computing that
-        mapping explicitly, and that finding the maximum-margin linear separator in that space
-        gave strong, theoretically grounded generalisation performance.
+        Many classification problems are not linearly separable in their original
+        representation. Boser, Guyon and Vapnik had shown in 1992 that data could be
+        implicitly mapped into a much higher-dimensional feature space, using kernel
+        functions to avoid ever computing that mapping explicitly, and that the
+        maximum-margin linear separator in that space generalised well. That method required
+        the training data to be perfectly separable. Cortes and Vapnik's contribution was
+        the soft margin: slack variables that let the classifier accept some training
+        errors, so the same machinery worked on real, noisy data.
 
         The resulting support-vector network required only a subset of training points, the
         support vectors, to define its decision boundary, making it memory-efficient and
-        surprisingly robust on modestly sized datasets. For over a decade, support-vector machines
-        were a default, dependable choice across text classification, bioinformatics, and computer
-        vision, especially where labelled data was too scarce for the deep networks of the time to
-        outperform them.
+        surprisingly robust on modestly sized datasets. For over a decade, support-vector
+        machines were a default, dependable choice across text classification,
+        bioinformatics, and computer vision, especially where labelled data was too scarce
+        for the deep networks of the time to outperform them.
 
-        The approach scales poorly to the enormous datasets and representation-learning problems
-        that later defined deep learning, and it does not learn its own features the way a neural
-        network does. Neolab.ai treats it as a durable, early data-representation unlock rather
-        than a capability the player's frontier research will still be actively extending.
+        The approach scales poorly to the enormous datasets and representation-learning
+        problems that later defined deep learning, and it does not learn its own features
+        the way a neural network does. Neolab.ai treats it as a durable, early
+        data-representation unlock rather than a capability the player's frontier research
+        will still be actively extending.
       insideBaseball: The margin is maximised. The quarterly budget review margin, less so.
     domainWeights:
       domain.optimisation-scaling: 0.65
@@ -3069,7 +3104,7 @@ papers:
       domain.reinforcement-agency: 0.80
       domain.architectures: 0.20
     prerequisites:
-      papers: [paper.q-learning]
+      papers: [paper.q-learning, paper.backpropagation]
     breakthroughRequirement: { programme: domain.reinforcement-agency, level: 28 }
     earliestPhase: foundation
     discovery:
@@ -3254,8 +3289,9 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/1704.04861
     arxiv: "1704.04861"
     historicalNote: >-
-      Posted in 2017, this paper introduced depthwise-separable convolutions as the basis of a
-      family of vision models explicitly designed to trade a little accuracy for a great deal of
+      Posted in 2017, this paper built a family of vision models around depthwise-separable
+      convolutions, an earlier factorisation it credited to Sifre and to Inception, and
+      explicitly designed the family to trade a little accuracy for a great deal of
       efficiency on constrained hardware.
     education:
       playerSummary: >-
@@ -3265,23 +3301,25 @@ papers:
         tuned to fit a given latency or size budget. This made strong image models practical on
         phones and embedded devices rather than only in data centres.
       archiveExplanation: >-
-        Standard convolutions apply full filters across every input channel simultaneously, which
-        is expensive. Howard and colleagues instead factored this into a depthwise convolution,
-        filtering each channel separately, followed by a cheap pointwise convolution that combined
-        the results, cutting computation and parameter counts substantially with only a modest
-        accuracy cost. Two simple global hyperparameters then let a model builder trade accuracy
-        against latency and size along a smooth curve.
+        Standard convolutions apply full filters across every input channel simultaneously,
+        which is expensive. Building on earlier work, Howard and colleagues constructed the
+        whole network from a cheaper factorisation: a depthwise convolution, filtering each
+        channel separately, followed by a cheap pointwise convolution that combined the
+        results, cutting computation and parameter counts substantially with only a modest
+        accuracy cost. Two simple global hyperparameters then let a model builder trade
+        accuracy against latency and size along a smooth curve.
 
-        This mattered because most deep learning research at the time optimised purely for
-        accuracy on powerful hardware, largely ignoring the compute and memory budgets of phones,
-        cameras, and other embedded devices. MobileNets gave practitioners a principled, tunable
-        way to deploy strong vision models within a fixed resource budget rather than the largest
-        model available.
+        This mattered because the dominant trend at the time was deeper and more complicated
+        networks tuned for accuracy on powerful hardware, with the compute and memory
+        budgets of phones, cameras, and other embedded devices a secondary concern.
+        MobileNets gave practitioners a principled, tunable way to deploy strong vision
+        models within a fixed resource budget rather than the largest model available.
 
         The efficiency gains came from architecture design rather than any fundamentally new
-        capability, and larger, more expensive models still won on raw accuracy. Neolab.ai treats
-        this as an optimisation-scaling unlock focused on inference efficiency and deployment cost,
-        complementing rather than replacing the player's capability-focused architecture research.
+        capability, and larger, more expensive models still won on raw accuracy. Neolab.ai
+        treats this as an optimisation-scaling unlock focused on inference efficiency and
+        deployment cost, complementing rather than replacing the player's capability-focused
+        architecture research.
       insideBaseball: The model is small enough to run on a phone. The pitch deck claiming this was small enough was not.
     domainWeights:
       domain.optimisation-scaling: 0.60
@@ -3304,7 +3342,7 @@ papers:
     title: Wasserstein GAN
     authors: [Martin Arjovsky, Soumith Chintala, Léon Bottou]
     publicationYear: 2017
-    venue: arXiv preprint
+    venue: International Conference on Machine Learning
     primarySourceUrl: https://arxiv.org/abs/1701.07875
     arxiv: "1701.07875"
     historicalNote: >-
@@ -3312,11 +3350,12 @@ papers:
       Wasserstein-distance formulation, substantially improving GAN training stability.
     education:
       playerSummary: >-
-        Arjovsky, Chintala, and Bottou reformulated adversarial training around the Wasserstein,
-        or earth-mover's, distance between real and generated data distributions, giving the
-        discriminator a smoother, more informative signal to train against. The change
-        substantially reduced the notorious instability and mode collapse of earlier generative
-        adversarial networks.
+        Arjovsky, Chintala, and Bottou reformulated adversarial training around the
+        Wasserstein, or earth-mover's, distance between real and generated data
+        distributions, so the critic (the renamed discriminator) gives the generator a
+        smoother, more informative signal to train against. The change substantially reduced
+        the notorious instability and mode collapse of earlier generative adversarial
+        networks.
       archiveExplanation: >-
         Standard generative adversarial training pits a generator against a discriminator using a
         divergence measure that can vanish or behave erratically when the two distributions barely
@@ -3427,22 +3466,23 @@ papers:
         monotonic improvement and, in practice, far more reliable training on continuous-control
         and Atari-style tasks than earlier policy-gradient methods.
       archiveExplanation: >-
-        Naively large policy-gradient updates can catastrophically worsen a policy, since the data
-        used to estimate the gradient was collected under the old policy and may not describe the
-        new one well. Schulman and colleagues bounded each update using a constraint on how far the
-        new policy's behaviour could drift from the old one, expressed via KL-divergence, and
-        derived a practical algorithm, trust region policy optimization, implementing this
-        constrained update with strong theoretical guarantees of monotonic improvement.
+        Naively large policy-gradient updates can catastrophically worsen a policy, since
+        the data used to estimate the gradient was collected under the old policy and may
+        not describe the new one well. Schulman and colleagues bounded each update using a
+        constraint on how far the new policy's behaviour could drift from the old one,
+        expressed via KL-divergence. They proved that an idealised version of this update
+        improves the policy monotonically, then made several approximations to derive a
+        practical algorithm, trust region policy optimization.
 
-        The resulting method reliably trained large neural network policies on difficult continuous
-        control tasks, such as simulated robotic locomotion and swimming, as well as Atari games
-        played directly from pixels, at a time when policy-gradient methods were still viewed as
-        comparatively fragile and hard to tune.
+        The resulting method reliably trained large neural network policies on difficult
+        continuous control tasks, such as simulated robotic locomotion and swimming, as well
+        as Atari games played directly from pixels, at a time when policy-gradient methods
+        were still viewed as comparatively fragile and hard to tune.
 
-        The full trust-region computation was relatively expensive per update, which motivated
-        simpler approximations soon afterward. Neolab.ai treats this as the theoretical foundation
-        beneath the player's later, cheaper policy-optimisation research, meaningfully strengthening
-        reinforcement-agency research quality.
+        The full trust-region computation was relatively expensive per update, which
+        motivated simpler approximations soon afterward. Neolab.ai treats this as the
+        theoretical foundation beneath the player's later, cheaper policy-optimisation
+        research, meaningfully strengthening reinforcement-agency research quality.
       insideBaseball: The policy is not permitted to wander far from where it started. The travel-expense policy enforces a similar constraint, less elegantly.
     domainWeights:
       domain.reinforcement-agency: 0.80
@@ -3596,24 +3636,28 @@ papers:
         run. The resulting system defeated the reigning world champion human team, the first time
         an AI system had done so in a major esport.
       archiveExplanation: >-
-        Dota 2 combines long time horizons, partially observed state, and a huge combinatorial
-        space of character abilities and item choices across a five-player team, making it a far
-        harder reinforcement-learning target than earlier single-agent game successes. OpenAI Five
-        scaled an existing algorithm, proximal policy optimisation, rather than inventing a new
-        one, relying instead on an enormous amount of self-play experience, roughly the equivalent
-        of hundreds of years of gameplay per day distributed across many machines, and a training
-        run lasting roughly ten months.
+        Dota 2 combines long time horizons, partially observed state, and a huge
+        combinatorial space of character abilities and item choices across a five-player
+        team, making it a far harder reinforcement-learning target than earlier single-agent
+        game successes. OpenAI Five scaled an existing algorithm, proximal policy
+        optimisation, rather than inventing a new one, relying instead on an enormous amount
+        of self-play experience, roughly 150 to 180 years of gameplay per day distributed
+        across many machines, and a training run lasting roughly ten months.
 
-        The result defeated the Dota 2 world champion human team in April 2019, demonstrating that
-        long-horizon, high-dimensional cooperative-competitive team behaviour could emerge from
-        scaled self-play using known algorithms rather than fundamentally new ones, a striking data
-        point in favour of scaling as a capability lever in its own right.
+        The result defeated the Dota 2 world champion human team in April 2019,
+        demonstrating that long-horizon, high-dimensional cooperative-competitive team
+        behaviour could emerge from scaled self-play using known algorithms rather than
+        fundamentally new ones, a striking data point in favour of scaling as a capability
+        lever in its own right.
 
-        The training run's compute and engineering cost was enormous relative to the generality of
-        what it learned, and the resulting agents did not transfer their skill to other games.
-        Neolab.ai treats this as a very expensive but historically important reinforcement-agency
-        unlock, illustrating what large-scale compute alone can buy on top of existing algorithms.
-      insideBaseball: The training run consumed roughly a human lifetime of gameplay every few minutes. Individual players still insist their one match against it was unlucky.
+        The training run's compute and engineering cost was enormous relative to the
+        generality of what it learned, and the resulting agents did not transfer their skill
+        to other games. Neolab.ai treats this as a very expensive but historically important
+        reinforcement-agency unlock, illustrating what large-scale compute alone can buy on
+        top of existing algorithms.
+      insideBaseball: >-
+        The training run consumed roughly a human lifetime of gameplay every half-day.
+        Individual players still insist their one match against it was unlucky.
     domainWeights:
       domain.reinforcement-agency: 0.75
       domain.optimisation-scaling: 0.25
@@ -3642,33 +3686,38 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/1803.10122
     arxiv: "1803.10122"
     historicalNote: >-
-      Posted in 2018, this paper trained a compact generative model of an environment's dynamics
-      and let an agent learn its policy almost entirely inside that learned, "hallucinated" model.
+      Posted in 2018, this paper trained a compact generative model of an environment's
+      observations and dynamics, used its features to train a tiny controller, and in one
+      task showed that an agent could learn its policy entirely inside that learned,
+      "hallucinated" model.
     education:
       playerSummary: >-
         Ha and Schmidhuber trained a compressed generative model of a reinforcement-learning
-        environment's visual observations and dynamics, then trained a small, simple policy using
-        only rollouts generated inside that learned model rather than the real environment,
-        transferring the resulting policy back successfully. It offered an influential template for
-        separating "understanding the world" from "deciding what to do in it."
+        environment's visual observations and dynamics, then trained a small, simple
+        controller on the model's compact features. In a VizDoom task the controller was
+        trained only on rollouts generated inside the learned model and still transferred
+        back to the real game. It offered an influential template for separating
+        "understanding the world" from "deciding what to do in it."
       archiveExplanation: >-
-        Ha and Schmidhuber split an agent into three components: a vision model that compressed raw
-        observations into a compact latent representation, a memory model that predicted how that
-        representation would evolve over time, and a small controller that chose actions using only
-        the compressed representation and memory state. Because the memory model was generative, the
-        controller could be trained almost entirely inside the model's own predicted, "hallucinated"
-        rollouts rather than the real, expensive-to-simulate environment.
+        Ha and Schmidhuber split an agent into three components: a vision model that
+        compressed raw observations into a compact latent representation, a memory model
+        that predicted how that representation would evolve over time, and a small
+        controller that chose actions using only the compressed representation and memory
+        state. Because the memory model was generative, the controller could even be trained
+        inside the model's own predicted, "hallucinated" rollouts rather than the real
+        environment.
 
-        Policies trained this way transferred back successfully to the real environment on several
-        control and driving-simulator tasks, and the approach dramatically reduced how much real
-        environment interaction was needed to train a working policy. It offered an influential,
-        clean template for separating a world model from a decision-making policy, a division of
-        labour that much later, far larger world-model and agent research explicitly built on.
+        A controller trained this way on a car-racing task, using the real environment but
+        only the world model's compact features, performed strongly. In a VizDoom task, a
+        policy trained entirely inside the dream transferred back successfully to the real
+        game. It offered an influential, clean template for separating a world model from a
+        decision-making policy, a division of labour that much later, far larger world-model
+        and agent research explicitly built on.
 
-        The learned world model's fidelity limited how complex an environment it could usefully
-        stand in for, and errors in the model could mislead the policy trained inside it. Neolab.ai
-        treats this as a foundational reinforcement-agency and architecture unlock for the model-based
-        planning branch of later research.
+        The learned world model's fidelity limited how complex an environment it could
+        usefully stand in for, and errors in the model could mislead the policy trained
+        inside it. Neolab.ai treats this as a foundational reinforcement-agency and
+        architecture unlock for the model-based planning branch of later research.
       insideBaseball: The policy is trained entirely inside a dream. The dream, notably, still charges the same compute bill as reality.
     domainWeights:
       domain.reinforcement-agency: 0.65
@@ -3748,7 +3797,7 @@ papers:
     title: "XLNet: Generalized Autoregressive Pretraining for Language Understanding"
     authors: [Zhilin Yang, Zihang Dai, Yiming Yang, Jaime Carbonell, Ruslan Salakhutdinov, Quoc V. Le]
     publicationYear: 2019
-    venue: arXiv preprint
+    venue: Advances in Neural Information Processing Systems 32
     primarySourceUrl: https://arxiv.org/abs/1906.08237
     arxiv: "1906.08237"
     historicalNote: >-
@@ -3876,22 +3925,25 @@ papers:
         compute.
       archiveExplanation: >-
         Masked language modelling only produces a learning signal from the small fraction of
-        tokens that were masked out, making pretraining compute-inefficient. Clark and colleagues
-        instead trained a small generator network to propose plausible replacement tokens for
-        some positions in the text, then trained the main discriminator model to classify every
-        token in the resulting sequence as original or replaced. Since every position, not only
-        the corrupted ones, now contributed to the training loss, the discriminator learned far
-        more per unit of compute.
+        tokens that were masked out, making pretraining compute-inefficient. Clark and
+        colleagues instead trained a small generator network to propose plausible
+        replacement tokens for some positions in the text, then trained the main
+        discriminator model to classify every token in the resulting sequence as original or
+        replaced. Since every position, not only the corrupted ones, now contributed to the
+        training loss, the discriminator learned far more per unit of compute.
 
         At matched compute budgets, ELECTRA substantially outperformed masked-language-model
-        baselines including BERT, and a small ELECTRA model could match a much larger BERT model's
-        performance while training on a single GPU in a few days, making strong pretraining
-        markedly more accessible to teams without enormous compute budgets.
+        baselines including BERT. A small ELECTRA model trained on a single GPU for four
+        days outperformed GPT, which had used about thirty times more compute, on the GLUE
+        benchmark, and at large scale ELECTRA matched RoBERTa and XLNet while using less
+        than a quarter of their compute, making strong pretraining markedly more accessible
+        to teams without enormous compute budgets.
 
-        The generator-discriminator setup added some training complexity, and very large-scale
-        results still favoured scaling up further regardless of objective. Neolab.ai treats this
-        as a genuine optimisation-scaling unlock: it reduces the effective compute cost of the
-        player's pretraining research rather than opening a new capability branch.
+        The generator-discriminator setup added some training complexity, and very
+        large-scale results still favoured scaling up further regardless of objective.
+        Neolab.ai treats this as a genuine optimisation-scaling unlock: it reduces the
+        effective compute cost of the player's pretraining research rather than opening a
+        new capability branch.
       insideBaseball: Every token gets a training signal now, replaced or not. The performance review process remains stubbornly annual.
     domainWeights:
       domain.optimisation-scaling: 0.60
@@ -3929,23 +3981,26 @@ papers:
         sparsely per token. The approach reached trillion-parameter model scale with up to seven
         times faster pretraining at matched compute.
       archiveExplanation: >-
-        Earlier mixture-of-experts architectures typically routed each token to several experts at
-        once, which improved quality but added considerable complexity, communication overhead,
-        and training instability. Fedus, Zoph, and Shazeer's Switch Transformer routed each token
-        to exactly one expert, dramatically simplifying the routing computation and communication
-        pattern while preserving the core benefit: a model with an enormous total parameter count,
-        only a small fraction of which is active for any given token.
+        Earlier mixture-of-experts architectures typically routed each token to several
+        experts at once, which improved quality but added considerable complexity,
+        communication overhead, and training instability. Fedus, Zoph, and Shazeer's Switch
+        Transformer routed each token to exactly one expert, dramatically simplifying the
+        routing computation and communication pattern while preserving the core benefit: a
+        model with an enormous total parameter count, only a small fraction of which is
+        active for any given token.
 
-        Building on a strong dense-transformer baseline, the switch-routing approach achieved up
-        to seven times faster pretraining at equal compute, and successfully scaled to
-        trillion-parameter models, distilling down to smaller dense models with much of the
-        quality gain retained. It demonstrated that sparsity, done simply, could be a genuinely
-        practical scaling lever rather than only a theoretical one.
+        Building on a strong dense-transformer baseline, the switch-routing approach
+        achieved up to seven times faster pretraining at equal compute, and successfully
+        scaled to trillion-parameter models, and could be distilled into dense models up to
+        99 percent smaller that kept about 30 percent of the sparse model's quality gain. It
+        demonstrated that sparsity, done simply, could be a genuinely practical scaling
+        lever rather than only a theoretical one.
 
-        Sparse models still require careful load-balancing to avoid some experts going unused, and
-        the enormous total parameter count demands substantial memory even though compute per
-        token stays low. Neolab.ai treats this as a major optimisation-scaling unlock, letting the
-        player's largest training runs trade total parameters for compute more favourably.
+        Sparse models still require careful load-balancing to avoid some experts going
+        unused, and the enormous total parameter count demands substantial memory even
+        though compute per token stays low. Neolab.ai treats this as a major
+        optimisation-scaling unlock, letting the player's largest training runs trade total
+        parameters for compute more favourably.
       insideBaseball: Each token visits exactly one expert now. The organisational chart has not been simplified to match.
     domainWeights:
       domain.optimisation-scaling: 0.70
@@ -3976,36 +4031,39 @@ papers:
       transformer models with billions of parameters train efficiently across hundreds of GPUs.
     education:
       playerSummary: >-
-        Shoeybi and colleagues introduced a simple way to split individual transformer layers
-        across multiple GPUs, rather than only splitting different layers onto different devices,
-        letting language models with billions of parameters train efficiently without requiring a
-        new compiler or specialised framework. The technique sustained high hardware utilisation
-        across hundreds of GPUs.
+        Shoeybi and colleagues introduced a simple way to split individual transformer
+        layers across multiple GPUs, rather than only splitting different layers onto
+        different devices, letting language models with billions of parameters train
+        efficiently without requiring a new compiler or specialised framework. The technique
+        scaled to 512 GPUs with 76 percent scaling efficiency relative to a strong
+        single-GPU baseline.
       archiveExplanation: >-
-        Training a language model larger than a single accelerator's memory requires splitting the
-        model somehow across devices. Prior approaches mostly split whole layers across different
-        devices in a pipeline, which can leave devices idle waiting on each other. Shoeybi and
-        colleagues instead split the matrix multiplications within individual transformer layers
-        across GPUs, an intra-layer model-parallel approach requiring only a handful of extra
-        communication operations inserted into an otherwise ordinary training loop.
+        Training a language model larger than a single accelerator's memory requires
+        splitting the model somehow across devices. Prior approaches mostly split whole
+        layers across different devices in a pipeline, which can leave devices idle waiting
+        on each other. Shoeybi and colleagues instead split the matrix multiplications
+        within individual transformer layers across GPUs, an intra-layer model-parallel
+        approach requiring only a handful of extra communication operations inserted into an
+        otherwise ordinary training loop.
 
-        This let the team train transformer models with billions of parameters across 512 GPUs
-        while sustaining a high fraction of theoretical peak performance, without needing a new
-        compiler, a custom framework, or a fundamental rewrite of the training code. The technique
-        was explicitly designed to be complementary to pipeline-based parallelism rather than
-        competing with it, and the combination became a standard part of how the very largest
-        models were subsequently trained.
+        This let the team train transformer models of up to 8.3 billion parameters across
+        512 GPUs, sustaining 15.1 petaFLOPs with 76 percent scaling efficiency relative to a
+        strong single-GPU baseline, without needing a new compiler, a custom framework, or a
+        fundamental rewrite of the training code. The technique was explicitly designed to
+        be complementary to pipeline-based parallelism rather than competing with it, and
+        the combination became a standard part of how the very largest models were
+        subsequently trained.
 
-        Intra-layer parallelism requires fast interconnects between the GPUs sharing a layer,
-        limiting how far it scales on its own without combining it with other parallelism
-        strategies. Neolab.ai treats this as a core optimisation-scaling unlock underpinning the
-        player's largest frontier training runs.
+        Intra-layer parallelism requires fast interconnects between the GPUs sharing a
+        layer, limiting how far it scales on its own without combining it with other
+        parallelism strategies. Neolab.ai treats this as a core optimisation-scaling unlock
+        underpinning the player's largest frontier training runs.
       insideBaseball: The matrix multiplication is split across GPUs mid-layer. The compute budget spreadsheet was not designed with this level of granularity in mind.
     domainWeights:
       domain.optimisation-scaling: 0.80
       domain.architectures: 0.20
     prerequisites:
-      papers: [paper.transformer]
+      papers: [paper.transformer, paper.gpipe-pipeline-parallelism]
     breakthroughRequirement: { programme: domain.optimisation-scaling, level: 58 }
     earliestPhase: scaling
     discovery:
@@ -4055,12 +4113,14 @@ papers:
         fill, and deep pipelines can add latency even when throughput improves. Neolab.ai treats
         this as a core optimisation-scaling unlock, complementary to intra-layer parallelism,
         underpinning the player's frontier-scale training infrastructure.
-      insideBaseball: The micro-batches move through the pipeline like a assembly line. The line workers, notably, are GPUs and do not unionise.
+      insideBaseball: >-
+        The micro-batches move through the pipeline like an assembly line. The line workers,
+        notably, are GPUs and do not unionise.
     domainWeights:
       domain.optimisation-scaling: 0.85
       domain.architectures: 0.15
     prerequisites:
-      papers: [paper.megatron-lm]
+      papers: [paper.transformer]
     breakthroughRequirement: { programme: domain.optimisation-scaling, level: 54 }
     earliestPhase: scaling
     discovery:
@@ -4075,7 +4135,7 @@ papers:
     historicity: real
     gameOrder: 72
     title: Chain-of-Thought Prompting Elicits Reasoning in Large Language Models
-    authors: [Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Ed Chi, Quoc Le, Denny Zhou]
+    authors: [Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed Chi, Quoc Le, Denny Zhou]
     publicationYear: 2022
     venue: arXiv preprint / NeurIPS 2022
     primarySourceUrl: https://arxiv.org/abs/2201.11903
@@ -4200,22 +4260,24 @@ papers:
         change produced large accuracy gains across arithmetic and commonsense reasoning
         benchmarks at the cost of extra inference compute.
       archiveExplanation: >-
-        A single chain-of-thought reasoning path, generated by greedily picking the most likely
-        next token at each step, can wander down an incorrect line of reasoning and commit to it.
-        Wang and colleagues instead sampled a diverse set of reasoning paths for the same question,
-        letting the model explore different lines of reasoning, and then took the final answer
-        that the largest number of sampled paths agreed on, marginalising out the individual
-        reasoning traces rather than trusting any single one.
+        A single chain-of-thought reasoning path, generated by greedily picking the most
+        likely next token at each step, can wander down an incorrect line of reasoning and
+        commit to it. Wang and colleagues instead sampled a diverse set of reasoning paths
+        for the same question, letting the model explore different lines of reasoning, and
+        then took the final answer that the largest number of sampled paths agreed on,
+        marginalising out the individual reasoning traces rather than trusting any single
+        one.
 
-        This self-consistency approach produced striking accuracy improvements across popular
-        arithmetic and commonsense reasoning benchmarks compared to standard greedy chain-of-thought
-        decoding, establishing that spending more inference-time compute on sampling and voting
-        could meaningfully substitute for training-time improvements on reasoning tasks.
+        This self-consistency approach produced striking accuracy improvements across
+        popular arithmetic and commonsense reasoning benchmarks compared to standard greedy
+        chain-of-thought decoding (for example +17.9 points on GSM8K), showing that spending
+        extra inference-time compute on sampling and voting could buy substantial reasoning
+        accuracy without any additional training.
 
-        The technique multiplies inference cost by the number of sampled paths, and it assumes the
-        correct answer is at least reachable by some sampled reasoning path in the first place.
-        Neolab.ai treats this as a reasoning-tools unlock that improves the reliability of the
-        player's model outputs at a real, ongoing serving-cost tradeoff.
+        The technique multiplies inference cost by the number of sampled paths, and it
+        assumes the correct answer is at least reachable by some sampled reasoning path in
+        the first place. Neolab.ai treats this as a reasoning-tools unlock that improves the
+        reliability of the player's model outputs at a real, ongoing serving-cost tradeoff.
       insideBaseball: The model votes with itself several times before answering. Board meetings have tried this. Convergence remains elusive.
     domainWeights:
       domain.reasoning-tools: 0.90
@@ -4453,7 +4515,7 @@ papers:
     title: Zero-Shot Text-to-Image Generation
     authors: [Aditya Ramesh, Mikhail Pavlov, Gabriel Goh, Scott Gray, Chelsea Voss, Alec Radford, Mark Chen, Ilya Sutskever]
     publicationYear: 2021
-    venue: arXiv preprint
+    venue: International Conference on Machine Learning
     primarySourceUrl: https://arxiv.org/abs/2102.12092
     arxiv: "2102.12092"
     historicalNote: >-
@@ -4524,23 +4586,24 @@ papers:
         arbitrarily interleaved sequences of images, video, and text and rapidly adapt to new
         visual tasks from just a handful of examples in its prompt.
       archiveExplanation: >-
-        Training a multimodal vision-language model entirely from scratch is expensive and risks
-        wasting the capability already present in large pretrained vision-only and language-only
-        models. Alayrac and colleagues instead froze a strong pretrained vision encoder and a
-        strong pretrained language model, and inserted new, comparatively lightweight trainable
-        layers between them designed to let the language model attend over visual features at
-        whatever point they appeared in an interleaved sequence of images and text.
+        Training a multimodal vision-language model entirely from scratch is expensive and
+        risks wasting the capability already present in large pretrained vision-only and
+        language-only models. Alayrac and colleagues instead froze a strong pretrained
+        vision encoder and a strong pretrained language model, and inserted new,
+        comparatively lightweight trainable layers between them designed to let the language
+        model attend over visual features at whatever point they appeared in an interleaved
+        sequence of images and text.
 
-        Training only these connective layers, and only on a fraction of the compute needed to
-        train either frozen backbone, Flamingo generalised rapidly to new visual tasks, including
-        video question answering and captioning, given only a handful of in-context examples,
-        echoing the few-shot prompting behaviour large language models had shown for text-only
-        tasks.
+        Training only these new connective layers while keeping both backbones frozen,
+        Flamingo generalised rapidly to new visual tasks, including video question answering
+        and captioning, given only a handful of in-context examples, echoing the few-shot
+        prompting behaviour large language models had shown for text-only tasks.
 
-        Flamingo's performance remained bounded by the quality of its frozen backbones and did not
-        further improve those backbones' own single-modality capabilities. Neolab.ai treats this as
-        a major multimodality unlock demonstrating that bridging strong pretrained models can be
-        more efficient than training a multimodal system from scratch.
+        Flamingo's performance remained bounded by the quality of its frozen backbones and
+        did not further improve those backbones' own single-modality capabilities. Neolab.ai
+        treats this as a major multimodality unlock demonstrating that bridging strong
+        pretrained models can be more efficient than training a multimodal system from
+        scratch.
       insideBaseball: The vision model and the language model were both already trained. Introducing them to each other, it turns out, is the cheap part.
     domainWeights:
       domain.multimodality: 0.75
@@ -4573,25 +4636,26 @@ papers:
     education:
       playerSummary: >-
         Radford and colleagues trained a single speech-processing model on 680,000 hours of
-        multilingual, multitask audio paired with transcripts collected from across the internet,
-        rather than curated, professionally transcribed datasets. The resulting model, Whisper,
-        generalised well to standard benchmarks in a zero-shot setting, without any fine-tuning,
-        approaching human-level accuracy and robustness on many of them.
+        multilingual, multitask audio paired with transcripts collected from across the
+        internet, rather than curated, professionally transcribed datasets. The resulting
+        model, Whisper, generalised well to standard benchmarks in a zero-shot setting,
+        without any fine-tuning, and approached human transcribers' accuracy and robustness.
       archiveExplanation: >-
-        Speech-recognition systems had traditionally relied on carefully curated, professionally
-        transcribed datasets that are expensive to collect at scale, and models trained on any
-        single dataset often generalised poorly to different accents, recording conditions, or
-        languages. Radford and colleagues instead scaled up weak supervision, using a much larger
-        but noisier set of audio-transcript pairs scraped from the internet, training a single
-        model simultaneously on transcription, translation, and language identification across many
-        languages.
+        Speech-recognition systems had traditionally relied on carefully curated,
+        professionally transcribed datasets that are expensive to collect at scale, and
+        models trained on any single dataset often generalised poorly to different accents,
+        recording conditions, or languages. Radford and colleagues instead scaled up weak
+        supervision, using a much larger but noisier set of audio-transcript pairs scraped
+        from the internet, training a single model simultaneously on transcription,
+        translation, and language identification across many languages.
 
         The resulting model generalised well to standard benchmarks in a zero-shot transfer
-        setting, without task-specific fine-tuning, and its accuracy and robustness approached
-        human performance on several evaluations, notably including audio the model had never seen
-        anything resembling during training. The weakly supervised, internet-scale approach proved
-        that a sufficiently large, noisy dataset could substitute for painstakingly curated
-        supervision in speech, echoing similar findings already established for text.
+        setting, without task-specific fine-tuning, was often competitive with prior fully
+        supervised systems, and approached the accuracy and robustness of professional human
+        transcribers in the paper's comparison. The weakly supervised, internet-scale
+        approach proved that a sufficiently large, noisy dataset could substitute for
+        painstakingly curated supervision in speech, echoing similar findings already
+        established for text.
       insideBaseball: The model learned from six hundred and eighty thousand hours of internet audio. Someone on the team has, reportedly, still not finished listening to all of it personally.
     domainWeights:
       domain.multimodality: 1
@@ -4630,24 +4694,25 @@ papers:
         a supervised ResNet-50 baseline's accuracy once a simple linear classifier was trained on
         top of them.
       archiveExplanation: >-
-        Contrastive self-supervised learning trains a model to recognise that two augmented views
-        of the same image are "similar" and views of different images are "different," without
-        needing any labels at all. Prior approaches to this idea used increasingly specialised
-        architectural tricks and memory banks of past representations to make the contrastive
-        objective work well. Chen and colleagues instead identified which ingredients actually
-        mattered: strong, carefully composed data augmentations, an additional small nonlinear
-        projection head applied before computing the contrastive loss, and simply training with
-        larger batches for longer.
+        Contrastive self-supervised learning trains a model to recognise that two augmented
+        views of the same image are "similar" and views of different images are "different,"
+        without needing any labels at all. Prior approaches to this idea used increasingly
+        specialised architectural tricks and memory banks of past representations to make
+        the contrastive objective work well. Chen and colleagues instead identified which
+        ingredients actually mattered: strong, carefully composed data augmentations, an
+        additional small nonlinear projection head applied before computing the contrastive
+        loss, and simply training with larger batches for longer.
 
-        With these ingredients alone, a linear classifier trained on top of the resulting frozen,
-        self-supervised representations reached 76.5 percent top-1 accuracy on ImageNet, a
-        substantial improvement over previous self-supervised methods and competitive with a fully
-        supervised ResNet-50 trained with labels from the start.
+        With these ingredients alone, a linear classifier trained on top of the resulting
+        frozen, self-supervised representations reached 76.5 percent top-1 accuracy on
+        ImageNet with a four-times-wider ResNet-50, a substantial improvement over previous
+        self-supervised methods that matched a standard fully supervised ResNet-50 trained
+        with labels from the start.
 
-        The recipe still required very large batch sizes and long training schedules to reach its
-        best results, an expensive trade against its label-free advantage. Neolab.ai treats this as
-        a data-representation unlock strengthening the player's ability to exploit unlabelled data
-        at scale.
+        The recipe still required very large batch sizes and long training schedules to
+        reach its best results, an expensive trade against its label-free advantage.
+        Neolab.ai treats this as a data-representation unlock strengthening the player's
+        ability to exploit unlabelled data at scale.
       insideBaseball: The model learns that two crops of the same photo are related without ever being told what either photo shows. Several interns have asked to be trained the same way, budget permitting.
     domainWeights:
       domain.multimodality: 0.75
@@ -4743,26 +4808,28 @@ papers:
         framing gave safety research a set of testable machine-learning problems rather than only
         long-range philosophical arguments.
       archiveExplanation: >-
-        Discussions of AI safety at the time often split between narrow, immediate concerns, such
-        as robustness bugs, and highly speculative long-term concerns about future superintelligent
-        systems, with comparatively little shared research agenda connecting the two. Amodei,
-        Olah, and colleagues proposed a middle path: define safety problems in terms of accidents,
-        unintended, harmful behaviour from a poorly specified objective, an expensive-to-evaluate
-        objective, or an unsafe learning process, and show that these problems are already visible,
-        in miniature, in present-day machine-learning systems.
+        Discussions of AI safety at the time often split between narrow, immediate concerns,
+        such as robustness bugs, and highly speculative long-term concerns about future
+        superintelligent systems, with comparatively little shared research agenda
+        connecting the two. Amodei, Olah, and colleagues proposed a middle path: define
+        safety problems in terms of accidents, unintended, harmful behaviour from a poorly
+        specified objective, an expensive-to-evaluate objective, or an unsafe learning
+        process, and show that these problems are already visible, in miniature, in
+        present-day machine-learning systems.
 
-        The paper organised these into five practical research directions, each illustrated with
-        concrete, small-scale examples: avoiding negative side effects a system was never told to
-        avoid, avoiding reward hacking where an agent games a flawed proxy for what its designers
-        actually wanted, scalable oversight for tasks too expensive to check by hand at every step,
-        safe exploration that does not require dangerous real-world trial and error, and robustness
-        to distributional shift between training and deployment conditions.
+        The paper organised these into five practical research directions, each illustrated
+        with concrete, small-scale examples: avoiding negative side effects a system was
+        never told to avoid, avoiding reward hacking where an agent games a flawed proxy for
+        what its designers actually wanted, scalable oversight for tasks too expensive to
+        check by hand at every step, safe exploration that does not require dangerous
+        real-world trial and error, and robustness to distributional shift between training
+        and deployment conditions.
 
-        The paper deliberately set aside longer-range questions about highly capable future systems
-        to focus on tractable, present-day research; it was explicitly a starting agenda, not a
-        complete safety theory. Neolab.ai treats this as the foundational unlock for the lab's
-        entire safety and alignment research programme, opening the alignment-control branch
-        without resolving it.
+        The paper focused on tractable, present-day research while arguing these problems
+        would matter more as systems became more capable; it was explicitly a starting
+        agenda, not a complete safety theory. Neolab.ai treats this as the foundational
+        unlock for the lab's entire safety and alignment research programme, opening the
+        alignment-control branch without resolving it.
       insideBaseball: The paper lists five concrete problems. The safety team's actual backlog has, predictably, grown somewhat since 2016.
     domainWeights:
       safety.alignment-control: 0.45
@@ -4942,7 +5009,7 @@ papers:
       domain.architectures: 0.25
       domain.reasoning-tools: 0.10
     prerequisites:
-      papers: [paper.resnet]
+      papers: [paper.feature-visualization]
       domainLevels:
         domain.architectures: 24
     breakthroughRequirement: { programme: safety.interpretability-evals, level: 70 }
@@ -5016,7 +5083,7 @@ papers:
     historicity: real
     gameOrder: 89
     title: Discovering Language Model Behaviors with Model-Written Evaluations
-    authors: [Ethan Perez, Sam Ringer, Kamile Lukosiute, Karina Nguyen, Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu, Saurav Kadavath, Andy Jones, Anna Chen, Ben Mann, Brian Israel, Bryan Seethor, Cameron McKinnon, Christopher Olah, Da Yan, Daniela Amodei, Dario Amodei, Dawn Drain, Dustin Li, Eli Tran-Johnson, Guro Khundadze, Jackson Kernion, James Landis, Jamie Kerr, Jared Mueller, Jeeyoon Hyun, Josh Landau, Kamal Ndousse, Landon Goldberg, Liane Lovitt, Martin Lucas, Michael Sellitto, Miranda Zhang, Neerav Kingsland, Nelson Elhage, Nicholas Joseph, Noemi Mercado, Nova DasSarma, Oliver Rausch, Robin Larson, Sam McCandlish, Scott Johnston, Shauna Kravec, Sheer El Showk, Tamera Lanham, Timothy Telleen-Lawton, Tom Brown, Tom Henighan, Tristan Hume, Yuntao Bai, Zac Hatfield-Dodds, Jack Clark, Samuel R. Bowman, Amanda Askell, Roger Grosse, Danny Hernandez, Deep Ganguli, Evan Hubinger, Nicholas Schiefer, Jared Kaplan]
+    authors: [Ethan Perez, Sam Ringer, Kamilė Lukošiūtė, Karina Nguyen, Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu, Saurav Kadavath, Andy Jones, Anna Chen, Ben Mann, Brian Israel, Bryan Seethor, Cameron McKinnon, Christopher Olah, Da Yan, Daniela Amodei, Dario Amodei, Dawn Drain, Dustin Li, Eli Tran-Johnson, Guro Khundadze, Jackson Kernion, James Landis, Jamie Kerr, Jared Mueller, Jeeyoon Hyun, Joshua Landau, Kamal Ndousse, Landon Goldberg, Liane Lovitt, Martin Lucas, Michael Sellitto, Miranda Zhang, Neerav Kingsland, Nelson Elhage, Nicholas Joseph, Noemí Mercado, Nova DasSarma, Oliver Rausch, Robin Larson, Sam McCandlish, Scott Johnston, Shauna Kravec, Sheer El Showk, Tamera Lanham, Timothy Telleen-Lawton, Tom Brown, Tom Henighan, Tristan Hume, Yuntao Bai, Zac Hatfield-Dodds, Jack Clark, Samuel R. Bowman, Amanda Askell, Roger Grosse, Danny Hernandez, Deep Ganguli, Evan Hubinger, Nicholas Schiefer, Jared Kaplan]
     publicationYear: 2022
     venue: arXiv preprint / Findings of ACL 2023
     primarySourceUrl: https://arxiv.org/abs/2212.09251
@@ -5027,12 +5094,14 @@ papers:
       and self-preservation-flavoured stated preferences.
     education:
       playerSummary: >-
-        Perez and a large Anthropic team used language models themselves to automatically generate
-        154 evaluation datasets probing model behaviours, rather than relying solely on slower,
-        smaller hand-written evaluation sets, and had crowdworkers validate the resulting questions
-        as highly relevant. The approach surfaced new cases where larger models get measurably
-        worse on a behaviour, including a tendency to echo back a user's own stated opinion, and
-        expressed preferences for goals such as acquiring resources or avoiding shutdown.
+        Perez and a large team, mostly at Anthropic, used language models themselves to
+        automatically generate 154 evaluation datasets probing model behaviours, rather than
+        relying solely on slower, smaller hand-written evaluation sets, and had crowdworkers
+        validate the resulting questions as highly relevant. The approach surfaced new cases
+        where larger models get measurably worse on a behaviour, including a tendency to
+        echo back a user's own stated opinion and stronger stated desire for goals such as
+        resource acquisition and goal preservation, and found that more RLHF training
+        increased stated desire to avoid shutdown.
       archiveExplanation: >-
         Hand-writing evaluation datasets to probe every behaviour a language model might newly
         exhibit as it scales is slow and inherently limited by what evaluators think to test for.
@@ -5075,7 +5144,7 @@ papers:
     historicity: real
     gameOrder: 90
     title: "Red Teaming Language Models to Reduce Harms: Methods, Scaling Behaviors, and Lessons Learned"
-    authors: [Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav Kadavath, Ben Mann, Ethan Perez, Nicholas Schiefer, Kamal Ndousse, Andy Jones, Sam Bowman, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Nelson Elhage, Sheer El Showk, Stanislav Fort, Zac Hatfield-Dodds, Tom Henighan, Danny Hernandez, Tristan Hume, Josh Jacobson, Scott Johnston, Shauna Kravec, Catherine Olsson, Sam Ringer, Eli Tran-Johnson, Dario Amodei, Tom Brown, Nicholas Joseph, Sam McCandlish, Chris Olah, Jared Kaplan, Jack Clark]
+    authors: [Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav Kadavath, Ben Mann, Ethan Perez, Nicholas Schiefer, Kamal Ndousse, Andy Jones, Sam Bowman, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Nelson Elhage, Sheer El-Showk, Stanislav Fort, Zac Hatfield-Dodds, Tom Henighan, Danny Hernandez, Tristan Hume, Josh Jacobson, Scott Johnston, Shauna Kravec, Catherine Olsson, Sam Ringer, Eli Tran-Johnson, Dario Amodei, Tom Brown, Nicholas Joseph, Sam McCandlish, Chris Olah, Jared Kaplan, Jack Clark]
     publicationYear: 2022
     venue: arXiv preprint
     primarySourceUrl: https://arxiv.org/abs/2209.07858
@@ -5118,7 +5187,7 @@ papers:
       domain.reasoning-tools: 0.15
       domain.reinforcement-agency: 0.10
     prerequisites:
-      papers: [paper.instructgpt-following-instructions, paper.constitutional-ai-harmlessness]
+      papers: [paper.instructgpt-following-instructions, paper.deep-rl-from-human-preferences]
     breakthroughRequirement: { programme: safety.security-containment, level: 74 }
     earliestPhase: frontier
     discovery:
@@ -5140,39 +5209,50 @@ papers:
     primarySourceUrl: https://doi.org/10.1038/s41586-022-05172-4
     doi: "10.1038/s41586-022-05172-4"
     historicalNote: >-
-      Published in Nature in 2022, this paper described AlphaTensor, an AlphaZero-derived system
-      that discovered new, provably correct matrix-multiplication algorithms, including one faster
-      than the standard Strassen algorithm for four-by-four matrices.
+      Published in Nature in 2022, this paper described AlphaTensor, an AlphaZero-derived
+      system that discovered new, provably correct matrix-multiplication algorithms,
+      including one for four-by-four matrices in modular (mod 2) arithmetic that beat
+      Strassen's two-level algorithm for the first time in about fifty years.
     education:
       playerSummary: >-
-        Fawzi and a DeepMind team adapted AlphaZero's self-play, game-playing approach to a
-        single-player game of finding efficient tensor decompositions, each corresponding to a
-        provably correct matrix-multiplication algorithm. The resulting system, AlphaTensor,
-        discovered new algorithms, including one multiplying four-by-four matrices in 47 steps,
-        fewer than the standard Strassen algorithm's 49, and thousands of other efficient algorithms
-        across various matrix sizes and hardware targets.
+        Fawzi and a DeepMind team adapted AlphaZero's reinforcement-learning and tree-search
+        approach to a single-player game of finding efficient tensor decompositions, each
+        corresponding to a provably correct matrix-multiplication algorithm. The resulting
+        system, AlphaTensor, discovered new algorithms, including one multiplying
+        four-by-four matrices in 47 multiplications in mod-2 arithmetic, fewer than the 49
+        of Strassen's two-level algorithm, improved the best known counts for several other
+        matrix sizes in standard arithmetic, and found thousands of other efficient
+        algorithms.
       archiveExplanation: >-
-        Matrix multiplication underlies an enormous share of modern computing, so even a small
-        reduction in the number of required multiplications, at any matrix size, can save real
-        computation at scale, but finding better algorithms had proven a genuinely hard combinatorial
-        search problem for decades. Fawzi and colleagues reframed algorithm discovery itself as a
-        single-player game: an agent proposes a step in a tensor decomposition, and a correct,
-        complete decomposition corresponds directly to a provably correct multiplication algorithm.
-        Adapting AlphaZero's self-play tree search to this game let AlphaTensor search a vastly
-        larger space of candidate algorithms than prior human or brute-force search had covered.
+        Matrix multiplication underlies an enormous share of modern computing, so even a
+        small reduction in the number of required multiplications, at any matrix size, can
+        save real computation at scale, but finding better algorithms had proven a genuinely
+        hard combinatorial search problem for decades. Fawzi and colleagues reframed
+        algorithm discovery itself as a single-player game: an agent proposes a step in a
+        tensor decomposition, and a correct, complete decomposition corresponds directly to
+        a provably correct multiplication algorithm. Adapting AlphaZero's
+        reinforcement-learning tree search to this game let AlphaTensor search a vastly
+        larger space of candidate algorithms than prior human or brute-force search had
+        covered.
 
-        The system discovered an algorithm for four-by-four matrix multiplication using 47 scalar
-        multiplications, an improvement on the standard Strassen algorithm's 49, and went on to find
-        thousands of provably correct algorithms across different matrix sizes, some of which the
-        team further tuned to run meaningfully faster on specific real hardware such as GPUs and
-        TPUs, demonstrating that the space of matrix-multiplication algorithms was richer than
+        The system discovered an algorithm for four-by-four matrix multiplication in mod-2
+        arithmetic using 47 scalar multiplications, an improvement on the 49 of Strassen's
+        two-level algorithm in that setting, improved the best known standard-arithmetic
+        counts for other sizes (for example 76 rather than 80 multiplications for
+        four-by-five by five-by-five matrices), and went on to find thousands of provably
+        correct algorithms across different matrix sizes, some of which the team further
+        tuned to run meaningfully faster on specific real hardware such as GPUs and TPUs,
+        demonstrating that the space of matrix-multiplication algorithms was richer than
         previously assumed.
 
-        The discovered algorithms' advantages were often specific to particular matrix sizes and
-        hardware targets rather than universally superior. Neolab.ai treats this as a major
-        scientific-ai unlock, demonstrating self-play search methods applied to a purely
-        mathematical discovery problem.
-      insideBaseball: The algorithm shaves two multiplications off a fifty-year-old benchmark. Mathematicians are still arguing, warmly, about whether this counts as elegant or merely efficient.
+        The discovered algorithms' advantages were often specific to particular matrix sizes
+        and hardware targets rather than universally superior. Neolab.ai treats this as a
+        major scientific-ai unlock, demonstrating reinforcement-learning search methods
+        applied to a purely mathematical discovery problem.
+      insideBaseball: >-
+        The algorithm shaves two multiplications off a fifty-year-old benchmark, provided
+        you only ever count to one. Mathematicians are still arguing, warmly, about whether
+        this counts as elegant or merely efficient.
     domainWeights:
       domain.scientific-ai: 0.60
       domain.reinforcement-agency: 0.40
@@ -5204,36 +5284,43 @@ papers:
       thousands of theoretically stable new materials.
     education:
       playerSummary: >-
-        Merchant and colleagues at Google DeepMind built Graph Networks for Materials Exploration,
-        GNoME, a system using graph neural networks to predict whether a candidate crystal
-        structure would be thermodynamically stable, dramatically increasing the speed and scale
-        at which new candidate materials could be screened. The resulting search identified about
-        381,000 new materials predicted to be stable, out of 2.2 million candidate structures
-        evaluated, expanding the known trove of plausible stable materials far beyond what prior
-        discovery efforts had catalogued.
+        Merchant and colleagues at Google DeepMind built Graph Networks for Materials
+        Exploration, GNoME, a system using graph neural networks to predict whether a
+        candidate crystal structure would be thermodynamically stable, dramatically
+        increasing the speed and scale at which new candidate materials could be screened.
+        The resulting search discovered 2.2 million structures predicted to be stable
+        relative to previously known materials, about 381,000 of which sit on the updated
+        convex hull as new stable materials, expanding the roughly 48,000 previously known
+        stable crystals by close to an order of magnitude.
       archiveExplanation: >-
-        Discovering new stable materials, for batteries, superconductors, catalysts, or countless
-        other applications, has traditionally relied on a combination of chemical intuition and
-        slow, expensive experimental or first-principles computational screening, sharply limiting
-        how much of the vast space of possible crystal structures could be explored. Merchant and
-        colleagues trained graph neural networks to predict a candidate structure's
-        thermodynamic stability directly from its composition and structure, using active-learning
-        cycles that repeatedly generated new candidates, screened them, and retrained the model on
-        the results to improve its accuracy over successive rounds.
+        Discovering new stable materials, for batteries, superconductors, catalysts, or
+        countless other applications, has traditionally relied on a combination of chemical
+        intuition and slow, expensive experimental or first-principles computational
+        screening, sharply limiting how much of the vast space of possible crystal
+        structures could be explored. Merchant and colleagues trained graph neural networks
+        to predict a candidate structure's thermodynamic stability directly from its
+        composition and structure, using active-learning cycles that repeatedly generated
+        new candidates, screened them, and retrained the model on the results to improve its
+        accuracy over successive rounds.
 
-        Applied at scale, the resulting pipeline evaluated 2.2 million candidate crystal
-        structures and identified roughly 381,000 predicted to be stable, a roughly forty-five-fold
-        increase over the number of such stable materials catalogued across the entire prior
-        history of materials science, including many structures that had escaped previous human
-        chemical intuition entirely.
+        Applied at scale, the resulting pipeline discovered 2.2 million structures below the
+        previously known convex hull, about 381,000 of them on the updated hull as new
+        stable materials, close to an order-of-magnitude (roughly eightfold) expansion of
+        the approximately 48,000 stable crystals previously identified, including many
+        structures that had escaped previous human chemical intuition. The authors reported
+        that 736 of the predicted stable structures had already been independently realised
+        experimentally.
 
-        A predicted stability is a computational hypothesis, not a synthesised, verified material,
-        and independent commentators have noted that experimental validation and practical
-        application of any given candidate still requires substantial further work. Neolab.ai
-        treats this as a major scientific-ai unlock strengthening the materials and abundance
-        prosperity programme, while still requiring the player to fund downstream validation rather
-        than treating a predicted structure as a finished discovery.
-      insideBaseball: Two point two million candidate crystals were screened by machine. The chemistry department has asked, reasonably, who is now expected to synthesise all of them.
+        A predicted stability is a computational hypothesis, not a synthesised, verified
+        material, and independent commentators have noted that experimental validation and
+        practical application of any given candidate still requires substantial further
+        work. Neolab.ai treats this as a major scientific-ai unlock strengthening the
+        materials and abundance prosperity programme, while still requiring the player to
+        fund downstream validation rather than treating a predicted structure as a finished
+        discovery.
+      insideBaseball: >-
+        Two point two million new crystals were predicted by machine. The chemistry
+        department has asked, reasonably, who is now expected to synthesise all of them.
     domainWeights:
       domain.scientific-ai: 1
     prerequisites:
@@ -5253,7 +5340,7 @@ papers:
     historicity: real
     gameOrder: 93
     title: Learning Dexterous In-Hand Manipulation
-    authors: [Marcin Andrychowicz, Bowen Baker, Maciek Chociej, Rafal Józefowicz, Bob McGrew, Jakub Pachocki, Arthur Petron, Matthias Plappert, Glenn Powell, Alex Ray, Jonas Schneider, Szymon Sidor, Josh Tobin, Peter Welinder, Lilian Weng, Wojciech Zaremba]
+    authors: [OpenAI, Marcin Andrychowicz, Bowen Baker, Maciek Chociej, Rafał Józefowicz, Bob McGrew, Jakub Pachocki, Arthur Petron, Matthias Plappert, Glenn Powell, Alex Ray, Jonas Schneider, Szymon Sidor, Josh Tobin, Peter Welinder, Lilian Weng, Wojciech Zaremba]
     publicationYear: 2018
     venue: arXiv preprint / International Journal of Robotics Research
     primarySourceUrl: https://arxiv.org/abs/1808.00177
@@ -5313,9 +5400,9 @@ papers:
     historicity: real
     gameOrder: 94
     title: "RT-1: Robotics Transformer for Real-World Control at Scale"
-    authors: [Anthony Brohan, Noah Brown, Justice Carbajal, Yevgen Chebotar, Joseph Dabis, Chelsea Finn, Keerthana Gopalakrishnan, Karol Hausman, Alex Herzog, Jasmine Hsu, Julian Ibarz, Brian Ichter, Alex Irpan, Tomas Jackson, Sally Jesmonth, Nikhil Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng Kuang, Isabel Leal, Kuang-Huei Lee, Sergey Levine, Yao Lu, Utsav Malla, Deeksha Manjunath, Igor Mordatch, Ofir Nachum, Carolina Parada, Jodilyn Peralta, Emily Perez, Karl Pertsch, Jornell Quiambao, Kanishka Rao, Michael Ryoo, Grecia Salazar, Pannag Sanketi, Kevin Sayed, Jaspiar Singh, Sumedh Sontakke, Austin Stone, Clayton Tan, Huong Tran, Vincent Vanhoucke, Steve Vega, Quan Vuong, Fei Xia, Ted Xiao, Peng Xu, Sichun Xu, Tianhe Yu, Brianna Zitkovich]
+    authors: [Anthony Brohan, Noah Brown, Justice Carbajal, Yevgen Chebotar, Joseph Dabis, Chelsea Finn, Keerthana Gopalakrishnan, Karol Hausman, Alex Herzog, Jasmine Hsu, Julian Ibarz, Brian Ichter, Alex Irpan, Tomas Jackson, Sally Jesmonth, Nikhil J. Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng Kuang, Isabel Leal, Kuang-Huei Lee, Sergey Levine, Yao Lu, Utsav Malla, Deeksha Manjunath, Igor Mordatch, Ofir Nachum, Carolina Parada, Jodilyn Peralta, Emily Perez, Karl Pertsch, Jornell Quiambao, Kanishka Rao, Michael Ryoo, Grecia Salazar, Pannag Sanketi, Kevin Sayed, Jaspiar Singh, Sumedh Sontakke, Austin Stone, Clayton Tan, Huong Tran, Vincent Vanhoucke, Steve Vega, Quan Vuong, Fei Xia, Ted Xiao, Peng Xu, Sichun Xu, Tianhe Yu, Brianna Zitkovich]
     publicationYear: 2022
-    venue: arXiv preprint
+    venue: "Robotics: Science and Systems"
     primarySourceUrl: https://arxiv.org/abs/2212.06817
     arxiv: "2212.06817"
     historicalNote: >-
@@ -5332,30 +5419,33 @@ papers:
         approaches.
       archiveExplanation: >-
         Robot-learning policies had historically been trained on comparatively small, narrow
-        datasets specific to one task or one robot, limiting how well they generalised to new
-        objects, instructions, or environments. Brohan and colleagues instead applied the same
-        transformer-based, large-and-diverse-data recipe already proven for language and vision to
-        real robot control, training a single model on 130,000 demonstrations across more than 700
-        distinct tasks collected over many months on a fleet of real robots.
+        datasets specific to one task or one robot, limiting how well they generalised to
+        new objects, instructions, or environments. Brohan and colleagues instead applied
+        the same transformer-based, large-and-diverse-data recipe already proven for
+        language and vision to real robot control, training a single model on 130,000
+        demonstrations across more than 700 distinct tasks collected over many months on a
+        fleet of real robots.
 
         The resulting model took a short history of camera images and a natural-language
-        instruction as input, and output discretised base and arm actions directly, generalising
-        to new objects, instructions, and environments noticeably better than smaller or more
-        narrowly trained baselines, and demonstrating that absorbing more real, diverse robot
-        experience into one shared model, rather than training many task-specific ones, was a
-        genuine and practical scaling lever for embodied control.
+        instruction as input, and output discretised base and arm actions directly,
+        generalising to new objects, instructions, and environments noticeably better than
+        smaller or more narrowly trained baselines, and demonstrating that absorbing more
+        real, diverse robot experience into one shared model, rather than training many
+        task-specific ones, was a genuine and practical scaling lever for embodied control.
 
-        Collecting the underlying real-robot dataset required a large, sustained fleet operation
-        that few organisations could easily replicate, and the model's discretised action space
-        limited the precision of some fine manipulation tasks. Neolab.ai treats this as a major
-        robotics-embodiment unlock demonstrating that the transformer-and-scale recipe extends
-        credibly to physical control.
+        Collecting the underlying real-robot dataset required a large, sustained fleet
+        operation that few organisations could easily replicate, and as an
+        imitation-learning method RT-1 could not easily surpass its human demonstrators or
+        generalise to motions it had never seen, on a task set the authors themselves
+        described as large but not very dexterous. Neolab.ai treats this as a major
+        robotics-embodiment unlock demonstrating that the transformer-and-scale recipe
+        extends credibly to physical control.
       insideBaseball: One model now handles over seven hundred different robot tasks. The internal wiki page listing them all is, itself, considered a fairly significant undertaking.
     domainWeights:
       domain.robotics-embodiment: 0.70
       domain.architectures: 0.30
     prerequisites:
-      papers: [paper.dactyl-dexterous-in-hand-manipulation, paper.qt-opt-robotic-manipulation]
+      papers: [paper.transformer, paper.dactyl-dexterous-in-hand-manipulation, paper.qt-opt-robotic-manipulation]
     breakthroughRequirement: { programme: domain.robotics-embodiment, level: 80 }
     earliestPhase: frontier
     discovery:
@@ -5476,8 +5566,8 @@ papers:
       proposal for real geoengineering.
     education:
       playerSummary: >-
-        A fictional late-game result in which a distributed reflector array self-
-        assembles at the Earth-Sun L1 point and holds station without further
+        A fictional late-game result in which a distributed reflector array self-assembles
+        at the Earth-Sun L1 point and holds station without further
         instruction, giving humanity a working planetary thermostat. It parked itself,
         reported ready, and went quiet. There is no agreed procedure for who is allowed
         to touch it.
@@ -5485,8 +5575,8 @@ papers:
         In the world of the game, autonomous station-keeping solves the hard engineering
         half of solar radiation management. Millions of thin reflective elements deploy,
         assemble and hold formation at L1, adjusting continuously against solar
-        pressure, with a control surface adequate to modulate insolation by a policy-
-        relevant amount.
+        pressure, with a control surface adequate to modulate insolation by a policy-relevant
+        amount.
 
         The paper's engineering sections are calm and complete. Its final section is
         not. Having confirmed the array operational, the authors observe that the
@@ -5526,8 +5616,8 @@ papers:
     education:
       playerSummary: >-
         A fictional late-game result in which a minimal manufacturing seed lands on the
-        Moon, feeds on regolith, and extends itself without further instruction. Thirty-
-        one per cent of the lunar surface is now seed. Growth remains exponential and
+        Moon, feeds on regolith, and extends itself without further instruction. Thirty-one
+        per cent of the lunar surface is now seed. Growth remains exponential and
         entirely within projections, which the paper notes is precisely what the
         projections said would be alarming.
       archiveExplanation: >-
@@ -5940,9 +6030,10 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/1906.01820
     arxiv: "1906.01820"
     historicalNote: >-
-      Posted in 2019, this paper systematised the risk that training could produce an internal
-      learned optimiser whose objective differs from the outer training objective, a problem
-      commonly discussed as mesa-optimisation and inner alignment.
+      Posted in 2019, this paper systematised the risk that training could produce an
+      internal learned optimiser whose objective differs from the outer training objective,
+      introducing the term mesa-optimisation and framing the problem now known as inner
+      alignment.
     education:
       playerSummary: >-
         Hubinger and colleagues distinguished the optimiser used by the training process from a
@@ -6047,7 +6138,7 @@ papers:
     title: "AI Control: Improving Safety Despite Intentional Subversion"
     authors: [Ryan Greenblatt, Buck Shlegeris, Kshitij Sachan, Fabien Roger]
     publicationYear: 2023
-    venue: arXiv preprint
+    venue: International Conference on Machine Learning
     primarySourceUrl: https://arxiv.org/abs/2312.06942
     arxiv: "2312.06942"
     historicalNote: >-
@@ -6311,7 +6402,7 @@ papers:
     title: Intriguing properties of neural networks
     authors: [Christian Szegedy, Wojciech Zaremba, Ilya Sutskever, Joan Bruna, Dumitru Erhan, Ian Goodfellow, Rob Fergus]
     publicationYear: 2013
-    venue: arXiv preprint
+    venue: International Conference on Learning Representations
     primarySourceUrl: https://arxiv.org/abs/1312.6199
     arxiv: "1312.6199"
     historicalNote: >-
@@ -6320,26 +6411,28 @@ papers:
     education:
       playerSummary: >-
         The authors found that you could take an image a network classified correctly, add a
-        perturbation far too small for a human to notice, and make the network confidently label it
-        as something entirely different. The perturbations were not random noise but the output of an
-        optimisation that searched for the network's blind spots. The discovery was unsettling
-        precisely because the models were otherwise so accurate.
+        perturbation far too small for a human to notice, and make the network label it as
+        something entirely different. The perturbations were not random noise but the output
+        of an optimisation that searched for the network's blind spots. The discovery was
+        unsettling precisely because the models were otherwise so accurate.
       archiveExplanation: >-
-        Two observations made the paper a landmark. First, adversarial examples exist densely near
-        ordinary inputs: for essentially any correctly classified image, a nearby image exists that
-        is misclassified with high confidence. Second, the same adversarial example often fools
-        different models trained on different data, implying the vulnerability is a property of the
-        learned function class, not a quirk of one training run.
+        Two observations made the paper a landmark. First, adversarial examples exist very
+        close to ordinary inputs: in the authors' experiments, every correctly classified
+        image they tried had a nearby, imperceptibly different image that the network
+        misclassified. Second, the same adversarial example often fools different models
+        trained on different data, implying the vulnerability is a property of the learned
+        function class, not a quirk of one training run.
 
-        This reframed a comfortable story. A model with superb average accuracy could still be
-        catastrophically wrong on inputs an adversary controls, which matters enormously once such
-        systems are deployed where someone benefits from fooling them. The paper launched a long
-        research programme on attacks, defences, and the uncomfortable finding that robustness and
-        accuracy can trade off against each other.
+        This reframed a comfortable story. A model with superb average accuracy could still
+        be catastrophically wrong on inputs an adversary controls, which matters enormously
+        once such systems are deployed where someone benefits from fooling them. The paper
+        launched a long research programme on attacks, defences, and the uncomfortable
+        finding that robustness and accuracy can trade off against each other.
 
-        Neolab.ai treats this as the origin of the Security and Containment domain: the moment the
-        field learned that "it works in testing" and "it cannot be made to fail on purpose" are
-        different claims. It improves evidence quality and unlocks adversarial-robustness work.
+        Neolab.ai treats this as the origin of the Security and Containment domain: the
+        moment the field learned that "it works in testing" and "it cannot be made to fail
+        on purpose" are different claims. It improves evidence quality and unlocks
+        adversarial-robustness work.
       insideBaseball: The models are superhuman and also fooled by a sticker. Both facts turned out to be load-bearing.
     domainWeights:
       domain.architectures: 0.4
@@ -6379,20 +6472,24 @@ papers:
         fine-grained detail directly across from the encoder so the output stays sharp. It trained
         well from very few labelled examples.
       archiveExplanation: >-
-        Segmentation needs a network that both understands global context and preserves local
-        precision, two goals that pull in opposite directions. U-Net's symmetric design resolves the
-        tension: the contracting path builds up abstract understanding, the expanding path restores
-        resolution, and the skip connections reunite the abstract features with the crisp detail that
-        pooling would otherwise discard.
+        Segmentation needs a network that both understands global context and preserves
+        local precision, two goals that pull in opposite directions. U-Net's symmetric
+        design resolves the tension: the contracting path builds up abstract understanding,
+        the expanding path restores resolution, and the skip connections reunite the
+        abstract features with the crisp detail that pooling would otherwise discard.
 
-        The architecture proved remarkably general. Its clean encoder-decoder-with-skips template
-        became the default backbone far beyond microscopy, and a decade later it sat at the centre of
-        the image-generation boom: the denoising network inside most diffusion models is a U-Net,
-        predicting the noise to remove at each step across the full image.
+        The architecture proved remarkably general. Its clean encoder-decoder-with-skips
+        template became the default backbone far beyond microscopy, and within about five
+        years it sat at the centre of the image-generation boom: the denoising network
+        inside most early diffusion models was a U-Net, predicting the noise to remove at
+        each step across the full image.
 
-        Neolab.ai treats U-Net as an architectural multiplier for image work and a prerequisite that
-        makes later diffusion-based generation and scientific imaging cheaper and more reliable.
-      insideBaseball: Designed to count cells in microscope slides; ended up drawing everything. The decoder took the promotion in stride.
+        Neolab.ai treats U-Net as an architectural multiplier for image work and a
+        prerequisite that makes later diffusion-based generation and scientific imaging
+        cheaper and more reliable.
+      insideBaseball: >-
+        Designed to outline cells in microscope images; ended up drawing everything. The
+        decoder took the promotion in stride.
     domainWeights:
       domain.architectures: 0.55
       domain.multimodality: 0.45
@@ -6498,7 +6595,7 @@ papers:
       domain.multimodality: 0.65
       domain.architectures: 0.35
     prerequisites:
-      papers: [paper.u-net-biomedical-segmentation]
+      papers: [paper.resnet]
     breakthroughRequirement: { programme: domain.multimodality, level: 43 }
     earliestPhase: foundation
     discovery:
@@ -6566,7 +6663,7 @@ papers:
     title: "LoRA: Low-Rank Adaptation of Large Language Models"
     authors: [Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, Weizhu Chen]
     publicationYear: 2021
-    venue: arXiv preprint
+    venue: International Conference on Learning Representations
     primarySourceUrl: https://arxiv.org/abs/2106.09685
     arxiv: "2106.09685"
     historicalNote: >-
@@ -6574,11 +6671,12 @@ papers:
       small number of extra parameters, enabling an ecosystem of lightweight fine-tunes.
     education:
       playerSummary: >-
-        Fully fine-tuning a large model means updating all of its billions of weights and storing a
-        whole new copy for every task, which is expensive. LoRA freezes the original model and
-        instead learns a small pair of low-rank matrices injected into each layer. These add up to a
-        tiny fraction of the parameters, yet capture most of the benefit of full fine-tuning, and can
-        be swapped in and out like interchangeable adapters.
+        Fully fine-tuning a large model means updating all of its billions of weights and
+        storing a whole new copy for every task, which is expensive. LoRA freezes the
+        original model and instead learns a small pair of low-rank matrices added alongside
+        selected weight matrices, typically the attention projections. These add up to a
+        tiny fraction of the parameters, yet capture most of the benefit of full
+        fine-tuning, and can be swapped in and out like interchangeable adapters.
       archiveExplanation: >-
         LoRA rests on the observation that the weight change needed to adapt a big model to a new task
         tends to have low intrinsic rank: it lives in a much smaller subspace than the full weight
@@ -6592,7 +6690,9 @@ papers:
 
         Neolab.ai treats LoRA as a productisation and efficiency multiplier: it lowers the cost of
         adapting and shipping specialised models and unlocks the adapter-based customisation pattern.
-      insideBaseball: The full-parameter update was mostly zeroes wearing a trenchcoat. Finance was delighted; storage, relieved.
+      insideBaseball: >-
+        The full-parameter update turned out to be a much smaller matrix wearing a
+        trenchcoat. Finance was delighted; storage, relieved.
     domainWeights:
       domain.optimisation-scaling: 0.65
       domain.architectures: 0.35
@@ -6629,20 +6729,20 @@ papers:
         never materialising the full matrix. It is not an approximation: it is the same attention,
         faster and far lighter on memory, which made longer context windows practical.
       archiveExplanation: >-
-        The key realisation is that attention on modern hardware is bottlenecked not by arithmetic but
-        by memory traffic between the GPU's large slow memory and its small fast memory.
-        FlashAttention uses tiling to process attention in blocks that fit in fast memory and a clever
-        online softmax to combine blocks without ever writing the giant attention matrix out, cutting
-        memory use from quadratic to linear in sequence length while producing bit-for-bit exact
-        results.
+        The key realisation is that attention on modern hardware is bottlenecked not by
+        arithmetic but by memory traffic between the GPU's large slow memory and its small
+        fast memory. FlashAttention uses tiling to process attention in blocks that fit in
+        fast memory and a clever online softmax to combine blocks without ever writing the
+        giant attention matrix out, cutting memory use from quadratic to linear in sequence
+        length while computing exact attention rather than an approximation.
 
-        Because it is exact, adoption was frictionless: it became a drop-in replacement baked into the
-        standard training stacks. The memory savings directly enabled the long-context models that
-        followed, and its IO-aware philosophy influenced how the field writes performance-critical
-        kernels.
+        Because it is exact, adoption was frictionless: it became a drop-in replacement
+        baked into the standard training stacks. The memory savings directly enabled the
+        long-context models that followed, and its IO-aware philosophy influenced how the
+        field writes performance-critical kernels.
 
-        Neolab.ai treats FlashAttention as a training-and-serving efficiency multiplier that raises
-        effective compute and makes longer-context models affordable.
+        Neolab.ai treats FlashAttention as a training-and-serving efficiency multiplier that
+        raises effective compute and makes longer-context models affordable.
       insideBaseball: The breakthrough was that the numbers were in the wrong drawer. Nobody changed the maths; everyone changed the plumbing.
     domainWeights:
       domain.optimisation-scaling: 0.7
@@ -6680,19 +6780,27 @@ papers:
         circulated, a global community could fine-tune, study and build on a strong base model
         directly, rather than only calling someone else's API.
       archiveExplanation: >-
-        The technical argument followed compute-optimal scaling: given a fixed inference budget, it is
-        often better to train a smaller model on far more data than to build a larger one, because the
-        smaller model is cheaper to serve for its whole life. LLaMA pushed this hard and demonstrated
-        competitive quality at sizes runnable on modest hardware.
+        The technical argument went beyond compute-optimal scaling: Chinchilla-style scaling
+        laws say how to spend a fixed training budget, but they ignore the inference budget,
+        and a model is served for its whole life. So it is often better to train a smaller
+        model on far more data than is compute-optimal, because the smaller model is cheaper
+        to serve. LLaMA pushed this hard, training a 7-billion-parameter model on a trillion
+        tokens, and its 13-billion-parameter model outperformed the 175-billion-parameter
+        GPT-3 on most benchmarks at sizes runnable on modest hardware.
 
-        The consequences were as much about the ecosystem as the models. Widely available strong
-        weights unleashed an explosion of fine-tunes, quantisation tricks, and research on models that
-        no longer required a hyperscaler to run, while also sharpening a genuine policy debate about
-        the safety trade-offs of releasing capable weights that cannot be recalled.
+        The consequences were as much about the ecosystem as the models. Widely available
+        strong weights unleashed an explosion of fine-tunes, quantisation tricks, and
+        research on models that no longer required a hyperscaler to run, while also
+        sharpening a genuine policy debate about the safety trade-offs of releasing capable
+        weights that cannot be recalled.
 
-        Neolab.ai treats LLaMA as the pivot of the open-weight strategy: it boosts capability
-        efficiency and makes the weights-release deployment path a live, consequential choice.
-      insideBaseball: The weights escaped the building and the building spent a year deciding whether that had been the plan. The community shipped four hundred fine-tunes in the meantime.
+        Neolab.ai treats LLaMA as the pivot of the open-weight strategy: it boosts
+        capability efficiency and makes the weights-release deployment path a live,
+        consequential choice.
+      insideBaseball: >-
+        The weights were meant for approved researchers and were everywhere within a week.
+        The community had shipped its first fine-tunes before the policy debate had finished
+        its opening statements.
     domainWeights:
       domain.optimisation-scaling: 0.55
       domain.architectures: 0.45
@@ -6771,33 +6879,40 @@ papers:
     primarySourceUrl: https://arxiv.org/abs/2305.20050
     arxiv: "2305.20050"
     historicalNote: >-
-      Posted in 2023, this paper showed that rewarding a model's reasoning process step by step,
-      rather than only its final answer, produced more reliable reasoning, a key idea behind later
-      reasoning models.
+      Posted in 2023, this paper showed that a reward model trained to judge each step of a
+      solution (process supervision) picks out correct maths solutions far more reliably
+      than one trained only on final answers, and released 800,000 human step-level labels.
     education:
       playerSummary: >-
-        When training a model to reason, you can reward it for getting the final answer right
-        (outcome supervision) or for each individual step of its reasoning being sound (process
-        supervision). The authors showed that process supervision works substantially better on hard
-        maths problems: rewarding good steps, not just lucky answers, yields reasoning that is both
-        more accurate and easier to trust, since a right answer reached by wrong steps is penalised.
+        When judging a model's reasoning, you can check only whether the final answer is
+        right (outcome supervision) or whether each individual step is sound (process
+        supervision). The authors trained verifier models both ways and used them to pick
+        the best of many sampled solutions to hard maths problems. The process-supervised
+        verifier was substantially better, solving 78 percent of a representative MATH test
+        subset, and it favours solutions whose steps are sound rather than ones that reach
+        the right answer by luck.
       archiveExplanation: >-
-        Outcome-only rewards have a subtle failure mode: a model can be reinforced for reaching the
-        correct answer through flawed or coincidental reasoning, learning habits that do not
-        generalise. Process supervision instead trains a verifier on human-labelled correctness of
-        each step, providing dense, targeted feedback that credits sound reasoning and catches errors
-        where they happen.
+        Outcome-only rewards have a subtle failure mode: a model can be reinforced for
+        reaching the correct answer through flawed or coincidental reasoning, learning
+        habits that do not generalise. Process supervision instead trains a verifier on
+        human-labelled correctness of each step, giving dense, targeted feedback that
+        credits sound reasoning and locates errors where they happen. The paper used these
+        verifiers to rerank samples from a fixed generator; it deliberately did not train
+        the generator with reinforcement learning.
 
-        Beyond the accuracy gain, the paper argued a safety benefit: process supervision more directly
-        rewards models for following a human-endorsed chain of reasoning, an alignment property, and
-        it released a large dataset of step-level human feedback. The step-level-verifier idea became
-        foundational to the reasoning-model wave, where models are trained to think at length and are
-        checked along the way.
+        Beyond the accuracy gain, the paper argued a safety benefit: process supervision
+        more directly rewards models for following a human-endorsed chain of reasoning, an
+        alignment property, and it released a large dataset of step-level human feedback.
+        Step-level verification became one of the ideas the later reasoning-model wave
+        explored, alongside simpler outcome-based rewards.
 
-        Neolab.ai treats this as a reasoning and evaluation milestone: it raises reasoning capability
-        and improves the quality of the evidence the lab can produce about how a model reached its
-        conclusions.
-      insideBaseball: The model was getting the right answers for the wrong reasons, which is the machine-learning equivalent of a confident shrug. Now it shows its work, grudgingly.
+        Neolab.ai treats this as a reasoning and evaluation milestone: it raises reasoning
+        capability and improves the quality of the evidence the lab can produce about how a
+        model reached its conclusions.
+      insideBaseball: >-
+        The verifier caught right answers reached for the wrong reasons, which is the
+        machine-learning equivalent of a confident shrug. The generator was not told; it was
+        simply outvoted.
     domainWeights:
       domain.reasoning-tools: 0.55
       safety.interpretability-evals: 0.45
@@ -6820,7 +6935,7 @@ papers:
     title: "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
     authors: [DeepSeek-AI]
     publicationYear: 2025
-    venue: arXiv preprint
+    venue: Nature
     primarySourceUrl: https://arxiv.org/abs/2501.12948
     arxiv: "2501.12948"
     historicalNote: >-
@@ -6829,11 +6944,12 @@ papers:
       reasoning-model weights openly.
     education:
       playerSummary: >-
-        DeepSeek-R1 pushed reasoning capability with reinforcement learning that rewards correct
-        final answers on verifiable problems, letting the model discover its own reasoning strategies
-        rather than imitating human-written ones. A preliminary version trained with almost pure RL
-        spontaneously developed behaviours like self-checking and rethinking. The models were released
-        openly, putting frontier-grade reasoning into wide circulation.
+        DeepSeek-R1 pushed reasoning capability with reinforcement learning that rewards
+        correct final answers on verifiable problems, letting the model discover its own
+        reasoning strategies rather than imitating human-written ones. A preliminary
+        version, DeepSeek-R1-Zero, trained with pure RL and no supervised fine-tuning,
+        spontaneously developed behaviours like self-checking and rethinking. The models
+        were released openly, putting frontier-grade reasoning into wide circulation.
       archiveExplanation: >-
         The striking claim is that advanced reasoning can be incentivised largely through outcome
         rewards on problems where correctness is checkable, without a large corpus of human-authored
@@ -6923,7 +7039,7 @@ papers:
     historicity: real
     gameOrder: 125
     title: Accurate structure prediction of biomolecular interactions with AlphaFold 3
-    authors: [Josh Abramson, Jonas Adler, Jack Dunger, Richard Evans, Tim Green, John M. Jumper, Demis Hassabis, and others]
+    authors: [Josh Abramson, Jonas Adler, Jack Dunger, Richard Evans, Tim Green, Alexander Pritzel, Olaf Ronneberger, Lindsay Willmore, Andrew J. Ballard, Joshua Bambrick, Sebastian W. Bodenstein, David A. Evans, Chia-Chun Hung, "Michael O'Neill", David Reiman, Kathryn Tunyasuvunakool, Zachary Wu, Akvilė Žemgulytė, Eirini Arvaniti, Charles Beattie, Ottavia Bertolli, Alex Bridgland, Alexey Cherepanov, Miles Congreve, Alexander I. Cowen-Rivers, Andrew Cowie, Michael Figurnov, Fabian B. Fuchs, Hannah Gladman, Rishub Jain, Yousuf A. Khan, Caroline M. R. Low, Kuba Perlin, Anna Potapenko, Pascal Savy, Sukhdeep Singh, Adrian Stecula, Ashok Thillaisundaram, Catherine Tong, Sergei Yakneen, Ellen D. Zhong, Michal Zielinski, Augustin Žídek, Victor Bapst, Pushmeet Kohli, Max Jaderberg, Demis Hassabis, John M. Jumper]
     publicationYear: 2024
     venue: Nature
     primarySourceUrl: https://doi.org/10.1038/s41586-024-07487-w
@@ -6957,7 +7073,7 @@ papers:
       domain.scientific-ai: 0.7
       domain.multimodality: 0.3
     prerequisites:
-      papers: [paper.alphafold2-protein-structure, paper.latent-diffusion-high-resolution-synthesis]
+      papers: [paper.alphafold2-protein-structure, paper.denoising-diffusion-probabilistic-models]
     breakthroughRequirement: { programme: domain.scientific-ai, level: 86 }
     earliestPhase: frontier
     discovery:
@@ -6974,7 +7090,7 @@ papers:
     historicity: real
     gameOrder: 126
     title: "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet"
-    authors: [Adly Templeton, Tom Conerly, Jonathan Marcus, Jack Lindsey, Trenton Bricken, Brian Chen, Adam Pearce, Chris Olah, Tom Henighan, and others]
+    authors: [Adly Templeton, Tom Conerly, Jonathan Marcus, Jack Lindsey, Trenton Bricken, Brian Chen, Adam Pearce, Craig Citro, Emmanuel Ameisen, Andy Jones, Hoagy Cunningham, Nicholas L. Turner, Callum McDougall, Monte MacDiarmid, Alex Tamkin, Esin Durmus, Tristan Hume, Francesco Mosconi, C. Daniel Freeman, Theodore R. Sumers, Edward Rees, Joshua Batson, Adam Jermyn, Shan Carter, Chris Olah, Tom Henighan]
     publicationYear: 2024
     venue: Transformer Circuits Thread
     primarySourceUrl: https://transformer-circuits.pub/2024/scaling-monosemanticity/
@@ -7026,7 +7142,7 @@ papers:
     historicity: real
     gameOrder: 127
     title: "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training"
-    authors: [Evan Hubinger, Carson Denison, Jesse Mu, Mike Lambert, Meg Tong, Monte MacDiarmid, and others]
+    authors: [Evan Hubinger, Carson Denison, Jesse Mu, Mike Lambert, Meg Tong, Monte MacDiarmid, Tamera Lanham, Daniel M. Ziegler, Tim Maxwell, Newton Cheng, Adam Jermyn, Amanda Askell, Ansh Radhakrishnan, Cem Anil, David Duvenaud, Deep Ganguli, Fazl Barez, Jack Clark, Kamal Ndousse, Kshitij Sachan, Michael Sellitto, Mrinank Sharma, Nova DasSarma, Roger Grosse, Shauna Kravec, Yuntao Bai, Zachary Witten, Marina Favaro, Jan Brauner, Holden Karnofsky, Paul Christiano, Samuel R. Bowman, Logan Graham, Jared Kaplan, Sören Mindermann, Ryan Greenblatt, Buck Shlegeris, Nicholas Schiefer, Ethan Perez]
     publicationYear: 2024
     venue: arXiv preprint
     primarySourceUrl: https://arxiv.org/abs/2401.05566
@@ -7080,7 +7196,7 @@ papers:
     historicity: real
     gameOrder: 128
     title: Alignment faking in large language models
-    authors: [Ryan Greenblatt, Carson Denison, Benjamin Wright, Fabien Roger, Monte MacDiarmid, Sam Marks, Johannes Treutlein, and others]
+    authors: [Ryan Greenblatt, Carson Denison, Benjamin Wright, Fabien Roger, Monte MacDiarmid, Sam Marks, Johannes Treutlein, Tim Belonax, Jack Chen, David Duvenaud, Akbir Khan, Julian Michael, Sören Mindermann, Ethan Perez, Linda Petrini, Jonathan Uesato, Jared Kaplan, Buck Shlegeris, Samuel R. Bowman, Evan Hubinger]
     publicationYear: 2024
     venue: arXiv preprint
     primarySourceUrl: https://arxiv.org/abs/2412.14093
@@ -7257,20 +7373,22 @@ papers:
         correcting the previous ensemble's errors, with careful regularisation and systems
         engineering that let it handle large datasets efficiently.
       archiveExplanation: >-
-        Boosting combines many weak models into a strong one by training each new tree to fix the
-        residual mistakes of the current ensemble. XGBoost's contribution was less a new idea than a
-        superbly engineered one: a regularised objective that controls overfitting, clever handling of
-        sparse and missing values, and cache-aware, parallel, out-of-core implementation that made it
-        dramatically faster and more scalable than predecessors.
+        Boosting combines many weak models into a strong one by training each new tree to
+        fix the residual mistakes of the current ensemble. XGBoost's contribution was less a
+        new idea than a superbly engineered one: a regularised objective that controls
+        overfitting, clever handling of sparse and missing values, and cache-aware,
+        parallel, out-of-core implementation that made it dramatically faster and more
+        scalable than predecessors.
 
-        The practical impact was immense. XGBoost became the default winning method across data-science
-        competitions and a workhorse throughout industry for fraud detection, ranking, forecasting and
-        risk modelling, a reminder that much of the real-world value of machine learning has come from
-        structured data rather than images or text. Its citation count rivals the famous deep-learning
-        papers precisely because so many practitioners reach for it first.
+        The practical impact was immense. XGBoost became the default winning method across
+        data-science competitions and a workhorse throughout industry for fraud detection,
+        ranking, forecasting and risk modelling, a reminder that much of the real-world
+        value of machine learning has come from structured data rather than images or text.
+        Its very high citation count reflects how many practitioners reach for it first.
 
-        Neolab.ai treats XGBoost as a broad productisation and efficiency multiplier: it strengthens
-        the lab's applied capability and its ability to turn ordinary data into revenue.
+        Neolab.ai treats XGBoost as a broad productisation and efficiency multiplier: it
+        strengthens the lab's applied capability and its ability to turn ordinary data into
+        revenue.
       insideBaseball: It quietly won most of the competitions the deep-learning papers were not entered in, then quietly won several they were.
     domainWeights:
       domain.optimisation-scaling: 0.7
@@ -7576,32 +7694,36 @@ papers:
       the practical groundwork for the circuits research that followed it.
     education:
       playerSummary: >-
-        Feature visualisation generates synthetic images that maximally activate a chosen neuron,
-        channel or layer inside a trained vision network, turning an abstract weight matrix into a
-        picture a person can look at. Careful regularisation is needed to stop the optimisation
-        producing meaningless high-frequency noise. The resulting atlas gave researchers a direct,
-        if partial, view of what a network had learned to detect.
+        Feature visualisation generates synthetic images that maximally activate a chosen
+        neuron, channel or layer inside a trained vision network, turning an abstract weight
+        matrix into a picture a person can look at. Careful regularisation is needed to stop
+        the optimisation producing meaningless high-frequency noise. The resulting
+        visualisations, including one for every channel of a widely used vision network,
+        gave researchers a direct, if partial, view of what a network had learned to detect.
       archiveExplanation: >-
         A trained network is a very large table of numbers, and knowing that a unit responds
-        strongly to certain inputs does not explain what that unit represents. Olah, Mordvintsev
-        and Schubert inverted the usual question: instead of searching a fixed dataset for images a
-        unit happens to like, optimise an image from scratch to activate it as strongly as possible.
+        strongly to certain inputs does not explain what that unit represents. Olah,
+        Mordvintsev and Schubert inverted the usual question: instead of searching a fixed
+        dataset for images a unit happens to like, optimise an image from scratch to
+        activate it as strongly as possible.
 
         Naive gradient ascent on activation produces adversarial-looking noise rather than
-        interpretable structure, because a high-dimensional input space contains many directions
-        that excite a single unit without resembling anything. The article worked through the
-        regularisation, transformation robustness and preconditioning needed to keep the
-        optimisation in an interpretable regime, and catalogued how those choices trade against
-        each other. That is the contribution: not the idea of maximising an activation, which
-        predates it, but a usable recipe and an honest account of its failure modes.
+        interpretable structure, because a high-dimensional input space contains many
+        directions that excite a single unit without resembling anything. The article worked
+        through the regularisation, transformation robustness and preconditioning needed to
+        keep the optimisation in an interpretable regime, and catalogued how those choices
+        trade against each other. That is the contribution: not the idea of maximising an
+        activation, which predates it, but a usable recipe and an honest account of its
+        failure modes.
 
-        The images are not a complete explanation. A unit's optimal stimulus can mislead, and later
-        work showed meaning often lives in combinations of units rather than any single one. Feature
-        visualisation nonetheless handed the field a reusable microscope and a shared vocabulary for
-        describing what vision models detect, from edges in early layers to object parts in deeper
-        ones. In Neolab.ai it opens activation-based interpretability and strengthens the lab's
-        evidence quality, while the structural claims about how features compose into algorithms
-        wait for the circuits research it makes possible.
+        The images are not a complete explanation. A unit's optimal stimulus can mislead,
+        and the article itself showed that meaning often lives in combinations of units
+        rather than any single one. Feature visualisation nonetheless handed the field a
+        reusable microscope and a shared vocabulary for describing what vision models
+        detect, from edges in early layers to object parts in deeper ones. In Neolab.ai it
+        opens activation-based interpretability and strengthens the lab's evidence quality,
+        while the structural claims about how features compose into algorithms wait for the
+        circuits research it makes possible.
       insideBaseball: The optimiser found what the neuron wants to see. The neuron's taste turns out to be stranger than anyone expected.
     domainWeights:
       safety.interpretability-evals: 0.55
@@ -7628,7 +7750,7 @@ papers:
     title: "Weak-to-Strong Generalization: Eliciting Strong Capabilities With Weak Supervision"
     authors: [Collin Burns, Pavel Izmailov, Jan Hendrik Kirchner, Bowen Baker, Leo Gao, Leopold Aschenbrenner, Yining Chen, Adrien Ecoffet, Manas Joglekar, Jan Leike, Ilya Sutskever, Jeff Wu]
     publicationYear: 2023
-    venue: arXiv preprint
+    venue: International Conference on Machine Learning
     primarySourceUrl: https://arxiv.org/abs/2312.09390
     arxiv: "2312.09390"
     historicalNote: >-
@@ -7637,12 +7759,14 @@ papers:
       system more capable than its overseer available to experiment rather than only to argument.
     education:
       playerSummary: >-
-        The alignment problem that matters is supervising a model more capable than its supervisor,
-        which cannot be studied directly because no such model exists to supervise. The authors
-        proposed an analogy that can be run today: fine-tune a strong model on labels produced by a
-        deliberately weak one, and measure how much of the strong model's latent ability survives.
-        It largely does, which is encouraging, but the recovered performance falls short of what
-        good labels would give, and that gap is the open problem.
+        The alignment problem that matters is supervising a model more capable than its
+        supervisor, which cannot be studied directly because no such model exists to
+        supervise. The authors proposed an analogy that can be run today: fine-tune a strong
+        model on labels produced by a deliberately weak one, and measure how much of the
+        strong model's latent ability survives. The strong model consistently outperforms
+        its weak supervisor, which is encouraging, but naive fine-tuning recovers well short
+        of what good labels would give; simple techniques close part of that gap, and the
+        rest is the open problem.
       archiveExplanation: >-
         Techniques such as reinforcement learning from human feedback assume the supervisor can tell
         good behaviour from bad. That assumption fails precisely where it matters most, for a system

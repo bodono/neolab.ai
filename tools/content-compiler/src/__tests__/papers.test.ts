@@ -4,6 +4,9 @@ import { join } from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
+import { validateCompiledContent } from "@neolab/content-schema";
+
+import rawBundle from "../../../../packages/content/generated/content.bundle.json";
 import { compileContent } from "../compile.ts";
 
 const temporaryRoots: string[] = [];
@@ -58,5 +61,43 @@ describe("paper compiler rejection paths", () => {
     expect(() => compileContent(root)).toThrow(
       /fictional paper must omit factual-source fields/,
     );
+  });
+});
+
+describe("paper catalogue accuracy guards", () => {
+  // Real people are credited on these cards, so mistakes in who wrote what
+  // are the errors most worth preventing mechanically.
+  const catalogue = validateCompiledContent(rawBundle).papers.definitions;
+
+  it("lists every author once and never a placeholder", () => {
+    const problems: string[] = [];
+    for (const paper of Object.values(catalogue)) {
+      const seen = new Set<string>();
+      for (const author of paper.authors) {
+        if (/^(and others|et al\.?|others)$/i.test(author.trim())) {
+          problems.push(`${paper.id}: placeholder author "${author}"`);
+        }
+        if (seen.has(author)) problems.push(`${paper.id}: duplicate author ${author}`);
+        seen.add(author);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+
+  it("keeps hyphenated words intact across wrapped YAML lines", () => {
+    const broken: string[] = [];
+    const visit = (value: unknown, path: string): void => {
+      if (typeof value === "string") {
+        for (const match of value.matchAll(/\b[A-Za-z]+- [a-z][A-Za-z]*/g)) {
+          broken.push(`${path}: "${match[0]}"`);
+        }
+      } else if (Array.isArray(value)) {
+        value.forEach((item, index) => visit(item, `${path}[${String(index)}]`));
+      } else if (value !== null && typeof value === "object") {
+        for (const [key, child] of Object.entries(value)) visit(child, `${path}.${key}`);
+      }
+    };
+    for (const paper of Object.values(catalogue)) visit(paper, paper.id);
+    expect(broken).toEqual([]);
   });
 });
