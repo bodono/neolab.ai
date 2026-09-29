@@ -139,12 +139,15 @@ describe("reference-reviewed pixel portraits", () => {
     expect(markup).toContain('stroke="#30383c"');
   });
 
-  it("keeps Andrew N. Gee and Jayson Wei visually distinct", () => {
+  it("keeps Andrew N. Gee and Jayson Weistep visually distinct", () => {
     const andrew = renderPortrait(
       "base:portrait.researcher.andrew-n-gee",
       "Andrew N. Gee",
     );
-    const jayson = renderPortrait("base:portrait.researcher.jayson-wei", "Jayson Wei");
+    const jayson = renderPortrait(
+      "base:portrait.researcher.jayson-wei",
+      "Jayson Weistep",
+    );
 
     expect(andrew).toContain('<rect width="32" height="32" fill="#d9e2e5"');
     expect(andrew).toContain('fill="#2e86c9"');
@@ -167,10 +170,10 @@ describe("reference-reviewed pixel portraits", () => {
     expect(markup).not.toContain('stroke="#30383c"');
   });
 
-  it("renders Tim Rocktaschel with short grey hair and a short grey beard", () => {
+  it("renders Tim Rocktaskle with short grey hair and a short grey beard", () => {
     const markup = renderPortrait(
       "base:portrait.researcher.tim-rocktaschel",
-      "Tim Rocktaschel",
+      "Tim Rocktaskle",
     );
 
     expect(markup).toContain('fill="#e9b994"');
@@ -181,10 +184,10 @@ describe("reference-reviewed pixel portraits", () => {
     expect(markup).not.toContain('stroke="#30383c"');
   });
 
-  it("renders Aaron van den Oord with swept dark hair and a short beard", () => {
+  it("renders Aaron van den Hoord with swept dark hair and a short beard", () => {
     const markup = renderPortrait(
       "base:portrait.researcher.aaron-van-den-oord",
-      "Aaron van den Oord",
+      "Aaron van den Hoord",
     );
 
     expect(markup).toContain('fill="#e9b994"');
@@ -196,7 +199,7 @@ describe("reference-reviewed pixel portraits", () => {
   });
 
   it("renders the nine earlier 2026 roster additions with their reference-reviewed traits", () => {
-    const lucas = renderPortrait("base:portrait.researcher.lucas-kaiser", "Lucas Kaiser");
+    const lucas = renderPortrait("base:portrait.researcher.lucas-kaiser", "Lucas Keysel");
     expect(lucas).toContain('<g fill="#302823"><rect x="8" y="7" width="4"');
     expect(lucas).not.toContain('stroke="#30383c"');
 
@@ -306,10 +309,10 @@ describe("reference-reviewed pixel portraits", () => {
     expect(markup).toContain('stroke="#30383c"');
   });
 
-  it("renders Katie Bowman with long brown hair", () => {
+  it("renders Katie Beamford with long brown hair", () => {
     const markup = renderPortrait(
       "base:portrait.researcher.katie-bowman",
-      "Katie Bowman",
+      "Katie Beamford",
     );
 
     expect(markup).toContain('<g fill="#654936"><rect x="7" y="7" width="18" height="8"');
@@ -325,10 +328,10 @@ describe("reference-reviewed pixel portraits", () => {
     expect(markup).toContain('stroke="#30383c"');
   });
 
-  it("renders Sarah Hooker with very long red hair", () => {
+  it("renders Sarah Hookridge with very long red hair", () => {
     const markup = renderPortrait(
       "base:portrait.researcher.sarah-hooker",
-      "Sarah Hooker",
+      "Sarah Hookridge",
     );
 
     expect(markup).toContain('<g fill="#9b4b2e"><rect x="7" y="7" width="18" height="8"');
@@ -403,7 +406,7 @@ describe("reference-reviewed pixel portraits", () => {
     },
     {
       slug: "jon-jumper",
-      name: "Jon Jumper",
+      name: "Jon W. Jumpfold",
       hair: "#654936",
       style: '<rect x="8" y="6" width="16" height="6"',
       glasses: false,
@@ -483,7 +486,7 @@ describe("reference-reviewed pixel portraits", () => {
     },
     {
       slug: "melany-mitchell",
-      name: "Melany Mitchell",
+      name: "Melany A. Matchell",
       hair: "#302823",
       style: '<rect x="8" y="6" width="16" height="6"',
       glasses: true,

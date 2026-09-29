@@ -88,7 +88,7 @@ describe("Prosperity Programmes", () => {
     const jon = Object.values(state.researchers).find(
       (researcher) => researcher.definitionId === "base:researcher.jon-jumper",
     );
-    if (jon === undefined) throw new Error("Jon Jumper fixture missing");
+    if (jon === undefined) throw new Error("Jon W. Jumpfold fixture missing");
     for (const researcher of Object.values(state.researchers)) {
       delete researcher.employerLabId;
       researcher.status = "available";
@@ -119,7 +119,9 @@ describe("Prosperity Programmes", () => {
       "Scientific Laboratory I",
       "Biofoundry",
     ]);
-    expect(medicine?.expertSources.map((source) => source.label)).toEqual(["Jon Jumper"]);
+    expect(medicine?.expertSources.map((source) => source.label)).toEqual([
+      "Jon W. Jumpfold",
+    ]);
     expect(medicine?.discoverySources.map((source) => source.amount)).toEqual([12, 22]);
   });
 

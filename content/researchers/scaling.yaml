@@ -21,7 +21,8 @@ researchers:
       a thousandfold increase in model capacity with only minor losses in computational efficiency,
       including a 137-billion-parameter language model when that number still looked outrageous
       enough for the title. His work also spans large-scale training systems, language modelling
-      and conversational agents. The architectural magic trick is fully disclosed: the giant
+      and conversational agents. He co-founded Character.AI in 2021 and returned to Google in 2024
+      to co-lead Gemini. The architectural magic trick is fully disclosed: the giant
       network is not cheap because the parameters disappeared, but because most of them are asleep
       for any given token. Finance may still ask why the sleeping experts need so many GPUs.
     availability:
@@ -67,7 +68,7 @@ researchers:
       - Noam turned a research prototype into a conversation one week ahead of the product roadmap.
     portrait:
       assetId: portrait.researcher.noam-shazer
-      brief: Playful 8-bit editorial portrait; bald white man with glasses, surrounded by a sparse network whose orange router lights only a few expert nodes; ingenious and energetic, not photoreal.
+      brief: Playful 8-bit editorial portrait; an engineer in glasses and a plain t-shirt, surrounded by a sparse network whose orange router lights only a few expert nodes; ingenious and energetic, not photoreal.
       altText: Pixel-art portrait of Noam Shazer beside a sparse network with a few brightly routed expert nodes.
     sources:
       - https://research.google/pubs/outrageously-large-neural-networks-the-sparsely-gated-mixture-of-experts-layer/
@@ -140,7 +141,7 @@ researchers:
       - Christopher requested an Interpretability Lab with excellent light and uncompromising baselines.
     portrait:
       assetId: portrait.researcher.christopher-olin
-      brief: Luminous 8-bit editorial portrait; white man with wavy brown hair, surrounded by magnified neural features, circuit arrows and jewel-like activation tiles; curious and exacting, not photoreal.
+      brief: Luminous 8-bit editorial portrait; a researcher in a soft knit sweater, surrounded by magnified neural features, circuit arrows and jewel-like activation tiles; curious and exacting, not photoreal.
       altText: Pixel-art portrait of Christopher Olin surrounded by magnified neural features and circuit arrows.
     sources:
       - https://distill.pub/2017/feature-visualization/
@@ -154,13 +155,14 @@ researchers:
     version: 1
     displayName: Paul Christiani
     inspirationName: Paul Christiano
-    inspirationSummary: Alignment Research Center executive director and human-feedback, debate, and scalable-oversight researcher focused on preserving useful supervision as systems grow stronger.
+    inspirationSummary: Alignment Research Center founder and human-feedback, debate, and scalable-oversight researcher focused on preserving useful supervision as systems grow stronger.
     epithet: The Oversight Theorist
     role: Alignment, human feedback, and scalable oversight
     rosterCardSummary: An RLHF and scalable-oversight researcher who keeps adding independent checkers until the model is no longer grading its own exam.
     biography: >-
-      Paul Christiano is executive director of the Alignment Research Center, a nonprofit pursuing
-      technical research on aligning future machine-learning systems with human interests. At
+      In 2021 Paul Christiano founded the Alignment Research Center, a nonprofit pursuing technical
+      research on aligning future machine-learning systems with human interests; in 2024 he became
+      head of AI safety at the US AI Safety Institute. At
       OpenAI he co-authored early work on learning from human preferences: agents inferred goals
       from people choosing between short clips of behaviour, including a simulated robot that
       learned a backflip from around 900 bits of feedback. His research then explored amplification,
@@ -213,7 +215,7 @@ researchers:
       - The oversight protocol scales logarithmically. The meeting explaining it has not.
     portrait:
       assetId: portrait.researcher.paul-christiani
-      brief: Restrained 8-bit editorial portrait; white man with short dark hair before a branching oversight tree with paired human and model nodes; analytical and independent, not photoreal.
+      brief: Restrained 8-bit editorial portrait; a researcher in a plain collared shirt before a branching oversight tree with paired human and model nodes; analytical and independent, not photoreal.
       altText: Pixel-art portrait of Paul Christiani beside a branching oversight tree connecting human and model reviewers.
     sources:
       - https://openai.com/index/learning-from-human-preferences/
@@ -228,7 +230,7 @@ researchers:
     version: 1
     displayName: Alec Broadford
     inspirationName: Alec Radford
-    inspirationSummary: OpenAI researcher whose GPT, GPT-2, CLIP, and Whisper work connected broad pretraining with zero-shot language, vision, and speech transfer.
+    inspirationSummary: Former OpenAI researcher whose GPT, GPT-2, CLIP, and Whisper work connected broad pretraining with zero-shot language, vision, and speech transfer.
     epithet: The Zero-Shot Polymath
     role: General-purpose pretraining, zero-shot transfer, and multimodal representation learning
     rosterCardSummary: "An author behind GPT, GPT-2, CLIP, and Whisper, whose preferred task list has one item—pretrain—and an increasingly implausible number of evaluation footnotes."
@@ -240,7 +242,8 @@ researchers:
       unsupervised Transformer pretraining with supervised fine-tuning; GPT-2 showed stronger
       zero-shot task behaviour as language modelling scaled. CLIP learned transferable visual
       representations from internet text-image pairs, and Whisper used large-scale weak supervision
-      for robust multilingual speech recognition. Together they form a remarkably consistent
+      for robust multilingual speech recognition. He left OpenAI at the end of 2024 to pursue
+      independent research. Together they form a remarkably consistent
       research programme: pretrain on broad data, evaluate in new settings, and inspect which useful
       abilities arrived without their own bespoke pipeline. The programme may fit under one checkbox
       labelled “pretrain”; the evaluation appendix keeps growing. Nobody has found its final page.
@@ -282,7 +285,7 @@ researchers:
       - A multilingual speech test passed in a language nobody on the immediate team could confidently pronounce.
     portrait:
       assetId: portrait.researcher.alec-broadford
-      brief: Understated 8-bit editorial portrait; pale-skinned man with short light-brown hair, rectangular glasses, no beard, a gentle reserved smile, and a dark navy shirt, beside one pretraining arrow branching into text, image, and audio; quietly versatile, not photoreal.
+      brief: Understated 8-bit editorial portrait; a researcher with no beard, in rectangular glasses and a dark navy shirt, with a gentle reserved smile, beside one pretraining arrow branching into text, image, and audio; quietly versatile, not photoreal.
       altText: Pixel-art portrait of Alec Broadford beside one pretraining arrow branching into text, image, and audio.
     sources:
       - https://openai.com/index/unsupervised-sentiment-neuron/

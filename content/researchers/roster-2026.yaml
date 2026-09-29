@@ -7,7 +7,7 @@ status: draft
 researchers:
   - id: researcher.lucas-kaiser
     version: 1
-    displayName: Lucas Kaiser
+    displayName: Lucas Keysel
     inspirationName: Łukasz Kaiser
     inspirationSummary: Transformer and Tensor2Tensor co-creator whose work helped turn attention-based sequence models into the general-purpose architecture behind modern language and multimodal systems.
     epithet: The Attention Engineer
@@ -24,7 +24,7 @@ researchers:
       multilingual language systems, repeatedly turning specialised problems into reusable
       architectures. Tensor2Tensor itself paired a research library with a catalogue of datasets,
       making comparison and replication part of the engineering rather than an afterthought. His
-      research combines mathematical competition instincts, practical systems engineering, and a
+      research combines a mathematical logician's instincts, practical systems engineering, and a
       preference for ideas simple enough to become infrastructure. The lab should be warned that
       once Łukasz removes an unnecessary component, an entire field may spend the next five years
       naming increasingly elaborate versions of what remains.
@@ -67,8 +67,8 @@ researchers:
       - An attention head acquired a fashionable name, and Lucas quietly labelled it head 17 in the spreadsheet.
     portrait:
       assetId: portrait.researcher.lucas-kaiser
-      brief: Composed 8-bit editorial portrait; light-skinned Polish man with a high receding hairline, very short dark-brown hair, no glasses, and a clean-shaven face, beside an attention map replacing a recurrent sequence diagram; precise and understated, not photoreal.
-      altText: Pixel-art portrait of Lucas Kaiser, a clean-shaven man with very short dark hair and a high receding hairline, beside a transformer attention map.
+      brief: Composed 8-bit editorial portrait; a researcher with no glasses, in a dark crew-neck sweater, beside an orange attention map replacing a recurrent sequence diagram; precise and understated, not photoreal.
+      altText: Pixel-art portrait of Lucas Keysel beside a transformer attention map.
     sources:
       - https://arxiv.org/abs/1706.03762
       - https://github.com/tensorflow/tensor2tensor
@@ -78,7 +78,7 @@ researchers:
 
   - id: researcher.aaron-van-den-oord
     version: 1
-    displayName: Aaron van den Oord
+    displayName: Aaron van den Hoord
     inspirationName: Aäron van den Oord
     inspirationSummary: Google DeepMind research scientist and generative-model pioneer whose work on PixelRNN, PixelCNN, WaveNet, VQ-VAE, and contrastive predictive coding reshaped how machines generate and represent images, speech, and other signals.
     epithet: The Generative Signal Architect
@@ -137,8 +137,8 @@ researchers:
       - Aaron compressed a difficult signal into a representation the next model could finally afford to understand.
     portrait:
       assetId: portrait.researcher.aaron-van-den-oord
-      brief: Warm 8-bit editorial portrait; light-skinned Belgian man with thick short swept dark-brown hair, a neatly trimmed short dark-brown beard and moustache, no glasses, and a calm friendly expression, beside an audio waveform resolving into a discrete codebook and a grid of generated pixels; thoughtful and technically playful, not photoreal.
-      altText: Pixel-art portrait of Aaron van den Oord, with swept dark-brown hair and a short dark-brown beard, beside a waveform resolving into discrete codes and generated pixels.
+      brief: Warm 8-bit editorial portrait; a researcher with a short beard and moustache and no glasses, in a charcoal jumper, with a calm friendly expression, beside an audio waveform resolving into a discrete codebook and a grid of generated pixels; thoughtful and technically playful, not photoreal.
+      altText: Pixel-art portrait of Aaron van den Hoord beside a waveform resolving into discrete codes and generated pixels.
     sources:
       - https://avdnoord.github.io/homepage/
       - https://deepmind.google/research/wavenet/
@@ -212,8 +212,8 @@ researchers:
       - A correlation survived the meeting, but only after being clearly labelled as one.
     portrait:
       assetId: portrait.researcher.judea-perle
-      brief: Distinguished 8-bit editorial portrait; elderly light-skinned man with short grey hair, a full short grey beard and moustache, and dark rectangular glasses, beside a causal graph whose arrows lead from observation to intervention to counterfactual; warm, exacting, and unmistakably scholarly, not photoreal.
-      altText: Pixel-art portrait of Judea Perle, an elderly man with short grey hair, a grey beard, and dark glasses, beside a causal diagram.
+      brief: Distinguished 8-bit editorial portrait; a professor with a short beard, in dark rectangular glasses and a tweed jacket, beside a causal graph whose arrows lead from observation to intervention to counterfactual; warm, exacting, and unmistakably scholarly, not photoreal.
+      altText: Pixel-art portrait of Judea Perle in dark glasses beside a causal diagram.
     sources:
       - https://samueli.ucla.edu/people/judea-pearl/
       - https://amturing.acm.org/award_winners/pearl_2658896.cfm
@@ -225,7 +225,7 @@ researchers:
     version: 1
     displayName: Timothy Lillicroft
     inspirationName: Timothy Lillicrap
-    inspirationSummary: Google DeepMind research director and reinforcement-learning scientist whose work on continuous control, actor-critic agents, planning, and neuroscience connects capable agents to the mechanisms that produce them.
+    inspirationSummary: Google DeepMind reinforcement-learning scientist whose work on continuous control, actor-critic agents, planning, and neuroscience connects capable agents to the mechanisms that produce them.
     epithet: The Continuous Controller
     role: Reinforcement learning, continuous control, planning, and agent neuroscience
     rosterCardSummary: A reinforcement-learning researcher who taught agents to control continuous actions, then asked whether the brain had been quietly running a better experiment all along.
@@ -284,8 +284,8 @@ researchers:
       - The agent planned through an unfamiliar game; Timothy immediately asked for a less game-like world.
     portrait:
       assetId: portrait.researcher.timothy-lillicroft
-      brief: Focused 8-bit editorial portrait; light-skinned man with long dark hair tied back, a dark moustache and short goatee, no glasses, and a black shirt, beside a continuous-control trajectory curling through a game and robotics workspace; thoughtful and distinctly masculine, not photoreal.
-      altText: Pixel-art portrait of Timothy Lillicroft, a man with tied-back dark hair, a moustache, and a short goatee, beside a continuous-control trajectory.
+      brief: Focused 8-bit editorial portrait; a researcher with a moustache and short goatee and no glasses, in a black shirt, beside a continuous-control trajectory curling through a game and robotics workspace; thoughtful and exploratory, not photoreal.
+      altText: Pixel-art portrait of Timothy Lillicroft beside a continuous-control trajectory.
     sources:
       - https://contrastiveconvergence.net/
       - https://events.stanford.edu/event/mbct-seminar-timothy-lillicrap-talk-title-tba
@@ -355,8 +355,8 @@ researchers:
       - The revised perception stack now works in bad lighting, which has reduced the prestige of several demos.
     portrait:
       assetId: portrait.researcher.trevor-darnell
-      brief: Confident 8-bit editorial portrait; light-skinned man with thick short-to-medium dark brown hair greying at the temples, no glasses, and a clean-shaven face, beside multiple cameras viewing one object across changing domains; broad, practical, and professorial, not photoreal.
-      altText: Pixel-art portrait of Trevor Darnell, a clean-shaven man with thick dark hair greying at the temples, beside a cross-domain computer-vision display.
+      brief: Confident 8-bit editorial portrait; a professor with no glasses, in an open-collared shirt and blazer, beside multiple cameras viewing one object across changing domains; broad, practical, and professorial, not photoreal.
+      altText: Pixel-art portrait of Trevor Darnell beside a cross-domain computer-vision display.
     sources:
       - https://www2.eecs.berkeley.edu/Faculty/Homepages/darrell.html
       - https://bair.berkeley.edu/
@@ -368,7 +368,7 @@ researchers:
     version: 1
     displayName: Rob Fergan
     inspirationName: Rob Fergus
-    inspirationSummary: NYU computer-vision professor and pioneering deep-learning researcher whose work spans visual recognition, unsupervised representation learning, computational photography, and adversarial examples.
+    inspirationSummary: NYU computer-vision professor, FAIR co-founder and, since 2025, head of Meta's FAIR, whose work spans visual recognition, unsupervised representation learning, computational photography, and adversarial examples.
     epithet: The Feature Detective
     role: Visual representation learning, recognition, and adversarial vision
     rosterCardSummary: A visual-learning pioneer who has spent years asking neural networks what they see, then checking whether one carefully placed pixel changes the testimony.
@@ -378,15 +378,16 @@ researchers:
       recognition, unsupervised and self-supervised learning, computational photography,
       generative models, and the analysis of what deep networks learn. He contributed to the early
       deep-learning revival in vision and later helped expose the surprising fragility of neural
-      networks through work on adversarial examples. He was also a founding research leader at
-      Facebook AI Research, connecting academic vision research to large-scale machine-learning
-      systems. Earlier work on object categories, scene understanding, and computational
-      photography helped replace hand-designed visual pipelines with learned ones while retaining
-      a scientist's interest in what each stage represents. His students and collaborators have
-      carried that combination of strong models and diagnostic curiosity across modern vision.
-      Across these projects, the consistent habit is to inspect internal features rather
-      than treating accuracy as a sufficient explanation. Rob will admire a model's perception
-      right up to the moment a small perturbation persuades it that the fire engine is a toaster.
+      networks through work on adversarial examples. He co-founded Facebook AI Research with Yann
+      LeCun, later spent five years as a research director at Google DeepMind, and returned to Meta
+      in 2025 to lead FAIR. Earlier work on object categories, scene understanding, and
+      computational photography helped replace hand-designed visual pipelines with learned ones
+      while retaining a scientist's interest in what each stage represents. His students and
+      collaborators have carried that combination of strong models and diagnostic curiosity across
+      modern vision. Across these projects, the consistent habit is to inspect internal features
+      rather than treating accuracy as a sufficient explanation. Rob will admire a model's
+      perception right up to the moment a small perturbation persuades it that the fire engine is a
+      toaster.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.38 }
     contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 4, optimisationScaling: 2, dataRepresentation: 5, reinforcementAgency: 0, multimodality: 5, reasoningTools: 1, roboticsEmbodiment: 1, scientificAi: 1, alignmentControl: 1, interpretabilityEvals: 4, securityContainment: 1, training: 3, product: 3, management: 4, politics: 1 }
@@ -426,8 +427,8 @@ researchers:
       - The new representation learned objects rather than backgrounds, an achievement celebrated by changing every background.
     portrait:
       assetId: portrait.researcher.rob-fergan
-      brief: Attentive 8-bit editorial portrait; light-skinned man with short wavy dark-brown hair, light stubble forming a very short beard, no glasses, and blue eyes, beside a feature visualisation disturbed by one adversarial pixel; curious and analytical, not photoreal.
-      altText: Pixel-art portrait of Rob Fergan, a man with short wavy dark hair and light stubble, beside an adversarial feature visualisation.
+      brief: Attentive 8-bit editorial portrait; a researcher with a very short beard and no glasses, in a navy crew-neck, beside a blue feature visualisation disturbed by one adversarial pixel; curious and analytical, not photoreal.
+      altText: Pixel-art portrait of Rob Fergan beside an adversarial feature visualisation.
     sources:
       - https://cims.nyu.edu/people/profiles/FERGUS_Rob.html
       - https://cs.nyu.edu/~fergus/pmwiki/pmwiki.php
@@ -449,15 +450,16 @@ researchers:
       large-scale optimisation, and representation learning. His work helped revive deep generative
       modelling through deep belief networks and later advanced topic models, collaborative
       filtering, multimodal learning, and neural architectures for structured data. He has led
-      research in both academia and industry, including serving as Apple’s director of AI research,
-      while continuing to develop methods that discover useful latent structure in very large
-      datasets. The common thread is disciplined combination: neural networks where flexible
-      function approximation helps, probabilistic structure where uncertainty matters, and enough
-      optimisation to make the whole arrangement run. He completed his doctorate at the University
-      of Toronto during the resurgence of deep learning and later joined Geoffrey Hinton on work
-      showing how layered generative models could learn useful structure without extensive labels.
-      That foundation informs later research across language, vision, recommendation, and science:
-      the representation should expose structure rather than merely absorb scale. Ruslan regards a latent space without a map
+      research in both academia and industry, including serving as Apple’s director of AI research
+      and later as a vice president of research at Meta, while continuing to develop methods that
+      discover useful latent structure in very large datasets. The common thread is disciplined
+      combination: neural networks where flexible function approximation helps, probabilistic
+      structure where uncertainty matters, and enough optimisation to make the whole arrangement
+      run. He completed his doctorate with Geoffrey Hinton at the University of Toronto during the
+      resurgence of deep learning, showing how layered generative models could learn useful
+      structure without extensive labels. That foundation informs later research across language,
+      vision, recommendation, and science: the representation should expose structure rather than
+      merely absorb scale. Ruslan regards a latent space without a map
       as less a representation than an expensive rumour.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.34 }
     contract: { band: major, baseSalaryPerCycle: 0.75, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
@@ -498,8 +500,8 @@ researchers:
       - The representation team now has a map, a validation set, and fewer opportunities to call a cluster a discovery.
     portrait:
       assetId: portrait.researcher.ruslan-salakhudinov
-      brief: Calm 8-bit editorial portrait; light-skinned man with short neatly swept dark-brown hair greying slightly at the temples, no glasses, and a clean-shaven face, beside a probabilistic graphical model unfolding into a mapped latent space; composed and systematic, not photoreal.
-      altText: Pixel-art portrait of Ruslan Salakhudinov, a clean-shaven man with short dark hair greying at the temples, beside a mapped latent space.
+      brief: Calm 8-bit editorial portrait; a professor with no glasses, in a grey quarter-zip, beside a probabilistic graphical model unfolding into a mapped latent space; composed and systematic, not photoreal.
+      altText: Pixel-art portrait of Ruslan Salakhudinov beside a mapped latent space.
     sources:
       - https://www.cs.cmu.edu/~rsalakhu/
       - https://www.cs.cmu.edu/~rsalakhu/bio.html
@@ -569,8 +571,8 @@ researchers:
       - A fusion anecdote entered the meeting; unlike most fusion timelines, it led to a result before lunch.
     portrait:
       assetId: portrait.researcher.christopher-bishopp
-      brief: Distinguished 8-bit editorial portrait; light-skinned bald man with very short grey hair at the sides, blue rectangular glasses, and a clean-shaven face, beside a probabilistic curve resolving into molecules and a fusion plasma; precise, approachable, and scientific, not photoreal.
-      altText: Pixel-art portrait of Christopher Bishopp, a bald clean-shaven man with blue rectangular glasses, beside probabilistic scientific models.
+      brief: Distinguished 8-bit editorial portrait; a scientist in blue rectangular glasses and a crisp shirt, beside a probabilistic curve resolving into molecules and a fusion plasma; precise, approachable, and scientific, not photoreal.
+      altText: Pixel-art portrait of Christopher Bishopp in blue rectangular glasses beside probabilistic scientific models.
     sources:
       - https://www.microsoft.com/en-us/research/people/cmbishop/
       - https://www.microsoft.com/en-us/research/lab/microsoft-research-ai4science/
@@ -581,7 +583,7 @@ researchers:
   - id: researcher.tomas-mikoloff
     version: 1
     displayName: Tomas Mikoloff
-    inspirationName: Tomas Mikolov
+    inspirationName: Tomáš Mikolov
     inspirationSummary: Neural-language-model and word2vec pioneer whose efficient representation-learning methods made linguistic relationships visible as geometry and shaped modern natural-language processing.
     epithet: The Vector Linguist
     role: Language modelling, representation learning, and efficient foundational AI
@@ -596,10 +598,12 @@ researchers:
       already shown that comparatively simple neural systems could learn strong statistical
       structure from text at practical scale. That work helped move language modelling away from
       manually assembled features and toward learned distributed representations well before the
-      current generation of giant models. He later worked at Microsoft and Facebook AI Research on language modelling,
+      current generation of giant models. After a Microsoft Research internship during his doctorate
+      and his years at Google, he worked at Facebook AI Research on language modelling,
       representation learning, and systems capable of learning with less supervision. At the Czech
       Institute of Informatics, Robotics and Cybernetics he leads foundational-AI research focused
-      on more autonomous and continually learning systems. Tomas's enduring preference is for
+      on more autonomous and continually learning systems. In 2025 he co-founded BottleCap AI, a
+      Prague company building efficient foundation models. Tomas's enduring preference is for
       methods simple enough to scale and efficient enough that the interesting structure appears
       before the compute budget files a complaint.
     availability: { wave: foundation, earliestYear: 2013, poolWeight: 0.44 }
@@ -641,8 +645,8 @@ researchers:
       - Royalty was removed from the vector-arithmetic demo, and the underlying result remained impressive.
     portrait:
       assetId: portrait.researcher.tomas-mikoloff
-      brief: Thoughtful 8-bit editorial portrait; light-skinned Czech man with short slightly wavy brown hair, no glasses, and a clean-shaven face, beside a word-vector space connecting linguistic analogies; practical and quietly amused, not photoreal.
-      altText: Pixel-art portrait of Tomas Mikoloff, a clean-shaven man with short wavy brown hair, beside a word-vector space.
+      brief: Thoughtful 8-bit editorial portrait; a researcher with no glasses, in a simple button-down shirt, beside a word-vector space connecting linguistic analogies; practical and quietly amused, not photoreal.
+      altText: Pixel-art portrait of Tomas Mikoloff beside a word-vector space.
     sources:
       - https://www.ciirc.cvut.cz/cs/tomas-mikolov-posiluje-vedecky-tym-ciirc-cvut-vede-vyzkumnou-skupinu-zakladniho-vyzkumu-v-ai/
       - https://ellis.ciirc.cvut.cz/foundational-ai/
@@ -710,8 +714,8 @@ researchers:
       - The vision team now asks what happened, not merely what appeared in one carefully selected image.
     portrait:
       assetId: portrait.researcher.cordelia-schmidt
-      brief: Warm 8-bit editorial portrait; light-skinned woman with shoulder-length wavy light-brown hair visibly greying through the front and sides, no glasses, and a broad friendly smile, beside a video strip tracking one action across viewpoints; confident and distinctly feminine, not photoreal.
-      altText: Pixel-art portrait of Cordelia Schmidt, a woman with shoulder-length wavy greying light-brown hair, beside a cross-viewpoint video-understanding display.
+      brief: Warm 8-bit editorial portrait; a researcher with no glasses, in a light scarf and cardigan, with a broad friendly smile, beside a video strip tracking one action across viewpoints; confident and generous, not photoreal.
+      altText: Pixel-art portrait of Cordelia Schmidt beside a cross-viewpoint video-understanding display.
     sources:
       - https://cordeliaschmid.github.io/
       - https://www.inria.fr/fr/cordelia-schmid-vision-ordinateur-prix-scientifique-korber

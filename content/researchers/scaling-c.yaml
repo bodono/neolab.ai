@@ -67,7 +67,7 @@ researchers:
       - The centre's open-source evaluation code got a pull request from a lab it had, that same week, mildly embarrassed.
     portrait:
       assetId: portrait.researcher.percy-liange
-      brief: Precise 8-bit editorial portrait; East Asian man with neatly combed short black hair and a calm, thorough expression, beside a multi-metric evaluation dashboard with several bars, not just one; rigorous and independent, not photoreal.
+      brief: Precise 8-bit editorial portrait; a professor in a neat button-down with a calm, thorough expression, beside a multi-metric evaluation dashboard with several bars, not just one; rigorous and independent, not photoreal.
       altText: Pixel-art portrait of Percy Liange beside a multi-metric evaluation dashboard with several distinct bars.
     sources:
       - https://hai.stanford.edu/people/percy-liang
@@ -133,11 +133,11 @@ researchers:
       - A multilingual pretraining run transferred better than expected to a language it had barely seen.
       - The Allen School lecture hall filled again, and several of this year's students will likely lead labs of their own.
       - Luke's dual academia-industry role meant a research question got answered from both directions at once.
-      - A presidency of the field's computational linguistics association came and went; the teaching schedule did not change.
+      - Election to lead the field’s computational linguistics association arrived; the teaching schedule did not change.
       - The semantic representation evaluation caught a meaning error the accuracy benchmark had confidently overlooked.
     portrait:
       assetId: portrait.researcher.luke-zettlemeyer
-      brief: Scholarly 8-bit editorial portrait; white man with shoulder-length grey hair, glasses and a full short beard, beside a sentence resolving into a structured semantic parse tree; precise and dual-affiliated, not photoreal.
+      brief: Scholarly 8-bit editorial portrait; a professor with a short beard, in glasses and a casual jacket, beside a sentence resolving into a structured semantic parse tree; precise and generous, not photoreal.
       altText: Pixel-art portrait of Luke Zettlemeyer beside a sentence resolving into a structured semantic parse tree.
     sources:
       - https://homes.cs.washington.edu/~lsz/
@@ -206,7 +206,7 @@ researchers:
       - A negotiation-game agent built on Mike's architecture kept its stated strategic plan honest under real human pressure.
     portrait:
       assetId: portrait.researcher.mike-lewiston
-      brief: Focused 8-bit editorial portrait; white man with short dark-brown hair and a calm, methodical expression, beside a corrupted sentence being reconstructed token by token; flexible and unifying, not photoreal.
+      brief: Focused 8-bit editorial portrait; a researcher in a plain grey sweater with a calm, methodical expression, beside a corrupted sentence being reconstructed token by token; flexible and unifying, not photoreal.
       altText: Pixel-art portrait of Mike Lewiston beside a corrupted sentence being reconstructed token by token.
     sources:
       - https://ai.meta.com/people/209431298931133/mike-lewis/
@@ -225,17 +225,18 @@ researchers:
     rosterCardSummary: GPT-3's lead author and Anthropic's chief compute officer, for whom a scaling law is only as persuasive as the training system underneath it.
     biography: >-
       Tom Brown helped turn language-model scaling from a suggestive curve into a consequential
-      engineering result. At OpenAI he led the work behind GPT-3 and was lead author of "Language
-      Models are Few-Shot Learners." The paper trained a 175-billion-parameter autoregressive model
-      and showed that many tasks could be specified through text and demonstrations without
-      gradient updates. Brown also co-authored OpenAI's neural scaling-laws work, which measured
-      predictable relationships among loss, model size, data, and training compute. He later
-      co-founded Anthropic, a public-benefit AI company, and became its chief compute officer,
-      responsible for the infrastructure beneath its model programme. His contribution is not
-      simply enthusiasm for bigger machines; it is the discipline required to make a run stable,
-      measurable, and worth believing. Tom treats compute as apparatus rather
-      than scenery. If a scaling claim arrives without instrumentation, reproducibility, and an
-      honest account of the run, he is inclined to regard it as an extremely expensive anecdote.
+      engineering result. At OpenAI he helped build the large-scale training infrastructure behind
+      GPT-3 and was first author of "Language Models are Few-Shot Learners." The paper trained a
+      175-billion-parameter autoregressive model and showed that many tasks could be specified
+      through text and demonstrations without gradient updates. Brown also co-authored OpenAI's
+      neural scaling-laws work, which measured predictable relationships among loss, model size,
+      data, and training compute. He later co-founded Anthropic, a public-benefit AI company, and
+      became its chief compute officer, responsible for the infrastructure beneath its model
+      programme. His contribution is not simply enthusiasm for bigger machines; it is the discipline
+      required to make a run stable, measurable, and worth believing. Tom treats compute as
+      apparatus rather than scenery. If a scaling claim arrives without instrumentation,
+      reproducibility, and an honest account of the run, he is inclined to regard it as an extremely
+      expensive anecdote.
     availability: { wave: scaling, earliestYear: 2020, poolWeight: 0.45 }
     contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 1, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 2, interpretabilityEvals: 1, securityContainment: 1, training: 5, product: 2, management: 4, politics: 3 }
@@ -275,7 +276,7 @@ researchers:
       - A training run finished ahead of schedule, and Tomas's team treated that as a scheduling anomaly worth investigating, not just a win.
     portrait:
       assetId: portrait.researcher.tomas-brown
-      brief: Grounded 8-bit editorial portrait; white man with short brown hair and a trimmed beard, beside a data centre floor diagram with a compute accounting ledger; infrastructural and precise, not photoreal.
+      brief: Grounded 8-bit editorial portrait; an engineer with a trimmed beard, in a flannel overshirt, beside a data centre floor diagram with a compute accounting ledger; infrastructural and precise, not photoreal.
       altText: Pixel-art portrait of Tomas Brown beside a data centre floor diagram with a compute accounting ledger.
     sources:
       - https://arxiv.org/abs/2005.14165
@@ -287,7 +288,7 @@ researchers:
 
   - id: researcher.melany-mitchell
     version: 1
-    displayName: Melany Mitchell
+    displayName: Melany A. Matchell
     inspirationName: Melanie Mitchell
     inspirationSummary: Santa Fe Institute complexity scientist and author whose work on analogy and conceptual abstraction asks what machine understanding amounts to beyond benchmark performance.
     epithet: The Analogy Architect
@@ -345,8 +346,8 @@ researchers:
       - Forty years into this question, Melany still finds a new way a benchmark number fails to answer it.
     portrait:
       assetId: portrait.researcher.melany-mitchell
-      brief: Thoughtful 8-bit editorial portrait; white woman with short dark hair, glasses and a calm, sceptical expression, beside two analogous situations mapped onto each other with a question mark between them; measured and communicative, not photoreal.
-      altText: Pixel-art portrait of Melany Mitchell beside two analogous situations mapped onto each other with a question mark.
+      brief: Thoughtful 8-bit editorial portrait; a scientist in glasses and a charcoal cardigan with a calm, sceptical expression, beside two analogous situations mapped onto each other with a violet question mark between them; measured and communicative, not photoreal.
+      altText: Pixel-art portrait of Melany A. Matchell beside two analogous situations mapped onto each other with a question mark.
     sources:
       - https://www.santafe.edu/people/profile/melanie-mitchell
       - https://melaniemitchell.me/
@@ -413,7 +414,7 @@ researchers:
       - A least-to-most decomposition turned an intractable-looking benchmark question into four easy ones in sequence.
     portrait:
       assetId: portrait.researcher.danny-zhou
-      brief: Focused 8-bit editorial portrait; East Asian man with short black hair and a sharp, methodical expression, beside a hard problem decomposing into a chain of simpler sub-problems; deliberate and elicitation-minded, not photoreal.
+      brief: Focused 8-bit editorial portrait; a research leader in a dark polo with a sharp, methodical expression, beside a hard problem decomposing into a chain of simpler sub-problems; deliberate and elicitation-minded, not photoreal.
       altText: Pixel-art portrait of Danny Zhou beside a hard problem decomposing into a chain of simpler sub-problems.
     sources:
       - https://dennyzhou.github.io/
@@ -425,7 +426,7 @@ researchers:
 
   - id: researcher.jayson-wei
     version: 1
-    displayName: Jayson Wei
+    displayName: Jayson Weistep
     inspirationName: Jason Wei
     inspirationSummary: Chain-of-thought and emergent-abilities co-author who has pursued reasoning and agents at Google, OpenAI, and Meta Superintelligence Labs.
     epithet: The Emergence Cataloguer
@@ -433,13 +434,13 @@ researchers:
     rosterCardSummary: A chain-of-thought researcher who charts what scale appears to unlock—and insists that a surprise capability still deserves an experiment.
     biography: >-
       Jason Wei helped give language models a visible line of reasoning, then studied the moments
-      when scaling appears to produce something qualitatively new. At Google Brain he co-authored
-      chain-of-thought prompting, showing that worked intermediate examples can substantially
-      improve performance on complex reasoning tasks. He also led work cataloguing emergent
-      abilities: capabilities whose measured performance stays near chance before rising sharply
-      at larger scales, making the shape of the scaling curve a research question in its own right.
-      His work also includes instruction tuning for generalisation to unseen tasks. Wei later moved
-      to OpenAI, where his personal record describes work on reasoning and agents from 2023 to
+      when scaling appears to produce something qualitatively new. At Google Brain he was first
+      author of the chain-of-thought prompting paper, showing that worked intermediate examples can
+      substantially improve performance on complex reasoning tasks. He also led work cataloguing
+      emergent abilities: capabilities whose measured performance stays near chance before rising
+      sharply at larger scales, making the shape of the scaling curve a research question in its own
+      right. His work also includes instruction tuning for generalisation to unseen tasks. Wei later
+      moved to OpenAI, where his personal record describes work on reasoning and agents from 2023 to
       2025, before joining Meta Superintelligence Labs. Across those laboratories, his subject has
       remained how models acquire, reveal, and apply general reasoning. Jason does not use
       "emergent" as permission to stop measuring. A surprising capability earns a cleaner plot,
@@ -474,18 +475,18 @@ researchers:
     eventReactions:
       - { triggerTag: capability-surprise, line: "Was this smooth or emergent with scale? The honest answer changes how much warning the next surprise gives us." }
       - { triggerTag: reasoning-benchmark-record, line: "Chain-of-thought prompting is not a trick. Treat it as a real capability-elicitation method and study it like one." }
-      - { triggerTag: talent-poaching, line: "I have worked at three of the field's biggest labs already. The reasoning question looked the same from each one." }
+      - { triggerTag: talent-poaching, line: "The reasoning question is the same wherever the whiteboard is. Let us make sure the evidence travels with it." }
     feedLines:
       - Jayson's chain-of-thought technique elicited a reasoning capability the base model had, technically, always had.
       - A capability jump matched the emergent pattern from his earlier survey almost exactly, to the team's mild unease.
-      - Jayson moved labs again, and the reasoning research question he was chasing, notably, moved with him intact.
+      - Jayson's reasoning evaluations transferred cleanly to a new model family, which he treated as the real result.
       - The instruction-tuned model generalised to a task family nobody on the team had explicitly trained it on.
       - Jayson's scaling-curve characterisation turned an exciting anecdote into an actual, checkable claim.
       - A survey he co-authored years ago is still the first citation in this week's internal capability memo.
     portrait:
       assetId: portrait.researcher.jayson-wei
-      brief: Alert 8-bit editorial portrait; young East Asian man with short black hair and glasses, beside a capability curve with a sudden jump highlighted at one scale threshold; observant and cross-lab, not photoreal.
-      altText: Pixel-art portrait of Jayson Wei beside a capability curve with a sudden jump highlighted at one scale threshold.
+      brief: Alert 8-bit editorial portrait; a researcher in glasses and a zip-up jacket, beside a capability curve with a sudden jump highlighted at one scale threshold; observant and curious, not photoreal.
+      altText: Pixel-art portrait of Jayson Weistep beside a capability curve with a sudden jump highlighted at one scale threshold.
     sources:
       - https://www.jasonwei.net/
       - https://arxiv.org/abs/2201.11903
@@ -497,23 +498,22 @@ researchers:
     version: 1
     displayName: Prafull Dhariwal
     inspirationName: Prafulla Dhariwal
-    inspirationSummary: OpenAI generative-model researcher and three-time international Olympiad medallist whose work spans Glow, Jukebox, GPT-3, image generation, and GPT-4o.
+    inspirationSummary: OpenAI generative-model researcher and international Olympiad medallist whose work spans Glow, Jukebox, GPT-3, image generation, and GPT-4o.
     epithet: The Multi-Olympiad Generalist
     role: Generative modelling and multimodal frontier research leadership
-    rosterCardSummary: A three-Olympiad gold medallist who approaches text, images, and raw audio as one generative-modelling problem in several excellent disguises.
+    rosterCardSummary: An Olympiad medallist who approaches text, images, and raw audio as one generative-modelling problem in several excellent disguises.
     biography: >-
-      Prafulla Dhariwal brought range to generative modelling: gold medals from the
-      International Mathematical, Physics, and Astronomy Olympiads, followed by computer science
-      and mathematics at MIT. At OpenAI his work has crossed reinforcement learning and
-      generative media. He co-authored Glow, a flow-based model with latent-variable
-      inference; led Jukebox, which generated music with singing from compressed raw audio; and
-      contributed to GPT-3, image-generation research, and GPT-4o. OpenAI's GPT-4o credits place
-      him in multimodal leadership, joining text, vision, and audio within one model programme.
-      Dhariwal's breadth is more than a list of modalities. He looks to recognise
-      which modelling idea can travel: autoregressive prediction into music, scalable generative
-      learning into images, and shared representations across senses. Prafulla approaches text,
-      pictures, and sound as one problem wearing different formal clothes. Three Olympiad
-      disciplines were apparently sufficient rehearsal for refusing to choose only one medium.
+      Prafulla Dhariwal brought range to generative modelling: international Olympiad medals as a
+      student in Pune, followed by computer science and mathematics at MIT. At OpenAI his work has
+      crossed reinforcement learning and generative media. He co-authored Glow, a flow-based model
+      with latent-variable inference; led Jukebox, which generated music with singing from
+      compressed raw audio; and contributed to GPT-3, image-generation research, and GPT-4o.
+      OpenAI's GPT-4o credits place him in multimodal leadership, joining text, vision, and audio
+      within one model programme. Dhariwal's breadth is more than a list of modalities. He looks to
+      recognise which modelling idea can travel: autoregressive prediction into music, scalable
+      generative learning into images, and shared representations across senses. Prafulla approaches
+      text, pictures, and sound as one problem wearing different formal clothes. Olympiad training
+      was apparently sufficient rehearsal for refusing to choose only one medium.
     availability: { wave: scaling, earliestYear: 2019, poolWeight: 0.45 }
     contract: { band: competitive, baseSalaryPerCycle: 0.49, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 2, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 4, product: 3, management: 4, politics: 2 }
@@ -542,7 +542,7 @@ researchers:
     eventReactions:
       - { triggerTag: architecture-fad, line: "The technique that just solved this in images probably solves half of the same problem in audio. Check first." }
       - { triggerTag: benchmark-record, line: "A generation system unified across modalities is worth more than three separate ones that each score slightly higher alone." }
-      - { triggerTag: talent-poaching, line: "Three olympiad medals taught me the same lesson three times: check the adjacent field before assuming the problem is new." }
+      - { triggerTag: talent-poaching, line: "Olympiad problems taught me the same lesson again and again: check the adjacent field before assuming the problem is new." }
     feedLines:
       - Prafull borrowed a technique from the music-generation team and it quietly fixed a stubborn image-generation artefact.
       - The unified multimodal team shipped one architecture that improved language, image, and audio generation together.
@@ -552,7 +552,7 @@ researchers:
       - "A visiting researcher asked which modality Prafull actually specialises in. The honest answer remains: yes."
     portrait:
       assetId: portrait.researcher.prafull-dhariwal
-      brief: Bright, energetic 8-bit editorial portrait; young South Asian man with short black hair and a sharp, versatile expression, beside three modality icons, text, image, and sound, converging on one shared architecture; unifying and precise, not photoreal.
+      brief: Bright, energetic 8-bit editorial portrait; a researcher in a crisp dark t-shirt with a sharp, versatile expression, beside three modality icons, text, image, and sound, converging on one shared architecture; unifying and precise, not photoreal.
       altText: Pixel-art portrait of Prafull Dhariwal beside text, image, and sound icons converging on one shared architecture.
     sources:
       - https://prafulladhariwal.com/
@@ -626,7 +626,7 @@ researchers:
       - A physicist-and-music-theorist's instinct for structure caught an inconsistency in a supposedly simple decision rule.
     portrait:
       assetId: portrait.researcher.cynthia-rudan
-      brief: Precise, principled 8-bit editorial portrait; white woman with long brown hair and a calm, exacting expression, beside a fully legible decision rule diagram with every branch labelled; transparent and rigorous, not photoreal.
+      brief: Precise, principled 8-bit editorial portrait; a professor in a structured blazer with a calm, exacting expression, beside a fully legible decision rule diagram with every branch labelled; transparent and rigorous, not photoreal.
       altText: Pixel-art portrait of Cynthia Rudan beside a fully legible decision rule diagram with every branch labelled.
     sources:
       - https://users.cs.duke.edu/~cynthia/home.html
@@ -638,7 +638,7 @@ researchers:
     version: 1
     displayName: Oriol Vinyalls
     inspirationName: Oriol Vinyals
-    inspirationSummary: Google DeepMind principal scientist and Gemini co-technical lead whose work connects sequence-to-sequence learning, knowledge distillation, AlphaStar, and frontier multimodal models.
+    inspirationSummary: Google Brain and Google DeepMind research leader who served as a Gemini co-technical lead, and whose work connects sequence-to-sequence learning, knowledge distillation, AlphaStar, and frontier multimodal models.
     epithet: The Sequence Grandmaster
     role: Sequence modelling, game-playing agents, and frontier model research leadership
     rosterCardSummary: A sequence-to-sequence pioneer and AlphaStar lead who keeps finding new domains that become sequences when viewed from exactly the right angle.
@@ -650,13 +650,12 @@ researchers:
       contributions include knowledge distillation, image captioning, pointer networks, and
       TensorFlow. At Google DeepMind he led AlphaStar, whose league of agents combined imitation
       learning and reinforcement learning to reach Grandmaster level in the full game of StarCraft
-      II under human-like interface constraints. Vinyals is now a principal scientist and
-      deep-learning team lead at Google DeepMind, and Google identifies him as a co-technical lead
-      of Gemini. The path from sentences to imperfect-information strategy games to multimodal
-      models is broad, but coherent: represent the problem faithfully, learn its dependencies, and
-      scale the system that can act on them. Oriol's build order simply happens to begin with an
-      encoder, a decoder, and enough compute to reach the late game. He has repeatedly turned
-      methods from one domain into foundations for entirely different ones.
+      II under human-like interface constraints. He went on to lead deep-learning research at Google
+      DeepMind as a co-technical lead of Gemini. The path from sentences to imperfect-information
+      strategy games to multimodal models is broad, but coherent: represent the problem faithfully,
+      learn its dependencies, and scale the system that can act on them. Oriol's build order simply
+      happens to begin with an encoder, a decoder, and enough compute to reach the late game. He has
+      repeatedly turned methods from one domain into foundations for entirely different ones.
     availability: { wave: scaling, earliestYear: 2016, poolWeight: 0.50 }
     contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 5, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 4, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 5, product: 3, management: 4, politics: 2 }
@@ -696,7 +695,7 @@ researchers:
       - A citation counter somewhere rolled over another hundred thousand, unremarked upon by its subject.
     portrait:
       assetId: portrait.researcher.oriol-vinyalls
-      brief: Composed, quietly formidable 8-bit editorial portrait; Catalan man with short curly dark hair and dark-framed glasses beside a sequence of tokens flowing into a game board and a protein structure; versatile and central, not photoreal.
+      brief: Composed, quietly formidable 8-bit editorial portrait; a researcher in dark-framed glasses and a navy sweater beside a sequence of tokens flowing into a game board and a protein structure; versatile and central, not photoreal.
       altText: Pixel-art portrait of Oriol Vinyalls beside a token sequence flowing into a game board and a protein structure.
     sources:
       - https://research.google/people/oriolvinyals/
@@ -767,7 +766,7 @@ researchers:
       - The InterACT alumni network surfaced again; half the field's reward-learning researchers seem to have passed through it.
     portrait:
       assetId: portrait.researcher.anca-dragane
-      brief: Confident, warm 8-bit editorial portrait; Romanian-American woman with long black hair, beside a robot arm and a human hand mid hand-off with an uncertainty distribution over intentions; interactive and rigorous, not photoreal.
+      brief: Confident, warm 8-bit editorial portrait; a researcher in a dark blazer, beside a robot arm and a human hand mid hand-off with an uncertainty distribution over intentions; interactive and rigorous, not photoreal.
       altText: Pixel-art portrait of Anca Dragane beside a robot arm and human hand mid hand-off with an uncertainty distribution.
     sources:
       - https://people.eecs.berkeley.edu/~anca/
@@ -836,7 +835,7 @@ researchers:
       - The oversight scheme survived a red-team specifically instructed to fool the judge, which he called a start.
     portrait:
       assetId: portrait.researcher.geoffrey-irwing
-      brief: Measured 8-bit editorial portrait; white man with short brown hair, glasses and a judicial expression, beside two AI debaters arguing before a human judge's bench; institutional and rigorous, not photoreal.
+      brief: Measured 8-bit editorial portrait; a scientist in glasses and a dark suit jacket with a judicial expression, beside two AI debaters arguing before a human judge's bench; institutional and rigorous, not photoreal.
       altText: Pixel-art portrait of Geoffrey Irwing beside two AI debaters arguing before a human judge.
     sources:
       - https://www.aisi.gov.uk/blog/why-i-joined-aisi---geoffrey-irving
@@ -906,7 +905,7 @@ researchers:
       - David's students demonstrated an edit live, on stage, on the first attempt, to an audience of visible sceptics.
     portrait:
       assetId: portrait.researcher.david-baux
-      brief: Precise, hands-on 8-bit editorial portrait; white man with short grey hair and glasses beside an opened network diagram with one unit highlighted and a single fact being edited in place; surgical and curious, not photoreal.
+      brief: Precise, hands-on 8-bit editorial portrait; a professor in glasses and a rolled-sleeve shirt beside an opened network diagram with one unit highlighted and a single fact being edited in place; surgical and curious, not photoreal.
       altText: Pixel-art portrait of David Baux beside an opened network diagram with one unit highlighted for editing.
     sources:
       - https://baulab.info/
@@ -920,15 +919,15 @@ researchers:
     version: 1
     displayName: Jacob Steinhart
     inspirationName: Jacob Steinhardt
-    inspirationSummary: Berkeley statistician, Concrete Problems in AI Safety co-author, and Transluce founder who turns safety, forecasting, and model understanding into measurable public work.
+    inspirationSummary: Berkeley statistician, Concrete Problems in AI Safety co-author, and Transluce co-founder who turns safety, forecasting, and model understanding into measurable public work.
     epithet: The Forecast Calibrator
     role: ML safety, robustness, and open model-understanding infrastructure
     rosterCardSummary: "A Berkeley statistician who makes safety claims, capability forecasts, and model explanations submit to the same awkward ritual: write them down and score them later."
     biography: >-
       Jacob Steinhardt makes AI safety concrete enough to measure and public enough to challenge.
-      He is an associate professor of Statistics and EECS at UC Berkeley and founder and CEO of
-      Transluce, a nonprofit building open tools for understanding frontier AI systems. After a
-      Stanford doctorate with Percy Liang and a postdoc at OpenAI, Steinhardt co-authored
+      He is an associate professor of Statistics and EECS at UC Berkeley and co-founder and CEO of
+      Transluce, a nonprofit building open tools for understanding frontier AI systems. As a
+      Stanford PhD student of Percy Liang, Steinhardt co-authored
       "Concrete Problems in AI Safety" with Dario Amodei, Chris Olah, Paul Christiano, John
       Schulman, and Dan Mané. The paper organised accident risk around practical problems including
       reward hacking, scalable supervision, safe exploration, and distributional shift. His
@@ -978,7 +977,7 @@ researchers:
       - Jacob's measurement discipline turned a shouting match about emergent behaviour into a falsifiable bet.
     portrait:
       assetId: portrait.researcher.jacob-steinhart
-      brief: Analytical 8-bit editorial portrait; white man with short brown hair and a thoughtful expression beside a calibration curve and a scored forecast ledger; quantitative and principled, not photoreal.
+      brief: Analytical 8-bit editorial portrait; a statistician in a grey crew-neck with a thoughtful expression beside a calibration curve and a scored forecast ledger; quantitative and principled, not photoreal.
       altText: Pixel-art portrait of Jacob Steinhart beside a calibration curve and a scored forecast ledger.
     sources:
       - https://jsteinhardt.stat.berkeley.edu/

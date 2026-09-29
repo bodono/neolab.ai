@@ -65,7 +65,7 @@ researchers:
       - Karén stacked another small filter onto the diagram. Three downstream groups immediately found uses for it.
     portrait:
       assetId: portrait.researcher.karen-simonian
-      brief: Composed 8-bit editorial portrait; Armenian man with dark hair and a confident expression, beside a deep architecture diagram branching into several unrelated downstream applications; foundational and versatile, not photoreal.
+      brief: Composed 8-bit editorial portrait; a researcher in a dark overshirt with a confident expression, beside a deep architecture diagram branching into several unrelated downstream applications; foundational and versatile, not photoreal.
       altText: Pixel-art portrait of Karén Simonian beside a deep architecture diagram branching into several downstream applications.
     sources:
       - https://www.robots.ox.ac.uk/~vgg/research/very_deep/
@@ -81,14 +81,14 @@ researchers:
     version: 1
     displayName: Quoc V. Lee
     inspirationName: Quoc V. Le
-    inspirationSummary: Google researcher whose work spans large-scale unsupervised learning, sequence-to-sequence models, neural architecture search, and efficient AutoML.
+    inspirationSummary: Google Brain founding member and longtime Google researcher whose work spans large-scale unsupervised learning, sequence-to-sequence models, neural architecture search, and efficient AutoML.
     epithet: The Automated Architect
     role: Neural architecture search and large-scale unsupervised learning
-    rosterCardSummary: A Google researcher who helped teach machines to propose neural architectures, then worked to make the search cheaper and the resulting models stronger.
+    rosterCardSummary: A Google Brain veteran who helped teach machines to propose neural architectures, then worked to make the search cheaper and the resulting models stronger.
     biography: >-
       Quoc V. Le asks whether the architecture meeting can itself become a learning problem. Quoc
       V. Le completed his Stanford doctorate with Andrew Ng and joined Google Research, where his research
-      has covered large-scale unsupervised learning, sequence modelling, computer vision, and
+      covered large-scale unsupervised learning, sequence modelling, computer vision, and
       automated machine learning. With Ilya Sutskever and Oriol Vinyals, he co-authored
       sequence-to-sequence learning for neural translation. With Barret Zoph, he developed neural
       architecture search using reinforcement learning to generate candidate architectures; later
@@ -137,7 +137,7 @@ researchers:
       - The search space grew by one more dimension, and somewhere a GPU cluster's night got noticeably busier.
     portrait:
       assetId: portrait.researcher.quoc-v-lee
-      brief: Focused 8-bit editorial portrait; Vietnamese man with short dark hair and a calm, methodical expression, beside a neural architecture search tree branching into candidate designs; automated and prolific, not photoreal.
+      brief: Focused 8-bit editorial portrait; a researcher in a simple navy t-shirt with a calm, methodical expression, beside a neural architecture search tree branching into candidate designs; automated and prolific, not photoreal.
       altText: Pixel-art portrait of Quoc V. Lee beside a neural architecture search tree branching into candidate designs.
     sources:
       - https://research.google/people/quocle/
@@ -198,17 +198,17 @@ researchers:
     eventReactions:
       - { triggerTag: safety-budget-cut, line: "If evaluation is optional when the budget tightens, it was never part of the research plan. Put it back." }
       - { triggerTag: benchmark-record, line: "Has anyone outside this building reproduced it yet? Until then, treat the number as a rumour." }
-      - { triggerTag: employee-dismissal-dispute, line: "Document the decision, the process, and the appeal. Research culture is also an experimental system." }
+      - { triggerTag: failed-replication, line: "A failed replication is the evaluation working. Publish the protocol and let the next lab try." }
     feedLines:
       - Sammy asked whether the headline result had been independently reproduced, and the celebration paused briefly.
       - An open-source tool from years ago quietly kept an entire pipeline running without anyone noticing its age.
-      - A researcher raised a responsible-AI concern in a meeting, and Sammy made sure it stayed on the agenda.
+      - A researcher raised an evaluation concern in a meeting, and Sammy made sure it became a tracked experiment.
       - The evaluation protocol got one layer more rigorous, and one optimistic benchmark claim got one layer more honest.
       - Sammy opened the old tooling repository and found three modern pipelines still depending on it.
       - An editorial discussion ended with a clearer evaluation protocol and considerably fewer confident adjectives.
     portrait:
       assetId: portrait.researcher.sammy-benji
-      brief: Steady 8-bit editorial portrait; man with grey-flecked hair and a serious, principled expression, beside an evaluation checklist with one item circled twice; deliberate and unhurried, not photoreal.
+      brief: Steady 8-bit editorial portrait; a research leader in a navy sweater with a serious, principled expression, beside an evaluation checklist with one item circled twice; deliberate and unhurried, not photoreal.
       altText: Pixel-art portrait of Sammy Benji beside an evaluation checklist with one item circled twice.
     sources:
       - https://www.bengio.abracadoudou.com/
@@ -277,7 +277,7 @@ researchers:
       - A younger researcher asked why the model needed explicit memory at all. Alex showed them, patiently, what happens without it.
     portrait:
       assetId: portrait.researcher.alex-graven
-      brief: Quiet 8-bit editorial portrait; white man with short light-brown hair and a thoughtful expression, beside a neural network reading from and writing to an external memory tape; patient and architectural, not photoreal.
+      brief: Quiet 8-bit editorial portrait; a researcher in a plain dark shirt with a thoughtful expression, beside a neural network reading from and writing to an external memory tape; patient and architectural, not photoreal.
       altText: Pixel-art portrait of Alex Graven beside a neural network reading from and writing to an external memory tape.
     sources:
       - https://www.cs.toronto.edu/~graves/
@@ -298,15 +298,16 @@ researchers:
     biography: >-
       Wojciech Zaremba would rather make the simulation stranger before making the real robot
       busier. Wojciech Zaremba completed his doctorate at New York University with Rob Fergus and
-      became a founding member of OpenAI. His robotics research includes Dactyl, which trained a
-      dexterous robotic hand with reinforcement learning in simulation and transferred the policy
-      to physical hardware using domain randomisation. A later OpenAI project extended the method
-      to solving a Rubik's Cube with a one-handed robot, using progressively harder randomised
-      environments. His published work also spans recurrent networks and code-generation models.
-      His CV also records research at Google Brain and Facebook AI Research before OpenAI. Across
-      those projects, Zaremba widens the simulated variation, measures what survives the transfer,
-      and resists tuning the laboratory around one cooperative robot. If the virtual cube has not
-      changed colour, friction, and gravity several times, the real cube is not yet invited.
+      Yann LeCun and became a founding member of OpenAI. His robotics research includes Dactyl,
+      which trained a dexterous robotic hand with reinforcement learning in simulation and
+      transferred the policy to physical hardware using domain randomisation. A later OpenAI project
+      extended the method to solving a Rubik's Cube with a one-handed robot, using progressively
+      harder randomised environments. His published work also spans recurrent networks and
+      code-generation models. His CV also records research at Google Brain and Facebook AI Research
+      before OpenAI. Across those projects, Zaremba widens the simulated variation, measures what
+      survives the transfer, and resists tuning the laboratory around one cooperative robot. If the
+      virtual cube has not changed colour, friction, and gravity several times, the real cube is not
+      yet invited.
     availability: { wave: deep-learning, earliestYear: 2016, poolWeight: 0.50 }
     contract: { band: competitive, baseSalaryPerCycle: 0.54, baseSigningCash: 4, auraCost: 7, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 2, optimisationScaling: 2, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 3, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 2, management: 3, politics: 1 }
@@ -346,7 +347,7 @@ researchers:
       - A code-generation benchmark improved, and Wojciech treated it with the same rigour as the old robotics metrics.
     portrait:
       assetId: portrait.researcher.wojciech-zarembo
-      brief: Focused 8-bit editorial portrait; Polish man with a calm, precise expression, beside a robotic hand manipulating a small cube, with a simulation randomisation slider nearby; determined and exact, not photoreal.
+      brief: Focused 8-bit editorial portrait; a researcher in a zip-up fleece with a calm, precise expression, beside a robotic hand manipulating a small cube, with a simulation randomisation slider nearby; determined and exact, not photoreal.
       altText: Pixel-art portrait of Wojciech Zarembo beside a robotic hand manipulating a cube with a simulation randomisation slider.
     sources:
       - https://openai.com/index/introducing-openai/
@@ -373,7 +374,7 @@ researchers:
       Columbia and Oxford. His Oxford biography records work in Bayesian inference, optimisation,
       and deep learning, as well as co-founding Dark Blue Labs, which Google acquired before he
       joined DeepMind. He began his training at the University of the Witwatersrand in South
-      Africa. He later became a vice president at Microsoft AI. Across academic and industrial
+      Africa. He later served as a vice president at Microsoft AI. Across academic and industrial
       research, his work has connected probabilistic modelling and Bayesian optimisation with
       neural and generative systems. The practical lesson is direct: when evaluations cost serious
       compute, use the results to choose the next point rather than decorating a grid. Nando is
@@ -486,7 +487,7 @@ researchers:
       - The Stanford AI Laboratory's door is, as always, open to anyone with an actual linguistics question.
     portrait:
       assetId: portrait.researcher.christopher-mannering
-      brief: Warm, authoritative 8-bit editorial portrait; older man with grey hair and glasses, beside a parse tree overlapping a word-vector cloud; scholarly and generous, not photoreal.
+      brief: Warm, authoritative 8-bit editorial portrait; a professor in glasses and a tweed jacket, beside a parse tree overlapping a word-vector cloud; scholarly and generous, not photoreal.
       altText: Pixel-art portrait of Christopher Mannering beside a parse tree overlapping a word-vector embedding cloud.
     sources:
       - https://www-nlp.stanford.edu/~manning/
@@ -553,10 +554,10 @@ researchers:
       - The unpaired translation model found a mapping the team hadn't anticipated, and it turned out to be the useful one.
       - Alyosha scraped another few million internet images and, predictably, the model got noticeably better.
       - A student's small, carefully curated dataset lost, again, to Alyosha's enormous, messy one.
-      - The ACM Prize citation praises data-driven vision. Alyosha's actual comment was that the data did most of the work.
+      - The ACM Prize citation praises data-driven vision. Alyosha suggested adding the dataset to the acknowledgements.
     portrait:
       assetId: portrait.researcher.alyosha-efrossi
-      brief: Curious 8-bit editorial portrait; white man with short dark hair and a warm expression, beside a horse-to-zebra image translation pair; playful and data-obsessed, not photoreal.
+      brief: Curious 8-bit editorial portrait; a professor in a rumpled flannel shirt with a warm expression, beside a horse-to-zebra image translation pair; playful and data-obsessed, not photoreal.
       altText: Pixel-art portrait of Alyosha Efrossi beside a horse-to-zebra unpaired image translation pair.
     sources:
       - https://www2.eecs.berkeley.edu/Faculty/Homepages/efros.html
@@ -627,7 +628,7 @@ researchers:
       - The Toronto lab's whiteboard again filled with a 3D scene graph nobody outside the group could immediately parse.
     portrait:
       assetId: portrait.researcher.sanja-fiedler
-      brief: Sharp 8-bit editorial portrait; white woman with long blonde hair and a confident, precise expression, beside a 2D image resolving into a full 3D scene reconstruction; spatial and rigorous, not photoreal.
+      brief: Sharp 8-bit editorial portrait; a researcher in a structured black jacket with a confident, precise expression, beside a 2D image resolving into a full 3D scene reconstruction; spatial and rigorous, not photoreal.
       altText: Pixel-art portrait of Sanja Fiedler beside a 2D image resolving into a full 3D scene reconstruction.
     sources:
       - https://www.cs.utoronto.ca/~fidler/

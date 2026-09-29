@@ -63,7 +63,7 @@ researchers:
       - The unified backbone now handles a task nobody originally built it for, slightly to everyone's surprise.
     portrait:
       assetId: portrait.researcher.alexei-dosovsky
-      brief: Clean 8-bit editorial portrait; white man with very short sandy-brown hair and thin-framed glasses, beside an image cleanly divided into a patch grid feeding a single attention diagram; minimalist and precise, not photoreal.
+      brief: Clean 8-bit editorial portrait; a researcher in thin-framed glasses and a grey sweater, beside an image cleanly divided into a patch grid feeding a single attention diagram; minimalist and precise, not photoreal.
       altText: Pixel-art portrait of Alexei Dosovsky beside an image divided into a patch grid feeding an attention diagram.
     sources:
       - https://arxiv.org/abs/2010.11929
@@ -124,16 +124,16 @@ researchers:
       - The training curve stayed stable through the whole run, which the team has started to find suspicious.
       - A generated sample survived scrutiny that would have caught an adversarial artifact immediately.
       - Jonathan explained the forward noising process for the fourth time this week, patiently, once more.
-      - The latent-space version trained in a fraction of the compute, and Jonathan called this "expected."
+      - Classifier-free guidance sharpened the samples without a separate classifier, and Jonathan called this "expected."
       - A colleague asked if diffusion was slow. Jonathan asked if correct was slow.
     portrait:
       assetId: portrait.researcher.jonathan-hoe
-      brief: Calm 8-bit editorial portrait; East Asian man with short black hair, round glasses and a light moustache and goatee, beside an image resolving gradually out of noise across several panels; patient and methodical, not photoreal.
+      brief: Calm 8-bit editorial portrait; a researcher with a light moustache and goatee, in round glasses and a dark hoodie, beside an image resolving gradually out of noise across several panels; patient and methodical, not photoreal.
       altText: Pixel-art portrait of Jonathan Hoe beside an image gradually resolving out of noise across several panels.
     sources:
       - https://arxiv.org/abs/2006.11239
       - https://www.jonathanho.me/
-      - https://arxiv.org/abs/2105.05233
+      - https://arxiv.org/abs/2207.12598
     portrayal: { fictionalized: true, endorsementImplied: false }
     review: { biography: source-drafted, mechanics: gdd-locked, tone: draft, reviewedOn: 2026-07-21 }
 
@@ -147,12 +147,12 @@ researchers:
     rosterCardSummary: The physicist who fitted power laws to model size, data and compute, then co-founded a laboratory obliged to budget accordingly.
     biography: >-
       Jared Kaplan trained as a theoretical physicist and became a professor at Johns Hopkins
-      before applying the search for simple quantitative laws to neural networks. At OpenAI, he led
-      “Scaling Laws for Neural Language Models,” which found smooth power-law relationships between
-      language-model loss and model size, dataset size and training compute across several orders
-      of magnitude. Those equations gave frontier teams a practical way to forecast returns and
-      allocate a fixed compute budget for both research and deployment. Kaplan later co-founded
-      Anthropic and serves as its chief
+      before applying the search for simple quantitative laws to neural networks. At OpenAI, he
+      co-led, with Sam McCandlish, “Scaling Laws for Neural Language Models,” which found smooth
+      power-law relationships between language-model loss and model size, dataset size and training
+      compute across several orders of magnitude. Those equations gave frontier teams a practical
+      way to forecast returns and allocate a fixed compute budget for both research and deployment.
+      Kaplan later co-founded Anthropic and serves as its chief
       science officer. He helped pioneer Constitutional AI, which trains models against explicit
       written principles, and worked with Amanda Askell to establish the Claude Character project
       and shape Claude’s constitution. His career links capability forecasting and alignment rather
@@ -198,7 +198,7 @@ researchers:
       - "A scaling proposal was returned with one polite question: \"and the safety curve?\""
     portrait:
       assetId: portrait.researcher.jared-kapler
-      brief: Precise 8-bit editorial portrait; white man with short brown hair and rectangular glasses, beside a smooth power-law curve and a small written constitution scroll; quantitative and principled, not photoreal.
+      brief: Precise 8-bit editorial portrait; a physicist in rectangular glasses and a plain button-down, beside a smooth power-law curve and a small written constitution scroll; quantitative and principled, not photoreal.
       altText: Pixel-art portrait of Jared Kapler beside a smooth scaling-law curve and a small constitution scroll.
     sources:
       - https://www.hertzfoundation.org/people/jared-kaplan/
@@ -224,7 +224,8 @@ researchers:
       OpenAI, led the creation of ChatGPT and, from 2022 to 2024, co-led the post-training team that
       developed models for ChatGPT and the OpenAI API. That work joined policy optimisation with
       reward models and human feedback, making reinforcement learning a central part of
-      instruction-following systems. He later spent time on Anthropic’s Alignment Science team. The
+      instruction-following systems. He later spent several months on Anthropic’s Alignment Science
+      team before joining Thinking Machines Lab as chief scientist in 2025. The
       recurring engineering idea is disciplined movement: make an update large enough to learn,
       but not so large that yesterday’s useful policy disappears. PPO’s clipped step has enjoyed a
       remarkably unclipped career.
@@ -267,7 +268,7 @@ researchers:
       - A new alignment technique arrived for review. John asked, first, whether it was provably stable.
     portrait:
       assetId: portrait.researcher.john-schulmann
-      brief: Calm 8-bit editorial portrait; white man with short brown hair and a plain shirt, beside a policy-update diagram constrained inside a soft trust-region boundary; precise and unshowy, not photoreal.
+      brief: Calm 8-bit editorial portrait; a researcher in a plain shirt, beside a policy-update diagram constrained inside a soft trust-region boundary; precise and unshowy, not photoreal.
       altText: Pixel-art portrait of John Schulmann beside a policy-update diagram constrained within a trust-region boundary.
     sources:
       - https://arxiv.org/abs/1707.06347
@@ -334,7 +335,7 @@ researchers:
       - The same shared architecture cleared a benchmark nobody had specifically built it for.
     portrait:
       assetId: portrait.researcher.vladimir-mnich
-      brief: Focused 8-bit editorial portrait; white man with short dark hair, beside a retro game screen feeding directly into a compact convolutional network diagram; disciplined and unflashy, not photoreal.
+      brief: Focused 8-bit editorial portrait; a researcher in a dark crew-neck, beside a retro game screen feeding directly into a compact convolutional network diagram; disciplined and unflashy, not photoreal.
       altText: Pixel-art portrait of Vladimir Mnich beside a retro game screen feeding into a convolutional network diagram.
     sources:
       - https://doi.org/10.1038/nature14236
@@ -401,7 +402,7 @@ researchers:
       - The variance in the RL programme's output narrowed without anyone loosening the question it was answering.
     portrait:
       assetId: portrait.researcher.doina-precupe
-      brief: Composed 8-bit editorial portrait; white woman with shoulder-length dark hair and glasses and a warm, precise expression, beside a hierarchical options diagram feeding into a small health-application icon; rigorous and grounded, not photoreal.
+      brief: Composed 8-bit editorial portrait; a professor in glasses and a warm cardigan with a precise expression, beside a hierarchical options diagram feeding into a small health-application icon; rigorous and grounded, not photoreal.
       altText: Pixel-art portrait of Doina Precupe beside a hierarchical reinforcement-learning options diagram and a health icon.
     sources:
       - https://doinaprecup.github.io/
@@ -472,7 +473,7 @@ researchers:
       - Dawn's citation count rose again. She noted this only when asked directly, and only once.
     portrait:
       assetId: portrait.researcher.dawn-sung
-      brief: Sharp 8-bit editorial portrait; East Asian woman with long black hair and an alert, precise expression, beside a red-team dashboard with a partially breached and then resealed containment diagram; exacting and unshowy, not photoreal.
+      brief: Sharp 8-bit editorial portrait; a security researcher in a dark blazer with an alert, precise expression, beside a red-team dashboard with a partially breached and then resealed containment diagram; exacting and unshowy, not photoreal.
       altText: Pixel-art portrait of Dawn Sung beside a red-team dashboard with a resealed containment diagram.
     sources:
       - https://www.macfound.org/fellows/class-of-2010/dawn-song
@@ -542,7 +543,7 @@ researchers:
       - A conference keynote again made the case that steering and understanding are the same open problem.
     portrait:
       assetId: portrait.researcher.been-kimm
-      brief: Approachable 8-bit editorial portrait; pale East Asian woman with long straight black hair, glasses and a warm, clear expression, beside a concept-activation diagram connecting a plain-language label to a neural layer; clarifying and precise, not photoreal.
+      brief: Approachable 8-bit editorial portrait; a researcher in glasses and a light blazer with a warm, clear expression, beside a concept-activation diagram connecting a plain-language label to a neural layer; clarifying and precise, not photoreal.
       altText: Pixel-art portrait of Been Kimm beside a concept-activation diagram linking a plain-language label to a neural layer.
     sources:
       - https://research.google/people/106045/
@@ -612,7 +613,7 @@ researchers:
       - A demo failed live. Sergei logged it, smiled slightly, and called it "Tuesday's training data."
     portrait:
       assetId: portrait.researcher.sergei-levinsky
-      brief: Grounded 8-bit editorial portrait; white man with short hair and a practical jacket, beside a robot arm mid-grasp and a data stream feeding a learning curve; hands-on and convinced, not photoreal.
+      brief: Grounded 8-bit editorial portrait; a roboticist in a practical jacket, beside a robot arm mid-grasp and a data stream feeding a learning curve; hands-on and convinced, not photoreal.
       altText: Pixel-art portrait of Sergei Levinsky beside a robot arm mid-grasp and a data stream feeding a learning curve.
     sources:
       - https://www2.eecs.berkeley.edu/Faculty/Homepages/svlevine.html

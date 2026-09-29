@@ -132,11 +132,11 @@ researchers:
       - The open-source interpretability library got a pull request from a lab that had, months earlier, dismissed the approach.
       - A grokking progress measure from Neel's research flagged a phase change in training nobody had been watching for.
       - Neel declined to call a finding complete until the underlying algorithm could actually be named and demonstrated.
-      - A donation pledge from Neel's effective-altruism commitment quietly outpaced his own salary increase this year.
+      - A tutorial notebook from Neel's team got forked by three labs before the paper was even out.
       - The mechanistic interpretability team's whiteboard filled with named circuits, several with genuinely memorable names.
     portrait:
       assetId: portrait.researcher.neel-nandy
-      brief: Bright, methodical 8-bit editorial portrait; young man with an inquisitive expression, beside a neural network with one small circuit highlighted and explicitly labelled; precise and open, not photoreal.
+      brief: Bright, methodical 8-bit editorial portrait; a researcher in a plain t-shirt with an inquisitive expression, beside a neural network with one small circuit highlighted and explicitly labelled; precise and open, not photoreal.
       altText: Pixel-art portrait of Neel Nandy beside a neural network with one small circuit highlighted and labelled.
     sources:
       - https://www.neelnanda.io/about
@@ -263,13 +263,13 @@ researchers:
     eventReactions:
       - { triggerTag: board-safety-review, line: "Show the committee the adversarial test, not only the argument for why the system should be robust." }
       - { triggerTag: security-breach, line: "A robustness claim untested against a real adversary was always going to fail eventually. Better it happened in review." }
-      - { triggerTag: safety-budget-cut, line: "I sit on this board specifically to make this cut harder to wave through quietly. Consider it made harder." }
+      - { triggerTag: safety-budget-cut, line: "Before this cut goes through, show me the adversarial test that says we no longer need it." }
     feedLines:
       - Zico's robustness review sent a proposed launch back for one more adversarial test before it reached the board.
       - A department-head's institutional authority quietly resolved a dispute between two teams over a safety review's scope.
-      - Zico's committee seat meant a risky decision got scrutinised by someone with real robustness research behind the scepticism.
+      - Zico's review meant a risky decision got scrutinised by someone with real robustness research behind the scepticism.
       - A student from Zico's CMU lab caught an adversarial vulnerability the internal security team's own review had missed.
-      - The Safety and Security Committee's recommendation carried real weight this quarter, and Zico's name was on it.
+      - The lab's safety committee asked for one more adversarial test, and Zico had already written it.
       - A theoretical robustness argument was returned, again, with a request for the actual adversarial test behind it.
     portrait:
       assetId: portrait.researcher.zico-kolder
@@ -285,13 +285,15 @@ researchers:
     version: 1
     displayName: Callum Burns
     inspirationName: Collin Burns
-    inspirationSummary: Berkeley alignment researcher who developed an unsupervised method for recovering latent knowledge from a language model’s internal activations.
+    inspirationSummary: Alignment researcher who developed an unsupervised method for recovering latent knowledge from a language model’s activations and led OpenAI's weak-to-strong generalisation study.
     epithet: The Latent Truth Extractor
     role: Unsupervised honesty and truthfulness research
     rosterCardSummary: A former Rubik’s Cube world-record holder who now solves the harder puzzle of what a model represents internally but declines to say aloud.
     biography: >-
-      Collin Burns works on language-model honesty and interpretability at UC Berkeley, where his
-      doctoral research is sponsored by Jacob Steinhardt. His best-known paper asked a wonderfully
+      Collin Burns works on language-model honesty and on supervising models stronger than their
+      overseers; he began this research as a UC Berkeley PhD student advised by Jacob Steinhardt,
+      then joined OpenAI's Superalignment team, where he led the weak-to-strong generalisation
+      paper. His best-known paper asked a wonderfully
       awkward question: can a model internally represent the correct answer while saying something
       else? Burns and his co-authors introduced Contrast-Consistent Search, an unsupervised method
       that uses a model’s activations on pairs of opposite statements to recover latent knowledge
@@ -343,7 +345,7 @@ researchers:
       - "Callum solved the underlying puzzle the same patient way he once solved a cube: methodically, and faster than expected."
     portrait:
       assetId: portrait.researcher.callum-burns
-      brief: Focused 8-bit editorial portrait; young man with a patient, puzzle-solving expression, beside a model's stated answer and its internal activation pattern shown side by side, subtly disagreeing; quiet and precise, not photoreal.
+      brief: Focused 8-bit editorial portrait; a researcher in a zip hoodie with a patient, puzzle-solving expression, beside a model's stated answer and its internal activation pattern shown side by side, subtly disagreeing; quiet and precise, not photoreal.
       altText: Pixel-art portrait of Callum Burns beside a model's stated answer and internal activation pattern shown side by side.
     sources:
       - https://arxiv.org/abs/2212.03827
@@ -414,7 +416,7 @@ researchers:
       - The infinite-ethics dissertation comes up rarely; the habit of taking hard questions seriously comes up constantly.
     portrait:
       assetId: portrait.researcher.amanda-askill
-      brief: Warm, thoughtful 8-bit editorial portrait; Scottish woman with long blonde hair often tied back and a considered expression, beside a written character specification feeding into a model's dialogue bubble; principled and humane, not photoreal.
+      brief: Warm, thoughtful 8-bit editorial portrait; a philosopher in a dark jumper with a considered expression, beside a written character specification feeding into a model's dialogue bubble; principled and humane, not photoreal.
       altText: Pixel-art portrait of Amanda Askill beside a written character specification feeding into a model dialogue bubble.
     sources:
       - https://askell.io/
@@ -432,8 +434,8 @@ researchers:
     rosterCardSummary: The METR founder who turns “we do not think it can do that” into an independent test, a task horizon and an answer.
     biography: >-
       Elizabeth (Beth) Barnes founded and leads METR, an independent organisation that designs and
-      runs evaluations of frontier generative-AI systems. Before METR, she worked with DeepMind’s
-      chief scientist on scaling laws for forecasting deep-learning progress. At OpenAI, she helped
+      runs evaluations of frontier generative-AI systems. Before METR, she worked at DeepMind on
+      forecasting deep-learning progress. At OpenAI, she helped
       develop safety targets, studied scalable oversight and evaluated code models for misalignment
       before release. METR’s work measures what increasingly agentic systems can accomplish on
       realistic, extended tasks, including how the length of tasks they complete changes as models
@@ -484,7 +486,7 @@ researchers:
       - The evaluation institute's findings were quoted verbatim in two rival labs' safety cases this quarter.
     portrait:
       assetId: portrait.researcher.bess-barnes
-      brief: Focused, unimpressed 8-bit editorial portrait; white woman with tied-back brown hair, beside a frontier model inside a test harness with capability checkboxes being verified; independent and exacting, not photoreal.
+      brief: Focused 8-bit editorial portrait; an evaluator in a dark cardigan with a sceptical, attentive expression, beside a frontier model inside a test harness with capability checkboxes being verified; independent and exacting, not photoreal.
       altText: Pixel-art portrait of Bess Barnes beside a frontier model in a test harness with capability checkboxes.
     sources:
       - https://barnes.page/

@@ -64,7 +64,7 @@ researchers:
       - The founding bet, made two decades ago, keeps looking slightly less audacious with each passing year.
     portrait:
       assetId: portrait.researcher.shane-legge
-      brief: Composed 8-bit editorial portrait; white man with short brown-grey hair and a calm, deliberate expression, beside a long capability-timeline chart with honestly wide confidence bands; measured and founder-grade, not photoreal.
+      brief: Composed 8-bit editorial portrait; a scientist in a navy crew-neck with a calm, deliberate expression, beside a long capability-timeline chart with honestly wide confidence bands; measured and founder-grade, not photoreal.
       altText: Pixel-art portrait of Shane Legge beside a long capability-timeline chart with wide confidence bands.
     sources:
       - https://www.vetta.org/documents/A_Collection_of_Definitions_of_Intelligence.pdf
@@ -133,7 +133,7 @@ researchers:
       - The MacArthur citation sits in a drawer. The validated result sits on the company's homepage instead.
     portrait:
       assetId: portrait.researcher.daphne-kohler
-      brief: Precise 8-bit editorial portrait; white woman with long grey hair and a confident, thoughtful expression, beside a probabilistic graphical model diagram overlaid on a molecular structure; rigorous and founder-grade, not photoreal.
+      brief: Precise 8-bit editorial portrait; a founder in a tailored jacket with a confident, thoughtful expression, beside a probabilistic graphical model diagram overlaid on a molecular structure; rigorous and founder-grade, not photoreal.
       altText: Pixel-art portrait of Daphne Kohler beside a probabilistic graphical model diagram overlaid on a molecular structure.
     sources:
       - https://www.macfound.org/fellows/class-of-2004/daphne-koller

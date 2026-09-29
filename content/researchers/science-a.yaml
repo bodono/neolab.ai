@@ -15,19 +15,19 @@ researchers:
     rosterCardSummary: A Stanford cognitive scientist who writes models of human thought as executable programs, because apparently even beliefs deserve a debugger.
     biography: >-
       Noah Goodman is a Stanford professor of psychology, with courtesy appointments in computer
-      science and linguistics, and directs the Computation and Cognition Lab. He studied computer
-      science and cognitive science at Harvard, completed a doctorate in mathematics at the
+      science and linguistics, and directs the Computation and Cognition Lab. He studied physics and
+      mathematics at the University of Arizona, completed a doctorate in mathematics at the
       University of Texas at Austin and undertook postdoctoral research at MIT. His work combines
       behavioural experiments with probability, statistics and logic to model human cognition,
-      including language understanding, social reasoning and concept learning. He has helped
-      develop probabilistic programming tools that let researchers express generative theories of
-      thought as executable models and compare their predictions with human behaviour. Tools from
-      that research community include WebPPL, a language designed for probabilistic models and
-      inference. The approach treats beliefs, meanings and inferences as objects that can be
-      specified precisely enough to run, inspect and revise. His Rational Speech Acts framework
-      models speakers and listeners reasoning recursively about one another, turning pragmatic
-      language into a quantitative prediction problem for observable behaviour. Apparently even a
-      theory of mind benefits from a debugger.
+      including language understanding, social reasoning and concept learning. He has helped develop
+      probabilistic programming tools that let researchers express generative theories of thought as
+      executable models and compare their predictions with human behaviour. Tools from that research
+      community include WebPPL, a language designed for probabilistic models and inference. The
+      approach treats beliefs, meanings and inferences as objects that can be specified precisely
+      enough to run, inspect and revise. The Rational Speech Acts framework he developed with
+      Michael Frank models speakers and listeners reasoning recursively about one another, turning
+      pragmatic language into a quantitative prediction problem for observable behaviour. Apparently
+      even a theory of mind benefits from a debugger.
     availability: { wave: frontier, earliestYear: 2020, poolWeight: 0.45 }
     contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 3, optimisationScaling: 0, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 1, product: 1, management: 3, politics: 1 }
@@ -66,7 +66,7 @@ researchers:
       - The compact's process-modelling requirement turned an otherwise ordinary benchmark result into an actual cognitive hypothesis.
     portrait:
       assetId: portrait.researcher.noah-goodmann
-      brief: Thoughtful 8-bit editorial portrait; white man with curly brown hair, glasses, and a warm inquisitive expression, beside a probabilistic program expressing a small model of belief updating; academic and precise, not photoreal.
+      brief: Thoughtful 8-bit editorial portrait; a professor in glasses and a soft button-down with a warm inquisitive expression, beside a probabilistic program expressing a small model of belief updating; academic and precise, not photoreal.
       altText: Pixel-art portrait of Noah Goodmann beside a probabilistic program expressing a small model of belief updating.
     sources:
       - https://cocolab.stanford.edu/
@@ -77,7 +77,7 @@ researchers:
 
   - id: researcher.sarah-hooker
     version: 1
-    displayName: Sarah Hooker
+    displayName: Sarah Hookridge
     inspirationName: Sara Hooker
     inspirationSummary: Hardware-aware machine-learning researcher who named the hardware lottery and now builds efficient systems that adapt in real time.
     epithet: The Hardware Lottery Auditor
@@ -137,8 +137,8 @@ researchers:
       - The compact's matched-resource requirement turned a flattering scale-advantage claim into a genuinely useful comparison.
     portrait:
       assetId: portrait.researcher.sarah-hooker
-      brief: Sharp, resourceful 8-bit editorial portrait; white woman with very long red hair and a direct, efficiency-minded expression, beside two models compared at matched compute, the smaller one slightly ahead; lean and precise, not photoreal.
-      altText: Pixel-art portrait of Sarah Hooker beside two models compared at matched compute, the smaller one slightly ahead.
+      brief: Sharp, resourceful 8-bit editorial portrait; a researcher in a dark utility jacket with a direct, efficiency-minded expression, beside two blue models compared at matched compute, the smaller one slightly ahead; lean and precise, not photoreal.
+      altText: Pixel-art portrait of Sarah Hookridge beside two models compared at matched compute, the smaller one slightly ahead.
     sources:
       - https://www.sarahooker.me/
       - https://hardwarelottery.github.io/
@@ -209,7 +209,7 @@ researchers:
       - The Harvard AI-for-science initiative shipped a result this quarter that traced directly back to Marika's graph-learning framework.
     portrait:
       assetId: portrait.researcher.marika-zitnik
-      brief: Precise, compassionate 8-bit editorial portrait; white woman with mid-length dark hair and glasses and a focused, caring expression, beside a biological knowledge graph feeding a rare-disease diagnosis; structured and medically grounded, not photoreal.
+      brief: Precise, compassionate 8-bit editorial portrait; a researcher in glasses and a lab-casual blazer with a focused, caring expression, beside a biological knowledge graph feeding a rare-disease diagnosis; structured and medically grounded, not photoreal.
       altText: Pixel-art portrait of Marika Zitnik beside a biological knowledge graph feeding a rare-disease diagnosis.
     sources:
       - https://zitniklab.hms.harvard.edu/bio/
@@ -280,7 +280,7 @@ researchers:
       - The Aithyra Institute's founding mission, cross-domain geometric thinking, showed up again in this quarter's protein-design result.
     portrait:
       assetId: portrait.researcher.mikhail-bronsteen
-      brief: Elegant 8-bit editorial portrait; light-skinned man with short dark hair, thin-framed glasses, and a thoughtful expression, beside several architecture diagrams resolving into one symmetric framework; unifying and precise, not photoreal.
+      brief: Elegant 8-bit editorial portrait; a professor in thin-framed glasses and a dark jacket with a thoughtful expression, beside several architecture diagrams resolving into one symmetric framework; unifying and precise, not photoreal.
       altText: Pixel-art portrait of Mikhail Bronsteen beside several architecture diagrams resolving into one shared symmetric framework.
     sources:
       - https://www.cs.ox.ac.uk/people/michael.bronstein/
@@ -290,12 +290,12 @@ researchers:
 
   - id: researcher.katie-bowman
     version: 1
-    displayName: Katie Bowman
+    displayName: Katie Beamford
     inspirationName: Katie Bouman
     inspirationSummary: Caltech computational-imaging researcher and Event Horizon Telescope collaborator who reconstructs the invisible from sparse, noisy measurements.
     epithet: The Sparse-Signal Imager
     role: Computational imaging and algorithm-sensor co-design
-    rosterCardSummary: A Caltech computational-imaging professor who helped photograph a black hole, then spent the viral-news cycle patiently pointing back at the entire telescope collaboration.
+    rosterCardSummary: A Caltech computational-imaging professor who helped photograph a black hole by designing algorithms and sensors to work together from the start.
     biography: >-
       Katie Bouman is a Caltech professor whose research combines algorithms and sensing systems
       to reconstruct phenomena that conventional cameras cannot directly capture. During her
@@ -312,8 +312,7 @@ researchers:
       sensing hardware, data collection and reconstruction algorithms.
       The central design principle is co-operation between sensor and algorithm: measurements are
       collected with the eventual reconstruction in mind, and the reconstruction respects how the
-      measurements were made. The same principle applies to the credit line; the image is singular,
-      but the team behind it was emphatically not.
+      measurements were made.
     availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.45 }
     contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 1, securityContainment: 0, training: 2, product: 1, management: 3, politics: 2 }
@@ -341,20 +340,20 @@ researchers:
     paperHooks:
       ids: [paper.alphafold2-protein-structure, paper.machine-verified-riemann-proof]
     eventReactions:
-      - { triggerTag: scientific-ai-breakthrough, line: "Credit the full team in the announcement, by name, before a single face becomes the whole story." }
-      - { triggerTag: media-viral-moment, line: "I have lived through this exact framing before. Redirect the attention to the collaboration it actually belongs to." }
+      - { triggerTag: scientific-ai-breakthrough, line: "Compare independent reconstructions before announcing anything. Then publish the method so others can check it." }
+      - { triggerTag: media-viral-moment, line: "Show the uncertainty alongside the picture. A beautiful image should arrive with its error bars." }
       - { triggerTag: scientific-ai-failure, line: "Check whether the sensor or the algorithm was the weaker link here. Usually it is worth designing both together from the start." }
     feedLines:
       - Katie's sparse-data reconstruction algorithm turned noisy, incomplete sensor readings into a genuinely coherent image.
-      - A viral moment threatened to credit one person for a result the full team actually produced, and Katie redirected it immediately.
+      - Katie's team released the reconstruction code with the result, and three outside groups reproduced the image within a week.
       - The algorithm-sensor co-design compact caught a project treating the sensor as fixed when redesigning it would have helped more.
       - Katie's imaging system observed a phenomenon nobody's existing telescope had been specifically built to capture.
-      - A journalist asked, again, about the black hole image. Katie's answer, again, named the whole collaboration first.
-      - The world-first announcement this quarter listed every contributing team member by name, exactly as the compact requires.
+      - A journalist asked how the image was made. Katie's answer involved four independent pipelines and one very large hard drive.
+      - The world-first announcement this quarter shipped with its reconstruction code and its uncertainty estimates attached.
     portrait:
       assetId: portrait.researcher.katie-bowman
-      brief: Bright, humble 8-bit editorial portrait; woman with long brown hair and a delighted, generous expression, beside a sparse, noisy dataset resolving into a coherent reconstructed image; collaborative and precise, not photoreal.
-      altText: Pixel-art portrait of Katie Bowman beside a sparse, noisy dataset resolving into a coherent reconstructed image.
+      brief: Bright 8-bit editorial portrait; woman with long brown hair and a delighted, generous expression, beside a sparse, noisy dataset resolving into a coherent reconstructed image on a green display; inventive and precise, not photoreal.
+      altText: Pixel-art portrait of Katie Beamford beside a sparse, noisy dataset resolving into a coherent reconstructed image.
     sources:
       - https://www.caltech.edu/about/news/seeing-farther-and-deeper-interview-katie-bouman
       - https://www.cms.caltech.edu/people/klbouman
@@ -422,7 +421,7 @@ researchers:
       - Rich's scepticism of an accurate-but-opaque model, once again, turned out to be the caution that actually mattered.
     portrait:
       assetId: portrait.researcher.rich-caruano
-      brief: Wise 8-bit editorial portrait; older white man with short grey hair, a trimmed grey beard, round glasses, and a calm clinical expression, beside a confident healthcare prediction flagged for review; cautious and experienced, not photoreal.
+      brief: Wise 8-bit editorial portrait; a researcher with a trimmed beard, in round glasses and a cardigan, with a calm clinical expression, beside a confident healthcare prediction flagged for review; cautious and experienced, not photoreal.
       altText: Pixel-art portrait of Rich Caruano beside a healthcare model's confident prediction flagged for an interpretability review.
     sources:
       - https://www.cs.cornell.edu/~caruana/
@@ -491,7 +490,7 @@ researchers:
       - A cleaner formulation saved more compute than the scaling proposal had planned to purchase.
     portrait:
       assetId: portrait.researcher.stephen-boyde
-      brief: Clear, energetic 8-bit editorial portrait; tan white man with very short grey hair beside a curved feasible region with one optimum cleanly marked; teacherly and practical, not photoreal.
+      brief: Clear, energetic 8-bit editorial portrait; a professor in an open-collared shirt at a whiteboard beside a curved feasible region with one optimum cleanly marked; teacherly and practical, not photoreal.
       altText: Pixel-art portrait of Stephen Boyde beside a convex feasible region with its optimum marked.
     sources:
       - https://stanford.edu/~boyd/bio.html
@@ -504,7 +503,7 @@ researchers:
     version: 1
     displayName: Emmanuel Candez
     inspirationName: Emmanuel Candès
-    inspirationSummary: Stanford mathematician and statistician whose compressed-sensing work proved sparse signals can be recovered from surprisingly few measurements.
+    inspirationSummary: Stanford mathematician and statistician whose compressed-sensing work with Justin Romberg and Terence Tao proved sparse signals can be recovered from surprisingly few measurements.
     epithet: The Fewer-Measurements Magician
     role: Compressed sensing, high-dimensional statistics, and inverse problems
     rosterCardSummary: A Stanford statistician who proved that fewer measurements can be enough, provided the signal is sparse and somebody remembered to state the assumptions.
@@ -513,7 +512,8 @@ researchers:
       collecting a dense set of measurements. A Stanford professor of mathematics and statistics,
       with a courtesy appointment in electrical engineering, he develops mathematical frameworks
       for signal processing, imaging, high-dimensional statistics, and inverse problems. His
-      seminal work on compressed sensing established rigorous conditions under which a sparse
+      seminal work on compressed sensing with Romberg and Tao (developed in parallel with David
+      Donoho) established rigorous conditions under which a sparse
       signal can be recovered from surprisingly few measurements, turning sparsity from an
       informal engineering hunch into a precise and widely applicable principle. That perspective
       now informs imaging systems, statistical estimation, scientific computing, and modern data
@@ -560,7 +560,7 @@ researchers:
       - A supposedly underdetermined problem became solvable when the team stopped treating every dimension as equally important.
     portrait:
       assetId: portrait.researcher.emmanuel-candez
-      brief: Assured 8-bit editorial portrait; white man with short dark-grey hair and rectangular glasses, beside a sparse measurement grid resolving into a crisp signal; mathematical and exact, not photoreal.
+      brief: Assured 8-bit editorial portrait; a mathematician in rectangular glasses and a dark sweater, beside a sparse measurement grid resolving into a crisp signal; mathematical and exact, not photoreal.
       altText: Pixel-art portrait of Emmanuel Candez beside sparse measurements resolving into a crisp signal.
     sources:
       - https://statistics.stanford.edu/people/emmanuel-j-candes

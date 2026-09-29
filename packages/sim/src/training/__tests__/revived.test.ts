@@ -48,7 +48,7 @@ describe("effects the sim used to discard", () => {
   it("reads a researcher's checkpoint-risk effect", () => {
     // Read here excluding researchers, with the researcher slice taken from a
     // DIFFERENT string: 8 researchers paid nothing while advertising a benefit.
-    const s = hire("Kai-Ming Ho");
+    const s = hire("Kai-Ming Hopway");
     const v = resolveModifierValue(s, "lab.training.technicalFailureHazard", 1, {
       labId: s.run.playerLabId,
       clampMin: 0,

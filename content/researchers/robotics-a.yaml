@@ -17,16 +17,16 @@ researchers:
       Ken Goldberg has connected robot arms to the internet, gardens, warehouses, and a
       formidable number of synthetic objects. Ken Goldberg is UC Berkeley's William S. Floyd
       Distinguished Professor of Engineering, a Berkeley Artificial Intelligence Research
-      co-founder, and director of AUTOLab. His 1995 Telegarden let web users plant and water a
-      living garden with a remote industrial arm, making it the internet's first interactive robot.
-      His parallel career as an artist and filmmaker has put robotic art in more than 70
-      exhibitions, including the Whitney Biennial, and documentary work at Sundance. Two decades
-      later, Goldberg and his students developed Dex-Net, using large synthetic datasets and deep
-      learning to plan robust grasps for unfamiliar objects. Their system outperformed the 2017
-      Amazon Robotics Challenge winners; later work extended the approach across multiple gripper
-      types and helped underpin Ambi Robotics, which Goldberg co-founded. Ken's signature move is to
-      make a stubborn physical problem tractable by simulating it at absurd scale, then send the
-      robot back into the real world to see whether the millionth grasp was the useful one.
+      co-founder, and director of AUTOLab. After his 1994 Mercury Project put one of the first
+      robots on the internet, his 1995 Telegarden let web users plant and water a living garden with
+      a remote industrial arm. His parallel career as an artist and filmmaker has put robotic art in
+      more than 70 exhibitions, including the Whitney Biennial, and documentary work at Sundance.
+      Two decades later, Goldberg and his students developed Dex-Net, using large synthetic datasets
+      and deep learning to plan robust grasps for unfamiliar objects. Their system outperformed the
+      2017 Amazon Robotics Challenge winners; later work extended the approach across multiple
+      gripper types and helped underpin Ambi Robotics, which Goldberg co-founded. Ken's signature
+      move is to make a stubborn physical problem tractable by simulating it at absurd scale, then
+      send the robot back into the real world to see whether the millionth grasp was the useful one.
     availability: { wave: frontier, earliestYear: 2019, poolWeight: 0.50 }
     contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 4, optimisationScaling: 1, dataRepresentation: 3, reinforcementAgency: 3, multimodality: 2, reasoningTools: 1, roboticsEmbodiment: 5, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 3, management: 4, politics: 2 }
@@ -65,7 +65,7 @@ researchers:
       - The cloud robotics lab quietly kept running while Ken personally reviewed a batch of newly synthesised grasp point clouds.
     portrait:
       assetId: portrait.researcher.ken-goldenberg
-      brief: Warm 8-bit editorial portrait; older white man with curly dark-grey hair, pronounced sideburns, clear rectangular glasses, and a small goatee, beside a gripper choosing between two grasps on a cluttered table; inventive and practical, not photoreal.
+      brief: Warm 8-bit editorial portrait; a roboticist with a small goatee, in clear rectangular glasses and a dark blazer, beside a gripper choosing between two grasps on a cluttered table; inventive and practical, not photoreal.
       altText: Pixel-art portrait of Ken Goldenberg beside a robotic gripper choosing between two grasp options on a cluttered table.
     sources:
       - https://goldberg.berkeley.edu/bio.html
@@ -133,7 +133,7 @@ researchers:
       - An audio-visual association experiment let an agent learn where to look purely by following what surprised it most.
     portrait:
       assetId: portrait.researcher.deepak-pathark
-      brief: Curious 8-bit editorial portrait; brown-skinned South Asian man with short black hair and an inquisitive smile, beside a robot exploring toward an unexpected sensor reading; energetic and self-driven, not photoreal.
+      brief: Curious 8-bit editorial portrait; a roboticist in a quarter-zip pullover with an inquisitive smile, beside a robot exploring toward an unexpected sensor reading; energetic and self-driven, not photoreal.
       altText: Pixel-art portrait of Deepak Pathark beside a robot exploring toward an unexpected, surprising sensor reading.
     sources:
       - https://www.cs.cmu.edu/~dpathak/
@@ -146,7 +146,7 @@ researchers:
     version: 1
     displayName: Raia Hadsall
     inspirationName: Raia Hadsell
-    inspirationSummary: Google DeepMind vice president and Frontier AI co-lead whose policy distillation, progressive networks, and elastic weight consolidation tackle catastrophic forgetting.
+    inspirationSummary: Google DeepMind vice president and Frontier AI co-lead whose teams' policy distillation, progressive networks, and elastic weight consolidation tackle catastrophic forgetting.
     epithet: The Catastrophic-Forgetting Rememberer
     role: Continual learning, robotics, and frontier AI research leadership
     rosterCardSummary: A frontier-research leader who has spent a decade ensuring that when a robot learns one impressive new skill, it does not quietly forget the previous impressive skill.
@@ -156,11 +156,12 @@ researchers:
       Frontier AI unit. She arrived at AI via a degree in religion and philosophy at Reed College,
       earned her NYU doctorate with Yann LeCun on deep learning for mobile-robot vision, then worked
       at Carnegie Mellon's Robotics Institute and SRI International. She joined DeepMind in 2014,
-      when it was a 50-person startup newly acquired by Google. Her continual-learning research
-      includes policy distillation, progressive neural networks, and elastic weight consolidation,
-      which protects parameters important to earlier tasks as a network learns new ones. Her
-      dissertation on long-range vision for off-road robots won NYU's 2009 Outstanding Dissertation
-      award; she later became TMLR's founding editor-in-chief and a UK government AI Ambassador,
+      when it was a 50-person startup newly acquired by Google. Her group's continual-learning
+      research, with colleagues including Andrei Rusu and James Kirkpatrick, includes policy
+      distillation, progressive neural networks, and elastic weight consolidation, which protects
+      parameters important to earlier tasks as a network learns new ones. Her dissertation on
+      long-range vision for off-road robots won NYU's 2009 Outstanding Dissertation award; she later
+      became one of TMLR's founding editors-in-chief and a UK government AI Ambassador,
       linking frontier research with responsible science and security. She also works on
       reinforcement learning, robotics, control, and navigation. Raia's release checklist therefore
       contains one extra question: did the new capability arrive alone, or did it quietly evict
@@ -200,10 +201,10 @@ researchers:
       - Raia's elastic weight consolidation technique, years old now, is still doing quiet work inside this quarter's continual-learning pipeline.
       - A bipedal robot learned to play agile soccer without forgetting how to simply walk, exactly as the compact requires.
       - The Frontier AI unit shipped a contribution to a major model, and Raia's continual-learning fingerprints were on it.
-      - Raia joined a fifty-person startup a decade ago. The catastrophic-forgetting problem she was solving then is, tellingly, the same one now.
+      - Raia joined a fifty-person startup a decade ago. The lab has grown enormously; her retention checks have grown with it.
     portrait:
       assetId: portrait.researcher.raia-hadsall
-      brief: Composed 8-bit editorial portrait; pale white woman with vivid blue shoulder-length hair, rectangular glasses, and a thoughtful, determined expression, beside a robot retaining an old skill while acquiring a new one; balanced and enduring, not photoreal.
+      brief: Composed 8-bit editorial portrait; a research leader with vivid blue shoulder-length hair and rectangular glasses, with a thoughtful, determined expression, beside a robot retaining an old skill while acquiring a new one; balanced and enduring, not photoreal.
       altText: Pixel-art portrait of Raia Hadsall beside a robot retaining an old skill while acquiring a new one, both lit equally.
     sources:
       - https://raiahadsell.com/index.html
@@ -271,7 +272,7 @@ researchers:
       - The explicit uncertainty report the compact requires caught a mapping error the deterministic version had confidently missed.
     portrait:
       assetId: portrait.researcher.dieter-foxx
-      brief: Grounded 8-bit editorial portrait; older white man with short grey hair and a calm, methodical expression, beside a robot map with a probabilistic uncertainty cloud around its estimated position; foundational and precise, not photoreal.
+      brief: Grounded 8-bit editorial portrait; a professor in a quarter-zip sweater with a calm, methodical expression, beside a robot map with a probabilistic uncertainty cloud around its estimated position; foundational and precise, not photoreal.
       altText: Pixel-art portrait of Dieter Foxx beside a robot's map with a probabilistic uncertainty cloud around its estimated position.
     sources:
       - https://homes.cs.washington.edu/~fox/

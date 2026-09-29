@@ -66,7 +66,7 @@ researchers:
       - The multi-agent self-play habit from the poker years quietly reappeared in this quarter's reasoning-model ablation.
     portrait:
       assetId: portrait.researcher.norm-brown
-      brief: Sharp, composed 8-bit editorial portrait; man with a medium-brown complexion, short curly dark hair, rectangular glasses, a neat goatee, and a calculating, patient expression, beside a poker-table search tree branching into a reasoning-model deliberation diagram; strategic and unshowy, not photoreal.
+      brief: Sharp, composed 8-bit editorial portrait; a researcher with a neat goatee, in rectangular glasses and a dark zip jacket, with a calculating, patient expression, beside a poker-table search tree branching into a reasoning-model deliberation diagram; strategic and unshowy, not photoreal.
       altText: Pixel-art portrait of Norm Brown beside a poker-table strategic search tree branching into a reasoning-model deliberation diagram.
     sources:
       - https://noambrown.github.io/
@@ -136,7 +136,7 @@ researchers:
       - The Dota-playing system he once spearheaded still gets cited as the reason this quarter's multi-agent training run went smoothly.
     portrait:
       assetId: portrait.researcher.jakub-pachowski
-      brief: Composed 8-bit editorial portrait; light-skinned Polish man with short light-brown hair and a calm, exacting expression, beside a competitive-programming scoreboard resolving into a frontier training dashboard; disciplined and rapidly ascendant, not photoreal.
+      brief: Composed 8-bit editorial portrait; a research leader in a plain dark t-shirt with a calm, exacting expression, beside a competitive-programming scoreboard resolving into a frontier training dashboard; disciplined and rapidly ascendant, not photoreal.
       altText: Pixel-art portrait of Jakub Pachowski beside a competitive-programming scoreboard resolving into a frontier training dashboard.
     sources:
       - https://openai.com/index/team-update-january/
@@ -166,11 +166,8 @@ researchers:
       into latent patches, letting one transformer learn across differing durations, resolutions,
       and aspect ratios. He later worked on world models and multimodal generation for Gemini at
       Google DeepMind and now develops multimodal generative models at Meta Superintelligence Labs.
-      His photography has won awards from National Geographic, Nature's Best Photography, and the
-      National Wildlife Federation; he has also performed at Broadway's Beacon Theatre and received
-      an international award for a cappella beatboxing. Tim's quality bar is gently inconvenient:
-      the object should still exist, face the same way, and remember the lighting several seconds
-      after the demo clip's prettiest frame.
+      Tim's quality bar is gently inconvenient: the object should still exist, face the same way,
+      and remember the lighting several seconds after the demo clip's prettiest frame.
     availability: { wave: frontier, earliestYear: 2023, poolWeight: 0.40 }
     contract: { band: competitive, baseSalaryPerCycle: 0.45, baseSigningCash: 4, auraCost: 6, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 2, reinforcementAgency: 0, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 1, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 0, securityContainment: 0, training: 3, product: 3, management: 3, politics: 1 }
@@ -200,7 +197,7 @@ researchers:
     eventReactions:
       - { triggerTag: benchmark-record, line: "One beautiful frame is easy. Show me the object staying in the same place ten seconds later." }
       - { triggerTag: architecture-fad, line: "Following a plain instruction reliably is a harder, more useful problem than generating one more impressive still image." }
-      - { triggerTag: talent-poaching, line: "The world-simulator ambition travels with me. It rarely fits neatly inside one company's roadmap for long." }
+      - { triggerTag: talent-poaching, line: "The world-simulator problem is bigger than any one lab. The work continues wherever the compute and the team are." }
     feedLines:
       - Timo's temporal-consistency check caught an object that quietly teleported three frames into a generated clip.
       - The instruction-following editing model followed a plainly worded correction that a text-to-image model would have ignored.
@@ -210,7 +207,7 @@ researchers:
       - The video model's causal consistency held under an adversarial prompt specifically designed to break continuity.
     portrait:
       assetId: portrait.researcher.timo-brooks
-      brief: Focused 8-bit editorial portrait; light-skinned man with curly brown hair, a short beard, and a warm, ambitious expression, beside a video timeline holding one consistent object across several frames; world-building and precise, not photoreal.
+      brief: Focused 8-bit editorial portrait; a researcher with a short beard, in a canvas jacket, with a warm, ambitious expression, beside a video timeline holding one consistent object across several frames; world-building and precise, not photoreal.
       altText: Pixel-art portrait of Timo Brooks beside a video timeline holding a consistent object across several frames.
     sources:
       - https://www.timothybrooks.com/about/
@@ -280,7 +277,7 @@ researchers:
       - A patch-based framing from Billy's earlier vision-architecture work quietly became this quarter's video-generation default.
     portrait:
       assetId: portrait.researcher.billy-peebles
-      brief: Sharp 8-bit editorial portrait; light-skinned man with short brown hair, round glasses, and a curious expression, beside a video clip broken into spacetime patches feeding a transformer; scalable and precise, not photoreal.
+      brief: Sharp 8-bit editorial portrait; a researcher in round glasses and a grey hoodie with a curious expression, beside a video clip broken into spacetime patches feeding a transformer; scalable and precise, not photoreal.
       altText: Pixel-art portrait of Billy Peebles beside a video clip broken into spacetime patches feeding a transformer.
     sources:
       - https://www.wpeebles.com/
@@ -345,12 +342,12 @@ researchers:
       - Aidan's data-security review caught a leakage path before an enterprise customer's confidential data ever touched it.
       - A co-authorship from a night spent finishing a paper before a conference deadline still opens doors a decade later.
       - The enterprise partnership survived direct review by the customer's security team, which is the more meaningful milestone.
-      - Aidan finally finished the paused doctorate, years into running the company, largely because he had promised his advisor he would.
+      - Aidan finished the paused doctorate years into running the company; the lab celebrated with a very long reading list.
       - A rival lab's flashier demo lost the enterprise deal to Aidan's less flashy, better-audited security review.
       - The founding conviction, secure enterprise AI over an impressive public demo, has not needed updating since 2019.
     portrait:
       assetId: portrait.researcher.aidan-gomes
-      brief: Composed 8-bit editorial portrait; young man with shoulder-length dark hair, a full beard, round glasses, and small hoop earrings, beside a transformer diagram wrapped in a secure enterprise-data shield; disciplined and trustworthy, not photoreal.
+      brief: Composed 8-bit editorial portrait; a founder with a full beard, in round glasses and a dark overshirt, beside a transformer diagram wrapped in a secure enterprise-data shield; disciplined and trustworthy, not photoreal.
       altText: Pixel-art portrait of Aidan Gomes beside a transformer architecture diagram wrapped in a secure enterprise data shield.
     sources:
       - https://time.com/collection/time100-ai/6310653/aidan-gomez/
@@ -424,7 +421,7 @@ researchers:
       - The cloud-computing chief-scientist title barely registers with Pushmeet next to a well-run scientific discovery team.
     portrait:
       assetId: portrait.researcher.pushmeet-kohly
-      brief: Authoritative 8-bit editorial portrait; brown-skinned South Asian man with a red turban, no beard, and a warm, visionary expression, beside a protein, molecule, and proof orbiting one research hub; expansive and orchestrating, not photoreal.
+      brief: Authoritative 8-bit editorial portrait; a research leader wearing a red turban and a dark blazer, with no beard and a warm, visionary expression, beside a protein, molecule, and proof orbiting one research hub; expansive and orchestrating, not photoreal.
       altText: Pixel-art portrait of Pushmeet Kohly beside several scientific-discovery icons orbiting one research hub.
     sources:
       - https://research.google/people/105667/
@@ -435,19 +432,19 @@ researchers:
 
   - id: researcher.tim-rocktaschel
     version: 1
-    displayName: Tim Rocktaschel
+    displayName: Tim Rocktaskle
     inspirationName: Tim Rocktäschel
-    inspirationSummary: Google DeepMind's Open-Endedness Team Lead and a UCL professor whose research spans reinforcement-learning agents, rapid adaptation, open-ended environments, and self-improving AI.
+    inspirationSummary: Open-endedness researcher and UCL professor who led Google DeepMind's Open-Endedness Team, with research spanning reinforcement-learning agents, rapid adaptation, open-ended environments, and self-improving AI.
     epithet: The Open-Ended Explorer
     role: Open-ended learning, reinforcement-learning agents, and self-improvement
     rosterCardSummary: An agent researcher who would rather build a world that keeps inventing new tests than celebrate mastering the last benchmark.
     biography: >-
       Tim Rocktäschel studies how an AI can keep finding new problems after a fixed benchmark has
-      run out of surprises. He is Director, Principal Scientist, and Open-Endedness Team Lead at
-      Google DeepMind, as well as Professor of Artificial Intelligence at University College
-      London. At UCL he led the Deciding, Acting, and Reasoning with Knowledge lab; earlier work
-      took him through reinforcement-learning research at Oxford and research leadership at Meta
-      AI. His research connects open-ended environment design, general reinforcement-learning
+      run out of surprises. At Google DeepMind he became Director, Principal Scientist, and
+      Open-Endedness Team Lead, alongside a professorship of Artificial Intelligence at University
+      College London. At UCL he led the Deciding, Acting, and Reasoning with Knowledge lab; earlier
+      work took him through reinforcement-learning research at Oxford and research leadership at
+      Meta AI. His research connects open-ended environment design, general reinforcement-learning
       agents, world models, language, and rapid adaptation. Systems including the Adaptive Agent
       programme were trained across large spaces of embodied tasks so that they could adapt to
       unfamiliar problems on a human timescale. The larger ambition is recursive in the useful and
@@ -494,8 +491,8 @@ researchers:
       - The agent failed in a genuinely novel way, which Tim filed under useful evidence rather than bad luck.
     portrait:
       assetId: portrait.researcher.tim-rocktaschel
-      brief: Thoughtful 8-bit editorial portrait; light-skinned man with short grey hair, a short grey beard, and an intent, curious expression, beside an agent exploring a branching world that generates new tasks as it moves; exploratory and rigorous, not photoreal.
-      altText: Pixel-art portrait of Tim Rocktaschel, with short grey hair and a short grey beard, beside an agent exploring a branching open-ended world.
+      brief: Thoughtful 8-bit editorial portrait; a researcher with a short beard, in a dark hoodie, with an intent, curious expression, beside an agent exploring a branching world that generates new tasks as it moves; exploratory and rigorous, not photoreal.
+      altText: Pixel-art portrait of Tim Rocktaskle beside an agent exploring a branching open-ended world.
     sources:
       - https://rockt.ai/index.html
       - https://rockt.ai/rockt-cv.pdf

@@ -9,7 +9,7 @@ researchers:
     version: 1
     displayName: Ilya Suchkeeper
     inspirationName: Ilya Sutskever
-    inspirationSummary: AlexNet and sequence-to-sequence co-author, OpenAI co-founder and former chief scientist, and co-founder of Safe Superintelligence Inc.
+    inspirationSummary: AlexNet and sequence-to-sequence co-author, OpenAI co-founder and former chief scientist, and co-founder and chief executive of Safe Superintelligence Inc.
     epithet: The Scaling Oracle
     role: Sequence models and frontier training
     rosterCardSummary: An AlexNet and sequence-to-sequence co-author whose scaling instinct raises fleet-wide throughput and keeps frontier runs technically on track.
@@ -22,10 +22,10 @@ researchers:
       Oriol Vinyals and Quoc Le, demonstrating neural translation with an encoder-decoder
       architecture. In 2015 he co-founded OpenAI, where he served as research director and later
       chief scientist as large generative models moved into public use. In 2024 he co-founded Safe
-      Superintelligence Inc., whose stated sole focus is building safe superintelligence. That
-      record keeps two questions unusually close: what new capability appears at greater scale,
-      and what evidence would justify calling the resulting system controlled rather than merely
-      capable.
+      Superintelligence Inc., whose stated sole focus is building safe superintelligence, and he has
+      led it as chief executive since 2025. That record keeps two questions unusually close: what
+      new capability appears at greater scale, and what evidence would justify calling the resulting
+      system controlled rather than merely capable.
     availability:
       wave: deep-learning
       earliestYear: 2013
@@ -70,7 +70,7 @@ researchers:
       - The clean run completed on schedule. Safety has correctly declined to interpret this as a moral property.
     portrait:
       assetId: portrait.researcher.ilya-suchkeeper
-      brief: Intense 8-bit editorial portrait; white man with a high, deeply receded hairline and close dark hair at the sides, wearing a concentrated expression and lit by a violet scaling curve and compact cluster diagram; visionary and serious, not photoreal.
+      brief: Intense 8-bit editorial portrait; a researcher in a plain dark sweater with a concentrated expression, lit by a violet scaling curve and compact cluster diagram; visionary and serious, not photoreal.
       altText: Pixel-art portrait of Ilya Suchkeeper before a violet scaling curve and compute-cluster diagram.
     sources:
       - https://www.utoronto.ca/news/ilya-sutskever-leader-ai-and-its-responsible-development-receives-u-t-honorary-degree
@@ -85,23 +85,24 @@ researchers:
     version: 1
     displayName: Ash Vashwani
     inspirationName: Ashish Vaswani
-    inspirationSummary: Transformer paper lead author and Essential AI co-founder and CEO, with research spanning attention, scaling, and sequence modelling.
+    inspirationSummary: First-listed author of the transformer paper and Essential AI co-founder and CEO, with research spanning attention, scaling, and sequence modelling.
     epithet: The Attention Cartographer
     role: Architectures, language, and sequence modelling
     rosterCardSummary: A transformer co-architect whose protected focus improves architecture research while attention's parallelism raises fleet-wide throughput.
     biography: >-
       Ashish Vaswani helped replace the sequence modeller's relay race with a room where every token
-      can look at every other token. Ashish Vaswani led the eight-author “Attention Is All You
-      Need” paper at Google Brain. It introduced the transformer, an encoder-decoder architecture
-      based on attention rather than recurrence or convolution, and reported stronger translation
-      results with more parallelisable training. The paper demonstrated strong
-      translation results after twelve hours of training. He later co-founded Adept with Niki
-      Parmar and David Luan to build models that act through software, then co-founded Essential AI
-      with Parmar. Essential identifies Vaswani as its CEO and describes its work as open models,
-      tooling, reproducible pipelines, and evaluation frameworks for frontier research. Across
-      those projects, Vaswani's architectural instinct is consistent: remove the inherited
-      bottleneck, test whether the simpler system actually works, and give every token enough
-      attention to discover which head has quietly become a committee.
+      can look at every other token. Ashish Vaswani is the first-listed of eight equal-contribution
+      authors of “Attention Is All You Need” at Google Brain, where he and Illia Polosukhin designed
+      and implemented the first transformer models. It introduced the transformer, an
+      encoder-decoder architecture based on attention rather than recurrence or convolution, and
+      reported stronger translation results with more parallelisable training. The paper
+      demonstrated strong translation results after twelve hours of training. He later co-founded
+      Adept with Niki Parmar and David Luan to build models that act through software, then
+      co-founded Essential AI with Parmar. Essential identifies Vaswani as its CEO and describes its
+      work as open models, tooling, reproducible pipelines, and evaluation frameworks for frontier
+      research. Across those projects, Vaswani's architectural instinct is consistent: remove the
+      inherited bottleneck, test whether the simpler system actually works, and give every token
+      enough attention to discover which head has quietly become a committee.
     availability:
       wave: deep-learning
       earliestYear: 2016
@@ -145,7 +146,7 @@ researchers:
       - Ash asked the architecture team to remove one assumption before adding two trillion parameters.
     portrait:
       assetId: portrait.researcher.ash-vashwani
-      brief: Crisp 8-bit editorial portrait; South Asian man with short dark hair and a focused expression, overlaid with orange attention lines connecting a sequence grid; modern and precise, not photoreal.
+      brief: Crisp 8-bit editorial portrait; a researcher in a dark crew-neck with a focused expression, overlaid with orange attention lines connecting a sequence grid; modern and precise, not photoreal.
       altText: Pixel-art portrait of Ash Vashwani over a sequence grid connected by orange self-attention lines.
     sources:
       - https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html
@@ -220,7 +221,7 @@ researchers:
       - Synthetic media quality rose. The provenance watermark meeting has been upgraded from “later” to “today.”
     portrait:
       assetId: portrait.researcher.ian-goodfriend
-      brief: Alert 8-bit editorial portrait; white man with short dark hair and glasses, between mirrored pink and blue generator/discriminator panels; clever and adversarial, not photoreal.
+      brief: Alert 8-bit editorial portrait; a researcher in glasses and a casual jacket, between mirrored pink and blue generator/discriminator panels; clever and adversarial, not photoreal.
       altText: Pixel-art portrait of Ian Goodfriend between opposing generator and discriminator panels.
     sources:
       - https://www.iangoodfellow.com/bio
@@ -292,7 +293,7 @@ researchers:
       - The loss curve is beautifully behaved and has been asked not to become smug.
     portrait:
       assetId: portrait.researcher.diederik-kingman
-      brief: Clean 8-bit editorial portrait; white man with short light-brown hair, beside a smooth magenta loss curve and two moving-moment gauges; understated and exact, not photoreal.
+      brief: Clean 8-bit editorial portrait; a researcher in a simple grey hoodie, beside a smooth magenta loss curve and two moving-moment gauges; understated and exact, not photoreal.
       altText: Pixel-art portrait of Diederik Kingman beside a smooth loss curve and adaptive-moment gauges.
     sources:
       - https://dpkingma.com/
@@ -306,7 +307,7 @@ researchers:
     version: 1
     displayName: Andrey Carpathy
     inspirationName: Andrej Karpathy
-    inspirationSummary: OpenAI founding member, former Tesla AI director, Stanford CS231n creator, and widely followed neural-network educator.
+    inspirationSummary: OpenAI founding member, former Tesla AI director, Eureka Labs founder, CS231n co-creator, and widely followed neural-network educator.
     epithet: The From-Scratch Explainer
     role: Vision-language engineering, products, and education
     rosterCardSummary: A neural-network educator and builder whose working demos strengthen model launches and whose from-scratch explanations help research travel further.
@@ -316,7 +317,8 @@ researchers:
       designed and taught CS231n, Stanford's first deep-learning course. He was a founding member
       of OpenAI, then served as Tesla's Director of AI, leading the computer-vision team responsible
       for neural-network training and deployment in Autopilot. He later returned to OpenAI to build
-      a team working on mid-training and synthetic data. Alongside that career, his personal site
+      a team working on mid-training and synthetic data. In 2024 he founded Eureka Labs, an
+      AI-native education company. Alongside that career, his personal site
       publishes lectures, code, and from-scratch projects including micrograd, char-rnn, and
       ConvNetJS. His doctoral publications included image captioning and dense descriptions of
       regions within images and grounded visual-semantic embedding work. Karpathy's educational
@@ -366,7 +368,7 @@ researchers:
       - Andrey's live-coding session produced a model, a curriculum and a minor shortage of whiteboard space.
     portrait:
       assetId: portrait.researcher.andrey-carpathy
-      brief: Animated 8-bit editorial portrait; white man with dark hair and short beard, beside a blue terminal window and an orange vision-language demo; approachable and technically electric, not photoreal.
+      brief: Animated 8-bit editorial portrait; a programmer with a short beard, in a black t-shirt, beside a blue terminal window and an orange vision-language demo; approachable and technically electric, not photoreal.
       altText: Pixel-art portrait of Andrey Carpathy beside a terminal and a working vision-language demo.
     sources:
       - https://karpathy.ai/
@@ -377,7 +379,7 @@ researchers:
 
   - id: researcher.kai-ming-ho
     version: 1
-    displayName: Kai-Ming Ho
+    displayName: Kai-Ming Hopway
     inspirationName: Kaiming He
     inspirationSummary: ResNet lead author and contributor to Faster R-CNN, Mask R-CNN, MoCo, and masked autoencoders; MIT professor and Google DeepMind scientist.
     epithet: The Residual Engineer
@@ -439,8 +441,8 @@ researchers:
       - A residual block has become infrastructure, the highest compliment architecture can receive.
     portrait:
       assetId: portrait.researcher.kai-ming-ho
-      brief: Precise 8-bit editorial portrait; East Asian man with short dark hair and glasses, beside a deep blue network crossed by bright orange shortcut paths; calm and architecturally exact, not photoreal.
-      altText: Pixel-art portrait of Kai-Ming Ho beside a deep neural network with bright residual shortcut paths.
+      brief: Precise 8-bit editorial portrait; a researcher in glasses and a pale blue shirt, beside a deep blue network crossed by bright orange shortcut paths; calm and architecturally exact, not photoreal.
+      altText: Pixel-art portrait of Kai-Ming Hopway beside a deep neural network with bright residual shortcut paths.
     sources:
       - https://people.csail.mit.edu/kaiming/
       - https://arxiv.org/abs/1512.03385
@@ -467,9 +469,8 @@ researchers:
       Technology as a professor of artificial intelligence. His publications also cover neural
       compression and universal problem solvers. Across this broad programme, the through-line is
       long-horizon credit assignment and learning systems that improve their own procedures. His
-      pages trace that programme across decades. Jürgen's own record keeps the chronology unusually
-      visible: the sequence may be long, but the citation graph insists that history had an order
-      too.
+      pages trace that programme across decades, from gated memory to machines that learn to improve
+      their own learning.
     availability:
       wave: deep-learning
       earliestYear: 2012
@@ -503,19 +504,19 @@ researchers:
     paperHooks:
       ids: [paper.long-short-term-memory, paper.sequence-to-sequence, paper.neural-attention-translation]
     eventReactions:
-      - { triggerTag: priority-dispute, line: "The useful answer is a citation graph, not a louder adjective. Fortunately, I have brought one." }
-      - { triggerTag: sequence-memory, line: "Long-range credit assignment is difficult. Long-range credit allocation appears to be a separate research programme." }
-      - { triggerTag: rival-paper, line: "Their result is excellent. Its prerequisites are familiar. We should be able to reconstruct the route." }
+      - { triggerTag: priority-dispute, line: "Settle it with dated papers and runnable code, then get back to the research." }
+      - { triggerTag: sequence-memory, line: "Long-range credit assignment is difficult. That is exactly why it is worth solving properly." }
+      - { triggerTag: rival-paper, line: "Their result is excellent. Reproduce it, then find out what it can teach our memory research." }
     feedLines:
-      - Jürgen expanded the historical note and discovered three prerequisites the roadmap had labelled “background.”
+      - Jürgen's curious agent went looking for patterns it could not yet compress, and came back with three new experiments.
       - The recurrent network remembers 400 steps. The citation graph remembers 40 years.
-      - A rival published openly; the citation graph mapped three reusable prerequisites before lunch.
-      - The Footnote has requested equal billing and supplied reproducible evidence.
+      - A rival published openly; Jürgen's team found three ideas worth combining with their own before lunch.
+      - The memory cell held its state across the whole run, which Jürgen regarded as the minimum acceptable behaviour.
       - Jürgen described the idea as “from the previous millennium,” which in AI is both precise and alarming.
       - Long-memory research accelerated after the lab stopped treating every sequence as a bag of fashionable tokens.
     portrait:
       assetId: portrait.researcher.jurgen-smithhuber
-      brief: Distinctive 8-bit editorial portrait; white European man with swept dark-grey hair and an animated expression, beside a looping green memory cell and a densely connected citation timeline; maverick and scholarly, not photoreal.
+      brief: Distinctive 8-bit editorial portrait; a scientist in a dark suit jacket with an animated expression, beside a looping green memory cell and a densely connected timeline; visionary and scholarly, not photoreal.
       altText: Pixel-art portrait of Jürgen Smithhuber beside an LSTM memory loop and a long citation timeline.
     sources:
       - https://www.kaust.edu.sa/en/study/faculty/juergen-schmidhuber
@@ -528,7 +529,7 @@ researchers:
     version: 1
     displayName: Niki Parmer
     inspirationName: Niki Parmar
-    inspirationSummary: Transformer and Image Transformer co-author who co-founded Adept and Essential AI to turn large models into useful systems.
+    inspirationSummary: Transformer and Image Transformer co-author who co-founded Adept and Essential AI before joining Anthropic in 2024.
     epithet: The Attention-to-Action Builder
     role: Transformer architectures and scaled sequence modelling
     rosterCardSummary: A transformer co-author who carries attention across modalities, then asks what useful system the lab plans to build next.
@@ -539,9 +540,8 @@ researchers:
       Image Transformer generated images autoregressively while modelling each pixel's conditional
       distribution. Her later research included stand-alone self-attention for vision, replacing spatial
       convolutions with attention operations. Parmar co-founded Adept with Ashish Vaswani and David
-      Luan to build models that act through software, then co-founded Essential AI with Vaswani.
-      Essential describes its work as open models, tooling, reproducible pipelines, and evaluation
-      frameworks intended to make frontier research useful. Across those projects, Parmar keeps an
+      Luan to build models that act through software, then co-founded Essential AI with Vaswani
+      before joining Anthropic in 2024. Across those projects, Parmar keeps an
       architecture-to-action through-line: test attention in another modality, make the system
       reproducible, and ask whether anybody can use it. A beautiful attention map earns respectful
       interest; a working tool earns the next meeting.
@@ -579,12 +579,12 @@ researchers:
       - Niki sketched a variant of the original architecture on a napkin and it, predictably, also worked.
       - The scaled model shipped a week early. Niki has already asked what ships next.
       - A co-founder meeting ran long because the architecture kept generating better product ideas than agenda items.
-      - Niki rejected an elegant proof of concept for lacking, in her words, "an actual user."
+      - Niki rejected an elegant proof of concept for lacking an actual user.
       - The attention heads specialised in a way nobody explicitly designed, and Niki wrote it down anyway.
       - A junior engineer asked what it felt like to co-author the paper. Niki asked what they were building next.
     portrait:
       assetId: portrait.researcher.niki-parmer
-      brief: Energetic 8-bit editorial portrait; South Asian woman with dark hair pulled back, beside an attention-head diagram morphing into a small shipped product icon; builder's energy, not photoreal.
+      brief: Energetic 8-bit editorial portrait; a builder in a dark blazer with hair pulled back, beside an attention-head diagram morphing into a small shipped product icon; builder's energy, not photoreal.
       altText: Pixel-art portrait of Niki Parmer beside an attention-head diagram transforming into a shipped product icon.
     sources:
       - https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html

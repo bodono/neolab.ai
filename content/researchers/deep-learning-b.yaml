@@ -65,7 +65,7 @@ researchers:
       - A new checkpoint shipped on schedule, and three other teams' roadmaps quietly got shorter.
     portrait:
       assetId: portrait.researcher.jacob-devlon
-      brief: Precise 8-bit editorial portrait; white man with short brown hair and a plain collared shirt, beside a bidirectional arrow diagram spanning masked and unmasked text; systems-minded and calm, not photoreal.
+      brief: Precise 8-bit editorial portrait; a researcher in a plain collared shirt, beside a bidirectional arrow diagram spanning masked and unmasked text; systems-minded and calm, not photoreal.
       altText: Pixel-art portrait of Jacob Devlon beside a bidirectional language-model diagram with masked text.
     sources:
       - https://research.google/pubs/bert-pre-training-of-deep-bidirectional-transformers-for-language-understanding/
@@ -78,21 +78,22 @@ researchers:
     version: 1
     displayName: Ross Girshall
     inspirationName: Ross Girshick
-    inspirationSummary: R-CNN inventor, Detectron author, and object-detection researcher whose Fast, Faster, and Mask successors made boxes and segmentation masks reusable vision baselines.
+    inspirationSummary: R-CNN and Fast R-CNN inventor, Detectron author, and co-author of Faster and Mask R-CNN, the detection lineage that made boxes and segmentation masks reusable vision baselines.
     epithet: The Detection Engineer
     role: Object detection and segmentation architectures
-    rosterCardSummary: The engineer behind the R-CNN family, who converted "find the object" from a brittle pipeline of hand-built stages into a clean, learnable, endlessly reused recipe.
+    rosterCardSummary: The engineer who started the R-CNN family and converted "find the object" from a brittle pipeline of hand-built stages into a clean, learnable, endlessly reused recipe.
     biography: >-
       Ross Girshick made object detection a deep-learning system rather than a procession of
-      separately tuned parts. During his PhD at the University of Chicago, he invented R-CNN, which
-      paired region proposals with convolutional features. Fast R-CNN streamlined training; Faster
-      R-CNN learned the proposal mechanism; Mask R-CNN added pixel-level instance masks. His record
-      includes Detectron and work spanning object recognition, localisation, segmentation and
-      vision-language models. Ross released code and models that helped other researchers reproduce
-      and extend the lineage, while the R-CNN family earned multiple test-of-time awards. The family
-      tree has become architectural comedy: every time somebody asks whether the box can become a
-      mask, another descendant appears on the whiteboard. The record turns one stubborn vision
-      problem into a sequence of simpler, faster and more reusable baselines.
+      separately tuned parts. After a PhD at the University of Chicago on deformable part models, he
+      developed R-CNN as a Berkeley postdoc, pairing region proposals with convolutional features.
+      His Fast R-CNN streamlined training; with collaborators including Shaoqing Ren and Kaiming He,
+      Faster R-CNN learned the proposal mechanism and Mask R-CNN added pixel-level instance masks.
+      His record includes Detectron and work spanning object recognition, localisation, segmentation
+      and vision-language models. Ross released code and models that helped other researchers
+      reproduce and extend the lineage, while the R-CNN family earned multiple test-of-time awards.
+      The family tree has become architectural comedy: every time somebody asks whether the box can
+      become a mask, another descendant appears on the whiteboard. The record turns one stubborn
+      vision problem into a sequence of simpler, faster and more reusable baselines.
     availability: { wave: deep-learning, earliestYear: 2015, poolWeight: 0.75 }
     contract: { band: major, baseSalaryPerCycle: 0.64, baseSigningCash: 6, auraCost: 9, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 2, dataRepresentation: 3, reinforcementAgency: 1, multimodality: 5, reasoningTools: 2, roboticsEmbodiment: 2, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 3, management: 3, politics: 0 }
@@ -131,7 +132,7 @@ researchers:
       - A new segmentation demo let a user point at "the thing on the left," and it worked.
     portrait:
       assetId: portrait.researcher.ross-girshall
-      brief: Practical 8-bit editorial portrait; white man with short hair and a plain hoodie, beside an image with a clean object outline and bounding-box overlay; methodical and unshowy, not photoreal.
+      brief: Practical 8-bit editorial portrait; a researcher in a plain hoodie, beside an image with a clean object outline and bounding-box overlay; methodical and unshowy, not photoreal.
       altText: Pixel-art portrait of Ross Girshall beside an image with a clean segmented object outline.
     sources:
       - https://www.rossgirshick.info/
@@ -146,11 +147,11 @@ researchers:
     inspirationSummary: Université de Montréal professor, Mila founding member, GAN co-author, and co-author with Ian Goodfellow and Yoshua Bengio of the Deep Learning textbook.
     epithet: The Out-of-Distribution Professor
     role: Deep generative models and systematic generalisation
-    rosterCardSummary: A Mila founding member and GAN co-author who helped Ian Goodfellow and Yoshua Bengio write the book—then moved the benchmark out of distribution.
+    rosterCardSummary: A Mila founding member and GAN co-author who co-wrote the Deep Learning textbook with Ian Goodfellow and Yoshua Bengio—then moved the benchmark out of distribution.
     biography: >-
-      Aaron Courville is a Université de Montréal professor, Mila founding member and director of
-      IVADO. With Ian Goodfellow and Yoshua Bengio, he co-authored Deep Learning, the textbook that
-      organised a field into a teachable reference. He was a co-author of the original
+      Aaron Courville is a Université de Montréal professor, Mila founding member and scientific
+      director of IVADO. With Ian Goodfellow and Yoshua Bengio, he co-authored Deep Learning, the
+      textbook that organised a field into a teachable reference. He was a co-author of the original
       generative-adversarial-network paper, which set a generator and discriminator into the
       minimax contest now permanently sketched on laboratory whiteboards. His research spans
       generative models, reinforcement learning, multi-agent systems and systematic
@@ -190,14 +191,14 @@ researchers:
       - { triggerTag: student-departure, line: "The institute exists so this keeps happening. Go build the next chapter." }
     feedLines:
       - Aaron moved the evaluation set slightly and the "understood" result quietly stopped understanding.
-      - A new textbook errata list arrived, submitted, as usual, by a reader more careful than the authors.
+      - A new textbook errata list arrived, and every correction was credited to the reader who found it.
       - The generative model's samples improved. Aaron asked what happened outside the training distribution.
       - A founding-era Mila story resurfaced, again, at exactly the useful moment in a student's crisis of confidence.
       - Aaron's out-of-distribution check found the gap the leaderboard had quietly been hiding.
       - The reinforcement-learning experiment generalised to a slightly different environment, and Aaron finally smiled.
     portrait:
       assetId: portrait.researcher.aaron-courvel
-      brief: Thoughtful 8-bit editorial portrait; white man with short hair and glasses, beside a stacked three-author textbook spine and a generative-model sample grid; scholarly and skeptical, not photoreal.
+      brief: Thoughtful 8-bit editorial portrait; a professor in glasses and a knit sweater, beside a stacked three-author textbook spine and a generative-model sample grid; scholarly and sceptical, not photoreal.
       altText: Pixel-art portrait of Aaron Courvel beside a three-author deep learning textbook and a generative sample grid.
     sources:
       - https://mila.quebec/en/directory/aaron-courville
@@ -210,17 +211,17 @@ researchers:
     version: 1
     displayName: Koray Kavukoglu
     inspirationName: Koray Kavukcuoglu
-    inspirationSummary: Google DeepMind CTO and Google Chief AI Architect who founded DeepMind's deep-learning team and helped carry DQN and WaveNet from research into products.
+    inspirationSummary: Google DeepMind leader who served as its CTO and as Google's chief AI architect, founded DeepMind's deep-learning team and helped carry DQN and WaveNet from research into products.
     epithet: The Breakthrough Traffic Controller
     role: Deep reinforcement learning, frontier-model leadership, and research-to-product delivery
     rosterCardSummary: "A DQN and WaveNet pioneer who now directs frontier-model breakthroughs through the awkward checkpoint marked RESEARCH PROTOTYPE, MEET PRODUCT."
     biography: >-
-      Koray Kavukcuoglu is Google DeepMind's chief technology officer and Google's chief AI architect,
-      responsible for frontier models and product integration at global scale. He joined DeepMind
-      early, founded its deep-learning team and contributed to the DQN work that learned Atari games
-      directly from pixels and rewards. He later helped lead WaveNet from raw-audio research to
-      deployed speech technology, then became vice president of research. Google credits his team
-      with pioneering both DQN and WaveNet; the Gemini technical report lists him among the
+      Koray Kavukcuoglu served as Google DeepMind's chief technology officer and Google's chief AI
+      architect, responsible for frontier models and product integration at global scale. He joined
+      DeepMind early, founded its deep-learning team and contributed to the DQN work that learned
+      Atari games directly from pixels and rewards. He later helped lead WaveNet from raw-audio
+      research to deployed speech technology, then became vice president of research. Google credits
+      his team with pioneering both DQN and WaveNet; the Gemini technical report lists him among the
       project's leadership. That research-to-product arc runs from an astonishing demo to an
       enormous launch checklist, where research, infrastructure and product must agree on the same
       definition of “ready.”
@@ -262,7 +263,7 @@ researchers:
       - A frontier-model meeting ended with owners, deadlines, and only one new acronym.
     portrait:
       assetId: portrait.researcher.koray-kavukoglu
-      brief: Warm 8-bit editorial portrait; Turkish man with a light-to-medium olive complexion, short salt-and-pepper hair, no glasses or beard, a broad friendly smile, and a bright yellow sweater, beside an Atari screen feeding into a production launch checklist; technically assured and approachable, not photoreal.
+      brief: Warm 8-bit editorial portrait; a leader with no glasses or beard, a broad friendly smile and a bright yellow sweater, beside an Atari screen feeding into a production launch checklist; technically assured and approachable, not photoreal.
       altText: Pixel-art portrait of Koray Kavukoglu beside an Atari screen feeding into a production launch checklist.
     sources:
       - https://blog.google/authors/koray-kavukcuoglu/

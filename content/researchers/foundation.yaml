@@ -22,7 +22,9 @@ researchers:
       AlexNet, a landmark result in the 2012 ImageNet competition. He shared the 2018 Turing Award
       with Yoshua Bengio and Yann LeCun for conceptual and engineering advances in deep neural
       networks, and the 2024 Nobel Prize in Physics with John Hopfield for foundational work
-      enabling machine learning with artificial neural networks. He later joined Google. His career
+      enabling machine learning with artificial neural networks. He worked at Google from 2013 until
+      2023, when he left so that he could speak more freely about the risks of advanced AI; he is a
+      University Professor Emeritus at Toronto. His career
       shows that an unfashionable research programme can become infrastructure while the field is
       still carefully composing its formal objections.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
@@ -56,15 +58,15 @@ researchers:
       - { triggerTag: anomalous-representation, line: "Excellent. The model has learned something we did not name. Now comes the part where we find out what." }
     feedLines:
       - Geoffrey has drawn a latent space on the whiteboard and quietly improved the building's intellectual property value.
-      - The representations are distributed. The credit, according to the citations desk, is less evenly so.
+      - The representations are distributed. The whiteboard, regrettably, is not; it is entirely full.
       - Geoffrey requested one more controlled experiment and no additional adjectives.
       - A seminar overran by 47 minutes because the first question was unusually good.
       - The architecture team has rediscovered an idea Geoffrey remembers being unpopular twice.
       - Geoffrey described the loss curve as “encouraging,” producing an immediate, unquantified surge in unofficial morale.
     portrait:
       assetId: portrait.researcher.geoffrey-hintoff
-      brief: Warm 8-bit editorial portrait; older white man with silver hair, thoughtful expression and a dark collared shirt, beside a small orange gradient diagram; dignified, recognisable in spirit, not photoreal.
-      altText: Pixel-art portrait of Geoffrey Hintoff, silver-haired and thoughtful, beside an orange neural-network gradient diagram.
+      brief: Warm 8-bit editorial portrait; a thoughtful researcher in a dark collared shirt at a chalk-dusted whiteboard, beside a small orange gradient diagram; dignified, recognisable in spirit, not photoreal.
+      altText: Pixel-art portrait of Geoffrey Hintoff, thoughtful at a whiteboard, beside an orange neural-network gradient diagram.
     sources:
       - https://awards.acm.org/about/2018-turing
       - https://www.nobelprize.org/prizes/physics/2024/hinton/facts/
@@ -85,13 +87,15 @@ researchers:
       Bell Labs, where his work on convolutional neural networks helped automate handwriting
       recognition for bank cheques and other documents. He later joined New York University,
       founded its Center for Data Science and became the founding director of Facebook AI
-      Research. His research has spanned computer vision, representation learning, energy-based
-      models and self-supervised learning, with a recurring emphasis on systems that learn useful
-      structure without requiring every example to be labelled. He shared the 2018 Turing Award
-      with Geoffrey Hinton and Yoshua Bengio for advances that made deep neural networks a central
-      part of computing. The through-line is architectural: exploit structure in the data, test
-      the idea at useful scale, and ask the model to understand more of the world than the name on
-      the benchmark column.
+      Research. He later served as Meta's chief AI scientist and, at the end of 2025, left Meta to
+      co-found AMI Labs, a world-model start-up where he is executive chair, while remaining a
+      professor at NYU. His research has spanned computer vision, representation learning,
+      energy-based models and self-supervised learning, with a recurring emphasis on systems that
+      learn useful structure without requiring every example to be labelled. He shared the 2018
+      Turing Award with Geoffrey Hinton and Yoshua Bengio for advances that made deep neural
+      networks a central part of computing. The through-line is architectural: exploit structure in
+      the data, test the idea at useful scale, and ask the model to understand more of the world
+      than the name on the benchmark column.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
     contract: { band: lab-defining, baseSalaryPerCycle: 1.06, baseSigningCash: 10, auraCost: 15, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 5, reasoningTools: 4, roboticsEmbodiment: 3, scientificAi: 1, alignmentControl: 2, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 3, management: 4, politics: 3 }
@@ -130,8 +134,8 @@ researchers:
       - Open research produced a citation spike and a closed-door discussion about open research.
     portrait:
       assetId: portrait.researcher.ian-lemon
-      brief: Energetic 8-bit editorial portrait; older white man with grey hair, dark shirt and expressive eyebrows, framed by blue convolution tiles and a tiny world-model globe; generous and playful, not photoreal.
-      altText: Pixel-art portrait of Yann LeNet with grey hair, blue convolution tiles, and a small globe representing a learned world model.
+      brief: Energetic 8-bit editorial portrait; a researcher in a dark shirt with expressive eyebrows, framed by blue convolution tiles and a tiny world-model globe; generous and playful, not photoreal.
+      altText: Pixel-art portrait of Yann LeNet among blue convolution tiles, with a small globe representing a learned world model.
     sources:
       - https://awards.acm.org/about/2018-turing
       - https://yann.lecun.com/ex/bio.html
@@ -155,7 +159,9 @@ researchers:
       advances that made deep neural networks practical and influential. More recently, his
       research and public work have increasingly addressed the safety and governance of advanced
       artificial intelligence, including the need for scientific evidence, democratic oversight
-      and international cooperation. At Montréal, he built Mila from his research group into an
+      and international cooperation. In 2025 he launched LawZero, a nonprofit developing
+      safe-by-design AI, where he is co-president and scientific director, and he chairs the
+      International AI Safety Report. At Montréal, he built Mila from his research group into an
       independent academic institute. The combination is unusually direct: one of the people who helped make
       modern AI work is also asking what institutions and technical methods are needed to keep
       more capable systems under human control.
@@ -197,8 +203,8 @@ researchers:
       - Joshua described cooperation as technically demanding, which caused the technical team to become interested.
     portrait:
       assetId: portrait.researcher.joshua-benji
-      brief: Thoughtful 8-bit editorial portrait; older white man with curly grey hair and a gentle expression, balanced green capability and safety graphs behind him; humane, scholarly, not photoreal.
-      altText: Pixel-art portrait of Joshua Benji with curly grey hair between balanced green capability and safety graphs.
+      brief: Thoughtful 8-bit editorial portrait; a scholar in a soft sweater with a gentle expression, balanced green capability and safety graphs behind him; humane, scholarly, not photoreal.
+      altText: Pixel-art portrait of Joshua Benji between balanced green capability and safety graphs.
     sources:
       - https://awards.acm.org/about/2018-turing
       - https://mila.quebec/en/directory/yoshua-bengio
@@ -214,16 +220,17 @@ researchers:
     role: Computer vision, datasets, and human-centred AI
     rosterCardSummary: The ImageNet institution-builder who reminds the lab that every giant dataset is also a very large collection of human decisions.
     biography: >-
-      Fei-Fei Li studied physics at Princeton and electrical engineering at Caltech before
-      joining Stanford's computer-science faculty. She created ImageNet and the ImageNet
-      Challenge, the large-scale visual dataset and benchmark that became a proving ground for
-      major advances in computer vision. Her research has covered object and scene recognition,
-      cognitively inspired AI and ambient intelligence for health care. At Stanford she directed
-      the Artificial Intelligence Laboratory and became founding director of the Institute for
-      Human-Centered Artificial Intelligence. During a Stanford sabbatical, she served as a vice
-      president at Google and chief scientist of AI and machine learning at Google Cloud. She also
-      co-founded AI4ALL, which works to expand access to AI education. She studies spatial
-      intelligence. Her work treats a dataset as more than raw material: its categories,
+      Fei-Fei Li studied physics at Princeton and electrical engineering at Caltech, then taught at
+      Illinois and Princeton before joining Stanford's computer-science faculty in 2009. She created
+      ImageNet and the ImageNet Challenge, the large-scale visual dataset and benchmark that became
+      a proving ground for major advances in computer vision. Her research has covered object and
+      scene recognition, cognitively inspired AI and ambient intelligence for health care. At
+      Stanford she directed the Artificial Intelligence Laboratory and became founding director of
+      the Institute for Human-Centered Artificial Intelligence. During a Stanford sabbatical, she
+      served as a vice president at Google and chief scientist of AI and machine learning at Google
+      Cloud. She also co-founded AI4ALL, which works to expand access to AI education. In 2024 she
+      co-founded World Labs, a spatial-intelligence company, and serves as its chief executive. Her
+      work treats a dataset as more than raw material: its categories,
       annotations and intended use are design decisions, and the people who make those decisions
       are part of the technical system.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.85 }
@@ -267,7 +274,7 @@ researchers:
       - Human-centred AI has again required the presence of humans, delaying the purely automated slide deck.
     portrait:
       assetId: portrait.researcher.faye-faye-lee
-      brief: Warm 8-bit editorial portrait; East Asian woman with long dark hair and a confident, generous expression, beside a mosaic of labelled image tiles and a small human silhouette; scholarly and bright, not photoreal.
+      brief: Warm 8-bit editorial portrait; a researcher in a tailored blazer with a confident, generous expression, beside a mosaic of labelled image tiles and a small human silhouette; scholarly and bright, not photoreal.
       altText: Pixel-art portrait of Faye-Faye Lee beside a mosaic of labelled images and a small human figure.
     sources:
       - https://hai.stanford.edu/people/fei-fei-li
@@ -279,23 +286,23 @@ researchers:
     version: 1
     displayName: Andrew N. Gee
     inspirationName: Andrew Ng
-    inspirationSummary: Google Brain founder and Coursera co-founder who made machine learning a practical discipline for a global classroom.
+    inspirationSummary: Google Brain co-founder and Coursera co-founder who made machine learning a practical discipline for a global classroom.
     epithet: The Great Translator
     role: Applied ML, products, and education
     rosterCardSummary: An applied-AI builder and educator whose preferred scaling law begins with one clear lesson and ends with a few million people taking it.
     biography: >-
       Andrew Ng is an adjunct professor at Stanford and the founder of DeepLearning.AI and
-      Landing AI. He founded and led the Google Brain project, served as chief scientist at
-      Baidu, and has worked on machine-learning applications including computer vision, speech
-      and autonomous systems. In 2011 he taught Stanford's online machine-learning course to more
-      than 100,000 students, an experiment that helped lead to Coursera, which he co-founded.
-      Earlier at Stanford, he directed the Artificial Intelligence Laboratory and worked on
-      robotics, perception and large-scale unsupervised learning. Across research, education and
-      product work, his recurring focus is turning machine learning from a promising demonstration
-      into something people can understand, build and deploy. The method is recognisable: explain
-      the core idea clearly, identify a useful application, then replace the heroic prototype with
-      a repeatable engineering process. The online course showed technical education could
-      be engineered for global scale.
+      Landing AI. He co-founded and led the Google Brain project with Jeff Dean and Greg Corrado,
+      served as chief scientist at Baidu, and has worked on machine-learning applications including
+      computer vision, speech and autonomous systems. In 2011 he taught Stanford's online
+      machine-learning course to more than 100,000 students, an experiment that helped lead to
+      Coursera, which he co-founded. Earlier at Stanford, he directed the Artificial Intelligence
+      Laboratory and worked on robotics, perception and large-scale unsupervised learning. Across
+      research, education and product work, his recurring focus is turning machine learning from a
+      promising demonstration into something people can understand, build and deploy. The method is
+      recognisable: explain the core idea clearly, identify a useful application, then replace the
+      heroic prototype with a repeatable engineering process. The online course showed technical
+      education could be engineered for global scale.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 1.00 }
     contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 3, dataRepresentation: 5, reinforcementAgency: 2, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 5, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 3, securityContainment: 0, training: 4, product: 5, management: 5, politics: 3 }
@@ -335,7 +342,7 @@ researchers:
       - A public explainer earned the lab a wave of public affection and approximately 200,000 ambitious homework submissions.
     portrait:
       assetId: portrait.researcher.andrew-n-gee
-      brief: Friendly 8-bit editorial portrait; East Asian man with short dark hair and an open smile, in front of a chalkboard that connects a neural network to a small deployed product; welcoming and crisp, not photoreal.
+      brief: Friendly 8-bit editorial portrait; a teacher in a blue button-down shirt with an open smile, in front of a green chalkboard that connects a neural network to a small deployed product; welcoming and crisp, not photoreal.
       altText: Pixel-art portrait of Andrew N. Gee before a chalkboard linking a neural network diagram to a deployed product.
     sources:
       - https://hai.stanford.edu/people/andrew-ng
@@ -347,16 +354,17 @@ researchers:
     version: 1
     displayName: Geoff Deen
     inspirationName: Jeff Dean
-    inspirationSummary: Google systems architect behind MapReduce, Bigtable, Spanner, TensorFlow and the infrastructure that lets ambitious models fit on real machines.
+    inspirationSummary: Veteran Google systems architect, later its chief scientist, who co-designed MapReduce and Bigtable with Sanjay Ghemawat and helped build Spanner, TensorFlow and the infrastructure that lets ambitious models fit on real machines.
     epithet: The Systems Architect
     role: Distributed systems and ML infrastructure
     rosterCardSummary: A distributed-systems architect who finds the bottleneck everyone else had promoted to a law of physics.
     biography: >-
       Jeff Dean joined Google in 1999 and helped design systems that made web-scale computation
-      practical. His work includes MapReduce for large distributed data-processing jobs, Bigtable
-      for structured storage and Spanner for globally distributed databases. He later helped
-      start Google Brain, contributed to the DistBelief and TensorFlow machine-learning systems,
-      and worked on Pathways and Google's tensor-processing units. These projects turned difficult
+      practical. His work, much of it with Sanjay Ghemawat, includes MapReduce for large distributed
+      data-processing jobs, Bigtable for structured storage and Spanner for globally distributed
+      databases. He later helped start Google Brain, contributed to the DistBelief and TensorFlow
+      machine-learning systems, and worked on Pathways and Google's tensor-processing units. In 2023
+      he became Google's chief scientist. These projects turned difficult
       infrastructure problems into reusable platforms that other researchers and engineers could
       build on. MapReduce also inspired external systems including Hadoop, while Bigtable and
       Spanner became production foundations for Google services. The effect is leverage
@@ -402,7 +410,7 @@ researchers:
       - The incident postmortem is blameless, precise and quietly devastating to the previous architecture.
     portrait:
       assetId: portrait.researcher.geoff-deen
-      brief: Calm 8-bit editorial portrait; tall white man with short brown hair and glasses, surrounded by orderly purple server racks and a tiny green throughput graph; quietly formidable, not photoreal.
+      brief: Calm 8-bit editorial portrait; an engineer in glasses and a quarter-zip sweater, surrounded by orderly purple server racks and a tiny green throughput graph; quietly formidable, not photoreal.
       altText: Pixel-art portrait of Geoff Deen with glasses among orderly server racks and a rising throughput graph.
     sources:
       - https://research.google/people/jeff/
@@ -420,13 +428,13 @@ researchers:
     rosterCardSummary: The self-play strategist behind AlphaGo and AlphaZero, building leagues in which the model's most useful opponent is yesterday's model.
     biography: >-
       David Silver completed a doctorate in reinforcement learning at the University of Alberta
-      under Richard Sutton before joining DeepMind in 2013. There he led a programme combining
-      reinforcement learning, planning, deep neural networks and self-play. He was a lead researcher on
-      AlphaGo, which defeated leading professional Go players, and on AlphaGo Zero, which learned
-      Go from self-play without human game data. AlphaZero extended the approach to chess and
-      shogi as well as Go. The public matches made the results famous. He is a professor at
-      University College London. The underlying research programme was a sequence of controlled
-      environments in which search, learned value
+      under Richard Sutton and Martin Müller before joining DeepMind in 2013. There he led a
+      programme combining reinforcement learning, planning, deep neural networks and self-play. He
+      was a lead researcher on AlphaGo, which defeated leading professional Go players, and on
+      AlphaGo Zero, which learned Go from self-play without human game data. AlphaZero extended the
+      approach to chess and shogi as well as Go. The public matches made the results famous. He is a
+      professor at University College London. The underlying research programme was a sequence of
+      controlled environments in which search, learned value
       functions and experience could be tested together. Games served as compact laboratories:
       their rules are exact, their outcomes are measurable and a new agent can always be asked
       to play a very large number of games against its most demanding available colleague—itself.
@@ -469,7 +477,7 @@ researchers:
       - A public victory generated a wave of acclaim and a private list of twelve reasons not to generalise from it.
     portrait:
       assetId: portrait.researcher.david-sterling
-      brief: Composed 8-bit editorial portrait; white man with short dark hair and a slight smile, before a Go board whose branches become a green search tree; precise and quietly dramatic, not photoreal.
+      brief: Composed 8-bit editorial portrait; a researcher in a dark crew-neck jumper with a slight smile, before a Go board whose branches become a green search tree; precise and quietly dramatic, not photoreal.
       altText: Pixel-art portrait of David Sterling before a Go board transforming into a green search tree.
     sources:
       - https://deepmind.google/about/people/david-silver/
@@ -482,7 +490,7 @@ researchers:
     version: 1
     displayName: Rick Sutton
     inspirationName: Richard Sutton
-    inspirationSummary: Co-author of reinforcement learning's standard textbook and architect of temporal-difference learning and general, scalable methods.
+    inspirationSummary: Turing laureate, co-author of reinforcement learning's standard textbook and architect of temporal-difference learning and general, scalable methods.
     epithet: The Long-Horizon Purist
     role: Reinforcement-learning foundations
     rosterCardSummary: A foundational reinforcement-learning thinker who favours general methods, long horizons and giving the compute enough time to win the argument.
@@ -492,14 +500,15 @@ researchers:
       include temporal-difference learning, methods for prediction and planning, and agent
       architectures built around learning from interaction. With Andrew Barto he wrote
       Reinforcement Learning: An Introduction, a standard textbook that organised the field's
-      mathematics, algorithms and central questions into a coherent account. His work repeatedly
-      returns to methods that learn from experience and improve as computation becomes available,
-      rather than relying mainly on hand-coded domain knowledge. His broader interests include
-      animal-learning theory and representing knowledge directly in terms of an agent's
-      experience. His Dyna architecture integrated learning, planning and acting in a single
-      adaptive agent. That stance gives his research a long time horizon and a simple challenge
-      to every elaborate shortcut: if the general method gets more data and more compute, which
-      approach is still standing?
+      mathematics, algorithms and central questions into a coherent account. He and Barto received
+      the 2024 ACM A.M. Turing Award for developing the conceptual and algorithmic foundations of
+      reinforcement learning. His work repeatedly returns to methods that learn from experience and
+      improve as computation becomes available, rather than relying mainly on hand-coded domain
+      knowledge. His broader interests include animal-learning theory and representing knowledge
+      directly in terms of an agent's experience. His Dyna architecture integrated learning,
+      planning and acting in a single adaptive agent. That stance gives his research a long time
+      horizon and a simple challenge to every elaborate shortcut: if the general method gets more
+      data and more compute, which approach is still standing?
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.85 }
     contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 2, optimisationScaling: 5, dataRepresentation: 2, reinforcementAgency: 5, multimodality: 1, reasoningTools: 5, roboticsEmbodiment: 5, scientificAi: 2, alignmentControl: 3, interpretabilityEvals: 2, securityContainment: 0, training: 4, product: 0, management: 4, politics: 2 }
@@ -540,8 +549,8 @@ researchers:
       - The Bitterer Lesson draft was rejected for excessive short-term bitterness.
     portrait:
       assetId: portrait.researcher.rick-sutton
-      brief: Scholarly 8-bit editorial portrait; older white man with a bald crown, long grey hair at the sides, glasses, and a long grey beard, beside a gold temporal-difference arrow stretching across a long timeline; calm and principled, not photoreal.
-      altText: Pixel-art portrait of Rick Sutton with a bald crown, long grey side hair, and a long grey beard beside a gold temporal-difference arrow spanning a long timeline.
+      brief: Scholarly 8-bit editorial portrait; a researcher with a long beard, in glasses and a well-worn cardigan, beside a gold temporal-difference arrow stretching across a long timeline; calm and principled, not photoreal.
+      altText: Pixel-art portrait of Rick Sutton in glasses beside a gold temporal-difference arrow spanning a long timeline.
     sources:
       - https://apps.ualberta.ca/directory/person/rsutton
       - http://incompleteideas.net/book/the-book-2nd.html
@@ -609,7 +618,7 @@ researchers:
       - The independent committee has asked an inconvenient question and therefore appears operational.
     portrait:
       assetId: portrait.researcher.stewart-russel
-      brief: Distinguished 8-bit editorial portrait; older white man with silver hair, thoughtful eyes and a formal jacket, beside a blue control diagram and a small semicircle of council seats; statesmanlike, not photoreal.
+      brief: Distinguished 8-bit editorial portrait; a professor in a formal jacket with thoughtful eyes, beside a blue control diagram and a small semicircle of council seats; statesmanlike, not photoreal.
       altText: Pixel-art portrait of Stewart Russel beside a blue AI control diagram and an external council semicircle.
     sources:
       - https://www2.eecs.berkeley.edu/Faculty/Homepages/russell.html
@@ -635,7 +644,9 @@ researchers:
       Early projects included autonomous helicopter aerobatics and robots folding previously
       unseen towels; later work has pursued more general robot-learning systems. He directs the
       Berkeley Robot Learning Lab and co-directs the Berkeley Artificial Intelligence Research
-      Lab, and has co-founded organisations including Gradescope and Covariant. The recurring
+      Lab, and has co-founded organisations including Gradescope and Covariant. In 2024 he joined
+      Amazon with Covariant's founding team and in late 2025 was named head of its frontier-model
+      research, while remaining a Berkeley professor. The recurring
       engineering test is what happens after the polished demonstration: whether the learned
       skill transfers to a new object, survives contact with friction and still works when the
       camera is pointed somewhere less convenient. His laboratory has trained many later AI and
@@ -684,7 +695,7 @@ researchers:
       - The warehouse contract includes rather more reality than the simulator predicted.
     portrait:
       assetId: portrait.researcher.peter-abell
-      brief: Upbeat 8-bit editorial portrait; white man with short dark hair and a friendly grin, beside a compact orange robot arm learning from a dotted demonstration path; inventive and hands-on, not photoreal.
+      brief: Upbeat 8-bit editorial portrait; a researcher in a zip-up hoodie with a friendly grin, beside a compact orange robot arm learning from a dotted demonstration path; inventive and hands-on, not photoreal.
       altText: Pixel-art portrait of Peter Abeter beside an orange robot arm following a demonstrated motion path.
     sources:
       - https://www2.eecs.berkeley.edu/Faculty/Homepages/abbeel.html
@@ -705,15 +716,15 @@ researchers:
       Joëlle Pineau is a professor at McGill University and a member of Mila. Her
       research spans reinforcement learning, planning under partial observability and
       machine-learning applications in health care, including adaptive treatment and
-      neurostimulation. She has also held research leadership roles at Meta's Fundamental AI
-      Research organisation. Alongside that technical work, she helped lead
-      the NeurIPS reproducibility programme. Its measures included a code-submission policy, a
-      community reproducibility challenge and a checklist built into paper submission, followed
-      by a systematic study of how those interventions affected research practice. At McGill, she
-      co-directs the Reasoning and Learning Lab. The premise is practical rather than
-      ceremonial: a result that can be rerun is easier to inspect, extend and trust. A spectacular
-      curve is welcome; reproducible science simply asks it to arrive with the environment, the
-      seed and a reliable independent second appearance.
+      neurostimulation. She was Meta's vice-president of AI research, leading its Fundamental AI
+      Research organisation, before becoming chief AI officer of Cohere in 2025. Alongside that
+      technical work, she helped lead the NeurIPS reproducibility programme. Its measures included a
+      code-submission policy, a community reproducibility challenge and a checklist built into paper
+      submission, followed by a systematic study of how those interventions affected research
+      practice. At McGill, she co-directs the Reasoning and Learning Lab. The premise is practical
+      rather than ceremonial: a result that can be rerun is easier to inspect, extend and trust. A
+      spectacular curve is welcome; reproducible science simply asks it to arrive with the
+      environment, the seed and a reliable independent second appearance.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 1.00 }
     contract: { band: major, baseSalaryPerCycle: 0.73, baseSigningCash: 6, auraCost: 10, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 0, optimisationScaling: 0, dataRepresentation: 3, reinforcementAgency: 5, multimodality: 0, reasoningTools: 2, roboticsEmbodiment: 5, scientificAi: 5, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 2, management: 5, politics: 3 }
@@ -753,7 +764,7 @@ researchers:
       - Code release day has become a lab holiday observed by rebuilding the environment from scratch.
     portrait:
       assetId: portrait.researcher.jo-pineau
-      brief: Confident 8-bit editorial portrait; white woman with medium-length brown hair, beside two nearly matching experiment curves and a blue reproducibility checklist; exacting and warm, not photoreal.
+      brief: Confident 8-bit editorial portrait; a researcher in a dark blazer, beside two nearly matching experiment curves and a blue reproducibility checklist; exacting and warm, not photoreal.
       altText: Pixel-art portrait of Jo Pineau beside two replicated experiment curves and a blue checklist.
     sources:
       - https://mila.quebec/en/directory/joelle-pineau
@@ -821,7 +832,7 @@ researchers:
       - John pointed out, gently, that the lab had rediscovered a result from 1982.
     portrait:
       assetId: portrait.researcher.john-hopfeld
-      brief: Calm, patrician 8-bit editorial portrait; older light-complexioned man with very short white hair and no glasses, beside a bowl-shaped energy landscape with a marble settling into its lowest point; contemplative and physical, not photoreal.
+      brief: Calm, contemplative 8-bit editorial portrait; a physicist with no glasses, in a tweed jacket, beside a bowl-shaped energy landscape with a marble settling into its lowest point; thoughtful and physical, not photoreal.
       altText: Pixel-art portrait of John Hopfeld beside an energy landscape with a marble settling into a stable state.
     sources:
       - https://www.princeton.edu/news/2024/10/08/princetons-john-hopfield-receives-nobel-prize-physics
@@ -889,7 +900,7 @@ researchers:
       - A grant committee anecdote from Paul quietly reframed how the lab picks its long-shot projects.
     portrait:
       assetId: portrait.researcher.paul-werbost
-      brief: Wry, understated 8-bit editorial portrait; older light-complexioned man with receding white hair and no glasses, holding a bound thesis while a modern training curve descends behind him; patient and slightly vindicated, not photoreal.
+      brief: Wry, understated 8-bit editorial portrait; a researcher with no glasses, in a sports jacket, holding a bound thesis while a modern training curve descends behind him; patient and quietly pleased, not photoreal.
       altText: Pixel-art portrait of Paul Werbost holding a bound thesis beside a descending training curve.
     sources:
       - https://www.werbos.com/PJW_NSF_bio_Feb2015.pdf
@@ -957,7 +968,7 @@ researchers:
       - A margin-based baseline Vladimir suggested beat the new architecture, to nobody's stated satisfaction.
     portrait:
       assetId: portrait.researcher.vladimir-vapnick
-      brief: Severe, precise 8-bit editorial portrait; older light-complexioned man with a receding white hairline and no glasses, at a blackboard of inequalities with a clean separating margin between two clouds of points; rigorous and unimpressed, not photoreal.
+      brief: Precise 8-bit editorial portrait; a mathematician with no glasses, in a dark jacket at a blackboard of inequalities with a clean separating margin between two clouds of points; rigorous and focused, not photoreal.
       altText: Pixel-art portrait of Vladimir Vapnick at a blackboard showing a separating margin between two clouds of data points.
     sources:
       - https://datascience.columbia.edu/people/vladimir-vapnik/
@@ -1025,7 +1036,7 @@ researchers:
       - A complexity argument from Leslie saved a quarter of compute that would have proven nothing.
     portrait:
       assetId: portrait.researcher.leslie-valiante
-      brief: Thoughtful, donnish 8-bit editorial portrait; older light-complexioned man with receding grey hair and wire-frame glasses, before a proof sketch bracketing a hypothesis between two bounds; precise and unhurried, not photoreal.
+      brief: Thoughtful, donnish 8-bit editorial portrait; a professor in wire-frame glasses and a knit tie, before a proof sketch bracketing a hypothesis between two bounds; precise and unhurried, not photoreal.
       altText: Pixel-art portrait of Leslie Valiante before a proof sketch bracketing a hypothesis between two bounds.
     sources:
       - https://seas.harvard.edu/person/leslie-valiant
@@ -1093,7 +1104,7 @@ researchers:
       - Bernhard noted that the model would work beautifully until precisely the moment it mattered.
     portrait:
       assetId: portrait.researcher.bernhard-scholkopff
-      brief: Considered, professorial 8-bit editorial portrait; light-complexioned man with receding curly brown hair, a short beard, and round glasses, beside a causal graph with one arrow being deliberately reversed; rigorous and quietly sceptical, not photoreal.
+      brief: Considered, professorial 8-bit editorial portrait; a researcher with a short beard, in round glasses and an open-collared shirt, beside a causal graph with one arrow being deliberately reversed; rigorous and quietly sceptical, not photoreal.
       altText: Pixel-art portrait of Bernhard Schölkopff beside a causal graph with one arrow being reversed.
     sources:
       - https://is.mpg.de/bio/person/bs
@@ -1160,7 +1171,7 @@ researchers:
       - A stochastic-units argument from Terrence resolved a determinism problem nobody had framed properly.
     portrait:
       assetId: portrait.researcher.terrence-sejnowsky
-      brief: Warm, animated 8-bit editorial portrait; older light-complexioned man with neatly swept dark-grey hair, glasses, and no beard, between a cortical column diagram and a layered network, gesturing at the resemblance; enthusiastic and scholarly, not photoreal.
+      brief: Warm, animated 8-bit editorial portrait; a scientist in glasses and a blazer, with no beard, between a cortical column diagram and a layered network, gesturing at the resemblance; enthusiastic and scholarly, not photoreal.
       altText: Pixel-art portrait of Terrence Sejnowsky gesturing between a cortical column diagram and a layered artificial network.
     sources:
       - https://www.salk.edu/scientist/terrence-sejnowski/

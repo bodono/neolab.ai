@@ -9,21 +9,21 @@ researchers:
     version: 1
     displayName: Alex Krizhensky
     inspirationName: Alex Krizhevsky
-    inspirationSummary: AlexNet lead author and CIFAR-10/100 creator whose two-GPU 2012 ImageNet result helped reset modern computer vision.
+    inspirationSummary: AlexNet lead author and CIFAR-10/100 co-creator whose two-GPU 2012 ImageNet result helped reset modern computer vision.
     epithet: Two GPUs and a Benchmark
     role: Deep convolutional networks and GPU-scale training
-    rosterCardSummary: The AlexNet lead author and CIFAR-10/100 creator who used a two-GPU convolutional network to reset ImageNet—and the field's idea of a normal training budget.
+    rosterCardSummary: The AlexNet lead author and CIFAR-10/100 co-creator who used a two-GPU convolutional network to reset ImageNet—and the field's idea of a normal training budget.
     biography: >-
-      Alex Krizhevsky made hardware part of the argument. At the University of Toronto, he created
-      CIFAR-10 and CIFAR-100 from the 80 Million Tiny Images collection, then joined Ilya Sutskever
-      and Geoffrey Hinton on AlexNet. Their 2012 ImageNet system spread a deep convolutional network
-      across two GPUs and cut top-five test error to 15.3%, far ahead of the 26.2% runner-up. The
-      result did not merely win ILSVRC; it made GPU-trained deep vision the baseline everyone else
-      had to answer. Its five convolutional and three fully connected layers used ReLUs, dropout,
-      data augmentation, and roughly sixty million parameters—a hardware manifesto. Alex also
-      released CUDA implementations behind his experiments, giving other researchers something
-      more useful than a slogan: runnable code. Two graphics cards, one benchmark, and a decade of
-      computer vision suddenly needed a new plan.
+      Alex Krizhevsky made hardware part of the argument. At the University of Toronto, he led the
+      collection of CIFAR-10 and CIFAR-100 from the 80 Million Tiny Images collection, then joined
+      Ilya Sutskever and Geoffrey Hinton on AlexNet. Their 2012 ImageNet system spread a deep
+      convolutional network across two GPUs and cut top-five test error to 15.3%, far ahead of the
+      26.2% runner-up. The result did not merely win ILSVRC; it made GPU-trained deep vision the
+      baseline everyone else had to answer. Its five convolutional and three fully connected layers
+      used ReLUs, dropout, data augmentation, and roughly sixty million parameters—a hardware
+      manifesto. Alex also released CUDA implementations behind his experiments, giving other
+      researchers something more useful than a slogan: runnable code. Two graphics cards, one
+      benchmark, and a decade of computer vision suddenly needed a new plan.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.55 }
     contract: { band: major, baseSalaryPerCycle: 0.78, baseSigningCash: 7, auraCost: 11, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 3, reinforcementAgency: 0, multimodality: 5, reasoningTools: 3, roboticsEmbodiment: 0, scientificAi: 0, alignmentControl: 0, interpretabilityEvals: 5, securityContainment: 0, training: 5, product: 1, management: 1, politics: 0 }
@@ -57,13 +57,13 @@ researchers:
     feedLines:
       - Alex quietly retrained the baseline overnight and made three days of debate obsolete by breakfast.
       - The dataset has been cleaned again. Alex maintains this is the actual research contribution.
-      - A visiting student asked for the secret. Alex pointed at the GPU and said nothing else.
+      - A visiting student asked for the secret. Alex pointed at the GPU, then at the data-augmentation script.
       - The error rate fell by double digits. Alex filed it under "expected, eventually."
       - Someone suggested a more elegant architecture. Alex suggested a bigger one first.
       - The CIFAR images are, once again, being used to debug something far larger than CIFAR.
     portrait:
       assetId: portrait.researcher.alex-krizhensky
-      brief: Understated 8-bit editorial portrait; young white man with very short sandy light-brown hair and a plain grey t-shirt, seated before two glowing GPU towers and a sharply falling red error-rate graph; quiet and focused, not photoreal.
+      brief: Understated 8-bit editorial portrait; a researcher in a plain grey t-shirt, seated before two glowing GPU towers and a sharply falling red error-rate graph; quiet and focused, not photoreal.
       altText: Pixel-art portrait of Alex Krizhensky beside two GPU towers and a sharply falling error-rate graph.
     sources:
       - https://www.cs.toronto.edu/~kriz/
@@ -74,7 +74,7 @@ researchers:
 
   - id: researcher.andy-barto
     version: 1
-    displayName: Andy Barto
+    displayName: Andy Barterbury
     inspirationName: Andrew Barto
     inspirationSummary: A co-founder of modern reinforcement learning whose work with Richard Sutton on temporal-difference methods and its standard textbook earned the 2024 Turing Award.
     epithet: The Co-Architect of Reinforcement
@@ -86,12 +86,12 @@ researchers:
       learning from delayed reward into a general computational framework. Together and with other
       collaborators they developed temporal-difference learning, policy-gradient methods, and ways
       for neural networks to represent learned functions. They also combined learning with planning,
-      letting agents acquire models of environments, and later connected temporal-difference ideas
-      back to dopamine signals in neuroscience. Their 1998 book, Reinforcement Learning: An
-      Introduction, became the field's standard reference. Barto and Sutton received the 2024 ACM
-      A.M. Turing Award for this conceptual and algorithmic foundation. The prize arrived decades
-      after the work began; the algorithms had already spent the intervening years collecting
-      rewards.
+      letting agents acquire models of environments, and their temporal-difference ideas were later
+      linked by neuroscientists to dopamine signals in the brain. Their 1998 book, Reinforcement
+      Learning: An Introduction, became the field's standard reference. Barto and Sutton received
+      the 2024 ACM A.M. Turing Award for this conceptual and algorithmic foundation. The prize
+      arrived decades after the work began; the algorithms had already spent the intervening years
+      collecting rewards.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.75 }
     contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 2, optimisationScaling: 3, dataRepresentation: 1, reinforcementAgency: 5, multimodality: 0, reasoningTools: 5, roboticsEmbodiment: 3, scientificAi: 2, alignmentControl: 5, interpretabilityEvals: 5, securityContainment: 0, training: 3, product: 0, management: 3, politics: 1 }
@@ -132,8 +132,8 @@ researchers:
       - A student asked which came first, the theory or the algorithm. Andy said "the environment."
     portrait:
       assetId: portrait.researcher.andy-barto
-      brief: Warm 8-bit editorial portrait; older white man with a grey beard and gentle expression, beside a temporal-difference diagram and a two-name book spine; scholarly and unhurried, not photoreal.
-      altText: Pixel-art portrait of Andy Barto beside a temporal-difference learning diagram and a well-worn textbook.
+      brief: Warm 8-bit editorial portrait; a professor with a beard, in a corduroy jacket with a gentle expression, beside a pink temporal-difference diagram and a two-name book spine; scholarly and unhurried, not photoreal.
+      altText: Pixel-art portrait of Andy Barterbury beside a temporal-difference learning diagram and a well-worn textbook.
     sources:
       - https://www.cics.umass.edu/2024-acm-am-turing-award
       - https://awards.acm.org/award-recipients/barto_9471663
@@ -155,11 +155,11 @@ researchers:
       1997 LSTM paper became a foundation for speech and language systems that needed information
       to survive long sequences. The original cell preserved error flow through a constant
       self-connection, while input and output gates protected stored information; xLSTM later added
-      exponential gating and revised memory structures for modern scale and throughput. Since 2006
-      Sepp has led the Institute for Machine Learning at Johannes Kepler University Linz and directs
-      its LIT AI Lab. Decades after LSTM, his team returned with xLSTM, a scalable revision of the
-      same architectural family. Apparently a memory mechanism this durable was not going to forget
-      its own second act.
+      exponential gating and revised memory structures for modern scale and throughput. Sepp joined
+      Johannes Kepler University Linz in 2006, has led its Institute for Machine Learning since 2018
+      and directs its LIT AI Lab. Decades after LSTM, his team returned with xLSTM, a scalable
+      revision of the same architectural family. Apparently a memory mechanism this durable was not
+      going to forget its own second act.
     availability: { wave: foundation, earliestYear: 2012, poolWeight: 0.70 }
     contract: { band: lab-defining, baseSalaryPerCycle: 1.11, baseSigningCash: 10, auraCost: 16, overrideExplanation: Priced on overall measured research strength. }
     skills: { architectures: 5, optimisationScaling: 5, dataRepresentation: 4, reinforcementAgency: 2, multimodality: 4, reasoningTools: 5, roboticsEmbodiment: 0, scientificAi: 2, alignmentControl: 2, interpretabilityEvals: 5, securityContainment: 0, training: 4, product: 1, management: 2, politics: 1 }
@@ -198,7 +198,7 @@ researchers:
       - The gate values are, once again, doing exactly what they were designed to do three decades ago.
     portrait:
       assetId: portrait.researcher.sepp-hochreitner
-      brief: Precise 8-bit editorial portrait; middle-aged white man with glasses and short grey hair, beside a gated memory-cell diagram with a glowing persistent pathway; methodical and quietly proud, not photoreal.
+      brief: Precise 8-bit editorial portrait; a researcher in glasses and a dark zip jacket, beside a gated memory-cell diagram with a glowing persistent pathway; methodical and quietly proud, not photoreal.
       altText: Pixel-art portrait of Sepp Hochreitner beside a gated memory-cell diagram with a glowing long-range pathway.
     sources:
       - https://www.jku.at/en/news-events/events/detail/news/ai-made-in-europe-spitzenforscher-sepp-hochreiter-und-sein-xlstm-erhalten-unternehmerische-verstaerkung-fuer-europaeisches-large-language-model/
@@ -212,16 +212,17 @@ researchers:
     version: 1
     displayName: Jitendra Malek
     inspirationName: Jitendra Malik
-    inspirationSummary: A Berkeley computer-vision pioneer behind anisotropic diffusion, normalized cuts, the Berkeley Segmentation Dataset, and R-CNN.
+    inspirationSummary: A Berkeley computer-vision pioneer behind anisotropic diffusion, normalized cuts and the Berkeley Segmentation Dataset, and a co-author of R-CNN.
     epithet: The Grammar of Seeing
     role: Computer vision foundations and perceptual grouping
-    rosterCardSummary: A Berkeley computer-vision pioneer behind anisotropic diffusion, normalized cuts, the Berkeley Segmentation Dataset, and R-CNN.
+    rosterCardSummary: A Berkeley computer-vision pioneer behind anisotropic diffusion, normalized cuts and the Berkeley Segmentation Dataset, and a co-author of R-CNN.
     biography: >-
       Jitendra Malik joined UC Berkeley in 1985 after a Stanford PhD and has spent the decades since
       teaching computers where one thing ends and another begins. With Pietro Perona he introduced
       anisotropic diffusion, which smooths an image without casually erasing its edges; with Jianbo
       Shi he developed normalized cuts for image segmentation. His Berkeley group also produced
-      shape contexts, the Berkeley Segmentation Dataset, and R-CNN, linking perceptual grouping to
+      shape contexts and the Berkeley Segmentation Dataset, and he co-authored R-CNN with Ross
+      Girshick, Jeff Donahue and Trevor Darrell, linking perceptual grouping to
       modern recognition. The programme crossed computer graphics, biological vision, and machine
       learning, producing high-dynamic-range imaging alongside recognition systems and earning five
       test-of-time prizes across both CVPR and ICCV venues. The common rule is that computer vision
@@ -266,7 +267,7 @@ researchers:
       - The advising list has again produced a researcher whose name is now on someone else's roster card.
     portrait:
       assetId: portrait.researcher.jitendra-malek
-      brief: Distinguished 8-bit editorial portrait; older South Asian man with grey hair and glasses, beside an image segmented into clean perceptual regions and a small tree of advisees; scholarly and exacting, not photoreal.
+      brief: Distinguished 8-bit editorial portrait; a professor in glasses and a navy sweater, beside an image segmented into clean perceptual regions and a small tree of advisees; scholarly and exacting, not photoreal.
       altText: Pixel-art portrait of Jitendra Malek beside a perceptually segmented image and a small advisor tree.
     sources:
       - https://www.nasonline.org/directory-entry/jitendra-malik-5fajsr/

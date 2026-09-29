@@ -9,12 +9,12 @@ researchers:
     version: 1
     displayName: Jan Liker
     inspirationName: Jan Leike
-    inspirationSummary: Anthropic Alignment Science lead and former OpenAI Superalignment co-lead whose work spans human-feedback learning, scalable oversight, and weak-to-strong generalisation.
+    inspirationSummary: Alignment researcher who led Anthropic's Alignment Science team and co-led OpenAI's Superalignment effort, with work spanning human-feedback learning, scalable oversight, and weak-to-strong generalisation.
     epithet: The Supervisor of Supervisors
     role: Alignment science and difficult-to-evaluate tasks
     rosterCardSummary: A frontier alignment leader trying to teach weaker supervisors to supervise stronger systems, while insisting the safety budget be made of actual GPUs rather than reassuring adjectives.
     biography: >-
-      Jan Leike leads Anthropic's Alignment Science team, studying how to align systems on tasks
+      Jan Leike led Anthropic's Alignment Science team, studying how to align systems on tasks
       that are difficult for humans to evaluate directly. He holds an Australian National
       University PhD in reinforcement-learning theory and previously worked on alignment at
       DeepMind, where he helped prototype reinforcement learning from human feedback. At OpenAI he
@@ -70,7 +70,7 @@ researchers:
       - A limitation section was expanded before the press release, causing a small but measurable increase in institutional adulthood.
     portrait:
       assetId: portrait.researcher.jan-liker
-      brief: Clear 8-bit editorial portrait; pale white man with close-cropped blond hair before two overlapping safety-evidence bands and a supervised model diagram; candid and scientifically focused, not photoreal.
+      brief: Clear 8-bit editorial portrait; a researcher in a plain grey t-shirt before two overlapping safety-evidence bands and a supervised model diagram; candid and scientifically focused, not photoreal.
       altText: Pixel-art portrait of Jan Liker before two overlapping safety-evidence bands and a supervised model diagram.
     sources:
       - https://jan.leike.name/
@@ -82,9 +82,9 @@ researchers:
 
   - id: researcher.jon-jumper
     version: 1
-    displayName: Jon Jumper
+    displayName: Jon W. Jumpfold
     inspirationName: John Jumper
-    inspirationSummary: Google DeepMind scientist and 2024 Chemistry laureate who led AlphaFold 2 from amino-acid sequence to experimentally competitive protein-structure predictions.
+    inspirationSummary: 2024 Chemistry laureate who led AlphaFold 2 at Google DeepMind from amino-acid sequence to experimentally competitive protein-structure predictions.
     epithet: The Ribbon-Diagram Cartographer
     role: Scientific AI and structural biology
     rosterCardSummary: A Nobel-recognised AlphaFold leader who turned amino-acid sequences into ribbon diagrams, then sent biology back to the wet lab with a much better map.
@@ -143,8 +143,8 @@ researchers:
       - Medicine readiness improved through several thousand careful experiments and one admirably unexciting validation report.
     portrait:
       assetId: portrait.researcher.jon-jumper
-      brief: Elegant 8-bit editorial portrait; white man with short brown hair before a luminous blue-green folded-protein ribbon and small experimental grid; grounded and quietly brilliant, not photoreal.
-      altText: Pixel-art portrait of Jon Jumper beside a luminous folded-protein ribbon and experimental grid.
+      brief: Elegant 8-bit editorial portrait; a scientist in an open-collared shirt before a luminous blue-green folded-protein ribbon and small experimental grid; grounded and quietly brilliant, not photoreal.
+      altText: Pixel-art portrait of Jon W. Jumpfold beside a luminous folded-protein ribbon and experimental grid.
     sources:
       - https://deepmind.google/science/alphafold/
       - https://deepmind.google/blog/demis-hassabis-john-jumper-awarded-nobel-prize-in-chemistry/
@@ -217,7 +217,7 @@ researchers:
       - Kelsey changed the task, the room and the object. The policy adapted before the committee did.
     portrait:
       assetId: portrait.researcher.kelsey-finn
-      brief: Bright 8-bit editorial portrait; white woman with long brown hair beside a small robot arm adapting between three coloured objects, with a looping meta-learning arrow; energetic and rigorous, not photoreal.
+      brief: Bright 8-bit editorial portrait; a roboticist in a lab fleece beside a small robot arm adapting between three coloured objects, with a looping meta-learning arrow; energetic and rigorous, not photoreal.
       altText: Pixel-art portrait of Kelsey Finn beside a robot arm adapting between three objects under a looping learning arrow.
     sources:
       - https://profiles.stanford.edu/chelsea-finn
