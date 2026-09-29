@@ -1,6 +1,7 @@
 import type { CompiledContent } from "@neolab/content-schema";
 
 import { calculateAuraSignal } from "../aura/aura.ts";
+import { completedRivalFacilityDefinitions } from "../facilities/rival-facility-flags.ts";
 import type { DeepMutable } from "../engine/draft.ts";
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import type { LabId } from "../model/ids.ts";
@@ -204,10 +205,15 @@ function bookValue(
     const thousands = lot.physicalCount / 1_000;
     return sum + thousands * generation.gameCostMillionsPerThousand * fraction;
   }, 0);
-  const buildings = lab.facilities.instances.reduce((sum, instance) => {
-    const definition = content.facilities[instance.definitionId];
-    return sum + (definition?.cashCostMillions ?? 0) * fraction;
-  }, 0);
+  const buildings =
+    lab.facilities.instances.reduce((sum, instance) => {
+      const definition = content.facilities[instance.definitionId];
+      return sum + (definition?.cashCostMillions ?? 0) * fraction;
+    }, 0) +
+    completedRivalFacilityDefinitions(content, lab).reduce(
+      (sum, definition) => sum + definition.cashCostMillions * fraction,
+      0,
+    );
   return {
     cashMillions: lab.finance.cash,
     gpuFleetMillions: hardware,

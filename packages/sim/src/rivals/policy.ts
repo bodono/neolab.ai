@@ -67,6 +67,7 @@ import {
   type TrainingQuote,
 } from "../training/training.ts";
 import { isProgressiveCampaign, labMaturityStage } from "../campaign/lab-maturity.ts";
+import { rivalBuildReserveMillions } from "./candidate-programme-race.ts";
 import { recordRivalPublicSignal } from "./signals.ts";
 
 // Recruiting approaches are memorable interruptions, not quarterly admin.
@@ -102,14 +103,17 @@ function largestAffordableGpuOrder(
   labId: LabId,
   generationId: ContentId,
   maximumThousandUnits: number,
+  reserveMillions: number,
 ): number {
+  // Hardware may only spend what is left after saving for the next build.
+  const spendable = (state.labs[labId]?.finance.cash ?? 0) - reserveMillions;
   let lower = 1;
   let upper = Math.max(0, Math.floor(maximumThousandUnits));
   let affordable = 0;
   while (lower <= upper) {
     const candidate = Math.floor((lower + upper) / 2);
     const quote = quoteGpuPurchase(state, content, labId, generationId, candidate);
-    if (quote.canPurchase) {
+    if (quote.canPurchase && quote.upfrontCostMillions <= spendable) {
       affordable = candidate;
       lower = candidate + 1;
     } else {
@@ -1154,6 +1158,7 @@ export function chooseRivalFleetCommand(
       labId,
       state.world.currentGpuGenerationId,
       purchasableThousandUnits,
+      rivalBuildReserveMillions(state, content, labId),
     );
     if (affordableThousandUnits <= 0) return undefined;
     return {

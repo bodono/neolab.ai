@@ -1,5 +1,6 @@
 import type { CompiledContent, ContentId } from "@neolab/content-schema";
 
+import { applyEffect } from "../engine/effect-executor.ts";
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import {
   facilityConstructionMajorProjectSlots,
@@ -168,35 +169,61 @@ export function advanceRivalInfrastructure(
       });
     }
 
-    let freeSlots =
-      availableConstructionSlotsWithContent(tx.read(), content) -
-      occupiedConstructionSlots(tx.read(), content, labId);
-    if (freeSlots <= 0) continue;
-    for (const definitionId of requiredIds) {
-      const state = tx.read();
-      const current = state.labs[labId];
-      const definition = content.facilities[definitionId];
-      if (current === undefined || definition === undefined) continue;
-      const slots = facilityConstructionMajorProjectSlots(definition);
-      if (slots > freeSlots || definition.tier > facilityTierLimit(state, content)) {
-        continue;
-      }
-      if (
-        rivalInfrastructureFacilityReady(state, labId, definitionId) ||
-        typeof current.flags[rivalFacilityBuildingFlag(definitionId)] === "number" ||
-        !definition.prerequisiteFacilityIds.every((prerequisiteId) =>
-          rivalInfrastructureFacilityReady(state, labId, prerequisiteId),
-        )
-      ) {
-        continue;
-      }
+    // Break ground in authored order while slots last. A rival pays the same
+    // authored price as the player and saves for the next build rather than
+    // skipping ahead to a cheaper one.
+    for (;;) {
+      const next = nextRivalInfrastructureStart(tx.read(), content, labId);
+      if (next === undefined) break;
+      const cost = content.facilities[next]?.cashCostMillions ?? 0;
+      if ((tx.read().labs[labId]?.finance.cash ?? 0) < cost) break;
+      applyEffect(
+        tx,
+        {
+          kind: "add-resource",
+          subject: { type: "lab", labId },
+          resource: "cash",
+          amount: -cost,
+          financeCategory: "project-cost",
+        },
+        { kind: "system", id: `rival-facility:${labId}:${next}` },
+      );
       tx.update((draft) => {
         const mutable = draft.labs[labId];
         if (mutable === undefined) throw new Error(`Unknown rival ${labId}`);
-        mutable.flags[rivalFacilityBuildingFlag(definitionId)] = tick(draft.run.tick);
+        mutable.flags[rivalFacilityBuildingFlag(next)] = tick(draft.run.tick);
       });
-      freeSlots -= slots;
-      if (freeSlots <= 0) break;
     }
   }
+}
+
+/**
+ * The next facility this rival would break ground on now, if it could pay:
+ * the first unbuilt facility in authored order whose prerequisites stand,
+ * whose tier is unlocked, and which fits the free construction slots.
+ */
+export function nextRivalInfrastructureStart(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+): ContentId | undefined {
+  const lab = state.labs[labId];
+  if (lab === undefined || lab.control !== "rival") return undefined;
+  const freeSlots =
+    availableConstructionSlotsWithContent(state, content) -
+    occupiedConstructionSlots(state, content, labId);
+  if (freeSlots <= 0) return undefined;
+  return requiredInfrastructureIds(content).find((definitionId) => {
+    const definition = content.facilities[definitionId];
+    return (
+      definition !== undefined &&
+      facilityConstructionMajorProjectSlots(definition) <= freeSlots &&
+      definition.tier <= facilityTierLimit(state, content) &&
+      !rivalInfrastructureFacilityReady(state, labId, definitionId) &&
+      typeof lab.flags[rivalFacilityBuildingFlag(definitionId)] !== "number" &&
+      definition.prerequisiteFacilityIds.every((prerequisiteId) =>
+        rivalInfrastructureFacilityReady(state, labId, prerequisiteId),
+      )
+    );
+  });
 }

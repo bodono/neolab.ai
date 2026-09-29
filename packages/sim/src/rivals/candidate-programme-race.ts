@@ -7,6 +7,7 @@ import {
   agiComponentFlag,
   isEraReached,
 } from "../endgame/candidate-programme.ts";
+import { applyEffect } from "../engine/effect-executor.ts";
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import type { LabId } from "../model/ids.ts";
 import type { AgiComponentType, GameState } from "../model/state.ts";
@@ -18,8 +19,8 @@ import { calculateRivalProgressMultiplier } from "./pacing.ts";
 
 /**
  * Rivals run the Candidate Programme too. Their campus is off-screen, but its
- * authored prerequisite chains and lead times are real, as are research
- * readiness, fleet capacity, and the cash needed to buy that fleet. Their
+ * authored prerequisite chains, lead times and prices are real, as are
+ * research readiness, fleet capacity, and the cash needed to buy that fleet. Their
  * candidate countdowns cannot start until all four works stand.
  */
 export const RIVAL_CONCURRENT_COMPONENT_BUILDS = 2;
@@ -205,26 +206,29 @@ export function advanceRivalCandidateProgramme(
       announce(tx, labId, componentType, "completed");
     }
 
-    // Break ground on the next work if a build slot is free.
-    const progress = agiComponentProgress(tx.read(), labId);
-    if (progress.building >= RIVAL_CONCURRENT_COMPONENT_BUILDS) continue;
-    const next = AGI_COMPONENT_TYPES.find((componentType) => {
-      const current = tx.read().labs[labId];
-      return (
-        current !== undefined &&
-        rivalAgiComponentPrerequisitesMet(tx.read(), content, labId, componentType) &&
-        rivalFleetSupportsAgiComponent(tx.read(), content, labId, componentType) &&
-        current.flags[agiComponentFlag(componentType)] !== true &&
-        typeof current.flags[agiComponentBuildingFlag(componentType)] !== "number"
-      );
-    });
+    // Break ground on the next work if a build slot is free and the rival can
+    // pay the authored price, which it saves for rather than skipping ahead.
+    const next = nextRivalAgiComponentStart(tx.read(), content, labId);
     if (next === undefined) continue;
+    const cost = AGI_COMPONENT_RULES[next].cashCostMillions;
+    if ((tx.read().labs[labId]?.finance.cash ?? 0) < cost) continue;
     const urgency = tx.read().world.rivals[labId]?.personality.raceUrgency ?? 50;
     const startChance = rivalAgiComponentStartChance(urgency);
     const roll = random.uniform(
       randomKey("rival-agi-component", labId, next, String(tx.read().run.tick), "start"),
     );
     if (roll > startChance) continue;
+    applyEffect(
+      tx,
+      {
+        kind: "add-resource",
+        subject: { type: "lab", labId },
+        resource: "cash",
+        amount: -cost,
+        financeCategory: "project-cost",
+      },
+      { kind: "system", id: `rival-agi-component:${labId}:${next}` },
+    );
     tx.update((draft) => {
       const mutable = draft.labs[labId];
       if (mutable === undefined) throw new Error(`Unknown rival ${labId}`);
@@ -232,4 +236,41 @@ export function advanceRivalCandidateProgramme(
     });
     announce(tx, labId, next, "started");
   }
+}
+
+/** The next work this rival would break ground on now, if it could pay. */
+export function nextRivalAgiComponentStart(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+): AgiComponentType | undefined {
+  const lab = state.labs[labId];
+  if (lab === undefined || lab.control !== "rival") return undefined;
+  if (agiComponentProgress(state, labId).building >= RIVAL_CONCURRENT_COMPONENT_BUILDS) {
+    return undefined;
+  }
+  return AGI_COMPONENT_TYPES.find(
+    (componentType) =>
+      rivalAgiComponentPrerequisitesMet(state, content, labId, componentType) &&
+      rivalFleetSupportsAgiComponent(state, content, labId, componentType) &&
+      lab.flags[agiComponentFlag(componentType)] !== true &&
+      typeof lab.flags[agiComponentBuildingFlag(componentType)] !== "number",
+  );
+}
+
+/**
+ * Cash a rival holds back from GPU orders for the next work it is ready to
+ * start. Without it, monthly GPU refreshes would spend every dollar and no
+ * rival could save for a $20-40B work. Facilities need no reserve: once a
+ * fleet fills its campus, GPU orders stop and cash accumulates for the build.
+ */
+export function rivalBuildReserveMillions(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+): number {
+  const componentType = nextRivalAgiComponentStart(state, content, labId);
+  return componentType === undefined
+    ? 0
+    : AGI_COMPONENT_RULES[componentType].cashCostMillions;
 }

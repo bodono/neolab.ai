@@ -19,15 +19,20 @@ import { createNewGame } from "../../engine/create-new-game.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { createTransaction } from "../../engine/transaction.ts";
 import { rivalFacilityCompleteFlag } from "../../facilities/facilities.ts";
+import { calculateCycleFinanceLines } from "../../finance/finance.ts";
+import { currentMark, VALUATION_TUNING } from "../../finance/valuation.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import type { LabId } from "../../model/ids.ts";
 import { calendarFromTick, type GameState } from "../../model/state.ts";
-import { gpuCount, rating, tick } from "../../model/units.ts";
+import { cashMillions, gpuCount, rating, tick } from "../../model/units.ts";
 import { RandomOracleV1 } from "../../random/oracle.ts";
 import { seed128 } from "../../random/seed.ts";
 import {
+  advanceRivalCandidateProgramme,
   agiComponentBuildingFlag,
   agiComponentProgress,
+  nextRivalAgiComponentStart,
+  rivalBuildReserveMillions,
   rivalAgiComponentPrerequisitesMet,
   rivalAgiComponentStartChance,
   rivalAgiComponentDurationWeeks,
@@ -59,6 +64,8 @@ function finalEraState(): DeepMutable<GameState> {
   for (const labId of Object.keys(state.world.rivals) as LabId[]) {
     const lab = state.labs[labId];
     if (lab === undefined) continue;
+    // Rivals pay authored prices. Fund the race so these tests measure timing.
+    lab.finance.cash = cashMillions(1_000_000);
     for (const componentType of AGI_COMPONENT_TYPES) {
       const programId = AGI_COMPONENT_RULES[componentType].requirement.researchProgramId;
       const domain =
@@ -144,6 +151,96 @@ describe("the rival Candidate Programme race", () => {
     expect(completed.labs[labId]?.flags[rivalFacilityCompleteFlag(hallId)]).toBe(true);
     expect(completed.labs[labId]?.flags[rivalFacilityBuildingFlag(dataCentreId)]).toBe(
       due.run.tick,
+    );
+  });
+
+  it("charges rivals the authored price at groundbreaking and waits when they cannot pay", () => {
+    const state = finalEraState();
+    const labId = rivalIds(state)[0];
+    const lab = labId === undefined ? undefined : state.labs[labId];
+    if (labId === undefined || lab === undefined) throw new Error("no rivals in fixture");
+    for (const key of Object.keys(lab.flags)) {
+      if (key.startsWith("rival:facility:")) delete lab.flags[key];
+    }
+    const powerId = contentId("base:facility.power-and-cooling-1");
+    const powerCost = content.facilities[powerId]?.cashCostMillions ?? 0;
+    expect(powerCost).toBeGreaterThan(0);
+
+    lab.finance.cash = cashMillions(powerCost - 0.5);
+    const short = createTransaction(state);
+    advanceRivalInfrastructure(short, content);
+    const waited = short.commit({ description: "cannot pay" }).state;
+    expect(waited.labs[labId]?.flags[rivalFacilityBuildingFlag(powerId)]).toBeUndefined();
+    expect(waited.labs[labId]?.finance.cash).toBe(powerCost - 0.5);
+
+    lab.finance.cash = cashMillions(powerCost);
+    const funded = createTransaction(state);
+    advanceRivalInfrastructure(funded, content);
+    const built = funded.commit({ description: "pays" }).state;
+    expect(built.labs[labId]?.flags[rivalFacilityBuildingFlag(powerId)]).toBe(0);
+    expect(built.labs[labId]?.finance.cash).toBe(0);
+    expect(built.labs[labId]?.finance.ledger).toContainEqual(
+      expect.objectContaining({ category: "project-cost", amountMillions: -powerCost }),
+    );
+  });
+
+  it("charges rivals for Candidate Programme works and holds GPU cash back for the next one", () => {
+    const state = finalEraState();
+    state.world.currentGpuGenerationId = contentId("base:gpu.markov");
+    const labId = rivalIds(state)[0];
+    const lab = labId === undefined ? undefined : state.labs[labId];
+    if (labId === undefined || lab === undefined) throw new Error("no rivals in fixture");
+    const next = nextRivalAgiComponentStart(state, content, labId);
+    if (next === undefined) throw new Error("fixture rival has no ready work");
+    const cost = AGI_COMPONENT_RULES[next].cashCostMillions;
+    expect(rivalBuildReserveMillions(state, content, labId)).toBe(cost);
+
+    lab.finance.cash = cashMillions(cost - 1);
+    let waiting: GameState = state;
+    for (let week = 0; week < 20; week += 1) {
+      const tx = createTransaction(waiting);
+      advanceRivalCandidateProgramme(tx, content, new RandomOracleV1(waiting.run.seed));
+      waiting = tx.commit({ description: "cannot pay" }).state;
+    }
+    expect(agiComponentProgress(waiting, labId).building).toBe(0);
+
+    lab.finance.cash = cashMillions(cost);
+    let started: GameState = state;
+    for (let week = 0; week < 40; week += 1) {
+      if (agiComponentProgress(started, labId).building > 0) break;
+      const draft = structuredClone(started) as DeepMutable<GameState>;
+      draft.run.tick = tick(started.run.tick + 1);
+      draft.run.calendar = calendarFromTick(draft.run.tick);
+      const tx = createTransaction(draft);
+      advanceRivalCandidateProgramme(tx, content, new RandomOracleV1(draft.run.seed));
+      started = tx.commit({ description: "pays" }).state;
+    }
+    expect(agiComponentProgress(started, labId).building).toBe(1);
+    expect(started.labs[labId]?.finance.cash).toBe(0);
+  });
+
+  it("charges rivals upkeep on their off-screen campus and counts it as book value", () => {
+    const state = finalEraState();
+    const labId = rivalIds(state)[0];
+    const lab = labId === undefined ? undefined : state.labs[labId];
+    if (labId === undefined || lab === undefined) throw new Error("no rivals in fixture");
+    const dataCentreId = contentId("base:facility.data-centre-5");
+    const definition = content.facilities[dataCentreId];
+    if (definition === undefined) throw new Error("data centre definition missing");
+    const upkeep = calculateCycleFinanceLines(state, content, labId).find(
+      (line) => line.sourceId === `rival-facility:${dataCentreId}`,
+    );
+    expect(upkeep?.category).toBe("facility");
+    expect(upkeep?.amountMillions).toBeCloseTo(
+      -definition.operatingCostMillionsPerCycle,
+      6,
+    );
+
+    const withCampus = currentMark(state, content, labId);
+    delete lab.flags[rivalFacilityCompleteFlag(dataCentreId)];
+    expect(withCampus - currentMark(state, content, labId)).toBeCloseTo(
+      definition.cashCostMillions * VALUATION_TUNING.ownedAssetValueFraction,
+      6,
     );
   });
 

@@ -1,6 +1,7 @@
 import type { CompiledContent } from "@neolab/content-schema";
 
 import { calculateGpuFinanceCosts } from "../compute/gpu-market.ts";
+import { completedRivalFacilityDefinitions } from "../facilities/rival-facility-flags.ts";
 import { resolveModifierValue } from "../engine/modifier-resolver.ts";
 import { projectMarketCycleRevenue } from "../market/market.ts";
 import { staffPayrollMarketMultiplier } from "../researchers/talent-market.ts";
@@ -145,6 +146,13 @@ export function calculateCycleFinanceLines(
         description: `${definition?.displayName ?? instance.definitionId} operations`,
       };
     }),
+    // Rivals pay to run the off-screen campus they paid to build.
+    ...completedRivalFacilityDefinitions(content, lab).map((definition) => ({
+      category: "facility" as const,
+      sourceId: `rival-facility:${definition.id}`,
+      amount: definition.operatingCostMillionsPerCycle,
+      description: `${definition.displayName} operations`,
+    })),
     {
       category: "executive",
       sourceId: "leadership.executive",

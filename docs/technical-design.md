@@ -2034,6 +2034,14 @@ for the ordinary delivery lead time before the new hardware is usable. Candidate
 likewise require their exact prerequisite facility, level-70 relevant research, and enough real fleet
 throughput before construction may begin.
 
+Rivals pay the player's authored prices. Each facility and each work charges its full cash cost
+when the rival breaks ground, as a `project-cost` ledger entry, and a rival that cannot pay waits
+for the next item in authored order instead of skipping to a cheaper one. Completed off-screen
+facilities charge their authored upkeep every cycle and count toward book value at the same fraction
+as the player's facility instances. GPU orders hold back the price of the next work the rival is
+ready to start; facilities need no such reserve because a fleet that fills its campus stops ordering
+and cash accumulates for the next build.
+
 Candidate detection examines every completed model owned by the rival, not only its current
 commercial model. A frontier successor can therefore begin the hidden countdown while it is still
 internal or being productised. Once started, the countdown remains attached to that exact model so a

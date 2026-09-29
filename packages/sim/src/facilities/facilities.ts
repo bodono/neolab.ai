@@ -8,6 +8,7 @@ import type { FacilityInstanceState, GameState, ModifierState } from "../model/s
 import { cashMillions, tick, type CashMillions, type Tick } from "../model/units.ts";
 import { reconcileResearcherHousing } from "../researchers/talent-market.ts";
 import { isProgressiveOpeningCreditAvailable } from "../campaign/progressive-opening.ts";
+import { rivalFacilityCompleteFlag } from "./rival-facility-flags.ts";
 
 function requireLab(state: Readonly<GameState>, labId: LabId) {
   const lab = state.labs[labId];
@@ -80,9 +81,7 @@ function supportedOwnedGpuCount(
  * free. These flags record the same authored facilities after their normal
  * prerequisite chains and construction times have elapsed.
  */
-export function rivalFacilityCompleteFlag(definitionId: ContentId): string {
-  return `rival:facility:${definitionId}:complete`;
-}
+export { rivalFacilityCompleteFlag } from "./rival-facility-flags.ts";
 
 export function hasOperationalFacility(
   state: Readonly<GameState>,
