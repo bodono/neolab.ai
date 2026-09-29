@@ -29,6 +29,7 @@ import {
 import { applyEffect } from "../engine/effect-executor.ts";
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import { calculateFacilityCapacity } from "../facilities/facilities.ts";
+import { forecastFinance } from "../finance/finance.ts";
 import { currentMark } from "../finance/valuation.ts";
 import {
   FRONTIER_PHASE_FRONTIER_CAPABILITY,
@@ -148,8 +149,11 @@ export interface RivalDecisionContext {
   readonly lab: {
     readonly labId: LabId;
     readonly labDefinitionId: ContentId;
+    /** Runway as stability: a year of runway, or a profitable lab, is 100. */
     readonly cashStability: Rating;
     readonly computeCapacity: number;
+    /** The era's fleet target, so compute is judged against the era. */
+    readonly computeTarget: number;
     readonly capabilityLevel: Rating;
     readonly safetyReadiness: Rating;
     readonly governmentTrust: Rating;
@@ -365,7 +369,16 @@ function situationalUtility(
     case "frontier-training":
       return (
         context.lab.capabilityLevel * 0.16 +
-        context.lab.computeCapacity / 20_000 +
+        // Log scale against the era's fleet target. A flat capacity / 20,000,
+        // tuned for opening fleets, reached 76-206 with late-game fleets and
+        // made every late rival pick this plan.
+        Math.min(
+          15,
+          10 *
+            Math.log2(
+              1 + context.lab.computeCapacity / Math.max(1, context.lab.computeTarget),
+            ),
+        ) +
         (context.world.phase === "foundation" ? -18 : 8)
       );
     case "commercial-consolidation":
@@ -565,6 +578,18 @@ export function createInitialRivalStrategy(
   };
 }
 
+/** A year of runway, or a profitable lab, is fully stable (100). */
+export function rivalCashStability(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+): Rating {
+  const runway = forecastFinance(state, content, labId).runway;
+  return runway.isInfinite || runway.weeks === null
+    ? rating(100)
+    : clampRating((runway.weeks / 52) * 100);
+}
+
 export function createRivalDecisionContext(
   state: Readonly<GameState>,
   content: CompiledContent,
@@ -595,11 +620,14 @@ export function createRivalDecisionContext(
     lab: {
       labId,
       labDefinitionId: lab.definitionId,
-      cashStability: clampRating(50 + lab.finance.cash * 1.5),
+      // Months of runway, not dollars: 50 + cash x 1.5 saturated at about $34M,
+      // so commercial plans scored nothing once a lab held real money.
+      cashStability: rivalCashStability(state, content, labId),
       computeCapacity: lab.compute.lots.reduce(
         (total, lot) => total + lot.physicalCount * lot.availableFraction,
         0,
       ),
+      computeTarget: rivalFleetTargetEraGpuEquivalents(state, true),
       capabilityLevel: clampRating(
         average(capabilityPrograms.map(([, domain]) => domain.level)),
       ),

@@ -36,6 +36,7 @@ import {
   RIVAL_MAX_GPU_ORDER_THOUSANDS,
   RIVAL_SCALING_TRAINING_CAPABILITY,
   rivalPreCandidateTrainingCapabilityTarget,
+  rivalCashStability,
   rivalPostTrainingCooldownWeeks,
   rivalQuarterlyCapitalCapMillions,
   recapitaliseRivals,
@@ -113,6 +114,49 @@ describe("weighted utility rival policy", () => {
     lab.flags["rival:last-gpu-order-at"] = -100;
 
     expect(chooseRivalFleetCommand(state, content, labId, true)).toBeUndefined();
+  });
+
+  it("keeps a huge late fleet from swamping the frontier-training score", () => {
+    const state = newState();
+    const labId = rivalIds(state)[0];
+    if (labId === undefined) throw new Error("rival fixture missing");
+    const base = createRivalDecisionContext(state, content, labId);
+    const frontierSituation = (fleetMultiple: number) => {
+      const context: RivalDecisionContext = {
+        ...base,
+        world: { ...base.world, phase: "frontier" },
+        lab: {
+          ...base.lab,
+          capabilityLevel: rating(80),
+          computeCapacity: base.lab.computeTarget * fleetMultiple,
+        },
+      };
+      const plan = new WeightedUtilityRivalPolicy()
+        .chooseQuarterPlan(context, new RandomOracleV1(seed128("0".repeat(32))))
+        .topPlans.find((score) => score.planId === "frontier-training");
+      if (plan === undefined) throw new Error("frontier-training not in the top plans");
+      return plan.situationalUtility;
+    };
+    // Capability 80 x 0.16 + at most 15 from compute + 8 outside foundation.
+    expect(frontierSituation(1)).toBeCloseTo(12.8 + 10 + 8);
+    expect(frontierSituation(100)).toBeCloseTo(12.8 + 15 + 8);
+  });
+
+  it("rates rival cash stability by runway rather than cash held", () => {
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    const labId = rivalIds(state)[0];
+    const lab = labId === undefined ? undefined : state.labs[labId];
+    if (labId === undefined || lab === undefined)
+      throw new Error("rival fixture missing");
+    // The opening rival burns money each week, so cash buys runway.
+    lab.finance.cash = cashMillions(0);
+    expect(rivalCashStability(state, content, labId)).toBe(0);
+    // $10M scored 65 under the old cash formula, which saturated at about
+    // $34M. It now scores by the weeks it lasts at the current burn.
+    lab.finance.cash = cashMillions(10);
+    const stability = rivalCashStability(state, content, labId);
+    expect(stability).toBeGreaterThan(0);
+    expect(stability).toBeLessThan(100);
   });
 
   it("caps quarterly rival capital at one maximum GPU order in the current era", () => {
