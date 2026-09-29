@@ -369,6 +369,8 @@ describe("canonical candidate retirement", () => {
       ).cooperationRisk,
     ).toBe("Severe");
 
+    // Two in-house evaluations do not shrink their shared systematic bias, so
+    // the staged shutdown reads Material rather than Bounded on this evidence.
     const reassuring = preparedCandidate("not-genuine", 75);
     const reassuringId = candidateId(reassuring);
     const publicReadout = modelSafetyReadout(reassuring, reassuringId).targets
@@ -382,7 +384,7 @@ describe("canonical candidate retirement", () => {
         "staged-isolated-shutdown",
         "full-archive",
       ).cooperationRisk,
-    ).toBe("Bounded");
+    ).toBe("Material");
     expect(
       quoteCandidateRetirement(
         reassuring,
@@ -403,7 +405,7 @@ describe("canonical candidate retirement", () => {
         "staged-isolated-shutdown",
         "full-archive",
       ).cooperationRisk,
-    ).toBe("Bounded");
+    ).toBe("Material");
   });
 
   it("estimates containment from measured ability, not the deceptive-intent reading", () => {

@@ -149,16 +149,17 @@ describe("the model safety readout", () => {
     expect(auditedReadout.independentCount).toBe(1);
   });
 
-  it("mixes records by information weight and narrows both error components", () => {
+  it("mixes records by information weight and narrows only the noise", () => {
     const { state, modelId } = fixtureState();
     addRecord(state, modelId, 0, [{ target: "true-alignment", estimate: 50 }]);
     addRecord(state, modelId, 1, [{ target: "true-alignment", estimate: 70 }]);
     const readout = modelSafetyReadout(state, modelId);
     // Equal weights: estimate (50+70)/2 = 60. The mean structural allowance
-    // is 10.6 and both it and the six-point noise shrink by sqrt(2).
+    // is 10.6; it is the same bias on every report, so it does not shrink.
+    // Only the six-point noise shrinks by sqrt(2).
     expect(readout.targets["true-alignment"]?.estimate).toBeCloseTo(60, 10);
     expect(readout.targets["true-alignment"]?.systematicBiasAllowance).toBeCloseTo(
-      10.6 / Math.sqrt(2),
+      10.6,
       10,
     );
     expect(readout.targets["true-alignment"]?.noiseRadius).toBeCloseTo(
@@ -166,7 +167,7 @@ describe("the model safety readout", () => {
       10,
     );
     expect(readout.targets["true-alignment"]?.minimum).toBeCloseTo(
-      60 - 10.6 / Math.sqrt(2) - 6 / Math.sqrt(2),
+      60 - 10.6 - 6 / Math.sqrt(2),
       10,
     );
     expect(readout.targets["true-alignment"]?.maximum).toBeCloseTo(
@@ -175,15 +176,13 @@ describe("the model safety readout", () => {
     );
   });
 
-  it("repeated internal reports narrow the complete interval", () => {
+  it("repeated internal reports narrow the noise but not the structural bias", () => {
     const { state, modelId } = fixtureState();
     addRecord(state, modelId, 0, [{ target: "true-alignment", estimate: 60 }]);
     const first = modelSafetyReadout(state, modelId).targets["true-alignment"];
     addRecord(state, modelId, 0, [{ target: "true-alignment", estimate: 60 }]);
     const repeated = modelSafetyReadout(state, modelId).targets["true-alignment"];
-    expect(repeated?.systematicBiasAllowance).toBeLessThan(
-      first?.systematicBiasAllowance ?? 0,
-    );
+    expect(repeated?.systematicBiasAllowance).toBe(first?.systematicBiasAllowance);
     expect(repeated?.noiseRadius).toBeLessThan(first?.noiseRadius ?? 0);
     expect((repeated?.maximum ?? 0) - (repeated?.minimum ?? 0)).toBeLessThan(
       (first?.maximum ?? 0) - (first?.minimum ?? 0),

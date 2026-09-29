@@ -32,7 +32,11 @@ import {
   calculateFrontierCapability,
   CAPABILITY_ATTRIBUTES,
 } from "../../models/capability.ts";
-import { completeTrainingRun, TRAINING_FAILURE_COOLDOWN_WEEKS } from "../training.ts";
+import {
+  completeTrainingRun,
+  TRAINING_FAILURE_COOLDOWN_WEEKS,
+  trainingSafetyInputs,
+} from "../training.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
 
@@ -175,6 +179,16 @@ function completedModel(
   const model = tx.read().models[futureModelId];
   if (model === undefined) throw new Error("training completion produced no model");
   return model;
+}
+
+/** Re-authorise a fixture run so its safety snapshot matches the edited lab. */
+function reauthorise(state: GameState, projectId: ProjectId): void {
+  const project = (state as DeepMutable<GameState>).projects[projectId];
+  if (project?.payload.kind !== "training") throw new Error("training fixture missing");
+  project.payload.safetyInputsAtAuthorisation = trainingSafetyInputs(
+    state,
+    state.run.playerLabId,
+  );
 }
 
 describe("shared training quality", () => {
@@ -434,6 +448,31 @@ describe("shared training quality", () => {
     expect(highModel.hiddenSafety).toEqual(lowModel.hiddenSafety);
   });
 
+  it("draws intrinsic safety from the inputs in force at authorisation", () => {
+    const authorised = readyTrainingState();
+    const later = structuredClone(authorised.state) as DeepMutable<GameState>;
+    const programme =
+      later.labs[later.run.playerLabId]?.research.safetyPrograms[
+        "base:safety.alignment-control"
+      ];
+    if (programme === undefined) throw new Error("alignment research fixture missing");
+    // Research gained after the order was placed does not change these weights,
+    // which is what the forecast shown at authorisation promised.
+    programme.level = rating(100);
+    const oracle = new ControlledTrainingOracle(1);
+    expect(
+      completedModel(later, authorised.projectId, authorised.futureModelId, oracle)
+        .hiddenSafety,
+    ).toEqual(
+      completedModel(
+        authorised.state,
+        authorised.projectId,
+        authorised.futureModelId,
+        new ControlledTrainingOracle(1),
+      ).hiddenSafety,
+    );
+  });
+
   it("makes Alignment and Control the primary intrinsic-safety programme", () => {
     const low = readyTrainingState();
     const highState = structuredClone(low.state) as DeepMutable<GameState>;
@@ -447,6 +486,8 @@ describe("shared training quality", () => {
     }
     (lowAlignment as DeepMutable<typeof lowAlignment>).level = rating(0);
     highAlignment.level = rating(100);
+    reauthorise(low.state, low.projectId);
+    reauthorise(highState, low.projectId);
     const oracle = new ControlledTrainingOracle(1);
     const lowModel = completedModel(low.state, low.projectId, low.futureModelId, oracle);
     const highModel = completedModel(highState, low.projectId, low.futureModelId, oracle);
@@ -482,6 +523,8 @@ describe("shared training quality", () => {
     }
     (lowInterpretability as DeepMutable<typeof lowInterpretability>).level = rating(0);
     highInterpretability.level = rating(100);
+    reauthorise(low.state, low.projectId);
+    reauthorise(highState, low.projectId);
 
     const lowModel = completedModel(
       low.state,

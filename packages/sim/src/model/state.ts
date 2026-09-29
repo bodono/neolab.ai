@@ -1637,6 +1637,12 @@ export interface LobbyingResolutionState {
 export type TrainingFailureOutcome =
   "none" | "delay-and-cost" | "capability-penalty" | "total-loss";
 
+export interface TrainingSafetyInputs {
+  readonly alignmentResearch: number;
+  readonly interpretabilityResearch: number;
+  readonly safetyCulture: number;
+}
+
 export interface TrainingFailureCheckState {
   readonly checkpoint: number;
   readonly checkedAt: Tick;
@@ -1711,6 +1717,12 @@ export type ProjectPayload =
        * did not exist when the run was ordered.
        */
       readonly campaignMaturityStageAtAuthorisation?: string;
+      /**
+       * The lab's safety inputs when the run was authorised. The intrinsic
+       * safety forecast is quoted from these, so the outcome uses them too
+       * rather than whatever the levels have become by completion.
+       */
+      readonly safetyInputsAtAuthorisation?: TrainingSafetyInputs;
       readonly failureChecks: readonly TrainingFailureCheckState[];
       readonly capabilityPenalty: number;
       readonly completionReport?: TrainingCompletionReportState;

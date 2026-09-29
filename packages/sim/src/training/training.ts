@@ -49,6 +49,7 @@ import {
   type TrainingCompletionReportState,
   type TrainingFailureCheckState,
   type TrainingFailureOutcome,
+  type TrainingSafetyInputs,
   peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, gpuCount, rating, type Tick } from "../model/units.ts";
@@ -1055,6 +1056,7 @@ export function startTrainingRun(
         : {
             campaignMaturityStageAtAuthorisation: authorisedStage,
           }),
+      safetyInputsAtAuthorisation: trainingSafetyInputs(tx.read(), request.labId),
       failureChecks: [],
       capabilityPenalty: 0,
     },
@@ -1721,6 +1723,23 @@ function forecastRange(
  * leak through the quote. Security and containment are deliberately absent:
  * they protect the lab after training rather than changing the weights.
  */
+/** The safety inputs one training run is forecast and drawn from. */
+export function trainingSafetyInputs(
+  state: Readonly<GameState>,
+  labId: LabId,
+): TrainingSafetyInputs {
+  const lab = requireLab(state, labId);
+  return {
+    alignmentResearch:
+      lab.research.safetyPrograms["base:safety.alignment-control"]?.level ??
+      lab.safety.alignmentScience,
+    interpretabilityResearch:
+      lab.research.safetyPrograms["base:safety.interpretability-evals"]?.level ??
+      lab.safety.evalQuality,
+    safetyCulture: lab.safety.safetyCulture,
+  };
+}
+
 export function forecastTrainingIntrinsicSafety(
   state: Readonly<GameState>,
   labId: LabId,
@@ -1728,12 +1747,10 @@ export function forecastTrainingIntrinsicSafety(
   capabilityForecast: TrainingFrontierCapabilityForecast,
 ): TrainingIntrinsicSafetyForecast {
   const lab = requireLab(state, labId);
-  const alignmentResearch =
-    lab.research.safetyPrograms["base:safety.alignment-control"]?.level ??
-    lab.safety.alignmentScience;
-  const interpretabilityResearch =
-    lab.research.safetyPrograms["base:safety.interpretability-evals"]?.level ??
-    lab.safety.evalQuality;
+  const { alignmentResearch, interpretabilityResearch } = trainingSafetyInputs(
+    state,
+    labId,
+  );
   const safetyProcessNoiseRadius = 12 - 6 * (interpretabilityResearch / 100);
   const posture = trainingPostureDefinition(postureId);
   const adjustments = posture.outcomeAdjustmentRanges;
@@ -2052,14 +2069,11 @@ function generateHiddenSafetyState(
   postureAdjustments: TrainingPostureOutcomeAdjustments,
 ): HiddenModelSafetyState {
   const payload = requireTrainingPayload(project);
-  const lab = requireLab(state, project.ownerLabId);
   const safetyQuality = BASE_SAFETY_QUALITY;
-  const alignmentResearch =
-    lab.research.safetyPrograms["base:safety.alignment-control"]?.level ??
-    lab.safety.alignmentScience;
-  const interpretabilityResearch =
-    lab.research.safetyPrograms["base:safety.interpretability-evals"]?.level ??
-    lab.safety.evalQuality;
+  // The same inputs the forecast was quoted from at authorisation.
+  const { alignmentResearch, interpretabilityResearch, safetyCulture } =
+    payload.safetyInputsAtAuthorisation ??
+    trainingSafetyInputs(state, project.ownerLabId);
   // Interpretability does not make a model nicer. It makes the training
   // process less capable of hiding an extreme safety miss: at level 100 the
   // unexplained safety spread is half its original width. Security research
@@ -2074,7 +2088,7 @@ function generateHiddenSafetyState(
         5,
         35 +
           0.45 * alignmentResearch +
-          0.15 * lab.safety.safetyCulture +
+          0.15 * safetyCulture +
           0.15 * safetyQuality -
           0.28 * frontierCapability +
           hiddenSafetyNoise(
@@ -2094,9 +2108,11 @@ function generateHiddenSafetyState(
         5,
         30 +
           0.4 * alignmentResearch +
-          0.15 * lab.safety.safetyCulture +
+          0.15 * safetyCulture +
           0.1 * safetyQuality -
-          0.2 * report.capability.agency +
+          // Frontier capability, as the pre-authorisation forecast uses; the
+          // forecast cannot see agency, so drawing from it made the quote wrong.
+          0.2 * frontierCapability +
           hiddenSafetyNoise(
             oracle,
             payload.futureModelId,
@@ -2134,7 +2150,7 @@ function generateHiddenSafetyState(
     110 -
       0.5 * trueAlignment -
       0.35 * corrigibility -
-      0.1 * lab.safety.safetyCulture +
+      0.1 * safetyCulture +
       hiddenSafetyNoise(
         oracle,
         payload.futureModelId,

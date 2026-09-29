@@ -157,14 +157,12 @@ export function modelSafetyReadout(
             observation.informationWeight,
         0,
       ) / information;
-    const squaredInformationWeights = observed.reduce(
-      (sum, { observation }) => sum + observation.informationWeight ** 2,
-      0,
-    );
-    const effectiveObservationCount =
-      squaredInformationWeights > 0 ? information ** 2 / squaredInformationWeights : 1;
-    const systematicBiasAllowance =
-      weightedStructuralBias / Math.sqrt(Math.max(1, effectiveObservationCount));
+    // Masking and institutional bias are the same on every evaluation of this
+    // model, so repeating an evaluation does not average them away the way it
+    // averages noise. Only evaluator independence (inside each observation's
+    // bias) shrinks this term. Dividing by the square root of the observation
+    // count let the band exclude the true value after enough repeats.
+    const systematicBiasAllowance = weightedStructuralBias;
     // What the panel said before the latest report landed: the same weighted
     // mean with the newest observing report excluded. An independent audit
     // dragging alignment from 71 to 54 is the most dramatic string in the

@@ -1879,6 +1879,14 @@ const projectSchema = z
           successorEfficiencyApplied: z.literal(true).optional(),
           successorComputeEfficiencyMultiplier: finite.min(1).optional(),
           campaignMaturityStageAtAuthorisation: nonEmpty.optional(),
+          safetyInputsAtAuthorisation: z
+            .object({
+              alignmentResearch: finite.min(0),
+              interpretabilityResearch: finite.min(0),
+              safetyCulture: finite.min(0),
+            })
+            .strict()
+            .optional(),
           failureChecks: z.array(trainingFailureCheckSchema),
           capabilityPenalty: finite.min(0),
           completionReport: trainingCompletionReportSchema.optional(),
