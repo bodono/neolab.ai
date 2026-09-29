@@ -14,6 +14,7 @@ import { advanceOneTick } from "../../engine/advance-tick.ts";
 import { createNewGame } from "../../engine/create-new-game.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { applyEffect } from "../../engine/effect-executor.ts";
+import { currentMark } from "../../finance/valuation.ts";
 import { rivalFacilityCompleteFlag } from "../../facilities/facilities.ts";
 import type { GameCommand } from "../../commands/types.ts";
 import type { GameState } from "../../model/state.ts";
@@ -36,6 +37,8 @@ import {
   RIVAL_SCALING_TRAINING_CAPABILITY,
   rivalPreCandidateTrainingCapabilityTarget,
   rivalPostTrainingCooldownWeeks,
+  rivalQuarterlyCapitalCapMillions,
+  recapitaliseRivals,
   rivalTrainingDurationWeeks,
   rivalTrainingIntervalWeeks,
   WeightedUtilityRivalPolicy,
@@ -110,6 +113,31 @@ describe("weighted utility rival policy", () => {
     lab.flags["rival:last-gpu-order-at"] = -100;
 
     expect(chooseRivalFleetCommand(state, content, labId, true)).toBeUndefined();
+  });
+
+  it("caps quarterly rival capital at one maximum GPU order in the current era", () => {
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    state.world.currentGpuGenerationId = contentId("base:gpu.kolmogorov");
+    const labId = rivalIds(state)[0];
+    const lab = labId === undefined ? undefined : state.labs[labId];
+    if (labId === undefined || lab === undefined) {
+      throw new Error("rival capital fixture missing");
+    }
+    // A late-game revenue line makes 2% of the mark far exceed the cap.
+    for (const segment of Object.values(lab.market.segments)) {
+      segment.lastCycleRevenueMillions = cashMillions(1_000_000);
+    }
+    lab.finance.cash = cashMillions(0);
+    const cap = rivalQuarterlyCapitalCapMillions(state, content);
+    expect(cap).toBe(RIVAL_MAX_GPU_ORDER_THOUSANDS * 425);
+    // Uncapped, 2% of this mark would be many times the cap.
+    expect(currentMark(state, content, labId) * 0.02).toBeGreaterThan(cap * 10);
+
+    const tx = createTransaction(state);
+    recapitaliseRivals(tx, content);
+    expect(
+      tx.commit({ description: "quarterly capital" }).state.labs[labId]?.finance.cash,
+    ).toBe(cap);
   });
 
   it("buys the largest affordable tranche instead of waiting for its full target", () => {

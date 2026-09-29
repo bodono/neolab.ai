@@ -1318,6 +1318,18 @@ export function queueRivalWeeklyCommands(
   }
 }
 
+/** One maximum rival GPU order at the current generation's price. */
+export function rivalQuarterlyCapitalCapMillions(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+): number {
+  const generation = content.gpuGenerations[state.world.currentGpuGenerationId];
+  if (generation === undefined) {
+    throw new Error(`Unknown GPU generation ${state.world.currentGpuGenerationId}`);
+  }
+  return RIVAL_MAX_GPU_ORDER_THOUSANDS * generation.gameCostMillionsPerThousand;
+}
+
 /**
  * Rivals use the GDD's aggregated Cash Stability economy rather than running
  * player-facing fundraising projects. Once per quarter this converts their
@@ -1351,8 +1363,15 @@ export function recapitaliseRivals(
     // is determined before any purchase and can be insufficient for the next
     // hardware tranche. Capability, revenue, incidents, and the capital cycle
     // therefore constrain when scaling is actually affordable.
-    const investableValuationReserve =
-      Math.round(currentMark(tx.read(), content, labId) * 0.02 * 100) / 100;
+    //
+    // The mark grows exponentially with capability and reaches quadrillions
+    // late in the race, so 2% of it became trillions a quarter. The reserve is
+    // capped at the price of one maximum rival GPU order in the current era:
+    // enough to scale, never enough to make every price irrelevant.
+    const investableValuationReserve = Math.min(
+      rivalQuarterlyCapitalCapMillions(tx.read(), content),
+      Math.round(currentMark(tx.read(), content, labId) * 0.02 * 100) / 100,
+    );
     const targetCashMillions = Math.max(ordinaryCashFloor, investableValuationReserve);
     const amount = targetCashMillions - lab.finance.cash;
     if (amount <= 0) continue;
