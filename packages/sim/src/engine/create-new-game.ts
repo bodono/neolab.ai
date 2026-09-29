@@ -24,6 +24,7 @@ import {
   calendarFromTick,
   ENGINE_RULES_VERSION,
   formatRunEntityId,
+  ownerIdCountersFor,
   SAVE_VERSION,
   type EffectSource,
   type GameState,
@@ -673,6 +674,7 @@ export function createNewGame(
         "funding-offer": 0,
         "government-action": 0,
       },
+      ownerIdCounters: {},
     },
     world: {
       currentGpuGenerationId: balance.gpus.generationId,
@@ -775,6 +777,9 @@ export function createNewGame(
       ]),
     ),
   };
+
+  // Continue each owner's numbering past the IDs minted above.
+  state = { ...state, run: { ...state.run, ownerIdCounters: ownerIdCountersFor(state) } };
 
   return deepFreeze(validateGameState(state));
 }

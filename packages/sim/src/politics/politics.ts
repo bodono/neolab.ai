@@ -13,7 +13,6 @@ import type { SimulationTransaction } from "../engine/transaction.ts";
 import { frontierLeadShare } from "../engine/world-progression.ts";
 import type { LabId, ModifierId, ProjectId } from "../model/ids.ts";
 import {
-  formatRunEntityId,
   type GameState,
   type GovernmentCrisisTrigger,
   type GovernmentInterventionBand,
@@ -26,6 +25,7 @@ import {
   type LobbyingObjective,
   type LobbyingStrengthBreakdownState,
   type ProjectState,
+  peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, fraction, rating, tick } from "../model/units.ts";
 import { randomKey } from "../random/key.ts";
@@ -1629,11 +1629,7 @@ export function quoteLobbyingProject(
     blockers.push("Government Trust must be at least 30");
   }
   return {
-    futureProjectId: formatRunEntityId(
-      "project",
-      labId,
-      state.run.idCounters.project,
-    ) as ProjectId,
+    futureProjectId: peekRunEntityId(state.run, "project", labId) as ProjectId,
     objective,
     approach,
     displayName: objectiveRule.displayName,

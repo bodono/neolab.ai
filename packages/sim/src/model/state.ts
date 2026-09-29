@@ -53,22 +53,25 @@ export type GamePhase = "foundation" | "scaling" | "frontier" | "crisis";
 
 export type FlagValue = string | number | boolean;
 
-export type IdNamespace =
-  | "lab"
-  | "model"
-  | "project"
-  | "event"
-  | "modifier"
-  | "facility"
-  | "gpu-lot"
-  | "evaluation"
-  | "anomaly"
-  | "coalition"
-  | "promise"
-  | "people"
-  | "funding-offer"
-  | "government-action"
-  | "scheduled";
+export const ID_NAMESPACES = [
+  "lab",
+  "model",
+  "project",
+  "event",
+  "modifier",
+  "facility",
+  "gpu-lot",
+  "evaluation",
+  "anomaly",
+  "coalition",
+  "promise",
+  "people",
+  "funding-offer",
+  "government-action",
+  "scheduled",
+] as const;
+
+export type IdNamespace = (typeof ID_NAMESPACES)[number];
 
 export interface GameCalendar {
   /** Calendar year shown to the player; starts at 2012 (GDD section 29.2). */
@@ -126,7 +129,15 @@ export interface RunState {
   readonly endingId?: ContentId;
   readonly queuedOrders: readonly QueuedOrderState[];
   readonly autoPauseReasons: readonly AutoPauseReason[];
+  /** Global per-namespace sequence; stamps completion order across all labs. */
   readonly idCounters: Readonly<Record<IdNamespace, number>>;
+  /**
+   * Per-owner sequence that numbers run entity IDs. Random draws are keyed on
+   * those IDs, so one lab's activity must never shift another lab's numbering.
+   */
+  readonly ownerIdCounters: Readonly<
+    Record<string, Readonly<Partial<Record<IdNamespace, number>>>>
+  >;
 }
 
 // ---------------------------------------------------------------------------
@@ -2630,4 +2641,69 @@ export function formatRunEntityId(
     );
   }
   return `run:${namespace}:${owner}:${String(counter).padStart(4, "0")}`;
+}
+
+const RUN_ENTITY_ID_PATTERN = new RegExp(
+  `^run:(${ID_NAMESPACES.join("|")}):(.+):(\\d{4,})$`,
+);
+
+/**
+ * Per-owner counters that continue past every run entity ID found in `value`.
+ * Seeds a hand-built state so later allocations cannot collide with its IDs.
+ */
+export function ownerIdCountersFor(
+  value: unknown,
+): Record<string, Partial<Record<IdNamespace, number>>> {
+  const counters: Record<string, Partial<Record<IdNamespace, number>>> = {};
+  const visit = (node: unknown): void => {
+    if (typeof node === "string") {
+      const match = RUN_ENTITY_ID_PATTERN.exec(node);
+      if (match === null) return;
+      const namespace = match[1] as IdNamespace;
+      const owned = (counters[match[2] ?? ""] ??= {});
+      owned[namespace] = Math.max(owned[namespace] ?? 0, Number(match[3]) + 1);
+    } else if (Array.isArray(node)) {
+      for (const child of node) visit(child);
+    } else if (node !== null && typeof node === "object") {
+      for (const [key, child] of Object.entries(node)) {
+        visit(key);
+        visit(child);
+      }
+    }
+  };
+  visit(value);
+  return counters;
+}
+
+/** The ID the owner's next `namespace` entity will receive. */
+export function peekRunEntityId(
+  run: Pick<RunState, "ownerIdCounters">,
+  namespace: IdNamespace,
+  owner: string,
+): string {
+  return formatRunEntityId(
+    namespace,
+    owner,
+    run.ownerIdCounters[owner]?.[namespace] ?? 0,
+  );
+}
+
+/**
+ * Mints the owner's next `namespace` ID and advances both counters. Every ID
+ * minted outside a transaction must come through here so it cannot collide
+ * with a later allocation.
+ */
+export function claimRunEntityId(
+  run: {
+    idCounters: Record<IdNamespace, number>;
+    ownerIdCounters: Record<string, Partial<Record<IdNamespace, number>>>;
+  },
+  namespace: IdNamespace,
+  owner: string,
+): string {
+  run.idCounters[namespace] = (run.idCounters[namespace] ?? 0) + 1;
+  const owned = (run.ownerIdCounters[owner] ??= {});
+  const counter = owned[namespace] ?? 0;
+  owned[namespace] = counter + 1;
+  return formatRunEntityId(namespace, owner, counter);
 }

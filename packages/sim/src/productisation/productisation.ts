@@ -16,10 +16,10 @@ import { archiveRecoveryPhase } from "../endgame/archive-recovery.ts";
 import type { LabId, ModelId, ProjectId } from "../model/ids.ts";
 import { calculateFrontierCapability } from "../models/capability.ts";
 import {
-  formatRunEntityId,
   type GameState,
   type ProjectPayload,
   type ProjectState,
+  peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, rating } from "../model/units.ts";
 import { processCapabilityTierMilestones } from "../models/tiers.ts";
@@ -358,11 +358,7 @@ export function quoteProductisation(
     ),
   );
   return {
-    futureProjectId: formatRunEntityId(
-      "project",
-      request.labId,
-      state.run.idCounters.project,
-    ) as ProjectId,
+    futureProjectId: peekRunEntityId(state.run, "project", request.labId) as ProjectId,
     modelId: request.modelId,
     mode: request.mode,
     displayName: recipe.displayName,

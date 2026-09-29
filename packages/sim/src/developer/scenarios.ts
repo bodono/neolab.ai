@@ -36,6 +36,7 @@ import {
   type AutonomyAccessLevel,
   type CapabilityVector,
   calendarFromTick,
+  claimRunEntityId,
   formatRunEntityId,
   type GameState,
   type LabState,
@@ -471,20 +472,14 @@ function installEndgameFacility(
     return;
   }
 
-  const facilityId = formatRunEntityId(
+  const facilityId = claimRunEntityId(
+    state.run,
     "facility",
-    "player",
-    state.run.idCounters.facility,
+    state.run.playerLabId,
   ) as FacilityId;
-  state.run.idCounters.facility += 1;
   const modifierIds: ModifierId[] = [];
   for (const authored of definition.modifiers) {
-    const modifierId = formatRunEntityId(
-      "modifier",
-      "world",
-      state.run.idCounters.modifier,
-    ) as ModifierId;
-    state.run.idCounters.modifier += 1;
+    const modifierId = claimRunEntityId(state.run, "modifier", "world") as ModifierId;
     const modifier: ModifierState = {
       id: modifierId,
       source: { kind: "facility", id: facilityId },

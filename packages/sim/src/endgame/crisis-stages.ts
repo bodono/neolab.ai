@@ -25,7 +25,6 @@ import { forecastFinance } from "../finance/finance.ts";
 import { completeEmergencyDiagnosisEvaluation } from "../evaluations/evaluations.ts";
 import type { LabId, ModelId, ProjectId } from "../model/ids.ts";
 import {
-  formatRunEntityId,
   type CrisisBaseState,
   type CrisisCapabilityProofHistoryEntryState,
   type CrisisConfirmationState,
@@ -37,6 +36,7 @@ import {
   type ModelState,
   type ProjectPayload,
   type ProjectState,
+  peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, fraction, rating, tick } from "../model/units.ts";
 import {
@@ -128,7 +128,7 @@ function hasFacilityTag(
 }
 
 function projectIdFor(state: Readonly<GameState>, labId: LabId): ProjectId {
-  return formatRunEntityId("project", labId, state.run.idCounters.project) as ProjectId;
+  return peekRunEntityId(state.run, "project", labId) as ProjectId;
 }
 
 function commonBlockers(

@@ -1,6 +1,6 @@
 import type { IdNamespace } from "../model/state.ts";
 import {
-  formatRunEntityId,
+  claimRunEntityId,
   type AutoPauseReason,
   type GameState,
   type ScheduledEffectState,
@@ -106,9 +106,7 @@ export function createTransaction(before: GameState): SimulationTransaction {
     },
     allocateId(namespace: IdNamespace, owner: string): string {
       guard();
-      const counter = draft.run.idCounters[namespace] ?? 0;
-      draft.run.idCounters[namespace] = counter + 1;
-      return formatRunEntityId(namespace, owner, counter);
+      return claimRunEntityId(draft.run, namespace, owner);
     },
     commit(audit: TransitionAudit): TransitionResult {
       guard();

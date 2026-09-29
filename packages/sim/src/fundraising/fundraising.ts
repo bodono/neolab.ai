@@ -21,7 +21,6 @@ import {
   PROGRESSIVE_CAMPAIGN_FLAG,
 } from "../campaign/progressive-opening.ts";
 import {
-  formatRunEntityId,
   type FundingCampaignType,
   type FundingDilutionFlavor,
   type FundingInvestorStyle,
@@ -30,6 +29,7 @@ import {
   type FundingScoreBreakdownState,
   type GameState,
   type ProjectState,
+  peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, fraction, rating, tick } from "../model/units.ts";
 import { MARKET_CYCLE_WEEKS, resolveCommercialModelId } from "../market/market.ts";
@@ -448,11 +448,7 @@ export function quoteFundraisingCampaign(
   }
   const roundOrdinal = nextFundraisingRoundOrdinal(state, labId);
   return {
-    futureProjectId: formatRunEntityId(
-      "project",
-      labId,
-      state.run.idCounters.project,
-    ) as ProjectId,
+    futureProjectId: peekRunEntityId(state.run, "project", labId) as ProjectId,
     campaign,
     displayName: definition.displayName,
     roundOrdinal,

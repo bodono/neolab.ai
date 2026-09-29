@@ -40,7 +40,6 @@ import type {
   ResearcherId,
 } from "../model/ids.ts";
 import {
-  formatRunEntityId,
   type CapabilityVector,
   type GameState,
   type HiddenModelSafetyState,
@@ -50,6 +49,7 @@ import {
   type TrainingCompletionReportState,
   type TrainingFailureCheckState,
   type TrainingFailureOutcome,
+  peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, gpuCount, rating, type Tick } from "../model/units.ts";
 import type { ProjectHandler } from "../projects/project-framework.ts";
@@ -955,16 +955,8 @@ export function quoteTrainingRun(
       : state.models[lab.models.currentModelId];
   const currentMeasuredCapability = currentModel?.measuredCapability?.frontierCapability;
   return {
-    futureModelId: formatRunEntityId(
-      "model",
-      request.labId,
-      state.run.idCounters.model,
-    ) as ModelId,
-    futureProjectId: formatRunEntityId(
-      "project",
-      request.labId,
-      state.run.idCounters.project,
-    ) as ProjectId,
+    futureModelId: peekRunEntityId(state.run, "model", request.labId) as ModelId,
+    futureProjectId: peekRunEntityId(state.run, "project", request.labId) as ProjectId,
     scale: band,
     displayName: scale.displayName,
     durationWeeks,

@@ -343,6 +343,10 @@ const runSchema = z
         ),
       )
       .strict(),
+    ownerIdCounters: z.record(
+      nonEmpty,
+      z.partialRecord(idNamespaceSchema, counterSchema),
+    ),
   })
   .strict();
 

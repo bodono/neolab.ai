@@ -513,6 +513,13 @@ export function collectInvariantViolations(
       push("id-counter", `counter ${namespace} is ${String(counter)}`);
     }
   }
+  for (const [owner, counters] of Object.entries(state.run.ownerIdCounters)) {
+    for (const [namespace, counter] of Object.entries(counters)) {
+      if (!Number.isInteger(counter) || counter < 0) {
+        push("id-counter", `counter ${namespace} for ${owner} is ${String(counter)}`);
+      }
+    }
+  }
 
   const playerLab = state.labs[state.run.playerLabId];
   if (playerLab === undefined) {

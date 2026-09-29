@@ -544,6 +544,34 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "promise": 0,
       "scheduled": 0,
     },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 8,
+      },
+    },
     "phase": "foundation",
     "playerLabId": "lab:player",
     "queuedOrders": [],
@@ -1248,6 +1276,34 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "promise": 0,
       "scheduled": 0,
     },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 6,
+      },
+    },
     "phase": "foundation",
     "playerLabId": "lab:player",
     "queuedOrders": [],
@@ -1936,6 +1992,34 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "project": 0,
       "promise": 0,
       "scheduled": 0,
+    },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 5,
+      },
     },
     "phase": "foundation",
     "playerLabId": "lab:player",
@@ -2652,6 +2736,34 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "promise": 0,
       "scheduled": 0,
     },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 7,
+      },
+    },
     "phase": "foundation",
     "playerLabId": "lab:player",
     "queuedOrders": [],
@@ -3340,6 +3452,34 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "project": 0,
       "promise": 0,
       "scheduled": 0,
+    },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 5,
+      },
     },
     "phase": "foundation",
     "playerLabId": "lab:player",
@@ -4081,6 +4221,34 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "promise": 0,
       "scheduled": 0,
     },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 9,
+      },
+    },
     "phase": "foundation",
     "playerLabId": "lab:player",
     "queuedOrders": [],
@@ -4808,6 +4976,34 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "promise": 0,
       "scheduled": 0,
     },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 8,
+      },
+    },
     "phase": "foundation",
     "playerLabId": "lab:player",
     "queuedOrders": [],
@@ -5534,6 +5730,34 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "project": 0,
       "promise": 0,
       "scheduled": 0,
+    },
+    "ownerIdCounters": {
+      "player": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival": {
+        "lab": 4,
+      },
+      "rival-0": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-1": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-2": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "rival-3": {
+        "facility": 2,
+        "gpu-lot": 1,
+      },
+      "setup": {
+        "modifier": 8,
+      },
     },
     "phase": "foundation",
     "playerLabId": "lab:player",

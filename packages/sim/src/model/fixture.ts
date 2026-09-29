@@ -298,6 +298,7 @@ export function createBareState(): GameState {
         "funding-offer": 0,
         "government-action": 0,
       },
+      ownerIdCounters: {},
     },
     world: {
       currentGpuGenerationId: contentId("base:gpu.kepler"),

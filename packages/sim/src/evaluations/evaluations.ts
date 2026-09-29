@@ -20,7 +20,6 @@ import type { DeepMutable } from "../engine/draft.ts";
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import type { AnomalyId, EvaluationId, LabId, ModelId, ProjectId } from "../model/ids.ts";
 import {
-  formatRunEntityId,
   type AlignmentEvidenceLabel,
   type AnomalyState,
   type AnomalyStatus,
@@ -31,6 +30,7 @@ import {
   type ModelState,
   type ProjectPayload,
   type ProjectState,
+  peekRunEntityId,
 } from "../model/state.ts";
 import { cashMillions, gpuCount, rating, tick, type Tick } from "../model/units.ts";
 import {
@@ -420,16 +420,12 @@ export function quoteEvaluation(
   }
   if (lab.aura.spendable < auraCost) blockers.push("Insufficient Aura");
   return {
-    futureEvaluationId: formatRunEntityId(
+    futureEvaluationId: peekRunEntityId(
+      state.run,
       "evaluation",
       request.labId,
-      state.run.idCounters.evaluation,
     ) as EvaluationId,
-    futureProjectId: formatRunEntityId(
-      "project",
-      request.labId,
-      state.run.idCounters.project,
-    ) as ProjectId,
+    futureProjectId: peekRunEntityId(state.run, "project", request.labId) as ProjectId,
     definitionId: definition.id,
     displayName: definition.displayName,
     durationWeeks,
@@ -1416,10 +1412,10 @@ export function quoteAnomalyAction(
   if (lab.aura.spendable < auraCost) blockers.push("Insufficient Aura");
   return {
     anomalyId,
-    futureProjectId: formatRunEntityId(
+    futureProjectId: peekRunEntityId(
+      state.run,
       "project",
       anomaly.ownerLabId,
-      state.run.idCounters.project,
     ) as ProjectId,
     mode,
     severityLabel: band.label,
