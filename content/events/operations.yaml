@@ -118,8 +118,8 @@ events:
     options:
       - id: meet-terms
         labelKey: event.people.ultimatum.meet.label
-        requirements:
-          { type: compare, metric: player.cash, op: gte, value: 4 }
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
         disabledReasonKey: event.people.ultimatum.meet.disabled
         knownCosts:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -4 }

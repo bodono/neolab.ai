@@ -216,8 +216,8 @@ events:
     options:
       - id: fund-review
         labelKey: event.safety.review.fund.label
-        requirements:
-          { type: compare, metric: player.cash, op: gte, value: 5 }
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
         disabledReasonKey: event.safety.review.fund.disabled
         knownCosts:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }

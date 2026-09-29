@@ -492,6 +492,114 @@ describe("event eligibility and opportunity selection", () => {
   });
 });
 
+describe("era-scaled event cash", () => {
+  const cash = (amount: number) =>
+    ({
+      kind: "add-resource",
+      subject: { type: "player-lab" },
+      resource: "cash",
+      amount,
+    }) as const;
+  const scaledEvent = (id: string, overrides: Partial<EventDefinition> = {}) =>
+    eventDefinition(id, {
+      options: [
+        option("accept", {
+          knownCosts: [cash(-4)],
+          immediateEffects: [cash(30)],
+          checks: [
+            {
+              id: "result",
+              outcomes: [
+                {
+                  id: "only",
+                  minimumInclusive: 0,
+                  maximumExclusive: 1,
+                  effects: [cash(14)],
+                  memories: [],
+                },
+              ],
+            },
+          ],
+        }),
+        option("decline"),
+      ],
+      ...overrides,
+    });
+  const inEra = (generationId: string): GameState => {
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    state.world.currentGpuGenerationId = contentId(generationId);
+    const lab = state.labs[state.run.playerLabId];
+    if (lab === undefined) throw new Error("player lab missing");
+    lab.finance.cash = 1_000 as typeof lab.finance.cash;
+    return state;
+  };
+  const accept = (state: GameState, instanceId: EventInstanceId) =>
+    applyCommand(state, content, {
+      kind: "respond-to-decision-event",
+      meta: {
+        commandId: "command:era-cash" as CommandId,
+        expectedTick: state.run.tick,
+        issuedBy: "player",
+      },
+      instanceId,
+      optionId: "accept",
+    }).state;
+  const content = withEvents([
+    scaledEvent("era-cash"),
+    scaledEvent("fixed-cash", { cashScaling: "fixed" }),
+  ]);
+
+  it("shows and charges opening-era amounts in the first GPU era", () => {
+    const opened = instantiate(
+      inEra("base:gpu.kepler"),
+      content,
+      contentId("base:event.era-cash"),
+    );
+    const option = projectEventQueueView(opened.state, content).items[0]?.options[0];
+    expect(option?.knownCosts).toEqual([expect.objectContaining({ amount: -4 })]);
+    const resolved = accept(opened.state, opened.instanceId);
+    expect(resolved.labs[resolved.run.playerLabId]?.finance.cash).toBe(
+      1_000 - 4 + 30 + 14,
+    );
+  });
+
+  it("scales costs, rewards and outcomes by the current GPU price, rounded", () => {
+    // Ampere GPUs cost 11.5 against Kepler's 0.9: about 12.8x.
+    const opened = instantiate(
+      inEra("base:gpu.ampere"),
+      content,
+      contentId("base:event.era-cash"),
+    );
+    const option = projectEventQueueView(opened.state, content).items[0]?.options[0];
+    expect(option?.knownCosts).toEqual([expect.objectContaining({ amount: -51 })]);
+    expect(option?.immediateEffects).toEqual([expect.objectContaining({ amount: 380 })]);
+    const resolved = accept(opened.state, opened.instanceId);
+    expect(resolved.labs[resolved.run.playerLabId]?.finance.cash).toBe(
+      1_000 - 51 + 380 + 180,
+    );
+  });
+
+  it("blocks an option the lab cannot afford at the scaled price", () => {
+    const state = inEra("base:gpu.ampere") as DeepMutable<GameState>;
+    const lab = state.labs[state.run.playerLabId];
+    if (lab === undefined) throw new Error("player lab missing");
+    lab.finance.cash = 20 as typeof lab.finance.cash;
+    const opened = instantiate(state, content, contentId("base:event.era-cash"));
+    const option = projectEventQueueView(opened.state, content).items[0]?.options[0];
+    expect(option?.enabled).toBe(false);
+  });
+
+  it("leaves events authored at their intended scale fixed", () => {
+    const opened = instantiate(
+      inEra("base:gpu.ampere"),
+      content,
+      contentId("base:event.fixed-cash"),
+    );
+    const option = projectEventQueueView(opened.state, content).items[0]?.options[0];
+    expect(option?.knownCosts).toEqual([expect.objectContaining({ amount: -4 })]);
+  });
+});
+
 describe("event option precommitment and resolution", () => {
   it("survives save/load, keeps hidden draws out of views, applies one outcome, and cannot pay twice", () => {
     const definition = eventDefinition("precommit", {

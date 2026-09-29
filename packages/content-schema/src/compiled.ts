@@ -1117,6 +1117,12 @@ export interface EventDefinition {
   readonly weightModifiers: readonly EventWeightModifierDefinition[];
   readonly cooldown: EventCooldownDefinition;
   readonly unique: boolean;
+  /**
+   * "era" (the default) scales the event's cash amounts with the current GPU
+   * generation's price, so opening-era figures stay meaningful late game.
+   * "fixed" keeps amounts that are already authored at their intended scale.
+   */
+  readonly cashScaling?: "era" | "fixed";
   readonly expiryWeeks?: number;
   readonly defaultOptionId?: string;
   readonly titleKey: string;
@@ -1403,6 +1409,7 @@ export const eventDefinitionSchema = z
       })
       .strict(),
     unique: z.boolean(),
+    cashScaling: z.enum(["era", "fixed"]).optional(),
     expiryWeeks: z.number().int().positive().optional(),
     defaultOptionId: eventNonEmpty.optional(),
     titleKey: eventNonEmpty,

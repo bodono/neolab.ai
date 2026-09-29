@@ -7,6 +7,7 @@ import {
   type EventLikelihoodLabel,
   type EventMemoryDefinition,
 } from "@neolab/content-schema";
+import { eventCashMultiplier, scaleEventCash } from "./event-cash.ts";
 import { governmentInterventionTriggerKey } from "./government-intervention-lifecycle.ts";
 
 import { applyEffects } from "../engine/effect-executor.ts";
@@ -807,7 +808,9 @@ export function previewEventOption(
     blockers.push(option.disabledReasonKey ?? "Option requirements are no longer met");
   }
   blockers.push(...researcherUltimatumEventBlockers(state, instance));
-  blockers.push(...affordabilityBlockers(state, option.knownCosts));
+  const cashMultiplier = eventCashMultiplier(state, content, definition);
+  const knownCosts = scaleEventCash(option.knownCosts, cashMultiplier);
+  blockers.push(...affordabilityBlockers(state, knownCosts));
   return {
     instanceId,
     optionId,
@@ -815,8 +818,8 @@ export function previewEventOption(
     previewKey: option.previewKey,
     enabled: blockers.length === 0,
     blockers,
-    knownCosts: option.knownCosts.map((effect) => structuredClone(effect)),
-    immediateEffects: option.immediateEffects.map((effect) => structuredClone(effect)),
+    knownCosts,
+    immediateEffects: scaleEventCash(option.immediateEffects, cashMultiplier),
     uncertainty: option.checks.length === 0 ? "none" : "precommitted-checks",
     checkCount: option.checks.length,
     likelihoodPromises: option.checks.flatMap((check) =>
@@ -970,10 +973,12 @@ export function resolveEventOption(
   const commitments = instance.randomRoot.outcomes.filter(
     (commitment) => commitment.optionId === optionId,
   );
-  applyEffects(tx, eventEffects([...option.knownCosts, ...option.immediateEffects]), {
+  // The preview carries the era-scaled amounts the player was shown.
+  applyEffects(tx, eventEffects([...preview.knownCosts, ...preview.immediateEffects]), {
     kind: "event",
     id: instanceId,
   });
+  const cashMultiplier = eventCashMultiplier(state, content, definition);
   addDecisionMemories(tx, instance, option.memories);
   applyCandidateDeclarationPosture(tx, instance, optionId);
   for (const commitment of commitments) {
@@ -986,7 +991,10 @@ export function resolveEventOption(
         `Committed event outcome ${commitment.checkId}/${commitment.outcomeId} is missing`,
       );
     }
-    applyEffects(tx, eventEffects(outcome.effects), { kind: "event", id: instanceId });
+    applyEffects(tx, eventEffects(scaleEventCash(outcome.effects, cashMultiplier)), {
+      kind: "event",
+      id: instanceId,
+    });
     addDecisionMemories(tx, instance, outcome.memories);
   }
   applyResearcherUltimatumSettlement(tx, instance, optionId, commitments);

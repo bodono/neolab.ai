@@ -21,6 +21,7 @@ events:
     weightModifiers: []
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
+    cashScaling: fixed
     expiryWeeks: 4
     defaultOptionId: pull-access
     titleKey: event.autonomy.experiments.title
@@ -88,6 +89,7 @@ events:
     weightModifiers: []
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
+    cashScaling: fixed
     expiryWeeks: 3
     defaultOptionId: keep-shipping
     titleKey: event.autonomy.intrusion.title
@@ -178,6 +180,7 @@ events:
     weightModifiers: []
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
+    cashScaling: fixed
     expiryWeeks: 2
     defaultOptionId: race-the-copy
     titleKey: event.autonomy.exfiltration.title
@@ -246,6 +249,7 @@ events:
     weightModifiers: []
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
+    cashScaling: fixed
     defaultOptionId: sever-networks
     titleKey: event.autonomy.infrastructure.title
     bodyKey: event.autonomy.infrastructure.body
@@ -330,6 +334,7 @@ events:
     weightModifiers: []
     cooldown: { group: autonomy-egress, weeks: 0 }
     unique: true
+    cashScaling: fixed
     expiryWeeks: 6
     defaultOptionId: disclose
     titleKey: event.autonomy.egress.title
