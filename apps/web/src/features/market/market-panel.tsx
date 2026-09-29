@@ -150,7 +150,7 @@ export function MarketPanel({
                   : "LOCKED"}
                 <small>
                   {segment.unlocked
-                    ? `${segment.satisfaction.toFixed(0)} satisfaction`
+                    ? `${segment.satisfaction.toFixed(0)} satisfaction · ×${segment.satisfactionDemandMultiplier.toFixed(2)} demand`
                     : segment.lockReason}
                 </small>
               </strong>

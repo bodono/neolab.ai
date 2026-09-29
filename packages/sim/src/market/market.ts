@@ -550,13 +550,19 @@ export function forecastUsage(
     );
     const share = liveSegmentShare(state, content, labId, segment, capabilitySource);
     const globalDemand = globalServingDemandTeraflops(content, appeal.relevantCapability);
+    // Satisfied customers use the product more and stay; unhappy ones drift away.
+    const satisfaction = satisfactionDemandMultiplier(
+      requireLab(state, labId).market.segments[segment.id]?.satisfaction ??
+        content.market.startingSatisfaction,
+    );
     const rawRequestedTeraflops =
       globalDemand *
       segment.servingComputeShare *
       share *
       deployment.marketDemandMultiplier *
       perRequestCompute *
-      marketReach;
+      marketReach *
+      satisfaction;
     const globalRevenue = globalRevenueOpportunityMillionsPerCycle(
       content,
       appeal.relevantCapability,
@@ -570,7 +576,8 @@ export function forecastUsage(
       segment.revenueShare *
       share *
       deployment.revenueMultiplier *
-      marketReach;
+      marketReach *
+      satisfaction;
     // Commercial-ceiling modifiers represent how much of an otherwise
     // addressable market this lab can reach. They change both customer compute
     // and the associated revenue, but never the value of an already delivered
@@ -778,6 +785,15 @@ export function deliverySatisfactionDelta(fulfilment: number): number {
 
 /** Standing earned by a segment whose demand is met in full, per cycle. */
 export const DELIVERY_SATISFACTION_GAIN = 3;
+
+/**
+ * Segment satisfaction scales that segment's demand and revenue: x0.8 at 0,
+ * neutral at 50, x1.2 at 100. Before this, satisfaction was shown, raised by
+ * leader bonuses and cut by rival incidents, and read by nothing.
+ */
+export function satisfactionDemandMultiplier(satisfaction: number): number {
+  return 0.8 + 0.4 * (clamp(satisfaction, 0, 100) / 100);
+}
 
 /** Exact accrued revenue plus a current-plan estimate for unelapsed cycle weeks. */
 export function projectMarketCycleRevenue(

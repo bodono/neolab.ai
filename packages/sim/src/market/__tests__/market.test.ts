@@ -29,6 +29,7 @@ import {
   globalRevenueOpportunityMillionsPerCycle,
   globalServingDemandTeraflops,
   servingAuraForUsage,
+  satisfactionDemandMultiplier,
 } from "../market.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
@@ -321,6 +322,36 @@ describe("segment appeal and usage forecast", () => {
     const released = settle(withReservation(heavy, 0));
     expect(servingOf(released)).toBe(demandGpus);
     expect(researchOf(released)).toBe(fleet - demandGpus);
+  });
+});
+
+describe("customer satisfaction", () => {
+  it("scales a segment's demand and revenue from x0.8 to x1.2", () => {
+    const base = newState();
+    const labId = base.run.playerLabId;
+    const segmentId = Object.keys(base.labs[labId]?.market.segments ?? {}).sort()[0];
+    if (segmentId === undefined) throw new Error("segment fixture missing");
+    const withSatisfaction = (value: number) =>
+      forecastUsage(
+        mutate(base, (draft) => {
+          const segment = draft.labs[labId]?.market.segments[segmentId];
+          if (segment === undefined) throw new Error("segment missing");
+          segment.satisfaction = rating(value);
+        }),
+        content,
+        labId,
+      ).segments.find((segment) => segment.segmentId === segmentId);
+    const unhappy = withSatisfaction(0);
+    const delighted = withSatisfaction(100);
+    expect(unhappy?.requestedTeraflops).toBeGreaterThan(0);
+    expect(
+      (delighted?.requestedTeraflops ?? 0) / (unhappy?.requestedTeraflops ?? 1),
+    ).toBeCloseTo(1.5, 6);
+    expect(
+      (delighted?.potentialRevenueMillionsPerCycle ?? 0) /
+        (unhappy?.potentialRevenueMillionsPerCycle ?? 1),
+    ).toBeCloseTo(1.5, 6);
+    expect(satisfactionDemandMultiplier(50)).toBe(1);
   });
 });
 

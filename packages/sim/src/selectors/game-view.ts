@@ -97,6 +97,7 @@ import {
   forecastUsage,
   projectServingAura,
   resolveCommercialModelId,
+  satisfactionDemandMultiplier,
 } from "../market/market.ts";
 import type { LabId, ModifierId, ResearcherId } from "../model/ids.ts";
 import {
@@ -575,6 +576,8 @@ export interface MarketSegmentView {
   /** Contribution of this segment to the headline market-share percentage. */
   readonly headlineWeightPercentage: number;
   readonly satisfaction: number;
+  /** How satisfaction scales this segment's demand and revenue (x0.8-x1.2). */
+  readonly satisfactionDemandMultiplier: number;
   readonly marketSharePercentage: number;
   readonly requestedTeraflops: number;
   readonly deliveredTeraflops: number;
@@ -2957,6 +2960,7 @@ function projectMarket(
         ...(row.lockReason === undefined ? {} : { lockReason: row.lockReason }),
         headlineWeightPercentage: definition.revenueShare * 100,
         satisfaction: segment.satisfaction,
+        satisfactionDemandMultiplier: satisfactionDemandMultiplier(segment.satisfaction),
         marketSharePercentage: row.softmaxShare * 100,
         requestedTeraflops: row.requestedTeraflops,
         deliveredTeraflops: row.deliveredTeraflops,
