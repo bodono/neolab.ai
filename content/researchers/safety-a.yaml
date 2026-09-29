@@ -45,7 +45,7 @@ researchers:
       id: ability.mesa-optimization-framework
       label: Mesa-Optimization Framework
       effects:
-        - { target: lab.incident.hazard, operation: multiply, value: 0.92, stackingGroup: hazard-reduction }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90, stackingGroup: hazard-reduction }
     compact:
       id: compact.test-the-training-story-adversarially
       label: Test the Training Story Adversarially
@@ -183,7 +183,7 @@ researchers:
       id: ability.undefeated-defence-scepticism
       label: Undefeated Defence Scepticism
       effects:
-        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.92 }
+        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.90 }
     compact:
       id: compact.break-it-before-someone-else-does
       label: Break It Before Someone Else Does
@@ -323,7 +323,7 @@ researchers:
       id: ability.puzzle-solver-patience
       label: Puzzle-Solver Patience
       effects:
-        - { target: lab.research.program.base:safety.interpretability-evals.weeklyVarianceWidth, operation: multiply, value: 0.88 }
+        - { target: lab.research.program.base:safety.interpretability-evals.weeklyVarianceWidth, operation: multiply, value: 0.90 }
     compact:
       id: compact.check-what-it-believes-not-just-what-it-says
       label: Check What It Believes, Not Just What It Says
@@ -389,7 +389,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.incident.hazard, operation: multiply, value: 0.94 }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
     passive:
       id: ability.written-principles-not-accidents
       label: Written Principles, Not Accidents
@@ -531,7 +531,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.973, stackingGroup: hazard-reduction }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95, stackingGroup: hazard-reduction }
     passive:
       id: ability.compute-for-the-safety-team-too
       label: Safety Infrastructure, Shared

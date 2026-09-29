@@ -35,7 +35,7 @@ events:
         previewKey: event.endgame.candidate.notify.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 18 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 20 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 8 }
         checks: []
         memories:

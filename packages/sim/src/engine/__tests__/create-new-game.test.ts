@@ -414,7 +414,7 @@ describe("difficulty and mandate application", () => {
         expect.objectContaining({
           target: "lab.research.capability.output",
           operation: "multiply",
-          value: 1.08,
+          value: 1.1,
         }),
         expect.objectContaining({
           target: "lab.market.demandCeiling",

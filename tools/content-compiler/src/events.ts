@@ -66,10 +66,15 @@ export function compileCopyCatalogue(contentDir: string): CopyCatalogueDefinitio
   });
 }
 
+/**
+ * `sources`, when given, receives the authored file path of every compiled
+ * event so release validation can name the file behind an issue.
+ */
 export function compileEventCatalogue(
   contentDir: string,
   eventFiles: readonly string[],
   canonicalise: (draft: string, filePath: string) => ContentId,
+  sources?: Record<string, string>,
 ): EventCatalogueDefinition {
   const definitions: Record<string, EventDefinition> = {};
   for (const fileName of eventFiles) {
@@ -128,6 +133,7 @@ export function compileEventCatalogue(
         );
       }
       definitions[id] = parsed.data as EventDefinition;
+      if (sources !== undefined) sources[id] = eventPath;
     }
   }
   return {

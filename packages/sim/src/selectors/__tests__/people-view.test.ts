@@ -68,7 +68,7 @@ describe("projectPeopleView", () => {
     ]);
     expect(
       projectPeopleAbilityView(ianPassive).effects.map((effect) => effect.displayLabel),
-    ).toEqual(["Incident risk −8%"]);
+    ).toEqual(["Incident risk −10%"]);
   });
 
   it("projects fixed listed terms without hidden acceptance probabilities", () => {

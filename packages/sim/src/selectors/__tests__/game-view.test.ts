@@ -885,8 +885,8 @@ describe("projectGameView", () => {
       architectureTree?.milestones[0]?.options.flatMap((option) => option.effectLabels),
     ).toEqual(
       expect.arrayContaining([
-        "Architectures research speed +13.9%",
-        "All research speed +2.3%",
+        "Architectures research speed +15%",
+        "All research speed +5%",
       ]),
     );
   });

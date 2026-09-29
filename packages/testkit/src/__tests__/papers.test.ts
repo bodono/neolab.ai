@@ -486,7 +486,7 @@ describe("publication and secrecy", () => {
         labId: secret.run.playerLabId,
         includeUnscoped: false,
       }).final,
-    ).toBeCloseTo(1.02);
+    ).toBeCloseTo(1.05);
     expect(
       resolveModifierValue(secret, target, 1, {
         labId: rivalId,
@@ -511,7 +511,7 @@ describe("publication and secrecy", () => {
         labId: rivalId,
         includeUnscoped: false,
       }).final,
-    ).toBeCloseTo(1.02);
+    ).toBeCloseTo(1.05);
   });
 
   it("applies safety-culture paper benefits as real ratings, not inert starting flags", () => {

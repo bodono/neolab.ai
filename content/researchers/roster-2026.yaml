@@ -40,12 +40,12 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.reusable-sequence-recipes
       label: Reusable Sequence Recipes
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     compact:
       id: compact.ablate-before-you-ornament
       label: Ablate Before You Ornament
@@ -110,7 +110,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.prototype-to-voice
       label: Prototype to Voice
@@ -185,7 +185,7 @@ researchers:
       rampWeeks: 6
       effects:
         - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.causal-evidence-discipline
       label: Causal Evidence Discipline
@@ -257,7 +257,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.planning-agent-diagnostics
       label: Planning-Agent Diagnostics
@@ -328,7 +328,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.cross-domain-review
       label: Cross-Domain Review
@@ -400,7 +400,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.adversarial-vision-instinct
       label: Adversarial Vision Instinct
@@ -473,12 +473,12 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.probabilistic-training-discipline
       label: Probabilistic Training Discipline
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     compact:
       id: compact.validate-the-latent-structure
       label: Validate the Latent Structure
@@ -544,7 +544,7 @@ researchers:
       rampWeeks: 6
       effects:
         - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.calibrated-probabilistic-review
       label: Calibrated Probabilistic Review
@@ -618,12 +618,12 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.efficient-language-training
       label: Efficient Language Training
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.02 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     compact:
       id: compact.prove-the-simple-baseline
       label: Prove the Simple Baseline
@@ -687,7 +687,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.temporal-evidence-review
       label: Temporal Evidence Review

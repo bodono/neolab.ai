@@ -66,7 +66,7 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 14 }
-                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.92, durationWeeks: 52, tags: [down-round] }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.90, durationWeeks: 52, tags: [down-round] }
                 memories:
                   - key: finance.runway.hard-terms
                     subjects: [{ type: player-lab }]
@@ -83,7 +83,7 @@ events:
         previewKey: event.finance.runway.sell.preview
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 18 }
-          - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 0.88, durationWeeks: 39, tags: [asset-sale] }
+          - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 0.90, durationWeeks: 39, tags: [asset-sale] }
         checks: []
         memories:
           - key: finance.runway.sold-compute
@@ -131,7 +131,7 @@ events:
           # Same idea, stated in the terms it actually takes, and bumped to be
           # worth the money.
           - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 4, durationWeeks: 52, tags: [ultimatum-concession] }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.04, durationWeeks: 52, tags: [ultimatum-concession] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.05, durationWeeks: 52, tags: [ultimatum-concession] }
         checks: []
         memories:
           - key: people.ultimatum.met

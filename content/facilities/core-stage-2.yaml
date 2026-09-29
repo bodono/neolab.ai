@@ -110,7 +110,7 @@ facilities:
     campusModule: data-centre-high-rise
     summary: A second, considerably larger hall whose ribbon-cutting photo could not be scheduled until the noise complaints were resolved.
     modifiers:
-      - { target: lab.incident.hazard, operation: multiply, value: 0.92 }
+      - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
       - { target: lab.compute.ownedPurchasePrice, operation: multiply, value: 0.95 }
 
   - id: facility.power-and-cooling-3
@@ -579,7 +579,7 @@ facilities:
     summary: A spherical situation room built for extremely advanced causal forecasting; despite the name and the rumours, nobody has been sent anywhere, temporally speaking.
     modifiers:
       - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.8 }
-      - { target: lab.research.all.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.all.output, operation: multiply, value: 1.10 }
 
 
   - id: facility.biofoundry-1

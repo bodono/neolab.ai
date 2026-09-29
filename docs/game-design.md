@@ -1219,7 +1219,7 @@ An opening mandate is an early emphasis, not a permanent class:
 
 | Mandate | Benefit | Tradeoff |
 |---|---|---|
-| Build the Science | +8% capability research | −20% customer demand ceiling; −20% cash in fundraising offers |
+| Build the Science | +10% capability research | −20% customer demand ceiling; −20% cash in fundraising offers |
 | Build the Business | +$25m when the full game opens; +25% customer demand ceiling; +10% cash in fundraising offers | −10% safety research |
 | Build It Right | +30% safety research; +10 Eval Quality (→20); +10 Government Trust (→60) | −5% effective GPU throughput |
 
@@ -1294,10 +1294,10 @@ Difficulty changes inputs and rival behaviour, never hidden truth after a choice
 
 | Setting | Player economy | Rival progress | Incident pressure | Information quality | Intended audience |
 |---|---:|---:|---:|---:|---|
-| Fellowship | +20% revenue, −15% fixed cost | 0.68× | 0.75× non-endgame hazard | +8 displayed estimate quality | Learning the systems |
+| Fellowship | +20% revenue, −15% fixed cost | 0.70× | 0.75× non-endgame hazard | +8 displayed estimate quality | Learning the systems |
 | Standard | 1.00× | 1.00× | 1.00× | Baseline | Intended first serious run |
-| Frontier | −8% revenue | 1.12× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
-| Unhinged Scaling | −12% revenue | 1.25× | 1.30× | Baseline, but wider event variance | Deliberately unfair satire mode |
+| Frontier | −10% revenue | 1.10× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
+| Unhinged Scaling | −15% revenue | 1.25× | 1.30× | Baseline, but wider event variance | Deliberately unfair satire mode |
 
 The balance target of roughly a 50% win rate refers to Standard difficulty among players who understand the interface and basic systems but have not memorised the event catalogue.
 

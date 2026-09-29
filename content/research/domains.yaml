@@ -69,6 +69,9 @@ safetyPrograms:
 # Two evolving strategic paths are authored for every programme. Each path
 # retains ten maturity stages so a twenty-level checkpoint can combine the two
 # rewards it replaces, while using the later stage's name and context.
+# The compiler rounds each checkpoint's combined reward to the nearest round
+# player-facing value (5% steps, whole additive points), so these per-stage
+# values set the path's strength rather than the exact figure shown.
 genericAdvanceOptions:
   domain.architectures:
     - id: cleaner-blocks

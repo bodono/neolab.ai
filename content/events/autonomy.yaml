@@ -351,7 +351,7 @@ events:
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -30, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -30 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -8 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 12 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
           - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.65, durationWeeks: 52, tags: [egress-fallout, disclosed] }
         checks: []
@@ -367,9 +367,9 @@ events:
         previewKey: event.autonomy.egress.silence.preview
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -20, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -28 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -30 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 25 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -12 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
           - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.85, durationWeeks: 52, tags: [egress-fallout, cover-up] }
         checks: []
         memories:

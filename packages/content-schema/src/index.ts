@@ -53,6 +53,14 @@ export {
   STARTING_TARGET_LIST,
 } from "./effect-targets.ts";
 export {
+  isRoundEffectValue,
+  nearestRoundEffectValue,
+  ROUND_ADDITIVE_COARSE_FROM,
+  ROUND_ADDITIVE_COARSE_STEP,
+  ROUND_PERCENTAGE_STEP,
+  type RoundedEffectOperation,
+} from "./round-values.ts";
+export {
   scoringFileSchema,
   SCORE_CATEGORY_IDS,
   type ScoreCategoryDefinition,

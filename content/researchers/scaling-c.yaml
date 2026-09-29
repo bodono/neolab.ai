@@ -45,7 +45,7 @@ researchers:
       id: ability.standardised-cross-provider-benchmarking
       label: Standardised Cross-Provider Benchmarking
       effects:
-        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.88 }
+        - { target: lab.evaluation.cashCost, operation: multiply, value: 0.90 }
     compact:
       id: compact.measure-more-than-accuracy
       label: Measure More Than Accuracy
@@ -115,7 +115,7 @@ researchers:
       id: ability.multilingual-pretraining-lead
       label: Multilingual Pretraining Lead
       effects:
-        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.check-the-meaning-not-just-the-fluency
       label: Check the Meaning, Not Just the Fluency
@@ -184,7 +184,7 @@ researchers:
       id: ability.strategic-negotiation-agent
       label: Strategic Negotiation Agent
       effects:
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.one-flexible-objective-not-many-narrow-ones
       label: One Flexible Objective, Not Many Narrow Ones
@@ -248,8 +248,8 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
       rampWeeks: 5
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.06, stackingGroup: training-throughput }
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.968, stackingGroup: hazard-reduction }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95, stackingGroup: hazard-reduction }
     passive:
       id: ability.honestly-measured-scaling-claim
       label: Honestly Measured Scaling Claim
@@ -530,7 +530,7 @@ researchers:
       id: ability.cross-modality-technique-transfer
       label: Cross-Modality Technique Transfer
       effects:
-        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.borrow-the-technique-across-modalities
       label: Borrow the Technique Across Modalities
@@ -668,7 +668,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04, stackingGroup: training-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput }
     passive:
       id: ability.league-self-play-legacy
       label: League Self-Play Legacy
@@ -739,7 +739,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.incident.hazard, operation: multiply, value: 0.92, stackingGroup: hazard-reduction }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90, stackingGroup: hazard-reduction }
     passive:
       id: ability.safety-advances-with-capability
       label: Safety Advances With Capability

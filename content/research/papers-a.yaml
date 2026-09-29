@@ -139,7 +139,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.convolutional-networks, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.025 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [foundation, vision, convolution, document-recognition, end-to-end-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -251,7 +251,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.deep-generative-models, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.10 }
     tags: [foundation, deep-learning, unsupervised-learning, generative-models, representation-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -307,7 +307,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: lab.evals.quality, operation: add, value: 3 }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [foundation, dataset, vision, benchmarks, human-labour, data-stewardship]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -965,8 +965,8 @@ papers:
       worldFirstAura: 14
     unlockEffects:
       - { target: research.family.residual-architectures, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.08 }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.035 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.10 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [deep-learning, residual-networks, vision, depth, optimisation]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -1049,7 +1049,7 @@ papers:
       worldFirstAura: 16
     unlockEffects:
       - { target: research.family.neural-tree-search, operation: unlock, value: true }
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.12 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.10 }
     tags: [reinforcement-learning, self-play, planning, tree-search, games, public-milestone]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -1108,7 +1108,7 @@ papers:
       worldFirstAura: 12
     unlockEffects:
       - { target: research.family.sparse-mixture-of-experts, operation: unlock, value: true }
-      - { target: serving.computePerRequest, operation: multiply, value: 0.96 }
+      - { target: serving.computePerRequest, operation: multiply, value: 0.95 }
     tags: [scaling, sparse-models, mixture-of-experts, conditional-computation, systems]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -1169,7 +1169,7 @@ papers:
       worldFirstAura: 18
     unlockEffects:
       - { target: research.family.transformers, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.12 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.10 }
     tags: [transformers, attention, scaling, language, parallel-computation, generative-ai]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -1229,7 +1229,7 @@ papers:
     discovery:
       worldFirstAura: 16
     unlockEffects:
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.12 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.10 }
     tags: [reinforcement-learning, self-play, planning, tree-search, general-methods, games]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -1651,7 +1651,7 @@ papers:
       worldFirstAura: 13
     unlockEffects:
       - { target: research.family.patch-based-vision-transformers, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.04 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [scaling, vision, transformers, architecture-unification]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -1767,7 +1767,7 @@ papers:
       worldFirstAura: 13
     unlockEffects:
       - { target: research.family.diffusion-generative-models, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.03 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [scaling, generative-models, diffusion, image-synthesis]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
 
@@ -2115,7 +2115,7 @@ papers:
       worldFirstAura: 20
     unlockEffects:
       - { target: research.family.structure-from-sequence, operation: unlock, value: true }
-      - { target: prosperity.programme.medicine.readiness, operation: add, value: 12 }
+      - { target: prosperity.programme.medicine.readiness, operation: add, value: 10 }
       - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.20 }
     tags: [frontier, scientific-ai, structural-biology, protein-folding, prosperity-medicine]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-21 }
@@ -2178,7 +2178,7 @@ papers:
     discovery:
       worldFirstAura: 22
     unlockEffects:
-      - { target: prosperity.programme.medicine.readiness, operation: add, value: 22 }
+      - { target: prosperity.programme.medicine.readiness, operation: add, value: 20 }
       - { target: research.family.adaptive-therapeutic-design, operation: unlock, value: true }
     tags: [fictional-future, scientific-ai, medicine, prosperity-medicine, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-21 }
@@ -2283,7 +2283,7 @@ papers:
     discovery:
       worldFirstAura: 22
     unlockEffects:
-      - { target: prosperity.programme.clean-energy.readiness, operation: add, value: 22 }
+      - { target: prosperity.programme.clean-energy.readiness, operation: add, value: 20 }
       - { target: research.family.fusion-confinement-control, operation: unlock, value: true }
       - { target: lab.costs.fixed, operation: multiply, value: 0.90 }
     tags: [fictional-future, scientific-ai, clean-energy, prosperity-climate, late-game]
@@ -2334,7 +2334,7 @@ papers:
     discovery:
       worldFirstAura: 19
     unlockEffects:
-      - { target: prosperity.programme.clean-energy.readiness, operation: add, value: 18 }
+      - { target: prosperity.programme.clean-energy.readiness, operation: add, value: 20 }
       - { target: research.family.gigatonne-carbon-mineralisation, operation: unlock, value: true }
     tags: [fictional-future, scientific-ai, climate, prosperity-climate, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-21 }
@@ -2386,7 +2386,7 @@ papers:
     discovery:
       worldFirstAura: 21
     unlockEffects:
-      - { target: prosperity.programme.materials.readiness, operation: add, value: 22 }
+      - { target: prosperity.programme.materials.readiness, operation: add, value: 20 }
       - { target: research.family.programmable-molecular-assembly, operation: unlock, value: true }
       - { target: lab.incident.hazard, operation: multiply, value: 1.05 }
     tags: [fictional-future, scientific-ai, robotics-embodiment, materials, containment-relevant, late-game]
@@ -2436,7 +2436,7 @@ papers:
     discovery:
       worldFirstAura: 18
     unlockEffects:
-      - { target: prosperity.programme.materials.readiness, operation: add, value: 16 }
+      - { target: prosperity.programme.materials.readiness, operation: add, value: 15 }
       - { target: research.family.swarm-construction, operation: unlock, value: true }
     tags: [fictional-future, robotics-embodiment, materials, labour-transition, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-21 }
@@ -2532,7 +2532,7 @@ papers:
     discovery:
       worldFirstAura: 17
     unlockEffects:
-      - { target: prosperity.programme.public-knowledge.readiness, operation: add, value: 18 }
+      - { target: prosperity.programme.public-knowledge.readiness, operation: add, value: 20 }
       - { target: research.family.universal-translation-commons, operation: unlock, value: true }
     tags: [fictional-future, multimodality, public-knowledge, translation, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-21 }
@@ -2631,7 +2631,7 @@ papers:
     discovery:
       worldFirstAura: 19
     unlockEffects:
-      - { target: prosperity.programme.materials.readiness, operation: add, value: 18 }
+      - { target: prosperity.programme.materials.readiness, operation: add, value: 20 }
       - { target: research.family.general-humanoid-manipulation, operation: unlock, value: true }
     tags: [fictional-future, robotics-embodiment, materials, labour-transition, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-21 }
@@ -2886,7 +2886,7 @@ papers:
       worldFirstAura: 4
     unlockEffects:
       - { target: research.family.perceptrons, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.05 }
     tags: [foundation, neural-networks, classifier, historical-root]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3004,7 +3004,7 @@ papers:
       worldFirstAura: 5
     unlockEffects:
       - { target: research.family.kernel-methods, operation: unlock, value: true }
-      - { target: lab.research.domain.optimisation-scaling.output, operation: multiply, value: 1.04 }
+      - { target: lab.research.domain.optimisation-scaling.output, operation: multiply, value: 1.05 }
     tags: [foundation, classical-ml, classification, kernel-methods]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3057,7 +3057,7 @@ papers:
       worldFirstAura: 5
     unlockEffects:
       - { target: research.family.ensemble-methods, operation: unlock, value: true }
-      - { target: lab.research.domain.optimisation-scaling.output, operation: multiply, value: 1.03 }
+      - { target: lab.research.domain.optimisation-scaling.output, operation: multiply, value: 1.05 }
     tags: [foundation, classical-ml, ensemble-methods, applied-analytics]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3111,7 +3111,7 @@ papers:
       worldFirstAura: 6
     unlockEffects:
       - { target: research.family.self-play-game-agents, operation: unlock, value: true }
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.04 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.05 }
     tags: [foundation, reinforcement-learning, self-play, games]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3219,7 +3219,7 @@ papers:
       worldFirstAura: 7
     unlockEffects:
       - { target: research.family.vision-language-captioning, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [foundation, multimodal, vision-language, captioning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3274,7 +3274,7 @@ papers:
       worldFirstAura: 6
     unlockEffects:
       - { target: research.family.gated-deep-networks, operation: unlock, value: true }
-      - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.97 }
+      - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95 }
     tags: [foundation, deep-networks, gating, architecture]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3495,7 +3495,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.trust-region-policy-methods, operation: unlock, value: true }
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.06 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.05 }
     tags: [reinforcement-learning, policy-optimisation, stability]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3553,7 +3553,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.clipped-policy-optimisation, operation: unlock, value: true }
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.10 }
     tags: [reinforcement-learning, policy-optimisation, rlhf-precursor]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3786,7 +3786,7 @@ papers:
       worldFirstAura: 13
     unlockEffects:
       - { target: research.family.unified-text-to-text-transfer, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.07 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.05 }
     tags: [transfer-learning, language, transformers, benchmarking]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -3841,7 +3841,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.permutation-language-modelling, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.04 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.05 }
     tags: [language-models, pretraining, bidirectional-context]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -4344,7 +4344,7 @@ papers:
       worldFirstAura: 10
     unlockEffects:
       - { target: research.family.tool-augmented-reasoning-agents, operation: unlock, value: true }
-      - { target: lab.research.domain.reasoning-tools.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.reasoning-tools.output, operation: multiply, value: 1.10 }
     tags: [reasoning, agents, tool-use, grounding]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -4560,7 +4560,7 @@ papers:
       worldFirstAura: 13
     unlockEffects:
       - { target: research.family.autoregressive-text-to-image, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.035 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [multimodal, text-to-image, generative-ai, transformers]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -4667,7 +4667,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.weakly-supervised-speech-recognition, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [multimodal, speech-recognition, weak-supervision, robustness]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -5194,7 +5194,7 @@ papers:
       worldFirstAura: 10
     unlockEffects:
       - { target: research.family.systematic-red-teaming, operation: unlock, value: true }
-      - { target: lab.incident.hazard, operation: multiply, value: 0.92 }
+      - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
     tags: [safety, red-teaming, adversarial-testing, scaling-behaviour]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -5264,7 +5264,7 @@ papers:
       worldFirstAura: 14
     unlockEffects:
       - { target: research.family.algorithm-discovery-via-self-play, operation: unlock, value: true }
-      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.10 }
     tags: [scientific-ai, algorithm-discovery, self-play, mathematics]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -5452,7 +5452,7 @@ papers:
       worldFirstAura: 12
     unlockEffects:
       - { target: research.family.transformer-robot-policies, operation: unlock, value: true }
-      - { target: lab.research.domain.robotics-embodiment.output, operation: multiply, value: 1.12 }
+      - { target: lab.research.domain.robotics-embodiment.output, operation: multiply, value: 1.10 }
     tags: [robotics, transformers, real-world-data, generalisation]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -5550,7 +5550,7 @@ papers:
       worldFirstAura: 20
     unlockEffects:
       - { target: research.family.learned-quantum-error-correction, operation: unlock, value: true }
-      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.06 }
+      - { target: lab.research.domain.architectures.output, operation: multiply, value: 1.05 }
     tags: [fictional-future, architectures, quantum-computing, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-22 }
 
@@ -5798,7 +5798,7 @@ papers:
       worldFirstAura: 5
     unlockEffects:
       - { target: research.family.objective-specification, operation: unlock, value: true }
-      - { target: lab.research.alignment.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.alignment.output, operation: multiply, value: 1.05 }
     tags: [safety, cybernetics, objective-specification, philosophy]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -5852,7 +5852,7 @@ papers:
       worldFirstAura: 6
     unlockEffects:
       - { target: research.family.instrumental-convergence-threat-models, operation: unlock, value: true }
-      - { target: lab.research.security.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.security.output, operation: multiply, value: 1.05 }
     tags: [safety, instrumental-convergence, agency, threat-modelling]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -5907,7 +5907,7 @@ papers:
       worldFirstAura: 7
     unlockEffects:
       - { target: research.family.orthogonality-and-convergence, operation: unlock, value: true }
-      - { target: lab.research.alignment.output, operation: multiply, value: 1.03 }
+      - { target: lab.research.alignment.output, operation: multiply, value: 1.05 }
     tags: [safety, philosophy, orthogonality, instrumental-convergence]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -5960,7 +5960,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.safe-interruptibility, operation: unlock, value: true }
-      - { target: lab.incident.hazard, operation: multiply, value: 0.98 }
+      - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
     tags: [safety, corrigibility, interruption, reinforcement-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6015,7 +6015,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.assistance-games, operation: unlock, value: true }
-      - { target: lab.research.alignment.output, operation: multiply, value: 1.03 }
+      - { target: lab.research.alignment.output, operation: multiply, value: 1.05 }
     tags: [safety, corrigibility, assistance-games, human-control]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6071,7 +6071,7 @@ papers:
       worldFirstAura: 11
     unlockEffects:
       - { target: research.family.inner-alignment, operation: unlock, value: true }
-      - { target: lab.research.interpretability.output, operation: multiply, value: 1.03 }
+      - { target: lab.research.interpretability.output, operation: multiply, value: 1.05 }
       - { target: lab.evidence.displayedQuality, operation: add, value: 1 }
     tags: [safety, inner-alignment, mesa-optimisation, interpretability]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
@@ -6127,7 +6127,7 @@ papers:
       worldFirstAura: 12
     unlockEffects:
       - { target: research.family.power-seeking-evaluations, operation: unlock, value: true }
-      - { target: lab.research.security.output, operation: multiply, value: 1.03 }
+      - { target: lab.research.security.output, operation: multiply, value: 1.05 }
     tags: [safety, power-seeking, instrumental-convergence, formal-methods]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6183,7 +6183,7 @@ papers:
       worldFirstAura: 14
     unlockEffects:
       - { target: research.family.adversarial-control-protocols, operation: unlock, value: true }
-      - { target: lab.research.security.output, operation: multiply, value: 1.04 }
+      - { target: lab.research.security.output, operation: multiply, value: 1.05 }
       - { target: lab.evidence.displayedQuality, operation: add, value: 2 }
     tags: [safety, control, adversarial-evaluation, intentional-subversion]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
@@ -6338,7 +6338,7 @@ papers:
       worldFirstAura: 21
     unlockEffects:
       - { target: research.family.verified-human-veto, operation: unlock, value: true }
-      - { target: lab.incident.hazard, operation: multiply, value: 0.94 }
+      - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
       - { target: lab.research.security.output, operation: multiply, value: 1.05 }
     tags: [fictional-future, safety, containment, human-control, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-25 }
@@ -6503,7 +6503,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.encoder-decoder-segmentation, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [architectures, computer-vision, segmentation, deep-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6602,7 +6602,7 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.raw-audio-generation, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.025 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [multimodality, audio, generative, deep-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6652,7 +6652,7 @@ papers:
       worldFirstAura: 13
     unlockEffects:
       - { target: research.family.learned-model-planning, operation: unlock, value: true }
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.06 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.05 }
     tags: [reinforcement-learning, planning, model-based, agency, scaling]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6704,7 +6704,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.parameter-efficient-adaptation, operation: unlock, value: true }
-      - { target: serving.computePerRequest, operation: multiply, value: 0.94 }
+      - { target: serving.computePerRequest, operation: multiply, value: 0.95 }
     tags: [optimisation, fine-tuning, efficiency, productisation, scaling]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6755,7 +6755,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.io-aware-attention, operation: unlock, value: true }
-      - { target: serving.computePerRequest, operation: multiply, value: 0.92 }
+      - { target: serving.computePerRequest, operation: multiply, value: 0.90 }
     tags: [optimisation, systems, efficiency, attention, scaling]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6864,7 +6864,7 @@ papers:
       worldFirstAura: 10
     unlockEffects:
       - { target: research.family.direct-preference-tuning, operation: unlock, value: true }
-      - { target: lab.research.alignment.output, operation: multiply, value: 1.06 }
+      - { target: lab.research.alignment.output, operation: multiply, value: 1.05 }
     tags: [alignment, preference-learning, efficiency, frontier]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -6979,7 +6979,7 @@ papers:
       worldFirstAura: 14
     unlockEffects:
       - { target: research.family.rl-emergent-reasoning, operation: unlock, value: true }
-      - { target: world.rival.progress, operation: multiply, value: 1.04 }
+      - { target: world.rival.progress, operation: multiply, value: 1.05 }
     tags: [reasoning, reinforcement-learning, open-weights, frontier, late-game]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -7029,7 +7029,7 @@ papers:
       worldFirstAura: 12
     unlockEffects:
       - { target: research.family.learned-physical-simulation, operation: unlock, value: true }
-      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.06 }
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.05 }
       - { target: prosperity.programme.clean-energy.readiness, operation: add, value: 4 }
     tags: [scientific-ai, weather, simulation, climate, frontier]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
@@ -7080,7 +7080,7 @@ papers:
       worldFirstAura: 14
     unlockEffects:
       - { target: research.family.biomolecular-complex-prediction, operation: unlock, value: true }
-      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.07 }
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.05 }
       - { target: prosperity.programme.medicine.readiness, operation: add, value: 6 }
     tags: [scientific-ai, biology, drug-discovery, medicine, frontier]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
@@ -7187,7 +7187,7 @@ papers:
     unlockEffects:
       - { target: research.family.deceptive-persistence-testing, operation: unlock, value: true }
       - { target: lab.evals.quality, operation: add, value: 3 }
-      - { target: lab.incident.hazard, operation: multiply, value: 0.96 }
+      - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
     tags: [safety, deception, backdoors, evaluation, frontier]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -7294,7 +7294,7 @@ papers:
       worldFirstAura: 8
     unlockEffects:
       - { target: research.family.deep-uniform-convnets, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.02 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
     tags: [architectures, computer-vision, deep-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -7347,8 +7347,8 @@ papers:
       worldFirstAura: 9
     unlockEffects:
       - { target: research.family.region-proposal-detection, operation: unlock, value: true }
-      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.02 }
-      - { target: lab.research.domain.robotics-embodiment.output, operation: multiply, value: 1.04 }
+      - { target: lab.research.domain.multimodality.output, operation: multiply, value: 1.05 }
+      - { target: lab.research.domain.robotics-embodiment.output, operation: multiply, value: 1.05 }
     tags: [multimodality, computer-vision, object-detection, robotics, deep-learning]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -7502,7 +7502,7 @@ papers:
     unlockEffects:
       - { target: research.family.composed-scalable-oversight, operation: unlock, value: true }
       - { target: lab.evals.quality, operation: add, value: 5 }
-      - { target: lab.incident.hazard, operation: multiply, value: 0.92 }
+      - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
     tags: [fictional-future, safety, oversight, evaluation, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-25 }
 
@@ -7551,7 +7551,7 @@ papers:
       worldFirstAura: 15
     unlockEffects:
       - { target: research.family.computational-philology, operation: unlock, value: true }
-      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.10 }
       - { target: prosperity.programme.public-knowledge.readiness, operation: add, value: 5 }
     tags: [fictional-future, scientific-ai, linguistics, public-knowledge, late-game]
     review: { factual: fictional-clearly-labelled, mechanics: draft, reviewedOn: 2026-07-25 }
@@ -7614,7 +7614,7 @@ papers:
       worldFirstAura: 12
     unlockEffects:
       - { target: research.family.learned-structural-potentials, operation: unlock, value: true }
-      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.scientific-ai.output, operation: multiply, value: 1.10 }
     tags: [scientific-ai, structural-biology, protein-folding]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-09-02 }
 
@@ -7674,7 +7674,7 @@ papers:
       worldFirstAura: 10
     unlockEffects:
       - { target: research.family.model-agnostic-meta-learning, operation: unlock, value: true }
-      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.08 }
+      - { target: lab.research.domain.reinforcement-agency.output, operation: multiply, value: 1.10 }
     tags: [meta-learning, few-shot, reinforcement-agency, robotics]
     review: { factual: primary-source-drafted, mechanics: draft, reviewedOn: 2026-09-02 }
 

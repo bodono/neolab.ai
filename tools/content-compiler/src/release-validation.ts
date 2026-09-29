@@ -12,6 +12,8 @@ import {
   type ScoreCategoryId,
 } from "@neolab/content-schema";
 
+import { describeNonRoundValue, findNonRoundPlayerFacingValues } from "./round-values.ts";
+
 export const RETIRED_ENDING_NAMES = [
   "The Long Boom",
   "The Careful Dawn",
@@ -1669,10 +1671,31 @@ function analyseAssets(
   };
 }
 
+function validateRoundPlayerFacingValues(
+  content: CompiledContent,
+  authoredSources: Readonly<Record<string, string>>,
+  issues: ReleaseValidationIssue[],
+): void {
+  for (const finding of findNonRoundPlayerFacingValues(content, authoredSources)) {
+    issue(
+      issues,
+      "release-blocking",
+      "content.non-round-value",
+      finding.location,
+      describeNonRoundValue(finding),
+    );
+  }
+}
+
+/**
+ * `authoredSources` maps compiled definition IDs to the repo-relative file
+ * that authored them, so a finding can name the file to edit.
+ */
 export function createContentReleaseReport(
   content: CompiledContent,
   localisation: LocalisationMessages = { locale: "en-GB", messages: {} },
   copyFiles: readonly ScannableTextFile[] = [],
+  authoredSources: Readonly<Record<string, string>> = {},
 ): ContentReleaseReport {
   const issues: ReleaseValidationIssue[] = [];
   const eventAnalysis = validateEvents(content, localisation, issues);
@@ -1681,6 +1704,7 @@ export function createContentReleaseReport(
   const quotaAnalysis = analyseQuotas(content);
   const reviewAnalysis = analyseReviews(content);
   validateCompleteness(content, issues);
+  validateRoundPlayerFacingValues(content, authoredSources, issues);
   validateRetiredEndingNames(copyFiles, issues);
   validateFinalCatalogueReadiness(content, quotaAnalysis, reviewAnalysis, issues);
   issues.sort((left, right) =>

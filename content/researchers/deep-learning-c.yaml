@@ -115,7 +115,7 @@ researchers:
       id: ability.weight-sharing-search-efficiency
       label: Weight-Sharing Search Efficiency
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     compact:
       id: compact.let-the-search-decide
       label: Let the Search Decide
@@ -255,7 +255,7 @@ researchers:
       id: ability.connectionist-temporal-classification
       label: No Hand-Aligned Labels
       effects:
-        - { target: lab.research.program.base:domain.reasoning-tools.weeklyVarianceWidth, operation: multiply, value: 0.88 }
+        - { target: lab.research.program.base:domain.reasoning-tools.weeklyVarianceWidth, operation: multiply, value: 0.90 }
     compact:
       id: compact.give-the-model-a-memory-it-can-address
       label: Give the Model a Memory It Can Address

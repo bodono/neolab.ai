@@ -185,7 +185,7 @@ researchers:
       id: ability.instruction-following-image-editing
       label: Instruction-Following Image Editing
       effects:
-        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.physical-consistency-over-single-frame-quality
       label: Physical Consistency Over Single-Frame Quality
@@ -250,7 +250,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     passive:
       id: ability.predictable-scaling-with-compute
       label: Predictable Scaling With Compute
@@ -398,7 +398,7 @@ researchers:
       id: ability.robust-and-verified-ai
       label: Robust and Verified AI
       effects:
-        - { target: lab.incident.hazard, operation: multiply, value: 0.94, stackingGroup: hazard-reduction }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.95, stackingGroup: hazard-reduction }
     compact:
       id: compact.build-the-dedicated-team-not-an-afterthought
       label: Build the Dedicated Team, Not an Afterthought
@@ -464,7 +464,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.rapid-adaptation-evaluation
       label: Rapid Adaptation Evaluation

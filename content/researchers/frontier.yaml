@@ -194,7 +194,7 @@ researchers:
       id: ability.fast-adaptation
       label: Fast Adaptation
       effects:
-        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.reality-privileges
       label: Reality Privileges

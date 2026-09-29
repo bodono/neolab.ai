@@ -110,10 +110,10 @@ describe("Prosperity Programmes", () => {
       research: 16.8,
       facilities: 20,
       experts: 7.5,
-      discoveries: 34,
-      baseReadiness: 78.3,
+      discoveries: 30,
+      baseReadiness: 74.3,
       crisisValidation: 6,
-      readiness: 84.3,
+      readiness: 80.3,
     });
     expect(medicine?.facilitySources.map((source) => source.label)).toEqual([
       "Scientific Laboratory I",
@@ -122,7 +122,7 @@ describe("Prosperity Programmes", () => {
     expect(medicine?.expertSources.map((source) => source.label)).toEqual([
       "Jon W. Jumpfold",
     ]);
-    expect(medicine?.discoverySources.map((source) => source.amount)).toEqual([12, 22]);
+    expect(medicine?.discoverySources.map((source) => source.amount)).toEqual([10, 20]);
   });
 
   it("counts a rival publication immediately but not a rival secret paper", () => {
@@ -147,7 +147,7 @@ describe("Prosperity Programmes", () => {
     expect(medicineSources()).toEqual([]);
 
     mutableDiscovery.publicationPolicy = "publish-openly";
-    expect(medicineSources()).toEqual([12]);
+    expect(medicineSources()).toEqual([10]);
   });
 
   it("finds a clearly labelled fictional future discovery for every programme", () => {

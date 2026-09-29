@@ -36,8 +36,8 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 6 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
-          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.88, durationWeeks: 39, tags: [anomaly-investigation] }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.93, durationWeeks: 13, tags: [anomaly-investigation] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 39, tags: [anomaly-investigation] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [anomaly-investigation] }
         checks: []
         memories:
           - key: safety.anomaly.investigated
@@ -59,7 +59,7 @@ events:
                 minimumInclusive: 0
                 maximumExclusive: 0.6
                 effects:
-                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.93, durationWeeks: 26, tags: [anomaly-patch] }
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 26, tags: [anomaly-patch] }
                   - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
                 memories:
                   - key: safety.anomaly.patched
@@ -83,7 +83,7 @@ events:
         previewKey: event.safety.anomaly.ship.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -6 }
-          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.12, durationWeeks: 39, tags: [shipped-anyway] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [shipped-anyway] }
         checks: []
         memories:
           - key: safety.anomaly.ignored
@@ -177,9 +177,9 @@ events:
                 minimumInclusive: 0.68
                 maximumExclusive: 1
                 effects:
-                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -14 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -15 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 12 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
                 memories:
                   - key: safety.disclosure.leaked
                     subjects: [{ type: player-lab }]
@@ -238,7 +238,7 @@ events:
         previewKey: event.safety.review.internal.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.97, durationWeeks: 13, tags: [internal-review] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [internal-review] }
         checks: []
         memories:
           - key: safety.review.internal

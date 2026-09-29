@@ -110,7 +110,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     passive:
       id: ability.hardware-aware-research-judgement
       label: Hardware-Aware Research Judgement
@@ -187,7 +187,7 @@ researchers:
       id: ability.rare-disease-low-sample-diagnosis
       label: Rare-Disease Low-Sample Diagnosis
       effects:
-        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.encode-the-known-biology-dont-wait-for-more-data
       label: Encode the Known Biology, Don't Wait for More Data
@@ -253,7 +253,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.03 }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05 }
     passive:
       id: ability.symmetry-preserving-generalisation
       label: Symmetry-Preserving Validation
@@ -330,7 +330,7 @@ researchers:
       id: ability.algorithm-sensor-co-design
       label: Algorithm-Sensor Co-Design
       effects:
-        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.credit-the-collaboration
       label: Credit the Collaboration
@@ -463,7 +463,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.03 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     passive:
       id: ability.open-optimisation-toolchain
       label: Open Optimisation Toolchain
@@ -538,7 +538,7 @@ researchers:
       id: ability.high-dimensional-statistical-guarantees
       label: High-Dimensional Statistical Guarantees
       effects:
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.state_the_recovery_conditions
       label: State the Recovery Conditions

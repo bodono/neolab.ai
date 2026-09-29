@@ -39,7 +39,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.research.program.base:domain.reasoning-tools.weeklyVarianceWidth, operation: multiply, value: 0.82, stackingGroup: variance-width }
+        - { target: lab.research.program.base:domain.reasoning-tools.weeklyVarianceWidth, operation: multiply, value: 0.80, stackingGroup: variance-width }
     passive:
       id: ability.statistical-guarantee
       label: Statistical Guarantee
@@ -106,7 +106,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
       rampWeeks: 5
       effects:
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
         - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     passive:
       id: ability.institute-builder
@@ -176,13 +176,13 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
       rampWeeks: 4
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04, stackingGroup: gpu-throughput }
-        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: gpu-throughput }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.tradeoffs-of-large-scale-learning
       label: Tradeoffs of Large-Scale Learning
       effects:
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.98 }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95 }
     compact:
       id: compact.beat-the-simple-baseline
       label: Beat the Simple Baseline
@@ -243,7 +243,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.architectures] }
       rampWeeks: 4
       effects:
-        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
         - { target: lab.evidence.displayedQuality, operation: add, value: 3 }
     passive:
       id: ability.deployable-theory
@@ -312,7 +312,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
       rampWeeks: 4
       effects:
-        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.provable-accuracy-guarantee
       label: Provable Accuracy Guarantee
@@ -382,7 +382,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.reasoning-tools] }
       rampWeeks: 4
       effects:
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.human-legible-generative-model
       label: Human-Legible Generative Model
@@ -451,7 +451,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.architectures, domain.multimodality] }
       rampWeeks: 4
       effects:
-        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.durable-baseline
       label: Durable Baseline
@@ -523,7 +523,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.scientific-ai] }
       rampWeeks: 4
       effects:
-        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.a-bound-not-a-vibe
       label: A Bound, Not a Vibe

@@ -35,13 +35,13 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.multimodality, domain.optimisation-scaling] }
       rampWeeks: 4
       effects:
-        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.03, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.04, stackingGroup: gpu-throughput }
+        - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: gpu-throughput }
     passive:
       id: ability.benchmark-shock
       label: Benchmark Shock
       effects:
-        - { target: aura.worldFirstCapabilityPaperGain, operation: multiply, value: 1.08, stackingGroup: aura-gain }
+        - { target: aura.worldFirstCapabilityPaperGain, operation: multiply, value: 1.10, stackingGroup: aura-gain }
     compact:
       id: compact.two-gpus-and-a-benchmark
       label: Benchmark Before Bragging
@@ -103,7 +103,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
       rampWeeks: 4
       effects:
-        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.textbook-clarity
       label: Textbook Clarity
@@ -171,7 +171,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.architectures] }
       rampWeeks: 4
       effects:
-        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.the-idea-had-a-second-act
       label: The Idea Had a Second Act
@@ -240,7 +240,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.multimodality] }
       rampWeeks: 4
       effects:
-        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.legendary-advisor
       label: Legendary Advisor

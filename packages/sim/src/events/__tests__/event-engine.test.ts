@@ -312,12 +312,12 @@ describe("event eligibility and opportunity selection", () => {
         expect.objectContaining({
           kind: "add-rating",
           rating: "governmentTrust",
-          amount: -28,
+          amount: -30,
         }),
         expect.objectContaining({
           kind: "add-rating",
           rating: "internalCandour",
-          amount: -12,
+          amount: -10,
         }),
         expect.objectContaining({
           kind: "add-modifier",

@@ -111,7 +111,7 @@ researchers:
       id: ability.a-wrong-model-is-informative
       label: A Wrong Model Is Informative
       effects:
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.973, stackingGroup: hazard-reduction }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95, stackingGroup: hazard-reduction }
     compact:
       id: compact.biology-grade-validation
       label: Biology-Grade Validation

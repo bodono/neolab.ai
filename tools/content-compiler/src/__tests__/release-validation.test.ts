@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   contentId,
+  isRoundEffectValue,
+  nearestRoundEffectValue,
   validateCompiledContent,
   type CompiledContent,
   type EventDefinition,
@@ -15,6 +17,7 @@ import {
   isEventPredicateSatisfiable,
   type LocalisationMessages,
 } from "../release-validation.ts";
+import { findNonRoundPlayerFacingValues } from "../round-values.ts";
 
 const compiled: CompiledContent = validateCompiledContent(rawBundle);
 
@@ -741,4 +744,288 @@ describe("content release validation", () => {
     expect(report.quotaAnalysis.gaps).toEqual([]);
     expect(durationMs).toBeLessThan(5_000);
   }, 10_000);
+});
+
+function firstOf<T>(record: Readonly<Record<string, T>>, label: string): T {
+  const value = Object.values(record)[0];
+  if (value === undefined) throw new Error(`${label} fixture missing`);
+  return value;
+}
+
+function effect(
+  target: string,
+  operation: "add" | "multiply" | "min",
+  value: number,
+): {
+  readonly target: string;
+  readonly operation: "add" | "multiply" | "min";
+  readonly value: number;
+} {
+  return { target, operation, value };
+}
+
+/** The shipped bundle with one non-round value planted in every checked area. */
+function withNonRoundValues(): CompiledContent {
+  const researcher = firstOf(compiled.researchers.definitions, "researcher");
+  const leader = firstOf(compiled.leaders, "leader");
+  const mandate = firstOf(compiled.mandates, "mandate");
+  const difficulty = firstOf(compiled.difficulties, "difficulty");
+  const paper = firstOf(compiled.papers.definitions, "paper");
+  const facility = firstOf(compiled.facilities, "facility");
+  const advance = firstOf(compiled.research.genericAdvances, "generic advance");
+  const option = validEvent().options[0];
+  if (option === undefined) throw new Error("missing option fixture");
+  return {
+    ...withEvents(
+      validEvent({
+        options: [
+          {
+            ...option,
+            knownCosts: [
+              {
+                kind: "add-resource",
+                subject: { type: "player-lab" },
+                resource: "aura-spendable",
+                amount: -14,
+              },
+              // Cash is era-scaled at runtime, so an odd authored figure is fine.
+              {
+                kind: "add-resource",
+                subject: { type: "player-lab" },
+                resource: "cash",
+                amount: -7.3,
+              },
+            ],
+            immediateEffects: [
+              {
+                kind: "add-rating",
+                subject: { type: "player-lab" },
+                rating: "governmentTrust",
+                amount: 12,
+              },
+              {
+                kind: "schedule-effects",
+                dueInWeeks: 4,
+                effects: [
+                  {
+                    kind: "add-modifier",
+                    target: "lab.incident.hazard",
+                    operation: "multiply",
+                    value: 0.93,
+                    durationWeeks: 13,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    ),
+    researchers: {
+      ...compiled.researchers,
+      definitions: {
+        ...compiled.researchers.definitions,
+        [researcher.id]: {
+          ...researcher,
+          passive: {
+            ...researcher.passive,
+            effects: [
+              effect("lab.compute.workloadThroughput", "multiply", 1.041),
+              // A cap is a threshold, not a bonus.
+              effect("lab.incident.hazard", "min", 0.33),
+              // Allow-listed per-skill-point coefficient.
+              effect("lab.research.diffusionRate", "add", 0.25),
+            ],
+          },
+        },
+      },
+    },
+    leaders: {
+      ...compiled.leaders,
+      [leader.id]: {
+        ...leader,
+        headlineBonus: {
+          ...leader.headlineBonus,
+          effects: [effect("lab.research.all.output", "multiply", 1.07)],
+        },
+      },
+    },
+    mandates: {
+      ...compiled.mandates,
+      [mandate.id]: {
+        ...mandate,
+        effects: [effect("lab.research.capability.output", "multiply", 1.08)],
+      },
+    },
+    difficulties: {
+      ...compiled.difficulties,
+      [difficulty.id]: { ...difficulty, rivalProgressMultiplier: 0.68 },
+    },
+    papers: {
+      ...compiled.papers,
+      definitions: {
+        ...compiled.papers.definitions,
+        [paper.id]: {
+          ...paper,
+          unlockEffects: [
+            { target: "research.family.test", operation: "unlock", value: true },
+            effect("lab.research.domain.multimodality.output", "multiply", 1.025),
+          ],
+        },
+      },
+    },
+    facilities: {
+      ...compiled.facilities,
+      [facility.id]: {
+        ...facility,
+        // The allowance covers additive diffusion only, not every operation.
+        modifiers: [effect("lab.research.diffusionRate", "multiply", 1.03)],
+      },
+    },
+    research: {
+      ...compiled.research,
+      genericAdvances: {
+        ...compiled.research.genericAdvances,
+        [advance.id]: {
+          ...advance,
+          effects: [effect("lab.evidence.displayedQuality", "add", 2.25)],
+        },
+      },
+    },
+  };
+}
+
+describe("round player-facing values", () => {
+  it("defines round as 5% multiplier steps and whole or five-step additions", () => {
+    for (const value of [1, 1.05, 1.1, 1.25, 0.95, 0.8, 0.5, 2]) {
+      expect(isRoundEffectValue("multiply", value), String(value)).toBe(true);
+    }
+    for (const value of [1.025, 1.08, 1.12, 0.968, 1.1395, 0.92]) {
+      expect(isRoundEffectValue("multiply", value), String(value)).toBe(false);
+    }
+    // An exact reciprocal of a round multiplier is accepted as written...
+    expect(isRoundEffectValue("multiply", 0.952381)).toBe(true);
+    // ...but a near miss is not, and rounding never produces a reciprocal.
+    expect(isRoundEffectValue("multiply", 0.953)).toBe(false);
+    expect(nearestRoundEffectValue("multiply", 0.953)).toBe(0.95);
+
+    for (const value of [0, 1, -3, 8, 9, 10, -15, 25, 200]) {
+      expect(isRoundEffectValue("add", value), String(value)).toBe(true);
+    }
+    for (const value of [0.25, 2.5, -0.4, 12, -32, 14, 18]) {
+      expect(isRoundEffectValue("add", value), String(value)).toBe(false);
+    }
+  });
+
+  it("rounds to the nearest round value without flipping or erasing an effect", () => {
+    const cases: readonly (readonly ["add" | "multiply", number, number])[] = [
+      ["multiply", 1.08, 1.1],
+      ["multiply", 1.12, 1.1],
+      ["multiply", 0.968, 0.95],
+      ["multiply", 0.88, 0.9],
+      ["multiply", 1.1395, 1.15],
+      ["multiply", 0.8213, 0.8],
+      // Nearest would be x1.00, so the smallest step keeps the effect alive.
+      ["multiply", 1.02, 1.05],
+      ["multiply", 0.98, 0.95],
+      // Exact halves round away from zero; a discount never reaches x0.
+      ["multiply", 1.075, 1.1],
+      ["multiply", 0.012, 0.05],
+      ["add", 12, 10],
+      ["add", 14, 15],
+      ["add", -32, -30],
+      ["add", 2.25, 2],
+      ["add", 9.6, 10],
+      ["add", 0.25, 1],
+      ["add", -0.4, -1],
+    ];
+    for (const [operation, value, expected] of cases) {
+      expect(
+        nearestRoundEffectValue(operation, value),
+        `${operation} ${String(value)}`,
+      ).toBe(expected);
+      expect(isRoundEffectValue(operation, expected)).toBe(true);
+    }
+    expect(nearestRoundEffectValue("multiply", 1.05)).toBe(1.05);
+    expect(nearestRoundEffectValue("add", 7)).toBe(7);
+  });
+
+  it("finds every non-round bonus with its file, entity, and target", () => {
+    const eventId = "base:event.test.release-validation";
+    const researcher = firstOf(compiled.researchers.definitions, "researcher");
+    const findings = findNonRoundPlayerFacingValues(withNonRoundValues(), {
+      [eventId]: "content/events/test.yaml",
+      [researcher.id]: "content/researchers/test.yaml",
+    });
+    const summary = findings.map((finding) => [
+      finding.area,
+      finding.file,
+      finding.target,
+      finding.value,
+      finding.suggestion,
+    ]);
+
+    expect(summary).toEqual(
+      expect.arrayContaining([
+        ["event", "content/events/test.yaml", "aura-spendable", -14, -15],
+        ["event", "content/events/test.yaml", "rating.governmentTrust", 12, 10],
+        ["event", "content/events/test.yaml", "lab.incident.hazard", 0.93, 0.95],
+        [
+          "researcher",
+          "content/researchers/test.yaml",
+          "lab.compute.workloadThroughput",
+          1.041,
+          1.05,
+        ],
+        ["leader", "content/labs/launch.yaml", "lab.research.all.output", 1.07, 1.05],
+        ["mandate", "content/balance.yaml", "lab.research.capability.output", 1.08, 1.1],
+        ["difficulty", "content/balance.yaml", "rivalProgressMultiplier", 0.68, 0.7],
+        [
+          "paper",
+          "content/research/papers-a.yaml",
+          "lab.research.domain.multimodality.output",
+          1.025,
+          1.05,
+        ],
+        [
+          "facility",
+          "content/facilities/core-stage-2.yaml",
+          "lab.research.diffusionRate",
+          1.03,
+          1.05,
+        ],
+        [
+          "generic-advance",
+          "content/research/domains.yaml",
+          "lab.evidence.displayedQuality",
+          2.25,
+          2,
+        ],
+      ]),
+    );
+    // Cash, caps and the additive diffusion coefficient are not bonuses to round.
+    expect(summary).toHaveLength(10);
+    expect(findings.find((finding) => finding.area === "event")?.entityId).toBe(eventId);
+    expect(
+      findings.find((finding) => finding.target === "lab.incident.hazard")?.location,
+    ).toBe(`events.definitions.${eventId}.options[0].immediateEffects[1].effects[0]`);
+  });
+
+  it("blocks release on a non-round value and passes the shipped catalogue", () => {
+    const report = createContentReleaseReport(withNonRoundValues(), messages(), [], {
+      "base:event.test.release-validation": "content/events/test.yaml",
+    });
+    const nonRound = report.issues.filter(
+      (candidate) => candidate.code === "content.non-round-value",
+    );
+    expect(nonRound).toHaveLength(10);
+    expect(nonRound.every((candidate) => candidate.severity === "release-blocking")).toBe(
+      true,
+    );
+    expect(nonRound.map((candidate) => candidate.message)).toContain(
+      "content/events/test.yaml: base:event.test.release-validation rating.governmentTrust add 12 is not a round player-facing value; use add 10",
+    );
+
+    expect(findNonRoundPlayerFacingValues(compiled)).toEqual([]);
+  });
 });

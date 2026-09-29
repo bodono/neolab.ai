@@ -678,8 +678,8 @@ function selectOfferShape(shapes: readonly OfferShape[], variant: number): Offer
  * between term sheets to a comparison of one random draw. Now that every
  * condition costs something real, the premium has to be large enough that
  * taking one is a genuine decision rather than an obvious refusal: two
- * conditions is +44% cash against, say, research -3% and all operating costs
- * +4% for two years.
+ * conditions is +44% cash against, say, research -5% and all operating costs
+ * +5% for two years.
  *
  * Offers carry 0, 1 or 2 conditions. Three was too many to weigh at once and
  * made the clean no-strings offer look absurd by comparison.
@@ -693,16 +693,17 @@ const SHORT_WINDOW = 52;
 
 /**
  * Investors want something specific, and it costs the lab something specific
- * for a bounded time. Penalties are deliberately small -- a few per cent -- but
- * they are real, so the premium they buy (§`CONDITION_CASH_PREMIUM`) is worth
- * weighing rather than accepting reflexively.
+ * for a bounded time. Penalties are deliberately small -- 5 or 10 per cent --
+ * but they are real, so the premium they buy (§`CONDITION_CASH_PREMIUM`) is
+ * worth weighing rather than accepting reflexively. Every term is a round
+ * percentage (see `isRoundEffectValue`), because the player reads it as one.
  */
 const COMMERCIALISATION_PUSH = (): FundingOfferConditionState =>
   modifierCondition(
     "commercialisation-push",
-    "Investors expect commercial focus: research output −3% for two years",
+    "Investors expect commercial focus: research output −5% for two years",
     "lab.research.all.output",
-    0.97,
+    0.95,
     LONG_WINDOW,
   );
 
@@ -718,9 +719,9 @@ const PREFERRED_HARDWARE_VENDOR = (): FundingOfferConditionState =>
 const RESERVED_INFERENCE = (): FundingOfferConditionState =>
   modifierCondition(
     "reserved-inference",
-    "Partner holds reserved inference capacity: compute per served request +6% for a year",
+    "Partner holds reserved inference capacity: compute per served request +5% for a year",
     "serving.computePerRequest",
-    1.06,
+    1.05,
     SHORT_WINDOW,
   );
 
@@ -734,9 +735,9 @@ const RESERVED_INFERENCE = (): FundingOfferConditionState =>
 const INVESTOR_REPORTING = (): FundingOfferConditionState =>
   modifierCondition(
     "investor-reporting",
-    "Quarterly investor reporting and diligence: all operating costs +4% for two years",
+    "Quarterly investor reporting and diligence: all operating costs +5% for two years",
     "lab.costs.fixed",
-    1.04,
+    1.05,
     LONG_WINDOW,
   );
 
@@ -752,14 +753,14 @@ const EXCLUSIVITY_TERMS = (): FundingOfferConditionState =>
 const SAFETY_ASSURANCE_REGIME = (): FundingOfferConditionState =>
   modifierCondition(
     "safety-assurance-regime",
-    "Mandated external assurance on every evaluation: evaluation cash cost +12% for two years",
+    "Mandated external assurance on every evaluation: evaluation cash cost +10% for two years",
     "lab.evaluation.cashCost",
-    1.12,
+    1.1,
     LONG_WINDOW,
   );
 
 /**
- * The -4% is a claim on cash, not on the mark. lab.revenue.all is resolved when
+ * The -5% is a claim on cash, not on the mark. lab.revenue.all is resolved when
  * the cycle ledger is assembled, after the market settlement has already stored
  * the revenue that valuation prices from -- so this reduces what the lab banks
  * and leaves its valuation on gross revenue. Deliberate; see the note at the
@@ -768,38 +769,54 @@ const SAFETY_ASSURANCE_REGIME = (): FundingOfferConditionState =>
 const REVENUE_SHARE = (): FundingOfferConditionState =>
   modifierCondition(
     "revenue-share",
-    "Partner takes a revenue share: product revenue −4% for two years",
+    "Partner takes a revenue share: product revenue −5% for two years",
     "lab.revenue.all",
-    0.96,
+    0.95,
     LONG_WINDOW,
   );
 
 const PROCUREMENT_THROUGH_PARTNER = (): FundingOfferConditionState =>
   modifierCondition(
     "procurement-through-partner",
-    "All compute procurement routes through the partner: acquisition cost +6% for a year",
+    "All compute procurement routes through the partner: acquisition cost +5% for a year",
     "lab.compute.acquisitionCost",
-    1.06,
+    1.05,
     SHORT_WINDOW,
   );
 
 const AGGRESSIVE_SCALING = (): FundingOfferConditionState =>
   modifierCondition(
     "aggressive-scaling",
-    "Investors want scale over efficiency: owned-GPU power cost +7% for a year",
+    "Investors want scale over efficiency: owned-GPU power cost +5% for a year",
     "lab.compute.ownedPowerCost",
-    1.07,
+    1.05,
     SHORT_WINDOW,
   );
 
 const PUBLICATION_RESTRAINT = (): FundingOfferConditionState =>
   modifierCondition(
     "publication-restraint",
-    "Publication restraint slows internal knowledge spread: research output −2% for a year",
+    "Publication restraint slows internal knowledge spread: research output −5% for a year",
     "lab.research.all.output",
-    0.98,
+    0.95,
     SHORT_WINDOW,
   );
+
+/** Every term an investor can attach, so audits see what the player is shown. */
+export function fundingOfferConditionCatalogue(): readonly FundingOfferConditionState[] {
+  return [
+    COMMERCIALISATION_PUSH(),
+    PREFERRED_HARDWARE_VENDOR(),
+    RESERVED_INFERENCE(),
+    INVESTOR_REPORTING(),
+    EXCLUSIVITY_TERMS(),
+    SAFETY_ASSURANCE_REGIME(),
+    REVENUE_SHARE(),
+    PROCUREMENT_THROUGH_PARTNER(),
+    AGGRESSIVE_SCALING(),
+    PUBLICATION_RESTRAINT(),
+  ];
+}
 
 function offerShape(
   definition: FundraisingCampaignDefinition,
@@ -855,7 +872,7 @@ function offerShape(
       // Buying, running, serving -- three distinct levers. Do not add
       // PREFERRED_HARDWARE_VENDOR here: ownedPurchasePrice and acquisitionCost
       // are chained on the same purchase (acquisitionCost resolves against the
-      // output of ownedPurchasePrice), so pairing them charges +11.3% on one
+      // output of ownedPurchasePrice), so pairing them charges +10.25% on one
       // transaction while presenting it to the player as two separate terms.
       conditions: [PROCUREMENT_THROUGH_PARTNER(), AGGRESSIVE_SCALING()],
     },

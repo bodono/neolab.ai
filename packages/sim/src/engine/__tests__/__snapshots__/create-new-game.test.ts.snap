@@ -331,7 +331,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0006": {
       "id": "run:modifier:setup:0006",
@@ -1061,7 +1061,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0004": {
       "id": "run:modifier:setup:0004",
@@ -1776,7 +1776,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0003": {
       "id": "run:modifier:setup:0003",
@@ -2517,7 +2517,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0005": {
       "id": "run:modifier:setup:0005",
@@ -3232,7 +3232,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0003": {
       "id": "run:modifier:setup:0003",
@@ -3972,7 +3972,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "world.rival.progress",
-      "value": 0.68,
+      "value": 0.7,
     },
     "run:modifier:setup:0005": {
       "id": "run:modifier:setup:0005",
@@ -3998,7 +3998,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0007": {
       "id": "run:modifier:setup:0007",
@@ -4713,7 +4713,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.revenue.all",
-      "value": 0.92,
+      "value": 0.9,
     },
     "run:modifier:setup:0003": {
       "id": "run:modifier:setup:0003",
@@ -4725,7 +4725,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "world.rival.progress",
-      "value": 1.12,
+      "value": 1.1,
     },
     "run:modifier:setup:0004": {
       "id": "run:modifier:setup:0004",
@@ -4751,7 +4751,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0006": {
       "id": "run:modifier:setup:0006",
@@ -5466,7 +5466,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.revenue.all",
-      "value": 0.88,
+      "value": 0.85,
     },
     "run:modifier:setup:0003": {
       "id": "run:modifier:setup:0003",
@@ -5504,7 +5504,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.research.capability.output",
-      "value": 1.08,
+      "value": 1.1,
     },
     "run:modifier:setup:0006": {
       "id": "run:modifier:setup:0006",

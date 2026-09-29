@@ -38,7 +38,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.architectures] }
       rampWeeks: 4
       effects:
-        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.citation-gravity
       label: Citation Gravity
@@ -175,8 +175,8 @@ researchers:
       eligibleAssignments: [capability-program, safety-program]
       rampWeeks: 4
       effects:
-        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
-        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.responsible-disclosure
       label: Responsible Disclosure
@@ -244,8 +244,8 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.multimodality] }
       rampWeeks: 4
       effects:
-        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
-        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.12 }
+        - { target: domain.multimodality.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
+        - { target: aura.openPaperModelOrDatasetGain, operation: multiply, value: 1.10 }
     passive:
       id: ability.talent-pipeline
       label: People Are Infrastructure
@@ -450,7 +450,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.03, stackingGroup: gpu-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: gpu-throughput }
     passive:
       id: ability.stable-league
       label: Stable League
@@ -520,12 +520,12 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.reinforcement-agency] }
       rampWeeks: 4
       effects:
-        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.compute-friendly-ideas
       label: Compute-Friendly Ideas
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.03, stackingGroup: gpu-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: gpu-throughput }
     compact:
       id: compact.research-freedom
       label: Research Freedom
@@ -589,7 +589,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [safety.alignment-control] }
       rampWeeks: 4
       effects:
-        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: safety.alignment-control.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     passive:
       id: ability.credible-person-entered-hearing
       label: A Credible Person Has Entered the Hearing
@@ -666,8 +666,8 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.robotics-embodiment, domain.reinforcement-agency] }
       rampWeeks: 4
       effects:
-        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.04 }
-        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.02 }
+        - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05 }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05 }
     passive:
       id: ability.robotics-alumni-network
       label: Robotics Alumni Network
@@ -736,7 +736,7 @@ researchers:
       activation: { type: assignment-id-in, values: [domain.reinforcement-agency, safety.interpretability-evals] }
       rampWeeks: 4
       effects:
-        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
         - { target: lab.research.program.base:domain.reinforcement-agency.weeklyVarianceWidth, operation: multiply, value: 0.50, stackingGroup: variance-width }
     passive:
       id: ability.checklist-included
@@ -806,7 +806,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.02 }
+        - { target: domain.scientific-ai.researchOutput, operation: multiply, value: 1.05 }
     passive:
       id: ability.stable-states-tell-you-the-purpose
       label: Stable States Tell You the Purpose
@@ -874,7 +874,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.98 }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95 }
     passive:
       id: ability.citation-archaeology
       label: Citation Archaeology
@@ -1078,12 +1078,12 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.02 }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05 }
     passive:
       id: ability.what-would-have-to-change
       label: What Would Have To Change
       effects:
-        - { target: lab.incident.hazard, operation: multiply, value: 0.94 }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.95 }
     compact:
       id: compact.model-the-mechanism
       label: Model the Mechanism
@@ -1145,7 +1145,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.02 }
+        - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05 }
     passive:
       id: ability.the-one-working-example
       label: The One Working Example

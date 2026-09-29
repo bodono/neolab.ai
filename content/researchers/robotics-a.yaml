@@ -182,7 +182,7 @@ researchers:
       id: ability.self-improving-foundation-agent
       label: Self-Improving Foundation Agent
       effects:
-        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.04, stackingGroup: programme-rp }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
     compact:
       id: compact.retain-the-old-skill-while-learning-the-new-one
       label: Retain the Old Skill While Learning the New One

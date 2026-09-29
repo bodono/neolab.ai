@@ -41,12 +41,12 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.optimisation-scaling] }
       rampWeeks: 4
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.06 }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05 }
     passive:
       id: ability.clean-run
       label: Clean Run
       effects:
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.968 }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95 }
     compact:
       id: compact.guaranteed-cluster
       label: Guaranteed Cluster
@@ -123,7 +123,7 @@ researchers:
       id: ability.parallel-sequence
       label: Parallel Sequence
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.06, stackingGroup: training-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput }
     compact:
       id: compact.protected-focus
       label: Protected Focus
@@ -199,7 +199,7 @@ researchers:
       id: ability.attack-before-launch
       label: Attack Before Launch
       effects:
-        - { target: lab.incident.hazard, operation: multiply, value: 0.92 }
+        - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
     compact:
       id: compact.quarterly-red-team
       label: Annual Red Team
@@ -266,7 +266,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.96, stackingGroup: hazard }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95, stackingGroup: hazard }
     passive:
       id: ability.cheap-ablations
       label: Cheap Ablations
@@ -339,7 +339,7 @@ researchers:
       activation: { type: assignment-domain-in, values: [domain.multimodality] }
       rampWeeks: 4
       effects:
-        - { target: aura.firstPublicLaunchGain, operation: multiply, value: 1.112 }
+        - { target: aura.firstPublicLaunchGain, operation: multiply, value: 1.10 }
     passive:
       id: ability.explainable-excitement
       label: Explainable Excitement
@@ -417,7 +417,7 @@ researchers:
       id: ability.very-deep-still-trains
       label: Very Deep, Still Trains
       effects:
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.968, stackingGroup: hazard }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95, stackingGroup: hazard }
     compact:
       id: compact.engineering-before-depth
       label: Engineering Before Depth
@@ -557,7 +557,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.architectures.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.06, stackingGroup: training-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput }
     passive:
       id: ability.ship-the-architecture
       label: Ship the Architecture

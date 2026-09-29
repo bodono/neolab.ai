@@ -60,7 +60,7 @@ function resolvedOutput(state: GameState, target: string): number {
 }
 
 describe("research bonus reconciliation", () => {
-  it("aligns the dense Multimodality paper catalogue with peer programmes", () => {
+  it("pins the dense Multimodality paper catalogue at the smallest round step", () => {
     const catalogueMultiplier = (target: string): number =>
       Object.values(content.papers.definitions)
         .flatMap((paper) => paper.unlockEffects)
@@ -82,8 +82,14 @@ describe("research bonus reconciliation", () => {
       "lab.research.domain.robotics-embodiment.output",
     );
 
+    // Every paper bonus is a round figure, so the fourteen small Multimodality
+    // bonuses (x1.02 to x1.035) each became the smallest round step, x1.05.
+    // Together they now compound past Architectures; pin the exact totals so
+    // any rebalancing of the dense catalogue is a deliberate content change.
+    expect(multimodality).toBeCloseTo(1.05 ** 14, 10);
+    expect(architectures).toBeCloseTo(1.1 ** 3 * 1.05 ** 4, 10);
+    expect(robotics).toBeCloseTo(1.1 * 1.05 * 1.15 * 1.1, 10);
     expect(multimodality).toBeGreaterThan(robotics);
-    expect(multimodality).toBeLessThan(architectures);
   });
 
   it("makes Highway Networks a real stepping stone to residual architectures", () => {
@@ -94,7 +100,7 @@ describe("research bonus reconciliation", () => {
     expect(highway?.unlockEffects).toContainEqual({
       target: "lab.training.technicalFailureHazard",
       operation: "multiply",
-      value: 0.97,
+      value: 0.95,
     });
     if (resnet?.prerequisites.kind !== "all") {
       throw new Error("ResNet fixture is missing its prerequisite conjunction");
@@ -108,15 +114,15 @@ describe("research bonus reconciliation", () => {
 
   it("compounds every permanent specialisation choice", () => {
     let state = choose(newState(), sharedEmbeddings20);
-    expect(resolvedOutput(state, multimodalityOutput)).toBeCloseTo(1.1395);
+    expect(resolvedOutput(state, multimodalityOutput)).toBeCloseTo(1.15);
 
     state = choose(state, evaluationGallery40);
-    expect(resolvedOutput(state, multimodalityOutput)).toBeCloseTo(1.1395);
-    expect(resolvedOutput(state, interpretabilityOutput)).toBeCloseTo(1.169063);
+    expect(resolvedOutput(state, multimodalityOutput)).toBeCloseTo(1.15);
+    expect(resolvedOutput(state, interpretabilityOutput)).toBeCloseTo(1.15);
 
     state = choose(state, sharedEmbeddings60);
-    expect(resolvedOutput(state, multimodalityOutput)).toBeCloseTo(1.1395 * 1.2712);
-    expect(resolvedOutput(state, interpretabilityOutput)).toBeCloseTo(1.169063);
+    expect(resolvedOutput(state, multimodalityOutput)).toBeCloseTo(1.15 * 1.25);
+    expect(resolvedOutput(state, interpretabilityOutput)).toBeCloseTo(1.15);
 
     const sharedModifiers = Object.values(state.modifiers).filter((modifier) =>
       [sharedEmbeddings20, sharedEmbeddings60].includes(modifier.source.id as ContentId),
@@ -148,7 +154,7 @@ describe("research bonus reconciliation", () => {
     reconcileGenericAdvanceModifiers(tx, content, legacy.run.playerLabId);
     const reconciled = tx.commit({ description: "reconcile old advances" }).state;
 
-    expect(resolvedOutput(reconciled, multimodalityOutput)).toBeCloseTo(1.1395 * 1.2712);
+    expect(resolvedOutput(reconciled, multimodalityOutput)).toBeCloseTo(1.15 * 1.25);
     const oldModifier = Object.values(reconciled.modifiers).find(
       (modifier) => modifier.source.id === sharedEmbeddings20,
     );
@@ -223,6 +229,6 @@ describe("research bonus reconciliation", () => {
     );
 
     expect(highwayModifiers).toHaveLength(1);
-    expect(highwayModifiers[0]?.value).toBe(0.97);
+    expect(highwayModifiers[0]?.value).toBe(0.95);
   });
 });

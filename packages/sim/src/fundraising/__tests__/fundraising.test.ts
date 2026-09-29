@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   contentId,
+  isRoundEffectValue,
   validateCompiledContent,
   type CompiledContent,
 } from "@neolab/content-schema";
@@ -28,6 +29,7 @@ import { seed128 } from "../../random/seed.ts";
 import {
   calculateFundingScore,
   expireFundingOffers,
+  fundingOfferConditionCatalogue,
   fundraisingRoundLabel,
   generateFundingOffers,
   quoteFundraisingCampaign,
@@ -332,6 +334,20 @@ describe("fundraising campaigns", () => {
       totalAuraCost: 51,
     });
     expect(quote.auraCost).toBe(51);
+  });
+
+  it("states every investor condition as the round percentage it applies", () => {
+    const catalogue = fundingOfferConditionCatalogue();
+    expect(catalogue).toHaveLength(10);
+    for (const condition of catalogue) {
+      if (condition.kind !== "modifier") throw new Error(`${condition.id} is not a term`);
+      expect(condition.operation, condition.id).toBe("multiply");
+      expect(isRoundEffectValue("multiply", condition.value), condition.id).toBe(true);
+      const percentage = Math.round(Math.abs(condition.value - 1) * 100);
+      expect(condition.label, condition.id).toContain(
+        `${condition.value > 1 ? "+" : "−"}${String(percentage)}%`,
+      );
+    }
   });
 
   it("offers distinct investor terms within every multi-offer roadshow", () => {

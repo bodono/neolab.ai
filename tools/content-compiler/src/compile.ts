@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 
 import {
   authoringManifestSchema,
@@ -20,6 +20,7 @@ import {
   starResearchersFileSchema,
   starResearcherRulesFileSchema,
   launchLeadersFileSchema,
+  nearestRoundEffectValue,
   type AuthoredEffect,
   type AuthoredResearcherModifier,
   type CompiledContent,
@@ -231,6 +232,23 @@ function scaleGenericAdvanceEffects(
   });
 }
 
+/**
+ * A twenty-level checkpoint pays the two maturity stages it replaces at once,
+ * so the combined value is what the player is shown ("Architectures research
+ * speed +15%"). Compounding two scaled stages lands between round figures
+ * (x1.06 at stages one and two compounds to x1.1395, shown as "+13.9%"), so
+ * the combination is rounded to the nearest round value in the same
+ * direction. Caps and floors are thresholds, not bonuses, and pass through.
+ */
+function roundCombinedGenericAdvanceValue(
+  operation: AuthoredEffect["operation"],
+  value: number,
+): number {
+  return operation === "add" || operation === "multiply"
+    ? nearestRoundEffectValue(operation, value)
+    : value;
+}
+
 function combineGenericAdvanceStageEffects(
   effects: readonly AuthoredEffect[],
   firstStageIndex: number,
@@ -268,7 +286,13 @@ function combineGenericAdvanceStageEffects(
         value = Math.max(effect.value, paired.value);
         break;
     }
-    return { ...effect, value: Math.round(value * 1_000_000) / 1_000_000 };
+    return {
+      ...effect,
+      value: roundCombinedGenericAdvanceValue(
+        effect.operation,
+        Math.round(value * 1_000_000) / 1_000_000,
+      ),
+    };
   });
 }
 
@@ -2046,6 +2070,7 @@ export function compileContent(repoRoot: string): CompileResult {
   };
 
   const researcherDefinitions: Record<string, ResearcherDefinition> = {};
+  const researcherSources: Record<string, string> = {};
   // Consume the released roster files only. Additional files may be under active
   // editorial development in the shared worktree and join this explicit list
   // once their pack is release-ready.
@@ -2088,6 +2113,7 @@ export function compileContent(repoRoot: string): CompileResult {
           `duplicate researcher ID ${id}`,
         );
       }
+      researcherSources[id] = researcherPath;
       const expectedContract = contractBands[authored.contract.band];
       const contractMatches =
         authored.contract.baseSalaryPerCycle === expectedContract.baseSalaryPerCycle &&
@@ -2370,6 +2396,7 @@ export function compileContent(repoRoot: string): CompileResult {
   // events are load-bearing: a pending government intervention only resolves
   // once its event records a typed response memory.
   const copy = compileCopyCatalogue(contentDir);
+  const eventSources: Record<string, string> = {};
   const events: CompiledContent["events"] = compileEventCatalogue(
     contentDir,
     [
@@ -2380,6 +2407,7 @@ export function compileContent(repoRoot: string): CompileResult {
       "autonomy.yaml",
     ],
     canonicalId,
+    eventSources,
   );
 
   // ----- Assemble -----------------------------------------------------------
@@ -2456,10 +2484,25 @@ export function compileContent(repoRoot: string): CompileResult {
     "generated",
     "content-report.json",
   );
+  // Which file authored each definition, so a release issue names the file to edit.
+  const authoredSources: Record<string, string> = {};
+  const recordSources = (ids: Iterable<string>, filePath: string): void => {
+    for (const id of ids) authoredSources[id] = relative(repoRoot, filePath);
+  };
+  recordSources(Object.keys(leaders), leadersPath);
+  recordSources(Object.keys(facilities), facilitiesPath);
+  recordSources(Object.keys(research.genericAdvances), researchPath);
+  recordSources(Object.keys(papers), papersPath);
+  recordSources(Object.keys(difficulties), balancePath);
+  recordSources(Object.keys(mandates), balancePath);
+  for (const sources of [researcherSources, eventSources]) {
+    for (const [id, filePath] of Object.entries(sources)) recordSources([id], filePath);
+  }
   const report = createContentReleaseReport(
     canonicalBundle,
     { locale: copy.locale, messages: copy.messages },
     collectReleaseCopyFiles(repoRoot),
+    authoredSources,
   );
   const canonicalReport = canonicalise(report) as ContentReleaseReport;
   writeFileSync(reportPath, `${JSON.stringify(canonicalReport, null, 2)}\n`);

@@ -41,7 +41,7 @@ researchers:
       id: ability.one-backbone-many-modalities
       label: One Backbone, Many Modalities
       effects:
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.041, stackingGroup: training-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput }
     compact:
       id: compact.test-the-assumption
       label: Test the Assumption
@@ -106,7 +106,7 @@ researchers:
       id: ability.stable-by-construction
       label: Stable by Construction
       effects:
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.977, stackingGroup: hazard-reduction }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95, stackingGroup: hazard-reduction }
     compact:
       id: compact.no-adversarial-shortcuts
       label: No Adversarial Shortcuts
@@ -171,7 +171,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.optimisation-scaling.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.044, stackingGroup: training-throughput }
+        - { target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, stackingGroup: training-throughput }
     passive:
       id: ability.forecastable-returns
       label: Forecastable Returns
@@ -241,7 +241,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.977 }
+        - { target: lab.training.technicalFailureHazard, operation: multiply, value: 0.95 }
     passive:
       id: ability.rlhf-pipeline
       label: RLHF Pipeline
@@ -521,7 +521,7 @@ researchers:
       id: ability.legible-to-non-specialists
       label: Legible to Non-Specialists
       effects:
-        - { target: action.tag.lobbying.auraCost, operation: multiply, value: 0.92, stackingGroup: cash-discount }
+        - { target: action.tag.lobbying.auraCost, operation: multiply, value: 0.90, stackingGroup: cash-discount }
     compact:
       id: compact.explain-in-human-concepts
       label: Explain in Human Concepts
@@ -585,7 +585,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: domain.robotics-embodiment.researchOutput, operation: multiply, value: 1.05 }
-        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.03 }
+        - { target: domain.reinforcement-agency.researchOutput, operation: multiply, value: 1.05 }
     passive:
       id: ability.fleet-scale-data-collection
       label: Fleet-Scale Data Collection

@@ -45,13 +45,15 @@ describe("research content", () => {
       )
       .map((option) => option?.effects[0]?.value);
 
-    expect(cleanerBlockEffects).toEqual([1.1395, 1.20445, 1.2712, 1.33975, 1.4101]);
+    // Each checkpoint pays its two stages rounded to a round figure (x1.1395
+    // shows as +15%), which keeps the ladder's terminal power within 1.1%.
+    expect(cleanerBlockEffects).toEqual([1.15, 1.2, 1.25, 1.35, 1.4]);
     expect(
       cleanerBlockEffects.reduce(
         (product: number, value) => product * (typeof value === "number" ? value : 1),
         1,
       ),
-    ).toBeCloseTo(3.2960262967840253, 12);
+    ).toBeCloseTo(1.15 * 1.2 * 1.25 * 1.35 * 1.4, 12);
   });
 
   it("applies programme personalities inside the separate branch cost curves", () => {
@@ -97,6 +99,7 @@ describe("research content", () => {
       ...Object.values(content.research.capabilityDomains),
       ...Object.values(content.research.safetyPrograms),
     ];
+    const plateaus: string[] = [];
     for (const programme of programmes) {
       const milestones = Object.entries(programme.genericAdvanceOptionIds).sort(
         ([left], [right]) => Number(left) - Number(right),
@@ -113,17 +116,54 @@ describe("research content", () => {
       ).toBe(10);
 
       for (const branchIndex of [0, 1]) {
-        const effectFingerprints = milestones.map(([, optionIds]) => {
+        const branch = milestones.map(([, optionIds]) => {
           const optionId = optionIds[branchIndex];
-          if (optionId === undefined) throw new Error("advance option missing");
-          return JSON.stringify(content.research.genericAdvances[optionId]?.effects);
+          const advance =
+            optionId === undefined
+              ? undefined
+              : content.research.genericAdvances[optionId];
+          const effect = advance?.effects[0];
+          if (
+            advance === undefined ||
+            effect === undefined ||
+            advance.effects.length !== 1
+          ) {
+            throw new Error(`${programme.name} advance fixture changed shape`);
+          }
+          return { pathId: advance.pathId, effect };
         });
-        expect(
-          new Set(effectFingerprints).size,
-          `${programme.name} repeats the same branch benefit at every milestone`,
-        ).toBe(5);
+        // Strength is the distance from "no effect"; a later milestone never pays less.
+        const strengths = branch.map(({ effect }) =>
+          effect.operation === "multiply"
+            ? Math.abs(effect.value - 1)
+            : Math.abs(effect.value),
+        );
+        for (let index = 1; index < strengths.length; index += 1) {
+          expect(
+            strengths[index],
+            `${programme.name} weakens a branch benefit at a later milestone`,
+          ).toBeGreaterThanOrEqual(strengths[index - 1] ?? Infinity);
+        }
+        if (new Set(branch.map(({ effect }) => JSON.stringify(effect))).size < 5) {
+          plateaus.push(`${programme.id}/${branch[0]?.pathId ?? "unknown"}`);
+        }
       }
     }
+    // Shown figures are round (5% steps), and the smallest paths' checkpoints
+    // sit closer together than one step: +1% all-research stages compound to
+    // +2.3%..+6.4%, which all show as +5%. Escalating them in whole steps would
+    // triple their stacked power, so these paths plateau instead. Pin exactly
+    // which, so that any new plateau is a deliberate content decision.
+    expect(plateaus.sort()).toEqual([
+      "base:domain.architectures/stranger-topologies",
+      "base:domain.optimisation-scaling/kernel-week",
+      "base:domain.optimisation-scaling/optimizer-cookbook",
+      "base:domain.reinforcement-agency/replay-infrastructure",
+      "base:domain.robotics-embodiment/simulation-farm",
+      "base:domain.scientific-ai/reproducibility-desk",
+      "base:safety.alignment-control/control-drills",
+      "base:safety.security-containment/least-privilege",
+    ]);
   });
 });
 
@@ -310,7 +350,7 @@ describe("research commands and weekly progression", () => {
       otherProgramme,
     );
     expect(afterArchitecture.outputModifier).toBeCloseTo(
-      beforeArchitecture.outputModifier * 1.1395,
+      beforeArchitecture.outputModifier * 1.15,
       12,
     );
     expect(afterOther.outputModifier).toBeCloseTo(beforeOther.outputModifier, 12);

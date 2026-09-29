@@ -207,7 +207,7 @@ describe("shipped government ladder", () => {
     const resolved = resolveTx.commit({ description: "comply with restriction" }).state;
     const resolvedLab = resolved.labs[resolved.run.playerLabId];
 
-    expect(resolvedLab?.politics.governmentTrust).toBe(72);
+    expect(resolvedLab?.politics.governmentTrust).toBe(75);
     expect(resolvedLab?.politics.governmentAttention).toBe(32);
     expect(resolveModifierValue(resolved, "lab.market.acquisitionRate", 1).final).toBe(
       0.5,
@@ -242,8 +242,8 @@ describe("shipped government ladder", () => {
     const resolvedLab = resolved.labs[resolved.run.playerLabId];
 
     expect(resolvedLab?.aura.spendable).toBe(75);
-    expect(resolvedLab?.politics.governmentTrust).toBe(28);
-    expect(resolvedLab?.politics.governmentAttention).toBe(68);
+    expect(resolvedLab?.politics.governmentTrust).toBe(30);
+    expect(resolvedLab?.politics.governmentAttention).toBe(70);
     expect(resolvedLab?.organisation.hiddenInternalCandour).toBe(62);
     expect(resolveModifierValue(resolved, "lab.incident.hazard", 1).final).toBe(1.6);
   });
@@ -274,19 +274,19 @@ describe("shipped government ladder", () => {
     const oversight = settle("cooperate");
     const oversightLab = oversight.labs[oversight.run.playerLabId];
     expect(oversightLab?.politics.governmentAttention).toBe(60);
-    expect(oversightLab?.politics.governmentTrust).toBe(52);
+    expect(oversightLab?.politics.governmentTrust).toBe(50);
     expect(resolveModifierValue(oversight, "lab.research.all.output", 1).final).toBe(
-      0.94,
+      0.95,
     );
     expect(resolveModifierValue(oversight, "lab.incident.hazard", 1).final).toBe(0.8);
 
     const goldenShare = settle("golden-share");
     const goldenShareLab = goldenShare.labs[goldenShare.run.playerLabId];
     expect(goldenShareLab?.aura.spendable).toBe(90);
-    expect(goldenShareLab?.politics.governmentAttention).toBe(68);
+    expect(goldenShareLab?.politics.governmentAttention).toBe(70);
     expect(goldenShareLab?.politics.strategicDependence).toBe(20);
     expect(resolveModifierValue(goldenShare, "lab.research.all.output", 1).final).toBe(
-      0.97,
+      0.95,
     );
     expect(resolveModifierValue(goldenShare, "lab.incident.hazard", 1).final).toBe(0.9);
   });
@@ -343,7 +343,7 @@ describe("shipped government ladder", () => {
         expect.objectContaining({
           kind: "add-rating",
           rating: "governmentTrust",
-          amount: -12,
+          amount: -10,
         }),
         expect.objectContaining({
           kind: "add-modifier",

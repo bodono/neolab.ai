@@ -220,9 +220,9 @@ describe("researcher contributions and abilities", () => {
     expect(lead.genericPercentagePoints).toBe(15);
     expect(lead.signatureRamp).toBe(0.25);
 
-    // Hintoff's named Architecture signature is x1.04 at full strength, so
-    // the four-week ramp lands a quarter of the four-point bonus each week.
-    const expected = [1.01, 1.02, 1.03, 1.04];
+    // Hintoff's named Architecture signature is x1.05 at full strength, so
+    // the four-week ramp lands a quarter of the five-point bonus each week.
+    const expected = [1.0125, 1.025, 1.0375, 1.05];
     for (const [week, value] of expected.entries()) {
       const atWeek = mutable(base);
       setTick(atWeek, week);
@@ -252,7 +252,7 @@ describe("researcher contributions and abilities", () => {
       architectures,
     );
     expect(output.starResearcherContributions[0]?.genericPercentagePoints).toBe(15);
-    expect(output.starResearcherMultiplier).toBeCloseTo(1.15 * 1.01, 10);
+    expect(output.starResearcherMultiplier).toBeCloseTo(1.15 * 1.0125, 10);
 
     const stacked = mutable(state);
     const target = programmeModifierTarget(architectures);
@@ -317,8 +317,8 @@ describe("researcher contributions and abilities", () => {
           programmeModifierTarget(contentId("base:safety.alignment-control")) &&
         modifier.source.kind === "researcher",
     );
-    expect(reasoning?.value).toBeCloseTo(1.01, 10);
-    expect(alignment?.value).toBeCloseTo(1.01, 10);
+    expect(reasoning?.value).toBeCloseTo(1.0125, 10);
+    expect(alignment?.value).toBeCloseTo(1.0125, 10);
   });
 
   it("allows only one lead for each programme", () => {
@@ -381,7 +381,7 @@ describe("researcher contributions and abilities", () => {
     const signature = Object.values(state.modifiers).find(
       (modifier) => modifier.target === programmeModifierTarget(architectures),
     );
-    expect(signature?.value).toBeCloseTo(1.005, 10);
+    expect(signature?.value).toBeCloseTo(1.00625, 10);
   });
 });
 
@@ -1293,10 +1293,13 @@ describe("named research areas", () => {
     expect(floating).toEqual([]);
   });
 
-  it("keeps a two-area researcher's areas distinct and differently valued", () => {
+  it("keeps a two-area researcher's areas distinct and each worth a real bonus", () => {
     // Peter Abeter used two mutually-exclusive MODES: +10% if he led Robotics,
     // +6% if he led Reinforcement. A blanket value cap once flattened both to
     // the same number, which silently deleted the distinction between them.
+    // Both areas stay separate effects. Their sizes can no longer differ: a
+    // named programme bonus is capped at x1.05 (see roster-integrity) and a
+    // shown bonus must be round, so x1.05 is the only value either can take.
     const abeter = Object.values(content.researchers.definitions).find(
       (d) => d.displayName === "Peter Abeter",
     );
@@ -1306,7 +1309,10 @@ describe("named research areas", () => {
     );
     expect(areas).toHaveLength(2);
     expect(new Set(areas.map((e) => e.target)).size).toBe(2);
-    expect(new Set(areas.map((e) => e.value)).size).toBe(2);
+    expect(areas.map((e) => [e.operation, e.value])).toEqual([
+      ["multiply", 1.05],
+      ["multiply", 1.05],
+    ]);
   });
 });
 

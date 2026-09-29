@@ -12,3 +12,11 @@ export {
   type ReleaseValidationSeverity,
   type ScannableTextFile,
 } from "./release-validation.ts";
+export {
+  describeNonRoundValue,
+  findNonRoundPlayerFacingValues,
+  ROUND_VALUE_ALLOWANCES,
+  type NonRoundValue,
+  type RoundValueAllowance,
+  type RoundValueArea,
+} from "./round-values.ts";
