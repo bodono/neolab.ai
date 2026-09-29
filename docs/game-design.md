@@ -1996,6 +1996,12 @@ The authored programme multiplier is applied after that curve. Capability
 programmes range from `0.92×` to `1.20×`; safety programmes use `0.98×`,
 `1.00×`, and `1.02×`, averaging exactly `1.00×`.
 
+Safety paper gates follow the safety curve. The research that takes a
+capability programme to level 86 takes a safety programme to about 68, and
+capability 100 matches safety 78. So the 2023–24 safety papers (AI Control,
+Scaling Monosemanticity, Alignment Faking) unlock at 72, and the fictional
+safety capstones at 73–78.
+
 The compounding exists because research output is multiplicative and enormous
 at the top end. Output is `0.32 x (allocatedGpus x generationTrainingFactor /
 100)^0.68`, then multiplied by autonomy (up to x2.5), talent (x2.2), and

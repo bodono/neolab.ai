@@ -1947,7 +1947,7 @@ papers:
       papers: [paper.gpt3-few-shot-learners, paper.deep-rl-from-human-preferences]
       domainLevels:
         domain.reasoning-tools: 46
-    breakthroughRequirement: { programme: safety.alignment-control, level: 74 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 67 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 15
@@ -2011,7 +2011,7 @@ papers:
       papers: [paper.instructgpt-following-instructions, paper.red-teaming-language-models]
       domainLevels:
         domain.reasoning-tools: 40
-    breakthroughRequirement: { programme: safety.alignment-control, level: 77 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 68 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 14
@@ -2823,10 +2823,10 @@ papers:
     prerequisites:
       papers: [paper.constitutional-ai-harmlessness, paper.closed-loop-autonomous-discovery-agents]
       domainLevels:
-        safety.interpretability-evals: 64
-        safety.security-containment: 70
+        safety.interpretability-evals: 63
+        safety.security-containment: 65
       facilities: [facility.alignment-institute-1]
-    breakthroughRequirement: { programme: safety.alignment-control, level: 87 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 73 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 24
@@ -4954,7 +4954,7 @@ papers:
       domain.reasoning-tools: 0.15
     prerequisites:
       papers: [paper.concrete-problems-in-ai-safety]
-    breakthroughRequirement: { programme: safety.alignment-control, level: 70 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 65 }
     earliestPhase: scaling
     discovery:
       worldFirstAura: 8
@@ -5012,7 +5012,7 @@ papers:
       papers: [paper.feature-visualization]
       domainLevels:
         domain.architectures: 24
-    breakthroughRequirement: { programme: safety.interpretability-evals, level: 70 }
+    breakthroughRequirement: { programme: safety.interpretability-evals, level: 65 }
     earliestPhase: scaling
     discovery:
       worldFirstAura: 9
@@ -5069,7 +5069,7 @@ papers:
       domain.reasoning-tools: 0.10
     prerequisites:
       papers: [paper.zoom-in-introduction-to-circuits]
-    breakthroughRequirement: { programme: safety.interpretability-evals, level: 74 }
+    breakthroughRequirement: { programme: safety.interpretability-evals, level: 67 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 10
@@ -5130,7 +5130,7 @@ papers:
       domain.reasoning-tools: 0.20
     prerequisites:
       papers: [paper.instructgpt-following-instructions, paper.toy-models-of-superposition]
-    breakthroughRequirement: { programme: safety.interpretability-evals, level: 80 }
+    breakthroughRequirement: { programme: safety.interpretability-evals, level: 70 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 10
@@ -5188,7 +5188,7 @@ papers:
       domain.reinforcement-agency: 0.10
     prerequisites:
       papers: [paper.instructgpt-following-instructions, paper.deep-rl-from-human-preferences]
-    breakthroughRequirement: { programme: safety.security-containment, level: 74 }
+    breakthroughRequirement: { programme: safety.security-containment, level: 67 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 10
@@ -6177,7 +6177,7 @@ papers:
       papers: [paper.red-teaming-language-models, paper.risks-learned-optimization]
       domainLevels:
         safety.interpretability-evals: 44
-    breakthroughRequirement: { programme: safety.security-containment, level: 86 }
+    breakthroughRequirement: { programme: safety.security-containment, level: 72 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 14
@@ -6230,7 +6230,7 @@ papers:
       domainLevels:
         safety.interpretability-evals: 52
       facilities: [facility.alignment-institute-1]
-    breakthroughRequirement: { programme: safety.alignment-control, level: 94 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 75 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 18
@@ -6280,7 +6280,7 @@ papers:
       domainLevels:
         safety.alignment-control: 58
       facilities: [facility.eval-range-1]
-    breakthroughRequirement: { programme: safety.interpretability-evals, level: 94 }
+    breakthroughRequirement: { programme: safety.interpretability-evals, level: 75 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 19
@@ -6329,10 +6329,10 @@ papers:
     prerequisites:
       papers: [paper.ai-control-intentional-subversion, paper.corrigibility-reflective-self-modification, paper.causal-auditing-deceptive-mesa-objectives]
       domainLevels:
-        safety.alignment-control: 72
-        safety.interpretability-evals: 72
+        safety.alignment-control: 66
+        safety.interpretability-evals: 66
       facilities: [facility.secure-bunker-1, facility.alignment-institute-1]
-    breakthroughRequirement: { programme: safety.security-containment, level: 94 }
+    breakthroughRequirement: { programme: safety.security-containment, level: 75 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 21
@@ -6858,7 +6858,7 @@ papers:
       papers: [paper.instructgpt-following-instructions]
       domainLevels:
         domain.optimisation-scaling: 44
-    breakthroughRequirement: { programme: safety.alignment-control, level: 80 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 70 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 10
@@ -7126,7 +7126,7 @@ papers:
       safety.alignment-control: 0.3
     prerequisites:
       papers: [paper.toy-models-of-superposition, paper.constitutional-ai-harmlessness]
-    breakthroughRequirement: { programme: safety.interpretability-evals, level: 86 }
+    breakthroughRequirement: { programme: safety.interpretability-evals, level: 72 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 13
@@ -7180,7 +7180,7 @@ papers:
       safety.security-containment: 0.2
     prerequisites:
       papers: [paper.risks-learned-optimization, paper.discovering-lm-behaviors-model-written-evals]
-    breakthroughRequirement: { programme: safety.alignment-control, level: 83 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 71 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 13
@@ -7234,7 +7234,7 @@ papers:
       papers: [paper.sleeper-agents-deceptive-persistence]
       domainLevels:
         safety.interpretability-evals: 56
-    breakthroughRequirement: { programme: safety.alignment-control, level: 86 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 72 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 14
@@ -7495,7 +7495,7 @@ papers:
       papers: [paper.ai-control-intentional-subversion, paper.scaling-monosemanticity-features]
       domainLevels:
         safety.interpretability-evals: 62
-    breakthroughRequirement: { programme: safety.alignment-control, level: 100 }
+    breakthroughRequirement: { programme: safety.alignment-control, level: 78 }
     earliestPhase: frontier
     discovery:
       worldFirstAura: 16
