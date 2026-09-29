@@ -849,14 +849,14 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
         ],
       },
       "finance": {
-        "cash": 245,
+        "cash": 95,
         "consecutiveNegativeCashWeeks": 0,
         "ledger": [],
         "settlements": [],
       },
       "flags": {
         "campaign:full-game-cash-grant-claimed": true,
-        "lab.finance.cash.fullGameGrant": 200,
+        "lab.finance.cash.fullGameGrant": 50,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,

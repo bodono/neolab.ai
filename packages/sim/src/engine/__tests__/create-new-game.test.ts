@@ -218,11 +218,11 @@ describe("leader and lab modifiers", () => {
     });
   });
 
-  it("xMind: robotics unlocked at 10, attention 10, $245m start", () => {
+  it("xMind: robotics unlocked at 10, attention 10, $95m start", () => {
     const lab = playerLab(
       createNewGame(config({ leaderId: contentId("base:leader.elon-tusk") }), content),
     );
-    expect(lab.finance.cash).toBe(245);
+    expect(lab.finance.cash).toBe(95);
     expect(lab.research.domains["base:domain.robotics-embodiment"]).toMatchObject({
       level: 10,
     });

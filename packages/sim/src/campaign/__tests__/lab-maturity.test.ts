@@ -358,7 +358,7 @@ describe("milestone-driven lab maturity", () => {
     const elonGame = createNewGame(elonConfig, content);
     const ordinaryCash = ordinaryGame.labs[ordinaryGame.run.playerLabId]?.finance.cash;
     const elonCash = elonGame.labs[elonGame.run.playerLabId]?.finance.cash;
-    expect((elonCash ?? 0) - (ordinaryCash ?? 0)).toBe(200);
+    expect((elonCash ?? 0) - (ordinaryCash ?? 0)).toBe(50);
 
     const opening = createProgressiveNewGame(elonConfig, content);
     expect(opening.labs[opening.run.playerLabId]?.finance.cash).toBe(
@@ -367,7 +367,7 @@ describe("milestone-driven lab maturity", () => {
     );
     expect(
       opening.labs[opening.run.playerLabId]?.flags[FULL_GAME_CASH_GRANT_TARGET],
-    ).toBe(200);
+    ).toBe(50);
     expect(
       opening.labs[opening.run.playerLabId]?.flags[FULL_GAME_CASH_GRANT_CLAIMED_FLAG],
     ).toBe(false);
@@ -393,7 +393,7 @@ describe("milestone-driven lab maturity", () => {
     const fullGame = transitionTx.commit({ description: "open the full game" }).state;
     expect(labMaturityStage(fullGame)).toBe("frontier");
     expect(fullGame.labs[fullGame.run.playerLabId]?.finance.cash).toBe(
-      cashBeforeGrant + 200,
+      cashBeforeGrant + 50,
     );
     expect(
       fullGame.labs[fullGame.run.playerLabId]?.flags[FULL_GAME_CASH_GRANT_CLAIMED_FLAG],
@@ -406,7 +406,7 @@ describe("milestone-driven lab maturity", () => {
     if (frontierPresentation?.kind !== "lab-maturity-unlock") {
       throw new Error("full-game grant did not produce the frontier briefing");
     }
-    expect(frontierPresentation.unlocked).toContain("Full-game backing · $200M received");
+    expect(frontierPresentation.unlocked).toContain("Full-game backing · $50M received");
 
     const repeatTx = createTransaction(fullGame);
     synchronisePlayerLabMaturity(repeatTx);
@@ -414,7 +414,7 @@ describe("milestone-driven lab maturity", () => {
       repeatTx.commit({ description: "do not repay the grant" }).state.labs[
         fullGame.run.playerLabId
       ]?.finance.cash,
-    ).toBe(cashBeforeGrant + 200);
+    ).toBe(cashBeforeGrant + 50);
   });
 
   it("defers the commercial mandate's expansion capital until the full game", () => {

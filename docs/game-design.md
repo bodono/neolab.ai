@@ -1413,7 +1413,7 @@ The biographies below are draft production copy. Factual claims must receive a f
 **xMind lab modifiers:**
 
 - `Robots Are the Product`: Robotics and Embodiment begins unlocked at level 10.
-- `Deepest Pockets`: opens with $177m of cash — the founding cheque is the size of a mega-round, because the richest man on the planet does not do seed rounds.
+- `Deepest Pockets`: $50m of industrial backing when the full game opens, twice the Commercial mandate's expansion capital.
 - `Visible From Orbit`: Government Attention starts at 10 and owned-compute power cost `×1.10`.
 - **Complexity:** Medium to high. Exceptional physical expansion with large cash, power, and political footprints.
 

@@ -277,7 +277,7 @@ leaders:
       - id: deepest-pockets
         label: Deepest Pockets
         effects:
-          - { target: lab.finance.cash.fullGameGrant, operation: add, value: 200 }
+          - { target: lab.finance.cash.fullGameGrant, operation: add, value: 50 }
       - id: visible-from-orbit
         label: Visible From Orbit
         effects:
