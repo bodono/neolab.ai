@@ -62,9 +62,15 @@ test("autosaves survive reload and corrupt loads stay safely on the title screen
     const records = transaction.objectStore("save-records");
     const pointer = await new Promise<{ saveId: string; recordId: string }>(
       (resolve, reject) => {
-        const request = slots.get("autosave");
+        // Each run autosaves to its own slot; this run has exactly one.
+        const request = slots.getAll();
         request.addEventListener("success", () =>
-          resolve(request.result as unknown as { saveId: string; recordId: string }),
+          resolve(
+            (request.result as unknown as { saveId: string; recordId: string }[])[0] as {
+              saveId: string;
+              recordId: string;
+            },
+          ),
         );
         request.addEventListener("error", () =>
           reject(request.error ?? new Error("Could not read save pointer")),
