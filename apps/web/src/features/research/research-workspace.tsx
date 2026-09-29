@@ -115,7 +115,7 @@ export function ResearchProgrammeCard({
   const effectsMultiplierLabel = multiplierLabel(effectsMultiplier);
   const levelProgress = researchLevelProgressPresentation(
     programme.level,
-    programme.momentumLabel,
+    programme.levelProgressBand,
   );
   const [levelEstimateMinimum, levelEstimateMaximum] = levelProgress.estimateRange;
   const nextLevel = Math.min(100, Math.floor(programme.level) + 1);
@@ -1049,7 +1049,7 @@ function ResearchTechTree({
       ? undefined
       : researchLevelProgressPresentation(
           selectedProgramme.level,
-          selectedProgramme.momentumLabel,
+          selectedProgramme.levelProgressBand,
         );
   const selectedLevelEstimateMinimum = selectedLevelProgress?.estimateRange[0] ?? 0;
   const selectedLevelEstimateMaximum = selectedLevelProgress?.estimateRange[1] ?? 0;

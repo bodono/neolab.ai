@@ -28,7 +28,10 @@ import type {
 import { cashMillions, fraction, gpuCount, rating, tick } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import { RandomOracleV1 } from "../../random/oracle.ts";
-import { calculateDomainOutput } from "../../research/research.ts";
+import {
+  calculateDomainOutput,
+  researchPointsForNextLevel,
+} from "../../research/research.ts";
 import { programmeModifierTarget } from "../../researchers/researchers.ts";
 import { superintelligenceProbability } from "../../models/capability.ts";
 import { projectGameView } from "../game-view.ts";
@@ -390,6 +393,52 @@ describe("projectGameView", () => {
     );
     expect(projected?.outputLedger.otherEffectCount).toBeGreaterThanOrEqual(2);
     expect(JSON.stringify(projected?.outputLedger)).not.toMatch(/run:|base:/);
+  });
+
+  it("bands research level progress from real progress, not absolute momentum", () => {
+    const context = {
+      viewerLabId: newState().run.playerLabId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    };
+    const funded = projectGameView(
+      newState(),
+      content,
+      context,
+    ).research.techTree.programmes.find(
+      (programme) =>
+        programme.kind === "capability" && programme.momentumLabel !== "Unfunded",
+    );
+    if (funded === undefined) throw new Error("no funded capability programme");
+    const projectedAt = (
+      progressShare: number,
+      weeklyMomentum: (cost: number) => number,
+    ) => {
+      const state = structuredClone(newState()) as DeepMutable<GameState>;
+      const domain =
+        state.labs[state.run.playerLabId]?.research.domains[funded.programId];
+      if (domain === undefined) throw new Error("programme state missing");
+      domain.level = rating(60);
+      const cost = researchPointsForNextLevel(content, contentId(funded.programId), 60);
+      domain.levelProgressRp = cost * progressShare;
+      domain.weeklyMomentum = weeklyMomentum(cost);
+      return projectGameView(state, content, context).research.techTree.programmes.find(
+        (programme) => programme.programId === funded.programId,
+      );
+    };
+
+    // Ten points a week once read as "Breakthrough imminent" at any level.
+    const slow = projectedAt(0.5, () => 10);
+    expect(slow?.levelProgressBand).toEqual([40, 60]);
+    expect(slow?.momentumLabel).toBe("Speculative");
+
+    const close = projectedAt(0.95, (cost) => cost * 0.05);
+    expect(close?.levelProgressBand).toEqual([80, 100]);
+    expect(close?.momentumLabel).toBe("Breakthrough imminent");
+
+    const fresh = projectedAt(0, (cost) => cost / 10);
+    expect(fresh?.levelProgressBand).toEqual([0, 20]);
+    expect(fresh?.momentumLabel).toBe("Promising");
   });
 
   it("hides rival secret papers and exposes them immediately when published", () => {

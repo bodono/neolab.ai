@@ -15,6 +15,7 @@ const programme: Programme = {
   colour: "#ff7b42",
   level: 8,
   momentumLabel: "Promising",
+  levelProgressBand: [40, 60],
   allocationLabel: "860 TFLOP/s",
   researchOutputMultiplier: 1.25,
   outputLedger: {
@@ -103,10 +104,10 @@ describe("research programme card lead slot", () => {
     expect(markup).toContain('<strong title="Architectures">Architectures</strong>');
     expect(text).toContain("LEVEL8/100");
     expect(text).toContain("NEXT · LEVEL 9");
-    expect(text).toContain("Est. 34–62% · Promising");
+    expect(text).toContain("40–60% · Promising");
     expect(text).toContain("RESEARCH COMPUTE860 TFLOP/sFLOP/s → level progress");
-    expect(markup).toContain("left:34%");
-    expect(markup).toContain("width:28%");
+    expect(markup).toContain("left:40%");
+    expect(markup).toContain("width:20%");
     expect(text).toContain("+25% total output");
     expect(text).toContain("lead +15%");
     expect(text).toContain("diffusion +5.0%");

@@ -165,7 +165,10 @@ import {
   quoteLobbyingProject,
 } from "../politics/politics.ts";
 import type { LobbyingApproach, LobbyingObjective } from "../model/state.ts";
-import { calculateResearchOutputModifier } from "../research/research.ts";
+import {
+  calculateResearchOutputModifier,
+  researchPointsForNextLevel,
+} from "../research/research.ts";
 import {
   calculatePaperPublicationScore,
   describePaperUnlockEffect,
@@ -846,8 +849,14 @@ export interface ResearchProgramView {
   readonly colour: string;
   readonly level: number;
   readonly weeklyMomentum: number;
+  /** Weeks to the next level at current momentum, in coarse player-facing bands. */
   readonly momentumLabel:
     "Unfunded" | "Speculative" | "Promising" | "Hot trail" | "Breakthrough imminent";
+  /**
+   * The 20-point band holding real progress toward the next level. Exact
+   * within-level research points stay out of GameView.
+   */
+  readonly levelProgressBand: readonly [minimum: number, maximum: number];
   readonly effectiveTeraflops: number;
   readonly isFunded: boolean;
   readonly allocationLabel: string;
@@ -907,6 +916,7 @@ export interface ResearchView {
       readonly colour: string;
       readonly level: number;
       readonly momentumLabel: ResearchProgramView["momentumLabel"];
+      readonly levelProgressBand: ResearchProgramView["levelProgressBand"];
       readonly allocationLabel: string;
       readonly researchOutputMultiplier: number;
       readonly outputLedger: ResearchProgrammeOutputLedgerView;
@@ -3473,15 +3483,29 @@ function projectResearch(
       const isFunded =
         effectiveTeraflops >= MINIMUM_FUNDED_PROGRAM_TERAFLOPS ||
         (effectiveTeraflops > 0 && content.research.rules.unfundedDomainsProduceProgress);
+      const levelCost = researchPointsForNextLevel(
+        content,
+        definition.id,
+        programme.level,
+      );
+      const levelFraction =
+        programme.level >= 100
+          ? 1
+          : Math.min(1, Math.max(0, programme.levelProgressRp / levelCost));
+      const bandMinimum = Math.min(80, Math.floor(levelFraction * 5) * 20);
+      const weeksToNextLevel =
+        programme.weeklyMomentum <= 0
+          ? Number.POSITIVE_INFINITY
+          : (levelCost - programme.levelProgressRp) / programme.weeklyMomentum;
       const momentumLabel: ResearchProgramView["momentumLabel"] = !isFunded
         ? "Unfunded"
-        : programme.weeklyMomentum < 1
-          ? "Speculative"
-          : programme.weeklyMomentum < 3
-            ? "Promising"
-            : programme.weeklyMomentum < 6
-              ? "Hot trail"
-              : "Breakthrough imminent";
+        : weeksToNextLevel <= 2
+          ? "Breakthrough imminent"
+          : weeksToNextLevel <= 6
+            ? "Hot trail"
+            : weeksToNextLevel <= 16
+              ? "Promising"
+              : "Speculative";
       const outputBonus = calculateResearchOutputModifier(
         state,
         content,
@@ -3497,6 +3521,7 @@ function projectResearch(
         level: programme.level,
         weeklyMomentum: programme.weeklyMomentum,
         momentumLabel,
+        levelProgressBand: [bandMinimum, bandMinimum + 20] as const,
         effectiveTeraflops,
         isFunded,
         allocationLabel: formatTeraflops(effectiveTeraflops),
@@ -3644,6 +3669,7 @@ function projectResearch(
         colour: programme.colour,
         level: programme.level,
         momentumLabel: programme.momentumLabel,
+        levelProgressBand: programme.levelProgressBand,
         diffusion: programme.diffusion,
         allocationLabel: programme.allocationLabel,
         researchOutputMultiplier: programme.researchOutputMultiplier,

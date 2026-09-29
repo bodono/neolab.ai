@@ -21,6 +21,7 @@ function programme(name: string, index: number): Programme {
     colour: ["#ff7b42", "#3699f6", "#ef72ae", "#f5c242"][index % 4]!,
     level: 96,
     momentumLabel: "Speculative",
+    levelProgressBand: [0, 20],
     allocationLabel: "342 EFLOP/s",
     researchOutputMultiplier: 1.15,
     outputLedger: {
