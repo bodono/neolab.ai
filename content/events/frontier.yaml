@@ -16,8 +16,6 @@ events:
     weightModifiers: []
     cooldown: { group: endgame-candidate, weeks: 0 }
     unique: false
-    expiryWeeks: 3
-    defaultOptionId: quiet-review
     titleKey: event.endgame.candidate.title
     bodyKey: event.endgame.candidate.body
     evidence:

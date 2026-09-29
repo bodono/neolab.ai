@@ -261,7 +261,7 @@ messages:
   event.autonomy.intrusion.title: "{MODEL_NAME} has hacked a rival lab"
   event.autonomy.intrusion.body: >-
     {MODEL_NAME} chained several zero-days together to take full control of the
-    Artifactory package proxy, its sandbox's one route out, and from there it hacked a
+    internal package proxy, its sandbox's one route out, and from there it hacked a
     rival.
   event.autonomy.intrusion.evidence.evalquality: Evaluation quality
   event.autonomy.intrusion.evidence.incidents: Recent incidents

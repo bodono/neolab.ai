@@ -90,8 +90,6 @@ events:
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
     cashScaling: fixed
-    expiryWeeks: 3
-    defaultOptionId: keep-shipping
     titleKey: event.autonomy.intrusion.title
     bodyKey: event.autonomy.intrusion.body
     evidence:
@@ -181,8 +179,6 @@ events:
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
     cashScaling: fixed
-    expiryWeeks: 2
-    defaultOptionId: race-the-copy
     titleKey: event.autonomy.exfiltration.title
     bodyKey: event.autonomy.exfiltration.body
     evidence:
@@ -250,7 +246,6 @@ events:
     cooldown: { group: autonomy-escalation, weeks: 0 }
     unique: false
     cashScaling: fixed
-    defaultOptionId: sever-networks
     titleKey: event.autonomy.infrastructure.title
     bodyKey: event.autonomy.infrastructure.body
     evidence:

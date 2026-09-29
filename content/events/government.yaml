@@ -238,8 +238,6 @@ events:
     weightModifiers: []
     cooldown: { group: government-intervention, weeks: 0 }
     unique: false
-    expiryWeeks: 4
-    defaultOptionId: appeal
     titleKey: event.government.secondlook.title
     bodyKey: event.government.secondlook.body
     evidence:
@@ -498,8 +496,6 @@ events:
     weightModifiers: []
     cooldown: { group: government-intervention, weeks: 0 }
     unique: false
-    expiryWeeks: 8
-    defaultOptionId: cooperate
     titleKey: event.government.nationalisation.title
     bodyKey: event.government.nationalisation.body
     evidence:

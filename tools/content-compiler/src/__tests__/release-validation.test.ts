@@ -126,6 +126,21 @@ describe("content release validation", () => {
     });
   });
 
+  it("rejects expiry fields on critical events, which never expire", () => {
+    const critical = validEvent({ severity: "critical" });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(critical), messages())),
+    ).toContain("event.critical-expiry");
+    const {
+      expiryWeeks: _expiry,
+      defaultOptionId: _default,
+      ...withoutExpiry
+    } = critical;
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(withoutExpiry), messages())),
+    ).not.toContain("event.critical-expiry");
+  });
+
   it("rejects probability gaps, overlaps, and empty outcome branches", () => {
     const event = validEvent();
     const option = event.options[0];

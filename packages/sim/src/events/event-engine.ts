@@ -170,6 +170,16 @@ function commonEligibility(
 ): boolean {
   if (!authoredEventsUnlocked(state)) return false;
   if (!phaseMatches(state, definition)) return false;
+  // The Deployment Crisis owns the player's attention. Random opportunities
+  // wait until it ends; mandatory events (runway, government, autonomy) and
+  // the crisis's own endgame events still fire.
+  if (
+    definition.trigger.kind === "opportunity" &&
+    definition.category !== "endgame" &&
+    state.endgame.stage !== "inactive"
+  ) {
+    return false;
+  }
   if (!evaluatePredicate(state, definition.prerequisites)) return false;
   if (
     definition.exclusions !== undefined &&
@@ -526,8 +536,16 @@ function mandatoryOccurrences(
   switch (definition.trigger.detector) {
     case "critical-runway": {
       const runway = forecastFinance(state, content, state.run.playerLabId).runway;
+      // One event per runway episode, not one per run: the key carries the
+      // week the episode began (see trackCriticalRunwayEpisode).
+      const since = state.labs[state.run.playerLabId]?.flags[CRITICAL_RUNWAY_SINCE_FLAG];
       return runway.band === "critical"
-        ? [{ triggerKey: "critical-runway", tokens: {} }]
+        ? [
+            {
+              triggerKey: `critical-runway:${String(typeof since === "number" ? since : state.run.tick)}`,
+              tokens: {},
+            },
+          ]
         : [];
     }
     case "researcher-ultimatum":
@@ -1092,12 +1110,40 @@ export function expireDueEvents(
 }
 
 /** Weekly event-generation phase: expire, enqueue mandatory, then at most one ordinary event. */
+const CRITICAL_RUNWAY_SINCE_FLAG = "events:critical-runway-since";
+
+/**
+ * A runway episode starts when runway turns critical and ends only once it is
+ * healthy again, so a lab hovering between critical and warning is not
+ * handed a fresh emergency event every other week.
+ */
+function trackCriticalRunwayEpisode(
+  tx: SimulationTransaction,
+  content: CompiledContent,
+): void {
+  const state = tx.read();
+  const band = forecastFinance(state, content, state.run.playerLabId).runway.band;
+  const since = state.labs[state.run.playerLabId]?.flags[CRITICAL_RUNWAY_SINCE_FLAG];
+  if (band === "critical" && typeof since !== "number") {
+    tx.update((draft) => {
+      const lab = draft.labs[draft.run.playerLabId];
+      if (lab !== undefined) lab.flags[CRITICAL_RUNWAY_SINCE_FLAG] = draft.run.tick;
+    });
+  } else if (band === "healthy" && since !== undefined) {
+    tx.update((draft) => {
+      const lab = draft.labs[draft.run.playerLabId];
+      if (lab !== undefined) delete lab.flags[CRITICAL_RUNWAY_SINCE_FLAG];
+    });
+  }
+}
+
 export function advanceEventGeneration(
   tx: SimulationTransaction,
   content: CompiledContent,
   oracle: RandomOracle = new RandomOracleV1(tx.read().run.seed),
 ): void {
   expireDueEvents(tx, content);
+  trackCriticalRunwayEpisode(tx, content);
   for (const candidate of collectMandatoryTriggers(tx.read(), content)) {
     instantiateEvent(
       tx,

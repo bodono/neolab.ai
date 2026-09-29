@@ -492,6 +492,60 @@ describe("event eligibility and opportunity selection", () => {
   });
 });
 
+describe("runway episodes and the Deployment Crisis", () => {
+  const RUNWAY_EVENT = "base:event.finance.critical-runway";
+  const withCash = (state: GameState, cash: number, weeks = 1): GameState => {
+    const draft = structuredClone(state) as DeepMutable<GameState>;
+    const lab = draft.labs[draft.run.playerLabId];
+    if (lab === undefined) throw new Error("player lab missing");
+    lab.finance.cash = cash as typeof lab.finance.cash;
+    draft.run.tick = tick(state.run.tick + weeks);
+    draft.run.calendar = calendarFromTick(draft.run.tick);
+    return draft;
+  };
+  const generate = (state: GameState): GameState => {
+    const tx = createTransaction(state);
+    advanceEventGeneration(tx, compiled);
+    return tx.commit({ description: "events" }).state;
+  };
+  const runwayEvents = (state: GameState) =>
+    Object.values(state.eventInstances).filter(
+      (instance) => instance.definitionId === RUNWAY_EVENT,
+    );
+
+  it("opens one runway event per episode, not one per run", () => {
+    let state = generate(withCash(newState(), 0));
+    expect(runwayEvents(state)).toHaveLength(1);
+    // Still critical next week: the same episode, no second event.
+    state = generate(withCash(state, 0));
+    expect(runwayEvents(state)).toHaveLength(1);
+    // Recovered to healthy, then critical again after the 26-week cooldown:
+    // a new episode, where the old constant key never fired again.
+    state = generate(withCash(state, 1_000_000));
+    state = generate(withCash(state, 0, 30));
+    expect(runwayEvents(state)).toHaveLength(2);
+  });
+
+  it("holds random opportunities during the Deployment Crisis", () => {
+    const state = newState();
+    const ordinary = listEligibleEventDefinitions(state, compiled).filter(
+      (definition) => definition.category !== "endgame",
+    );
+    expect(ordinary.length).toBeGreaterThan(0);
+    const crisis = structuredClone(state) as DeepMutable<GameState>;
+    crisis.endgame = {
+      stage: "candidate-activation",
+      enteredAt: crisis.run.tick,
+      eligibleModelIds: [],
+    } as unknown as DeepMutable<GameState>["endgame"];
+    expect(
+      listEligibleEventDefinitions(crisis, compiled).filter(
+        (definition) => definition.category !== "endgame",
+      ),
+    ).toEqual([]);
+  });
+});
+
 describe("era-scaled event cash", () => {
   const cash = (amount: number) =>
     ({
