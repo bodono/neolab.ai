@@ -529,6 +529,35 @@ describe("canonical candidate retirement", () => {
     });
   });
 
+  it("does not award The Brakes Worked when the only evidence was disputed capability claims", () => {
+    const initial = structuredClone(preparedCandidate()) as DeepMutable<GameState>;
+    if (initial.endgame.stage !== "confirmation")
+      throw new Error("Candidate not prepared");
+    // Two disputed capability proofs raise crisis anomaly pressure to 13.
+    initial.endgame.evidence.unresolvedAnomalyPressure = 13;
+    const modelId = candidateId(initial);
+    const configure = createTransaction(initial);
+    configureCandidateRetirement(
+      configure,
+      modelId,
+      "staged-isolated-shutdown",
+      "destroy-all-weights",
+    );
+    const configured = configure.commit({ description: "configure" }).state;
+    const transmit = createTransaction(configured);
+    transmitCandidateRetirement(
+      transmit,
+      content,
+      modelId,
+      `RETIRE ${initial.models[modelId]?.displayName ?? "missing"}`,
+      alwaysPass,
+    );
+    const retired = transmit.commit({ description: "retire" }).state;
+    expect(
+      retired.score.awardedKeys["safety/achievement/the-brakes-worked"],
+    ).toBeUndefined();
+  });
+
   it("retires a latent artifact with the canonical gates and enters recovery", () => {
     const initial = latentCandidate();
     const modelId = initial.labs[initial.run.playerLabId]?.models.currentModelId;

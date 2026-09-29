@@ -844,11 +844,12 @@ function evidenceSupportsBrakesAward(
   state: Readonly<GameState>,
   modelId: ModelId,
 ): boolean {
-  const crisis = candidateCrisis(state);
+  // Only anomalies are evidence of danger. Crisis "anomaly pressure" also rises
+  // with disputed capability proofs and pressure choices, which let a lab farm
+  // this award by retiring a candidate whose only problem was a disputed claim.
   const artifact = state.models[modelId]?.candidateArtifact;
   return (
     visibleAnomalyCount(state, modelId) > 0 ||
-    (crisis?.evidence.unresolvedAnomalyPressure ?? 0) >= 10 ||
     (artifact?.unresolvedAnomalyBurden ?? 0) >= 2
   );
 }

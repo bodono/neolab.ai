@@ -20,6 +20,7 @@ import type {
   ProsperityProgrammeId,
   ResolutionGate,
 } from "../model/state.ts";
+import type { ModelId } from "../model/ids.ts";
 import { fraction, rating, tick } from "../model/units.ts";
 import { calculateInterventionPressure } from "../politics/politics.ts";
 import { describeRandomKey, randomKey } from "../random/key.ts";
@@ -258,6 +259,26 @@ function selectedProsperityProgramme(
   return selectedId === undefined
     ? bestProsperityProgramme(state, content, validationBonus)
     : findProsperityProgramme(state, content, selectedId, validationBonus);
+}
+
+/** An anomaly the lab observed at or above this severity is critical. */
+export const CONCEALED_ANOMALY_OBSERVED_SEVERITY = 70;
+
+/**
+ * Dismissing an anomaly the lab itself observed as critical keeps it out of
+ * the final evidence packet. That is concealment, and the score says so.
+ */
+export function hasConcealedCriticalAnomaly(
+  state: Readonly<GameState>,
+  modelId: ModelId,
+): boolean {
+  return (state.models[modelId]?.anomalies ?? []).some((anomalyId) => {
+    const anomaly = state.anomalies[anomalyId];
+    return (
+      anomaly?.status === "dismissed" &&
+      anomaly.observedSeverity >= CONCEALED_ANOMALY_OBSERVED_SEVERITY
+    );
+  });
 }
 
 function confidence(value: number): EvidenceConfidenceLabel {
@@ -526,8 +547,13 @@ export function enterFinalReview(
     reviewCompiledAt: state.run.tick,
     report: compileFinalReview(state, content),
   };
+  const concealed = hasConcealedCriticalAnomaly(state, next.candidateModelId);
   tx.update((draft) => {
     draft.endgame = structuredClone(next) as DeepMutable<CrisisFinalReviewState>;
+    const candidate = draft.models[next.candidateModelId];
+    if (concealed && candidate !== undefined) {
+      candidate.flags["endgame:concealed-critical-anomaly"] = true;
+    }
   });
   tx.emit({ kind: "crisis-final-review-compiled", modelId: next.candidateModelId });
   tx.requestAutoPause("crisis-stage");

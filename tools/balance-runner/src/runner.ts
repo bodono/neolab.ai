@@ -623,7 +623,6 @@ function lossFamily(endingId: string, status: BalanceRunResult["status"]): LossF
     endingId.endsWith("a-war-measured-in-milliseconds") ||
     endingId.endsWith("the-replication-threshold") ||
     endingId.endsWith("the-last-experiment") ||
-    endingId.endsWith("there-is-no-one-left-to-read-this") ||
     endingId.endsWith("the-incubation-window") ||
     endingId.endsWith("the-final-command-chain") ||
     endingId.endsWith("the-grey-horizon") ||
@@ -637,7 +636,6 @@ function lossFamily(endingId: string, status: BalanceRunResult["status"]): LossF
 }
 
 const HUMAN_EXTINCTION_ENDING_SUFFIXES = [
-  "there-is-no-one-left-to-read-this",
   "the-incubation-window",
   "the-final-command-chain",
   "the-grey-horizon",

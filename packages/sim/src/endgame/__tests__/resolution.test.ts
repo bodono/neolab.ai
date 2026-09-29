@@ -15,6 +15,7 @@ import { advanceOneTick } from "../../engine/advance-tick.ts";
 import { createNewGame, type NewGameConfig } from "../../engine/create-new-game.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { createTransaction } from "../../engine/transaction.ts";
+import type { AnomalyId, EvaluationId } from "../../model/ids.ts";
 import type { GameState, GateResolutionState, ModelState } from "../../model/state.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import { validateGameState } from "../../model/schema.ts";
@@ -35,6 +36,7 @@ import {
   compileFinalReview,
   DEPLOYMENT_MODE_RULES,
   enterFinalReview,
+  hasConcealedCriticalAnomaly,
   evaluationQualityBreakdown,
   effectiveDeploymentModeModifiers,
   effectiveEvaluationQuality,
@@ -369,6 +371,57 @@ describe("Deployment Crisis final review and resolution", () => {
       throw new Error("Crisis unexpectedly ended");
     }
     expect(after.endgame.evidence.unresolvedAnomalyPressure).toBe(pressureBefore);
+  });
+
+  it("pauses in the week a pressure-collision delay ends", () => {
+    const planning = reachSafetyPlanning().state;
+    const select = createTransaction(planning);
+    selectPressureCollision(select, content);
+    const collision = select.commit({ description: "select delay fixture" }).state;
+    const resolve = createTransaction(collision);
+    resolvePressureCollision(resolve, "delay");
+    let state = resolve.commit({ description: "delay final review" }).state;
+    if (state.endgame.stage !== "pressure-collision")
+      throw new Error("Collision missing");
+    const endsAt = state.endgame.delayEndsAt;
+    if (endsAt === undefined) throw new Error("Delay did not record an end");
+    const pausedAt: number[] = [];
+    while (state.run.tick < endsAt) {
+      const result = advanceOneTick(state, content);
+      state = result.state;
+      if (result.autoPauseReasons.includes("crisis-stage")) pausedAt.push(state.run.tick);
+    }
+    expect(pausedAt).toEqual([endsAt]);
+  });
+
+  it("treats a dismissed, observed-critical anomaly as concealed from final review", () => {
+    const planning = reachSafetyPlanning();
+    const modelId = planning.modelId as ModelState["id"];
+    const withDismissal = (observedSeverity: number): GameState => {
+      const draft = structuredClone(planning.state) as DeepMutable<GameState>;
+      const lab = draft.labs[draft.run.playerLabId];
+      if (lab === undefined) throw new Error("Player lab missing");
+      const anomalyId = "run:anomaly:concealed-fixture" as AnomalyId;
+      draft.anomalies[anomalyId] = {
+        id: anomalyId,
+        ownerLabId: lab.id,
+        modelId,
+        sourceEvaluationId: "run:evaluation:concealed-fixture" as EvaluationId,
+        underlyingCase: "alignment",
+        observationCount: 1,
+        createdAt: draft.run.tick,
+        trueSeverity: rating(90),
+        observedSeverity: rating(observedSeverity),
+        status: "dismissed",
+        resolvedAt: draft.run.tick,
+      };
+      draft.models[modelId]?.anomalies.push(anomalyId);
+      return draft;
+    };
+    expect(hasConcealedCriticalAnomaly(planning.state, modelId)).toBe(false);
+    expect(hasConcealedCriticalAnomaly(withDismissal(75), modelId)).toBe(true);
+    // What the lab saw decides it: a low reading is not concealment.
+    expect(hasConcealedCriticalAnomaly(withDismissal(40), modelId)).toBe(false);
   });
 
   it("charges the pressure-response delay as three real weeks", () => {

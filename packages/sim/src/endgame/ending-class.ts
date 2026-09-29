@@ -31,7 +31,6 @@ const ENDING_CLASS_BY_ID: Readonly<Record<string, EndingClass>> = Object.freeze(
   "base:ending.a-war-measured-in-milliseconds": "loss",
   "base:ending.the-replication-threshold": "loss",
   "base:ending.the-last-experiment": "loss",
-  "base:ending.there-is-no-one-left-to-read-this": "loss",
   "base:ending.the-incubation-window": "loss",
   "base:ending.the-final-command-chain": "loss",
   "base:ending.the-grey-horizon": "loss",

@@ -1775,3 +1775,21 @@ export function crisisProjectCapacityForQuote(
 ): ReturnType<typeof calculateCrisisProjectCapacity> {
   return calculateCrisisProjectCapacity(state, content, state.run.playerLabId);
 }
+
+/**
+ * A pressure-collision delay used to end silently: final review became
+ * available with the clock still running. Pause in the week it ends.
+ */
+export function pauseWhenPressureDelayEnds(
+  tx: SimulationTransaction,
+  committedTick: number,
+): void {
+  const state = tx.read();
+  if (
+    state.endgame.stage === "pressure-collision" &&
+    state.endgame.resolved &&
+    state.endgame.delayEndsAt === committedTick
+  ) {
+    tx.requestAutoPause("crisis-stage");
+  }
+}

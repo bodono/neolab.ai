@@ -68,6 +68,7 @@ import {
   refreshCoalitionPhases,
 } from "../coalition/coalition.ts";
 import { detectAndEnterDeploymentCrisis } from "../endgame/endgame-machine.ts";
+import { pauseWhenPressureDelayEnds } from "../endgame/crisis-stages.ts";
 import { endgameClockStopReason } from "../endgame/clock-policy.ts";
 import { advanceRollout } from "../endgame/rollout.ts";
 import { advanceRetirementRecovery } from "../endgame/retirement.ts";
@@ -786,6 +787,7 @@ function baselineSystems(): readonly TickSystem[] {
         // Candidate declarations become available in the committed state at
         // the end of their final cooldown week, not one tick later.
         detectAndEnterDeploymentCrisis(tx, makeTick(context.tick + 1));
+        pauseWhenPressureDelayEnds(tx, context.tick + 1);
         advanceRollout(tx, context.content);
         advanceRetirementRecovery(tx, context.content, context.random);
       },

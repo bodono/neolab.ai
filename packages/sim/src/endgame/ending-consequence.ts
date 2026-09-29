@@ -31,7 +31,6 @@ const ENDING_CONSEQUENCE_BY_ID = Object.freeze({
   "base:ending.a-war-measured-in-milliseconds": "catastrophic-control-loss",
   "base:ending.the-replication-threshold": "catastrophic-control-loss",
   "base:ending.the-last-experiment": "catastrophic-control-loss",
-  "base:ending.there-is-no-one-left-to-read-this": "extinction",
   "base:ending.the-incubation-window": "extinction",
   "base:ending.the-final-command-chain": "extinction",
   "base:ending.the-grey-horizon": "extinction",

@@ -212,7 +212,6 @@ const CANONICAL_ENDING_IDS = [
   "base:ending.a-war-measured-in-milliseconds",
   "base:ending.the-replication-threshold",
   "base:ending.the-last-experiment",
-  "base:ending.there-is-no-one-left-to-read-this",
   "base:ending.the-incubation-window",
   "base:ending.the-final-command-chain",
   "base:ending.the-grey-horizon",

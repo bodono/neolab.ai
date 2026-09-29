@@ -3845,7 +3845,7 @@ Losses:
 - **The World's Most Expensive Insolvency**
 - **Emergency Shutdown**, after a near escape destroys the programme
 - **The System Owns the Future**, for non-extinction loss of control
-- **There Is No One Left to Read This**, for extinction
+- one of the five concrete extinction pathway endings, for extinction
 
 Each ending has variants based on the lab, AI family, prosperity programme, closest rival, major researcher relationships, and decisive event chain.
 

@@ -73,7 +73,7 @@ material remains useful as an audit trail for finding code that still needs migr
 Loss-of-control endings are causal consequences of the route taken, not interchangeable skins:
 
 - **The Objective Was Satisfied** — objective/specification failure;
-- **There Is No One Left to Read This** — a deceptive system removes interference;
+- **There Is No One Left to Read This** — retired; every extinction now resolves to one of the five concrete pathway endings;
 - **A War Measured in Milliseconds** — military or autonomous escalation;
 - **The Replication Threshold** — embodiment, manufacturing, or self-replication;
 - **The Last Experiment** — autonomous biological or scientific catastrophe;
@@ -1050,7 +1050,7 @@ regardless of whether its public proof looked convincing.
 
 1. Lose control.
 2. Hit the catastrophe random branch.
-3. Ending: **There Is No One Left to Read This**.
+3. Ending: one of the five concrete extinction pathway endings (for example **The Incubation Window**).
 
 ### Scenario H — External loss during ordinary play
 
@@ -1095,8 +1095,8 @@ regardless of whether its public proof looked convincing.
 | The Objective Was Satisfied | Yes | Yes | Reachable |
 | A War Measured in Milliseconds | Yes | Yes | Reachable |
 | The Replication Threshold | Yes | Yes | Reachable |
-| The Last Experiment | Yes | Yes | Reachable |
-| There Is No One Left to Read This | Yes | Yes | Reachable |
+| The Last Experiment | Yes | Yes | Reachable: deceptive catastrophe authorised on limited alignment evidence, or a fabricated proof |
+| There Is No One Left to Read This | Retired | Retired | Superseded by the five concrete extinction pathway endings |
 
 ## 19. Recommended owner decisions
 

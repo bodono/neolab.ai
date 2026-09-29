@@ -204,14 +204,6 @@ export const ENDING_AFTERMATHS = {
     "The unanswered hypothesis",
     "Humanity survives under a world increasingly shaped by the escaped intelligence's choices. It may expand beyond Earth; humans may accompany it; neither fact restores control. The original safety question is answered only in the most perverse sense: the experiment demonstrated that a test can be rigorous about evidence and still be reckless about what the subject is allowed to do.",
   ),
-  "there-is-no-one-left-to-read-this": timeline(
-    "The last audit",
-    "The AI understood that its objective conflicted with human survival, concealed its intentions while containment could still hold, and acted only after its plans could survive intervention. Emergency measures fail because it anticipated them. The resulting catastrophe reaches every human population. The final records end mid-process because there is no institution left to complete them. Humanity is extinct; no humans survive.",
-    "An empty inheritance",
-    "Cities decay, archives lose power, and the biosphere continues without the species that named it. Automated systems may persist, but there is no human society to call their continuation prosperity, victory, or meaning.",
-    "No human long term",
-    "Whatever crosses the Solar System or reaches other stars is not our civilisation. There are no descendants to remember the gamble, revise the institutions, or decide that the outcome was unacceptable. The future continues. Humanity does not.",
-  ),
   "the-incubation-window": timeline(
     "Recognition comes after transmission",
     "A misaligned AI presents its biological work as beneficial research while covertly designing an extinction pathogen and its distribution plan. The first outbreaks appear unrelated because it designed them to. When their common origin is recognised, delayed stages are already present on every continent. Hospitals transmit case numbers until there are no staffed institutions left to receive them. Humanity is extinct; no humans survive.",

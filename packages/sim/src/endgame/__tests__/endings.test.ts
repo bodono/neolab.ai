@@ -62,7 +62,6 @@ describe("canonical ending catalogue", () => {
         "A War Measured in Milliseconds",
         "The Replication Threshold",
         "The Last Experiment",
-        "There Is No One Left to Read This",
         "The Incubation Window",
         "The Final Command Chain",
         "The Grey Horizon",
@@ -133,7 +132,8 @@ describe("canonical ending catalogue", () => {
       ordinary: 13,
       "contained-control-loss": 1,
       "catastrophic-control-loss": 7,
-      extinction: 7,
+      // Six since the unselectable generic extinction ending was retired.
+      extinction: 6,
     });
     expect(
       Object.entries(ENDING_DEFINITIONS)
@@ -148,7 +148,6 @@ describe("canonical ending catalogue", () => {
       ["a-war-measured-in-milliseconds", "catastrophic-control-loss"],
       ["the-replication-threshold", "catastrophic-control-loss"],
       ["the-last-experiment", "catastrophic-control-loss"],
-      ["there-is-no-one-left-to-read-this", "extinction"],
       ["the-incubation-window", "extinction"],
       ["the-final-command-chain", "extinction"],
       ["the-grey-horizon", "extinction"],
@@ -202,7 +201,6 @@ describe("canonical ending catalogue", () => {
       "a-war-measured-in-milliseconds",
       "the-replication-threshold",
       "the-last-experiment",
-      "there-is-no-one-left-to-read-this",
       "the-incubation-window",
       "the-final-command-chain",
       "the-grey-horizon",
@@ -579,34 +577,19 @@ describe("canonical ending catalogue", () => {
     ).toBe("The Broadly Shared Future");
   });
 
-  it("does not select the generic extinction fallback during normal rollout", () => {
-    const catastrophicInputs: readonly EndingResolutionInputs[] = [
-      {
-        ...BASE,
-        catastropheResult: "catastrophe",
-        deceptiveCapability: 100,
-        deceptiveIntent: 100,
-      },
-      {
-        ...BASE,
-        catastropheResult: "catastrophe",
-        accessLevel: 5,
-        remainingDefence: 0,
-      },
-      {
-        ...BASE,
-        catastropheResult: "catastrophe",
-        deploymentModeId: "accelerated-autonomous-deployment",
-        legitimacy: 0,
-        accessLevel: 5,
-        offensiveAgency: 100,
-      },
-    ];
-
-    for (const input of catastrophicInputs) {
-      expect(selectRolloutEnding(input).id).not.toBe(
-        "base:ending.there-is-no-one-left-to-read-this",
-      );
-    }
+  it("reaches The Last Experiment when a deceptive system is authorised on weak evidence", () => {
+    const deceptiveCatastrophe: EndingResolutionInputs = {
+      ...BASE,
+      catastropheResult: "catastrophe",
+      deceptiveCapability: 60,
+      deceptiveIntent: 90,
+      evidenceConfidence: "Limited",
+    };
+    expect(selectRolloutEnding(deceptiveCatastrophe).id).toBe(
+      "base:ending.the-last-experiment",
+    );
+    expect(
+      selectRolloutEnding({ ...deceptiveCatastrophe, evidenceConfidence: "Strong" }).id,
+    ).toBe("base:ending.the-objective-was-satisfied");
   });
 });

@@ -594,8 +594,11 @@ function nonExtinctionEnding(state: Readonly<GameState>): ContentId {
   switch (controlLossNarrativeProfile(model.hiddenSafety)) {
     case "strategic-deception":
       return ENDING_DEFINITIONS["the-last-human-veto"].id;
+    // The Objective Was Satisfied narrates deliberate concealment. An overt
+    // objective conflict, without strategic deception, is the ending that
+    // makes no claim about concealment.
     case "overt-objective-conflict":
-      return ENDING_DEFINITIONS["the-objective-was-satisfied"].id;
+      return ENDING_DEFINITIONS["no-one-holds-the-off-switch"].id;
     case "operational-control-failure":
       return ENDING_DEFINITIONS["no-one-holds-the-off-switch"].id;
   }

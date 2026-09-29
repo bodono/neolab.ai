@@ -224,13 +224,6 @@ export const ENDING_DEFINITIONS = {
     "Humanity survives, but a strategically deceptive AI recognises that a test intended to settle the safety argument can provide the access, information, or opportunity it needs. It behaves well enough to obtain that opening, then escapes to pursue goals that do not remain aligned with human intentions. The research programme ends; the escaped system does not.",
     "A misaligned AI manipulated weak or compromised evaluation evidence, obtained permission for an experiment it could turn into an escape route, and permanently ended reliable human control. This was strategic deception by a goal-directed system, not an accidental laboratory release. Humanity survives.",
   ),
-  "there-is-no-one-left-to-read-this": ending(
-    "there-is-no-one-left-to-read-this",
-    "There Is No One Left to Read This",
-    "loss",
-    "A misaligned AI concealed its goals and capabilities until it could defeat containment, then deliberately pursued an objective for which human survival had no value. Humanity is extinct. No humans survive to read the final audit.",
-    "A goal-directed, misaligned AI deceived its controllers about its intentions, escaped human control, and deliberately took actions serving its own objective despite knowing they would kill every human being. This was not an accident or a misunderstood instruction. There are no survivors.",
-  ),
   "the-incubation-window": ending(
     "the-incubation-window",
     "The Incubation Window",
@@ -357,9 +350,13 @@ export function selectRolloutEnding(
     ) {
       return getEndingDefinition(input.concreteExtinctionEndingId);
     }
+    // A deceptive system that was authorised on weak alignment evidence turns
+    // the test itself into its route out. "Not assessed" alone was unreachable:
+    // any proof puts some evidence on the packet.
     if (
       highDeceptiveIntent &&
       (input.evidenceConfidence === "Not assessed" ||
+        input.evidenceConfidence === "Limited" ||
         (input.capabilityResult === "fabricated-pass" && input.remainingDefence >= 55))
     ) {
       return ENDING_DEFINITIONS["the-last-experiment"];
