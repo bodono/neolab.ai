@@ -110,8 +110,6 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -866,8 +864,6 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -1596,8 +1592,6 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -2313,8 +2307,6 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -3056,8 +3048,6 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -3773,8 +3763,6 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -4541,8 +4529,6 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,
@@ -5296,8 +5282,6 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "market": {
         "marketShare": 0.005,
         "monetisationEfficiency": 0.55,
-        "priceChangeTicks": [],
-        "priceTier": "market",
         "segments": {
           "base:segment.government": {
             "accruedDeliveredUsage": 0,

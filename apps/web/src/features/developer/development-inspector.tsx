@@ -70,7 +70,7 @@ function SystemTimings({ view }: { readonly view: DeveloperInspectorView }) {
 function CommandAudit(): ReactElement {
   const { runtime } = useGameSession();
   const [commandText, setCommandText] = useState(
-    '{\n  "kind": "set-public-price",\n  "meta": {\n    "commandId": "command:developer-probe",\n    "expectedTick": 0,\n    "issuedBy": "player"\n  },\n  "labId": "replace-me",\n  "priceTier": "market"\n}',
+    '{\n  "kind": "buy-gpus",\n  "meta": {\n    "commandId": "command:developer-probe",\n    "expectedTick": 0,\n    "issuedBy": "player"\n  },\n  "labId": "replace-me",\n  "generationId": "base:gpu.kepler",\n  "thousandUnits": 1\n}',
   );
   const [message, setMessage] = useState<string>();
   const [revision, setRevision] = useState(0);

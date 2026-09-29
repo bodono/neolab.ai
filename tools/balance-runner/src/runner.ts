@@ -920,19 +920,13 @@ function endgameMetrics(
   };
 }
 
-function anomalyCounts(
-  state: Readonly<GameState>,
-  content: NonNullable<BalanceRunRequest["content"]>,
-): BalanceAnomalyCounts {
+function anomalyCounts(state: Readonly<GameState>): BalanceAnomalyCounts {
   const impossibleProjects = Object.values(state.projects).filter(
     (project) =>
       (project.status === "active" || project.status === "queued") &&
       state.run.tick - project.createdAt >
         Math.max(26, project.expectedDurationWeeks * 2) &&
       project.progress <= 0,
-  ).length;
-  const negativePrices = Object.values(content.market.priceTiers).filter(
-    (tier) => tier.unitPriceMillions < 0,
   ).length;
   const invalidAllocations = Object.values(state.labs).filter((lab) => {
     const allocation = lab.compute.allocation;
@@ -959,7 +953,7 @@ function anomalyCounts(
       instance.enabledOptionIds.length === 0 &&
       state.run.tick - instance.createdAt >= 1,
   ).length;
-  return { impossibleProjects, negativePrices, invalidAllocations, deadlockedEvents };
+  return { impossibleProjects, invalidAllocations, deadlockedEvents };
 }
 
 interface FacilityTracker {
@@ -1299,7 +1293,7 @@ function runOne(
     events: eventMetrics(state, content),
     hiddenInformation: hiddenInformationMetrics(state),
     endgame: endgameMetrics(state, furthestEndgameStage, endgameStageDwellWeeks, content),
-    anomalies: anomalyCounts(state, content),
+    anomalies: anomalyCounts(state),
     rejectedPolicyCommands,
     rejectedPolicyCommandReasons,
     ...(traceThisRun

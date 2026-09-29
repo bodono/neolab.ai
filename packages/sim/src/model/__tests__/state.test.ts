@@ -30,8 +30,6 @@ describe("GameState shell", () => {
             consecutiveNegativeCashWeeks?: unknown;
           };
           market: {
-            priceTier?: unknown;
-            priceChangeTicks?: unknown;
             monetisationEfficiency?: unknown;
             weeksAccruedThisCycle?: unknown;
             segments?: unknown;
@@ -53,8 +51,6 @@ describe("GameState shell", () => {
     delete lab.finance.ledger;
     delete lab.finance.settlements;
     delete lab.finance.consecutiveNegativeCashWeeks;
-    delete lab.market.priceTier;
-    delete lab.market.priceChangeTicks;
     delete lab.market.monetisationEfficiency;
     delete lab.market.weeksAccruedThisCycle;
     delete lab.market.segments;
@@ -72,8 +68,6 @@ describe("GameState shell", () => {
     expect(loadedLab?.finance.settlements).toEqual([]);
     expect(loadedLab?.finance.consecutiveNegativeCashWeeks).toBeUndefined();
     expect(loadedLab?.market).toMatchObject({
-      priceTier: "market",
-      priceChangeTicks: [],
       monetisationEfficiency: 0.55,
       weeksAccruedThisCycle: 0,
       segments: {},

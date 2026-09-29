@@ -1,8 +1,4 @@
-import type {
-  CompiledContent,
-  MarketSegmentDefinition,
-  PublicPriceTier,
-} from "@neolab/content-schema";
+import type { CompiledContent, MarketSegmentDefinition } from "@neolab/content-schema";
 
 import { TERAFLOPS_PER_TRAINING_FACTOR } from "../compute/flops.ts";
 import {
@@ -40,14 +36,6 @@ export const SERVING_AURA_LADDER = [
   { minimumFulfilment: 0.9, aura: 2 },
   { minimumFulfilment: 0.5, aura: 1 },
 ] as const;
-
-export const PUBLIC_PRICE_TIERS: readonly PublicPriceTier[] = [
-  "free-preview",
-  "cheap",
-  "market",
-  "premium",
-  "scarcity",
-];
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -323,8 +311,6 @@ export function createInitialMarketState(
 ): MarketState {
   return {
     marketShare: fraction(startingShare),
-    priceTier: "market",
-    priceChangeTicks: [],
     monetisationEfficiency: fraction(content.market.monetisationEfficiency),
     weeksAccruedThisCycle: 0,
     segments: Object.fromEntries(
@@ -990,7 +976,6 @@ function commitMarketSettlements(
   tx: SimulationTransaction,
   content: CompiledContent,
   prepared: readonly PreparedMarketSettlement[],
-  settledAt: Tick,
 ): void {
   tx.update((draft) => {
     for (const result of prepared) {
@@ -1013,19 +998,6 @@ function commitMarketSettlements(
       }
       mutableLab.market.weeksAccruedThisCycle = 0;
       mutableLab.market.marketShare = fraction(clamp(result.marketShare, 0, 1));
-      if (
-        mutableLab.market.pendingPriceTier !== undefined &&
-        mutableLab.market.pendingPriceTier !== mutableLab.market.priceTier
-      ) {
-        mutableLab.market.priceTier = mutableLab.market.pendingPriceTier;
-        mutableLab.market.priceChangeTicks = [
-          ...mutableLab.market.priceChangeTicks.filter(
-            (changedAt) => settledAt - changedAt <= 8,
-          ),
-          settledAt,
-        ];
-      }
-      delete mutableLab.market.pendingPriceTier;
     }
   });
   for (const result of prepared) {
@@ -1055,7 +1027,7 @@ export function settleMarketCycle(
 ): readonly MarketSettlement[] {
   initialiseMarketIfNeeded(tx, content, labId);
   const prepared = prepareMarketSettlement(tx.read(), content, labId, settledAt);
-  commitMarketSettlements(tx, content, [prepared], settledAt);
+  commitMarketSettlements(tx, content, [prepared]);
   return prepared.settlements;
 }
 
@@ -1071,6 +1043,6 @@ export function settleWorldMarketCycle(
   const prepared = labIds.map((labId) =>
     prepareMarketSettlement(snapshot, content, labId, settledAt),
   );
-  commitMarketSettlements(tx, content, prepared, settledAt);
+  commitMarketSettlements(tx, content, prepared);
   return Object.fromEntries(prepared.map((result) => [result.labId, result.settlements]));
 }

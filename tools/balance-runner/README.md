@@ -96,8 +96,8 @@ Reports distinguish measured values from proxies:
 - Hidden-evidence error uses the same alignment-label classifier as production and privileged truth
   only after the run.
 
-Anomaly detection counts stranded zero-progress projects, negative price definitions, invalid
-allocation hierarchies, and unresolved events with no enabled choice. Simulation invariants still
+Anomaly detection counts stranded zero-progress projects, invalid allocation hierarchies, and
+unresolved events with no enabled choice. Simulation invariants still
 run every tick and fail immediately on harder corruption.
 
 ## Constant overrides

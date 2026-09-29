@@ -1,7 +1,6 @@
 import type {
   ContentId,
   PublicationPolicy,
-  PublicPriceTier,
   DeploymentPolicy,
   ProductisationMode,
   EventSeverity,
@@ -361,16 +360,6 @@ export type DomainEvent =
       };
     }
   | { readonly kind: "funding-offer-expired"; readonly offerId: FundingOfferId }
-  | {
-      readonly kind: "public-price-scheduled";
-      readonly labId: LabId;
-      readonly priceTier: PublicPriceTier;
-    }
-  | {
-      readonly kind: "public-price-changed";
-      readonly labId: LabId;
-      readonly priceTier: PublicPriceTier;
-    }
   | {
       readonly kind: "serving-shortage";
       readonly labId: LabId;

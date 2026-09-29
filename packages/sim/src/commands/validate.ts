@@ -17,7 +17,6 @@ import {
   forecastUsage,
   MARKET_CYCLE_WEEKS,
   projectServingAura,
-  PUBLIC_PRICE_TIERS,
   settledServingPhysicalGpusFor,
 } from "../market/market.ts";
 import { quoteFacilityConstruction } from "../facilities/facilities.ts";
@@ -118,7 +117,6 @@ import type {
   BuyGpusCommand,
   SellGpusCommand,
   SetGpuAllocationCommand,
-  SetPublicPriceCommand,
   StartFacilityConstructionCommand,
   StartTrainingRunCommand,
   StartEvaluationCommand,
@@ -535,32 +533,6 @@ function validateGpuSale(
   }
   for (const blocker of quote.blockers) {
     errors.push({ code: "gpu-sale-blocked", message: blocker });
-  }
-}
-
-function validatePublicPrice(
-  state: GameState,
-  command: SetPublicPriceCommand,
-  errors: RuleViolation[],
-): void {
-  if (!validatePlayerLab(state, command.labId, errors)) return;
-  const requested: unknown = command.priceTier;
-  if (
-    typeof requested !== "string" ||
-    !PUBLIC_PRICE_TIERS.some((tier) => tier === requested)
-  ) {
-    errors.push({
-      code: "unknown-price-tier",
-      message: `Unknown public price tier ${String(requested)}`,
-    });
-    return;
-  }
-  const market = state.labs[command.labId]?.market;
-  if (
-    market !== undefined &&
-    (market.pendingPriceTier ?? market.priceTier) === requested
-  ) {
-    errors.push({ code: "price-unchanged", message: "That price tier is already set" });
   }
 }
 
@@ -1859,9 +1831,6 @@ export function validateCommand(
       case "sell-gpus":
         validateGpuSale(state, content, command, errors);
         break;
-      case "set-public-price":
-        validatePublicPrice(state, command, errors);
-        break;
       case "start-facility-construction":
         validateFacilityConstruction(state, content, command, errors);
         break;
@@ -2079,8 +2048,6 @@ export function validateCommand(
         );
         return `${String(quote.physicalGpuCount)} ${quote.generationDisplayName} GPUs sold for ${formatValuation(quote.cashProceedsMillions)}`;
       }
-      case "set-public-price":
-        return `${content.market.priceTiers[command.priceTier].displayName} pricing queued; takes effect next cycle`;
       case "start-facility-construction": {
         const quote = quoteFacilityConstruction(
           state,
@@ -2425,90 +2392,87 @@ export function validateCommand(
             ).arrivesAt
           : command.kind === "sell-gpus"
             ? state.run.tick
-            : command.kind === "set-public-price"
-              ? tick(state.run.tick + (4 - (state.run.tick % 4)))
-              : command.kind === "start-facility-construction"
+            : command.kind === "start-facility-construction"
+              ? tick(state.run.tick + 1)
+              : command.kind === "start-fundraising-campaign"
                 ? tick(state.run.tick + 1)
-                : command.kind === "start-fundraising-campaign"
-                  ? tick(state.run.tick + 1)
-                  : command.kind === "accept-funding-offer"
-                    ? state.run.tick
-                    : command.kind === "start-agi-component"
-                      ? tick(state.run.tick + 1)
-                      : command.kind === "join-government-programme" ||
-                          command.kind === "leave-government-programme"
-                        ? state.run.tick
-                        : command.kind === "start-lobbying-project"
-                          ? tick(state.run.tick + 1)
-                          : command.kind === "conduct-rival-diplomacy"
+                : command.kind === "accept-funding-offer"
+                  ? state.run.tick
+                  : command.kind === "start-agi-component"
+                    ? tick(state.run.tick + 1)
+                    : command.kind === "join-government-programme" ||
+                        command.kind === "leave-government-programme"
+                      ? state.run.tick
+                      : command.kind === "start-lobbying-project"
+                        ? tick(state.run.tick + 1)
+                        : command.kind === "conduct-rival-diplomacy"
+                          ? state.run.tick
+                          : command.kind === "propose-coalition" ||
+                              command.kind === "ratify-coalition"
                             ? state.run.tick
-                            : command.kind === "propose-coalition" ||
-                                command.kind === "ratify-coalition"
-                              ? state.run.tick
-                              : command.kind === "start-coalition-project"
-                                ? tick(state.run.tick + 1)
-                                : command.kind === "choose-generic-advance"
+                            : command.kind === "start-coalition-project"
+                              ? tick(state.run.tick + 1)
+                              : command.kind === "choose-generic-advance"
+                                ? state.run.tick
+                                : command.kind === "choose-publication-policy"
                                   ? state.run.tick
-                                  : command.kind === "choose-publication-policy"
-                                    ? state.run.tick
-                                    : command.kind === "start-training-run"
+                                  : command.kind === "start-training-run"
+                                    ? tick(state.run.tick + 1)
+                                    : command.kind === "start-evaluation"
                                       ? tick(state.run.tick + 1)
-                                      : command.kind === "start-evaluation"
-                                        ? tick(state.run.tick + 1)
-                                        : command.kind === "dismiss-anomaly" ||
-                                            command.kind === "investigate-anomaly"
-                                          ? state.run.tick
-                                          : command.kind === "start-productisation"
-                                            ? tick(state.run.tick + 1)
-                                            : command.kind ===
-                                                "set-model-deployment-policy"
+                                      : command.kind === "dismiss-anomaly" ||
+                                          command.kind === "investigate-anomaly"
+                                        ? state.run.tick
+                                        : command.kind === "start-productisation"
+                                          ? tick(state.run.tick + 1)
+                                          : command.kind === "set-model-deployment-policy"
+                                            ? state.run.tick
+                                            : command.kind === "assign-researcher" ||
+                                                command.kind === "recruit-researcher"
                                               ? state.run.tick
-                                              : command.kind === "assign-researcher" ||
-                                                  command.kind === "recruit-researcher"
-                                                ? state.run.tick
+                                              : command.kind ===
+                                                  "start-researcher-commitment"
+                                                ? tick(state.run.tick + 1)
                                                 : command.kind ===
-                                                    "start-researcher-commitment"
-                                                  ? tick(state.run.tick + 1)
-                                                  : command.kind ===
-                                                        "submit-retention-offer" ||
-                                                      command.kind ===
-                                                        "resolve-researcher-ultimatum" ||
-                                                      command.kind ===
-                                                        "dismiss-researcher" ||
-                                                      command.kind ===
-                                                        "respond-to-decision-event" ||
-                                                      command.kind ===
-                                                        "set-candidate-access" ||
-                                                      command.kind ===
-                                                        "isolate-candidate-artifact" ||
-                                                      command.kind ===
-                                                        "resolve-candidate-incident" ||
-                                                      command.kind ===
-                                                        "nominate-candidate" ||
-                                                      command.kind ===
-                                                        "configure-candidate-retirement" ||
-                                                      command.kind ===
-                                                        "transmit-candidate-retirement" ||
-                                                      command.kind ===
-                                                        "choose-post-retirement-path" ||
-                                                      command.kind ===
-                                                        "choose-false-dawn-path" ||
-                                                      command.kind ===
-                                                        "resolve-pressure-collision" ||
-                                                      command.kind ===
-                                                        "enter-final-review" ||
-                                                      command.kind ===
-                                                        "choose-deployment-mode" ||
-                                                      command.kind ===
-                                                        "resolve-rollout-decision" ||
-                                                      command.kind ===
-                                                        "resolve-containment-failure" ||
-                                                      command.kind ===
-                                                        "transmit-deployment" ||
-                                                      command.kind ===
-                                                        "advance-world-waiting"
-                                                    ? state.run.tick
-                                                    : tick(state.run.tick + 1),
+                                                      "submit-retention-offer" ||
+                                                    command.kind ===
+                                                      "resolve-researcher-ultimatum" ||
+                                                    command.kind ===
+                                                      "dismiss-researcher" ||
+                                                    command.kind ===
+                                                      "respond-to-decision-event" ||
+                                                    command.kind ===
+                                                      "set-candidate-access" ||
+                                                    command.kind ===
+                                                      "isolate-candidate-artifact" ||
+                                                    command.kind ===
+                                                      "resolve-candidate-incident" ||
+                                                    command.kind ===
+                                                      "nominate-candidate" ||
+                                                    command.kind ===
+                                                      "configure-candidate-retirement" ||
+                                                    command.kind ===
+                                                      "transmit-candidate-retirement" ||
+                                                    command.kind ===
+                                                      "choose-post-retirement-path" ||
+                                                    command.kind ===
+                                                      "choose-false-dawn-path" ||
+                                                    command.kind ===
+                                                      "resolve-pressure-collision" ||
+                                                    command.kind ===
+                                                      "enter-final-review" ||
+                                                    command.kind ===
+                                                      "choose-deployment-mode" ||
+                                                    command.kind ===
+                                                      "resolve-rollout-decision" ||
+                                                    command.kind ===
+                                                      "resolve-containment-failure" ||
+                                                    command.kind ===
+                                                      "transmit-deployment" ||
+                                                    command.kind ===
+                                                      "advance-world-waiting"
+                                                  ? state.run.tick
+                                                  : tick(state.run.tick + 1),
       ...(command.kind === "set-gpu-allocation"
         ? {
             gpuAllocationPlan: previewAllocation(state, content, command),
@@ -2529,9 +2493,6 @@ export function validateCommand(
               command.thousandUnits,
             ),
           }
-        : {}),
-      ...(command.kind === "set-public-price"
-        ? { publicPriceTier: command.priceTier }
         : {}),
       ...(command.kind === "start-facility-construction"
         ? {

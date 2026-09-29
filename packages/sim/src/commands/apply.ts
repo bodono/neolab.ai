@@ -146,20 +146,6 @@ export function applyCommand(
       sellGpus(tx, content, command.labId, command.generationId, command.thousandUnits);
       break;
     }
-    case "set-public-price": {
-      tx.update((draft) => {
-        const lab = draft.labs[command.labId];
-        if (lab === undefined)
-          throw new Error(`Price command targets unknown lab ${command.labId}`);
-        lab.market.pendingPriceTier = command.priceTier;
-      });
-      tx.emit({
-        kind: "public-price-scheduled",
-        labId: command.labId,
-        priceTier: command.priceTier,
-      });
-      break;
-    }
     case "start-facility-construction": {
       const quote = quoteFacilityConstruction(
         state,

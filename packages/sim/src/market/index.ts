@@ -1,6 +1,5 @@
 export {
   MARKET_CYCLE_WEEKS,
-  PUBLIC_PRICE_TIERS,
   SERVING_AURA_LADDER,
   accrueWeeklyUsage,
   calculateSegmentAppeal,

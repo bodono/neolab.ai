@@ -1,10 +1,6 @@
 import { TRAINING_SAMPLE_WEEKS } from "./available-commands.ts";
 import { RandomOracleV1, randomKey, type GameCommand } from "@neolab/sim";
-import type {
-  DeploymentPolicy,
-  PublicPriceTier,
-  TrainingPosture,
-} from "@neolab/content-schema";
+import type { DeploymentPolicy, TrainingPosture } from "@neolab/content-schema";
 
 import {
   POLICY_IDS,
@@ -20,7 +16,6 @@ interface PolicyProfile {
   readonly allocationTag: StrategyTag;
   readonly deploymentPolicy: DeploymentPolicy;
   readonly publicationTag: StrategyTag;
-  readonly priceTier: PublicPriceTier;
   readonly strategicTags: readonly StrategyTag[];
   readonly reserveMillions: number;
   readonly choiceOffset: number;
@@ -38,7 +33,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "balanced",
     deploymentPolicy: "guarded-api",
     publicationTag: "balanced",
-    priceTier: "market",
     strategicTags: ["balanced", "safety", "capability"],
     reserveMillions: 35,
     choiceOffset: 0,
@@ -55,7 +49,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "capability",
     deploymentPolicy: "open-api",
     publicationTag: "capability",
-    priceTier: "premium",
     strategicTags: ["capability", "aggressive", "secretive"],
     reserveMillions: 24,
     choiceOffset: 1,
@@ -72,7 +65,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "commercial",
     deploymentPolicy: "open-api",
     publicationTag: "balanced",
-    priceTier: "cheap",
     strategicTags: ["commercial", "cash", "aggressive", "balanced"],
     reserveMillions: 40,
     choiceOffset: 1,
@@ -89,7 +81,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "balanced",
     deploymentPolicy: "guarded-api",
     publicationTag: "prestige",
-    priceTier: "market",
     strategicTags: ["prestige", "balanced", "cautious"],
     reserveMillions: 35,
     choiceOffset: 2,
@@ -106,7 +97,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "safety",
     deploymentPolicy: "guarded-api",
     publicationTag: "balanced",
-    priceTier: "market",
     strategicTags: ["safety", "cautious", "coalition", "balanced"],
     reserveMillions: 38,
     choiceOffset: 2,
@@ -123,7 +113,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "capability",
     deploymentPolicy: "open-api",
     publicationTag: "secretive",
-    priceTier: "premium",
     strategicTags: ["secretive", "capability", "aggressive", "commercial"],
     reserveMillions: 30,
     choiceOffset: 3,
@@ -140,7 +129,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "safety",
     deploymentPolicy: "guarded-api",
     publicationTag: "prestige",
-    priceTier: "market",
     strategicTags: ["coalition", "safety", "prestige", "cautious", "balanced"],
     reserveMillions: 35,
     choiceOffset: 3,
@@ -157,7 +145,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "serving-zero",
     deploymentPolicy: "research-preview",
     publicationTag: "prestige",
-    priceTier: "market",
     strategicTags: ["serving-zero", "capability", "prestige"],
     reserveMillions: 0,
     choiceOffset: 0,
@@ -167,7 +154,6 @@ const PROFILES: Readonly<Record<ScriptedPolicyId, PolicyProfile>> = {
     allocationTag: "balanced",
     deploymentPolicy: "open-api",
     publicationTag: "prestige",
-    priceTier: "cheap",
     strategicTags: ["training-zero", "commercial", "prestige"],
     reserveMillions: 35,
     choiceOffset: 0,
@@ -926,16 +912,6 @@ function scriptedDecisions(
   ) {
     take(allocation);
   }
-  if (id !== "never-fund-serving") {
-    take(
-      available.find(
-        (candidate) =>
-          candidate.category === "price" &&
-          candidate.command.kind === "set-public-price" &&
-          candidate.command.priceTier === profile.priceTier,
-      ),
-    );
-  }
 
   const researcherTarget =
     id === "coalition-builder" ? 0 : id === "never-train-model" ? 2 : 3;
@@ -1220,7 +1196,6 @@ function scriptedDecisions(
     "research-choice",
     "publication",
     "allocation",
-    "price",
     "fundraising",
     "funding-offer",
     "crisis",

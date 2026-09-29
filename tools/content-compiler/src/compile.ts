@@ -454,24 +454,6 @@ export function compileContent(repoRoot: string): CompileResult {
   // ----- Customer market ---------------------------------------------------
   const marketPath = join(contentDir, "market", "segments.yaml");
   const marketFile = parseWith(marketFileSchema, marketPath);
-  const expectedPriceTiers = [
-    "free-preview",
-    "cheap",
-    "market",
-    "premium",
-    "scarcity",
-  ] as const;
-  const priceTiers: MarketDefinition["priceTiers"] = Object.fromEntries(
-    marketFile.priceTiers.map((tier) => [tier.id, tier]),
-  ) as unknown as MarketDefinition["priceTiers"];
-  for (const tier of expectedPriceTiers) {
-    if (!(tier in priceTiers)) {
-      throw new ContentFileError(marketPath, undefined, undefined, `missing ${tier}`);
-    }
-  }
-  if (Object.keys(priceTiers).length !== expectedPriceTiers.length) {
-    throw new ContentFileError(marketPath, undefined, undefined, "duplicate price tier");
-  }
   const marketCapabilityKeys = new Set([
     "language",
     "reasoning",
@@ -549,13 +531,6 @@ export function compileContent(repoRoot: string): CompileResult {
         reliability: 0.1,
         governmentTrust: 0.5,
       },
-      pricePenalties: {
-        "free-preview": 0,
-        cheap: 0,
-        market: 2,
-        premium: 5,
-        scarcity: 12,
-      },
       staticRivalAppeals: [38, 35, 32, 29],
       rivalCapabilityBenchmark: 30,
     };
@@ -592,7 +567,6 @@ export function compileContent(repoRoot: string): CompileResult {
     valuePerDeliveredFlopQuadraticFactor: marketFile.valuePerDeliveredFlopQuadraticFactor,
     startingSatisfaction: marketFile.startingSatisfaction,
     monetisationEfficiency: marketFile.monetisationEfficiency,
-    priceTiers,
     segments: marketSegments,
   };
 

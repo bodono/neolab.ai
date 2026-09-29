@@ -79,15 +79,6 @@ export interface GpuGenerationDefinition {
   readonly announcement: string;
 }
 
-export type PublicPriceTier =
-  "free-preview" | "cheap" | "market" | "premium" | "scarcity";
-
-export interface MarketPriceTierDefinition {
-  readonly id: PublicPriceTier;
-  readonly displayName: string;
-  readonly unitPriceMillions: number;
-}
-
 export interface MarketSegmentDefinition {
   readonly id: ContentId;
   readonly displayName: string;
@@ -106,7 +97,6 @@ export interface MarketSegmentDefinition {
     readonly reliability: number;
     readonly governmentTrust: number;
   };
-  readonly pricePenalties: Readonly<Record<PublicPriceTier, number>>;
   readonly staticRivalAppeals: readonly number[];
   readonly rivalCapabilityBenchmark: number;
 }
@@ -123,7 +113,6 @@ export interface MarketDefinition {
   readonly valuePerDeliveredFlopQuadraticFactor: number;
   readonly startingSatisfaction: number;
   readonly monetisationEfficiency: number;
-  readonly priceTiers: Readonly<Record<PublicPriceTier, MarketPriceTierDefinition>>;
   readonly segments: Readonly<Record<string, MarketSegmentDefinition>>;
 }
 

@@ -39,13 +39,6 @@ const financeCategorySchema = z.enum([
   "asset-sale",
   "adjustment",
 ]);
-const publicPriceTierSchema = z.enum([
-  "free-preview",
-  "cheap",
-  "market",
-  "premium",
-  "scarcity",
-]);
 const publicationPolicySchema = z.enum([
   "publish-openly",
   "controlled-publication",
@@ -916,9 +909,6 @@ const labSchema = z
       .object({
         marketShare: fractionSchema,
         // Defaults preserve pre-S2.4 save compatibility within saveVersion 1.
-        priceTier: publicPriceTierSchema.default("market"),
-        pendingPriceTier: publicPriceTierSchema.optional(),
-        priceChangeTicks: z.array(tickSchema).default([]),
         monetisationEfficiency: fractionSchema.default(0.55),
         weeksAccruedThisCycle: z.number().int().min(0).max(4).default(0),
         segments: z

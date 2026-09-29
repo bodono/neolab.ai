@@ -20,7 +20,6 @@ export type {
   StartCoalitionProjectCommand,
   RatifyCoalitionCommand,
   SellGpusCommand,
-  SetPublicPriceCommand,
   StartFacilityConstructionCommand,
   RuleViolation,
   SetGpuAllocationCommand,

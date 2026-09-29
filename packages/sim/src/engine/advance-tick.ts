@@ -638,9 +638,6 @@ function baselineSystems(): readonly TickSystem[] {
           tx.emit({ kind: "cycle-boundary", tick: context.tick });
           const settledAt = makeTick(context.tick + 1);
           const labIds = Object.keys(tx.read().labs).sort() as LabId[];
-          const priceBefore = Object.fromEntries(
-            labIds.map((labId) => [labId, tx.read().labs[labId]?.market.priceTier]),
-          );
           const financeSettlements = Object.fromEntries(
             labIds.map((labId) => {
               const settlement = settleCycle(tx, context.content, labId, settledAt);
@@ -670,14 +667,6 @@ function baselineSystems(): readonly TickSystem[] {
                 0,
               ),
             });
-            const priceAfter = tx.read().labs[labId]?.market.priceTier;
-            if (
-              priceBefore[labId] !== undefined &&
-              priceAfter !== undefined &&
-              priceAfter !== priceBefore[labId]
-            ) {
-              tx.emit({ kind: "public-price-changed", labId, priceTier: priceAfter });
-            }
           }
           const labId = tx.read().run.playerLabId;
           const settlement = financeSettlements[labId];

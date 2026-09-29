@@ -7,7 +7,6 @@ import {
 } from "@neolab/content-schema";
 
 import rawBundle from "../../../../content/generated/content.bundle.json";
-import { applyCommand } from "../../commands/apply.ts";
 import { validateCommand } from "../../commands/validate.ts";
 import { advanceOneTick } from "../../engine/advance-tick.ts";
 import { createNewGame } from "../../engine/create-new-game.ts";
@@ -548,62 +547,5 @@ describe("market accrual and settlement", () => {
       ) * 0.5,
       5,
     );
-  });
-});
-
-describe("public price policy", () => {
-  it("rejects unknown and unchanged price tiers at the command boundary", () => {
-    const state = newState();
-    const base = {
-      kind: "set-public-price" as const,
-      meta: {
-        commandId: "command:bad-price" as CommandId,
-        expectedTick: state.run.tick,
-        issuedBy: "player" as const,
-      },
-      labId: state.run.playerLabId,
-    };
-    const unknown = validateCommand(state, content, {
-      ...base,
-      priceTier: "whatever-the-board-will-tolerate" as never,
-    });
-    const unchanged = validateCommand(state, content, {
-      ...base,
-      priceTier: "market",
-    });
-    expect(unknown).toMatchObject({
-      ok: false,
-      errors: [{ code: "unknown-price-tier" }],
-    });
-    expect(unchanged).toMatchObject({
-      ok: false,
-      errors: [{ code: "price-unchanged" }],
-    });
-  });
-
-  it("queues a validated tier and applies it only at the next cycle boundary", () => {
-    const state = newState();
-    const applied = applyCommand(state, content, {
-      kind: "set-public-price",
-      meta: {
-        commandId: "command:price-premium" as CommandId,
-        expectedTick: state.run.tick,
-        issuedBy: "player",
-      },
-      labId: state.run.playerLabId,
-      priceTier: "premium",
-    });
-    expect(applied.state.labs[state.run.playerLabId]?.market).toMatchObject({
-      priceTier: "market",
-      pendingPriceTier: "premium",
-    });
-    expect(advance(applied.state, 3).labs[state.run.playerLabId]?.market.priceTier).toBe(
-      "market",
-    );
-    const changed = advance(applied.state, 4);
-    expect(changed.labs[state.run.playerLabId]?.market).toMatchObject({
-      priceTier: "premium",
-      priceChangeTicks: [4],
-    });
   });
 });

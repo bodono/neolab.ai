@@ -4,7 +4,6 @@ import type {
   DeploymentPolicy,
   ProductisationMode,
   PublicationPolicy,
-  PublicPriceTier,
   TrainingPosture,
 } from "@neolab/content-schema";
 import {
@@ -292,20 +291,6 @@ export function listAvailableCommands(
         ),
       },
     );
-    const priceTags: Readonly<Record<PublicPriceTier, readonly StrategyTag[]>> = {
-      "free-preview": ["prestige"],
-      cheap: ["commercial"],
-      market: ["balanced"],
-      premium: ["capability"],
-      scarcity: ["capability"],
-    };
-    for (const priceTier of Object.keys(content.market.priceTiers) as PublicPriceTier[]) {
-      inputs.push({
-        category: "price",
-        tags: priceTags[priceTier] ?? ["balanced"],
-        command: { kind: "set-public-price", meta: meta(), labId, priceTier },
-      });
-    }
     // Buy the current generation in a few sizes; sell the oldest owned
     // generation to model fleet refresh.
     const currentGenerationId = state.world.currentGpuGenerationId;

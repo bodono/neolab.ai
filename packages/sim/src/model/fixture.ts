@@ -244,8 +244,6 @@ export function createBareState(): GameState {
     },
     market: {
       marketShare: fraction(0.005),
-      priceTier: "market",
-      priceChangeTicks: [],
       monetisationEfficiency: fraction(0.55),
       weeksAccruedThisCycle: 0,
       segments: {},

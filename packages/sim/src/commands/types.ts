@@ -5,7 +5,6 @@ import type {
 import type {
   ContentId,
   PublicationPolicy,
-  PublicPriceTier,
   TrainingPosture,
   DeploymentPolicy,
   ProductisationMode,
@@ -115,13 +114,6 @@ export interface SellGpusCommand {
   readonly generationId: ContentId;
   /** Number of 1,000-GPU blocks to sell at the flat resale fraction. */
   readonly thousandUnits: number;
-}
-
-export interface SetPublicPriceCommand {
-  readonly kind: "set-public-price";
-  readonly meta: CommandMeta;
-  readonly labId: LabId;
-  readonly priceTier: PublicPriceTier;
 }
 
 export interface StartFacilityConstructionCommand {
@@ -494,7 +486,6 @@ export type GameCommand =
   | SetGpuAllocationCommand
   | BuyGpusCommand
   | SellGpusCommand
-  | SetPublicPriceCommand
   | StartFacilityConstructionCommand
   | StartFundraisingCampaignCommand
   | AcceptFundingOfferCommand
@@ -572,7 +563,6 @@ export interface CommandPreview {
       readonly projectedRevenueMillionsPerCycle: number;
     }[];
   };
-  readonly publicPriceTier?: PublicPriceTier;
   readonly constructionQuote?: ConstructionQuote;
   readonly fundraisingCampaign?: FundraisingCampaignQuote;
   readonly fundingOffer?: FundingOfferQuote;

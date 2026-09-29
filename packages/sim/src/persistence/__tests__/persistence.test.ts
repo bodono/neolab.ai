@@ -380,34 +380,45 @@ describe("replay determinism (Stage 1 exit gate)", () => {
     ).toBe(7_000);
   });
 
-  it("replays a pending public-price change across save/load", () => {
+  it("replays a queued serving reallocation through market settlements across save/load", () => {
     const start = withCash(
       newState("0123456789abcdef0123456789abcdef", "base:leader.sam-altmann"),
       1000,
     );
-    const repriced = applyCommand(start, content, {
-      kind: "set-public-price",
+    const current = start.labs[start.run.playerLabId]?.compute.allocation;
+    if (current === undefined) throw new Error("player allocation missing");
+    const reallocated = applyCommand(start, content, {
+      kind: "set-gpu-allocation",
       meta: {
-        commandId: "command:replay-price" as CommandId,
+        commandId: "command:replay-serving" as CommandId,
         expectedTick: start.run.tick,
         issuedBy: "player",
       },
       labId: start.run.playerLabId,
-      priceTier: "premium",
+      allocation: {
+        ...current,
+        servingFleetShareBasisPoints: basisPoints(5_000),
+      },
     }).state;
-    const envelope = createSaveEnvelope(repriced, {
-      saveId: "price-replay",
+    const envelope = createSaveEnvelope(reallocated, {
+      saveId: "serving-replay",
       slotType: "manual",
-      displayName: "Pricing takes effect next cycle",
+      displayName: "Serving share takes effect next week",
       contentHash: content.manifest.bundleHash,
       nowIso: NOW,
     });
     const reloaded = loadSaveEnvelope(JSON.parse(JSON.stringify(envelope))).state;
 
-    const uninterrupted = advance(repriced, 12);
+    const uninterrupted = advance(reallocated, 12);
     const resumed = advance(reloaded, 12);
     expect(stateHash(resumed)).toBe(stateHash(uninterrupted));
-    expect(resumed.labs[start.run.playerLabId]?.market.priceTier).toBe("premium");
+    expect(resumed.labs[start.run.playerLabId]?.market).toEqual(
+      uninterrupted.labs[start.run.playerLabId]?.market,
+    );
+    expect(
+      resumed.labs[start.run.playerLabId]?.compute.allocation
+        .servingFleetShareBasisPoints,
+    ).toBe(5_000);
   });
 
   it("replays an in-progress facility project and sourced completion modifier", () => {

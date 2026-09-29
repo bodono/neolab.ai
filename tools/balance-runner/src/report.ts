@@ -608,7 +608,6 @@ export function buildBalanceReport(
   };
   const anomalyCounts = {
     impossibleProjects: 0,
-    negativePrices: 0,
     invalidAllocations: 0,
     deadlockedEvents: 0,
   };
@@ -667,7 +666,6 @@ export function buildBalanceReport(
       increment(stalledStages, stage);
     }
     anomalyCounts.impossibleProjects += run.anomalies.impossibleProjects;
-    anomalyCounts.negativePrices += run.anomalies.negativePrices;
     anomalyCounts.invalidAllocations += run.anomalies.invalidAllocations;
     anomalyCounts.deadlockedEvents += run.anomalies.deadlockedEvents;
   }
@@ -1018,7 +1016,6 @@ export function runSummaryCsv(report: BalanceReport): string {
       "furthest_endgame_stage",
       "stalled_endgame_stages",
       "impossible_projects",
-      "negative_prices",
       "invalid_allocations",
       "deadlocked_events",
       "rejected_policy_commands",
@@ -1080,7 +1077,6 @@ export function runSummaryCsv(report: BalanceReport): string {
       run.endgame.furthestStage,
       run.endgame.stalledStageIds.join("|"),
       run.anomalies.impossibleProjects,
-      run.anomalies.negativePrices,
       run.anomalies.invalidAllocations,
       run.anomalies.deadlockedEvents,
       run.rejectedPolicyCommands,

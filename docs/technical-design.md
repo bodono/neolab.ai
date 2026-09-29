@@ -576,9 +576,6 @@ Recurring entries carry a settlement ID and reconcile exactly against that settl
 ```ts
 interface MarketState {
   marketShare: Fraction;
-  priceTier: PublicPriceTier;
-  pendingPriceTier?: PublicPriceTier;
-  priceChangeTicks: Tick[];
   monetisationEfficiency: Fraction;
   weeksAccruedThisCycle: number;
   segments: Record<ContentId, MarketSegmentState>;

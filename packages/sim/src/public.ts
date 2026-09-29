@@ -110,7 +110,6 @@ export {
   type TransmitDeploymentCommand,
   type AdvanceWorldWaitingCommand,
   type SellGpusCommand,
-  type SetPublicPriceCommand,
   type StartFacilityConstructionCommand,
 } from "./commands/index.ts";
 export {
@@ -444,7 +443,6 @@ export {
 } from "./rivals/index.ts";
 export type { RivalDiplomacyAction } from "./model/state.ts";
 export {
-  PUBLIC_PRICE_TIERS,
   SERVING_AURA_LADDER,
   calculateSegmentAppeal,
   calculateServingDemandCap,

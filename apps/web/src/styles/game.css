@@ -1433,8 +1433,7 @@ button:disabled {
   text-transform: uppercase;
 }
 .setup-options input,
-.setup-options select,
-.price-select select {
+.setup-options select {
   min-width: 0;
   padding: 10px;
   border: 1px solid #aeb6b0;
@@ -8182,13 +8181,6 @@ input[type="range"]::-webkit-slider-thumb {
 .market-compute-summary strong {
   overflow-wrap: anywhere;
   font: 800 12px/1.2 monospace;
-}
-.price-select {
-  display: grid;
-  gap: 5px;
-  margin: 14px 0;
-  font-family: monospace;
-  font-size: 11px;
 }
 .segment-list {
   display: grid;

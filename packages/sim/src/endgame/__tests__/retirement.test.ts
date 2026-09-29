@@ -27,12 +27,7 @@ import { createInitialMarketState } from "../../market/market.ts";
 import { createBareState } from "../../model/fixture.ts";
 import type { AnomalyId, EvaluationId, ModelId, ProjectId } from "../../model/ids.ts";
 import { validateGameState } from "../../model/schema.ts";
-import {
-  calendarFromTick,
-  type GameState,
-  type MarketState,
-  type ModelState,
-} from "../../model/state.ts";
+import { calendarFromTick, type GameState, type ModelState } from "../../model/state.ts";
 import { cashMillions, rating, tick } from "../../model/units.ts";
 import { calculateProjectCapacity } from "../../projects/capacity.ts";
 import { describeRandomKey, randomKey, type RandomKey } from "../../random/key.ts";
@@ -290,7 +285,7 @@ describe("canonical candidate retirement", () => {
     if (lab === undefined) throw new Error("Player lab missing");
     lab.market = structuredClone(
       createInitialMarketState(content, lab.market.marketShare),
-    ) as DeepMutable<MarketState>;
+    );
     const modelId = lab.models.currentModelId;
     if (modelId === undefined) throw new Error("Latent candidate missing");
     const anomalyId = "run:anomaly:dismissed-custody" as AnomalyId;
@@ -1076,7 +1071,7 @@ describe("canonical candidate retirement", () => {
     if (archivedLab === undefined) throw new Error("Archived player lab missing");
     archivedLab.market = structuredClone(
       createInitialMarketState(content, archivedLab.market.marketShare),
-    ) as DeepMutable<MarketState>;
+    );
     const archivedView = projectGameView(archivedProjectionState, content, {
       viewerLabId: archivedProjectionState.run.playerLabId,
       intelligenceRatings: {},
@@ -1113,7 +1108,7 @@ describe("canonical candidate retirement", () => {
     if (lab === undefined) throw new Error("Player lab missing");
     lab.market = structuredClone(
       createInitialMarketState(content, lab.market.marketShare),
-    ) as DeepMutable<MarketState>;
+    );
 
     const view = projectGameView(recovery, content, {
       viewerLabId: recovery.run.playerLabId,
@@ -1312,7 +1307,7 @@ describe("canonical candidate retirement", () => {
     if (viewLab === undefined) throw new Error("Player lab missing");
     viewLab.market = structuredClone(
       createInitialMarketState(content, viewLab.market.marketShare),
-    ) as DeepMutable<MarketState>;
+    );
     expect(
       projectGameView(viewState, content, {
         viewerLabId: viewState.run.playerLabId,

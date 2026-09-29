@@ -978,7 +978,6 @@ function requiredFeatureForCommand(kind: GameCommand["kind"]): LabFeature | unde
       return "compute";
     case "start-training-run":
       return "models";
-    case "set-public-price":
     case "start-productisation":
     case "set-model-deployment-policy":
       return "productisation";

@@ -172,14 +172,6 @@ export const gpuGenerationsFileSchema = z
 
 export type GpuGenerationsFile = z.infer<typeof gpuGenerationsFileSchema>;
 
-const publicPriceTierSchema = z.enum([
-  "free-preview",
-  "cheap",
-  "market",
-  "premium",
-  "scarcity",
-]);
-
 const appealWeightsSchema = z
   .object({
     capability: z.number().min(0).max(1),
@@ -201,17 +193,6 @@ export const marketFileSchema = z
     valuePerDeliveredFlopQuadraticFactor: z.number().nonnegative(),
     startingSatisfaction: z.number().min(0).max(100),
     monetisationEfficiency: z.number().min(0).max(1),
-    priceTiers: z
-      .array(
-        z
-          .object({
-            id: publicPriceTierSchema,
-            displayName: z.string().min(1),
-            unitPriceMillions: z.number().nonnegative(),
-          })
-          .strict(),
-      )
-      .length(5),
     segments: z
       .array(
         z
@@ -225,7 +206,6 @@ export const marketFileSchema = z
             acquisitionRate: z.number().min(0).max(1),
             capabilityWeights: z.record(z.string(), z.number().min(0).max(1)),
             appealWeights: appealWeightsSchema,
-            pricePenalties: z.record(publicPriceTierSchema, z.number().nonnegative()),
             staticRivalAppeals: z.array(z.number().min(0).max(100)).min(1),
             rivalCapabilityBenchmark: z.number().min(0).max(100),
           })

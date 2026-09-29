@@ -10,7 +10,6 @@ import type {
   SellGpusCommand,
   AcceptFundingOfferCommand,
   SetGpuAllocationCommand,
-  SetPublicPriceCommand,
   StartFacilityConstructionCommand,
   StartFundraisingCampaignCommand,
   StartTrainingRunCommand,
@@ -474,18 +473,6 @@ export function acceptFundingOfferCommand(
     meta: meta(view),
     labId: labId(view),
     offerId: offerId as AcceptFundingOfferCommand["offerId"],
-  };
-}
-
-export function priceCommand(
-  view: GameView,
-  priceTier: SetPublicPriceCommand["priceTier"],
-): SetPublicPriceCommand {
-  return {
-    kind: "set-public-price",
-    meta: meta(view),
-    labId: labId(view),
-    priceTier,
   };
 }
 

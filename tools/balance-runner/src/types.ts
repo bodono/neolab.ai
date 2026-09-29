@@ -41,7 +41,6 @@ export type CommandCategory =
   | "research-choice"
   | "publication"
   | "allocation"
-  | "price"
   | "fundraising"
   | "funding-offer"
   | "gpu"
@@ -300,7 +299,6 @@ export interface EndgameRunMetrics {
 
 export interface BalanceAnomalyCounts {
   readonly impossibleProjects: number;
-  readonly negativePrices: number;
   readonly invalidAllocations: number;
   readonly deadlockedEvents: number;
 }

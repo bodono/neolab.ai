@@ -315,14 +315,15 @@ describe("BrowserGameRuntime", () => {
     ).toBeDefined();
 
     const command = {
-      kind: "set-public-price",
+      kind: "buy-gpus",
       meta: {
         commandId: "command:dev-inspector-invalid-tick",
         expectedTick: 99,
         issuedBy: "player",
       },
       labId: stateBefore.run.playerLabId,
-      priceTier: "premium",
+      generationId: "base:gpu.kepler",
+      thousandUnits: 1,
     } as GameCommand;
     expect(runtime.validate(command).ok).toBe(false);
     expect(runtime.readDevelopmentSnapshot().lastCommandValidation?.validation.ok).toBe(
@@ -435,15 +436,17 @@ describe("BrowserGameRuntime", () => {
 
   it("keeps command and projection failures atomic while ordinary rejections remain recoverable", () => {
     const state = createNewGame(newGameConfig(), content);
+    const allocation = state.labs[state.run.playerLabId]?.compute.allocation;
+    if (allocation === undefined) throw new Error("player allocation missing");
     const command = {
-      kind: "set-public-price",
+      kind: "set-gpu-allocation",
       meta: {
         commandId: "command:runtime-fault-test",
         expectedTick: 0,
         issuedBy: "player",
       },
       labId: state.run.playerLabId,
-      priceTier: "premium",
+      allocation,
     } as GameCommand;
     const commandRuntime = new BrowserGameRuntime(state, content, {
       scheduler: inertScheduler,
@@ -487,7 +490,7 @@ describe("BrowserGameRuntime", () => {
     // The shell shows why the action was refused instead of failing silently.
     const rejection = normalRuntime.getSnapshot().lastRejection;
     expect(rejection?.sequence).toBe(1);
-    expect(rejection?.commandKind).toBe("set-public-price");
+    expect(rejection?.commandKind).toBe("set-gpu-allocation");
     expect(rejection?.message).toContain("tick 99");
     expect(normalRuntime.stepOneTick().tick).toBe(1);
     normalRuntime.dispose();

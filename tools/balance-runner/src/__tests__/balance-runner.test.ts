@@ -916,7 +916,7 @@ describe("runBalanceBatch", () => {
     }
   }, 15_000);
 
-  it("keeps open science commercially viable while publishing for prestige", async () => {
+  it("keeps open science on a guarded API while publishing for prestige", async () => {
     const openScience = INITIAL_POLICIES.find((policy) => policy.id === "open-science");
     if (openScience === undefined) throw new Error("open-science policy missing");
 
@@ -930,13 +930,6 @@ describe("runBalanceBatch", () => {
     if (run?.replay === undefined) throw new Error("open-science replay missing");
 
     expect(run.status).toBe("incomplete");
-    expect(
-      run.replay.commands
-        .filter((entry) => entry.command.kind === "set-public-price")
-        .map((entry) =>
-          entry.command.kind === "set-public-price" ? entry.command.priceTier : undefined,
-        ),
-    ).not.toContain("free-preview");
     expect(
       run.replay.commands
         .filter((entry) => entry.command.kind === "set-model-deployment-policy")
@@ -1042,7 +1035,7 @@ describe("runBalanceBatch", () => {
     expect(run.rejectedPolicyCommands).toBe(0);
   }, 10_000);
 
-  it("sets scripted allocation, pricing, and research postures without resubmitting them", async () => {
+  it("sets scripted allocation and research postures without resubmitting them", async () => {
     const commercial = INITIAL_POLICIES.find((policy) => policy.id === "commercial");
     if (commercial === undefined) throw new Error("commercial policy missing");
 
@@ -1055,9 +1048,6 @@ describe("runBalanceBatch", () => {
     const run = report.runs[0];
     if (run?.replay === undefined) throw new Error("commercial replay missing");
 
-    expect(
-      run.replay.commands.filter((entry) => entry.command.kind === "set-public-price"),
-    ).toHaveLength(1);
     const allocations = run.replay.commands.filter(
       (entry) => entry.command.kind === "set-gpu-allocation",
     );

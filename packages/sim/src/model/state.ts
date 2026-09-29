@@ -1,7 +1,6 @@
 import type {
   ContentId,
   PublicationPolicy,
-  PublicPriceTier,
   ResearcherAssignmentKind,
   TrainingPosture,
   TrainingScale,
@@ -1032,9 +1031,6 @@ export interface MarketSegmentState {
 /** Commercial state (GDD section 33). */
 export interface MarketState {
   readonly marketShare: Fraction;
-  readonly priceTier: PublicPriceTier;
-  readonly pendingPriceTier?: PublicPriceTier;
-  readonly priceChangeTicks: readonly Tick[];
   readonly monetisationEfficiency: Fraction;
   readonly weeksAccruedThisCycle: number;
   /** Keyed by customer-segment content ID. */
