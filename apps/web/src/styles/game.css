@@ -28502,6 +28502,12 @@ html[data-theme="dark"] .dossier-assignment-panel {
 /* Run reliability: what the three training checkpoints are likely to do. The
    player picks size, duration and posture, all of which move these numbers, so
    the downside has to be as visible as the capability upside next to it. */
+.training-technical-lead {
+  margin: 0.25rem 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 .training-reliability-forecast {
   display: grid;
   gap: 9px;

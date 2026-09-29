@@ -14,6 +14,7 @@ import type { GameState } from "../../model/state.ts";
 import { rating } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import {
+  CHECKPOINT_TECHNICAL_LEAD_BONUS,
   TRAINING_REFERENCE_WEEKS,
   forecastTrainingFrontierCapability,
   trainingCheckpointOdds,
@@ -104,7 +105,7 @@ describe("capability research effectiveness calibration", () => {
         postureDifficultyDelta: 0,
         interruption: 0,
         reliability: rubin.reliability,
-        hasTechnicalLead: true,
+        technicalLeadBonus: CHECKPOINT_TECHNICAL_LEAD_BONUS,
         risk,
         hazardMultiplier: 1,
         recoveryActive: false,

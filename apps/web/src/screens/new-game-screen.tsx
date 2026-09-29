@@ -341,8 +341,8 @@ function leaderEffectCopy(effect: LeaderEffect): LeaderEffectCopy {
       };
     case "lab.finance.executiveCostPerCycle":
       return {
-        summary: `Executive overhead +${formatValuation(value)} per cycle`,
-        explanation: `A cycle is four weeks: recurring leadership and operating costs are ${formatValuation(value * 13)} higher per year.`,
+        summary: `Executive overhead +${formatValuation(value)} per cycle at today's pay`,
+        explanation: `A cycle is four weeks, so this starts at ${formatValuation(value * 13)} a year. Like all leadership pay it rises with payroll inflation as the race heats up.`,
         tone: "tradeoff",
       };
     case "lab.construction.duration":

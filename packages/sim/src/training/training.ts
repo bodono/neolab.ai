@@ -180,6 +180,8 @@ export interface TrainingQuote {
   readonly cashCostMillions: number;
   /** What the run is likely to do at the three checkpoints. */
   readonly reliability: TrainingReliabilityForecast;
+  /** Who leads the run, and the checkpoint strength their training skill adds. */
+  readonly technicalLead?: TrainingTechnicalLead;
   readonly cashSchedule: readonly {
     readonly dueAt: Tick;
     readonly amountMillions: number;
@@ -908,6 +910,12 @@ export function quoteTrainingRun(
     lab,
     reservationGenerationCounts,
   );
+  const technicalLead = trainingTechnicalLead(
+    state,
+    content,
+    request.labId,
+    request.technicalLeadId,
+  );
   const reliability = trainingReliabilityForecast(
     content.training.failureCheckpoints,
     trainingCheckpointOdds({
@@ -919,7 +927,7 @@ export function quoteTrainingRun(
         ),
       interruption: 0,
       reliability: reservedReliability,
-      hasTechnicalLead: request.technicalLeadId !== undefined,
+      technicalLeadBonus: technicalLead?.checkpointBonus ?? 0,
       risk: forecastRisk,
       hazardMultiplier:
         // One target, read once, researchers included. It used to be read here
@@ -975,6 +983,7 @@ export function quoteTrainingRun(
     eraReferenceTeraflops: referenceTeraflops,
     estimatedTotalFlop,
     reliability,
+    ...(technicalLead === undefined ? {} : { technicalLead }),
     estimatedFrontierCapability: capabilityForecast.expected,
     estimatedFrontierCapabilityRange: [capabilityForecast.low, capabilityForecast.high],
     intrinsicSafetyForecast,
@@ -1026,7 +1035,7 @@ export function startTrainingRun(
     progress: 0,
     reservations: { majorProjectSlots: 1 },
     assignedResearcherIds:
-      request.technicalLeadId === undefined ? [] : [request.technicalLeadId],
+      quote.technicalLead === undefined ? [] : [quote.technicalLead.researcherId],
     completionOrder: tx.read().run.idCounters.project - 1,
     payload: {
       kind: "training",
@@ -1224,21 +1233,78 @@ export interface TrainingCheckpointOdds {
  * constant for every lab in every run.
  */
 export const CHECKPOINT_BASE_STRENGTH = 50.5;
+/** Checkpoint strength a technical lead with training skill 5/5 adds. */
 export const CHECKPOINT_TECHNICAL_LEAD_BONUS = 6;
+
+export interface TrainingTechnicalLead {
+  readonly researcherId: ResearcherId;
+  readonly displayName: string;
+  readonly trainingSkill: number;
+  readonly checkpointBonus: number;
+}
+
+function technicalLeadBonus(trainingSkill: number): number {
+  return Math.round((CHECKPOINT_TECHNICAL_LEAD_BONUS * trainingSkill) / 5);
+}
+
+/**
+ * Every run is led by the lab's strongest training engineer: the employed
+ * researcher with the highest training skill, unless one is named. The lead
+ * adds checkpoint strength in proportion to that skill (+6 at 5/5). Nothing
+ * used to send a lead, so the bonus could never be earned.
+ */
+export function trainingTechnicalLead(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+  requestedId?: ResearcherId,
+): TrainingTechnicalLead | undefined {
+  const lab = requireLab(state, labId);
+  const candidates = lab.roster.researcherIds
+    .filter((id) => requestedId === undefined || id === requestedId)
+    .flatMap((id) => {
+      const researcher = state.researchers[id];
+      const definition =
+        researcher === undefined
+          ? undefined
+          : content.researchers.definitions[researcher.definitionId];
+      if (
+        researcher === undefined ||
+        definition === undefined ||
+        researcher.status !== "employed" ||
+        researcher.employerLabId !== labId
+      ) {
+        return [];
+      }
+      const trainingSkill = definition.skills["training"] ?? 0;
+      return trainingSkill > 0
+        ? [{ researcherId: id, displayName: definition.displayName, trainingSkill }]
+        : [];
+    })
+    .sort(
+      (left, right) =>
+        right.trainingSkill - left.trainingSkill ||
+        (left.researcherId < right.researcherId ? -1 : 1),
+    );
+  const lead = candidates[0];
+  return lead === undefined
+    ? undefined
+    : { ...lead, checkpointBonus: technicalLeadBonus(lead.trainingSkill) };
+}
 
 export function trainingCheckpointOdds(options: {
   readonly complexity: number;
   readonly postureDifficultyDelta: number;
   readonly interruption: number;
   readonly reliability: number;
-  readonly hasTechnicalLead: boolean;
+  readonly technicalLeadBonus: number;
   readonly risk: TrainingRiskAdjustment;
   readonly hazardMultiplier: number;
   readonly recoveryActive: boolean;
 }): TrainingCheckpointOdds {
   const strength =
     CHECKPOINT_BASE_STRENGTH +
-    (options.hasTechnicalLead ? CHECKPOINT_TECHNICAL_LEAD_BONUS : 0) +
+    options.technicalLeadBonus +
     options.risk.experienceStrength +
     options.risk.capabilityStrength;
   const difficulty =
@@ -1431,7 +1497,16 @@ function runFailureCheck(
       campaignCheckpointDifficultyReduction(payload.campaignMaturityStageAtAuthorisation),
     interruption: operational.unmetFraction * 40,
     reliability: operational.reliability,
-    hasTechnicalLead: project.assignedResearcherIds.length > 0,
+    // The lead named at authorisation, while they still work here.
+    technicalLeadBonus:
+      project.assignedResearcherIds[0] === undefined
+        ? 0
+        : (trainingTechnicalLead(
+            state,
+            content,
+            project.ownerLabId,
+            project.assignedResearcherIds[0],
+          )?.checkpointBonus ?? 0),
     risk,
     hazardMultiplier: failureHazardMultiplier,
     recoveryActive,

@@ -17,6 +17,7 @@ import type { GameState } from "../../model/state.ts";
 import { rating } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import {
+  CHECKPOINT_TECHNICAL_LEAD_BONUS,
   classifyTrainingRun,
   forecastTrainingIntrinsicSafety,
   quoteTrainingRun,
@@ -73,6 +74,36 @@ function committedTeraflopsForEraGpuWeeks(
     eraReferenceTeraflops(state, content) / content.training.eraReferencePhysicalGpus;
   return (eraGpuWeeks / durationWeeks) * eraGpuTeraflops;
 }
+
+describe("the training technical lead", () => {
+  it("puts the best training engineer on every run and credits their skill", () => {
+    const base = newState();
+    expect(quote(base).technicalLead).toBeUndefined();
+
+    const draft = structuredClone(base) as DeepMutable<GameState>;
+    const lab = draft.labs[draft.run.playerLabId];
+    const researcher = Object.values(draft.researchers).find(
+      (candidate) =>
+        (content.researchers.definitions[candidate.definitionId]?.skills["training"] ??
+          0) === 5,
+    );
+    if (lab === undefined || researcher === undefined) {
+      throw new Error("training-lead fixture missing");
+    }
+    researcher.status = "employed";
+    researcher.employerLabId = lab.id;
+    lab.roster.researcherIds.push(researcher.id);
+    const led = quote(draft);
+    expect(led.technicalLead).toMatchObject({
+      researcherId: researcher.id,
+      trainingSkill: 5,
+      checkpointBonus: CHECKPOINT_TECHNICAL_LEAD_BONUS,
+    });
+    expect(led.reliability.passProbability).toBeGreaterThan(
+      quote(base).reliability.passProbability,
+    );
+  });
+});
 
 describe("the training reliability forecast", () => {
   it("leaves the verified-retirement efficiency grant unused by Prototype runs", () => {
@@ -297,7 +328,7 @@ describe("the training reliability forecast", () => {
       postureDifficultyDelta: 0,
       interruption: 0,
       reliability: 100,
-      hasTechnicalLead: false,
+      technicalLeadBonus: 0,
       risk: {
         stretchDifficulty: 0,
         durationDifficulty: 0,
@@ -312,7 +343,7 @@ describe("the training reliability forecast", () => {
       postureDifficultyDelta: 0,
       interruption: 0,
       reliability: 100,
-      hasTechnicalLead: false,
+      technicalLeadBonus: 0,
       risk: {
         stretchDifficulty: 0,
         durationDifficulty: 0,
@@ -344,7 +375,7 @@ describe("the training reliability forecast", () => {
       postureDifficultyDelta: -12,
       interruption: 0,
       reliability: 100,
-      hasTechnicalLead: true,
+      technicalLeadBonus: CHECKPOINT_TECHNICAL_LEAD_BONUS,
       risk: {
         stretchDifficulty: 0,
         durationDifficulty: 0,

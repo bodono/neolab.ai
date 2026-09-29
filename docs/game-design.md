@@ -2099,7 +2099,9 @@ A training run requires:
 - A parent architecture or valid architecture discovery
 - A training-capable compute pool
 - At least one free project slot
-- A technical lead, who may be a star researcher or an abstract senior team
+- A technical lead: the employed researcher with the best training skill leads automatically,
+  adding checkpoint strength in proportion to that skill (+6 at 5/5); without one the run has no
+  lead bonus
 - Cash for power and operations
 - A **FLOPS commitment**, a **duration**, and a **run posture**
 

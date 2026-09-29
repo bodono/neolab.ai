@@ -1158,7 +1158,7 @@ export function acceptFundingOffer(
       if (previousOfficial !== undefined && cappedMark < previousOfficial) {
         draft.decisionLog.push({
           tick: draft.run.tick,
-          summary: `A down round: the lab is now marked below its previous valuation. Investor trust took the difference personally.`,
+          summary: `A down round: the lab is now marked below its previous valuation. Existing investors took the difference personally.`,
           category: "narrative",
           source: { kind: "system", id: `valuation:down-round:${offerId}` },
         });
