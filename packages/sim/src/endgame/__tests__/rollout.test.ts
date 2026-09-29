@@ -12,7 +12,7 @@ import { createNewGame, type NewGameConfig } from "../../engine/create-new-game.
 import type { DeepMutable } from "../../engine/draft.ts";
 import { createTransaction } from "../../engine/transaction.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
-import type { GameState, ModelState } from "../../model/state.ts";
+import type { GameState, ModelState, ProsperityProgrammeId } from "../../model/state.ts";
 import { cashMillions, fraction, rating } from "../../model/units.ts";
 import { RandomOracleV1 } from "../../random/oracle.ts";
 import { seed128 } from "../../random/seed.ts";
@@ -275,6 +275,47 @@ describe("deployment rollout", () => {
         },
       ],
     });
+  });
+
+  it("scores final-review route cards for the programme the command will use", () => {
+    const { state } = reachFinalReview();
+    const view = projectEndgameView(state, content, {
+      viewerLabId: state.run.playerLabId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    });
+    if (!view.active || view.stageActions.kind !== "final-review") {
+      throw new Error("Final review not projected");
+    }
+    const actions = view.stageActions;
+    const unlocked = actions.prosperityProgrammes.filter(
+      (programme) => programme.unlocked,
+    );
+    expect(unlocked.length).toBeGreaterThan(1);
+    for (const programme of unlocked) {
+      const routes = actions.deploymentModesByProgramme[programme.id] ?? [];
+      const mission = routes.find((route) => route.id === "narrow-prosperity-mission");
+      expect(mission?.fitExplanation).toContain(programme.shortName.toLowerCase());
+      for (const route of routes) {
+        const validation = validateCommand(
+          state,
+          content,
+          command(state, {
+            kind: "choose-deployment-mode",
+            modeId: route.id as "deploy-now",
+            prosperityProgrammeId: programme.id as ProsperityProgrammeId,
+            ...(route.confirmationPhrase === undefined
+              ? {}
+              : { confirmationText: route.confirmationPhrase }),
+          }),
+        );
+        expect({ programme: programme.id, route: route.id, ok: validation.ok }).toEqual({
+          programme: programme.id,
+          route: route.id,
+          ok: route.available,
+        });
+      }
+    }
   });
 
   it("advances a prepared route through its visible mid-rollout decisions", () => {

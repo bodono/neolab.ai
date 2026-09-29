@@ -488,32 +488,38 @@ export type CrisisStageActionsView =
         }[];
         readonly candidateStatement: string;
       };
-      readonly deploymentModes: readonly {
-        readonly id: string;
-        readonly displayName: string;
-        readonly description: string;
-        readonly accessLevel: number;
-        readonly rolloutWeeks: number;
-        readonly auraCost: number;
-        readonly exposureBand: "lowest" | "lower" | "balanced" | "high" | "highest";
-        readonly fitGrade: "Prepared" | "Credible" | "Strained" | "Reckless";
-        readonly fitScore: number;
-        readonly fitExplanation: string;
-        readonly reliesOn: readonly string[];
-        readonly principalBenefit: string;
-        readonly limitation: string;
-        readonly scopeCap: string;
-        readonly available: boolean;
-        readonly blockers: readonly string[];
-        readonly operationalControl?: {
-          readonly required: number;
-          readonly current: number;
-          readonly practicalControls: number;
-          readonly research: number;
-          readonly crisisEvidence: number;
-        };
-        readonly confirmationPhrase?: string;
-      }[];
+      /** Route cards scored for each programme; the command uses the same programme. */
+      readonly deploymentModesByProgramme: Readonly<
+        Record<
+          string,
+          readonly {
+            readonly id: string;
+            readonly displayName: string;
+            readonly description: string;
+            readonly accessLevel: number;
+            readonly rolloutWeeks: number;
+            readonly auraCost: number;
+            readonly exposureBand: "lowest" | "lower" | "balanced" | "high" | "highest";
+            readonly fitGrade: "Prepared" | "Credible" | "Strained" | "Reckless";
+            readonly fitScore: number;
+            readonly fitExplanation: string;
+            readonly reliesOn: readonly string[];
+            readonly principalBenefit: string;
+            readonly limitation: string;
+            readonly scopeCap: string;
+            readonly available: boolean;
+            readonly blockers: readonly string[];
+            readonly operationalControl?: {
+              readonly required: number;
+              readonly current: number;
+              readonly practicalControls: number;
+              readonly research: number;
+              readonly crisisEvidence: number;
+            };
+            readonly confirmationPhrase?: string;
+          }[]
+        >
+      >;
       readonly prosperityProgrammes: readonly {
         readonly id: string;
         readonly displayName: string;
@@ -1363,62 +1369,70 @@ function stageActions(
           })),
           candidateStatement: review.report.candidateStatement,
         },
-        deploymentModes: deploymentStrategies(
-          state,
-          content,
-          review.candidateModelId,
-        ).map((strategy) => {
-          const rule = deploymentModeRule(strategy.id);
-          const quote = quoteDeploymentMode(
-            state,
-            strategy.id,
-            undefined,
-            recommended.readiness,
-            recommended.id,
-          );
-          const confirmationBlockers = quote.blockers.filter(
-            (blocker) => !blocker.startsWith("Type “"),
-          );
-          const blockers = [...new Set([...strategy.blockers, ...confirmationBlockers])];
-          return {
-            id: strategy.id,
-            displayName: strategy.displayName,
-            description: strategy.description,
-            accessLevel: strategy.requiredAccess,
-            rolloutWeeks: strategy.durationWeeks,
-            auraCost: rule.auraCost,
-            exposureBand:
-              strategy.requiredAccess <= 1
-                ? ("lowest" as const)
-                : strategy.requiredAccess === 2
-                  ? ("lower" as const)
-                  : strategy.requiredAccess === 3
-                    ? ("balanced" as const)
-                    : strategy.requiredAccess === 4
-                      ? ("high" as const)
-                      : ("highest" as const),
-            fitGrade: strategy.fitGrade,
-            fitScore: strategy.fitScore,
-            fitExplanation: strategy.fitExplanation,
-            reliesOn: [...strategy.reliesOn],
-            principalBenefit: strategy.principalBenefit,
-            limitation: strategy.limitation,
-            scopeCap: strategy.scopeCap,
-            available: blockers.length === 0,
-            blockers,
-            ...(rule.minimumOperationalControl === undefined
-              ? {}
-              : {
-                  operationalControl: {
-                    required: rule.minimumOperationalControl,
-                    ...operationalControl,
-                  },
-                }),
-            ...(quote.confirmationPhrase === undefined
-              ? {}
-              : { confirmationPhrase: quote.confirmationPhrase }),
-          };
-        }),
+        deploymentModesByProgramme: Object.fromEntries(
+          programmes.map((programme) => [
+            programme.id,
+            deploymentStrategies(
+              state,
+              content,
+              review.candidateModelId,
+              programme.id,
+            ).map((strategy) => {
+              const rule = deploymentModeRule(strategy.id);
+              const quote = quoteDeploymentMode(
+                state,
+                strategy.id,
+                undefined,
+                programme.readiness,
+                programme.id,
+              );
+              const confirmationBlockers = quote.blockers.filter(
+                (blocker) => !blocker.startsWith("Type “"),
+              );
+              const blockers = [
+                ...new Set([...strategy.blockers, ...confirmationBlockers]),
+              ];
+              return {
+                id: strategy.id,
+                displayName: strategy.displayName,
+                description: strategy.description,
+                accessLevel: strategy.requiredAccess,
+                rolloutWeeks: strategy.durationWeeks,
+                auraCost: rule.auraCost,
+                exposureBand:
+                  strategy.requiredAccess <= 1
+                    ? ("lowest" as const)
+                    : strategy.requiredAccess === 2
+                      ? ("lower" as const)
+                      : strategy.requiredAccess === 3
+                        ? ("balanced" as const)
+                        : strategy.requiredAccess === 4
+                          ? ("high" as const)
+                          : ("highest" as const),
+                fitGrade: strategy.fitGrade,
+                fitScore: strategy.fitScore,
+                fitExplanation: strategy.fitExplanation,
+                reliesOn: [...strategy.reliesOn],
+                principalBenefit: strategy.principalBenefit,
+                limitation: strategy.limitation,
+                scopeCap: strategy.scopeCap,
+                available: blockers.length === 0,
+                blockers,
+                ...(rule.minimumOperationalControl === undefined
+                  ? {}
+                  : {
+                      operationalControl: {
+                        required: rule.minimumOperationalControl,
+                        ...operationalControl,
+                      },
+                    }),
+                ...(quote.confirmationPhrase === undefined
+                  ? {}
+                  : { confirmationPhrase: quote.confirmationPhrase }),
+              };
+            }),
+          ]),
+        ),
         prosperityProgrammes: programmes.map((programme) => ({
           id: programme.id,
           displayName: programme.displayName,

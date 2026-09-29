@@ -49,10 +49,12 @@ type CandidateDossier = Extract<
   { readonly kind: "evidence-sprint" }
 >["dossier"];
 type ProofCombination = ProofActions["combinations"][number];
-type RouteAction = Extract<
-  StageActions,
-  { readonly kind: "final-review" }
->["deploymentModes"][number];
+type RouteAction = NonNullable<
+  Extract<
+    StageActions,
+    { readonly kind: "final-review" }
+  >["deploymentModesByProgramme"][string]
+>[number];
 type RolloutAction = Extract<StageActions, { readonly kind: "rollout" }>;
 
 const ROLLOUT_BEATS = [
@@ -898,7 +900,7 @@ function FinalReview({
             </div>
           </fieldset>
           <div className="deployment-strategy-grid">
-            {actions.deploymentModes
+            {(actions.deploymentModesByProgramme[selectedProgrammeId] ?? [])
               .filter((route) => route.id !== "deploy-now")
               .map((route) => (
                 <article
