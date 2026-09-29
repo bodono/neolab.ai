@@ -9,8 +9,9 @@
  *   round; x1.025, x1.08 and x0.968 are not. A value that is already written
  *   as the exact reciprocal of a round multiplier (x0.952381 undoes x1.05) is
  *   accepted as it stands, but rounding never produces one.
- * - An additive effect is round when it is a whole number below 10 in
- *   magnitude, or a multiple of 5 from 10 upwards.
+ * - An additive effect is round when it is a whole number below 5 in
+ *   magnitude, or a multiple of 5 from 5 upwards: +3 and +10 are round, +8 is
+ *   not ("8 feels like we optimized it but we didn't").
  */
 export type RoundedEffectOperation = "add" | "multiply";
 
@@ -18,7 +19,7 @@ export type RoundedEffectOperation = "add" | "multiply";
 export const ROUND_PERCENTAGE_STEP = 5;
 /** Additive step once a value reaches `ROUND_ADDITIVE_COARSE_FROM` in magnitude. */
 export const ROUND_ADDITIVE_COARSE_STEP = 5;
-export const ROUND_ADDITIVE_COARSE_FROM = 10;
+export const ROUND_ADDITIVE_COARSE_FROM = 5;
 
 const QUOTIENT_TOLERANCE = 1e-6;
 const RECIPROCAL_TOLERANCE = 1e-6;

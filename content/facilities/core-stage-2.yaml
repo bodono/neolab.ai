@@ -357,7 +357,7 @@ facilities:
     campusModule: eval-range-yard
     summary: A controlled proving ground where models are asked, repeatedly and with instrumentation, to misbehave on purpose.
     modifiers:
-      - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+      - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
       - { target: lab.evaluation.cashCost, operation: multiply, value: 0.9 }
 
 

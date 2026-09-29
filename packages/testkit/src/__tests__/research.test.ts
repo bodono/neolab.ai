@@ -162,6 +162,7 @@ describe("research content", () => {
       "base:domain.robotics-embodiment/simulation-farm",
       "base:domain.scientific-ai/reproducibility-desk",
       "base:safety.alignment-control/control-drills",
+      "base:safety.interpretability-evals/interpretability-atlas",
       "base:safety.security-containment/least-privilege",
     ]);
   });

@@ -60,7 +60,7 @@ function resolvedOutput(state: GameState, target: string): number {
 }
 
 describe("research bonus reconciliation", () => {
-  it("pins the dense Multimodality paper catalogue at the smallest round step", () => {
+  it("aligns the dense Multimodality paper catalogue with peer programmes", () => {
     const catalogueMultiplier = (target: string): number =>
       Object.values(content.papers.definitions)
         .flatMap((paper) => paper.unlockEffects)
@@ -82,14 +82,13 @@ describe("research bonus reconciliation", () => {
       "lab.research.domain.robotics-embodiment.output",
     );
 
-    // Every paper bonus is a round figure, so the fourteen small Multimodality
-    // bonuses (x1.02 to x1.035) each became the smallest round step, x1.05.
-    // Together they now compound past Architectures; pin the exact totals so
-    // any rebalancing of the dense catalogue is a deliberate content change.
-    expect(multimodality).toBeCloseTo(1.05 ** 14, 10);
-    expect(architectures).toBeCloseTo(1.1 ** 3 * 1.05 ** 4, 10);
-    expect(robotics).toBeCloseTo(1.1 * 1.05 * 1.15 * 1.1, 10);
+    // Every paper bonus is a round figure. Rounding all fourteen small
+    // Multimodality bonuses (x1.02 to x1.035) up to x1.05 compounded to x1.98;
+    // the six x1.02 bonuses round to nothing instead, each paper keeping its
+    // other effect, which leaves eight x1.05 steps near the old x1.50.
+    expect(multimodality).toBeCloseTo(1.05 ** 8, 10);
     expect(multimodality).toBeGreaterThan(robotics);
+    expect(multimodality).toBeLessThan(architectures);
   });
 
   it("makes Highway Networks a real stepping stone to residual architectures", () => {

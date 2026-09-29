@@ -909,10 +909,11 @@ describe("round player-facing values", () => {
     expect(isRoundEffectValue("multiply", 0.953)).toBe(false);
     expect(nearestRoundEffectValue("multiply", 0.953)).toBe(0.95);
 
-    for (const value of [0, 1, -3, 8, 9, 10, -15, 25, 200]) {
+    for (const value of [0, 1, -3, 4, 5, -5, 10, -15, 25, 200]) {
       expect(isRoundEffectValue("add", value), String(value)).toBe(true);
     }
-    for (const value of [0.25, 2.5, -0.4, 12, -32, 14, 18]) {
+    // "8 feels like we optimized it but we didn't": from 5 up, steps of 5.
+    for (const value of [0.25, 2.5, -0.4, 6, -7, 8, 9, 12, -32, 14, 18]) {
       expect(isRoundEffectValue("add", value), String(value)).toBe(false);
     }
   });
@@ -936,6 +937,9 @@ describe("round player-facing values", () => {
       ["add", -32, -30],
       ["add", 2.25, 2],
       ["add", 9.6, 10],
+      ["add", 8, 10],
+      ["add", -6, -5],
+      ["add", 7, 5],
       ["add", 0.25, 1],
       ["add", -0.4, -1],
     ];
@@ -947,7 +951,7 @@ describe("round player-facing values", () => {
       expect(isRoundEffectValue(operation, expected)).toBe(true);
     }
     expect(nearestRoundEffectValue("multiply", 1.05)).toBe(1.05);
-    expect(nearestRoundEffectValue("add", 7)).toBe(7);
+    expect(nearestRoundEffectValue("add", 3)).toBe(3);
   });
 
   it("finds every non-round bonus with its file, entity, and target", () => {

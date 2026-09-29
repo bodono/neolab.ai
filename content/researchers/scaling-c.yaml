@@ -40,7 +40,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     passive:
       id: ability.standardised-cross-provider-benchmarking
       label: Standardised Cross-Provider Benchmarking
@@ -599,7 +599,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     passive:
       id: ability.high-stakes-decision-credibility
       label: High-Stakes Decision Credibility
@@ -950,7 +950,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6}
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5}
     passive:
       id: ability.open-understanding-tooling
       label: Open Understanding Tooling

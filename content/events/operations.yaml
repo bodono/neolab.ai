@@ -44,7 +44,7 @@ events:
         labelKey: event.finance.runway.raise.label
         requirements: { type: always }
         knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -8 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
         previewKey: event.finance.runway.raise.preview
         immediateEffects: []
         checks:

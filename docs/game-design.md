@@ -1294,7 +1294,7 @@ Difficulty changes inputs and rival behaviour, never hidden truth after a choice
 
 | Setting | Player economy | Rival progress | Incident pressure | Information quality | Intended audience |
 |---|---:|---:|---:|---:|---|
-| Fellowship | +20% revenue, −15% fixed cost | 0.70× | 0.75× non-endgame hazard | +8 displayed estimate quality | Learning the systems |
+| Fellowship | +20% revenue, −15% fixed cost | 0.70× | 0.75× non-endgame hazard | +10 displayed estimate quality | Learning the systems |
 | Standard | 1.00× | 1.00× | 1.00× | Baseline | Intended first serious run |
 | Frontier | −10% revenue | 1.10× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
 | Unhinged Scaling | −15% revenue | 1.25× | 1.30× | Baseline, but wider event variance | Deliberately unfair satire mode |

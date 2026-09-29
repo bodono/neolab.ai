@@ -34,7 +34,7 @@ events:
         knownCosts: []
         previewKey: event.safety.anomaly.halt.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 39, tags: [anomaly-investigation] }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [anomaly-investigation] }
@@ -82,7 +82,7 @@ events:
         knownCosts: []
         previewKey: event.safety.anomaly.ship.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [shipped-anyway] }
         checks: []
         memories:
@@ -128,11 +128,11 @@ events:
         labelKey: event.safety.disclosure.full.label
         requirements: { type: always }
         knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -6 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
         previewKey: event.safety.disclosure.full.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
         checks: []
         memories:
@@ -159,7 +159,7 @@ events:
         knownCosts: []
         previewKey: event.safety.disclosure.bury.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
         checks:
           - id: containment
             likelihoodPromise: { label: likely, successOutcomeIds: [held] }
@@ -223,7 +223,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.safety.review.fund.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 4 }
         checks: []
         memories:

@@ -37,7 +37,7 @@ researchers:
       rampWeeks: 5
       effects:
         - { target: domain.reasoning-tools.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     passive:
       id: ability.calibrated-timeline
       label: Calibrated Timeline

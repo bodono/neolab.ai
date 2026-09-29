@@ -387,7 +387,7 @@ describe("Deployment Crisis candidate lifecycle", () => {
       Math.max(0, (rapidLabBefore?.safety.safetyCulture ?? 0) - 10),
     );
     expect(rapidLab?.organisation.hiddenInternalCandour).toBe(
-      Math.max(0, (rapidLabBefore?.organisation.hiddenInternalCandour ?? 0) - 8),
+      Math.max(0, (rapidLabBefore?.organisation.hiddenInternalCandour ?? 0) - 10),
     );
     expect(
       quoteCapabilityProofProject(
@@ -412,7 +412,7 @@ describe("Deployment Crisis candidate lifecycle", () => {
       Math.min(100, (quietLabBefore?.safety.evalQuality ?? 0) + 15),
     );
     expect(quietLab?.organisation.hiddenInternalCandour).toBe(
-      Math.min(100, (quietLabBefore?.organisation.hiddenInternalCandour ?? 0) + 6),
+      Math.min(100, (quietLabBefore?.organisation.hiddenInternalCandour ?? 0) + 5),
     );
     expect(
       quoteCapabilityProofProject(

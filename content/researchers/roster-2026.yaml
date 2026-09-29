@@ -190,7 +190,7 @@ researchers:
       id: ability.causal-evidence-discipline
       label: Causal Evidence Discipline
       effects:
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     compact:
       id: compact.intervene-dont-merely-predict
       label: Intervene, Don't Merely Predict
@@ -549,7 +549,7 @@ researchers:
       id: ability.calibrated-probabilistic-review
       label: Calibrated Probabilistic Review
       effects:
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     compact:
       id: compact.show-the-calibration
       label: Show the Calibration

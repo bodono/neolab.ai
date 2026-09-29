@@ -44,7 +44,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
         previewKey: event.government.reporting.comply.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 7 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -3 }
         checks: []
         memories:
@@ -72,8 +72,8 @@ events:
         knownCosts: []
         previewKey: event.government.reporting.stall.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -8 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
         checks: []
         memories:
           - key: government.reporting.stalled
@@ -114,7 +114,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -4 }
         previewKey: event.government.incidentfile.full.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 4 }
         checks: []
         memories:
@@ -143,7 +143,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
         previewKey: event.government.incidentfile.contest.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -7 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -4 }
         checks: []
         memories:
@@ -215,8 +215,8 @@ events:
         knownCosts: []
         previewKey: event.government.autonomyreview.secret.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -9 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
         checks: []
         memories:
           - key: government.autonomyreview.refused
@@ -327,7 +327,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -6 }
         previewKey: event.government.licensing.accept.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.10, durationWeeks: 104, tags: [licensing-compliance] }
         checks: []
         memories:
@@ -374,7 +374,7 @@ events:
         previewKey: event.government.licensing.stall.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
         checks: []
         memories:
           - key: government.licensing.refused
@@ -414,7 +414,7 @@ events:
         previewKey: event.government.restriction.comply.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 15 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -10 }
           - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.5, durationWeeks: 52, tags: [deployment-restriction, complied] }
           - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.25, durationWeeks: 52, tags: [deployment-restriction, complied] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.6, durationWeeks: 52, tags: [deployment-restriction, complied] }
@@ -431,8 +431,8 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -20 }
         previewKey: event.government.restriction.carveout.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -6 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
         checks:
           - id: carve-out-talks
             likelihoodPromise: { label: unlikely, successOutcomeIds: [granted] }
@@ -442,7 +442,7 @@ events:
                 maximumExclusive: 0.3
                 effects:
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -6 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -5 }
                   - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.8, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
                   - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.1, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
                   - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.85, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
@@ -474,7 +474,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -25 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -30 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 30 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.6, durationWeeks: 52, tags: [deployment-restriction, defied] }
         checks: []
         memories:
@@ -517,7 +517,7 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, tags: [state-oversight] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.8, tags: [state-oversight] }
         checks: []
@@ -533,7 +533,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
         previewKey: event.government.nationalisation.goldenshare.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }

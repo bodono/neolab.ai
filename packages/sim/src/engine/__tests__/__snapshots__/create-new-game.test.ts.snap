@@ -3985,7 +3985,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.evidence.displayedQuality",
-      "value": 8,
+      "value": 10,
     },
     "run:modifier:setup:0006": {
       "id": "run:modifier:setup:0006",

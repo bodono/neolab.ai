@@ -176,7 +176,7 @@ researchers:
       id: ability.forecastable-returns
       label: Forecastable Returns
       effects:
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6}
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5}
     compact:
       id: compact.capability-and-safety-together
       label: Capability and Safety Together
@@ -516,7 +516,7 @@ researchers:
       rampWeeks: 4
       effects:
         - { target: safety.interpretability-evals.researchOutput, operation: multiply, value: 1.05, stackingGroup: programme-rp }
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6 }
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5 }
     passive:
       id: ability.legible-to-non-specialists
       label: Legible to Non-Specialists

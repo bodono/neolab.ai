@@ -93,7 +93,7 @@ difficulties:
     fixedCostMultiplier: 0.85
     rivalProgressMultiplier: 0.70
     incidentPressureMultiplier: 0.75
-    displayedEstimateQualityBonus: 8
+    displayedEstimateQualityBonus: 10
   - id: difficulty.standard
     displayName: Standard
     revenueMultiplier: 1.00

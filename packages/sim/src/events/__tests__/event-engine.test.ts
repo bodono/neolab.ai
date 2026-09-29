@@ -210,7 +210,7 @@ describe("event eligibility and opportunity selection", () => {
         expect.objectContaining({
           kind: "add-rating",
           rating: "safetyCulture",
-          amount: 6,
+          amount: 5,
         }),
         expect.objectContaining({
           kind: "add-rating",
@@ -251,7 +251,7 @@ describe("event eligibility and opportunity selection", () => {
       expect.objectContaining({
         kind: "add-rating",
         rating: "governmentTrust",
-        amount: 6,
+        amount: 5,
       }),
     );
     const standardsMemory = standards.memories.find(
@@ -289,7 +289,7 @@ describe("event eligibility and opportunity selection", () => {
         expect.objectContaining({
           kind: "add-rating",
           rating: "governmentTrust",
-          amount: -8,
+          amount: -10,
         }),
         expect.objectContaining({
           kind: "add-modifier",

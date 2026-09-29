@@ -114,7 +114,7 @@ researchers:
       id: ability.competition-grade-problem-solving
       label: Competition-Grade Problem-Solving
       effects:
-        - { target: lab.evidence.displayedQuality, operation: add, value: 6}
+        - { target: lab.evidence.displayedQuality, operation: add, value: 5}
     compact:
       id: compact.sustained-rigour-over-flashes-of-genius
       label: Sustained Rigour Over Flashes of Genius

@@ -36,7 +36,7 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 20 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 10 }
         checks: []
         memories:
           - key: endgame.candidate.notified
@@ -50,7 +50,7 @@ events:
         previewKey: event.endgame.candidate.quiet.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 15 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
         checks: []
         memories:
           - key: endgame.candidate.quiet
@@ -64,7 +64,7 @@ events:
         previewKey: event.endgame.candidate.rapid.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
         checks: []
         memories:
           - key: endgame.candidate.rapid-push
@@ -101,7 +101,7 @@ events:
         knownCosts: []
         previewKey: event.rival.candidate.hold.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
         checks: []
         memories:
@@ -131,7 +131,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
         previewKey: event.rival.candidate.standards.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
         checks:
           - id: standards-response
             likelihoodPromise: { label: uncertain, successOutcomeIds: [adopted] }
@@ -141,7 +141,7 @@ events:
                 maximumExclusive: 0.45
                 effects:
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -8 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -10 }
                 memories:
                   - key: rival.candidate.standards-adopted
                     subjects: [{ type: player-lab }]

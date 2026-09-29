@@ -54,7 +54,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2000 }
         previewKey: event.autonomy.experiments.sandbox.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.9, durationWeeks: 26, tags: [autonomy-containment] }
         checks: []
         memories:
@@ -113,9 +113,9 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -15 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 10 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.5, durationWeeks: 52, tags: [autonomy-containment, package-boundary-rebuild] }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.9, durationWeeks: 26, tags: [package-boundary-rebuild, research-disruption] }
         checks: []
@@ -134,8 +134,8 @@ events:
           # Nobody outside hears, so nothing public moves: no Aura, no trust,
           # no attention. What it costs is internal — a lab that buries this
           # has told its own people which findings are inconvenient.
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 6 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.25, durationWeeks: 26, tags: [autonomy-containment, residual-egress-risk] }
         checks: []
         memories:
@@ -154,8 +154,8 @@ events:
           # stays open by design, and a model operating outside its sandbox with
           # the lab's blessing is a model the lab controls less.
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -8 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -5 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.25, durationWeeks: 26, tags: [autonomy-permissive, stolen-rival-research] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 2, durationWeeks: 52, tags: [autonomy-permissive, open-egress] }
         checks: []
@@ -198,7 +198,7 @@ events:
         previewKey: event.autonomy.exfiltration.sever.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 10 }
         checks: []
         memories:
           - key: autonomy.exfiltration.rolled-back
@@ -350,9 +350,9 @@ events:
         previewKey: event.autonomy.egress.disclose.preview
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -30, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -30 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -8 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 6 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
           - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.65, durationWeeks: 52, tags: [egress-fallout, disclosed] }
         checks: []
         memories:

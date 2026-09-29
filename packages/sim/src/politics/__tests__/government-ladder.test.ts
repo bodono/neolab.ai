@@ -208,7 +208,7 @@ describe("shipped government ladder", () => {
     const resolvedLab = resolved.labs[resolved.run.playerLabId];
 
     expect(resolvedLab?.politics.governmentTrust).toBe(75);
-    expect(resolvedLab?.politics.governmentAttention).toBe(32);
+    expect(resolvedLab?.politics.governmentAttention).toBe(30);
     expect(resolveModifierValue(resolved, "lab.market.acquisitionRate", 1).final).toBe(
       0.5,
     );
@@ -244,7 +244,7 @@ describe("shipped government ladder", () => {
     expect(resolvedLab?.aura.spendable).toBe(75);
     expect(resolvedLab?.politics.governmentTrust).toBe(30);
     expect(resolvedLab?.politics.governmentAttention).toBe(70);
-    expect(resolvedLab?.organisation.hiddenInternalCandour).toBe(62);
+    expect(resolvedLab?.organisation.hiddenInternalCandour).toBe(60);
     expect(resolveModifierValue(resolved, "lab.incident.hazard", 1).final).toBe(1.6);
   });
 
@@ -315,12 +315,12 @@ describe("shipped government ladder", () => {
         expect.objectContaining({
           kind: "add-rating",
           rating: "governmentTrust",
-          amount: -6,
+          amount: -5,
         }),
         expect.objectContaining({
           kind: "add-rating",
           rating: "governmentAttention",
-          amount: 8,
+          amount: 10,
         }),
       ]),
     );
