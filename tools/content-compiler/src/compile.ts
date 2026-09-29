@@ -1413,14 +1413,20 @@ export function compileContent(repoRoot: string): CompileResult {
       product: { scale: "product", displayName: "Product", complexity: 28 },
       frontier: { scale: "frontier", displayName: "Frontier", complexity: 48 },
     },
+    // Optimisation and Scaling fed no attribute, so it counted for 0% of
+    // Frontier Capability while Reasoning and Tool Use counted for 45%. Scaling
+    // work now feeds language and reasoning, as it does for real models:
+    // Reasoning 39%, Architectures 15%, Optimisation 9%.
     capabilityDomainWeights: {
       language: {
-        "base:domain.reasoning-tools": 0.6,
-        "base:domain.architectures": 0.4,
+        "base:domain.reasoning-tools": 0.4,
+        "base:domain.architectures": 0.35,
+        "base:domain.optimisation-scaling": 0.25,
       },
       reasoning: {
-        "base:domain.reasoning-tools": 0.65,
-        "base:domain.architectures": 0.35,
+        "base:domain.reasoning-tools": 0.55,
+        "base:domain.architectures": 0.3,
+        "base:domain.optimisation-scaling": 0.15,
       },
       agency: {
         "base:domain.reinforcement-agency": 0.7,
