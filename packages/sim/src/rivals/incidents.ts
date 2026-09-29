@@ -4,7 +4,7 @@ import type {
   RivalIncidentConsequence,
   RivalIncidentSeverity,
 } from "../model/state.ts";
-import { fraction, rating, tick } from "../model/units.ts";
+import { fraction, gpuCount, rating, tick } from "../model/units.ts";
 import { applyEffect } from "../engine/effect-executor.ts";
 import type { SimulationTransaction } from "../engine/transaction.ts";
 import { randomKey } from "../random/key.ts";
@@ -138,13 +138,17 @@ function applyConsequence(
 ): void {
   switch (consequence) {
     case "major-delay":
+      // Scaling paper progress, which nothing reads any more, did nothing.
+      // A delay now loses 35% of the in-progress research in every programme.
       tx.update((draft) => {
         const lab = draft.labs[labId];
         const strategy = draft.world.rivals[labId];
         if (lab === undefined || strategy === undefined) return;
-        for (const paperId of Object.keys(lab.research.paperProgress)) {
-          lab.research.paperProgress[paperId] =
-            (lab.research.paperProgress[paperId] ?? 0) * 0.65;
+        for (const programme of [
+          ...Object.values(lab.research.domains),
+          ...Object.values(lab.research.safetyPrograms),
+        ]) {
+          programme.levelProgressRp *= 0.65;
         }
         strategy.planEndsAt = tick(strategy.planEndsAt + 4);
       });
@@ -181,8 +185,13 @@ function applyConsequence(
               right.physicalCount * right.availableFraction -
               left.physicalCount * left.availableFraction,
           )[0];
+        // Half the lot is destroyed outright, so the rival's fleet policy
+        // re-buys it over the following months. Halving its availability
+        // instead was permanent and invisible to the fleet target.
         if (largest !== undefined) {
-          largest.availableFraction = fraction(largest.availableFraction * 0.5);
+          largest.physicalCount = gpuCount(
+            Math.floor(largest.physicalCount / 2 / 1_000) * 1_000,
+          );
         }
       });
       return;
@@ -214,8 +223,9 @@ function applyConsequence(
         const lab = draft.labs[labId];
         if (lab === undefined) return;
         lab.market.marketShare = fraction(lab.market.marketShare * 0.7);
+        // Satisfaction scales demand, so this is the lasting market hit;
+        // desired usage is recomputed at every settlement.
         for (const segment of Object.values(lab.market.segments)) {
-          segment.desiredUsagePerCycle *= 0.7;
           segment.satisfaction = rating(Math.max(0, segment.satisfaction - 15));
         }
       });
@@ -236,12 +246,11 @@ function applyConsequence(
       return;
     case "shared-restrictions":
       tx.update((draft) => {
+        // Restrictions make every lab's customers more cautious. Satisfaction
+        // is what scales demand; the old restriction flag was never read.
         for (const participant of Object.values(draft.labs)) {
-          participant.flags["world:shared-restrictions-until"] = tick(
-            draft.run.tick + 13,
-          );
           for (const segment of Object.values(participant.market.segments)) {
-            segment.desiredUsagePerCycle *= 0.9;
+            segment.satisfaction = rating(Math.max(0, segment.satisfaction - 10));
           }
         }
       });

@@ -18,8 +18,8 @@ import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import { validateGameState } from "../../model/schema.ts";
 import { calendarFromTick, type GameState } from "../../model/state.ts";
 import { cashMillions, rating, tick } from "../../model/units.ts";
-import { randomKey } from "../../random/key.ts";
-import { RandomOracleV1 } from "../../random/oracle.ts";
+import { randomKey, type RandomKey } from "../../random/key.ts";
+import { RandomOracleV1, type RandomOracle } from "../../random/oracle.ts";
 import { seed128 } from "../../random/seed.ts";
 import { projectRivalRelationships, quoteRivalDiplomacy } from "../diplomacy.ts";
 import {
@@ -250,6 +250,72 @@ describe("contained rival incidents", () => {
         severity: "critical",
       }),
     );
+  });
+
+  it("gives delay, compute-loss and restriction incidents a real effect", () => {
+    const draft = mutable(newState());
+    const rivalLabId = firstRival(draft);
+    const rival = draft.labs[rivalLabId];
+    const lot = rival?.compute.lots[0];
+    const domain =
+      rival === undefined ? undefined : Object.values(rival.research.domains)[0];
+    if (rival === undefined || lot === undefined || domain === undefined) {
+      throw new Error("rival fixture missing");
+    }
+    lot.physicalCount = 10_000 as typeof lot.physicalCount;
+    domain.levelProgressRp = 100;
+    const forced = (
+      picks: readonly (typeof RIVAL_INCIDENT_CONSEQUENCES)[number][],
+    ): RandomOracle => {
+      const base = new RandomOracleV1(draft.run.seed);
+      return {
+        uniform: (key) => base.uniform(key),
+        integer: (key, minimum, maximum) => base.integer(key, minimum, maximum),
+        triangular: (key, minimum, mode, maximum) =>
+          base.triangular(key, minimum, mode, maximum),
+        weighted: (key, weights) => base.weighted(key, weights),
+        shuffle: <T>(_key: RandomKey, values: readonly T[]): T[] => [
+          ...(picks as unknown as T[]),
+          ...values.filter((value) => !(picks as readonly unknown[]).includes(value)),
+        ],
+      };
+    };
+    const tx = createTransaction(draft);
+    resolveRivalHighSeverityFailure(
+      tx,
+      rivalLabId,
+      "critical",
+      forced(["major-delay", "compute-loss"]),
+      { riskAtCheck: 90, triggerProbability: 0.25, triggerDraw: 0.01 },
+    );
+    const hit = tx.commit({ description: "delay and compute loss" }).state;
+    const hitLab = hit.labs[rivalLabId];
+    expect(Object.values(hitLab?.research.domains ?? {})[0]?.levelProgressRp).toBeCloseTo(
+      65,
+      6,
+    );
+    expect(hitLab?.compute.lots[0]?.physicalCount).toBe(5_000);
+
+    const restrictTx = createTransaction(draft);
+    resolveRivalHighSeverityFailure(
+      restrictTx,
+      rivalLabId,
+      "high",
+      forced(["shared-restrictions"]),
+      { riskAtCheck: 90, triggerProbability: 0.25, triggerDraw: 0.01 },
+    );
+    const restricted = restrictTx.commit({ description: "shared restrictions" }).state;
+    const player = restricted.run.playerLabId;
+    for (const [segmentId, segment] of Object.entries(
+      restricted.labs[player]?.market.segments ?? {},
+    )) {
+      expect(segment.satisfaction).toBe(
+        Math.max(
+          0,
+          (draft.labs[player]?.market.segments[segmentId]?.satisfaction ?? 0) - 10,
+        ),
+      );
+    }
   });
 
   it("does not read the player's hidden model safety when calculating rival risk", () => {
