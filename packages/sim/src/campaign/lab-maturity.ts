@@ -1001,7 +1001,12 @@ export function labMaturityCommandBlocker(
   state: Readonly<GameState>,
   command: GameCommand,
 ): string | undefined {
-  if (!isProgressiveCampaign(state) || command.meta.issuedBy === "rival") {
+  // Rival labs are not on the player's campaign ladder. Trust the target lab's
+  // control, never the command's self-declared issuer.
+  if (
+    !isProgressiveCampaign(state) ||
+    ("labId" in command && state.labs[command.labId]?.control === "rival")
+  ) {
     return undefined;
   }
   if (

@@ -7,6 +7,7 @@ import {
 } from "@neolab/content-schema";
 
 import rawBundle from "../../../../content/generated/content.bundle.json";
+import { createProgressiveNewGame } from "../../campaign/lab-maturity.ts";
 import { createNewGame } from "../../engine/create-new-game.ts";
 import { addBaselineModelForTest } from "../../model/fixture.ts";
 import { createTransaction } from "../../engine/transaction.ts";
@@ -15,7 +16,11 @@ import type { GameState, GpuAllocationState } from "../../model/state.ts";
 import { basisPoints, tick } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import { applyCommand, CommandRejectedError } from "../apply.ts";
-import type { GameCommand, SetGpuAllocationCommand } from "../types.ts";
+import type {
+  GameCommand,
+  SetGpuAllocationCommand,
+  SetModelAutonomyCommand,
+} from "../types.ts";
 import { validateCommand } from "../validate.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
@@ -153,6 +158,72 @@ describe("validateCommand", () => {
     if (!validation.ok) {
       expect(validation.errors.map((error) => error.code)).toContain("unknown-lab");
     }
+  });
+
+  it("rejects a self-declared rival issuer on the player's lab", () => {
+    const state = createProgressiveNewGame(
+      {
+        seed: seed128("0123456789abcdef0123456789abcdef"),
+        difficultyId: contentId("base:difficulty.standard"),
+        leaderId: contentId("base:leader.sam-altmann"),
+        mandateId: contentId("base:mandate.build-the-science"),
+      },
+      content,
+    );
+    const autonomy: SetModelAutonomyCommand = {
+      kind: "set-model-autonomy",
+      meta: {
+        commandId: "cmd-0002" as CommandId,
+        expectedTick: state.run.tick,
+        issuedBy: "player",
+      },
+      labId: state.run.playerLabId,
+      level: 1,
+    };
+    const asPlayer = validateCommand(state, content, autonomy);
+    expect(asPlayer.ok ? [] : asPlayer.errors.map((error) => error.code)).toContain(
+      "lab-feature-locked",
+    );
+    const asRival = validateCommand(state, content, {
+      ...autonomy,
+      meta: { ...autonomy.meta, issuedBy: "rival" },
+    });
+    expect(asRival.ok ? [] : asRival.errors.map((error) => error.code)).toEqual(
+      expect.arrayContaining(["not-player-lab", "lab-feature-locked"]),
+    );
+  });
+
+  it("rejects player autonomy orders aimed at a rival lab", () => {
+    const state = newState();
+    const rivalId = Object.keys(state.world.rivals).sort()[0] as LabId | undefined;
+    if (rivalId === undefined) throw new Error("rival fixture missing");
+    const validation = validateCommand(state, content, {
+      kind: "set-model-autonomy",
+      meta: {
+        commandId: "cmd-0003" as CommandId,
+        expectedTick: state.run.tick,
+        issuedBy: "player",
+      },
+      labId: rivalId,
+      level: 1,
+    });
+    expect(validation.ok ? [] : validation.errors.map((error) => error.code)).toContain(
+      "not-player-lab",
+    );
+  });
+
+  it("rejects allocations referencing unknown safety programmes", () => {
+    const state = newState();
+    const bad = command(state, {
+      allocation: {
+        ...goodAllocation(),
+        safetyProgramWeights: { "base:safety.bogus": basisPoints(10_000) },
+      },
+    });
+    const validation = validateCommand(state, content, bad);
+    expect(validation.ok ? [] : validation.errors.map((error) => error.code)).toContain(
+      "unknown-safety-programme",
+    );
   });
 
   it("rejects a retired hot-reloaded command without crashing validation", () => {

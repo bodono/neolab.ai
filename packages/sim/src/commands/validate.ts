@@ -261,6 +261,14 @@ function validateSetGpuAllocation(
       });
     }
   }
+  for (const programId of Object.keys(allocation.safetyProgramWeights)) {
+    if (!(programId in lab.research.safetyPrograms)) {
+      errors.push({
+        code: "unknown-safety-programme",
+        message: `Allocation references locked or unknown safety programme ${programId}`,
+      });
+    }
+  }
 }
 
 function validatePlayerLab(
@@ -1827,6 +1835,12 @@ export function validateCommand(
         `Command was issued for tick ${String(command.meta.expectedTick)} but the ` +
         `simulation is at tick ${String(state.run.tick)}; review updated costs`,
     });
+  }
+
+  // Only rivals may command rival labs, and rivals may not command the player's
+  // lab. Checked centrally so no command kind can forget it.
+  if ("labId" in command) {
+    validatePlayerLab(state, command.labId, errors, command.meta.issuedBy);
   }
 
   const maturityBlocker = labMaturityCommandBlocker(state, command);
