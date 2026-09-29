@@ -37,6 +37,33 @@ interface DemandBlocker {
   readonly actionLabel: string;
 }
 
+/**
+ * Coverage is delivered compute over requested compute. The demand marker on
+ * the slider is capped at the fleet, so a ratio of slider positions overstated
+ * coverage whenever demand exceeded what the whole fleet can serve.
+ */
+export function servingDemandCoverage(
+  plannedServingTeraflops: number,
+  cap: {
+    readonly requestedTeraflops: number;
+    readonly fullFleetCapacityTeraflops: number;
+  },
+): {
+  readonly demandCoverage: number;
+  readonly demandExceedsFleet: boolean;
+  readonly wholeFleetCoverage: number;
+} {
+  const percentOfDemand = (teraflops: number): number =>
+    cap.requestedTeraflops <= 0
+      ? 0
+      : Math.min(100, (teraflops / cap.requestedTeraflops) * 100);
+  return {
+    demandCoverage: percentOfDemand(plannedServingTeraflops),
+    demandExceedsFleet: cap.requestedTeraflops > cap.fullFleetCapacityTeraflops,
+    wholeFleetCoverage: percentOfDemand(cap.fullFleetCapacityTeraflops),
+  };
+}
+
 export function servingModelLabel(view: GameView): string {
   const servingModel = view.models.cards.find(
     (model) => model.modelId === view.models.commercialModelId,
@@ -189,10 +216,9 @@ export function AllocationPanel({
   const servingCeilingPhysicalGpus = Math.round(
     (totalScheduledPhysicalGpus * serving) / 10_000,
   );
-  const demandCoverage =
-    demandMarkerBasisPoints === 0
-      ? 0
-      : Math.min(100, (serving / demandMarkerBasisPoints) * 100);
+  const { demandCoverage, demandExceedsFleet, wholeFleetCoverage } =
+    servingDemandCoverage(plannedServingTeraflops, servingDemandCap);
+  const demandMarkerReached = serving >= demandMarkerBasisPoints;
 
   function setServingAndCommit(nextServing: number): void {
     setServing(nextServing);
@@ -301,8 +327,9 @@ export function AllocationPanel({
           <div className="serving-range-scale" aria-hidden="true">
             <span>0 · no serving</span>
             <span>
-              Demand needs {percentage(demandMarkerBasisPoints)} ·{" "}
-              {number(servingDemandCap.maximumPhysicalGpus)} GPUs
+              {demandExceedsFleet
+                ? `Demand exceeds the fleet · ${wholeFleetCoverage.toFixed(0)}% at most`
+                : `Demand needs ${percentage(demandMarkerBasisPoints)} · ${number(servingDemandCap.maximumPhysicalGpus)} GPUs`}
             </span>
             <span>100% · whole fleet</span>
           </div>
@@ -322,21 +349,27 @@ export function AllocationPanel({
                 className="secondary"
                 type="button"
                 data-tutorial-target="serve-full-demand"
-                disabled={serving >= demandMarkerBasisPoints}
+                disabled={demandMarkerReached}
                 onClick={() => setServingAndCommit(demandMarkerBasisPoints)}
               >
-                {serving >= demandMarkerBasisPoints
-                  ? "Full demand covered"
-                  : `Cover full demand · ${formatTeraflops(servingDemandCap.requestedTeraflops)}`}
+                {demandExceedsFleet
+                  ? demandMarkerReached
+                    ? `Whole fleet serving · ${wholeFleetCoverage.toFixed(0)}% of demand`
+                    : `Serve with the whole fleet · ${wholeFleetCoverage.toFixed(0)}% of demand`
+                  : demandMarkerReached
+                    ? "Full demand covered"
+                    : `Cover full demand · ${formatTeraflops(servingDemandCap.requestedTeraflops)}`}
               </button>
             </>
           ) : null}
         </div>
         {demandMarkerBasisPoints > 0 ? (
           <small id="serving-allocation-hint" className="automatic-serving-hint">
-            {serving >= demandMarkerBasisPoints
+            {demandMarkerReached && !demandExceedsFleet
               ? "Full current demand is covered; unused compute returns to R&D."
-              : `${demandCoverage.toFixed(0)}% of current demand is covered; unused compute remains with R&D.`}
+              : demandExceedsFleet
+                ? `${demandCoverage.toFixed(0)}% of current demand is covered; demand is larger than the whole fleet can serve.`
+                : `${demandCoverage.toFixed(0)}% of current demand is covered; unused compute remains with R&D.`}
           </small>
         ) : null}
       </div>
