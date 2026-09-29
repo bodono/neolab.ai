@@ -4,6 +4,7 @@ import type {
   BrowserGameRuntime,
   ClockView,
   GameView,
+  RuntimeCommandRejection,
   RuntimeFault,
 } from "../runtime/index.ts";
 
@@ -23,6 +24,7 @@ export interface WebStoreState {
   readonly gameView: GameView | undefined;
   readonly clockView: ClockView | undefined;
   readonly runtimeFault: RuntimeFault | undefined;
+  readonly lastCommandRejection: RuntimeCommandRejection | undefined;
   readonly route: AppRoute;
   readonly selectedPrimarySection: PrimarySection;
   readonly openOverlay: OverlayState | undefined;
@@ -51,6 +53,7 @@ export function createRuntimeStoreBridge(
     gameView: initial.gameView,
     clockView: initial.clockView,
     runtimeFault: initial.fault,
+    lastCommandRejection: initial.lastRejection,
     route: "game",
     selectedPrimarySection: "operations",
     openOverlay: undefined,
@@ -79,6 +82,7 @@ export function createRuntimeStoreBridge(
       gameView: snapshot.gameView,
       clockView: snapshot.clockView,
       runtimeFault: snapshot.fault,
+      lastCommandRejection: snapshot.lastRejection,
       runtimeStatus: snapshot.fault === undefined ? "ready" : "error",
       runtimeError:
         snapshot.fault === undefined

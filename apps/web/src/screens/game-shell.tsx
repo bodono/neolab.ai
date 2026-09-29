@@ -170,6 +170,8 @@ export function GameShell({
   const view = useGameStore((state) => state.gameView);
   const clock = useGameStore((state) => state.clockView);
   const runtimeFault = useGameStore((state) => state.runtimeFault);
+  const commandRejection = useGameStore((state) => state.lastCommandRejection);
+  const [dismissedRejection, setDismissedRejection] = useState<number>();
   const [buyingGpus, setBuyingGpus] = useState(false);
   const [fundraisingOpen, setFundraisingOpen] = useState(false);
   const [section, setSection] = useState<DashboardSection>("overview");
@@ -736,13 +738,12 @@ export function GameShell({
               <p className="eyebrow">RUN CONTROL // DELIBERATE EXIT</p>
               <h2 id="exit-current-run-title">Return to the title screen?</h2>
               <p>
-                The current lab will be saved to the Autosave slot before you leave. You
+                The current lab will be saved to its own autosave before you leave. You
                 can continue it from the title screen or start a different run.
               </p>
               <p className="confirmation-warning">
-                Starting another game does not delete this run, but its next autosave will
-                replace the shared Autosave slot. Export the save first if you want a
-                permanent copy.
+                Each run keeps its own autosave, and the five most recent runs are kept.
+                Export the save first if you want a permanent copy of an older run.
               </p>
               {exitError === undefined ? null : (
                 <p className="save-error" role="alert">
@@ -1411,6 +1412,27 @@ export function GameShell({
         onInspectResearcher={inspectResearcherNotice}
       />
 
+      {commandRejection === undefined ||
+      commandRejection.sequence === dismissedRejection ? null : (
+        <section className="warning-banner command-rejection-banner" role="alert">
+          <div>
+            <strong>ACTION NOT APPLIED</strong>
+            <span>{commandRejection.message}</span>
+            <small>
+              Nothing was changed or paid. The situation may have moved on since the
+              screen was drawn; review it and try again.
+            </small>
+          </div>
+          <div className="warning-banner-actions">
+            <button
+              type="button"
+              onClick={() => setDismissedRejection(commandRejection.sequence)}
+            >
+              Dismiss
+            </button>
+          </div>
+        </section>
+      )}
       {autoPause.length === 0 ? null : (
         <section
           className={`warning-banner${view.endgame.active ? " endgame-warning-banner" : ""}`}

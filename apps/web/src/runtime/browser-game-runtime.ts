@@ -117,7 +117,23 @@ export interface RuntimeSnapshot {
   readonly clockView: ClockView;
   readonly lastReceipt?: RuntimeReceipt;
   readonly fault?: RuntimeFault;
+  /** The most recent action the simulation refused, until the next accepted one. */
+  readonly lastRejection?: RuntimeCommandRejection;
 }
+
+/**
+ * A stale or no-longer-valid action (for example, one clicked just as the
+ * clock moved on at 4x) is refused by the simulation. The shell shows why.
+ */
+export interface RuntimeCommandRejection {
+  readonly sequence: number;
+  readonly commandKind: string;
+  readonly message: string;
+}
+
+/** Autosaves kept per player; older runs' autosaves are removed. */
+export const RETAINED_RUN_AUTOSAVES = 5;
+const RUN_AUTOSAVE_PREFIX = "autosave-";
 
 export interface RuntimeCommandValidationDiagnostic {
   readonly command: GameCommand;
@@ -198,7 +214,7 @@ export class BrowserGameRuntime {
   readonly #highScoreRepository: HighScoreRepository;
   readonly #nowIso: () => string;
   readonly #nowMilliseconds: () => number;
-  readonly #autosaveId: string;
+  readonly #autosaveId: string | undefined;
   readonly #developmentToolsEnabled: boolean;
   readonly #advanceTick: typeof advanceOneTick;
   readonly #applyGameCommand: typeof applyCommand;
@@ -219,6 +235,8 @@ export class BrowserGameRuntime {
   #completedSaveWrites = 0;
   #lastCompletedSaveTriggers: readonly AutosaveTrigger[] = [];
   #lastSaveError: string | undefined;
+  #lastRejection: RuntimeCommandRejection | undefined;
+  #rejectionCounter = 0;
   readonly #recordedHighScoreRunIds = new Set<string>();
   #disposed = false;
 
@@ -235,7 +253,9 @@ export class BrowserGameRuntime {
     this.#nowIso = options.nowIso ?? (() => new Date().toISOString());
     this.#nowMilliseconds =
       options.nowMilliseconds ?? (() => globalThis.performance?.now() ?? Date.now());
-    this.#autosaveId = options.autosaveId ?? "autosave";
+    // Each run autosaves to its own slot, so starting a new game never
+    // overwrites the last one. Tests and the tutorial may pin an id.
+    this.#autosaveId = options.autosaveId;
     this.#developmentToolsEnabled = options.enableDevelopmentTools === true;
     this.#advanceTick = options.advanceTick ?? advanceOneTick;
     this.#applyGameCommand = options.applyGameCommand ?? applyCommand;
@@ -278,6 +298,9 @@ export class BrowserGameRuntime {
       clockView: this.#clock.getView(),
       ...(this.#lastReceipt === undefined ? {} : { lastReceipt: this.#lastReceipt }),
       ...(this.#fault === undefined ? {} : { fault: this.#fault }),
+      ...(this.#lastRejection === undefined
+        ? {}
+        : { lastRejection: this.#lastRejection }),
     });
   }
 
@@ -370,6 +393,7 @@ export class BrowserGameRuntime {
         });
       }
       triggers.push(...afterTriggers);
+      this.#lastRejection = undefined;
       const receipt = this.#commitTransition(result, triggers);
       this.#recordTransition("command", result, startedAt, []);
       this.#enqueueTransitionSaves(result.state, afterTriggers);
@@ -379,7 +403,16 @@ export class BrowserGameRuntime {
       });
       return receipt;
     } catch (error) {
-      if (error instanceof CommandRejectedError) throw error;
+      if (error instanceof CommandRejectedError) {
+        this.#rejectionCounter += 1;
+        this.#lastRejection = Object.freeze({
+          sequence: this.#rejectionCounter,
+          commandKind: command.kind,
+          message: error.message.replace(/^Command rejected: /, ""),
+        });
+        this.#publish();
+        throw error;
+      }
       return this.#faultReceipt(
         this.#captureFault(
           "simulation",
@@ -792,7 +825,12 @@ export class BrowserGameRuntime {
     state: CanonicalGameState,
     triggers: readonly AutosaveTrigger[],
   ): void {
-    this.#enqueueSave(state, triggers, this.#autosaveId, "autosave");
+    this.#enqueueSave(
+      state,
+      triggers,
+      this.#autosaveId ?? `${RUN_AUTOSAVE_PREFIX}${state.run.runId}`,
+      "autosave",
+    );
   }
 
   #enqueueTransitionSaves(
@@ -853,7 +891,9 @@ export class BrowserGameRuntime {
       (lab === undefined
         ? undefined
         : this.#content.labs[lab.definitionId]?.displayName) ?? "Neolab"
-    } ${slotType === "crisis-checkpoint" ? "Crisis Start" : "Autosave"}`;
+    } ${slotType === "crisis-checkpoint" ? "Crisis Start" : "Autosave"} · ${String(
+      state.run.calendar.year,
+    )} week ${String(state.run.calendar.week)}`;
     this.#pendingSaveWrites += 1;
     this.#saveQueue = this.#saveQueue.then(async () => {
       try {
@@ -868,12 +908,25 @@ export class BrowserGameRuntime {
         this.#completedSaveWrites += 1;
         this.#lastCompletedSaveTriggers = capturedTriggers;
         this.#lastSaveError = undefined;
+        if (saveId.startsWith(RUN_AUTOSAVE_PREFIX)) await this.#pruneRunAutosaves();
       } catch (error) {
         this.#lastSaveError = error instanceof Error ? error.message : String(error);
       } finally {
         this.#pendingSaveWrites -= 1;
       }
     });
+  }
+
+  /** Keep the most recent runs' autosaves; older runs' autosaves are removed. */
+  async #pruneRunAutosaves(): Promise<void> {
+    const stale = (await this.#saveRepository.list())
+      .filter(
+        (save) =>
+          save.slotType === "autosave" && save.saveId.startsWith(RUN_AUTOSAVE_PREFIX),
+      )
+      .sort((left, right) => (left.updatedAtIso < right.updatedAtIso ? 1 : -1))
+      .slice(RETAINED_RUN_AUTOSAVES);
+    for (const save of stale) await this.#saveRepository.delete(save.saveId);
   }
 
   readonly #publish = (): void => {

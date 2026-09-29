@@ -24,6 +24,7 @@ export {
   type RuntimeCommandValidationDiagnostic,
   type RuntimeDevelopmentSnapshot,
   type RuntimeDevelopmentFaultDiagnostic,
+  type RuntimeCommandRejection,
   type RuntimeFault,
   type RuntimeFaultKind,
   type RuntimeFaultScope,

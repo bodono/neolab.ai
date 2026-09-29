@@ -19,7 +19,7 @@ import {
 import { withBaselineModels } from "@neolab/testkit";
 
 import type { AnimationFrameScheduler } from "../animation-frame-clock-driver.ts";
-import { BrowserGameRuntime } from "../browser-game-runtime.ts";
+import { BrowserGameRuntime, RETAINED_RUN_AUTOSAVES } from "../browser-game-runtime.ts";
 
 const content = loadCompiledContent();
 
@@ -172,6 +172,15 @@ const inertScheduler: AnimationFrameScheduler = {
   requestFrame: () => 1,
   cancelFrame: () => undefined,
 };
+
+/** The one run autosave a test runtime wrote; each run has its own slot. */
+async function runAutosaveId(repository: MemorySaveRepository): Promise<string> {
+  const autosaves = (await repository.list()).filter(
+    (save) => save.slotType === "autosave",
+  );
+  expect(autosaves).toHaveLength(1);
+  return autosaves[0]?.saveId ?? "";
+}
 
 class RecordingSaveRepository extends MemorySaveRepository {
   readonly writes: WriteSaveRequest[] = [];
@@ -475,6 +484,11 @@ describe("BrowserGameRuntime", () => {
     } as GameCommand;
     expect(() => normalRuntime.dispatch(staleCommand)).toThrow(CommandRejectedError);
     expect(normalRuntime.getSnapshot().fault).toBeUndefined();
+    // The shell shows why the action was refused instead of failing silently.
+    const rejection = normalRuntime.getSnapshot().lastRejection;
+    expect(rejection?.sequence).toBe(1);
+    expect(rejection?.commandKind).toBe("set-public-price");
+    expect(rejection?.message).toContain("tick 99");
     expect(normalRuntime.stepOneTick().tick).toBe(1);
     normalRuntime.dispose();
   });
@@ -496,7 +510,9 @@ describe("BrowserGameRuntime", () => {
       completedWrites: 1,
       lastCompletedTriggers: [{ reason: "cycle-boundary", timing: "after" }],
     });
-    expect((await repository.load("autosave")).state.run.tick).toBe(4);
+    expect((await repository.load(await runAutosaveId(repository))).state.run.tick).toBe(
+      4,
+    );
     runtime.dispose();
   });
 
@@ -697,8 +713,39 @@ describe("BrowserGameRuntime", () => {
       completedWrites: 1,
       lastCompletedTriggers: [{ reason: "manual-exit", timing: "after" }],
     });
-    expect((await repository.load("autosave")).state.run.tick).toBe(1);
+    expect((await repository.load(await runAutosaveId(repository))).state.run.tick).toBe(
+      1,
+    );
     runtime.dispose();
+  });
+
+  it("gives each run its own autosave and keeps the five most recent runs", async () => {
+    const repository = new MemorySaveRepository();
+    for (let run = 0; run < 7; run += 1) {
+      const runtime = BrowserGameRuntime.createNew(
+        { ...newGameConfig(), seed: seed128(String(run + 1).padEnd(32, "0")) },
+        content,
+        {
+          scheduler: inertScheduler,
+          saveRepository: repository,
+          nowIso: () => `2026-07-23T00:00:0${String(run)}.000Z`,
+        },
+      );
+      runtime.stepOneTick();
+      await runtime.saveForExit();
+      runtime.dispose();
+    }
+    const autosaves = (await repository.list()).filter(
+      (save) => save.slotType === "autosave",
+    );
+    expect(autosaves).toHaveLength(RETAINED_RUN_AUTOSAVES);
+    expect(new Set(autosaves.map((save) => save.saveId)).size).toBe(
+      RETAINED_RUN_AUTOSAVES,
+    );
+    expect(autosaves.map((save) => save.updatedAtIso).sort()[0]).toBe(
+      "2026-07-23T00:00:02.000Z",
+    );
+    expect(autosaves[0]?.displayName).toMatch(/Autosave · \d{4} week \d+$/);
   });
 
   it("saves a resumable run when leaving before the first simulation tick", async () => {
@@ -711,7 +758,7 @@ describe("BrowserGameRuntime", () => {
 
     await runtime.saveForExit();
 
-    const saved = (await repository.load("autosave")).state;
+    const saved = (await repository.load(await runAutosaveId(repository))).state;
     expect(saved.run).toMatchObject({ tick: 0, status: "active" });
     expect(saved.score.final).toBeUndefined();
     runtime.dispose();
