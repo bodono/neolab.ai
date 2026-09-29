@@ -404,6 +404,11 @@ export function WorldWorkspace({
           <article className="regulation-trust">
             <span>Government trust</span>
             <strong>{view.politics.governmentTrust.toFixed(0)}</strong>
+            <small>
+              Drifts toward {view.politics.governmentTrustFloor.toFixed(0)}: +
+              {view.politics.governmentTrustRecoveryPerWeek} a week from below, −
+              {view.politics.governmentTrustDecayPerCycle} a cycle from above
+            </small>
           </article>
           <article className="regulation-dependence">
             <span>Strategic dependence</span>
@@ -531,6 +536,7 @@ export function WorldWorkspace({
                       <span>{option.approachName}</span>
                     </header>
                     <p className="lobbying-success">{option.successLabel}</p>
+                    <small>{option.politicalOperatorLabel}</small>
                     <small>
                       {formatValuation(option.cashCostMillions)} · {option.auraCost} Aura
                       · {option.durationWeeks} weeks ·{" "}

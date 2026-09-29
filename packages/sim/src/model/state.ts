@@ -1068,8 +1068,6 @@ export type GovernmentCrisisTrigger =
   | "quarterly-pressure"
   | "severe-incident"
   | "lawful-order-defiance"
-  | "strategic-emergency"
-  | "emergency-contract-clause"
   | "unsupervised-autonomy"
   | "escaped-weights";
 

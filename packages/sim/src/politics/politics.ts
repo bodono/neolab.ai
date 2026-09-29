@@ -2,6 +2,7 @@ import { contentId, type CompiledContent } from "@neolab/content-schema";
 import { advanceWeeklyProgress } from "../projects/progress.ts";
 import { classifyCapabilityTier } from "../models/tiers.ts";
 import { isProgressiveOpeningProtected } from "../campaign/progressive-opening.ts";
+import { eraCashMultiplier, roundCash } from "../events/event-cash.ts";
 import { invalidateGovernmentInterventionEvents } from "../events/government-intervention-lifecycle.ts";
 
 import { applyEffect } from "../engine/effect-executor.ts";
@@ -239,15 +240,6 @@ function crisisTrigger(
   labId: LabId,
 ): GovernmentCrisisTrigger {
   const lab = requireLab(state, labId);
-  if (lab.flags["politics:emergency-contract-clause-invoked"] === true) {
-    return "emergency-contract-clause";
-  }
-  if (lab.flags["politics:strategic-emergency"] === true) {
-    return "strategic-emergency";
-  }
-  if (lab.flags["politics:defied-lawful-order"] === true) {
-    return "lawful-order-defiance";
-  }
   if (
     recentIncidents(state, labId).some(
       (incident) =>
@@ -270,8 +262,16 @@ function crisisTrigger(
       ? undefined
       : state.models[lab.models.currentModelId];
   if ((model?.accessLevel ?? 0) >= 4) return "unsupervised-autonomy";
+  // Checked after the specific emergencies so that defying an order can only
+  // add scrutiny, never shadow a sharper trigger. The flag expires after a year.
+  if (lab.flags[DEFIED_LAWFUL_ORDER_FLAG] === true) return "lawful-order-defiance";
   return "quarterly-pressure";
 }
+
+const DEFIED_LAWFUL_ORDER_FLAG = "politics:defied-lawful-order";
+const DEFIED_LAWFUL_ORDER_AT_FLAG = "politics:defied-lawful-order-at";
+/** A defied order stays on the record for a year of formal assessments. */
+export const LAWFUL_ORDER_DEFIANCE_MEMORY_WEEKS = 52;
 
 /**
  * Programme membership changes which interventions a lab actually faces.
@@ -316,8 +316,11 @@ function interventionKind(
     return band === "monitoring" ? "licensing-action" : "nationalisation-crisis";
   }
   if (band === "monitoring") {
-    // A quiet lab that has handed its model the keys still gets a letter.
-    return trigger === "unsupervised-autonomy" ? "reporting-request" : undefined;
+    // A quiet lab that has handed its model the keys, or has defied a lawful
+    // order, still gets a letter.
+    return trigger === "unsupervised-autonomy" || trigger === "lawful-order-defiance"
+      ? "reporting-request"
+      : undefined;
   }
   if (band === "reporting") {
     return trigger === "unsupervised-autonomy" ? "licensing-action" : "reporting-request";
@@ -576,6 +579,11 @@ export const GOVERNMENT_TRUST_FLOOR_MODIFIER = "lab.politics.governmentTrustFloo
 export const GOVERNMENT_TRUST_FLOOR_BASE = 50;
 /** Whole points a week, so a small standing bonus is never rounded away. */
 export const GOVERNMENT_TRUST_RECOVERY_PER_WEEK = 1;
+/**
+ * Trust above the floor fades by one point every four-week cycle, so standing
+ * with the state has to be maintained rather than banked for the whole run.
+ */
+export const GOVERNMENT_TRUST_DECAY_PER_CYCLE = 1;
 
 /** The floor a lab's standing with the state cannot sit below. */
 export function governmentTrustFloor(
@@ -623,7 +631,10 @@ export function updateGovernmentWeekly(
   const nextTrust =
     trust < trustFloor
       ? Math.min(trustFloor, trust + GOVERNMENT_TRUST_RECOVERY_PER_WEEK)
-      : trust;
+      : trust > trustFloor && state.run.tick % 4 === 0
+        ? Math.max(trustFloor, trust - GOVERNMENT_TRUST_DECAY_PER_CYCLE)
+        : trust;
+  const defiedAt = lab.flags[DEFIED_LAWFUL_ORDER_AT_FLAG];
   tx.update((draft) => {
     const mutable = draft.labs[labId];
     if (mutable === undefined) throw new Error(`Unknown lab ${labId}`);
@@ -636,6 +647,14 @@ export function updateGovernmentWeekly(
     }
     if (nextTrust !== trust) {
       mutable.politics.governmentTrust = rating(clamp(nextTrust));
+    }
+    if (mutable.flags[DEFIED_LAWFUL_ORDER_FLAG] === true) {
+      if (typeof defiedAt !== "number") {
+        mutable.flags[DEFIED_LAWFUL_ORDER_AT_FLAG] = draft.run.tick;
+      } else if (draft.run.tick - defiedAt >= LAWFUL_ORDER_DEFIANCE_MEMORY_WEEKS) {
+        delete mutable.flags[DEFIED_LAWFUL_ORDER_FLAG];
+        delete mutable.flags[DEFIED_LAWFUL_ORDER_AT_FLAG];
+      }
     }
     // National champions are never off the state's radar.
     if (
@@ -1475,33 +1494,49 @@ export function synchroniseGovernmentEventResponses(
   }
 }
 
+/** Lobbying strength per point of the best employed researcher's politics skill. */
+export const POLITICAL_SKILL_PER_LEVEL = 20;
+
+/**
+ * The lab's strongest political operator: the employed researcher with the
+ * highest politics skill (0-5). The councils this used to read were removed,
+ * which left the term at zero for every lab.
+ */
+function politicalOperator(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+): { readonly skill: number; readonly name?: string; readonly level: number } {
+  let best: { readonly name: string; readonly level: number } | undefined;
+  for (const researcher of Object.values(state.researchers)) {
+    if (researcher.employerLabId !== labId || researcher.status !== "employed") continue;
+    const definition = content.researchers.definitions[researcher.definitionId];
+    const level = definition?.skills["politics"] ?? 0;
+    if (definition !== undefined && level > (best?.level ?? 0)) {
+      best = { name: definition.displayName, level };
+    }
+  }
+  return best === undefined
+    ? { skill: 0, level: 0 }
+    : { skill: clamp(best.level * POLITICAL_SKILL_PER_LEVEL), ...best };
+}
+
 function politicalSkill(
   state: Readonly<GameState>,
   content: CompiledContent,
   labId: LabId,
 ): number {
-  const candidates = Object.values(state.researchers)
-    .filter(
-      (researcher) =>
-        researcher.employerLabId === labId &&
-        researcher.status === "employed" &&
-        (researcher.assignment?.kind === "external-council" ||
-          researcher.assignment?.kind === "research-council"),
-    )
-    .map((researcher) => ({
-      skill:
-        content.researchers.definitions[researcher.definitionId]?.skills["politics"] ?? 0,
-      external: researcher.assignment?.kind === "external-council",
-    }))
-    .sort((left, right) => right.skill - left.skill);
-  return clamp(
-    candidates.reduce(
-      (sum, candidate, index) =>
-        sum + candidate.skill * (candidate.external ? (index === 0 ? 18 : 8) : 5),
-      0,
-    ),
-  );
+  return politicalOperator(state, content, labId).skill;
 }
+
+/** The flat lobbying grant, scaled like event cash with the GPU era. */
+export function lobbyingGrantMillions(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+): number {
+  return roundCash(LOBBYING_GRANT_BASE_MILLIONS * eraCashMultiplier(state, content));
+}
+const LOBBYING_GRANT_BASE_MILLIONS = 18;
 
 function coalitionBreadth(state: Readonly<GameState>, labId: LabId): number {
   const raw = requireLab(state, labId).flags["politics:coalition-breadth"];
@@ -1540,6 +1575,8 @@ export interface LobbyingProjectQuote {
   readonly chanceLabel: "Long shot" | "Uncertain" | "Promising" | "Strong";
   /** What success actually pays. The costs always rendered; this did not. */
   readonly successLabel: string;
+  /** Who carries the campaign, and what their politics skill adds. */
+  readonly politicalOperatorLabel: string;
   readonly blockers: readonly string[];
 }
 
@@ -1552,7 +1589,7 @@ export interface LobbyingProjectQuote {
 const LOBBYING_SUCCESS_LABELS: Readonly<Record<LobbyingObjective, string>> = {
   "reduce-restriction":
     "Settles the oldest pending intervention as negotiated · +3 government trust",
-  "gain-grant": "+$18M grant · +8 strategic dependence · +4 government attention",
+  "gain-grant": "+{GRANT} grant · +8 strategic dependence · +4 government attention",
   "shape-standard":
     "+7 government trust · −3 capture concern · the technical standard bears your fingerprints",
   "support-coalition": "+5 government trust · +15 coalition breadth",
@@ -1592,10 +1629,19 @@ export function quoteLobbyingProject(
     Math.round(objectiveRule.durationWeeks * approachRule.durationMultiplier),
   );
   const strength = calculateLobbyingStrength(state, content, labId, approach);
+  const objectiveLabel = LOBBYING_SUCCESS_LABELS[objective].replace(
+    "{GRANT}",
+    formatValuation(lobbyingGrantMillions(state, content)),
+  );
   const successLabel =
     approach === "transparent-standards"
-      ? `${LOBBYING_SUCCESS_LABELS[objective]} · +4 trust for transparency`
-      : LOBBYING_SUCCESS_LABELS[objective];
+      ? `${objectiveLabel} · +4 trust for transparency`
+      : objectiveLabel;
+  const operator = politicalOperator(state, content, labId);
+  const politicalOperatorLabel =
+    operator.name === undefined
+      ? "No one on staff has political skill (+0 strength)"
+      : `Political operator: ${operator.name} · politics ${String(operator.level)}/5 (+${String(Math.round(operator.skill * 0.35))} strength)`;
   const probability = Math.min(
     0.95,
     Math.max(0.05, logisticProbability(strength.final, objectiveRule.difficulty)),
@@ -1647,6 +1693,7 @@ export function quoteLobbyingProject(
             ? "Promising"
             : "Strong",
     successLabel,
+    politicalOperatorLabel,
     blockers,
   };
 }
@@ -1757,7 +1804,11 @@ function addRating(
   );
 }
 
-function applyLobbyingSuccess(tx: SimulationTransaction, project: ProjectState): void {
+function applyLobbyingSuccess(
+  tx: SimulationTransaction,
+  content: CompiledContent,
+  project: ProjectState,
+): void {
   if (project.payload.kind !== "lobbying") throw new Error("Not a lobbying project");
   const { objective, approach } = project.payload;
   if (approach === "transparent-standards")
@@ -1786,7 +1837,7 @@ function applyLobbyingSuccess(tx: SimulationTransaction, project: ProjectState):
         kind: "add-resource",
         subject: { type: "lab", labId: project.ownerLabId },
         resource: "cash",
-        amount: 18,
+        amount: lobbyingGrantMillions(tx.read(), content),
         financeCategory: "grant",
       },
       { kind: "system", id: project.id },
@@ -1834,7 +1885,7 @@ export const LOBBYING_PROJECT_HANDLER: ProjectHandler<"lobbying"> = {
       );
     });
   },
-  complete(tx, _content, project): void {
+  complete(tx, content, project): void {
     if (project.payload.kind !== "lobbying") {
       throw new Error(`Project ${project.id} is not lobbying`);
     }
@@ -1848,7 +1899,7 @@ export const LOBBYING_PROJECT_HANDLER: ProjectHandler<"lobbying"> = {
         difficulty: project.payload.difficultyAtStart,
       },
     );
-    if (resolution.success) applyLobbyingSuccess(tx, project);
+    if (resolution.success) applyLobbyingSuccess(tx, content, project);
     else {
       addRating(tx, project.ownerLabId, project.id, "governmentTrust", -3);
       addRating(tx, project.ownerLabId, project.id, "governmentAttention", 2);

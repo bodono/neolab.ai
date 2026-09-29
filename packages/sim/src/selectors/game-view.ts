@@ -157,6 +157,7 @@ import { projectCampusView, type CampusView } from "./campus-view.ts";
 import { projectPeopleView, type PeopleView } from "./people-view.ts";
 import { projectEventQueueView, type EventQueueView } from "./event-view.ts";
 import {
+  GOVERNMENT_TRUST_DECAY_PER_CYCLE,
   GOVERNMENT_TRUST_RECOVERY_PER_WEEK,
   INTERVENTION_BAND_FLOORS,
   INTERVENTION_COOLDOWN_QUARTERS,
@@ -1543,6 +1544,8 @@ export interface PoliticsView {
   /** Trust recovers toward this floor at 1/week and never falls to it. */
   readonly governmentTrustFloor: number;
   readonly governmentTrustRecoveryPerWeek: number;
+  /** Trust above the floor fades by this much every four-week cycle. */
+  readonly governmentTrustDecayPerCycle: number;
   /** Quarters ordinary government action is suppressed after one resolves. */
   readonly interventionCooldownQuarters: number;
   readonly nextQuarterInWeeks: number;
@@ -1583,6 +1586,7 @@ export interface PoliticsView {
     readonly chanceRange: readonly [number, number];
     readonly chanceLabel: "Long shot" | "Uncertain" | "Promising" | "Strong";
     readonly successLabel: string;
+    readonly politicalOperatorLabel: string;
     readonly available: boolean;
     readonly blockers: readonly string[];
   }[];
@@ -3034,6 +3038,7 @@ function projectPolitics(
     })(),
     governmentTrustFloor: governmentTrustFloor(state, labId),
     governmentTrustRecoveryPerWeek: GOVERNMENT_TRUST_RECOVERY_PER_WEEK,
+    governmentTrustDecayPerCycle: GOVERNMENT_TRUST_DECAY_PER_CYCLE,
     interventionCooldownQuarters: INTERVENTION_COOLDOWN_QUARTERS,
     nextQuarterInWeeks: 13 - (state.run.tick % 13),
     pendingInterventions: lab.politics.interventions.map((intervention) => {
@@ -3095,6 +3100,7 @@ function projectPolitics(
           chanceRange: quote.chanceRange,
           chanceLabel: quote.chanceLabel,
           successLabel: quote.successLabel,
+          politicalOperatorLabel: quote.politicalOperatorLabel,
           available: quote.blockers.length === 0,
           blockers: [...quote.blockers],
         };

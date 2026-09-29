@@ -330,7 +330,7 @@ events:
         previewKey: event.government.licensing.accept.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 9 }
-          - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.08, tags: [licensing-compliance] }
+          - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.08, durationWeeks: 104, tags: [licensing-compliance] }
         checks: []
         memories:
           - key: government.licensing.accepted
@@ -362,7 +362,7 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 1 }
-                  - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.12, tags: [licensing-compliance] }
+                  - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.12, durationWeeks: 104, tags: [licensing-compliance] }
                 memories:
                   - key: government.licensing.unchanged
                     subjects: [{ type: player-lab }]

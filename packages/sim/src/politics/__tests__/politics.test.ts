@@ -42,6 +42,7 @@ import {
   settleGovernmentProgrammes,
   updateGovernmentWeekly,
   GOVERNMENT_SEGMENT_ID,
+  LAWFUL_ORDER_DEFIANCE_MEMORY_WEEKS,
   quoteLobbyingProject,
   resolveGovernmentIntervention,
 } from "../politics.ts";
@@ -341,6 +342,77 @@ describe("government pressure and due process", () => {
     ).toHaveLength(2);
   });
 
+  it("lets defiance add scrutiny without shadowing sharper triggers, for a year", () => {
+    const state = mutable(newState());
+    const lab = state.labs[state.run.playerLabId];
+    if (lab === undefined) throw new Error("missing player lab");
+    expect(calculateInterventionPressure(state, state.run.playerLabId).band).toBe(
+      "monitoring",
+    );
+    lab.flags["politics:defied-lawful-order"] = true;
+    // A quiet lab that defied an order still gets a letter.
+    expect(detectGovernmentCrisisTriggers(state, state.run.playerLabId)[0]).toMatchObject(
+      {
+        kind: "reporting-request",
+        trigger: "lawful-order-defiance",
+      },
+    );
+    // Revealed escaped weights draw their own, sharper action despite the defiance.
+    lab.autonomy.escapeRevealedAt = state.run.tick;
+    expect(detectGovernmentCrisisTriggers(state, state.run.playerLabId)[0]).toMatchObject(
+      {
+        kind: "licensing-action",
+        trigger: "escaped-weights",
+      },
+    );
+    delete lab.autonomy.escapeRevealedAt;
+
+    let current: GameState = state;
+    for (let week = 0; week <= LAWFUL_ORDER_DEFIANCE_MEMORY_WEEKS; week += 1) {
+      const advanced = mutable(current);
+      advanced.run.tick = tick(current.run.tick + 1);
+      advanced.run.calendar = calendarFromTick(advanced.run.tick);
+      const tx = createTransaction(advanced);
+      updateGovernmentWeekly(tx);
+      current = tx.commit({ description: "week" }).state;
+    }
+    expect(
+      current.labs[current.run.playerLabId]?.flags["politics:defied-lawful-order"],
+    ).toBeUndefined();
+  });
+
+  it("credits the best political operator and scales the lobbying grant by era", () => {
+    const state = mutable(newState());
+    const labId = state.run.playerLabId;
+    for (const researcher of Object.values(state.researchers)) {
+      if (researcher.employerLabId === labId) researcher.status = "departed";
+    }
+    const quote = () =>
+      quoteLobbyingProject(state, compiled, labId, "gain-grant", "technical-briefing");
+    expect(quote().politicalOperatorLabel).toBe(
+      "No one on staff has political skill (+0 strength)",
+    );
+    expect(quote().successLabel).toContain("+$18M grant");
+
+    const operator = Object.values(state.researchers).find(
+      (researcher) =>
+        (compiled.researchers.definitions[researcher.definitionId]?.skills["politics"] ??
+          0) >= 3,
+    );
+    if (operator === undefined) throw new Error("no political researcher in content");
+    const level =
+      compiled.researchers.definitions[operator.definitionId]?.skills["politics"] ?? 0;
+    const before = quote().chanceRange[0];
+    operator.employerLabId = labId;
+    operator.status = "employed";
+    expect(quote().politicalOperatorLabel).toContain(`politics ${String(level)}/5`);
+    expect(quote().chanceRange[0]).toBeGreaterThan(before);
+
+    // Ampere GPUs cost 11.5 against Kepler's 0.9: 18 x 12.8 rounds to $230M.
+    state.world.currentGpuGenerationId = contentId("base:gpu.ampere");
+    expect(quote().successLabel).toContain("+$230M grant");
+  });
+
   it("does not reopen a nationalisation proceeding after a durable settlement", () => {
     const state = mutable(forcedPoliticalCrisis());
     const lab = state.labs[state.run.playerLabId];
@@ -367,9 +439,10 @@ describe("government pressure and due process", () => {
 
     expect(result.state.run.tick).toBe(13);
     expect(lab?.politics.quarterlyAssessments).toHaveLength(1);
+    // The severe incident is reported ahead of the lab's earlier defiance.
     expect(intervention).toMatchObject({
       kind: "nationalisation-crisis",
-      trigger: "lawful-order-defiance",
+      trigger: "severe-incident",
       status: "pending-event",
     });
     expect(intervention?.pressureAtTrigger).toBeGreaterThanOrEqual(80);

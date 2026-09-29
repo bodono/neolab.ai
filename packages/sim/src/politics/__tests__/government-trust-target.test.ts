@@ -12,7 +12,7 @@ import type { DeepMutable } from "../../engine/draft.ts";
 import { createTransaction } from "../../engine/transaction.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import type { ModifierId } from "../../model/ids.ts";
-import type { GameState } from "../../model/state.ts";
+import { calendarFromTick, type GameState } from "../../model/state.ts";
 import { rating, tick } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import {
@@ -59,6 +59,10 @@ function setTrustTarget(state: DeepMutable<GameState>, add: number): void {
 function trustAfterWeeks(state: DeepMutable<GameState>, weeks: number): number {
   let current: GameState = state;
   for (let index = 0; index < weeks; index += 1) {
+    const advanced = structuredClone(current) as DeepMutable<GameState>;
+    advanced.run.tick = tick(current.run.tick + 1);
+    advanced.run.calendar = calendarFromTick(advanced.run.tick);
+    current = advanced;
     const tx = createTransaction(current);
     updateGovernmentWeekly(tx);
     current = tx.commit({ description: "week" }).state;
@@ -91,13 +95,15 @@ describe("the standing government-trust floor", () => {
     expect(trustAfterWeeks(structuredClone(state), 12)).toBe(54);
   });
 
-  it("never drags down a lab that has earned better standing than the floor", () => {
+  it("fades earned standing toward the floor by one point a cycle", () => {
     const state = newState();
     const lab = state.labs[state.run.playerLabId];
     if (lab === undefined) throw new Error("player lab missing");
     lab.politics.governmentTrust = rating(80);
     setTrustTarget(state, 4);
-    expect(trustAfterWeeks(state, 20)).toBe(80);
+    // Five four-week cycles in 20 weeks; never below the floor of 54.
+    expect(trustAfterWeeks(structuredClone(state), 20)).toBe(75);
+    expect(trustAfterWeeks(structuredClone(state), 200)).toBe(54);
   });
 
   it("is what the policy researchers' passives now aim at", () => {

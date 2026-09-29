@@ -19,7 +19,14 @@ export function eventCashMultiplier(
   content: CompiledContent,
   definition: Pick<EventDefinition, "cashScaling">,
 ): number {
-  if (definition.cashScaling === "fixed") return 1;
+  return definition.cashScaling === "fixed" ? 1 : eraCashMultiplier(state, content);
+}
+
+/** Current GPU generation's price over the first generation's, at least 1. */
+export function eraCashMultiplier(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+): number {
   const generations = Object.values(content.gpuGenerations);
   const current = content.gpuGenerations[state.world.currentGpuGenerationId];
   const first = generations.reduce<(typeof generations)[number] | undefined>(
@@ -40,6 +47,11 @@ export function eventCashMultiplier(
   );
 }
 
+/** Rounds to two significant figures so every scaled figure reads round. */
+export function roundCash(amount: number): number {
+  return Number(amount.toPrecision(2));
+}
+
 /** Scales cash amounts, rounded to two significant figures so every figure reads round. */
 export function scaleEventCash(
   effects: readonly EventEffectDefinition[],
@@ -50,7 +62,7 @@ export function scaleEventCash(
       ? structuredClone(effect)
       : {
           ...structuredClone(effect),
-          amount: Number((effect.amount * multiplier).toPrecision(2)),
+          amount: roundCash(effect.amount * multiplier),
         },
   );
 }
