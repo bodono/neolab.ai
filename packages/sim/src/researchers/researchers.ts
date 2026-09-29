@@ -180,6 +180,9 @@ function abilityInactiveReason(
   if (kind === "compact" && !researcher.compact.includedInOffer) {
     return "Compact not in their contract";
   }
+  if (kind === "compact" && researcher.compact.status === "breached") {
+    return "Promise broken";
+  }
   return undefined;
 }
 
@@ -784,7 +787,8 @@ export function syncResearcherAbilityModifiers(
         ),
       );
     }
-    if (researcher.compact.includedInOffer) {
+    // A broken promise stops paying out its attached effects.
+    if (researcher.compact.includedInOffer && researcher.compact.status !== "breached") {
       const compactAbility: ResearcherAbilityDefinition = {
         id: definition.compact.id,
         label: definition.compact.label,

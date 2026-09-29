@@ -42,6 +42,8 @@ import {
   updateResearcherStates,
 } from "../people.ts";
 import { addResearcherPromise, evaluateResearcherPromises } from "../promises.ts";
+import { quoteResearcherCommitment, startResearcherCommitment } from "../commitments.ts";
+import { syncResearcherAbilityModifiers } from "../researchers.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
 const architectures = contentId("base:domain.architectures");
@@ -91,6 +93,19 @@ function employ(state: DeepMutable<GameState>, researcherId: ResearcherId): void
   lab.roster.researcherIds.push(researcherId);
   state.talentMarket.visibleResearcherIds =
     state.talentMarket.visibleResearcherIds.filter((id) => id !== researcherId);
+}
+
+/** Employ with the researcher's promise included in the hiring terms. */
+function employWithPromise(
+  state: DeepMutable<GameState>,
+  researcherId: ResearcherId,
+): void {
+  employ(state, researcherId);
+  const researcher = state.researchers[researcherId];
+  if (researcher === undefined) throw new Error("fixture missing");
+  researcher.compact.includedInOffer = true;
+  researcher.compact.status = "tracking";
+  researcher.compact.windowStartedAt = state.run.tick;
 }
 
 function firstCandidate(state: GameState): ResearcherId {
@@ -335,6 +350,107 @@ describe("first-class promises", () => {
 });
 
 describe("departure checks and ultimatums", () => {
+  it("stops a promise's attached effects once it is broken", () => {
+    const draft = mutable(newState());
+    const researcherId = "base:researcher.jurgen-smithhuber" as ResearcherId;
+    employWithPromise(draft, researcherId);
+    const compactModifiers = (state: GameState) =>
+      Object.values(state.modifiers).filter(
+        (modifier) =>
+          (modifier.source.id ?? "").startsWith(`${researcherId}/`) &&
+          modifier.target === "aura.worldFirstCapabilityPaperGain",
+      ).length;
+    const kept = createTransaction(draft);
+    syncResearcherAbilityModifiers(kept, content, researcherId);
+    expect(compactModifiers(kept.commit({ description: "kept promise" }).state)).toBe(1);
+
+    const researcher = draft.researchers[researcherId];
+    if (researcher === undefined) throw new Error("researcher missing");
+    researcher.compact.status = "breached";
+    researcher.compact.breachedAt = draft.run.tick;
+    const broken = createTransaction(draft);
+    syncResearcherAbilityModifiers(broken, content, researcherId);
+    expect(compactModifiers(broken.commit({ description: "broken promise" }).state)).toBe(
+      0,
+    );
+  });
+
+  it("frees a departed researcher's promise-work slot", () => {
+    const draft = mutable(funded(newState()));
+    const labId = draft.run.playerLabId;
+    const researcherId = content.researchers.orderedIds
+      .map((id) => id as unknown as ResearcherId)
+      .find((id) => {
+        const candidate = mutable(draft);
+        employWithPromise(candidate, id);
+        return (
+          quoteResearcherCommitment(candidate, content, labId, id).blockers.length === 0
+        );
+      });
+    if (researcherId === undefined) throw new Error("promise-work fixture missing");
+    employWithPromise(draft, researcherId);
+    const startTx = createTransaction(draft);
+    const projectId = startResearcherCommitment(startTx, content, labId, researcherId);
+    const started = startTx.commit({ description: "start promise work" }).state;
+    expect(started.projects[projectId]?.status).not.toBe("cancelled");
+
+    const departTx = createTransaction(started);
+    departResearcher(departTx, content, researcherId, "voluntary");
+    const departed = departTx.commit({ description: "researcher leaves" }).state;
+    expect(departed.projects[projectId]?.status).toBe("cancelled");
+  });
+
+  it("never forces an ultimatum on a contented researcher", () => {
+    const draft = mutable(newState());
+    const researcherId = firstCandidate(draft);
+    employ(draft, researcherId);
+    const researcher = draft.researchers[researcherId];
+    if (researcher === undefined) throw new Error("researcher missing");
+    researcher.departurePressure = rating(5);
+    const tx = createTransaction(draft);
+    const check = checkResearcherDeparture(tx, content, researcherId, "quarterly");
+    expect(check.probability).toBe(0);
+    expect(check.outcome).not.toBe("ultimatum");
+  });
+
+  it("accepts an unassigned researcher's conditions without an assignment promise", () => {
+    const draft = mutable(funded(newState()));
+    const researcherId = firstCandidate(draft);
+    employ(draft, researcherId);
+    const researcher = draft.researchers[researcherId];
+    if (researcher === undefined) throw new Error("researcher missing");
+    delete researcher.assignment;
+    researcher.ultimatum = {
+      id: "ultimatum:unassigned",
+      reason: "quarterly",
+      issuedAt: draft.run.tick,
+      expiresAt: tick(draft.run.tick + 4),
+      status: "pending",
+    };
+    const command = {
+      kind: "resolve-researcher-ultimatum" as const,
+      meta: {
+        commandId: "command:accept-unassigned" as CommandId,
+        expectedTick: draft.run.tick,
+        issuedBy: "player" as const,
+      },
+      labId: draft.run.playerLabId,
+      researcherId,
+      response: "accept-conditions" as const,
+    };
+    const validation = validateCommand(draft, content, command);
+    expect(validation.ok).toBe(true);
+    if (validation.ok) {
+      expect(validation.preview.ultimatumResponse).toMatchObject({
+        createsPromise: false,
+      });
+    }
+    const promisesBefore = researcher.promises.length;
+    const retained = applyCommand(draft, content, command).state;
+    expect(retained.researchers[researcherId]?.ultimatum?.status).toBe("accepted");
+    expect(retained.researchers[researcherId]?.promises).toHaveLength(promisesBefore);
+  });
+
   it("runs and stores the deterministic quarterly departure check", () => {
     const draft = mutable(newState());
     const researcherId = firstCandidate(draft);

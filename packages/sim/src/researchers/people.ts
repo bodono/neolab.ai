@@ -144,6 +144,9 @@ export interface DismissalQuote {
 
 export type UltimatumResponse = "accept-conditions" | "wish-well";
 
+/** Below this departure pressure a researcher is content: no ultimatum floor. */
+export const CONTENT_RESEARCHER_DEPARTURE_PRESSURE = 20;
+
 export interface UltimatumResponsePreview {
   readonly researcherId: ResearcherId;
   readonly response: UltimatumResponse;
@@ -284,8 +287,10 @@ export function updateOrganisationRatings(
 }
 
 /**
- * Apply a visible five-percent market/seniority review on each researcher's
- * individual 52-week contract anniversary. The agreed-at tick remains the
+ * Re-mark each researcher's salary to the current market on their individual
+ * 52-week contract anniversary: base pay times salary inflation times the
+ * AGI-proximity boom, never below the current salary. Late in the race that
+ * can be many times the signing salary. The agreed-at tick remains the
  * immutable anniversary anchor, so save/load and replay cannot double-apply a
  * review.
  */
@@ -637,6 +642,18 @@ export function departResearcher(
     lab.roster.researcherIds = lab.roster.researcherIds.filter(
       (candidateId) => candidateId !== researcherId,
     );
+    // Promise work for someone who has left frees its project slot.
+    for (const project of Object.values(draft.projects)) {
+      if (
+        project.payload.kind === "researcher-commitment" &&
+        project.payload.researcherId === researcherId &&
+        (project.status === "queued" ||
+          project.status === "active" ||
+          project.status === "paused")
+      ) {
+        project.status = "cancelled";
+      }
+    }
     draft.decisionLog.push({
       tick: draft.run.tick,
       summary: `${researcherName} left the lab (${reason}).`,
@@ -760,8 +777,12 @@ export function checkResearcherDeparture(
     {
       strength: effectivePressure,
       difficulty: 65,
-      minimumProbability: 0.02,
-      maximumProbability: 0.9,
+      // A 2% floor kept contented staff issuing ultimatums. A researcher below
+      // the contentment threshold now never threatens to leave.
+      minimumProbability:
+        effectivePressure < CONTENT_RESEARCHER_DEPARTURE_PRESSURE ? 0 : 0.02,
+      maximumProbability:
+        effectivePressure < CONTENT_RESEARCHER_DEPARTURE_PRESSURE ? 0 : 0.9,
     },
   );
   const immediateDeparture =
@@ -1048,15 +1069,15 @@ export function quoteUltimatumResponse(
   } else if (state.run.tick >= researcher.ultimatum.expiresAt) {
     blockers.push("The ultimatum response window has closed");
   }
-  if (response === "accept-conditions" && researcher.assignment === undefined) {
-    blockers.push("Cannot accept conditions without a current assignment");
-  }
   if (lab.aura.spendable < auraCost) blockers.push("Insufficient Aura");
   return {
     researcherId,
     response,
     auraCost,
-    createsPromise: response === "accept-conditions",
+    // An unassigned researcher's settlement has no working arrangement to
+    // protect, so accepting creates no promise.
+    createsPromise:
+      response === "accept-conditions" && researcher.assignment !== undefined,
     blockers,
   };
 }
@@ -1150,9 +1171,6 @@ export function respondToUltimatum(
     }
     departResearcher(tx, content, researcherId, "voluntary");
     return;
-  }
-  if (researcher.assignment === undefined) {
-    throw new Error("Cannot accept conditions without a current assignment");
   }
   applyEffects(
     tx,
