@@ -1724,11 +1724,11 @@ Each deployed model has segment-specific appeal from `0–100`:
 
 Consumer and Enterprise appeal:
 
-`appeal = 0.65 × relevantCapability + 0.20 × productQuality + 0.15 × reliability - pricePenalty - incidentPenalty - accessPenalty`
+`appeal = 0.65 × relevantCapability + 0.20 × productQuality + 0.15 × reliability - incidentPenalty - accessPenalty`
 
 Government appeal:
 
-`appeal = 0.50 × governmentTrust + 0.35 × relevantCapability + 0.10 × reliability + 0.05 × productQuality - pricePenalty - incidentPenalty - accessPenalty`
+`appeal = 0.50 × governmentTrust + 0.35 × relevantCapability + 0.10 × reliability + 0.05 × productQuality - incidentPenalty - accessPenalty`
 
 Weights can be overridden by segment data, but must sum to one before penalties. Public standing affects fundraising, recruitment, and valuation; it does not affect customer demand. Government Trust both unlocks the Government segment and remains its largest source of appeal.
 
@@ -1742,12 +1742,7 @@ Default `acquisitionRate` is `0.25` for researchers/start-ups, `0.15` for consum
 
 ### 33.3 Price and revenue
 
-The player sets one price tier for the public product and can negotiate separate enterprise or government contracts.
-
-- Price tiers are `Free Preview`, `Cheap`, `Market`, `Premium`, and `Scarcity`.
-- Each tier maps to a revenue per delivered usage unit and a segment-specific price penalty.
-- A price change takes effect next cycle.
-- Two price-tier changes within eight weeks add a `5`-point trust penalty called **Pricing Through Vibes**.
+There is no pricing lever. Value per delivered FLOP follows a bounded curve in capability, split between segments by their authored revenue share; revenue grows through capability, product quality, reliability, customer satisfaction and serving capacity. A public price tier was specified here but never read by revenue or appeal, so it was removed.
 
 Cycle product revenue is:
 
@@ -4596,7 +4591,7 @@ Before final art production, implement a UI-independent balance harness which ca
 - Replay an action log exactly
 - Sweep one balance constant across a range
 - Report win funnel, loss family, run calendar length, resource curves, paper ownership, researcher turnover, event frequency, and endgame inputs
-- Detect impossible projects, negative prices, allocation sums outside tolerance, and deadlocked events
+- Detect impossible projects, allocation sums outside tolerance, and deadlocked events
 
 Headless results find mathematical failures, not fun. Human playtests must separately record comprehension, perceived fairness, decision time, dominant UI habits, jokes which land, jokes which age badly, and whether the Deployment Crisis feels earned.
 
