@@ -1327,6 +1327,57 @@ describe("milestone-driven lab maturity", () => {
     );
   });
 
+  it("pauses once when a chapter objective completes", () => {
+    const draft = structuredClone(
+      createProgressiveNewGame(config(), content),
+    ) as DeepMutable<GameState>;
+    const lab = draft.labs[draft.run.playerLabId];
+    if (lab === undefined) throw new Error("progressive campaign player lab missing");
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = "startup";
+    lab.finance.cash = cashMillions(25);
+    draft.presentationQueue = [];
+
+    let state = applyCommand(draft, content, {
+      kind: "start-facility-construction",
+      meta: {
+        commandId: "command:objective-server-rack" as CommandId,
+        expectedTick: draft.run.tick,
+        issuedBy: "player",
+      },
+      labId: draft.run.playerLabId,
+      definitionId: contentId("base:facility.server-rack"),
+    }).state;
+    const objectiveLogged = (candidate: GameState) =>
+      candidate.decisionLog.some(
+        (entry) => entry.summary === "Objective complete: Build the Server Rack",
+      );
+    const pauses: boolean[] = [];
+    for (let week = 0; week < 8; week += 1) {
+      const result = advanceOneTick(state, content);
+      const loggedThisWeek = objectiveLogged(result.state) && !objectiveLogged(state);
+      state = result.state;
+      if (result.autoPauseReasons.includes("manual")) pauses.push(loggedThisWeek);
+    }
+    // One pause, in the week the Server Rack objective completed.
+    expect(pauses).toEqual([true]);
+    expect(labMaturityStage(state)).toBe("startup");
+  });
+
+  it("explains that the first round converts the family credit line", () => {
+    const draft = structuredClone(
+      createProgressiveNewGame(config(), content),
+    ) as DeepMutable<GameState>;
+    const lab = draft.labs[draft.run.playerLabId];
+    if (lab === undefined) throw new Error("progressive campaign player lab missing");
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = "startup";
+    lab.finance.cash = cashMillions(-12);
+    expect(projectLabMaturity(draft)?.openingCreditNote).toBe(
+      "Family credit line drawn: $12M. It converts into your parents' stake when your first funding round closes in Chapter 7.",
+    );
+    lab.finance.cash = cashMillions(3);
+    expect(projectLabMaturity(draft)?.openingCreditNote).toBeUndefined();
+  });
+
   it("does not accept a different facility as the out-of-garage milestone", () => {
     const draft = structuredClone(
       createProgressiveNewGame(config(), content),

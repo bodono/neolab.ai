@@ -41,6 +41,9 @@ export function LabMaturityPanel({
             </li>
           ))}
         </ol>
+        {maturity.openingCreditNote === undefined ? null : (
+          <p className="lab-maturity-credit-note">{maturity.openingCreditNote}</p>
+        )}
       </div>
     </section>
   );

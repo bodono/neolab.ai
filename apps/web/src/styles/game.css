@@ -19676,6 +19676,13 @@ button.researcher-slot-card:hover {
   font-weight: 650;
 }
 
+.lab-maturity-panel-body > p.lab-maturity-credit-note {
+  grid-column: 1 / -1;
+  color: var(--orange);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
 .lab-maturity-panel-body ol {
   display: grid;
   gap: 0.55rem;

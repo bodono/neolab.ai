@@ -15,6 +15,7 @@ import { deepFreeze } from "../engine/transaction.ts";
 import type { GameCommand } from "../commands/types.ts";
 import type { GameState } from "../model/state.ts";
 import { cashMillions } from "../model/units.ts";
+import { formatValuation } from "../finance/valuation.ts";
 import {
   AGI_CANDIDATE_MINIMUM_CAPABILITY_ATTRIBUTE,
   AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
@@ -220,7 +221,7 @@ const DEFINITIONS: Readonly<Record<LabMaturityStage, LabMaturityStageDefinition>
     narrative:
       "Customers make the lab credible. Now turn that credibility into runway—if you survive the pitch.",
     mechanic:
-      "Fundraising spends Aura and time to generate offers. Larger campaigns cost more Aura but can raise more cash. Compare the cash, valuation and attached conditions before accepting.",
+      "Fundraising spends Aura and time to generate offers. Larger campaigns cost more Aura but can raise more cash. Compare the cash, valuation and attached conditions before accepting. Your first round also converts any family credit-line overdraft into your parents' stake.",
     unlocked: [
       "Fundraising",
       "Valuation and financial detail",
@@ -788,6 +789,45 @@ function releaseFullGameCashGrant(tx: SimulationTransaction): void {
   });
 }
 
+function objectivesDoneFlag(stage: LabMaturityStage): string {
+  return `campaign:lab-maturity:${stage}:objectives-done`;
+}
+
+/**
+ * Finishing a chapter objective pauses the clock, as finishing the chapter
+ * does, so a lab running at 4x is not left burning cash with nothing queued.
+ * Objectives already complete when the chapter opens do not pause again.
+ */
+function pauseOnNewlyCompletedObjectives(
+  tx: SimulationTransaction,
+  stage: LabMaturityStage,
+): void {
+  const state = tx.read();
+  const checklist = projectLabMaturity(state)?.checklist ?? [];
+  const done = checklist.map((item) => (item.complete ? "1" : "0")).join("");
+  const recorded = state.labs[state.run.playerLabId]?.flags[objectivesDoneFlag(stage)];
+  if (recorded === done) return;
+  const newlyComplete =
+    typeof recorded === "string"
+      ? checklist.filter((item, index) => item.complete && recorded[index] !== "1")
+      : [];
+  tx.update((draft) => {
+    const lab = draft.labs[draft.run.playerLabId];
+    if (lab === undefined) throw new Error("Progressive campaign player lab is missing");
+    lab.flags[objectivesDoneFlag(stage)] = done;
+    for (const item of newlyComplete) {
+      draft.decisionLog.push({
+        tick: draft.run.tick,
+        summary: `Objective complete: ${item.label}`,
+        category: "narrative",
+        source: { kind: "system", id: "campaign.lab-maturity" },
+        relatedIds: [stage],
+      });
+    }
+  });
+  if (newlyComplete.length > 0) tx.requestAutoPause("manual");
+}
+
 export function synchronisePlayerLabMaturity(tx: SimulationTransaction): void {
   let state = tx.read();
   if (!isProgressiveCampaign(state)) return;
@@ -807,6 +847,8 @@ export function synchronisePlayerLabMaturity(tx: SimulationTransaction): void {
     });
     state = tx.read();
   }
+  pauseOnNewlyCompletedObjectives(tx, current);
+  state = tx.read();
   if (!stageComplete(state, current)) return;
   const next = nextStage(current);
   if (next === undefined) return;
@@ -1061,6 +1103,11 @@ export interface LabMaturityViewData extends LabMaturityStageDefinition {
    * itself remains available because it also drives department visibility.
    */
   readonly showOverviewPanel: boolean;
+  /**
+   * The opening family credit line lets required chapter actions take cash
+   * below zero. Say so, and say that the first round converts the overdraft.
+   */
+  readonly openingCreditNote?: string;
 }
 
 export function projectLabMaturity(
@@ -1207,6 +1254,7 @@ export function projectLabMaturity(
         return [{ label: "The full strategic game is open", complete: true }];
     }
   })();
+  const overdraft = lab === undefined ? 0 : Math.max(0, 0 - Number(lab.finance.cash));
   return {
     ...definition,
     ordinal: stageIndex(stage) + 1,
@@ -1215,5 +1263,10 @@ export function projectLabMaturity(
     complete: stage === "frontier",
     safetyResearchUnlocked: stageIndex(stage) >= stageIndex("foundation"),
     showOverviewPanel,
+    ...(overdraft > 0 && !hasAcceptedFunding(state)
+      ? {
+          openingCreditNote: `Family credit line drawn: ${formatValuation(overdraft)}. It converts into your parents' stake when your first funding round closes in Chapter 7.`,
+        }
+      : {}),
   };
 }
