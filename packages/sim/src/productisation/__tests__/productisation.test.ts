@@ -11,6 +11,7 @@ import { createNewGame } from "../../engine/create-new-game.ts";
 import { applyEffect } from "../../engine/effect-executor.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { createTransaction } from "../../engine/transaction.ts";
+import { eraCashMultiplier, roundCash } from "../../events/event-cash.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import type { GameState } from "../../model/state.ts";
 import { rating } from "../../model/units.ts";
@@ -38,6 +39,26 @@ function newState(): GameState {
     content,
   );
 }
+
+describe("productisation cost", () => {
+  it("charges the authored cost in the opening era and scales it with GPU prices", () => {
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    const lab = state.labs[state.run.playerLabId];
+    const modelId = lab?.models.currentModelId;
+    if (lab === undefined || modelId === undefined) {
+      throw new Error("productisation cost fixture missing");
+    }
+    const hardenedCost = () =>
+      quoteProductisation(state, content, { labId: lab.id, modelId, mode: "hardened" })
+        .cashCostMillions;
+    const authored = content.deployment.productisation.hardened.cashCostMillions;
+    expect(hardenedCost()).toBe(authored);
+
+    state.world.currentGpuGenerationId = contentId("base:gpu.ampere");
+    expect(hardenedCost()).toBe(roundCash(authored * eraCashMultiplier(state, content)));
+    expect(hardenedCost()).toBeGreaterThan(authored * 10);
+  });
+});
 
 describe("productisation duration modifiers", () => {
   it("completes safely when a hot-reloaded tab still holds the previous recipe shape", () => {

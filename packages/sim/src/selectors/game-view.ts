@@ -4,6 +4,7 @@ import {
   type ContentId,
   type DeploymentPolicy,
   type PaperPrerequisitePredicate,
+  type ProductisationMode,
 } from "@neolab/content-schema";
 
 import {
@@ -146,7 +147,10 @@ import {
   quoteCandidateRetirement,
 } from "../endgame/retirement.ts";
 import { classifyCapabilityTier } from "../models/tiers.ts";
-import { quoteDeploymentAura } from "../productisation/productisation.ts";
+import {
+  productisationCashCostMillions,
+  quoteDeploymentAura,
+} from "../productisation/productisation.ts";
 import { calculateProjectCapacity } from "../projects/project-framework.ts";
 import {
   evaluateModifierActivation,
@@ -1290,6 +1294,8 @@ export interface ModelsView {
     | {
         readonly status: "consumed";
       };
+  /** What each productisation mode costs in the current era. */
+  readonly productisationCostMillions: Readonly<Record<ProductisationMode, number>>;
   readonly trainingForecast: {
     readonly source: "default-if-started-today" | "active-run";
     readonly estimatedFrontierCapability: number;
@@ -4679,6 +4685,11 @@ function projectModels(
     ...(commercialModelId === undefined ? {} : { commercialModelId }),
     cards,
     candidateCustody,
+    productisationCostMillions: {
+      normal: productisationCashCostMillions(state, content, "normal"),
+      hardened: productisationCashCostMillions(state, content, "hardened"),
+      rush: productisationCashCostMillions(state, content, "rush"),
+    },
     trainingForecast,
     ...(state.endgameHistory.successorEfficiencyGrantConsumed
       ? {

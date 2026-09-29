@@ -4262,8 +4262,10 @@ export function ModelsWorkspace({
                             <dt>Base programme</dt>
                             <dd>
                               {definition.durationWeeks} week
-                              {definition.durationWeeks === 1 ? "" : "s"} · $
-                              {definition.cashCostMillions}m
+                              {definition.durationWeeks === 1 ? "" : "s"} ·{" "}
+                              {formatValuation(
+                                view.models.productisationCostMillions[mode],
+                              )}
                             </dd>
                           </div>
                           <div>

@@ -24,6 +24,7 @@ import {
 import { cashMillions, rating } from "../model/units.ts";
 import { processCapabilityTierMilestones } from "../models/tiers.ts";
 import { isProgressiveOpeningCreditAvailable } from "../campaign/progressive-opening.ts";
+import { eraCashMultiplier, roundCash } from "../events/event-cash.ts";
 import {
   recordResearcherCompactActions,
   recordResearcherModelReleaseCompactEvent,
@@ -259,6 +260,22 @@ function productEngineeringBreakdown(
   };
 }
 
+/**
+ * Productisation is authored at opening-era prices and scales with the era, as
+ * event cash does. Flat $0.5M/$2M/$5M costs stayed fixed while payroll grew
+ * about 24x, so Hardened release engineering became free by mid-game.
+ */
+export function productisationCashCostMillions(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  mode: ProductisationMode,
+): number {
+  const recipe = content.deployment.productisation[mode];
+  return recipe.cashCostMillions <= 0
+    ? 0
+    : roundCash(recipe.cashCostMillions * eraCashMultiplier(state, content));
+}
+
 export function quoteProductisation(
   state: Readonly<GameState>,
   content: CompiledContent,
@@ -274,7 +291,7 @@ export function quoteProductisation(
     request.labId,
     "productisation",
   );
-  const cashCostMillions = recipe.cashCostMillions;
+  const cashCostMillions = productisationCashCostMillions(state, content, request.mode);
   const blockers: string[] = [];
   if (
     request.labId === state.run.playerLabId &&
