@@ -46,7 +46,6 @@ function viewWithOffer(base: GameView): GameView {
           offerId: "offer:test",
           campaign: "quiet-bridge",
           investorStyle: "patient-capital",
-          dilutionFlavor: "ordinary-equity",
           cashMillions: 12,
           expiresAtTick: base.meta.tick + 4,
           expiresInWeeks: 4,

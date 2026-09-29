@@ -472,6 +472,29 @@ describe("fundraising campaigns", () => {
     );
   });
 
+  it("does not size a round on cash the lab already holds", () => {
+    const withMark = (cash: number, markMillions: number) => {
+      const state = mutable(newState());
+      const lab = state.labs[state.run.playerLabId];
+      if (lab === undefined) throw new Error("player lab missing");
+      lab.finance.cash = cashMillions(cash);
+      lab.finance.valuation = {
+        markMillions,
+        previousMarkMillions: markMillions,
+        peakMarkMillions: markMillions,
+        announcedMilestones: [],
+      };
+      return quoteFundraisingCampaign(
+        state,
+        content,
+        state.run.playerLabId,
+        "competitive-round",
+      ).estimatedCashRangeMillions;
+    };
+    // $2bn of idle cash adds $2bn to the mark but nothing to the round.
+    expect(withMark(2_000 + 50, 2_000 + 2_000)).toEqual(withMark(50, 2_000));
+  });
+
   it("keeps campaign cheques below the pre-money mark and quotes post-money valuation", () => {
     const state = mutable(newState());
     const labId = state.run.playerLabId;

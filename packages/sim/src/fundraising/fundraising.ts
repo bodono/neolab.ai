@@ -47,7 +47,7 @@ function roundMoney(value: number): number {
 }
 
 /**
- * Size a campaign from the lab's pre-money valuation.
+ * Size a campaign from the lab's pre-money valuation, less the cash it holds.
  *
  * The standard Competitive round targets roughly ROUND_FRACTION_OF_MARK. A
  * Quiet bridge targets half that amount and a Mega round twice it. Funding
@@ -73,7 +73,7 @@ function campaignBaseOfferMillions(
     1,
   );
   const markSized =
-    currentMark(state, content, labId) *
+    raisableMarkMillions(state, content, labId) *
     ROUND_FRACTION_OF_MARK *
     definition.roundSizeMultiplier *
     scoreFactor;
@@ -90,7 +90,24 @@ function campaignBaseOfferMillions(
 }
 
 /**
- * A round is roughly this share of the mark before campaign shaping.
+ * The mark less the cash the lab already holds.
+ *
+ * The mark counts cash 1:1, so sizing rounds from the whole mark let every
+ * round enlarge the next: a year of back-to-back rounds roughly quadrupled
+ * cash on its own, limited only by Aura. Investors price what the lab has
+ * built, not the money they or others have just put in.
+ */
+export function raisableMarkMillions(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: LabId,
+): number {
+  const cash = state.labs[labId]?.finance.cash ?? 0;
+  return Math.max(0, currentMark(state, content, labId) - Math.max(0, cash));
+}
+
+/**
+ * A round is roughly this share of the mark, less cash, before campaign shaping.
  *
  * Raised 0.12 -> 0.20 on 2026-07-27 after measuring the valuation curve. A
  * lab's mark plateaus near $300m from roughly year two to year five before
@@ -677,14 +694,18 @@ function selectOfferShape(shapes: readonly OfferShape[], variant: number): Offer
  * offer with the most strings strictly the best one and reduced the choice
  * between term sheets to a comparison of one random draw. Now that every
  * condition costs something real, the premium has to be large enough that
- * taking one is a genuine decision rather than an obvious refusal: two
- * conditions is +44% cash against, say, research -5% and all operating costs
- * +5% for two years.
+ * taking one is a genuine decision rather than an obvious refusal.
  *
  * Offers carry 0, 1 or 2 conditions. Three was too many to weigh at once and
  * made the clean no-strings offer look absurd by comparison.
+ *
+ * Cut 22% -> 10% on 2026-09-29. A Competitive round is at least ~19 cycles of
+ * revenue, so 22% paid about 4x a cycle's revenue per condition against
+ * costs of roughly 0.65-1.3x, and the most conditioned offer almost always
+ * won. At 10% a condition pays about 1.9x: still ahead, but close enough
+ * that the particular strings matter.
  */
-export const CONDITION_CASH_PREMIUM = 0.22;
+export const CONDITION_CASH_PREMIUM = 0.1;
 
 /** Two years: long enough to shape a strategy, short enough to plan around. */
 const LONG_WINDOW = 104;

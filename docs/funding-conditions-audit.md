@@ -276,20 +276,21 @@ would not have caught any of it.
 ## 7. Current state
 
 Every funding condition is a time-limited multiplier on a target the simulation
-reads. Offers carry **0, 1 or 2** conditions and pay **+22% cash each**.
+reads. Offers carry **0, 1 or 2** conditions and pay **+10% cash each** (22% until
+2026-09-29, when rounds also stopped being sized on the cash a lab holds).
 
 | condition | effect | window |
 |---|---|---|
-| Commercialisation push | research output −3% | 104w |
-| Publication restraint | research output −2% | 52w |
+| Commercialisation push | research output −5% | 104w |
+| Publication restraint | research output −5% | 52w |
 | Preferred hardware vendor | GPU purchase price +5% | 104w |
-| Procurement through partner | acquisition cost +6% | 52w |
-| Aggressive scaling | owned power cost +7% | 52w |
-| Reserved inference | compute per served request +6% | 52w |
-| Investor reporting | all operating costs +4% | 104w |
-| Revenue share | product revenue −4% | 104w |
+| Procurement through partner | acquisition cost +5% | 52w |
+| Aggressive scaling | owned power cost +5% | 52w |
+| Reserved inference | compute per served request +5% | 52w |
+| Investor reporting | all operating costs +5% | 104w |
+| Revenue share | product revenue −5% | 104w |
 | Exclusivity terms | demand ceiling −5% | 52w |
-| Safety assurance regime | evaluation cash cost +12% | 104w |
+| Safety assurance regime | evaluation cash cost +10% | 104w |
 
 Tests assert that every condition lands as a live expiring modifier, that none
 sits on a researcher-only target (`resolveResearcherStack` passes

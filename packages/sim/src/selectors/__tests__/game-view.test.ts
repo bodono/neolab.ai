@@ -73,7 +73,7 @@ describe("projectGameView", () => {
     expect(breakdown.scandalPenalty).toBeGreaterThanOrEqual(0);
     // The constants come from the engine, not a hardcoded UI copy of them.
     expect(fundraising.roundFractionOfMarkPercent).toBe(20);
-    expect(fundraising.conditionCashPremiumPercent).toBe(22);
+    expect(fundraising.conditionCashPremiumPercent).toBe(10);
     expect(fundraising.recentRoundAuraSurchargePercent).toBe(15);
     expect(fundraising.recentRoundsInWindow).toBe(0);
   });

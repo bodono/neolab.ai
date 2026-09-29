@@ -150,10 +150,6 @@ export function FundraisingDialog({
                     </div>
                     <dl>
                       <div>
-                        <dt>Structure</dt>
-                        <dd>{humanise(offer.dilutionFlavor)}</dd>
-                      </div>
-                      <div>
                         <dt>Decision due</dt>
                         <dd>
                           {offer.expiresInWeeks} week
@@ -165,7 +161,8 @@ export function FundraisingDialog({
                           <dt>Post-money valuation</dt>
                           <dd>
                             {formatValuation(offer.impliedMarkMillions)} — after this
-                            investment; it sizes every later round
+                            investment; later rounds are sized from it, less the cash you
+                            hold
                           </dd>
                         </div>
                       )}

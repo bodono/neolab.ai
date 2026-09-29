@@ -1462,8 +1462,8 @@ export interface FundraisingView {
     readonly scandalPenalty: number;
   };
   /**
-   * How rounds are sized: roughly this share of the lab's valuation mark.
-   * Growing the mark is the only way to grow the raise.
+   * How rounds are sized: roughly this share of the lab's valuation mark,
+   * less the cash it holds. Growing the mark is the only way to grow the raise.
    */
   readonly roundFractionOfMarkPercent: number;
   /** Extra Aura per round closed in the last 52 weeks. */
@@ -1508,7 +1508,6 @@ export interface FundraisingView {
     readonly offerId: string;
     readonly campaign: "quiet-bridge" | "competitive-round" | "mega-round-roadshow";
     readonly investorStyle: string;
-    readonly dilutionFlavor: string;
     readonly cashMillions: number;
     readonly expiresAtTick: number;
     readonly expiresInWeeks: number;
@@ -5068,7 +5067,6 @@ export function projectGameView(
         offerId,
         campaign: offer.campaign,
         investorStyle: offer.investorStyle,
-        dilutionFlavor: offer.dilutionFlavor,
         cashMillions: offer.cashMillions,
         expiresAtTick: offer.expiresAt,
         expiresInWeeks: Math.max(0, offer.expiresAt - state.run.tick),
