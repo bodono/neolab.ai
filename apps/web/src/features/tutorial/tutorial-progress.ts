@@ -200,7 +200,7 @@ export function tutorialStepForView(view: GameView): TutorialStep {
       instruction: waiting
         ? "Run the clock until Server Rack construction is complete."
         : "Open Facilities & campus and commission the Server Rack.",
-      why: "The Server Rack raises GPU capacity from the garage's 1,000 to 4,000.",
+      why: "The Server Rack houses 4,000 more GPUs alongside the garage's 1,000.",
       destination: "facilities",
       targetIds: waiting ? ["clock-2x"] : ["build-server-rack", "nav-facilities"],
       waiting,

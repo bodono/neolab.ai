@@ -639,17 +639,24 @@ describe("project scheduling and construction", () => {
     );
   });
 
-  it("builds Data Centre I after its prerequisites and exposes 30,000-GPU support", () => {
+  it("builds Data Centre I after its prerequisites and adds its 30,000 GPUs", () => {
     const powered = buildCorePrerequisites();
+    const before = calculateFacilityCapacity(
+      powered,
+      content,
+      powered.run.playerLabId,
+    ).supportedOwnedGpuCount;
     const queued = applyCommand(
       powered,
       content,
       constructionCommand(powered, "base:facility.data-centre-1"),
     ).state;
     const completed = advance(queued, 18);
+    // The rack and hall keep housing their GPUs rather than being written off.
+    expect(before).toBe(16_000);
     expect(
       calculateFacilityCapacity(completed, content, completed.run.playerLabId),
-    ).toMatchObject({ supportedOwnedGpuCount: 30000 });
+    ).toMatchObject({ supportedOwnedGpuCount: 46_000 });
     const bigOrder = quoteGpuPurchase(
       completed,
       content,
@@ -658,7 +665,7 @@ describe("project scheduling and construction", () => {
       15,
     );
     expect(bigOrder.capacity).toMatchObject({
-      supportedPhysicalGpus: 30000,
+      supportedPhysicalGpus: 46_000,
       met: true,
     });
     expect(

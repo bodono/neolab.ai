@@ -56,23 +56,19 @@ export interface FacilityCapacityView {
   readonly ownedGpuHeadroom: number;
 }
 
+/**
+ * Every building houses its own GPUs, as its card says. Capacity used to be
+ * the largest building in each family, so a new data centre wrote off the
+ * racks, halls and centres before it while they kept charging upkeep: about
+ * $9.4M a cycle by Data Centre IV.
+ */
 function supportedOwnedGpuCount(
   baselineOwnedGpuCapacity: number,
   definitions: readonly CompiledContent["facilities"][string][],
 ): number {
-  const maximumByFamily = new Map<string, number>();
-  for (const definition of definitions) {
-    maximumByFamily.set(
-      definition.family,
-      Math.max(
-        maximumByFamily.get(definition.family) ?? 0,
-        definition.supportedOwnedGpuCount,
-      ),
-    );
-  }
   return Math.max(
     baselineOwnedGpuCapacity,
-    [...maximumByFamily.values()].reduce((sum, capacity) => sum + capacity, 0),
+    definitions.reduce((sum, definition) => sum + definition.supportedOwnedGpuCount, 0),
   );
 }
 

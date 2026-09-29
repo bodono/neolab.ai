@@ -1234,7 +1234,7 @@ describe("milestone-driven lab maturity", () => {
     ).toBe("safety");
   });
 
-  it("expands garage capacity only after the server rack is built", () => {
+  it("adds the server rack's capacity to the garage only once it is built", () => {
     const draft = structuredClone(
       createProgressiveNewGame(config(), content),
     ) as DeepMutable<GameState>;
@@ -1269,7 +1269,7 @@ describe("milestone-driven lab maturity", () => {
         intelligenceRatings: {},
         evidenceAccess: { evaluationIds: [], anomalyIds: [] },
       }).facilities.capacity.supportedOwnedGpuCount;
-      if (capacity === 4_000) break;
+      if (capacity === 5_000) break;
       state = advanceOneTick(state, content).state;
     }
 
@@ -1279,7 +1279,7 @@ describe("milestone-driven lab maturity", () => {
         intelligenceRatings: {},
         evidenceAccess: { evaluationIds: [], anomalyIds: [] },
       }).facilities.capacity.supportedOwnedGpuCount,
-    ).toBe(4_000);
+    ).toBe(5_000);
     expect(labMaturityStage(state)).toBe("startup");
 
     state = applyCommand(state, content, {

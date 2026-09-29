@@ -166,7 +166,8 @@ describe("GPU generation catalogue", () => {
       state.world.currentGpuGenerationId,
       1,
     );
-    expect(expanded.capacity.supportedPhysicalGpus).toBe(800_000);
+    // Data Centre IV's 800,000 GPUs add to the rival's existing server rack.
+    expect(expanded.capacity.supportedPhysicalGpus).toBe(804_000);
     expect(expanded.canPurchase).toBe(true);
   });
 
