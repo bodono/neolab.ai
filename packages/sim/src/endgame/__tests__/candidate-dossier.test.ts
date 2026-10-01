@@ -10,7 +10,10 @@ import rawBundle from "../../../../content/generated/content.bundle.json";
 import { createNewGame } from "../../engine/create-new-game.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { createTransaction } from "../../engine/transaction.ts";
-import { completeEmergencyDiagnosisEvaluation } from "../../evaluations/evaluations.ts";
+import {
+  completeEmergencyDiagnosisEvaluation,
+  emergencyDiagnosisDefinitions,
+} from "../../evaluations/evaluations.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import type { AnomalyId, EvaluationId } from "../../model/ids.ts";
 import type { EvaluationState, GameState } from "../../model/state.ts";
@@ -78,6 +81,27 @@ describe("candidate safety dossier", () => {
     ).responses.find((response) => response.id === "emergency-diagnosis");
 
     expect(diagnosis?.durationWeeks).toBe(2);
+  });
+
+  it("only offers emergency diagnosis while a safety evaluation remains to run", () => {
+    let state: GameState = playerState();
+    const modelId = currentModelId(state);
+    const offered = () =>
+      candidateDossier(state, content, modelId).responses.some(
+        (response) => response.id === "emergency-diagnosis",
+      );
+    let diagnoses = 0;
+    // Each diagnosis consumes one safety evaluation. Commissioning one after
+    // the last threw at completion and broke the week.
+    while (offered() && diagnoses < 40) {
+      const tx = createTransaction(state);
+      completeEmergencyDiagnosisEvaluation(tx, content, modelId);
+      state = tx.commit({ description: "complete emergency diagnosis" }).state;
+      diagnoses += 1;
+    }
+    expect(diagnoses).toBeGreaterThan(0);
+    expect(emergencyDiagnosisDefinitions(state, content, modelId)).toEqual([]);
+    expect(offered()).toBe(false);
   });
 
   it("separates dismissed uncertainty from actionable anomaly signals", () => {

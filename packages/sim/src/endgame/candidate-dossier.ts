@@ -1,5 +1,6 @@
 import type { CompiledContent } from "@neolab/content-schema";
 
+import { emergencyDiagnosisDefinitions } from "../evaluations/evaluations.ts";
 import { modelSafetyReadout, type SafetyTarget } from "../evaluations/safety-readout.ts";
 import type { ModelId } from "../model/ids.ts";
 import type { GameState } from "../model/state.ts";
@@ -199,7 +200,12 @@ function responseRegistry(
     ).length;
   const diagnosisWeeks = Math.max(2, Math.min(8, 8 - Math.floor(evaluationQuality / 16)));
   const responses: CandidateSafetyResponse[] = [];
-  if (diagnosticFindings.length > 0) {
+  // Repeatable, but each run consumes one safety evaluation: once the model has
+  // completed every one, there is nothing left to commission.
+  if (
+    diagnosticFindings.length > 0 &&
+    emergencyDiagnosisDefinitions(state, content, modelId).length > 0
+  ) {
     responses.push({
       id: "emergency-diagnosis",
       displayName: "Commission emergency diagnosis",

@@ -1115,6 +1115,26 @@ export function completeBaselineEvaluation(
  * anomalies, practice gains, and uncertainty—instead of a generic evidence
  * bonus that would not appear in the candidate dossier.
  */
+/**
+ * Safety evaluations an emergency diagnosis could still run on a model: each
+ * startable safety evaluation it has not completed, with its prerequisite met.
+ * The dossier offers the repeatable diagnosis only while one remains.
+ */
+export function emergencyDiagnosisDefinitions(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  modelId: ModelId,
+): readonly EvaluationDefinition[] {
+  return Object.values(content.evaluations.definitions).filter(
+    (definition) =>
+      definition.playerStartable &&
+      definition.targets.some((target) => isSafetyTarget(target)) &&
+      !hasCompletedEvaluation(state, modelId, definition.id) &&
+      (definition.requiresEvaluationId === undefined ||
+        hasCompletedEvaluation(state, modelId, definition.requiresEvaluationId)),
+  );
+}
+
 export function completeEmergencyDiagnosisEvaluation(
   tx: SimulationTransaction,
   content: CompiledContent,
@@ -1143,21 +1163,14 @@ export function completeEmergencyDiagnosisEvaluation(
       const evidenceGap = Math.max(0, 12 - (observationCounts.get(target) ?? 0) * 3);
       return score + targeted + evidenceGap;
     }, 0);
-  const definitions = Object.values(content.evaluations.definitions)
-    .filter(
-      (definition) =>
-        definition.playerStartable &&
-        definition.targets.some((target) => isSafetyTarget(target)) &&
-        !hasCompletedEvaluation(tx.read(), model.id, definition.id) &&
-        (definition.requiresEvaluationId === undefined ||
-          hasCompletedEvaluation(tx.read(), model.id, definition.requiresEvaluationId)),
-    )
-    .sort(
-      (left, right) =>
-        coverageScore(right) - coverageScore(left) ||
-        left.ladderRung - right.ladderRung ||
-        (left.id < right.id ? -1 : left.id > right.id ? 1 : 0),
-    );
+  const definitions = [
+    ...emergencyDiagnosisDefinitions(tx.read(), content, model.id),
+  ].sort(
+    (left, right) =>
+      coverageScore(right) - coverageScore(left) ||
+      left.ladderRung - right.ladderRung ||
+      (left.id < right.id ? -1 : left.id > right.id ? 1 : 0),
+  );
   const definition = definitions[0];
   if (definition === undefined) {
     throw new Error(`No legal emergency safety diagnosis remains for ${modelId}`);
