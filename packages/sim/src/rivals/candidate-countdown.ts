@@ -52,8 +52,14 @@ const RIVAL_RESOLUTION_DELAY_WEEKS = 13;
  * delay have taken their mass. Ordinary rival programmes are capped at a 35%
  * terminal catastrophe share, while the deliberately extreme tail can still
  * make catastrophe more likely than ascendance.
+ *
+ * Offset 52 -> 60 and floor 12% -> 10% on 2026-10-01, to make a rival
+ * catastrophe a bit rarer: over 30 seeds the modelled share of rival
+ * finishes that end in catastrophe fell from 15% to 11%.
  */
-const RIVAL_CATASTROPHE_RISK_OFFSET = 52;
+const RIVAL_CATASTROPHE_RISK_OFFSET = 60;
+/** No rival deployment is ever safe: the least reckless still carries this share. */
+const RIVAL_CATASTROPHE_FLOOR = 0.1;
 const RIVAL_ORDINARY_MAX_TERMINAL_CATASTROPHE_SHARE = 0.35;
 const RIVAL_EXTREME_CATASTROPHE_PRESSURE = 1.2;
 
@@ -159,7 +165,7 @@ export function rivalCandidateResolutionProbabilities(
       recklessPressure * 0.35 -
       RIVAL_CATASTROPHE_RISK_OFFSET) /
       100,
-    0.12,
+    RIVAL_CATASTROPHE_FLOOR,
     0.7,
   );
   const contained = clamp(

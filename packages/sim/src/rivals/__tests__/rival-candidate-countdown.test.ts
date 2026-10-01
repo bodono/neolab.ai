@@ -1020,8 +1020,8 @@ describe("rival candidate countdown", () => {
     strategy.personality.raceUrgency = rating(0);
     strategy.personality.safetyCommitment = rating(100);
     const probabilities = rivalCandidateResolutionProbabilities(due, rivalLabId, model);
-    expect(probabilities.catastrophe).toBeGreaterThan(0.09);
-    expect(probabilities.catastrophe).toBeLessThanOrEqual(0.12);
+    expect(probabilities.catastrophe).toBeGreaterThan(0.07);
+    expect(probabilities.catastrophe).toBeLessThanOrEqual(0.1);
     due.run.tick = tick(countdown.completesAt);
     due.run.calendar = calendarFromTick(due.run.tick);
 

@@ -27,6 +27,7 @@ import {
   calculateRivalIncidentRisk,
   resolveRivalHighSeverityFailure,
 } from "../incidents.ts";
+import { RIVAL_BASELINE_PROGRESS_MULTIPLIER } from "../pacing.ts";
 import { calculateRivalResearchStrength } from "../research.ts";
 
 const content: CompiledContent = validateCompiledContent(rawBundle);
@@ -96,7 +97,7 @@ describe("rival recursive self-improvement", () => {
     expect(rivalAutonomyMultiplier(result, labId)).toBeCloseTo(4.75);
     expect(
       calculateRivalResearchStrength(result, content, labId).difficultyMultiplier,
-    ).toBeCloseTo(4.75 * 1.08);
+    ).toBeCloseTo(4.75 * RIVAL_BASELINE_PROGRESS_MULTIPLIER);
     expect(afterModel?.hiddenSafety.situationalAwareness).toBe(51);
     expect(afterModel?.hiddenSafety.deceptiveCapability).toBe(10);
     expect(afterModel?.hiddenSafety.deceptiveIntent).toBeCloseTo(10.8);

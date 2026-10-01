@@ -246,10 +246,11 @@ describe("the rival Candidate Programme race", () => {
 
   it("applies the difficulty pace to rival Candidate Programme works", () => {
     const state = finalEraState();
-    expect(rivalAgiComponentDurationWeeks(state, "project-panopticon")).toBe(19);
-    expect(rivalAgiComponentDurationWeeks(state, "world-engine")).toBe(24);
-    expect(rivalAgiComponentDurationWeeks(state, "oracle-grid")).toBe(15);
-    expect(rivalAgiComponentDurationWeeks(state, "mirror-test")).toBe(19);
+    // Standard has no rival pace modifier, so works take their authored time.
+    expect(rivalAgiComponentDurationWeeks(state, "project-panopticon")).toBe(20);
+    expect(rivalAgiComponentDurationWeeks(state, "world-engine")).toBe(26);
+    expect(rivalAgiComponentDurationWeeks(state, "oracle-grid")).toBe(16);
+    expect(rivalAgiComponentDurationWeeks(state, "mirror-test")).toBe(20);
   });
 
   it("commissions the final World Engine chain in about one year", () => {
