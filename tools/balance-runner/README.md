@@ -11,6 +11,11 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   10% replay sample. This small nightly probe is long enough to observe rivals naturally completing
   their Candidate Programmes, training qualifying models, and resolving any resulting countdowns
   without multiplying the entire Cartesian matrix's cost.
+- `pnpm balance:expert` — 30 seeds of the strong scripted player (below), up to 1,120 weeks. Add
+  `--shard-index i --shard-count 3` to the CLI to split it across processes.
+- `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
+  era, key facility, work and crisis stage landed. A tuning aid: it reads privileged state to
+  explain the run, while the policy still sees only the player view.
 - `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks.
 - `pnpm balance:release` — the complete 10,200-run Cartesian release matrix: 17 seeds × four
   difficulties × five leaders × three mandates × ten policies. The nightly workflow partitions this
@@ -58,6 +63,36 @@ catalogue can demonstrate option coverage. The action enumerator also exercises 
 publishing, compute, facilities, training, evaluation, productisation, deployment policy,
 recruitment, lobbying, diplomacy, coalition work, anomalies, and all Deployment Crisis command
 families when they are legal.
+
+## Expert policy
+
+`--expert` replaces the catalogue with one strong scripted player (`src/expert-policy.ts`). The
+catalogue policies are narrow archetypes and none of them starts the Candidate Programme, so none
+can reach candidacy; the expert exists to measure whether the game can be won and how hard it is.
+It sees only the player view, plus the same command previews the UI shows before an action (prices,
+training forecasts, blockers), and builds commands the way a player would: sized GPU orders,
+training runs chosen from the forecast, and the Candidate Programme works.
+
+Its plan, in order of what decides a run:
+
+- **Economy.** Fund every capability programme, serve enough of the fleet to meet demand, raise
+  before runway runs short, and expand housing and compute continuously.
+- **Hold the gate.** A lineage's chance of being a genuine superintelligence is fixed when it first
+  crosses the candidacy gate (FC 88, every attribute 80), so crossing at 90 locks in about a 13%
+  prior. Until every work is under way it trains only runs forecast to stay below the gate, then
+  trains one run across it as high as it can (a prior near 100%).
+- **Work chains.** Each work waits on a facility chain, and tier-4 and tier-5 buildings take two of
+  at most five major project slots. From the frontier phase it schedules the chain with the most
+  work left first (the World Engine's, through the Hadron Collider and Time Sphere) and spends no
+  slot elsewhere.
+- **The Deployment Crisis.** Nominate the highest-prior candidate, prove it with the generalist
+  gauntlet under independent verification, take at most two sprint responses, comply with the
+  pressure collision, deploy through adaptive monitored rollout, choose cautious rollout options,
+  and retire the candidate if the clock stops with nothing else legal.
+
+The runner keeps asking the policy at the same tick while an endgame beat stops the clock (the
+world-waiting reveal, a containment failure, a False Dawn or recovery choice, an unverified
+retirement, the final deployment decision) and ends the run if no command makes progress.
 
 ## Matrix and sharding contract
 

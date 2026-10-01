@@ -3,7 +3,13 @@ import type {
   ContentId,
   EventLikelihoodLabel,
 } from "@neolab/content-schema";
-import type { GameCommand, GamePhase, GameView, Seed128 } from "@neolab/sim";
+import type {
+  CommandValidation,
+  GameCommand,
+  GamePhase,
+  GameView,
+  Seed128,
+} from "@neolab/sim";
 
 /** Closed policy catalogue required by TDD section 26.2. */
 export const POLICY_IDS = [
@@ -19,7 +25,13 @@ export const POLICY_IDS = [
   "never-train-model",
 ] as const;
 
-export type PolicyId = (typeof POLICY_IDS)[number];
+/**
+ * The strong scripted player. Outside the release catalogue: it exists to
+ * measure whether the game can be won, not to stand for a play style.
+ */
+export const EXPERT_POLICY_ID = "expert";
+
+export type PolicyId = (typeof POLICY_IDS)[number] | typeof EXPERT_POLICY_ID;
 
 export const CORE_STRATEGY_POLICY_IDS: readonly PolicyId[] = [
   "balanced",
@@ -91,11 +103,19 @@ export interface PolicyView {
   readonly policyId: PolicyId;
 }
 
+/**
+ * The same preview the UI shows before a player commits an action: legality,
+ * blockers and the quote (price, forecast, capacity). Policies may ask it about
+ * commands they build themselves, as a player sizing an order would.
+ */
+export type CommandPreviewer = (command: GameCommand) => CommandValidation;
+
 export interface SimulationPolicy {
   readonly id: PolicyId;
   decide(
     view: Readonly<PolicyView>,
     available: readonly AvailableCommandView[],
+    preview?: CommandPreviewer,
   ): readonly GameCommand[];
 }
 

@@ -5,7 +5,7 @@ import { loadCompiledContent } from "@neolab/content";
 import { contentId } from "@neolab/content-schema";
 import { seed128 } from "@neolab/sim";
 
-import { INITIAL_POLICIES } from "./policies.ts";
+import { EXPERT_POLICY, INITIAL_POLICIES } from "./policies.ts";
 import {
   dimensionSummaryCsv,
   eventSummaryCsv,
@@ -32,6 +32,7 @@ interface CliOptions {
   readonly shardCount?: number;
   readonly verifyReplays: boolean;
   readonly coreStrategies: boolean;
+  readonly expert: boolean;
 }
 
 function parseInteger(
@@ -84,14 +85,17 @@ function parseArgs(args: readonly string[]): CliOptions {
         }),
     verifyReplays: !args.includes("--skip-replay-verification"),
     coreStrategies: args.includes("--core-strategies"),
+    expert: args.includes("--expert"),
   };
 }
 
 const options = parseArgs(process.argv.slice(2));
 const content = loadCompiledContent();
-const policies = options.coreStrategies
-  ? INITIAL_POLICIES.filter((policy) => CORE_STRATEGY_POLICY_IDS.includes(policy.id))
-  : INITIAL_POLICIES;
+const policies = options.expert
+  ? [EXPERT_POLICY]
+  : options.coreStrategies
+    ? INITIAL_POLICIES.filter((policy) => CORE_STRATEGY_POLICY_IDS.includes(policy.id))
+    : INITIAL_POLICIES;
 const difficulties =
   options.matrixMode === "cartesian"
     ? Object.keys(content.difficulties).sort().map(contentId)

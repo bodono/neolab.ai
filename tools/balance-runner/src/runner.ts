@@ -10,6 +10,7 @@ import {
   applyCommand,
   calculateFrontierCapability,
   createNewGame,
+  endgameClockStopReason,
   projectGameView,
   stateHash,
   validateCommand,
@@ -408,6 +409,7 @@ function tracePoint(state: Readonly<GameState>): BalanceTracePoint {
 
 function policyDecisionDue(state: Readonly<GameState>): boolean {
   if (state.run.tick % 4 === 0 || state.run.tick % 13 === 0) return true;
+  if (endgameClockStopReason(state) !== undefined) return true;
   if (state.endgame.stage !== "inactive" && state.endgame.stage !== "resolved")
     return true;
   const lab = state.labs[state.run.playerLabId];
@@ -1111,9 +1113,11 @@ function runOne(
       const plannedCommandIds = new Set(
         available.map((candidate) => candidate.command.meta.commandId),
       );
+      const snapshot = state;
       for (const command of policy.decide(
         { game: view, seed: specification.seed, policyId: policy.id },
         available,
+        (candidate) => validateCommand(snapshot, content, candidate),
       )) {
         const validation = validateCommand(state, content, command);
         if (!validation.ok) {
@@ -1139,18 +1143,19 @@ function runOne(
         observeEndgameStage();
       }
     }
-    // World-waiting is a sealed, command-driven launch-control reveal. It is
-    // deliberately not a simulation week: keep dispatching its presentation
-    // command until the terminal result is revealed instead of letting rival,
-    // finance, or hazard clocks overwrite the selected outcome.
+    // Some endgame beats stop the clock until the player acts: the sealed
+    // world-waiting reveal, a containment failure's emergency sequence, a
+    // False Dawn or post-retirement choice, an unverified retirement, and the
+    // final deployment authorisation. None is a simulation week, so keep asking
+    // the policy at the same tick instead of advancing into an engine error.
     if (state.run.status !== "active") break;
-    if (state.endgame.stage === "world-waiting") {
+    if (endgameClockStopReason(state) !== undefined) {
       worldWaitingCommandSteps += 1;
       if (commandsAppliedThisCycle === 0 || worldWaitingCommandSteps > 16) {
-        // A command-driven presentation has no simulation-week dwell. Record a
-        // sentinel above its zero-week allowance and terminate this harness
-        // run instead of spinning forever at one tick.
-        endgameStageDwellWeeks["world-waiting"] = 1;
+        // A command-driven beat has no simulation-week dwell. Record a sentinel
+        // above its zero-week allowance and terminate this harness run instead
+        // of spinning forever at one tick.
+        endgameStageDwellWeeks[state.endgame.stage] = 1;
         break;
       }
       continue;
