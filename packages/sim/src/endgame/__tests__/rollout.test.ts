@@ -871,6 +871,60 @@ describe("deployment rollout", () => {
     expect(state.endgame.selectedEndingId).toBeDefined();
   });
 
+  it("ends a containment failure cleanly while the candidate's incident is unresolved", () => {
+    const reached = reachFinalReview();
+    const rollout = mutable(
+      dispatch(reached.state, {
+        kind: "choose-deployment-mode",
+        modeId: "guarded-public-demonstration",
+      }),
+    );
+    if (rollout.endgame.stage !== "rollout") throw new Error("Rollout missing");
+    const model = rollout.models[rollout.endgame.candidateModelId];
+    const artifact = model?.candidateArtifact;
+    if (model === undefined || artifact === undefined)
+      throw new Error("Fixture incomplete");
+    artifact.lifecycle = "active-hazard";
+    artifact.activeIncident = {
+      id: `candidate-incident:${model.id}:0`,
+      epoch: artifact.incidentEpoch,
+      incidentClass: "evaluator-manipulation",
+      kind: "active-incident",
+      status: "unresolved",
+      triggeredAt: rollout.run.tick,
+      origin: "weekly-pressure",
+      priorLifecycle: "formal-candidate",
+    };
+    rollout.endgame.gateResolutions.push({
+      gate: "control",
+      resolvedAt: rollout.run.tick,
+      resultId: "loss-of-control",
+      visibleFactors: [],
+      hiddenFactors: [],
+      effects: [],
+    });
+    const enter = createTransaction(rollout);
+    enterContainmentFailure(enter);
+    let state = enter.commit({ description: "enter containment failure" }).state;
+
+    // Signal, response, propagation, outcome. The outcome's terminal ending
+    // used to leave the incident on a terminal artifact and fail the commit.
+    for (const actionId of [
+      "continue",
+      "trip-physical-breakers",
+      "continue",
+      "continue",
+      "continue",
+    ] as const) {
+      if (state.run.status !== "active") break;
+      state = dispatch(state, { kind: "resolve-containment-failure", actionId });
+    }
+    const ended = state.models[model.id]?.candidateArtifact;
+    expect(state.endgame.stage).toBe("resolved");
+    expect(ended?.lifecycle).toBe("terminal");
+    expect(ended?.activeIncident).toBeUndefined();
+  });
+
   it("does not turn a low-intent operational containment failure into deliberate extinction", () => {
     const reached = reachFinalReview();
     const rollout = mutable(

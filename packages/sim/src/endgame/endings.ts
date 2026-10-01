@@ -722,6 +722,10 @@ function commitTerminalEnding(
       artifact.lifecycle !== "verified-isolated-archive"
     ) {
       artifact.lifecycle = "terminal";
+      // An ending reached mid-incident (a containment failure's outcome, for
+      // one) closes the incident with the artifact. Leaving it attached to a
+      // terminal artifact failed the invariants on the run's final command.
+      delete artifact.activeIncident;
     }
     draft.decisionLog.push({
       tick: draft.run.tick,
