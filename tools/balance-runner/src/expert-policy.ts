@@ -748,11 +748,29 @@ function procure(planner: Planner): void {
         generation.generationId !== generationId &&
         generation.sellablePhysicalGpus >= 1_000,
     );
-    if (oldest !== undefined) {
+    if (oldest === undefined) return;
+    // Sell only what the lab can replace at once with current silicon: selling
+    // a whole fleet it cannot rebuy left one opening lab with no compute, no
+    // revenue and no way back.
+    const probe = planner.preview(
+      planner.build("buy-gpus", {
+        generationId: generationId as ContentId,
+        thousandUnits: 1,
+      }),
+    );
+    if (!probe.ok) return;
+    const replaceable = Math.floor(
+      (planner.cash - planner.reserve) / Math.max(0.001, costOf(probe)),
+    );
+    const thousandUnits = Math.min(
+      Math.floor(oldest.sellablePhysicalGpus / 1_000),
+      replaceable,
+    );
+    if (thousandUnits >= 1) {
       planner.attempt(
         planner.build("sell-gpus", {
           generationId: oldest.generationId as ContentId,
-          thousandUnits: Math.floor(oldest.sellablePhysicalGpus / 1_000),
+          thousandUnits,
         }),
         -Infinity,
       );
