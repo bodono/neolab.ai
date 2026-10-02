@@ -13,6 +13,12 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   without multiplying the entire Cartesian matrix's cost.
 - `pnpm balance:expert` — 30 seeds of the strong scripted player (below), up to 1,120 weeks. Add
   `--shard-index i --shard-count 3` to the CLI to split it across processes.
+- `--difficulties`, `--leaders` and `--mandates` pick the setups any CLI batch plays: comma-separated
+  IDs or bare slugs (`fellowship`, `base:difficulty.fellowship`), or `all`. A dimension left out stays
+  at Standard, Thomas Hassabi or Build It Right, except under `--matrix cartesian`, where it expands
+  to every authored ID. For example, the expert on every difficulty over the same ten seeds:
+  `--expert --matrix cartesian --difficulties all --leaders thomas-hassabi --mandates build-it-right
+  --runs 40`.
 - `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
   era, key facility, work and crisis stage landed. A tuning aid: it reads privileged state to
   explain the run, while the policy still sees only the player view.

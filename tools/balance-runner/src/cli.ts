@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { loadCompiledContent } from "@neolab/content";
-import { contentId } from "@neolab/content-schema";
+import { contentId, type ContentId } from "@neolab/content-schema";
 import { seed128 } from "@neolab/sim";
 
 import { EXPERT_POLICY, INITIAL_POLICIES } from "./policies.ts";
@@ -33,6 +33,9 @@ interface CliOptions {
   readonly verifyReplays: boolean;
   readonly coreStrategies: boolean;
   readonly expert: boolean;
+  readonly difficulties: string | undefined;
+  readonly leaders: string | undefined;
+  readonly mandates: string | undefined;
 }
 
 function parseInteger(
@@ -86,7 +89,34 @@ function parseArgs(args: readonly string[]): CliOptions {
     verifyReplays: !args.includes("--skip-replay-verification"),
     coreStrategies: args.includes("--core-strategies"),
     expert: args.includes("--expert"),
+    difficulties: read("--difficulties"),
+    leaders: read("--leaders"),
+    mandates: read("--mandates"),
   };
+}
+
+/**
+ * One matrix dimension: every authored ID for a Cartesian matrix, the standard
+ * launch setup otherwise, or an explicit `--flag` list of IDs or bare slugs
+ * (`fellowship`, `base:difficulty.fellowship`), or `all`.
+ */
+function dimension(
+  flag: string,
+  requested: string | undefined,
+  authored: Readonly<Record<string, unknown>>,
+  prefix: string,
+  standard: string,
+): ContentId[] {
+  const all = Object.keys(authored).sort();
+  if (requested === undefined) {
+    return (options.matrixMode === "cartesian" ? all : [standard]).map(contentId);
+  }
+  if (requested === "all") return all.map(contentId);
+  return requested.split(",").map((entry) => {
+    const id = entry.includes(":") ? entry : `${prefix}${entry}`;
+    if (!all.includes(id)) throw new Error(`${flag}: unknown ID ${entry}`);
+    return contentId(id);
+  });
 }
 
 const options = parseArgs(process.argv.slice(2));
@@ -96,18 +126,27 @@ const policies = options.expert
   : options.coreStrategies
     ? INITIAL_POLICIES.filter((policy) => CORE_STRATEGY_POLICY_IDS.includes(policy.id))
     : INITIAL_POLICIES;
-const difficulties =
-  options.matrixMode === "cartesian"
-    ? Object.keys(content.difficulties).sort().map(contentId)
-    : [contentId("base:difficulty.standard")];
-const leaders =
-  options.matrixMode === "cartesian"
-    ? Object.keys(content.leaders).sort().map(contentId)
-    : [contentId("base:leader.thomas-hassabi")];
-const mandates =
-  options.matrixMode === "cartesian"
-    ? Object.keys(content.mandates).sort().map(contentId)
-    : [contentId("base:mandate.build-it-right")];
+const difficulties = dimension(
+  "--difficulties",
+  options.difficulties,
+  content.difficulties,
+  "base:difficulty.",
+  "base:difficulty.standard",
+);
+const leaders = dimension(
+  "--leaders",
+  options.leaders,
+  content.leaders,
+  "base:leader.",
+  "base:leader.thomas-hassabi",
+);
+const mandates = dimension(
+  "--mandates",
+  options.mandates,
+  content.mandates,
+  "base:mandate.",
+  "base:mandate.build-it-right",
+);
 const configurationsPerSeed =
   options.matrixMode === "independent"
     ? 1
