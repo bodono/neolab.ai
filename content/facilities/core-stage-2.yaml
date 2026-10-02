@@ -537,7 +537,7 @@ facilities:
     tier: 5
     cashCostMillions: 5500
     operatingCostMillionsPerCycle: 12
-    durationWeeks: 73
+    durationWeeks: 52
     prerequisiteFacilityIds: [facility.scientific-laboratory-1, facility.fusion-reactor-array-1]
     supportedOwnedGpuCount: 0
     scoreTag: late-game
@@ -572,7 +572,7 @@ facilities:
     tier: 5
     cashCostMillions: 6500
     operatingCostMillionsPerCycle: 14
-    durationWeeks: 73
+    durationWeeks: 52
     prerequisiteFacilityIds: [facility.hadron-collider-1, facility.scientific-laboratory-1]
     supportedOwnedGpuCount: 0
     scoreTag: late-game

@@ -31,12 +31,13 @@ const RIVAL_INFRASTRUCTURE_ROOTS = [
 
 /**
  * The collider → Time Sphere chain used to begin visibly at the final unlock,
- * leaving every rival parked at 3/4 works for 146 authored weeks plus the World
+ * leaving every rival parked at 3/4 works for 104 authored weeks plus the World
  * Engine build. Rivals now prepare most of this off-screen before the public
- * late-game milestone; these durations represent the final commissioning work.
- * The dependency remains serial and the World Engine still has its full build.
+ * late-game milestone; these durations represent the final commissioning work,
+ * about 15 of each 52 authored weeks. The dependency remains serial and the
+ * World Engine still has its full build.
  */
-const RIVAL_PREPARED_LATE_FACILITY_REMAINING_FRACTION = 0.2;
+const RIVAL_PREPARED_LATE_FACILITY_REMAINING_FRACTION = 0.28;
 const RIVAL_PREPARED_LATE_FACILITIES = new Set<ContentId>([
   "base:facility.hadron-collider-1" as ContentId,
   "base:facility.time-sphere-1" as ContentId,

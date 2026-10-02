@@ -545,7 +545,7 @@ function candidateProgramme(planner: Planner): number {
  * Each Candidate Programme work waits on a facility chain. Tier-4 and tier-5
  * buildings take two of at most five major project slots, so the chains
  * compete: schedule the one with the most work left first (the World Engine's,
- * through the 73-week Hadron Collider and Time Sphere, which open only in the
+ * through the year-long Hadron Collider and Time Sphere, which open only in the
  * Markov era), and spend no slot elsewhere while a chain step is waiting.
  */
 const WORK_CHAINS: readonly {
@@ -569,8 +569,8 @@ const WORK_CHAINS: readonly {
       ["base:facility.scientific-laboratory-1", 23, 42],
       ["base:facility.power-and-cooling-2", 14, 55],
       ["base:facility.fusion-reactor-array-1", 52, 1_440],
-      ["base:facility.hadron-collider-1", 73, 5_500],
-      ["base:facility.time-sphere-1", 73, 6_500],
+      ["base:facility.hadron-collider-1", 52, 5_500],
+      ["base:facility.time-sphere-1", 52, 6_500],
     ],
   },
   {
