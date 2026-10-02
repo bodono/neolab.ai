@@ -180,6 +180,12 @@ export function HowToPlayDialog({
                     final phase; it is not automatic victory or proof that the candidate
                     is safe.
                   </p>
+                  <p>
+                    A model's chance of being genuine superintelligence is fixed the first
+                    time it qualifies, from its capability then: 10% at FC{" "}
+                    {AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY}, 100% at FC 100. Later
+                    gains do not redraw it, but each new training run gets its own chance.
+                  </p>
                 </div>
               </article>
             </li>

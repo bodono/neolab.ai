@@ -1112,6 +1112,20 @@ function capabilityProofActions(
   };
 }
 
+/** Best odds first: the public prior each lineage fixed at its first crossing. */
+function byPrior(
+  state: Readonly<GameState>,
+  modelIds: readonly ModelId[],
+): readonly ModelId[] {
+  const prior = (modelId: ModelId): number => {
+    const lineageId = state.models[modelId]?.lineageId;
+    const lineage =
+      lineageId === undefined ? undefined : state.lineageSIRecords[lineageId];
+    return lineage === undefined ? 0 : publicLineagePrior(state, lineage).percent;
+  };
+  return [...modelIds].sort((left, right) => prior(right) - prior(left));
+}
+
 function stageActions(
   state: Readonly<GameState>,
   content: CompiledContent,
@@ -1125,7 +1139,7 @@ function stageActions(
         kind: "candidate-activation",
         instruction:
           "Choose the exact weight artifact that will become the formal candidate. Other qualified artifacts remain hazardous custody objects.",
-        options: state.endgame.eligibleModelIds.flatMap((modelId) => {
+        options: byPrior(state, state.endgame.eligibleModelIds).flatMap((modelId) => {
           const model = state.models[modelId];
           if (model === undefined) return [];
           const artifact = model.candidateArtifact;

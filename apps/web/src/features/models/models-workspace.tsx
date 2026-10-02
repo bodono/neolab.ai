@@ -8,6 +8,7 @@ import {
   formatTotalFlop,
   formatValuation,
   safetyPracticeXpForEvaluation,
+  superintelligenceProbability,
   TRAINING_DEFAULT_ERA_GPUS,
   TRAINING_DEFAULT_WEEKS,
   TRAINING_MAX_WEEKS,
@@ -92,6 +93,24 @@ export function modelEvidenceReviewRequest(modelId: string): {
     modelId,
     workspace: candidateCustodyEvidenceDestination("review-evidence"),
     anchor: "safety-case",
+  };
+}
+
+/**
+ * The genuine-superintelligence chance a training run would fix, in percent,
+ * across its forecast. The chance is set once, the first time a model
+ * qualifies, from its capability then, so the planner shows it before the
+ * player commits to crossing low. Undefined while the forecast cannot qualify.
+ */
+export function trainingCandidateOdds(
+  forecast: readonly [number, number],
+): { readonly low: number; readonly high: number } | undefined {
+  if (forecast[1] < AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY) return undefined;
+  const percent = (frontierCapability: number): number =>
+    Math.round(superintelligenceProbability(frontierCapability) * 100);
+  return {
+    low: percent(Math.max(forecast[0], AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY)),
+    high: percent(forecast[1]),
   };
 }
 
@@ -1989,6 +2008,10 @@ function TrainingDialog({
               tone: "short",
               label: "Forecast remains below the threshold",
             };
+  const candidateOdds =
+    quote === undefined
+      ? undefined
+      : trainingCandidateOdds(quote.estimatedFrontierCapabilityRange);
   const completedCandidateComponents = view.models.candidateProgramme.components.filter(
     (component) => component.status === "complete",
   ).length;
@@ -2680,6 +2703,36 @@ function TrainingDialog({
                       </strong>
                       <small>Complete all four works before declaration.</small>
                     </article>
+                    {candidateOdds === undefined ? null : (
+                      <article
+                        className={`training-candidate-odds ${
+                          candidateOdds.low >= 75
+                            ? "met"
+                            : candidateOdds.high >= 50
+                              ? "possible"
+                              : "short"
+                        }`}
+                      >
+                        <span>GENUINE SUPERINTELLIGENCE ODDS</span>
+                        <strong>
+                          {candidateOdds.low === candidateOdds.high
+                            ? `${String(candidateOdds.low)}%`
+                            : `${String(candidateOdds.low)}–${String(candidateOdds.high)}%`}{" "}
+                          if this model qualifies
+                        </strong>
+                        <small>
+                          Fixed for this model and its variants the moment it first
+                          qualifies, from its capability then:{" "}
+                          {Math.round(
+                            superintelligenceProbability(
+                              AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
+                            ) * 100,
+                          )}
+                          % at FC {AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY}, 100% at FC
+                          100. A later training run gets its own chance.
+                        </small>
+                      </article>
+                    )}
                   </div>
                 </section>
               </section>

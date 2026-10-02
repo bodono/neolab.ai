@@ -15092,6 +15092,9 @@ html[data-theme="dark"] .gpu-keynote-quote {
 .training-candidate-gate article.short {
   border-left-color: #df704e;
 }
+.training-candidate-gate article.training-candidate-odds {
+  grid-column: 1 / -1;
+}
 .training-candidate-gate article > span {
   color: #725f36;
   font: 800 9px monospace;

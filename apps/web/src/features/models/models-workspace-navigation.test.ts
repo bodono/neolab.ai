@@ -5,6 +5,7 @@ import {
   launchPolicyChoiceIsAvailable,
   launchPolicyNeedsDispatch,
   modelEvidenceReviewRequest,
+  trainingCandidateOdds,
 } from "./models-workspace.tsx";
 
 describe("candidate custody navigation", () => {
@@ -61,5 +62,17 @@ describe("productisation launch policy choices", () => {
 
   it("does not dispatch a redundant policy change when keeping internal access", () => {
     expect(launchPolicyNeedsDispatch("internal-only", "internal-only")).toBe(false);
+  });
+});
+
+describe("training candidate odds", () => {
+  it("says nothing while the forecast cannot qualify", () => {
+    expect(trainingCandidateOdds([80, 87.9])).toBeUndefined();
+  });
+
+  it("shows the chance a qualifying run would fix across its forecast", () => {
+    // Crossing at the gate fixes 10%; FC 95 fixes 41%; FC 100 is certain.
+    expect(trainingCandidateOdds([85, 95])).toEqual({ low: 10, high: 41 });
+    expect(trainingCandidateOdds([99, 100])).toEqual({ low: 86, high: 100 });
   });
 });

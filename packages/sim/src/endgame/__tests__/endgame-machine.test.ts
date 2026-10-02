@@ -19,7 +19,7 @@ import {
   collectMandatoryTriggers,
 } from "../../events/event-engine.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
-import type { EventInstanceId } from "../../model/ids.ts";
+import type { EventInstanceId, ModelId, ModelLineageId } from "../../model/ids.ts";
 import type { GameState, ModelState } from "../../model/state.ts";
 import { validateGameState } from "../../model/schema.ts";
 import { rating } from "../../model/units.ts";
@@ -185,6 +185,62 @@ describe("Deployment Crisis candidate lifecycle", () => {
     expect(() =>
       validateGameState(JSON.parse(JSON.stringify(result.state)) as unknown),
     ).not.toThrow();
+  });
+
+  it("lists the candidate with the best odds first", () => {
+    const qualified = qualifyPlayerModel();
+    // A second, independent lineage that first qualified at a measured FC of
+    // 89 fixed a much lower public prior than the FC-95 artifact.
+    const tx = createTransaction(qualified.state);
+    const source = tx.read().models[qualified.modelId];
+    if (source === undefined) throw new Error("Candidate source missing");
+    const lowModelId = tx.allocateId("model", source.ownerLabId) as ModelId;
+    tx.update((draft) => {
+      const owner = draft.labs[source.ownerLabId];
+      const low = structuredClone(draft.models[qualified.modelId]);
+      if (owner === undefined || low === undefined) throw new Error("Fixture missing");
+      low.id = lowModelId;
+      low.lineageId = lowModelId as unknown as ModelLineageId;
+      low.displayName = `${low.displayName}-B`;
+      low.generationIndex += 1;
+      delete low.candidateArtifact;
+      if (low.measuredCapability !== undefined) {
+        low.measuredCapability.frontierCapability = rating(89);
+      }
+      draft.models[lowModelId] = low;
+      owner.models.modelIds.push(lowModelId);
+    });
+    expect(
+      registerCompletedTrainingArtifact(
+        tx,
+        lowModelId,
+        new RandomOracleV1(tx.read().run.seed),
+      ),
+    ).toBe(true);
+    const activation = structuredClone(
+      advanceOneTick(tx.commit({ description: "second lineage" }).state, content).state,
+    ) as DeepMutable<GameState>;
+    expect(activation.endgame.stage).toBe("candidate-activation");
+    if (activation.endgame.stage !== "candidate-activation") return;
+    activation.endgame.eligibleModelIds = [lowModelId, qualified.modelId];
+
+    const view = projectEndgameView(activation, content, {
+      viewerLabId: activation.run.playerLabId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    });
+    if (!view.active || view.stageActions.kind !== "candidate-activation") {
+      throw new Error("Expected candidate activation actions");
+    }
+    expect(
+      view.stageActions.options.map((option) => [
+        option.modelId,
+        option.capabilityDerivedPrior?.percent,
+      ]),
+    ).toEqual([
+      [qualified.modelId, 41],
+      [lowModelId, 11],
+    ]);
   });
 
   it("formalises only the nominated artifact and retires stale autonomy prompts", () => {
