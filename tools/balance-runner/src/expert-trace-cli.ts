@@ -156,6 +156,15 @@ function observe(state: Readonly<GameState>): void {
   for (const type of WORK_TYPES) {
     if (lab?.flags[`agi-component:${type}:complete`] === true) mark(`work:${type}`);
   }
+  for (const lineage of Object.values(state.lineageSIRecords)) {
+    const owner = state.models[lineage.firstQualifyingModelId]?.ownerLabId;
+    if (owner !== state.run.playerLabId) continue;
+    mark(
+      `crossed:FC${lineage.firstQualifyingFrontierCapability.toFixed(1)}:` +
+        `${(lineage.probabilityAtFirstCrossing * 100).toFixed(0)}%:` +
+        lineage.superintelligenceTruth,
+    );
+  }
   if (state.endgame.stage !== "inactive") mark(`stage:${state.endgame.stage}`);
   if (
     Object.values(state.world.rivals).some(

@@ -76,11 +76,13 @@ training runs chosen from the forecast, and the Candidate Programme works.
 Its plan, in order of what decides a run:
 
 - **Economy.** Fund every capability programme, serve enough of the fleet to meet demand, raise
-  before runway runs short, and expand housing and compute continuously.
+  before runway runs short, and expand housing and compute continuously. It trains only runs
+  forecast to beat their parent, so an early lab spends on compute rather than repeat models.
 - **Hold the gate.** A lineage's chance of being a genuine superintelligence is fixed when it first
   crosses the candidacy gate (FC 88, every attribute 80), so crossing at 90 locks in about a 13%
-  prior. Until every work is under way it trains only runs forecast to stay below the gate, then
-  trains one run across it as high as it can (a prior near 100%).
+  prior. Until every work is under way it trains only runs forecast to stay below the gate. Then it
+  crosses once, with a run forecast to clear FC 97 (a prior of 61% or more), unless a rival's public
+  countdown leaves no time to wait, when it takes the best run available.
 - **Work chains.** Each work waits on a facility chain, and tier-4 and tier-5 buildings take two of
   at most five major project slots. From the frontier phase it schedules the chain with the most
   work left first (the World Engine's, through the Hadron Collider and Time Sphere) and spends no

@@ -388,6 +388,28 @@ function bestModel(view: View) {
 /** Frontier Capability and per-attribute floor of the Candidate Programme gate. */
 const GATE_FRONTIER_CAPABILITY = 88;
 
+/**
+ * The first crossing the lab holds out for: FC 97 fixes a 61% prior, 100 makes
+ * it certain. Below that the crisis usually ends in a False Dawn.
+ */
+const CROSSING_FRONTIER_CAPABILITY = 97;
+const CROSSING_PRIOR_PERCENT = 61;
+
+/** Weeks from a crossing run's end through the Deployment Crisis, roughly. */
+const CRISIS_WEEKS = 35;
+
+/** The earliest a rival could ascend, from the public countdown estimates. */
+function rivalWeeksLeft(view: View): number {
+  return Math.min(
+    Infinity,
+    ...view.world.rivals.flatMap((rival) =>
+      rival.candidateCountdown === undefined
+        ? []
+        : [rival.candidateCountdown.estimateRangeWeeks[0]],
+    ),
+  );
+}
+
 function worksStarted(view: View): { complete: number; started: number } {
   const components = view.models.candidateProgramme.components;
   return {
@@ -417,8 +439,9 @@ function liveArtifacts(view: View) {
  * Train continuously, but hold the candidacy gate: a lineage's chance of being
  * a genuine superintelligence is fixed when it first crosses FC 88, so crossing
  * early at 90 locks in a ~13% prior. Until every Candidate Programme work is
- * under way, size runs so the forecast stays below the gate; then train the
- * largest run the lab can afford and cross it once, as high as possible.
+ * under way, size runs so the forecast stays below the gate; then cross once,
+ * with a run forecast to clear FC 97, or with the best run available once a
+ * rival's countdown leaves no time to wait for one.
  */
 function train(planner: Planner): void {
   const view = planner.view;
@@ -428,7 +451,7 @@ function train(planner: Planner): void {
   const releaseGate = works.started === 4;
   const strongCandidate = liveArtifacts(view).find(
     (artifact) =>
-      artifact.firstCrossingPriorPercent >= 85 &&
+      artifact.firstCrossingPriorPercent >= CROSSING_PRIOR_PERCENT &&
       artifact.lifecycle === "capability-qualified-latent-candidate",
   );
   if (strongCandidate !== undefined) return;
@@ -453,10 +476,11 @@ function train(planner: Planner): void {
   // Preview a grid of runs and take the best expected model: a destroyed run
   // costs its weeks and cash and produces nothing, so weigh capability by the
   // forecast chance of finishing. The final crossing run must be safe.
+  const weeksLeft = rivalWeeksLeft(view);
   let best: { command: GameCommand; score: number } | undefined;
   for (const fraction of [0.9, 0.75, 0.5, 0.3, 0.15, 0.08]) {
     for (const posture of ["normal", "conservative"] as const) {
-      for (const durationWeeks of releaseGate ? [12, 16, 20] : [8, 12, 16]) {
+      for (const durationWeeks of releaseGate ? [12, 16, 20, 24, 28] : [8, 12, 16]) {
         const command = planner.build("start-training-run", {
           parentModelId: parent.modelId as ModelId,
           posture,
@@ -470,8 +494,18 @@ function train(planner: Planner): void {
         if (quote.cashCostMillions > planner.cash - Math.min(planner.reserve, 10))
           continue;
         const [low, high] = quote.estimatedFrontierCapabilityRange;
+        // A run that cannot beat its parent only spends the cash an early lab
+        // needs for compute.
+        if ((low + high) / 2 < parent.frontierCapabilityEstimate + 1) continue;
         if (!releaseGate && high >= GATE_FRONTIER_CAPABILITY - 0.5) continue;
         if (releaseGate && quote.reliability.totalLoss > 0.1) continue;
+        if (
+          releaseGate &&
+          low < CROSSING_FRONTIER_CAPABILITY &&
+          weeksLeft > durationWeeks + CRISIS_WEEKS
+        ) {
+          continue;
+        }
         const score =
           (1 - quote.reliability.totalLoss) * ((low + high) / 2) - durationWeeks * 0.01;
         if (best === undefined || score > best.score) best = { command, score };
