@@ -294,9 +294,12 @@ export function createNewGame(
       value: difficulty.fixedCostMultiplier,
     });
   }
+  // Difficulty paces the rivals' Candidate Programme, not their research:
+  // research sets the world frontier that opens every phase and hardware era,
+  // so slowing it only lengthened the game without widening the race.
   if (difficulty.rivalProgressMultiplier !== 1) {
     difficultyEffects.push({
-      target: "world.rival.progress",
+      target: "world.rival.programmePace",
       operation: "multiply",
       value: difficulty.rivalProgressMultiplier,
     });

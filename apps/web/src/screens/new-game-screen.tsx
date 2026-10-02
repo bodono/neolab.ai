@@ -870,7 +870,7 @@ export function NewGameScreen({
                       <b>{signedPercentage(difficulty.fixedCostMultiplier)}</b>
                     </span>
                     <span>
-                      <small>Rival progress</small>
+                      <small>Rival programme pace</small>
                       <b>{signedPercentage(difficulty.rivalProgressMultiplier)}</b>
                     </span>
                     <span>

@@ -49,6 +49,7 @@ const MODIFIER_TARGET_LABELS: Readonly<Record<string, string>> = {
   "researcher.moraleTarget": "Researcher morale",
   "serving.computePerRequest": "Compute per served request",
   "world.rival.progress": "Rival research progress",
+  "world.rival.programmePace": "Rival Candidate Programme pace",
   "assignedProgramme.weeklyVarianceWidth":
     "Assigned programme week-to-week progress variation",
 };

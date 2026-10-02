@@ -15,7 +15,7 @@ import {
   AGI_COMPONENT_RULES,
   AGI_COMPONENT_TYPES,
 } from "../endgame/candidate-programme.ts";
-import { calculateRivalProgressMultiplier } from "./pacing.ts";
+import { calculateRivalProgrammeMultiplier } from "./pacing.ts";
 
 /**
  * The visible player builds these roots and every prerequisite below them.
@@ -93,14 +93,14 @@ export function rivalFacilityDurationWeeks(
       1,
       Math.round(
         (definition.durationWeeks * RIVAL_PREPARED_LATE_FACILITY_REMAINING_FRACTION) /
-          Math.max(1, calculateRivalProgressMultiplier(state)),
+          Math.max(1, calculateRivalProgrammeMultiplier(state)),
       ),
     );
   }
   return Math.max(
     1,
     Math.round(
-      definition.durationWeeks / Math.max(0.1, calculateRivalProgressMultiplier(state)),
+      definition.durationWeeks / Math.max(0.1, calculateRivalProgrammeMultiplier(state)),
     ),
   );
 }

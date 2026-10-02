@@ -55,6 +55,7 @@ const MODIFIER_TARGET_LOG_LABELS: Readonly<Record<string, string>> = {
   "lab.research.capability.output": "capability research output",
   "lab.research.safety.output": "safety research output",
   "world.rival.progress": "rival research progress",
+  "world.rival.programmePace": "rival Candidate Programme pace",
 };
 
 function modifierTargetLogLabel(target: string): string {

@@ -15,7 +15,7 @@ import { tick } from "../model/units.ts";
 import { randomKey } from "../random/key.ts";
 import type { RandomOracle } from "../random/oracle.ts";
 import { rivalInfrastructureFacilityReady } from "./infrastructure.ts";
-import { calculateRivalProgressMultiplier } from "./pacing.ts";
+import { calculateRivalProgrammeMultiplier } from "./pacing.ts";
 
 /**
  * Rivals run the Candidate Programme too. Their campus is off-screen, but its
@@ -103,15 +103,15 @@ export function rivalAgiComponentPrerequisitesMet(
 }
 
 /**
- * Difficulty represents the pace of the entire rival programme, not only its
- * research output. Keep the authored player duration as the baseline and
- * round to whole simulation weeks after applying the global rival pace.
+ * Difficulty paces the rival programme. Keep the authored player duration as
+ * the baseline and round to whole simulation weeks after applying the rival
+ * programme pace.
  */
 export function rivalAgiComponentDurationWeeks(
   state: Readonly<GameState>,
   componentType: AgiComponentType,
 ): number {
-  const progressMultiplier = Math.max(0.1, calculateRivalProgressMultiplier(state));
+  const progressMultiplier = Math.max(0.1, calculateRivalProgrammeMultiplier(state));
   return Math.max(
     1,
     Math.round(AGI_COMPONENT_RULES[componentType].durationWeeks / progressMultiplier),

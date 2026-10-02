@@ -29,6 +29,7 @@ export const MODIFIER_TARGET_LIST = [
   "lab.product.durationWeeks",
   "lab.product.firstProject.durationWeeks",
   "world.rival.progress",
+  "world.rival.programmePace",
   "lab.incident.hazard",
   "lab.evidence.displayedQuality",
   "lab.evaluation.cashCost",

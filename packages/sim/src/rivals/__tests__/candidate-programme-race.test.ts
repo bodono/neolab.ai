@@ -37,6 +37,7 @@ import {
   rivalAgiComponentStartChance,
   rivalAgiComponentDurationWeeks,
 } from "../candidate-programme-race.ts";
+import { calculateRivalResearchStrength } from "../research.ts";
 import {
   advanceRivalInfrastructure,
   rivalFacilityBuildingFlag,
@@ -251,6 +252,42 @@ describe("the rival Candidate Programme race", () => {
     expect(rivalAgiComponentDurationWeeks(state, "world-engine")).toBe(26);
     expect(rivalAgiComponentDurationWeeks(state, "oracle-grid")).toBe(16);
     expect(rivalAgiComponentDurationWeeks(state, "mirror-test")).toBe(20);
+  });
+
+  it("slows a Fellowship rival's works but not its research", () => {
+    const game = (difficulty: string) =>
+      createNewGame(
+        {
+          seed: seed128("fedcba9876543210fedcba9876543210"),
+          difficultyId: contentId(difficulty),
+          leaderId: contentId("base:leader.thomas-hassabi"),
+          mandateId: contentId("base:mandate.build-the-science"),
+        },
+        content,
+      );
+    const standard = game("base:difficulty.standard");
+    const fellowship = game("base:difficulty.fellowship");
+    const labId = Object.keys(fellowship.world.rivals)[0] as LabId;
+    // Research sets the world frontier, and with it every phase and hardware
+    // era, so it runs at one pace on every difficulty.
+    expect(calculateRivalResearchStrength(fellowship, content, labId)).toEqual(
+      calculateRivalResearchStrength(standard, content, labId),
+    );
+    // The race itself is slower: 26 authored weeks at 0.7 pace.
+    expect(rivalAgiComponentDurationWeeks(fellowship, "world-engine")).toBe(37);
+    expect(
+      rivalFacilityDurationWeeks(
+        fellowship,
+        content,
+        contentId("base:facility.fusion-reactor-array-1"),
+      ),
+    ).toBeGreaterThan(
+      rivalFacilityDurationWeeks(
+        standard,
+        content,
+        contentId("base:facility.fusion-reactor-array-1"),
+      ),
+    );
   });
 
   it("commissions the final World Engine chain in about one year", () => {

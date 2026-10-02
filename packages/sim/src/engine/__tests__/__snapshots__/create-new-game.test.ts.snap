@@ -3971,7 +3971,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       },
       "startsAt": 0,
       "tags": [],
-      "target": "world.rival.progress",
+      "target": "world.rival.programmePace",
       "value": 0.7,
     },
     "run:modifier:setup:0005": {
@@ -4724,7 +4724,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       },
       "startsAt": 0,
       "tags": [],
-      "target": "world.rival.progress",
+      "target": "world.rival.programmePace",
       "value": 1.1,
     },
     "run:modifier:setup:0004": {
@@ -5477,7 +5477,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       },
       "startsAt": 0,
       "tags": [],
-      "target": "world.rival.progress",
+      "target": "world.rival.programmePace",
       "value": 1.25,
     },
     "run:modifier:setup:0004": {

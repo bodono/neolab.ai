@@ -1292,12 +1292,14 @@ The first training run is the only run which may have no parent model. It create
 
 Difficulty changes inputs and rival behaviour, never hidden truth after a choice has been made.
 
-| Setting | Player economy | Rival progress | Incident pressure | Information quality | Intended audience |
+| Setting | Player economy | Rival programme pace | Incident pressure | Information quality | Intended audience |
 |---|---:|---:|---:|---:|---|
 | Fellowship | +20% revenue, −15% fixed cost | 0.70× | 0.75× non-endgame hazard | +10 displayed estimate quality | Learning the systems |
 | Standard | 1.00× | 1.00× | 1.00× | Baseline | Intended first serious run |
 | Frontier | −10% revenue | 1.10× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
 | Unhinged Scaling | −15% revenue | 1.25× | 1.30× | Baseline, but wider event variance | Deliberately unfair satire mode |
+
+Rival programme pace scales how fast rivals build their Candidate Programme works and the facilities those need. It does not touch rival research: research sets the world frontier that opens every phase and hardware era, so every difficulty keeps the same world clock and an easier setting is a slower race, not a longer campaign.
 
 The balance target of roughly a 50% win rate refers to Standard difficulty among players who understand the interface and basic systems but have not memorised the event catalogue.
 

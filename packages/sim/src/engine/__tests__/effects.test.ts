@@ -437,10 +437,9 @@ describe("modifier resolver", () => {
       },
       content,
     );
-    expect(resolveModifierValue(frontier, "world.rival.progress", 1).final).toBeCloseTo(
-      1.1,
-      10,
-    );
+    expect(
+      resolveModifierValue(frontier, "world.rival.programmePace", 1).final,
+    ).toBeCloseTo(1.1, 10);
     expect(resolveModifierValue(frontier, "lab.revenue.all", 100).final).toBeCloseTo(
       90,
       10,

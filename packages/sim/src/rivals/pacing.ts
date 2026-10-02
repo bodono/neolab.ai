@@ -2,9 +2,9 @@ import { resolveModifierValue } from "../engine/modifier-resolver.ts";
 import type { GameState } from "../model/state.ts";
 
 /**
- * Baseline rival research, AGI-works and construction pace. Authored difficulty
- * modifiers are relative to this baseline, leaving Standard as the neutral
- * difficulty definition rather than materialising a modifier in every save.
+ * Baseline rival research, AGI-works and construction pace. Authored modifiers
+ * are relative to this baseline, leaving Standard as the neutral difficulty
+ * definition rather than materialising a modifier in every save.
  *
  * Was 1.08, a structural head start. Cut to 1 on 2026-10-01 to slow the race a
  * little: rivals already gain up to 3x from their off-screen organisation by
@@ -17,5 +17,18 @@ export function calculateRivalProgressMultiplier(state: Readonly<GameState>): nu
   return (
     RIVAL_BASELINE_PROGRESS_MULTIPLIER *
     resolveModifierValue(state, "world.rival.progress", 1).final
+  );
+}
+
+/**
+ * Pace of a rival's Candidate Programme: its works and the facilities they
+ * need. Difficulty scales this, not research, so every difficulty keeps the
+ * same world clock (phases and hardware eras follow the world frontier) and an
+ * easier game is a slower rival race rather than a longer campaign.
+ */
+export function calculateRivalProgrammeMultiplier(state: Readonly<GameState>): number {
+  return (
+    calculateRivalProgressMultiplier(state) *
+    resolveModifierValue(state, "world.rival.programmePace", 1).final
   );
 }

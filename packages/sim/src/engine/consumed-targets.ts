@@ -60,6 +60,7 @@ export const CONSUMED_TARGET_LITERALS: readonly string[] = [
   "researcher.loyalty",
   "researcher.moraleTarget",
   "world.rival.progress",
+  "world.rival.programmePace",
 ];
 
 /**
