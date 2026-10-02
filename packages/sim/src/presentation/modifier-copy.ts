@@ -26,6 +26,7 @@ const MODIFIER_TARGET_LABELS: Readonly<Record<string, string>> = {
   "lab.organisation.safetyCultureTarget": "Safety culture",
   "lab.organisation.safetyCultureFloor": "Safety culture floor",
   "lab.politics.governmentTrustFloor": "Government trust floor",
+  "lab.safety.securityPostureBonus": "Security posture",
   "lab.incident.hazard": "Incident risk",
   "lab.product.durationWeeks": "Future model launch time",
   // Says the cadence out loud. This is the only recurring Aura target, and

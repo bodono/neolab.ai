@@ -1,3 +1,4 @@
+import { resolveModifierValue } from "../engine/modifier-resolver.ts";
 import type { LabId } from "../model/ids.ts";
 import type { GameState } from "../model/state.ts";
 
@@ -58,13 +59,28 @@ export function effectivePracticalControlStrength(
   );
 }
 
+/**
+ * Standing security posture from the lab's own facilities. Without it the
+ * posture had no repeatable source -- 12 at the start plus at most 20 from
+ * research -- and the security-weighted incident reviews (credential access,
+ * copying, containment breach) asked for more than any lab could reach, so a
+ * candidate struck by one could never be cleared for deployment.
+ */
+export const SECURITY_POSTURE_BONUS_TARGET = "lab.safety.securityPostureBonus";
+
 export function effectiveSecurityPosture(
   state: Readonly<GameState>,
   labId: LabId = resolveLabId(state),
 ): number {
   const lab = state.labs[labId];
+  const facilities = resolveModifierValue(state, SECURITY_POSTURE_BONUS_TARGET, 0, {
+    labId,
+    includeUnscoped: labId === state.run.playerLabId,
+    clampMin: 0,
+  }).final;
   return clamp(
     (lab?.safety.securityPosture ?? 0) +
+      facilities +
       safetyProgrammeLevel(state, labId, "base:safety.security-containment") *
         SAFETY_PROGRAM_OPERATIONAL_CONVERSION,
   );

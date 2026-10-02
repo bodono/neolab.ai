@@ -11,7 +11,7 @@ import type { DeepMutable } from "../../engine/draft.ts";
 import { collectInvariantViolations } from "../../engine/invariants.ts";
 import { createTransaction } from "../../engine/transaction.ts";
 import { createBareState } from "../../model/fixture.ts";
-import type { AnomalyId, EvaluationId, ModelId } from "../../model/ids.ts";
+import type { AnomalyId, EvaluationId, ModelId, ModifierId } from "../../model/ids.ts";
 import {
   calendarFromTick,
   type CandidateIncidentClass,
@@ -188,6 +188,79 @@ describe("candidate artifact lifecycle", () => {
         incidentClass,
       });
     }
+  });
+
+  it("lets a fully invested lab review a copying attempt once its security facilities stand", () => {
+    const state = mutable(register(qualifyingState()).state);
+    const lab = state.labs[state.run.playerLabId];
+    const modelId = lab?.models.currentModelId;
+    const artifact =
+      modelId === undefined ? undefined : state.models[modelId]?.candidateArtifact;
+    const security = lab?.research.safetyPrograms["base:safety.security-containment"];
+    const evaluations =
+      lab?.research.safetyPrograms["base:safety.interpretability-evals"];
+    if (
+      lab === undefined ||
+      modelId === undefined ||
+      artifact === undefined ||
+      security === undefined ||
+      evaluations === undefined
+    ) {
+      throw new Error("Fixture lacks a candidate artifact");
+    }
+    // Everything a lab can invest in, at the authored starting security posture.
+    lab.finance.cash = cashMillions(10_000);
+    lab.aura.spendable = 100;
+    lab.aura.lifetime = 100;
+    lab.safety.securityPosture = rating(12);
+    lab.safety.practicalControlStrength = rating(100);
+    lab.safety.evalQuality = rating(100);
+    lab.safety.practiceXp = rating(100);
+    security.level = rating(100);
+    evaluations.level = rating(100);
+    artifact.hazardPressure = artifact.incidentThreshold;
+    const tx = createTransaction(state);
+    expect(
+      resolveCandidatePressureCrossing(
+        tx,
+        modelId,
+        "weekly-pressure",
+        candidateIncidentOracle("copying-attempt"),
+      ),
+    ).toBe(true);
+    // Posture 12 + 20 from research was the ceiling: a copying attempt asks
+    // for preparedness 74 and the best possible lab reached 66.
+    const withoutFacilities = quoteCandidateIncidentReview(tx.read(), modelId);
+    expect(withoutFacilities.preparedness).toBeLessThan(
+      withoutFacilities.requiredPreparedness,
+    );
+
+    tx.update((draft) => {
+      for (const definitionId of [
+        "base:facility.security-operations-1",
+        "base:facility.secure-bunker-1",
+      ] as const) {
+        const bonus = content.facilities[definitionId]?.modifiers.find(
+          (modifier) => modifier.target === "lab.safety.securityPostureBonus",
+        );
+        if (bonus === undefined)
+          throw new Error(`${definitionId} lacks a security bonus`);
+        const id = `modifier:test:${definitionId}` as ModifierId;
+        draft.modifiers[id] = {
+          id,
+          source: { kind: "facility", id: `facility:test:${definitionId}` },
+          labId: draft.run.playerLabId,
+          target: bonus.target,
+          operation: bonus.operation,
+          value: bonus.value,
+          startsAt: draft.run.tick,
+          tags: ["facility"],
+        };
+      }
+    });
+    const withFacilities = quoteCandidateIncidentReview(tx.read(), modelId);
+    expect(withFacilities.securityPosture).toBe(67);
+    expect(withFacilities.blockers).toEqual([]);
   });
 
   it("bounds active-artifact signals to an endgame-scale custody horizon", () => {

@@ -42,6 +42,7 @@ export const CONSUMED_TARGET_LITERALS: readonly string[] = [
   "lab.organisation.safetyCultureTarget",
   "lab.organisation.safetyCultureFloor",
   "lab.politics.governmentTrustFloor",
+  "lab.safety.securityPostureBonus",
   "lab.product.durationWeeks",
   "lab.research.all.output",
   "lab.research.diffusionRate",

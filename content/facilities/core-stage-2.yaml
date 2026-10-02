@@ -376,6 +376,7 @@ facilities:
     summary: A locked-down annex whose staff regard every open door, including metaphorical ones, as a personal affront.
     modifiers:
       - { target: lab.incident.hazard, operation: multiply, value: 0.90 }
+      - { target: lab.safety.securityPostureBonus, operation: add, value: 15 }
 
   - id: facility.robotics-lab-1
     displayName: Robotics Lab I
@@ -427,6 +428,7 @@ facilities:
     modifiers:
       - { target: lab.incident.hazard, operation: multiply, value: 0.85 }
       - { target: lab.research.security.output, operation: multiply, value: 1.15 }
+      - { target: lab.safety.securityPostureBonus, operation: add, value: 20 }
 
 
   - id: facility.staff-commons-1
