@@ -902,7 +902,11 @@ function endgameMetrics(
       : { crisisStartedAt: state.endgame.crisisStartedAt }),
     gateResults,
     gateProbabilities,
-    ...(state.endgame.stage === "rollout" || state.endgame.stage === "resolved"
+    // Only a deployment produces resolution inputs. A containment failure,
+    // retirement or recovery can also resolve the crisis, and asking for
+    // deployment inputs there threw and failed the whole batch.
+    ...(state.endgame.stage === "rollout" ||
+    (state.endgame.stage === "resolved" && state.endgame.resolutionPath === "deployment")
       ? {
           resolutionInputs: (() => {
             const inputs = deriveEndingResolutionInputs(state, content);
