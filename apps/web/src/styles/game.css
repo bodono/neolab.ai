@@ -20339,6 +20339,27 @@ button.researcher-slot-card:hover {
   font-size: 15px;
   line-height: 1.55;
 }
+.event-education {
+  max-width: 780px;
+  margin: -6px 0 18px;
+  padding: 10px 13px;
+  border-left: 5px solid #b8862b;
+  background: #fbf4e4;
+}
+.event-education strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #7a5512;
+  font: 800 10px monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.event-education p {
+  margin: 0;
+  color: #4d4332;
+  font-size: 13px;
+  line-height: 1.5;
+}
 .candidate-next-steps {
   margin: 16px 0;
   padding: 13px 15px;

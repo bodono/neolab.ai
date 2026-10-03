@@ -136,6 +136,12 @@ export function DecisionEventDialog({
         ) : null}
 
         <p className="event-body">{copy(item.bodyKey, item.tokens, "body")}</p>
+        {item.educationKey === undefined ? null : (
+          <aside className="event-education" aria-label="In the real world">
+            <strong>In the real world</strong>
+            <p>{copy(item.educationKey, item.tokens, "body")}</p>
+          </aside>
+        )}
 
         {isCandidateDeclaration ? (
           <section className="candidate-next-steps" aria-label="What happens next">

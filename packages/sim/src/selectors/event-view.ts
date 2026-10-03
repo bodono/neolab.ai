@@ -50,6 +50,8 @@ export interface EventQueueItemView {
   readonly priority: number;
   readonly titleKey: string;
   readonly bodyKey: string;
+  /** Real-world grounding for the scene, when the event has one. */
+  readonly educationKey?: string;
   readonly tokens: Readonly<Record<string, string | number>>;
   readonly evidence: readonly {
     readonly textKey: string;
@@ -100,6 +102,9 @@ export function projectEventQueueView(
           priority: instance.priority,
           titleKey: definition.titleKey,
           bodyKey: definition.bodyKey,
+          ...(definition.educationKey === undefined
+            ? {}
+            : { educationKey: definition.educationKey }),
           tokens: { ...instance.tokens },
           evidence: instance.evidenceSnapshot.map((line) => ({ ...line })),
           createdAtTick: instance.createdAt,

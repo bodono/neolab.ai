@@ -7,6 +7,8 @@ import { describe, expect, it } from "vitest";
 const repositoryRoot = fileURLToPath(new URL("../../../../../", import.meta.url));
 const maximumVisibleLiteralLength = 180;
 const maximumEventMessageLength = 180;
+// Real-world grounding lines sit apart from the scene and carry a citation.
+const maximumEventEducationLength = 240;
 
 function tsxFiles(directory: string): readonly string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -76,7 +78,13 @@ describe("player-facing copy density", () => {
       ),
     ) as { readonly copy: { readonly messages: Record<string, string> } };
     const violations = Object.entries(bundle.copy.messages)
-      .filter(([, message]) => message.length > maximumEventMessageLength)
+      .filter(
+        ([key, message]) =>
+          message.length >
+          (key.endsWith(".education")
+            ? maximumEventEducationLength
+            : maximumEventMessageLength),
+      )
       .map(([key, message]) => `${key}: ${String(message.length)} characters`);
 
     expect(violations).toEqual([]);

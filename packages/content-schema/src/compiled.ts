@@ -1116,6 +1116,8 @@ export interface EventDefinition {
   readonly defaultOptionId?: string;
   readonly titleKey: string;
   readonly bodyKey: string;
+  /** Optional real-world grounding, shown apart from the in-game scene. */
+  readonly educationKey?: string;
   readonly evidence: readonly EventEvidenceLineDefinition[];
   readonly tokenBindings: readonly EventTokenBindingDefinition[];
   readonly options: readonly EventOptionDefinition[];
@@ -1403,6 +1405,7 @@ export const eventDefinitionSchema = z
     defaultOptionId: eventNonEmpty.optional(),
     titleKey: eventNonEmpty,
     bodyKey: eventNonEmpty,
+    educationKey: eventNonEmpty.optional(),
     evidence: z.array(
       z
         .object({

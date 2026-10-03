@@ -488,6 +488,7 @@ function eventMessageKeys(definition: EventDefinition): readonly string[] {
   return [
     definition.titleKey,
     definition.bodyKey,
+    ...(definition.educationKey === undefined ? [] : [definition.educationKey]),
     ...definition.evidence.map((line) => line.textKey),
     ...definition.options.flatMap((option) => [
       option.labelKey,
