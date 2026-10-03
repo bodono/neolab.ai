@@ -29,6 +29,7 @@ events:
     defaultOptionId: keep-closed
     titleKey: event.rival.open-weights.title
     bodyKey: event.rival.open-weights.body
+    educationKey: event.rival.open-weights.education
     evidence:
       - textKey: event.rival.open-weights.evidence.aura
         metric: player.aura.spendable
@@ -136,6 +137,7 @@ events:
     defaultOptionId: vetted-access
     titleKey: event.safety.uplift-eval.title
     bodyKey: event.safety.uplift-eval.body
+    educationKey: event.safety.uplift-eval.education
     evidence:
       - textKey: event.safety.uplift-eval.evidence.evals
         metric: player.safety.evalQuality
@@ -238,6 +240,7 @@ events:
     defaultOptionId: red-team
     titleKey: event.security.zero-days.title
     bodyKey: event.security.zero-days.body
+    educationKey: event.security.zero-days.education
     evidence:
       - textKey: event.security.zero-days.evidence.security
         metric: player.safety.securityPosture
@@ -360,6 +363,7 @@ events:
     defaultOptionId: vague-principles
     titleKey: event.politics.if-then-commitments.title
     bodyKey: event.politics.if-then-commitments.body
+    educationKey: event.politics.if-then-commitments.education
     evidence:
       - textKey: event.politics.if-then-commitments.evidence.culture
         metric: player.safety.safetyCulture
@@ -438,6 +442,7 @@ events:
     defaultOptionId: patch-and-train
     titleKey: event.security.weight-security.title
     bodyKey: event.security.weight-security.body
+    educationKey: event.security.weight-security.education
     evidence:
       - textKey: event.security.weight-security.evidence.security
         metric: player.safety.securityPosture
@@ -537,6 +542,7 @@ events:
     defaultOptionId: split-run
     titleKey: event.politics.compute-threshold.title
     bodyKey: event.politics.compute-threshold.body
+    educationKey: event.politics.compute-threshold.education
     evidence:
       - textKey: event.politics.compute-threshold.evidence.attention
         metric: player.politics.governmentAttention
@@ -637,6 +643,7 @@ events:
     defaultOptionId: decline
     titleKey: event.politics.know-your-customer.title
     bodyKey: event.politics.know-your-customer.body
+    educationKey: event.politics.know-your-customer.education
     evidence:
       - textKey: event.politics.know-your-customer.evidence.board
         metric: player.organisation.boardPatience
@@ -762,6 +769,7 @@ events:
     defaultOptionId: internal-channel
     titleKey: event.people.right-to-warn.title
     bodyKey: event.people.right-to-warn.body
+    educationKey: event.people.right-to-warn.education
     evidence:
       - textKey: event.people.right-to-warn.evidence.culture
         metric: player.safety.safetyCulture
@@ -879,6 +887,7 @@ events:
     defaultOptionId: decline
     titleKey: event.rival.pause-letter.title
     bodyKey: event.rival.pause-letter.body
+    educationKey: event.rival.pause-letter.education
     evidence:
       - textKey: event.rival.pause-letter.evidence.culture
         metric: player.safety.safetyCulture
@@ -982,6 +991,7 @@ events:
     defaultOptionId: stay-out
     titleKey: event.rival.incident-sharing.title
     bodyKey: event.rival.incident-sharing.body
+    educationKey: event.rival.incident-sharing.education
     evidence:
       - textKey: event.rival.incident-sharing.evidence.incidents
         metric: player.incidents.recentCount
@@ -1103,6 +1113,7 @@ events:
     defaultOptionId: cooperate
     titleKey: event.politics.voice-clone-robocall.title
     bodyKey: event.politics.voice-clone-robocall.body
+    educationKey: event.politics.voice-clone-robocall.education
     evidence:
       - textKey: event.politics.voice-clone-robocall.evidence.attention
         metric: player.politics.governmentAttention
@@ -1203,6 +1214,7 @@ events:
     defaultOptionId: patch-trigger
     titleKey: event.security.sleeper-backdoor.title
     bodyKey: event.security.sleeper-backdoor.body
+    educationKey: event.security.sleeper-backdoor.education
     evidence:
       - textKey: event.security.sleeper-backdoor.evidence.evals
         metric: player.safety.evalQuality
