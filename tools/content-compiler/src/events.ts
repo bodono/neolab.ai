@@ -1,3 +1,4 @@
+import { readdirSync } from "node:fs";
 import { join } from "node:path";
 
 import {
@@ -45,25 +46,61 @@ function draftEventId(value: unknown, filePath: string): string {
   return value;
 }
 
+/**
+ * Every `content/copy/*.yaml` catalogue, merged. Content packs keep their copy
+ * beside each other in separate files; a key defined twice fails the build.
+ */
 export function compileCopyCatalogue(contentDir: string): CopyCatalogueDefinition {
-  const copyPath = join(contentDir, "copy", "en-GB.yaml");
-  const raw = parseYamlFile(copyPath);
-  const parsed = copyFileSchema.safeParse(raw);
-  if (!parsed.success) {
-    const issue = parsed.error.issues[0];
-    throw new ContentFileError(
-      copyPath,
-      undefined,
-      undefined,
-      issue === undefined
-        ? "invalid copy catalogue"
-        : `${issue.path.join(".")}: ${issue.message}`,
-    );
+  const copyDir = join(contentDir, "copy");
+  const messages: Record<string, string> = {};
+  let locale: string | undefined;
+  for (const fileName of yamlFiles(copyDir)) {
+    const copyPath = join(copyDir, fileName);
+    const raw = parseYamlFile(copyPath);
+    const parsed = copyFileSchema.safeParse(raw);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      throw new ContentFileError(
+        copyPath,
+        undefined,
+        undefined,
+        issue === undefined
+          ? "invalid copy catalogue"
+          : `${issue.path.join(".")}: ${issue.message}`,
+      );
+    }
+    if (locale !== undefined && parsed.data.locale !== locale) {
+      throw new ContentFileError(
+        copyPath,
+        undefined,
+        undefined,
+        `locale ${parsed.data.locale} differs from ${locale}`,
+      );
+    }
+    locale = parsed.data.locale;
+    for (const [key, message] of Object.entries(parsed.data.messages)) {
+      if (key in messages) {
+        throw new ContentFileError(
+          copyPath,
+          undefined,
+          undefined,
+          `duplicate copy key ${key}`,
+        );
+      }
+      messages[key] = message;
+    }
   }
-  return copyCatalogueDefinitionSchema.parse({
-    locale: parsed.data.locale,
-    messages: parsed.data.messages,
-  });
+  if (locale === undefined) {
+    throw new ContentFileError(copyDir, undefined, undefined, "no copy catalogue");
+  }
+  return copyCatalogueDefinitionSchema.parse({ locale, messages });
+}
+
+/** YAML files in a content directory, in a stable order. */
+export function yamlFiles(directory: string): readonly string[] {
+  return readdirSync(directory)
+    .filter((fileName) => fileName.endsWith(".yaml"))
+    .sort();
 }
 
 /**

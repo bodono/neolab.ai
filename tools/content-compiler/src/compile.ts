@@ -56,7 +56,7 @@ import {
   type ContentReleaseReport,
 } from "./release-validation.ts";
 import { compileAssetCatalogue } from "./assets.ts";
-import { compileCopyCatalogue, compileEventCatalogue } from "./events.ts";
+import { compileCopyCatalogue, compileEventCatalogue, yamlFiles } from "./events.ts";
 import { ContentFileError, parseYamlFile } from "./yaml-io.ts";
 
 export interface CompileResult {
@@ -2399,13 +2399,7 @@ export function compileContent(repoRoot: string): CompileResult {
   const eventSources: Record<string, string> = {};
   const events: CompiledContent["events"] = compileEventCatalogue(
     contentDir,
-    [
-      "government.yaml",
-      "operations.yaml",
-      "safety.yaml",
-      "frontier.yaml",
-      "autonomy.yaml",
-    ],
+    yamlFiles(join(contentDir, "events")),
     canonicalId,
     eventSources,
   );
