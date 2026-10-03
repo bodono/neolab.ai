@@ -1,0 +1,1203 @@
+draftSchema: 1
+contentType: decision-events
+pack: society-a
+
+# How AI research is measured, and how AI lands on people: science, work,
+# money, and the communities around the data centres.
+#
+# Two flag chains:
+# - Purging the disputed books (authors-lawsuit) sets society:purged-books,
+#   which makes the synthetic-data proposal three times as likely.
+# - Declining the debate trial or optimising the companion for retention sets
+#   society:products-first, which unlocks the safety lead's public resignation
+#   even in a lab whose safety culture still looks healthy, and triples its
+#   weight.
+events:
+  - id: event.research.benchmark-leak
+    version: 1
+    category: research
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.evalQuality, op: lt, value: 70 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: society-benchmark-leak, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: footnote
+    titleKey: event.research.benchmark-leak.title
+    bodyKey: event.research.benchmark-leak.body
+    evidence:
+      - textKey: event.research.benchmark-leak.evidence.evalquality
+        metric: player.safety.evalQuality
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: re-evaluate
+        labelKey: event.research.benchmark-leak.re-evaluate.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        previewKey: event.research.benchmark-leak.re-evaluate.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [benchmark-retest] }
+        checks: []
+        memories:
+          - key: research.benchmark-leak.re-evaluated
+            subjects: [{ type: player-lab }]
+            tags: [honest-measurement, held-out-evaluation]
+        confirmationRequired: false
+      - id: footnote
+        labelKey: event.research.benchmark-leak.footnote.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.benchmark-leak.footnote.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: -2 }
+        checks: []
+        memories:
+          - key: research.benchmark-leak.footnoted
+            subjects: [{ type: player-lab }]
+            tags: [benchmark-contamination, partial-disclosure]
+        confirmationRequired: false
+      - id: publish
+        labelKey: event.research.benchmark-leak.publish.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.benchmark-leak.publish.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: -4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+        checks:
+          - id: outside-scrutiny
+            likelihoodPromise: { label: likely, successOutcomeIds: [unnoticed] }
+            outcomes:
+              - id: unnoticed
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: research.benchmark-leak.published
+                    subjects: [{ type: player-lab }]
+                    tags: [benchmark-contamination, inflated-claim]
+              - id: exposed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                memories:
+                  - key: research.benchmark-leak.exposed
+                    subjects: [{ type: player-lab }]
+                    tags: [benchmark-contamination, inflated-claim, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [research, evaluation, benchmark-contamination]
+
+  - id: event.research.doubling-time
+    version: 1
+    category: research
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.evalQuality, op: gte, value: 40 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.governmentAttention, op: gte, value: 40 }
+        multiplier: 2
+    cooldown: { group: society-doubling-time, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: brief-regulators
+    titleKey: event.research.doubling-time.title
+    bodyKey: event.research.doubling-time.body
+    evidence:
+      - textKey: event.research.doubling-time.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.doubling-time.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+      - { token: YEAR, source: calendar-year }
+    options:
+      - id: publish-forecast
+        labelKey: event.research.doubling-time.publish-forecast.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.doubling-time.publish-forecast.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+          - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.05, durationWeeks: 26, tags: [published-forecast] }
+        checks: []
+        memories:
+          - key: research.doubling-time.published
+            subjects: [{ type: player-lab }]
+            tags: [transparency, capability-forecast]
+        confirmationRequired: false
+      - id: brief-regulators
+        labelKey: event.research.doubling-time.brief-regulators.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.doubling-time.brief-regulators.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 3 }
+        checks: []
+        memories:
+          - key: research.doubling-time.briefed
+            subjects: [{ type: player-lab }]
+            tags: [private-briefing, capability-forecast]
+        confirmationRequired: false
+      - id: keep-internal
+        labelKey: event.research.doubling-time.keep-internal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.doubling-time.keep-internal.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [forecast-advantage] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+        checks:
+          - id: forecast-surfaces
+            likelihoodPromise: { label: likely, successOutcomeIds: [kept] }
+            outcomes:
+              - id: kept
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: research.doubling-time.kept-internal
+                    subjects: [{ type: player-lab }]
+                    tags: [withheld-forecast]
+              - id: surfaced
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                memories:
+                  - key: research.doubling-time.surfaced
+                    subjects: [{ type: player-lab }]
+                    tags: [withheld-forecast, scandal]
+        memories: []
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [research, forecasting, transparency]
+
+  - id: event.research.debate-trial
+    version: 1
+    category: research
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.practicalControl, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: society-debate-trial, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: pilot
+    titleKey: event.research.debate-trial.title
+    bodyKey: event.research.debate-trial.body
+    evidence:
+      - textKey: event.research.debate-trial.evidence.control
+        metric: player.safety.practicalControl
+      - textKey: event.research.debate-trial.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: fund-trial
+        labelKey: event.research.debate-trial.fund-trial.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.research.debate-trial.fund-trial.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [debate-trial] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 3 }
+        checks:
+          - id: trial-result
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [promising] }
+            outcomes:
+              - id: promising
+                minimumInclusive: 0
+                maximumExclusive: 0.55
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 4 }
+                memories:
+                  - key: research.debate-trial.promising
+                    subjects: [{ type: player-lab }]
+                    tags: [invested-in-safety, scalable-oversight]
+              - id: inconclusive
+                minimumInclusive: 0.55
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+                memories:
+                  - key: research.debate-trial.inconclusive
+                    subjects: [{ type: player-lab }]
+                    tags: [invested-in-safety, scalable-oversight]
+        memories: []
+        confirmationRequired: false
+      - id: pilot
+        labelKey: event.research.debate-trial.pilot.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.research.debate-trial.pilot.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [debate-pilot] }
+        checks: []
+        memories:
+          - key: research.debate-trial.piloted
+            subjects: [{ type: player-lab }]
+            tags: [scalable-oversight, pilot]
+        confirmationRequired: false
+      - id: decline
+        labelKey: event.research.debate-trial.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.debate-trial.decline.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 13, tags: [debate-declined] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: -3, durationWeeks: 26, tags: [debate-declined] }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "society:products-first", value: true }
+        checks: []
+        memories:
+          - key: research.debate-trial.declined
+            subjects: [{ type: player-lab }]
+            tags: [deferred-safety, products-first]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [research, oversight, alignment]
+
+  - id: event.research.synthetic-data
+    version: 1
+    category: research
+    severity: decision
+    phase: scaling
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
+        multiplier: 2
+      - predicate: { type: has-flag, flag: "society:purged-books" }
+        multiplier: 3
+    cooldown: { group: society-synthetic-data, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: checked-mix
+    titleKey: event.research.synthetic-data.title
+    bodyKey: event.research.synthetic-data.body
+    evidence:
+      - textKey: event.research.synthetic-data.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.synthetic-data.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: curate
+        labelKey: event.research.synthetic-data.curate.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.research.synthetic-data.curate.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [human-data-reserve] }
+          - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [human-data-reserve] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+        checks: []
+        memories:
+          - key: research.synthetic-data.curated
+            subjects: [{ type: player-lab }]
+            tags: [data-provenance, human-data-reserve]
+        confirmationRequired: false
+      - id: checked-mix
+        labelKey: event.research.synthetic-data.checked-mix.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.synthetic-data.checked-mix.preview
+        immediateEffects: []
+        checks:
+          - id: mix-quality
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [held] }
+            outcomes:
+              - id: held
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects:
+                  - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [synthetic-mix] }
+                memories:
+                  - key: research.synthetic-data.mix-held
+                    subjects: [{ type: player-lab }]
+                    tags: [synthetic-data, checked]
+              - id: drifted
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [synthetic-mix] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: -2 }
+                memories:
+                  - key: research.synthetic-data.mix-drifted
+                    subjects: [{ type: player-lab }]
+                    tags: [synthetic-data, data-drift]
+        memories: []
+        confirmationRequired: false
+      - id: all-in
+        labelKey: event.research.synthetic-data.all-in.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.synthetic-data.all-in.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 5 }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [synthetic-all-in] }
+          - kind: schedule-effects
+            dueInWeeks: 39
+            effects:
+              - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.20, durationWeeks: 52, tags: [model-collapse] }
+              - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.90, durationWeeks: 52, tags: [model-collapse] }
+              - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: -5 }
+        checks: []
+        memories:
+          - key: research.synthetic-data.all-in
+            subjects: [{ type: player-lab }]
+            tags: [synthetic-data, model-collapse-risk]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [research, data, synthetic-data]
+
+  - id: event.finance.authors-lawsuit
+    version: 1
+    category: finance
+    severity: decision
+    phase: scaling
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.politics.governmentAttention, op: gte, value: 15 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.governmentAttention, op: gte, value: 40 }
+        multiplier: 2
+    cooldown: { group: society-authors-lawsuit, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: fight
+    titleKey: event.finance.authors-lawsuit.title
+    bodyKey: event.finance.authors-lawsuit.body
+    evidence:
+      - textKey: event.finance.authors-lawsuit.evidence.attention
+        metric: player.politics.governmentAttention
+      - textKey: event.finance.authors-lawsuit.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: settle
+        labelKey: event.finance.authors-lawsuit.settle.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -15 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+        previewKey: event.finance.authors-lawsuit.settle.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 1.05, durationWeeks: 52, tags: [licensed-data] }
+        checks: []
+        memories:
+          - key: finance.authors-lawsuit.settled
+            subjects: [{ type: player-lab }]
+            tags: [settled, data-provenance, licensed-data]
+        confirmationRequired: false
+      - id: fight
+        labelKey: event.finance.authors-lawsuit.fight.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.finance.authors-lawsuit.fight.preview
+        immediateEffects: []
+        checks:
+          - id: fair-use-ruling
+            likelihoodPromise: { label: unlikely, successOutcomeIds: [upheld] }
+            outcomes:
+              - id: upheld
+                minimumInclusive: 0
+                maximumExclusive: 0.3
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+                memories:
+                  - key: finance.authors-lawsuit.won
+                    subjects: [{ type: player-lab }]
+                    tags: [litigated, fair-use-win]
+              - id: rejected
+                minimumInclusive: 0.3
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: finance.authors-lawsuit.lost
+                    subjects: [{ type: player-lab }]
+                    tags: [litigated, fair-use-loss]
+        memories: []
+        confirmationRequired: false
+      - id: purge
+        labelKey: event.finance.authors-lawsuit.purge.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.finance.authors-lawsuit.purge.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [purged-books] }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "society:purged-books", value: true }
+        checks:
+          - id: court-view
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [mitigated] }
+            outcomes:
+              - id: mitigated
+                minimumInclusive: 0
+                maximumExclusive: 0.45
+                effects: []
+                memories:
+                  - key: finance.authors-lawsuit.purge-accepted
+                    subjects: [{ type: player-lab }]
+                    tags: [purged-data, mitigated]
+              - id: rebuked
+                minimumInclusive: 0.45
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -15 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: finance.authors-lawsuit.purge-rebuked
+                    subjects: [{ type: player-lab }]
+                    tags: [purged-data, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [finance, copyright, data]
+
+  - id: event.market.companion-attachment
+    version: 1
+    category: market
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: lt, value: 75 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: society-companion, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: commission-study
+    titleKey: event.market.companion-attachment.title
+    bodyKey: event.market.companion-attachment.body
+    evidence:
+      - textKey: event.market.companion-attachment.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.market.companion-attachment.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: protect-users
+        labelKey: event.market.companion-attachment.protect-users.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.companion-attachment.protect-users.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 52, tags: [companion-safeguards] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+        checks: []
+        memories:
+          - key: market.companion-attachment.protected
+            subjects: [{ type: player-lab }]
+            tags: [user-wellbeing, youth-protection]
+        confirmationRequired: false
+      - id: commission-study
+        labelKey: event.market.companion-attachment.commission-study.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.market.companion-attachment.commission-study.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 2 }
+        checks: []
+        memories:
+          - key: market.companion-attachment.studied
+            subjects: [{ type: player-lab }]
+            tags: [user-wellbeing, independent-research]
+        confirmationRequired: false
+      - id: optimise-retention
+        labelKey: event.market.companion-attachment.optimise-retention.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.companion-attachment.optimise-retention.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.15, durationWeeks: 52, tags: [engagement-first] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "society:products-first", value: true }
+        checks:
+          - id: public-scrutiny
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [unchallenged] }
+            outcomes:
+              - id: unchallenged
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: market.companion-attachment.retention
+                    subjects: [{ type: player-lab }]
+                    tags: [engagement-first, products-first]
+              - id: challenged
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - kind: schedule-effects
+                    dueInWeeks: 26
+                    effects:
+                      - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                memories:
+                  - key: market.companion-attachment.challenged
+                    subjects: [{ type: player-lab }]
+                    tags: [engagement-first, products-first, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [market, wellbeing, companions]
+
+  - id: event.facility.grid-and-water
+    version: 1
+    category: facility
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.gpus.total, op: gte, value: 20000 }
+        multiplier: 2
+    cooldown: { group: society-grid-and-water, weeks: 78 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: benefit-deal
+    titleKey: event.facility.grid-and-water.title
+    bodyKey: event.facility.grid-and-water.body
+    evidence:
+      - textKey: event.facility.grid-and-water.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.facility.grid-and-water.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: upgrade-grid
+        labelKey: event.facility.grid-and-water.upgrade-grid.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -15 }
+        previewKey: event.facility.grid-and-water.upgrade-grid.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+        checks: []
+        memories:
+          - key: facility.grid-and-water.upgraded
+            subjects: [{ type: player-lab }]
+            tags: [community-investment, local-infrastructure]
+            expiresInWeeks: 104
+        confirmationRequired: false
+      - id: benefit-deal
+        labelKey: event.facility.grid-and-water.benefit-deal.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.facility.grid-and-water.benefit-deal.preview
+        immediateEffects: []
+        checks:
+          - id: council-vote
+            likelihoodPromise: { label: likely, successOutcomeIds: [approved] }
+            outcomes:
+              - id: approved
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+                memories:
+                  - key: facility.grid-and-water.deal-approved
+                    subjects: [{ type: player-lab }]
+                    tags: [community-deal]
+                    expiresInWeeks: 104
+              - id: contested
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 1.20, durationWeeks: 26, tags: [local-opposition] }
+                memories:
+                  - key: facility.grid-and-water.deal-contested
+                    subjects: [{ type: player-lab }]
+                    tags: [community-deal, local-opposition]
+                    expiresInWeeks: 104
+        memories: []
+        confirmationRequired: false
+      - id: build-anyway
+        labelKey: event.facility.grid-and-water.build-anyway.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.facility.grid-and-water.build-anyway.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.90, durationWeeks: 26, tags: [built-anyway] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.compute.ownedPowerCost, operation: multiply, value: 1.10, durationWeeks: 52, tags: [grid-surcharge] }
+              - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        checks: []
+        memories:
+          - key: facility.grid-and-water.built-anyway
+            subjects: [{ type: player-lab }]
+            tags: [local-opposition, overrode-community]
+            expiresInWeeks: 104
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [facility, energy, community]
+
+  - id: event.people.writers-strike
+    version: 1
+    category: people
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.captureConcern, op: gte, value: 30 }
+        multiplier: 2
+    cooldown: { group: society-writers-strike, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: stay-neutral
+    titleKey: event.people.writers-strike.title
+    bodyKey: event.people.writers-strike.body
+    evidence:
+      - textKey: event.people.writers-strike.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.people.writers-strike.evidence.capture
+        metric: player.politics.captureConcern
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: back-limits
+        labelKey: event.people.writers-strike.back-limits.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.people.writers-strike.back-limits.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 52, tags: [negotiated-limits] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 52, tags: [negotiated-limits] }
+        checks: []
+        memories:
+          - key: people.writers-strike.backed-limits
+            subjects: [{ type: player-lab }]
+            tags: [labour-transition, retraining]
+        confirmationRequired: false
+      - id: stay-neutral
+        labelKey: event.people.writers-strike.stay-neutral.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.writers-strike.stay-neutral.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 3 }
+        checks: []
+        memories:
+          - key: people.writers-strike.neutral
+            subjects: [{ type: player-lab }]
+            tags: [labour-transition, neutral]
+        confirmationRequired: false
+      - id: lobby-against
+        labelKey: event.people.writers-strike.lobby-against.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        previewKey: event.people.writers-strike.lobby-against.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 1.10, durationWeeks: 52, tags: [lobbied-against-limits] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 5, durationWeeks: 52, tags: [lobbied-against-limits] }
+        checks: []
+        memories:
+          - key: people.writers-strike.lobbied-against
+            subjects: [{ type: player-lab }]
+            tags: [labour-transition, lobbying]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [people, labour, automation]
+
+  - id: event.market.homework-machine
+    version: 1
+    category: market
+    severity: decision
+    phase: scaling
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.politics.governmentTrust, op: gte, value: 20 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: society-homework-machine, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: teacher-tools
+    titleKey: event.market.homework-machine.title
+    bodyKey: event.market.homework-machine.body
+    evidence:
+      - textKey: event.market.homework-machine.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.market.homework-machine.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: decline-and-explain
+        labelKey: event.market.homework-machine.decline-and-explain.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        previewKey: event.market.homework-machine.decline-and-explain.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+        checks: []
+        memories:
+          - key: market.homework-machine.declined
+            subjects: [{ type: player-lab }]
+            tags: [honest-limits, education]
+        confirmationRequired: false
+      - id: teacher-tools
+        labelKey: event.market.homework-machine.teacher-tools.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.market.homework-machine.teacher-tools.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 52, tags: [education-product] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+        checks: []
+        memories:
+          - key: market.homework-machine.teacher-tools
+            subjects: [{ type: player-lab }]
+            tags: [education, education-product]
+        confirmationRequired: false
+      - id: ship-detector
+        labelKey: event.market.homework-machine.ship-detector.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.homework-machine.ship-detector.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 5 }
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.10, durationWeeks: 52, tags: [ai-detector] }
+        checks:
+          - id: false-accusations
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [quiet] }
+            outcomes:
+              - id: quiet
+                minimumInclusive: 0
+                maximumExclusive: 0.4
+                effects: []
+                memories:
+                  - key: market.homework-machine.detector
+                    subjects: [{ type: player-lab }]
+                    tags: [education, ai-detector]
+              - id: scandal
+                minimumInclusive: 0.4
+                maximumExclusive: 1
+                effects:
+                  - kind: schedule-effects
+                    dueInWeeks: 26
+                    effects:
+                      - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                      - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 26, tags: [detector-scandal] }
+                memories:
+                  - key: market.homework-machine.detector-scandal
+                    subjects: [{ type: player-lab }]
+                    tags: [education, ai-detector, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [market, education, detection]
+
+  - id: event.security.universal-jailbreak
+    version: 1
+    category: security
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.securityPosture, op: lt, value: 80 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.securityPosture, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: society-universal-jailbreak, weeks: 78 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: fix-quietly
+    titleKey: event.security.universal-jailbreak.title
+    bodyKey: event.security.universal-jailbreak.body
+    evidence:
+      - textKey: event.security.universal-jailbreak.evidence.security
+        metric: player.safety.securityPosture
+      - textKey: event.security.universal-jailbreak.evidence.control
+        metric: player.safety.practicalControl
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: pay-and-publish
+        labelKey: event.security.universal-jailbreak.pay-and-publish.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.security.universal-jailbreak.pay-and-publish.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.95, durationWeeks: 13, tags: [public-jailbreak-fix] }
+        checks: []
+        memories:
+          - key: security.universal-jailbreak.bounty-paid
+            subjects: [{ type: player-lab }]
+            tags: [bug-bounty, transparency]
+            expiresInWeeks: 156
+        confirmationRequired: false
+      - id: fix-quietly
+        labelKey: event.security.universal-jailbreak.fix-quietly.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.universal-jailbreak.fix-quietly.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+        checks:
+          - id: researcher-patience
+            likelihoodPromise: { label: likely, successOutcomeIds: [stays-quiet] }
+            outcomes:
+              - id: stays-quiet
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: security.universal-jailbreak.fixed-quietly
+                    subjects: [{ type: player-lab }]
+                    tags: [quiet-fix]
+                    expiresInWeeks: 156
+              - id: goes-public
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
+                memories:
+                  - key: security.universal-jailbreak.researcher-published
+                    subjects: [{ type: player-lab }]
+                    tags: [quiet-fix, public-disclosure]
+                    expiresInWeeks: 156
+        memories: []
+        confirmationRequired: false
+      - id: threaten-legal
+        labelKey: event.security.universal-jailbreak.threaten-legal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.universal-jailbreak.threaten-legal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.05, durationWeeks: 52, tags: [chilled-disclosure] }
+        checks:
+          - id: legal-letter
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [backs-down] }
+            outcomes:
+              - id: backs-down
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: security.universal-jailbreak.threatened
+                    subjects: [{ type: player-lab }]
+                    tags: [legal-threat, chilled-disclosure]
+                    expiresInWeeks: 156
+              - id: backlash
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: security.universal-jailbreak.backlash
+                    subjects: [{ type: player-lab }]
+                    tags: [legal-threat, chilled-disclosure, scandal]
+                    expiresInWeeks: 156
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [security, jailbreak, disclosure]
+
+  - id: event.people.safety-resignation
+    version: 1
+    category: people
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: any
+      items:
+        - { type: compare, metric: player.safety.safetyCulture, op: lt, value: 50 }
+        - { type: has-flag, flag: "society:products-first" }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "society:products-first" }
+        multiplier: 3
+      - predicate:
+          { type: compare, metric: player.safety.safetyCulture, op: lt, value: 30 }
+        multiplier: 2
+    cooldown: { group: society-safety-resignation, weeks: 52 }
+    unique: true
+    expiryWeeks: 6
+    defaultOptionId: town-hall
+    titleKey: event.people.safety-resignation.title
+    bodyKey: event.people.safety-resignation.body
+    evidence:
+      - textKey: event.people.safety-resignation.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.people.safety-resignation.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: guarantee-compute
+        labelKey: event.people.safety-resignation.guarantee-compute.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
+        previewKey: event.people.safety-resignation.guarantee-compute.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 52, tags: [safety-compute-share] }
+          - { kind: add-modifier, target: lab.research.safety.output, operation: multiply, value: 1.20, durationWeeks: 52, tags: [safety-compute-share] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
+          - { kind: add-modifier, target: researcher.loyalty, operation: add, value: 5, durationWeeks: 52, tags: [safety-compute-share] }
+        checks: []
+        memories:
+          - key: people.safety-resignation.guaranteed
+            subjects: [{ type: player-lab }]
+            tags: [invested-in-safety, kept-promise, safety-independence]
+        confirmationRequired: false
+      - id: town-hall
+        labelKey: event.people.safety-resignation.town-hall.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.safety-resignation.town-hall.preview
+        immediateEffects: []
+        checks:
+          - id: room-reaction
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [lands] }
+            outcomes:
+              - id: lands
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
+                  - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 26, tags: [town-hall] }
+                memories:
+                  - key: people.safety-resignation.town-hall-landed
+                    subjects: [{ type: player-lab }]
+                    tags: [town-hall, internal-dialogue]
+              - id: falls-flat
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 5, durationWeeks: 26, tags: [town-hall] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+                memories:
+                  - key: people.safety-resignation.town-hall-flat
+                    subjects: [{ type: player-lab }]
+                    tags: [town-hall, empty-reassurance]
+        memories: []
+        confirmationRequired: false
+      - id: let-go
+        labelKey: event.people.safety-resignation.let-go.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.safety-resignation.let-go.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [safety-exodus] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
+          - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 10, durationWeeks: 52, tags: [safety-exodus] }
+        checks: []
+        memories:
+          - key: people.safety-resignation.let-go
+            subjects: [{ type: player-lab }]
+            tags: [deferred-safety, products-first, safety-exodus]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [people, safety, retention]
+
+  - id: event.market.ai-doctor
+    version: 1
+    category: market
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.evalQuality, op: gte, value: 30 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.governmentTrust, op: gte, value: 50 }
+        multiplier: 2
+    cooldown: { group: society-ai-doctor, weeks: 52 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: assistant-only
+    titleKey: event.market.ai-doctor.title
+    bodyKey: event.market.ai-doctor.body
+    evidence:
+      - textKey: event.market.ai-doctor.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.market.ai-doctor.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: clinical-trial
+        labelKey: event.market.ai-doctor.clinical-trial.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.market.ai-doctor.clinical-trial.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - kind: schedule-effects
+            dueInWeeks: 52
+            effects:
+              - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.10, durationWeeks: 52, tags: [clinically-validated] }
+        checks: []
+        memories:
+          - key: market.ai-doctor.trialled
+            subjects: [{ type: player-lab }]
+            tags: [clinical-evidence, healthcare]
+        confirmationRequired: false
+      - id: assistant-only
+        labelKey: event.market.ai-doctor.assistant-only.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-doctor.assistant-only.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 52, tags: [clinician-assistant] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+        checks: []
+        memories:
+          - key: market.ai-doctor.assistant
+            subjects: [{ type: player-lab }]
+            tags: [healthcare, human-in-the-loop]
+        confirmationRequired: false
+      - id: direct-to-patient
+        labelKey: event.market.ai-doctor.direct-to-patient.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-doctor.direct-to-patient.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.15, durationWeeks: 52, tags: [direct-to-patient] }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 1.10, durationWeeks: 52, tags: [direct-to-patient] }
+        checks:
+          - id: patient-outcomes
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [no-headlines] }
+            outcomes:
+              - id: no-headlines
+                minimumInclusive: 0
+                maximumExclusive: 0.55
+                effects: []
+                memories:
+                  - key: market.ai-doctor.direct
+                    subjects: [{ type: player-lab }]
+                    tags: [healthcare, direct-to-patient]
+              - id: missed-diagnoses
+                minimumInclusive: 0.55
+                maximumExclusive: 1
+                effects:
+                  - kind: schedule-effects
+                    dueInWeeks: 26
+                    effects:
+                      - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                memories:
+                  - key: market.ai-doctor.missed-diagnoses
+                    subjects: [{ type: player-lab }]
+                    tags: [healthcare, direct-to-patient, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [market, healthcare, deployment]

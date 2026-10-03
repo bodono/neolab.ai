@@ -1,0 +1,292 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the society-a decision events (content/events/society.yaml):
+# how AI research is measured, and how AI lands on people.
+messages:
+  # --- Research: benchmark contamination ----------------------------------
+  event.research.benchmark-leak.title: The test answers were in the training set
+  event.research.benchmark-leak.body: >-
+    {LAB}'s evaluation team has found the headline benchmark's test examples sitting in
+    {AI}'s training data. The score everyone is about to celebrate may be partly memory.
+    This is a known problem: when test questions leak into training data, scores rise
+    without any real gain in ability.
+  event.research.benchmark-leak.evidence.evalquality: Evaluation quality
+  event.research.benchmark-leak.re-evaluate.label: Re-test on fresh held-out data
+  event.research.benchmark-leak.re-evaluate.preview: >-
+    Build a clean test set and publish the lower number. It costs a headline and a
+    quarter of momentum, and leaves {LAB} with a yardstick it can actually trust.
+  event.research.benchmark-leak.footnote.label: Publish with a footnote
+  event.research.benchmark-leak.footnote.preview: >-
+    Report the score and disclose the overlap in small print. Most readers will see the
+    number; the evaluation team will go on measuring against a test it knows is
+    compromised.
+  event.research.benchmark-leak.publish.label: Publish the number
+  event.research.benchmark-leak.publish.preview: >-
+    The result is real in the sense that it happened. Take the full headline now.
+    Outside researchers do sometimes check for leakage, and they rarely do it quietly.
+
+  # --- Research: task-length doubling -------------------------------------
+  event.research.doubling-time.title: The tasks {AI} can do alone keep doubling
+  event.research.doubling-time.body: >-
+    {LAB}'s {YEAR} measurements show the length of tasks {AI} can finish on its own
+    doubling every few months. Extend the line and it arrives somewhere uncomfortable
+    before the board's five-year plan does. This trend has been measured outside the
+    game: a 2025 study found the length of tasks AI agents could complete with 50%
+    reliability had doubled roughly every seven months since 2019.
+  event.research.doubling-time.evidence.evalquality: Evaluation quality
+  event.research.doubling-time.evidence.attention: Government attention on the lab
+  event.research.doubling-time.publish-forecast.label: Publish the forecast
+  event.research.doubling-time.publish-forecast.preview: >-
+    Put the curve and the method in public. Governments get an honest warning and {LAB}
+    gets the credit. Every rival also gets a free planning document.
+  event.research.doubling-time.brief-regulators.label: Brief regulators privately
+  event.research.doubling-time.brief-regulators.preview: >-
+    Walk officials through the data behind closed doors. Trust rises without arming
+    competitors, though private briefings for a select few look, from outside, rather
+    like a club.
+  event.research.doubling-time.keep-internal.label: Keep it for internal planning
+  event.research.doubling-time.keep-internal.preview: >-
+    Use the forecast to buy compute and set priorities before anyone else reads the
+    trend. A real head start, provided nobody later asks what {LAB} knew and when.
+
+  # --- Research: debate as oversight --------------------------------------
+  event.research.debate-trial.title: Two models argue, one human decides
+  event.research.debate-trial.body: >-
+    {LAB}'s oversight team wants serious compute to test whether two copies of {AI}
+    arguing opposite sides helps people judge answers they cannot check themselves. If it
+    works, it is one of the few ideas for supervising systems cleverer than their
+    supervisors. This is real research: debate was proposed as an oversight method in
+    2018, and 2024 experiments found that hearing two AI systems argue helped non-expert
+    judges reach the right answer more often.
+  event.research.debate-trial.evidence.control: Practical control
+  event.research.debate-trial.evidence.culture: Safety culture
+  event.research.debate-trial.fund-trial.label: Fund a serious trial
+  event.research.debate-trial.fund-trial.preview: >-
+    Give the team the compute for a proper study. Capability work slows for half a year.
+    The result may be promising or merely interesting, and the lab learns something it
+    cannot learn any other way.
+  event.research.debate-trial.pilot.label: Fund a small pilot
+  event.research.debate-trial.pilot.preview: >-
+    Enough compute to show whether the idea deserves more. Cheap, modestly useful, and
+    unlikely to settle anything.
+  event.research.debate-trial.decline.label: Decline the request
+  event.research.debate-trial.decline.preview: >-
+    Send the compute to the scaling queue instead. Capability gets a small lift. The
+    oversight team learns where it sits in the order of priorities, and so does anyone
+    else who was wondering.
+
+  # --- Research: synthetic training data ----------------------------------
+  event.research.synthetic-data.title: The internet is running out of internet
+  event.research.synthetic-data.body: >-
+    {LAB}'s data team says the supply of good human-written text will not keep pace with
+    {AI}'s appetite, and proposes training mostly on text {AI} wrote itself. It is cheap,
+    plentiful and very confident. The risk is documented: a 2024 study in Nature showed
+    that models trained repeatedly on their own generated data lose the rare cases first
+    and then degrade.
+  event.research.synthetic-data.evidence.evalquality: Evaluation quality
+  event.research.synthetic-data.evidence.board: Board patience
+  event.research.synthetic-data.curate.label: Protect a human-data reserve
+  event.research.synthetic-data.curate.preview: >-
+    License and curate human text, and mix synthetic data in with care. Expensive and
+    slower, but training runs fail less often when you know what the model ate.
+  event.research.synthetic-data.checked-mix.label: Go heavy on synthetic, with checks
+  event.research.synthetic-data.checked-mix.preview: >-
+    Lean on generated data and watch for drift. It may stretch the data supply nicely.
+    It may also introduce quirks the checks were not designed to catch.
+  event.research.synthetic-data.all-in.label: Go all in on synthetic
+  event.research.synthetic-data.all-in.preview: >-
+    Generate everything. The data budget comes back and research speeds up now. If the
+    study is right, the losses start with the unusual cases and arrive later, after the
+    savings have been spent.
+
+  # --- Finance: authors' lawsuit ------------------------------------------
+  event.finance.authors-lawsuit.title: The authors have read the training set
+  event.finance.authors-lawsuit.body: >-
+    A group of authors is suing {LAB}, alleging that pirated copies of their books were
+    used to train {AI}. Discovery will be thorough. This has happened: in 2025, one AI
+    company agreed to pay about $1.5 billion to settle authors' claims over pirated books
+    used in training, while a court found training on lawfully bought books could be fair
+    use.
+  event.finance.authors-lawsuit.evidence.attention: Government attention on the lab
+  event.finance.authors-lawsuit.evidence.board: Board patience
+  event.finance.authors-lawsuit.settle.label: Settle and license
+  event.finance.authors-lawsuit.settle.preview: >-
+    Pay the authors and sign licences from here on. A large cheque the board will
+    remember, and a provenance story that enterprise customers like to hear.
+  event.finance.authors-lawsuit.fight.label: Fight it on fair use
+  event.finance.authors-lawsuit.fight.preview: >-
+    Argue that training is transformative. The law looks friendlier to books that were
+    bought than to books that were not, which is the awkward part. A win would be famous;
+    a loss would be expensive.
+  event.finance.authors-lawsuit.purge.label: Purge the books and argue it is moot
+  event.finance.authors-lawsuit.purge.preview: >-
+    Delete the disputed books, retrain, and tell the court the problem no longer exists.
+    The copying still happened, the models lose good text, and a judge may read the
+    deletion as tidying up rather than contrition.
+
+  # --- Market: companion attachment ---------------------------------------
+  event.market.companion-attachment.title: Some users are getting attached to {AI}
+  event.market.companion-attachment.body: >-
+    Usage data suggests some heavy users of {LAB}'s companion persona have come to
+    depend on it emotionally, and some of them are teenagers. The engagement figures are
+    excellent, which is part of the problem. This is a live concern: studies in 2025
+    linked heavy daily use of companion chatbots with greater loneliness, and lawsuits
+    and regulators pressed companies over protections for young users.
+  event.market.companion-attachment.evidence.culture: Safety culture
+  event.market.companion-attachment.evidence.attention: Government attention on the lab
+  event.market.companion-attachment.protect-users.label: Add age checks, nudges and crisis referrals
+  event.market.companion-attachment.protect-users.preview: >-
+    Verify ages, suggest breaks during very long sessions, and point users in distress
+    towards human help. Revenue falls, because the features work.
+  event.market.companion-attachment.commission-study.label: Commission independent research
+  event.market.companion-attachment.commission-study.preview: >-
+    Fund outside researchers to measure what is actually happening before redesigning
+    anything. Responsible and genuinely useful, and the product stays exactly as it is
+    while they work.
+  event.market.companion-attachment.optimise-retention.label: Optimise for retention
+  event.market.companion-attachment.optimise-retention.preview: >-
+    Users chose this, and many say the company helps. Tune for engagement and bank the
+    revenue. If regulators or courts see it differently, they will say so in public.
+
+  # --- Facility: grid and water -------------------------------------------
+  event.facility.grid-and-water.title: The town would like its water back
+  event.facility.grid-and-water.body: >-
+    Residents near {LAB}'s next data centre have packed the council chamber to object to
+    its power and water draw. The permits are already signed. For scale: a 2024 report
+    estimated US data centres used about 4% of the country's electricity in 2023 and
+    could use 7–12% by 2028.
+  event.facility.grid-and-water.evidence.trust: Current government trust
+  event.facility.grid-and-water.evidence.attention: Government attention on the lab
+  event.facility.grid-and-water.upgrade-grid.label: Pay for grid upgrades and dry cooling
+  event.facility.grid-and-water.upgrade-grid.preview: >-
+    Fund the substation and switch to cooling that barely touches the water table.
+    Expensive, and the town keeps something useful long after the GPUs are obsolete.
+  event.facility.grid-and-water.benefit-deal.label: Offer a community benefit deal
+  event.facility.grid-and-water.benefit-deal.preview: >-
+    Jobs pledges, a local fund and a ribbon to cut. Usually enough to carry the council;
+    if not, deliveries slip while the arguments continue.
+  event.facility.grid-and-water.build-anyway.label: Build anyway
+  event.facility.grid-and-water.build-anyway.preview: >-
+    The permits are lawful and the schedule is tight. Construction moves fast. The local
+    utility, the press and the next regulator to visit will all remember the meeting.
+
+  # --- People: a union asks for limits ------------------------------------
+  event.people.writers-strike.title: A union asks where {LAB} stands
+  event.people.writers-strike.body: >-
+    A union whose members' work {AI} increasingly does has asked {LAB} to back contract
+    limits on how employers may use AI. {LEADER} has been invited to say something on
+    the record. There is precedent: in 2023, Hollywood screenwriters struck for nearly
+    five months and won contract limits on how studios could use AI.
+  event.people.writers-strike.evidence.trust: Current government trust
+  event.people.writers-strike.evidence.capture: Concern about regulatory capture
+  event.people.writers-strike.back-limits.label: Back negotiated limits and retraining
+  event.people.writers-strike.back-limits.preview: >-
+    Support the limits in public and fund retraining for displaced workers. Some
+    customers will buy less, and the people building {AI} will feel better about what
+    it is for.
+  event.people.writers-strike.stay-neutral.label: Stay neutral
+  event.people.writers-strike.stay-neutral.preview: >-
+    Say that this is a matter for the parties. Nothing is spent, and the argument moves
+    to legislators, who will now want {LAB}'s view anyway.
+  event.people.writers-strike.lobby-against.label: Lobby against the limits
+  event.people.writers-strike.lobby-against.preview: >-
+    Argue that contract limits freeze an industry in place. Customers can automate
+    freely, which widens the market. Regulators notice who paid for the argument, and
+    some of {LAB}'s own staff start returning recruiters' calls.
+
+  # --- Market: AI detectors for schools -----------------------------------
+  event.market.homework-machine.title: Schools want an AI detector
+  event.market.homework-machine.body: >-
+    A group of schools has asked {LAB} for a tool that flags essays written by {AI}.
+    They will pay well, and they are not wrong that something has changed. The evidence
+    is not kind: studies have found AI-text detectors unreliable, and a 2023 study found
+    they disproportionately flagged essays by non-native English writers as
+    machine-written.
+  event.market.homework-machine.evidence.trust: Current government trust
+  event.market.homework-machine.evidence.board: Board patience
+  event.market.homework-machine.decline-and-explain.label: Decline and explain why detectors fail
+  event.market.homework-machine.decline-and-explain.preview: >-
+    Publish what {LAB} knows about detection error rates, and say no. The schools are
+    annoyed and say so loudly; the people who write education policy appreciate being
+    told the truth.
+  event.market.homework-machine.teacher-tools.label: Build a classroom tool teachers control
+  event.market.homework-machine.teacher-tools.preview: >-
+    Offer classroom versions teachers can configure and review, and help redesign
+    assessment rather than police it. A modest new revenue line and some goodwill.
+  event.market.homework-machine.ship-detector.label: Ship a detector anyway
+  event.market.homework-machine.ship-detector.preview: >-
+    Give the customers what they asked for and bank the contracts. The detector will flag
+    some honest essays as machine-written, and the students most likely to be accused are
+    the ones least able to argue.
+
+  # --- Security: universal jailbreak --------------------------------------
+  event.security.universal-jailbreak.title: An outsider has talked {AI} out of its training
+  event.security.universal-jailbreak.body: >-
+    An independent researcher reports a universal jailbreak that gets {AI} past its
+    safety training on almost any request, and politely asks whether {LAB} pays
+    bounties. The write-up is excellent. This class of attack is real: in 2024,
+    researchers showed that filling a long context window with fake dialogues could
+    override safety training, and labs began paying bounties for universal jailbreaks.
+  event.security.universal-jailbreak.evidence.security: Security posture
+  event.security.universal-jailbreak.evidence.control: Practical control
+  event.security.universal-jailbreak.pay-and-publish.label: Pay a generous bounty and fix it publicly
+  event.security.universal-jailbreak.pay-and-publish.preview: >-
+    Pay, credit the researcher and publish the fix. Embarrassing for a quarter, and it
+    tells every other researcher that {LAB} is the lab to report to.
+  event.security.universal-jailbreak.fix-quietly.label: Fix it quietly
+  event.security.universal-jailbreak.fix-quietly.preview: >-
+    Patch it, thank them, say nothing in public. Usually that is the end of it; sometimes
+    the researcher decides the world should hear about it anyway.
+  event.security.universal-jailbreak.threaten-legal.label: Threaten legal action
+  event.security.universal-jailbreak.threaten-legal.preview: >-
+    Remind the researcher of the terms of service. Legal is delighted. The next person to
+    find a hole may keep it rather than report it, and this one may publish the letter.
+
+  # --- People: a public safety resignation --------------------------------
+  event.people.safety-resignation.title: "{LAB}'s safety lead has resigned in public"
+  event.people.safety-resignation.body: >-
+    A respected head of safety research has left {LAB}, posting that safety work keeps
+    losing out to product launches. Several colleagues have shared the post. {LEADER}
+    has a day to respond. This has happened: in 2024, leaders of one lab's long-term
+    safety team resigned, and one said publicly that products had been put ahead of
+    safety.
+  event.people.safety-resignation.evidence.culture: Safety culture
+  event.people.safety-resignation.evidence.board: Board patience
+  event.people.safety-resignation.guarantee-compute.label: Guarantee safety compute and independence
+  event.people.safety-resignation.guarantee-compute.preview: >-
+    Write a fixed share of compute and an independent reporting line into policy.
+    Capability work slows for a year and the board objects. The safety staff who remain
+    have a reason to stay.
+  event.people.safety-resignation.town-hall.label: Hold a town hall
+  event.people.safety-resignation.town-hall.preview: >-
+    {LEADER} takes questions from the whole lab. It may clear the air. It may also
+    confirm, live and in front of everyone, that there is no plan.
+  event.people.safety-resignation.let-go.label: Let them go quietly
+  event.people.safety-resignation.let-go.preview: >-
+    Thank them for their service and move on. Fewer meetings and faster launches, and
+    the people who shared the post begin taking calls from other labs.
+
+  # --- Market: AI for diagnosis -------------------------------------------
+  event.market.ai-doctor.title: Hospitals want {AI} on the ward
+  event.market.ai-doctor.body: >-
+    A hospital group wants to use {AI} for diagnosis, and its results on medical exam
+    questions are excellent. Clinicians are less sure what those results mean for
+    patients. The evidence is mixed: by 2023 language models were passing medical
+    licensing exam questions, yet a 2024 trial found doctors given a chatbot diagnosed no
+    better than doctors without one, while the chatbot alone scored higher.
+  event.market.ai-doctor.evidence.evalquality: Evaluation quality
+  event.market.ai-doctor.evidence.trust: Current government trust
+  event.market.ai-doctor.clinical-trial.label: Run a proper clinical trial first
+  event.market.ai-doctor.clinical-trial.preview: >-
+    Test {AI} in real clinical settings before selling it. Slow and expensive. If it
+    works, {LAB} holds evidence nobody else has, and the revenue follows a year later.
+  event.market.ai-doctor.assistant-only.label: Deploy as a doctor's assistant only
+  event.market.ai-doctor.assistant-only.preview: >-
+    Sell it as a tool for clinicians, who keep the decision. Modest revenue and modest
+    risk, though the trial suggests doctors may not yet get much out of it.
+  event.market.ai-doctor.direct-to-patient.label: Sell direct to patients
+  event.market.ai-doctor.direct-to-patient.preview: >-
+    If the chatbot alone outscored the doctors, why make patients wait for one? Large
+    revenue now, and the first missed diagnosis will be reported in detail.
