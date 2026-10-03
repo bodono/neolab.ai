@@ -32,6 +32,7 @@ events:
     defaultOptionId: footnote
     titleKey: event.research.benchmark-leak.title
     bodyKey: event.research.benchmark-leak.body
+    educationKey: event.research.benchmark-leak.education
     evidence:
       - textKey: event.research.benchmark-leak.evidence.evalquality
         metric: player.safety.evalQuality
@@ -123,6 +124,7 @@ events:
     defaultOptionId: brief-regulators
     titleKey: event.research.doubling-time.title
     bodyKey: event.research.doubling-time.body
+    educationKey: event.research.doubling-time.education
     evidence:
       - textKey: event.research.doubling-time.evidence.evalquality
         metric: player.safety.evalQuality
@@ -218,6 +220,7 @@ events:
     defaultOptionId: pilot
     titleKey: event.research.debate-trial.title
     bodyKey: event.research.debate-trial.body
+    educationKey: event.research.debate-trial.education
     evidence:
       - textKey: event.research.debate-trial.evidence.control
         metric: player.safety.practicalControl
@@ -316,6 +319,7 @@ events:
     defaultOptionId: checked-mix
     titleKey: event.research.synthetic-data.title
     bodyKey: event.research.synthetic-data.body
+    educationKey: event.research.synthetic-data.education
     evidence:
       - textKey: event.research.synthetic-data.evidence.evalquality
         metric: player.safety.evalQuality
@@ -415,6 +419,7 @@ events:
     defaultOptionId: fight
     titleKey: event.finance.authors-lawsuit.title
     bodyKey: event.finance.authors-lawsuit.body
+    educationKey: event.finance.authors-lawsuit.education
     evidence:
       - textKey: event.finance.authors-lawsuit.evidence.attention
         metric: player.politics.governmentAttention
@@ -528,6 +533,7 @@ events:
     defaultOptionId: commission-study
     titleKey: event.market.companion-attachment.title
     bodyKey: event.market.companion-attachment.body
+    educationKey: event.market.companion-attachment.education
     evidence:
       - textKey: event.market.companion-attachment.evidence.culture
         metric: player.safety.safetyCulture
@@ -626,6 +632,7 @@ events:
     defaultOptionId: benefit-deal
     titleKey: event.facility.grid-and-water.title
     bodyKey: event.facility.grid-and-water.body
+    educationKey: event.facility.grid-and-water.education
     evidence:
       - textKey: event.facility.grid-and-water.evidence.trust
         metric: player.politics.governmentTrust
@@ -726,6 +733,7 @@ events:
     defaultOptionId: stay-neutral
     titleKey: event.people.writers-strike.title
     bodyKey: event.people.writers-strike.body
+    educationKey: event.people.writers-strike.education
     evidence:
       - textKey: event.people.writers-strike.evidence.trust
         metric: player.politics.governmentTrust
@@ -804,6 +812,7 @@ events:
     defaultOptionId: teacher-tools
     titleKey: event.market.homework-machine.title
     bodyKey: event.market.homework-machine.body
+    educationKey: event.market.homework-machine.education
     evidence:
       - textKey: event.market.homework-machine.evidence.trust
         metric: player.politics.governmentTrust
@@ -901,6 +910,7 @@ events:
     defaultOptionId: fix-quietly
     titleKey: event.security.universal-jailbreak.title
     bodyKey: event.security.universal-jailbreak.body
+    educationKey: event.security.universal-jailbreak.education
     evidence:
       - textKey: event.security.universal-jailbreak.evidence.security
         metric: player.safety.securityPosture
@@ -1023,6 +1033,7 @@ events:
     defaultOptionId: town-hall
     titleKey: event.people.safety-resignation.title
     bodyKey: event.people.safety-resignation.body
+    educationKey: event.people.safety-resignation.education
     evidence:
       - textKey: event.people.safety-resignation.evidence.culture
         metric: player.safety.safetyCulture
@@ -1121,6 +1132,7 @@ events:
     defaultOptionId: assistant-only
     titleKey: event.market.ai-doctor.title
     bodyKey: event.market.ai-doctor.body
+    educationKey: event.market.ai-doctor.education
     evidence:
       - textKey: event.market.ai-doctor.evidence.evalquality
         metric: player.safety.evalQuality
