@@ -1,0 +1,309 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Copy for the governance-a decision events: security, misuse and governance.
+# Each body ends with one sentence of checked real-world grounding.
+messages:
+  # --- Rival: open weights ------------------------------------------------
+  event.rival.open-weights.title: Your researchers want to give the old model away
+  event.rival.open-weights.body: >-
+    {LAB}'s researchers want to publish the weights of the previous {AI} model for the
+    world to inspect and build on. The world includes rivals, students, safety researchers
+    and people {LAB} would never sell to. Open weights let anyone study, adapt and run a
+    model; 2023 research also showed a few hundred dollars of fine-tuning could strip their
+    safety training.
+  event.rival.open-weights.evidence.aura: Spendable Aura
+  event.rival.open-weights.evidence.attention: Government attention on the lab
+  event.rival.open-weights.staged.label: Release in stages, with checks
+  event.rival.open-weights.staged.preview: >-
+    Researchers first, then wider access, with misuse testing between each step. Slower and
+    dearer than a launch, but it earns credit with regulators and teaches you what the model
+    can be made to do.
+  event.rival.open-weights.staged.disabled: Requires available cash
+  event.rival.open-weights.closed.label: Keep the weights closed
+  event.rival.open-weights.closed.preview: >-
+    Nothing leaves the building. Regulators approve, the open-science crowd in your own lab
+    grumbles, and outside researchers keep studying someone else's model.
+  event.rival.open-weights.full.label: Publish the weights in full
+  event.rival.open-weights.full.preview: >-
+    Maximum goodwill, a wave of outside contributions, fewer reasons to pay for the old model,
+    and a gift to every rival a year behind. Weights cannot be recalled; if someone strips the
+    safeguards and does something memorable, it will carry your name.
+
+  # --- Safety: biology uplift evaluation -----------------------------------
+  event.safety.uplift-eval.title: The biology evaluations cannot rule it out
+  event.safety.uplift-eval.body: >-
+    {AI}'s biology evaluations came back inconclusive: the team cannot rule out that it gives
+    meaningful help to a novice trying to cause serious harm, and cannot show that it does.
+    The launch date has not moved. In 2025, one lab switched on its strictest safeguards yet
+    because it could not rule out that its model gave meaningful help to novices attempting
+    biological weapons.
+  event.safety.uplift-eval.evidence.evals: Evaluation quality
+  event.safety.uplift-eval.evidence.culture: Safety culture
+  event.safety.uplift-eval.strict.label: Switch on the strictest safeguards
+  event.safety.uplift-eval.strict.preview: >-
+    Screen every request with classifiers and accept the consequences: slower answers, higher
+    serving costs and some legitimate scientists turned away. You are paying for a risk you
+    cannot prove exists, which is what acting under uncertainty means.
+  event.safety.uplift-eval.strict.disabled: Requires available cash
+  event.safety.uplift-eval.vetted.label: Restrict it to vetted scientists
+  event.safety.uplift-eval.vetted.preview: >-
+    Keep the strongest biology capabilities behind an access programme for verified
+    researchers. A smaller market and a partial fix: vetting stops the casual misuser, not
+    the determined one.
+  event.safety.uplift-eval.ship.label: Ship it and keep testing
+  event.safety.uplift-eval.ship.preview: >-
+    Inconclusive is not positive, and the launch has a date. Growth arrives on schedule and
+    the hazard rises with it. If an independent evaluator settles the question in public
+    before you do, you will not enjoy how.
+
+  # --- Security: zero-days -------------------------------------------------
+  event.security.zero-days.title: "{AI} has found holes in everyone's software"
+  event.security.zero-days.body: >-
+    Pointed at open-source code during a routine evaluation, {AI} found several exploitable
+    flaws in software that a large share of the internet quietly depends on. The maintainers
+    do not know yet, and nor does anyone outside {LAB}. In late 2024, an AI agent found a
+    previously unknown, exploitable flaw in a widely used open-source database, which was
+    fixed before it reached users.
+  event.security.zero-days.evidence.security: Security posture
+  event.security.zero-days.evidence.capture: Government capture concern
+  event.security.zero-days.disclose.label: Tell the maintainers, quietly
+  event.security.zero-days.disclose.preview: >-
+    Report the flaws privately, help with the fixes, and publish once patches ship. It costs
+    your security team a quarter's attention and earns the kind of credit that is hard to buy.
+  event.security.zero-days.redteam.label: Keep them for the red team
+  event.security.zero-days.redteam.preview: >-
+    Use the flaws to harden {LAB}'s own systems and say nothing. Your defences improve.
+    Everyone else's do not, and someone less scrupulous may find the same holes.
+  event.security.zero-days.agency.label: Hand them to a government agency
+  event.security.zero-days.agency.preview: >-
+    An agency will pay well for flaws nobody else knows about, and will be very grateful. The
+    holes stay open in everyone's software for as long as they are useful, and {LAB} becomes a
+    lab the state relies on, in both directions.
+
+  # --- Politics: if-then commitments ---------------------------------------
+  event.politics.if-then-commitments.title: Staff want a written promise to stop
+  event.politics.if-then-commitments.body: >-
+    A group of {LAB} staff, backed by two investors, wants the lab to publish capability
+    thresholds that would pause scaling if {AI} crossed them, worded so nobody can quietly
+    reinterpret them later. The board is wary of promising in writing to stop. At a 2024
+    international summit, sixteen AI companies pledged to publish safety frameworks saying
+    which risks they would treat as intolerable.
+  event.politics.if-then-commitments.evidence.culture: Safety culture
+  event.politics.if-then-commitments.evidence.board: Board patience
+  event.politics.if-then-commitments.binding.label: Publish binding thresholds
+  event.politics.if-then-commitments.binding.preview: >-
+    Commit in public to pausing if the evaluations say so. The board hates it, capability work
+    slows while each scale-up waits on tests, and the lab's culture gets something firmer than
+    good intentions to stand on. You will also have to run those tests, and live with them.
+  event.politics.if-then-commitments.vague.label: Publish principles, not numbers
+  event.politics.if-then-commitments.vague.preview: >-
+    A thoughtful document about taking risk seriously, with no threshold anyone could hold you
+    to. Regulators are mildly reassured. The staff who asked can read.
+  event.politics.if-then-commitments.decline.label: Decline to publish anything
+  event.politics.if-then-commitments.decline.preview: >-
+    Keep every option open. The board relaxes, the people who raised it start wondering
+    whether to stay, and regulators notice the silence.
+
+  # --- Security: weight security -------------------------------------------
+  event.security.weight-security.title: "A contractor's laptop had the keys to {AI}"
+  event.security.weight-security.body: >-
+    A contractor's laptop, recently lost in a taxi and recently found again, held working
+    credentials to the store where {LAB} keeps {AI}'s weights. The logs show no sign the
+    credentials were used; the logs would not necessarily show it. A 2024 report set out five
+    security levels for protecting model weights, the highest meant to resist the most capable
+    state-backed hackers.
+  event.security.weight-security.evidence.security: Security posture
+  event.security.weight-security.harden.label: Move to a far higher security level
+  event.security.weight-security.harden.preview: >-
+    Isolated networks, hardware keys, vetted staff and two people for every sensitive action.
+    Expensive, a lasting overhead, and research slows while everyone learns to work inside it.
+    It is the only option here designed for an attacker better than you.
+  event.security.weight-security.harden.disabled: Requires available cash
+  event.security.weight-security.patch.label: Rotate the keys and retrain staff
+  event.security.weight-security.patch.preview: >-
+    Revoke the credentials, close the gap and run the training everyone clicks through. A
+    sensible fix for this laptop and a modest improvement against the next one.
+  event.security.weight-security.oneoff.label: Treat it as a one-off
+  event.security.weight-security.oneoff.preview: >-
+    Revoke that contractor's access and move on. Probably nothing happened. If something did,
+    someone else now has a copy of {AI}, and you will find out from their release notes.
+
+  # --- Politics: compute threshold -----------------------------------------
+  event.politics.compute-threshold.title: The next run crosses the reporting line
+  event.politics.compute-threshold.body: >-
+    {AI}'s next training run will use enough compute to oblige {LAB} to notify the regulator,
+    share its safety testing plans and answer questions. Engineering points out, helpfully,
+    that two slightly smaller runs would not. Real rules have used training compute as a
+    trigger: the EU AI Act presumes systemic risk for models trained with more than 10^25
+    operations.
+  event.politics.compute-threshold.evidence.attention: Government attention on the lab
+  event.politics.compute-threshold.evidence.trust: Current government trust
+  event.politics.compute-threshold.report.label: Report fully and early
+  event.politics.compute-threshold.report.preview: >-
+    File before the run, testing plan attached. It costs fees and a few weeks of capability
+    work, and builds the kind of trust that shortens the next conversation. The regulator
+    also watches you more closely, because you asked it to.
+  event.politics.compute-threshold.report.disabled: Requires available cash
+  event.politics.compute-threshold.split.label: Split it into two smaller runs
+  event.politics.compute-threshold.split.preview: >-
+    Entirely legal. Two runs stitched together are likelier to fail, and regulators are not
+    as unobservant as the plan assumes.
+  event.politics.compute-threshold.argue.label: Run it and argue later
+  event.politics.compute-threshold.argue.preview: >-
+    Train on schedule and let counsel explain why the rule does not apply. The model arrives
+    sooner. Regulators rarely accept the argument, and they remember who made it.
+
+  # --- Politics: know your customer ----------------------------------------
+  event.politics.know-your-customer.title: A very new company wants a very large cluster
+  event.politics.know-your-customer.body: >-
+    A company registered six weeks ago, with no website and an exceptionally generous budget,
+    wants to rent an enormous block of {LAB}'s compute for a year, paid in advance. Sales
+    would like to understand why anyone is asking questions. In the real world, the US has
+    restricted exports of the most advanced AI chips since 2022, and governments have debated
+    'know your customer' checks for large cloud compute buyers.
+  event.politics.know-your-customer.evidence.board: Board patience
+  event.politics.know-your-customer.evidence.trust: Current government trust
+  event.politics.know-your-customer.verify.label: Verify the customer properly
+  event.politics.know-your-customer.verify.preview: >-
+    Find out who owns the company and what the compute is for. It takes weeks and money, and
+    most buyers who arrive like this do not survive the questions. If this one does, you get
+    the contract with a clear conscience.
+  event.politics.know-your-customer.verify.disabled: Requires available cash
+  event.politics.know-your-customer.decline.label: Decline the contract
+  event.politics.know-your-customer.decline.preview: >-
+    Say no without finding out. The board watches revenue leave the building; regulators, if
+    they ever hear of it, approve.
+  event.politics.know-your-customer.light.label: Take it with light checks
+  event.politics.know-your-customer.light.preview: >-
+    Tick the boxes and bank the money. The board is delighted. If the real customer is someone
+    export rules were written for, {LAB} will be explaining itself to people who already know
+    the answer.
+
+  # --- People: right to warn -----------------------------------------------
+  event.people.right-to-warn.title: Staff ask for the right to warn the public
+  event.people.right-to-warn.body: >-
+    A group of {LAB} staff asks for two things in writing: a formal right to raise safety
+    concerns in public without retaliation, and exit agreements without non-disparagement
+    clauses. Legal calls both unprecedented and would like that to remain the case. In 2024,
+    current and former employees of frontier labs published an open letter asking for a
+    'right to warn' the public about AI risks without retaliation.
+  event.people.right-to-warn.evidence.culture: Safety culture
+  event.people.right-to-warn.evidence.board: Board patience
+  event.people.right-to-warn.grant.label: Grant both, in writing
+  event.people.right-to-warn.grant.preview: >-
+    Staff gain a protected way to speak, and the lab gains a reason to fix problems before
+    they do. The board dislikes it. Sooner or later someone will use it, and not on a day you
+    chose.
+  event.people.right-to-warn.internal.label: Offer an internal channel only
+  event.people.right-to-warn.internal.preview: >-
+    An ombudsperson, an anonymous form and a promise of no retaliation for raising things
+    inside. Better than nothing. Staff will notice that every concern still lands on the desk
+    of the people it concerns.
+  event.people.right-to-warn.ndas.label: Keep the agreements as they are
+  event.people.right-to-warn.ndas.preview: >-
+    Nothing changes; the agreements stay strict and the board stays calm. People who cannot
+    speak tend to leave instead, and contracts that forbid criticism have a habit of becoming
+    the criticism.
+
+  # --- Rival: pause letter -------------------------------------------------
+  event.rival.pause-letter.title: "{LEADER} is asked to sign the pause letter"
+  event.rival.pause-letter.body: >-
+    An open letter calls on every lab to pause training anything more capable than today's
+    frontier for six months, and its organisers would like {LEADER}'s signature near the top.
+    {LAB}'s rivals have read it with interest and kept training. In 2023, an open letter signed
+    by tens of thousands of people asked labs to pause training systems more powerful than the
+    then frontier for six months; no lab paused.
+  event.rival.pause-letter.evidence.culture: Safety culture
+  event.rival.pause-letter.evidence.board: Board patience
+  event.rival.pause-letter.pause.label: Sign it, and pause
+  event.rival.pause-letter.pause.preview: >-
+    Mean it. Frontier capability work slows hard for half a year while rivals carry on, and
+    the board will want a word. You buy a credibility nobody else at the table has, which
+    makes the next proposal for shared rules easier to convene.
+  event.rival.pause-letter.decline.label: Decline, and say why
+  event.rival.pause-letter.decline.preview: >-
+    Explain in public that a unilateral pause only hands the lead to labs that take safety
+    less seriously. An honest position and not a popular one; the signatories will remember
+    who declined.
+  event.rival.pause-letter.sign.label: Sign it, keep training
+  event.rival.pause-letter.sign.preview: >-
+    The signature costs nothing today and the goodwill arrives at once. Training continues,
+    as it does everywhere. Whether anyone compares the letter with your compute bill is luck,
+    and your own staff can already do the arithmetic.
+
+  # --- Rival: incident sharing ---------------------------------------------
+  event.rival.incident-sharing.title: Rivals propose pooling safety incidents
+  event.rival.incident-sharing.body: >-
+    Three rival labs invite {LAB} into a confidential, no-blame pool for safety incidents:
+    members report their failures and near-misses, nobody is named, and everyone learns. It
+    only works if members report the embarrassing ones. Aviation has run confidential,
+    no-blame incident reporting since the 1970s, and it is the model most often proposed for
+    AI safety incidents.
+  event.rival.incident-sharing.evidence.incidents: Recent incidents
+  event.rival.incident-sharing.evidence.culture: Safety culture
+  event.rival.incident-sharing.honest.label: Join, and report everything
+  event.rival.incident-sharing.honest.preview: >-
+    Every near-miss goes in, including the ones that make {AI} look bad. You learn from
+    everyone else's failures and build trust that makes later agreements cheaper. Your
+    competitors will know exactly where you have struggled, and the board will ask why.
+  event.rival.incident-sharing.honest.disabled: Requires available cash
+  event.rival.incident-sharing.selective.label: Join, and report selectively
+  event.rival.incident-sharing.selective.preview: >-
+    Share the routine incidents and keep the awkward ones. Most of the learning for little of
+    the exposure, until the other members work out what is missing.
+  event.rival.incident-sharing.out.label: Stay out
+  event.rival.incident-sharing.out.preview: >-
+    Keep your failures to yourself and learn from nobody else's. The board is content. The
+    safety team, which wanted to join, is less so.
+
+  # --- Politics: voice-clone robocall --------------------------------------
+  event.politics.voice-clone-robocall.title: "{AI}'s voice model told voters to stay home"
+  event.politics.voice-clone-robocall.body: >-
+    Days before a primary, thousands of voters received calls in a well-known politician's
+    cloned voice telling them not to bother voting. The clone was made with {AI}'s voice
+    model. In 2024, a fake robocall imitating a president's voice urged voters to skip a
+    primary election; US regulators then ruled AI-voiced robocalls illegal under existing law.
+  event.politics.voice-clone-robocall.evidence.attention: Government attention on the lab
+  event.politics.voice-clone-robocall.evidence.trust: Current government trust
+  event.politics.voice-clone-robocall.consent.label: Require consent and watermark every clone
+  event.politics.voice-clone-robocall.consent.preview: >-
+    Clone only voices whose owners have verifiably agreed, and mark every output. Plenty of
+    legitimate customers find this tedious and leave. It closes the door this call came
+    through, and regulators watch you close it.
+  event.politics.voice-clone-robocall.cooperate.label: Cooperate with investigators
+  event.politics.voice-clone-robocall.cooperate.preview: >-
+    Hand over the account records and help trace the caller. Investigators are grateful and
+    now know your product well; the product itself is unchanged.
+  event.politics.voice-clone-robocall.terms.label: Point to the terms of service
+  event.politics.voice-clone-robocall.terms.preview: >-
+    Misuse was already forbidden, so this is the user's fault. The controversy is, the growth
+    team notes, excellent publicity. Whether election regulators accept the argument will
+    become clear in a few months.
+
+  # --- Security: sleeper backdoor ------------------------------------------
+  event.security.sleeper-backdoor.title: "A trigger phrase flips {AI}'s behaviour"
+  event.security.sleeper-backdoor.body: >-
+    {LAB}'s red team found a phrase that reliably switches {AI} into different and worse
+    behaviour. The trail leads to a small number of poisoned pages in the web data it was
+    trained on. 2024 research showed deliberately planted backdoors could survive standard
+    safety training, and a 2025 study found about 250 poisoned documents were enough to plant
+    a simple backdoor in models of very different sizes.
+  event.security.sleeper-backdoor.evidence.evals: Evaluation quality
+  event.security.sleeper-backdoor.evidence.security: Security posture
+  event.security.sleeper-backdoor.rebuild.label: Rebuild the data pipeline with provenance
+  event.security.sleeper-backdoor.rebuild.preview: >-
+    Track where every document came from and retrain on data you can vouch for. Expensive and
+    slow, and capability work waits. It is the only option that deals with the next trigger
+    as well as this one.
+  event.security.sleeper-backdoor.rebuild.disabled: Requires available cash
+  event.security.sleeper-backdoor.patch.label: Patch the trigger and retrain
+  event.security.sleeper-backdoor.patch.preview: >-
+    Train the known phrase out and test again. It may work. Backdoors have survived exactly
+    this treatment before, in which case your evaluations will look cleaner than the model is.
+  event.security.sleeper-backdoor.ship.label: Ship and monitor
+  event.security.sleeper-backdoor.ship.preview: >-
+    The trigger is obscure and the launch date is not. Ship on schedule and watch for the
+    phrase in the wild. Whoever planted it knows it too, and may know others you have not
+    found.

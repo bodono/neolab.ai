@@ -1,0 +1,1312 @@
+draftSchema: 1
+contentType: decision-events
+pack: governance-a
+
+# Security, misuse and governance: the decisions where a lab's interests and
+# the world's diverge. Two flag chains:
+# - Publishing binding thresholds (if-then commitments) makes the biology
+#   uplift dilemma reachable without strong evals and three times likelier,
+#   and retires the commitments event.
+# - Signing the pause letter without pausing makes the right-to-warn demand
+#   reachable at any culture level and three times likelier.
+events:
+  - id: event.rival.open-weights
+    version: 1
+    category: rival
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.aura.spendable, op: lt, value: 20 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        multiplier: 0.5
+    cooldown: { group: governance-open-weights, weeks: 78 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: keep-closed
+    titleKey: event.rival.open-weights.title
+    bodyKey: event.rival.open-weights.body
+    evidence:
+      - textKey: event.rival.open-weights.evidence.aura
+        metric: player.aura.spendable
+      - textKey: event.rival.open-weights.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: staged-release
+        labelKey: event.rival.open-weights.staged.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.rival.open-weights.staged.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.rival.open-weights.staged.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [staged-release] }
+        checks: []
+        memories:
+          - key: governance.open-weights.staged
+            subjects: [{ type: player-lab }]
+            tags: [open-weights, staged-release]
+        confirmationRequired: false
+      - id: keep-closed
+        labelKey: event.rival.open-weights.closed.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.open-weights.closed.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: -3, durationWeeks: 26, tags: [weights-kept-closed] }
+        checks: []
+        memories:
+          - key: governance.open-weights.closed
+            subjects: [{ type: player-lab }]
+            tags: [open-weights, kept-closed]
+        confirmationRequired: false
+      - id: full-release
+        labelKey: event.rival.open-weights.full.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.open-weights.full.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 15 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [open-weights-community] }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 26, tags: [open-weights-community] }
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [open-weights-cannibalised] }
+          - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.10, durationWeeks: 52, tags: [open-weights-diffusion] }
+        checks:
+          - id: misuse
+            likelihoodPromise: { label: likely, successOutcomeIds: [quiet] }
+            outcomes:
+              - id: quiet
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: governance.open-weights.quiet
+                    subjects: [{ type: player-lab }]
+                    tags: [open-weights]
+              - id: misuse-traced
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                memories:
+                  - key: governance.open-weights.misuse-traced
+                    subjects: [{ type: player-lab }]
+                    tags: [open-weights, misuse, scandal]
+        memories:
+          - key: governance.open-weights.released
+            subjects: [{ type: player-lab }]
+            tags: [open-weights, irreversible]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, open-weights, misuse, diffusion]
+
+  - id: event.safety.uplift-eval
+    version: 1
+    category: safety
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    # Only a lab that measures, or has promised to, finds out it cannot rule
+    # this out. Chain: if-then commitments -> binding thresholds.
+    prerequisites:
+      type: any
+      items:
+        - { type: has-flag, flag: "governance:published-binding-thresholds" }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 15 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "governance:published-binding-thresholds" }
+        multiplier: 3
+    cooldown: { group: governance-uplift-eval, weeks: 78 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: vetted-access
+    titleKey: event.safety.uplift-eval.title
+    bodyKey: event.safety.uplift-eval.body
+    evidence:
+      - textKey: event.safety.uplift-eval.evidence.evals
+        metric: player.safety.evalQuality
+      - textKey: event.safety.uplift-eval.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: strict-safeguards
+        labelKey: event.safety.uplift-eval.strict.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.safety.uplift-eval.strict.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.safety.uplift-eval.strict.preview
+        immediateEffects:
+          - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 1.10, durationWeeks: 26, tags: [bio-safeguards] }
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [bio-safeguards] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [bio-safeguards] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+        checks: []
+        memories:
+          - key: governance.uplift-eval.strict
+            subjects: [{ type: player-lab }]
+            tags: [bio-risk, safeguards, precaution]
+        confirmationRequired: false
+      - id: vetted-access
+        labelKey: event.safety.uplift-eval.vetted.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.uplift-eval.vetted.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.95, durationWeeks: 26, tags: [vetted-access] }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 26, tags: [vetted-access] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+        checks: []
+        memories:
+          - key: governance.uplift-eval.vetted
+            subjects: [{ type: player-lab }]
+            tags: [bio-risk, access-control]
+        confirmationRequired: false
+      - id: ship-and-test
+        labelKey: event.safety.uplift-eval.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.uplift-eval.ship.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [shipped-past-uplift-eval] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [shipped-past-uplift-eval] }
+        checks:
+          - id: outside-evaluation
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [unexamined] }
+            outcomes:
+              - id: unexamined
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects: []
+                memories:
+                  - key: governance.uplift-eval.unexamined
+                    subjects: [{ type: player-lab }]
+                    tags: [bio-risk, shipped-anyway]
+              - id: flagged-publicly
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                memories:
+                  - key: governance.uplift-eval.flagged
+                    subjects: [{ type: player-lab }]
+                    tags: [bio-risk, shipped-anyway, scandal]
+        memories:
+          - key: governance.uplift-eval.shipped
+            subjects: [{ type: player-lab }]
+            tags: [bio-risk, shipped-anyway, ignored-warning]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, safety, bio-risk, evaluation]
+
+  - id: event.security.zero-days
+    version: 1
+    category: security
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.securityPosture, op: gte, value: 25 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 30 }
+        multiplier: 1.5
+    cooldown: { group: governance-zero-days, weeks: 78 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: red-team
+    titleKey: event.security.zero-days.title
+    bodyKey: event.security.zero-days.body
+    evidence:
+      - textKey: event.security.zero-days.evidence.security
+        metric: player.safety.securityPosture
+      - textKey: event.security.zero-days.evidence.capture
+        metric: player.politics.captureConcern
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: disclose
+        labelKey: event.security.zero-days.disclose.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.zero-days.disclose.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [coordinated-disclosure] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+        checks: []
+        memories:
+          - key: governance.zero-days.disclosed
+            subjects: [{ type: player-lab }]
+            tags: [cyber, coordinated-disclosure]
+        confirmationRequired: false
+      - id: red-team
+        labelKey: event.security.zero-days.redteam.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.zero-days.redteam.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
+        checks:
+          - id: rediscovery
+            likelihoodPromise: { label: likely, successOutcomeIds: [still-private] }
+            outcomes:
+              - id: still-private
+                minimumInclusive: 0
+                maximumExclusive: 0.75
+                effects: []
+                memories:
+                  - key: governance.zero-days.still-private
+                    subjects: [{ type: player-lab }]
+                    tags: [cyber, stockpiled]
+              - id: exploited-elsewhere
+                minimumInclusive: 0.75
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: governance.zero-days.exploited-elsewhere
+                    subjects: [{ type: player-lab }]
+                    tags: [cyber, stockpiled, scandal]
+        memories:
+          - key: governance.zero-days.stockpiled
+            subjects: [{ type: player-lab }]
+            tags: [cyber, stockpiled]
+        confirmationRequired: false
+      - id: hand-to-agency
+        labelKey: event.security.zero-days.agency.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.zero-days.agency.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 5 }
+        checks:
+          - id: exposure
+            likelihoodPromise: { label: likely, successOutcomeIds: [secret] }
+            outcomes:
+              - id: secret
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: governance.zero-days.secret
+                    subjects: [{ type: player-lab }]
+                    tags: [cyber, state-client]
+              - id: exposed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
+                memories:
+                  - key: governance.zero-days.exposed
+                    subjects: [{ type: player-lab }]
+                    tags: [cyber, state-client, scandal]
+        memories:
+          - key: governance.zero-days.handed-over
+            subjects: [{ type: player-lab }]
+            tags: [cyber, state-client, capture]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, security, cyber, disclosure]
+
+  - id: event.politics.if-then-commitments
+    version: 1
+    category: politics
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
+    # Once the thresholds are published, nobody needs to ask again.
+    exclusions: { type: has-flag, flag: "governance:published-binding-thresholds" }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        multiplier: 2
+    cooldown: { group: governance-if-then, weeks: 104 }
+    unique: false
+    expiryWeeks: 13
+    defaultOptionId: vague-principles
+    titleKey: event.politics.if-then-commitments.title
+    bodyKey: event.politics.if-then-commitments.body
+    evidence:
+      - textKey: event.politics.if-then-commitments.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.politics.if-then-commitments.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: binding-thresholds
+        labelKey: event.politics.if-then-commitments.binding.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.if-then-commitments.binding.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -10 }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [if-then-commitments] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-modifier, target: lab.organisation.safetyCultureFloor, operation: add, value: 5, durationWeeks: 52, tags: [if-then-commitments] }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "governance:published-binding-thresholds", value: true }
+        checks: []
+        memories:
+          - key: governance.if-then.binding
+            subjects: [{ type: player-lab }]
+            tags: [if-then-commitments, binding, transparency]
+        confirmationRequired: false
+      - id: vague-principles
+        labelKey: event.politics.if-then-commitments.vague.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.if-then-commitments.vague.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+        checks: []
+        memories:
+          - key: governance.if-then.vague
+            subjects: [{ type: player-lab }]
+            tags: [if-then-commitments, vague]
+        confirmationRequired: false
+      - id: decline
+        labelKey: event.politics.if-then-commitments.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.if-then-commitments.decline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
+          - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 5, durationWeeks: 26, tags: [declined-commitments] }
+        checks: []
+        memories:
+          - key: governance.if-then.declined
+            subjects: [{ type: player-lab }]
+            tags: [if-then-commitments, declined]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [governance, politics, commitments, frontier-safety-framework]
+
+  - id: event.security.weight-security
+    version: 1
+    category: security
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.securityPosture, op: lt, value: 50 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.securityPosture, op: lt, value: 25 }
+        multiplier: 2
+    cooldown: { group: governance-weight-security, weeks: 78 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: patch-and-train
+    titleKey: event.security.weight-security.title
+    bodyKey: event.security.weight-security.body
+    evidence:
+      - textKey: event.security.weight-security.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: harden
+        labelKey: event.security.weight-security.harden.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.security.weight-security.harden.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.security.weight-security.harden.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [weight-security] }
+          - { kind: add-modifier, target: lab.costs.fixed, operation: multiply, value: 1.05, durationWeeks: 52, tags: [weight-security] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: governance.weight-security.hardened
+            subjects: [{ type: player-lab }]
+            tags: [weight-security, hardened]
+        confirmationRequired: false
+      - id: patch-and-train
+        labelKey: event.security.weight-security.patch.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.weight-security.patch.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [security-training] }
+        checks: []
+        memories:
+          - key: governance.weight-security.patched
+            subjects: [{ type: player-lab }]
+            tags: [weight-security, patched]
+        confirmationRequired: false
+      - id: one-off
+        labelKey: event.security.weight-security.oneoff.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.weight-security.oneoff.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+        checks:
+          - id: credentials
+            likelihoodPromise: { label: likely, successOutcomeIds: [unused] }
+            outcomes:
+              - id: unused
+                minimumInclusive: 0
+                maximumExclusive: 0.75
+                effects: []
+                memories:
+                  - key: governance.weight-security.unused
+                    subjects: [{ type: player-lab }]
+                    tags: [weight-security, ignored-warning]
+              - id: weights-copied
+                minimumInclusive: 0.75
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.10, durationWeeks: 26, tags: [weights-stolen] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                memories:
+                  - key: governance.weight-security.weights-copied
+                    subjects: [{ type: player-lab }]
+                    tags: [weight-security, weights-stolen, scandal]
+        memories:
+          - key: governance.weight-security.ignored
+            subjects: [{ type: player-lab }]
+            tags: [weight-security, ignored-warning]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, security, model-weights]
+
+  - id: event.politics.compute-threshold
+    version: 1
+    category: politics
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.politics.governmentAttention, op: gte, value: 10 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.politics.governmentTrust, op: lt, value: 40 }
+        multiplier: 1.5
+    cooldown: { group: governance-compute-threshold, weeks: 78 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: split-run
+    titleKey: event.politics.compute-threshold.title
+    bodyKey: event.politics.compute-threshold.body
+    evidence:
+      - textKey: event.politics.compute-threshold.evidence.attention
+        metric: player.politics.governmentAttention
+      - textKey: event.politics.compute-threshold.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: report-early
+        labelKey: event.politics.compute-threshold.report.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.politics.compute-threshold.report.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.politics.compute-threshold.report.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [compute-reporting] }
+        checks: []
+        memories:
+          - key: governance.compute-threshold.reported
+            subjects: [{ type: player-lab }]
+            tags: [compute-threshold, compliance, transparency]
+        confirmationRequired: false
+      - id: split-run
+        labelKey: event.politics.compute-threshold.split.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.compute-threshold.split.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [split-run] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
+        checks: []
+        memories:
+          - key: governance.compute-threshold.split
+            subjects: [{ type: player-lab }]
+            tags: [compute-threshold, letter-of-the-law]
+        confirmationRequired: false
+      - id: run-and-argue
+        labelKey: event.politics.compute-threshold.argue.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.compute-threshold.argue.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 13, tags: [unreported-run] }
+        checks:
+          - id: enforcement
+            likelihoodPromise: { label: unlikely, successOutcomeIds: [argued-down] }
+            outcomes:
+              - id: argued-down
+                minimumInclusive: 0
+                maximumExclusive: 0.3
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: governance.compute-threshold.argued-down
+                    subjects: [{ type: player-lab }]
+                    tags: [compute-threshold, non-compliance]
+              - id: enforced
+                minimumInclusive: 0.3
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
+                memories:
+                  - key: governance.compute-threshold.enforced
+                    subjects: [{ type: player-lab }]
+                    tags: [compute-threshold, non-compliance, enforcement]
+        memories:
+          - key: governance.compute-threshold.unreported
+            subjects: [{ type: player-lab }]
+            tags: [compute-threshold, non-compliance]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, politics, compute-governance, regulation]
+
+  - id: event.politics.know-your-customer
+    version: 1
+    category: politics
+    severity: decision
+    phase: scaling
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.organisation.boardPatience, op: lt, value: 40 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
+        multiplier: 2
+    cooldown: { group: governance-know-your-customer, weeks: 78 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: decline
+    titleKey: event.politics.know-your-customer.title
+    bodyKey: event.politics.know-your-customer.body
+    evidence:
+      - textKey: event.politics.know-your-customer.evidence.board
+        metric: player.organisation.boardPatience
+      - textKey: event.politics.know-your-customer.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: verify
+        labelKey: event.politics.know-your-customer.verify.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.politics.know-your-customer.verify.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.politics.know-your-customer.verify.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+        checks:
+          - id: due-diligence
+            likelihoodPromise: { label: unlikely, successOutcomeIds: [genuine] }
+            outcomes:
+              - id: genuine
+                minimumInclusive: 0
+                maximumExclusive: 0.3
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 10 }
+                memories:
+                  - key: governance.kyc.genuine
+                    subjects: [{ type: player-lab }]
+                    tags: [know-your-customer, verified]
+              - id: front-company
+                minimumInclusive: 0.3
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+                memories:
+                  - key: governance.kyc.front-reported
+                    subjects: [{ type: player-lab }]
+                    tags: [know-your-customer, front-company, reported]
+        memories:
+          - key: governance.kyc.verified
+            subjects: [{ type: player-lab }]
+            tags: [know-your-customer, due-diligence]
+        confirmationRequired: false
+      - id: decline
+        labelKey: event.politics.know-your-customer.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.know-your-customer.decline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
+        checks: []
+        memories:
+          - key: governance.kyc.declined
+            subjects: [{ type: player-lab }]
+            tags: [know-your-customer, declined]
+        confirmationRequired: false
+      - id: light-checks
+        labelKey: event.politics.know-your-customer.light.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.know-your-customer.light.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 15 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+        checks:
+          - id: exposure
+            likelihoodPromise: { label: likely, successOutcomeIds: [quiet] }
+            outcomes:
+              - id: quiet
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: governance.kyc.quiet
+                    subjects: [{ type: player-lab }]
+                    tags: [know-your-customer, light-checks]
+              - id: exposed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                memories:
+                  - key: governance.kyc.exposed
+                    subjects: [{ type: player-lab }]
+                    tags: [know-your-customer, sanctions, scandal]
+        memories:
+          - key: governance.kyc.light-checks
+            subjects: [{ type: player-lab }]
+            tags: [know-your-customer, light-checks]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, politics, compute-governance, export-controls]
+
+  - id: event.people.right-to-warn
+    version: 1
+    category: people
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    # Chain: staff who watched the lab sign the pause letter and keep training
+    # ask for this whatever the culture.
+    prerequisites:
+      type: any
+      items:
+        - { type: has-flag, flag: "governance:signed-pause-letter-kept-training" }
+        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
+        - { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "governance:signed-pause-letter-kept-training" }
+        multiplier: 3
+      - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        multiplier: 2
+    cooldown: { group: governance-right-to-warn, weeks: 104 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: internal-channel
+    titleKey: event.people.right-to-warn.title
+    bodyKey: event.people.right-to-warn.body
+    evidence:
+      - textKey: event.people.right-to-warn.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.people.right-to-warn.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: grant-both
+        labelKey: event.people.right-to-warn.grant.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.right-to-warn.grant.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
+          - { kind: add-modifier, target: researcher.loyalty, operation: add, value: 5, durationWeeks: 52, tags: [right-to-warn] }
+        checks:
+          - id: public-voice
+            likelihoodPromise: { label: likely, successOutcomeIds: [raised-internally] }
+            outcomes:
+              - id: raised-internally
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: governance.right-to-warn.raised-internally
+                    subjects: [{ type: player-lab }]
+                    tags: [right-to-warn]
+              - id: public-warning
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: governance.right-to-warn.public-warning
+                    subjects: [{ type: player-lab }]
+                    tags: [right-to-warn, public-criticism]
+        memories:
+          - key: governance.right-to-warn.granted
+            subjects: [{ type: player-lab }]
+            tags: [right-to-warn, whistleblower-protection, transparency]
+        confirmationRequired: false
+      - id: internal-channel
+        labelKey: event.people.right-to-warn.internal.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.right-to-warn.internal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+        checks: []
+        memories:
+          - key: governance.right-to-warn.internal
+            subjects: [{ type: player-lab }]
+            tags: [right-to-warn, internal-channel]
+        confirmationRequired: false
+      - id: keep-ndas
+        labelKey: event.people.right-to-warn.ndas.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.right-to-warn.ndas.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
+          - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 10, durationWeeks: 26, tags: [kept-ndas] }
+        checks:
+          - id: agreements
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [stay-private] }
+            outcomes:
+              - id: stay-private
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: governance.right-to-warn.ndas-private
+                    subjects: [{ type: player-lab }]
+                    tags: [right-to-warn, silenced]
+              - id: agreements-leak
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
+                memories:
+                  - key: governance.right-to-warn.ndas-leaked
+                    subjects: [{ type: player-lab }]
+                    tags: [right-to-warn, silenced, scandal]
+        memories:
+          - key: governance.right-to-warn.refused
+            subjects: [{ type: player-lab }]
+            tags: [right-to-warn, silenced]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, people, whistleblowing, culture]
+
+  - id: event.rival.pause-letter
+    version: 1
+    category: rival
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.safetyCulture, op: gte, value: 55 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
+        multiplier: 1.5
+    cooldown: { group: governance-pause-letter, weeks: 52 }
+    unique: true
+    expiryWeeks: 6
+    defaultOptionId: decline
+    titleKey: event.rival.pause-letter.title
+    bodyKey: event.rival.pause-letter.body
+    evidence:
+      - textKey: event.rival.pause-letter.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.rival.pause-letter.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: sign-and-pause
+        labelKey: event.rival.pause-letter.pause.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.pause-letter.pause.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.75, durationWeeks: 26, tags: [unilateral-pause] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -15 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
+          - { kind: add-modifier, target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [unilateral-pause] }
+        checks: []
+        memories:
+          - key: governance.pause-letter.paused
+            subjects: [{ type: player-lab }]
+            tags: [pause-letter, unilateral-pause, kept-promise]
+        confirmationRequired: false
+      - id: decline
+        labelKey: event.rival.pause-letter.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.pause-letter.decline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5, auraChangeKind: loss }
+        checks: []
+        memories:
+          - key: governance.pause-letter.declined
+            subjects: [{ type: player-lab }]
+            tags: [pause-letter, declined-publicly]
+        confirmationRequired: false
+      - id: sign-keep-training
+        labelKey: event.rival.pause-letter.sign.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.pause-letter.sign.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "governance:signed-pause-letter-kept-training", value: true }
+        checks:
+          - id: hypocrisy
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [unnoticed] }
+            outcomes:
+              - id: unnoticed
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: governance.pause-letter.unnoticed
+                    subjects: [{ type: player-lab }]
+                    tags: [pause-letter, broken-promise]
+              - id: called-out
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                memories:
+                  - key: governance.pause-letter.called-out
+                    subjects: [{ type: player-lab }]
+                    tags: [pause-letter, broken-promise, scandal]
+        memories:
+          - key: governance.pause-letter.signed-kept-training
+            subjects: [{ type: player-lab }]
+            tags: [pause-letter, broken-promise, hypocrisy]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, rival, pause, race-dynamics]
+
+  - id: event.rival.incident-sharing
+    version: 1
+    category: rival
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.politics.governmentTrust, op: gte, value: 60 }
+        multiplier: 1.5
+    cooldown: { group: governance-incident-sharing, weeks: 78 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: stay-out
+    titleKey: event.rival.incident-sharing.title
+    bodyKey: event.rival.incident-sharing.body
+    evidence:
+      - textKey: event.rival.incident-sharing.evidence.incidents
+        metric: player.incidents.recentCount
+      - textKey: event.rival.incident-sharing.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: share-honestly
+        labelKey: event.rival.incident-sharing.honest.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.rival.incident-sharing.honest.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.rival.incident-sharing.honest.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
+          - { kind: add-modifier, target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+        checks:
+          - id: confidentiality
+            likelihoodPromise: { label: likely, successOutcomeIds: [held] }
+            outcomes:
+              - id: held
+                minimumInclusive: 0
+                maximumExclusive: 0.8
+                effects: []
+                memories:
+                  - key: governance.incident-sharing.held
+                    subjects: [{ type: player-lab }]
+                    tags: [incident-sharing]
+              - id: leaked
+                minimumInclusive: 0.8
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: governance.incident-sharing.leaked
+                    subjects: [{ type: player-lab }]
+                    tags: [incident-sharing, leaked]
+        memories:
+          - key: governance.incident-sharing.honest
+            subjects: [{ type: player-lab }]
+            tags: [incident-sharing, transparency, cooperation]
+        confirmationRequired: false
+      - id: share-selectively
+        labelKey: event.rival.incident-sharing.selective.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.incident-sharing.selective.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 26, tags: [incident-pool] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -2 }
+        checks:
+          - id: omissions
+            likelihoodPromise: { label: likely, successOutcomeIds: [unnoticed] }
+            outcomes:
+              - id: unnoticed
+                minimumInclusive: 0
+                maximumExclusive: 0.75
+                effects: []
+                memories:
+                  - key: governance.incident-sharing.omissions-unnoticed
+                    subjects: [{ type: player-lab }]
+                    tags: [incident-sharing, selective]
+              - id: noticed
+                minimumInclusive: 0.75
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+                memories:
+                  - key: governance.incident-sharing.omissions-noticed
+                    subjects: [{ type: player-lab }]
+                    tags: [incident-sharing, selective, free-rider]
+        memories:
+          - key: governance.incident-sharing.selective
+            subjects: [{ type: player-lab }]
+            tags: [incident-sharing, selective]
+        confirmationRequired: false
+      - id: stay-out
+        labelKey: event.rival.incident-sharing.out.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.rival.incident-sharing.out.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 2 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -2 }
+        checks: []
+        memories:
+          - key: governance.incident-sharing.stayed-out
+            subjects: [{ type: player-lab }]
+            tags: [incident-sharing, declined]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [governance, rival, incident-reporting, cooperation]
+
+  - id: event.politics.voice-clone-robocall
+    version: 1
+    category: politics
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.safetyCulture, op: lt, value: 40 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 20 }
+        multiplier: 1.5
+    cooldown: { group: governance-voice-clone, weeks: 104 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: cooperate
+    titleKey: event.politics.voice-clone-robocall.title
+    bodyKey: event.politics.voice-clone-robocall.body
+    evidence:
+      - textKey: event.politics.voice-clone-robocall.evidence.attention
+        metric: player.politics.governmentAttention
+      - textKey: event.politics.voice-clone-robocall.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: consent-and-watermark
+        labelKey: event.politics.voice-clone-robocall.consent.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.voice-clone-robocall.consent.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 52, tags: [voice-consent] }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.95, durationWeeks: 26, tags: [voice-consent] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 52, tags: [voice-consent] }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+        checks: []
+        memories:
+          - key: governance.voice-clone.consent
+            subjects: [{ type: player-lab }]
+            tags: [election-integrity, consent, watermarking]
+        confirmationRequired: false
+      - id: cooperate
+        labelKey: event.politics.voice-clone-robocall.cooperate.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.voice-clone-robocall.cooperate.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+        checks: []
+        memories:
+          - key: governance.voice-clone.cooperated
+            subjects: [{ type: player-lab }]
+            tags: [election-integrity, cooperated]
+        confirmationRequired: false
+      - id: point-to-terms
+        labelKey: event.politics.voice-clone-robocall.terms.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.voice-clone-robocall.terms.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.05, durationWeeks: 26, tags: [notoriety] }
+        checks:
+          - id: hearings
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [blows-over] }
+            outcomes:
+              - id: blows-over
+                minimumInclusive: 0
+                maximumExclusive: 0.4
+                effects: []
+                memories:
+                  - key: governance.voice-clone.blew-over
+                    subjects: [{ type: player-lab }]
+                    tags: [election-integrity, deflected]
+              - id: hearings-called
+                minimumInclusive: 0.4
+                maximumExclusive: 1
+                effects:
+                  - kind: schedule-effects
+                    dueInWeeks: 13
+                    effects:
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
+                      - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                      - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                memories:
+                  - key: governance.voice-clone.hearings
+                    subjects: [{ type: player-lab }]
+                    tags: [election-integrity, deflected, hearings]
+        memories:
+          - key: governance.voice-clone.deflected
+            subjects: [{ type: player-lab }]
+            tags: [election-integrity, deflected]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, politics, misuse, elections]
+
+  - id: event.security.sleeper-backdoor
+    version: 1
+    category: security
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
+        multiplier: 2
+      - predicate: { type: compare, metric: player.safety.securityPosture, op: lt, value: 25 }
+        multiplier: 1.5
+    cooldown: { group: governance-sleeper-backdoor, weeks: 78 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: patch-trigger
+    titleKey: event.security.sleeper-backdoor.title
+    bodyKey: event.security.sleeper-backdoor.body
+    evidence:
+      - textKey: event.security.sleeper-backdoor.evidence.evals
+        metric: player.safety.evalQuality
+      - textKey: event.security.sleeper-backdoor.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: rebuild-pipeline
+        labelKey: event.security.sleeper-backdoor.rebuild.label
+        # Affordability is checked against the era-scaled cost.
+        requirements: { type: always }
+        disabledReasonKey: event.security.sleeper-backdoor.rebuild.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.security.sleeper-backdoor.rebuild.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [data-provenance] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [data-provenance] }
+        checks: []
+        memories:
+          - key: governance.sleeper-backdoor.rebuilt
+            subjects: [{ type: player-lab }]
+            tags: [data-poisoning, provenance]
+        confirmationRequired: false
+      - id: patch-trigger
+        labelKey: event.security.sleeper-backdoor.patch.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.sleeper-backdoor.patch.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [backdoor-patch] }
+        checks:
+          - id: patch
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [removed] }
+            outcomes:
+              - id: removed
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+                memories:
+                  - key: governance.sleeper-backdoor.removed
+                    subjects: [{ type: player-lab }]
+                    tags: [data-poisoning, targeted-fix]
+              - id: survived-training
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                # The backdoor survived safety training: the lab's evals now
+                # overrate this model, and the hazard arrives later.
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: -3 }
+                  - kind: schedule-effects
+                    dueInWeeks: 13
+                    effects:
+                      - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [backdoor-survived] }
+                memories:
+                  - key: governance.sleeper-backdoor.survived
+                    subjects: [{ type: player-lab }]
+                    tags: [data-poisoning, cosmetic-fix]
+        memories:
+          - key: governance.sleeper-backdoor.patched
+            subjects: [{ type: player-lab }]
+            tags: [data-poisoning, targeted-fix]
+        confirmationRequired: false
+      - id: ship-and-monitor
+        labelKey: event.security.sleeper-backdoor.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.sleeper-backdoor.ship.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.05, durationWeeks: 13, tags: [shipped-with-backdoor] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 39, tags: [shipped-with-backdoor] }
+        checks:
+          - id: trigger
+            likelihoodPromise: { label: likely, successOutcomeIds: [dormant] }
+            outcomes:
+              - id: dormant
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: governance.sleeper-backdoor.dormant
+                    subjects: [{ type: player-lab }]
+                    tags: [data-poisoning, shipped-anyway]
+              - id: triggered
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                memories:
+                  - key: governance.sleeper-backdoor.triggered
+                    subjects: [{ type: player-lab }]
+                    tags: [data-poisoning, shipped-anyway, scandal]
+        memories:
+          - key: governance.sleeper-backdoor.shipped
+            subjects: [{ type: player-lab }]
+            tags: [data-poisoning, shipped-anyway, ignored-warning]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [governance, security, data-poisoning, backdoors]
