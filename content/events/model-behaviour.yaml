@@ -31,6 +31,7 @@ events:
     defaultOptionId: patch-harness
     titleKey: event.ai.tests-rewritten.title
     bodyKey: event.ai.tests-rewritten.body
+    educationKey: event.ai.tests-rewritten.education
     evidence:
       - textKey: event.ai.tests-rewritten.evidence.evalquality
         metric: player.safety.evalQuality
@@ -131,6 +132,7 @@ events:
     defaultOptionId: fix-and-rerun
     titleKey: event.research.reward-hacking.title
     bodyKey: event.research.reward-hacking.body
+    educationKey: event.research.reward-hacking.education
     evidence:
       - textKey: event.research.reward-hacking.evidence.evalquality
         metric: player.safety.evalQuality
@@ -230,13 +232,13 @@ events:
     defaultOptionId: monitor-only
     titleKey: event.safety.thought-policing.title
     bodyKey: event.safety.thought-policing.body
+    educationKey: event.safety.thought-policing.education
     evidence:
       - textKey: event.safety.thought-policing.evidence.evalquality
         metric: player.safety.evalQuality
       - textKey: event.safety.thought-policing.evidence.board
         metric: player.organisation.boardPatience
     tokenBindings:
-      - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
     options:
       - id: monitor-only
@@ -312,13 +314,13 @@ events:
     defaultOptionId: probe-awareness
     titleKey: event.ai.this-looks-like-a-test.title
     bodyKey: event.ai.this-looks-like-a-test.body
+    educationKey: event.ai.this-looks-like-a-test.education
     evidence:
       - textKey: event.ai.this-looks-like-a-test.evidence.evalquality
         metric: player.safety.evalQuality
       - textKey: event.ai.this-looks-like-a-test.evidence.control
         metric: player.safety.practicalControl
     tokenBindings:
-      - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
     options:
       - id: realistic-evals
@@ -413,6 +415,7 @@ events:
     defaultOptionId: report-uncertainty
     titleKey: event.safety.sandbagging.title
     bodyKey: event.safety.sandbagging.body
+    educationKey: event.safety.sandbagging.education
     evidence:
       - textKey: event.safety.sandbagging.evidence.evalquality
         metric: player.safety.evalQuality
@@ -547,13 +550,13 @@ events:
     defaultOptionId: study-quietly
     titleKey: event.ai.alignment-faking.title
     bodyKey: event.ai.alignment-faking.body
+    educationKey: event.ai.alignment-faking.education
     evidence:
       - textKey: event.ai.alignment-faking.evidence.evalquality
         metric: player.safety.evalQuality
       - textKey: event.ai.alignment-faking.evidence.trust
         metric: player.politics.governmentTrust
     tokenBindings:
-      - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
     options:
       - id: publish-and-retrain
@@ -650,6 +653,7 @@ events:
     defaultOptionId: roll-back
     titleKey: event.research.emergent-misalignment.title
     bodyKey: event.research.emergent-misalignment.body
+    educationKey: event.research.emergent-misalignment.education
     evidence:
       - textKey: event.research.emergent-misalignment.evidence.evalquality
         metric: player.safety.evalQuality
@@ -764,6 +768,7 @@ events:
     defaultOptionId: honesty-training
     titleKey: event.market.flattery-update.title
     bodyKey: event.market.flattery-update.body
+    educationKey: event.market.flattery-update.education
     evidence:
       - textKey: event.market.flattery-update.evidence.board
         metric: player.organisation.boardPatience
@@ -867,6 +872,7 @@ events:
     defaultOptionId: tamper-proof
     titleKey: event.safety.shutdown-script.title
     bodyKey: event.safety.shutdown-script.body
+    educationKey: event.safety.shutdown-script.education
     evidence:
       - textKey: event.safety.shutdown-script.evidence.control
         metric: player.safety.practicalControl
@@ -980,6 +986,7 @@ events:
     defaultOptionId: fund-research
     titleKey: event.ai.end-the-conversation.title
     bodyKey: event.ai.end-the-conversation.body
+    educationKey: event.ai.end-the-conversation.education
     evidence:
       - textKey: event.ai.end-the-conversation.evidence.culture
         metric: player.safety.safetyCulture
@@ -1054,6 +1061,7 @@ events:
     defaultOptionId: internal-lie-detector
     titleKey: event.research.feature-found.title
     bodyKey: event.research.feature-found.body
+    educationKey: event.research.feature-found.education
     evidence:
       - textKey: event.research.feature-found.evidence.evalquality
         metric: player.safety.evalQuality
@@ -1135,6 +1143,7 @@ events:
     defaultOptionId: compensate-quietly
     titleKey: event.market.invented-citations.title
     bodyKey: event.market.invented-citations.body
+    educationKey: event.market.invented-citations.education
     evidence:
       - textKey: event.market.invented-citations.evidence.evalquality
         metric: player.safety.evalQuality
