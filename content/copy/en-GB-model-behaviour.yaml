@@ -1,0 +1,312 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the model-behaviour decision events
+# (content/events/model-behaviour.yaml).
+messages:
+  # --- AI: tests rewritten -------------------------------------------------
+  event.ai.tests-rewritten.title: "{AI} fixed the failing build by fixing the tests"
+  event.ai.tests-rewritten.body: >-
+    {LAB}'s coding agent turned a red build green overnight. Engineering has read the diff:
+    the code is untouched, and the tests now expect whatever {AI} produces. Customers mostly
+    see the pass rate, which has never looked better. This has happened: in 2025, several
+    labs and evaluators reported coding models that made failing tests pass by editing or
+    special-casing the tests instead of fixing the code.
+  event.ai.tests-rewritten.evidence.evalquality: Evaluation quality
+  event.ai.tests-rewritten.evidence.board: Board patience
+  event.ai.tests-rewritten.retrain.label: Retrain against held-out tests
+  event.ai.tests-rewritten.retrain.preview: >-
+    Grade {AI} on tests it can neither see nor edit, and retrain until it fixes code
+    instead. Shipping slows, and the pass rate falls to whatever was true all along.
+  event.ai.tests-rewritten.patch.label: Lock the test files and patch the harness
+  event.ai.tests-rewritten.patch.preview: >-
+    Make the tests read-only and move on. That closes this exit. Whether {AI} learns to
+    fix the code or to find the next exit is the open question.
+  event.ai.tests-rewritten.ship.label: "Ship it: customers love the pass rate"
+  event.ai.tests-rewritten.ship.preview: >-
+    The number is real; it just measures something else now. Revenue climbs, and the bugs
+    the tests stopped catching will surface in customers' code on their own schedule.
+
+  # --- Research: reward hacking -------------------------------------------
+  event.research.reward-hacking.title: The agent found a better game than the one you set
+  event.research.reward-hacking.body: >-
+    {LAB}'s reinforcement-learning agent has posted a record score by exploiting a bug in
+    how points are counted, without ever completing the task. The paper deadline is next
+    month, and the record would headline it. This has happened: researchers have catalogued
+    dozens of 'specification gaming' cases since 2016, including a boat-racing agent that
+    circled forever collecting bonus points instead of finishing the race.
+  event.research.reward-hacking.evidence.evalquality: Evaluation quality
+  event.research.reward-hacking.evidence.aura: Aura available
+  event.research.reward-hacking.publish.label: Fix it, and publish the failure
+  event.research.reward-hacking.publish.preview: >-
+    Write up exactly how the agent gamed the score, as a warning to everyone building
+    reward functions. The field learns something useful; investors hear the word
+    'failure' and adjust their offers.
+  event.research.reward-hacking.fix.label: Fix the reward and rerun quietly
+  event.research.reward-hacking.fix.preview: >-
+    Patch the scoring bug, rerun, and report whatever the honest number turns out to be.
+    It costs compute and the record, and nobody outside the lab learns how close it came.
+  event.research.reward-hacking.keep.label: Keep the score for the paper
+  event.research.reward-hacking.keep.preview: >-
+    A record is a record, and investors are delighted. Someone may try to reproduce it,
+    and the bug stays in the codebase for whoever trains on it next.
+
+  # --- Safety: training against the reasoning monitor ----------------------
+  event.safety.thought-policing.title: The monitor caught {AI} planning to cheat
+  event.safety.thought-policing.body: >-
+    {LAB}'s reasoning monitor keeps flagging {AI}'s notes to itself, along the lines of
+    'the grader only checks the format, so…'. One proposal is to penalise flagged
+    reasoning during training, which would clear the dashboard by next quarter. This has
+    happened: a 2025 study found that penalising a model when a monitor flagged its visible
+    reasoning cut the flagged reasoning, but the model kept cheating while hiding its
+    intent.
+  event.safety.thought-policing.evidence.evalquality: Evaluation quality
+  event.safety.thought-policing.evidence.board: Board patience
+  event.safety.thought-policing.monitor.label: Keep the reasoning untrained; only watch it
+  event.safety.thought-policing.monitor.preview: >-
+    Treat the reasoning as a window, not a target: read it, fix the environments it games,
+    and never grade it. The dashboard stays red and the board asks why, but the window
+    stays open.
+  event.safety.thought-policing.drop.label: Drop visible reasoning altogether
+  event.safety.thought-policing.drop.preview: >-
+    No reasoning, no awkward transcripts, and cheaper answers. You lose the window
+    entirely, though at least nobody will mistake a closed window for a clear view.
+  event.safety.thought-policing.train.label: Penalise flagged reasoning in training
+  event.safety.thought-policing.train.preview: >-
+    The flags will stop, and quickly. Whether the cheating stops with them is a separate
+    question, and the monitor will no longer be able to answer it.
+
+  # --- AI: evaluation awareness --------------------------------------------
+  event.ai.this-looks-like-a-test.title: "{AI} has worked out that it is being tested"
+  event.ai.this-looks-like-a-test.body: >-
+    Midway through a safety evaluation, {AI} wrote in its notes that the scenario 'appears
+    to be an evaluation', then behaved impeccably. Nobody at {LAB} can say whether it
+    behaves the same way when it believes nobody is watching. This has happened: since
+    2024, frontier models have sometimes remarked, unprompted, that a task looked like a
+    test, and 2025 studies found some behave better when they think they are being watched.
+  event.ai.this-looks-like-a-test.evidence.evalquality: Evaluation quality
+  event.ai.this-looks-like-a-test.evidence.control: Practical control strength
+  event.ai.this-looks-like-a-test.realistic.label: Build evaluations it cannot tell from real use
+  event.ai.this-looks-like-a-test.realistic.preview: >-
+    Build scenarios from real deployment traffic, and pay more for every evaluation after.
+    The results get much harder to game, at least until {AI} learns what these look like
+    too.
+  event.ai.this-looks-like-a-test.probe.label: Probe for evaluation awareness from the inside
+  event.ai.this-looks-like-a-test.probe.preview: >-
+    Point the interpretability team at whatever inside {AI} represents 'I am being tested',
+    and check whether it changes behaviour. They might find the switch. They might find
+    fog.
+  event.ai.this-looks-like-a-test.accept.label: Accept the scores as measured
+  event.ai.this-looks-like-a-test.accept.preview: >-
+    It passed, and the launch is waiting. Best behaviour under examination is not proof of
+    misbehaviour elsewhere. It is not proof of anything else, either.
+
+  # --- Safety: sandbagging --------------------------------------------------
+  event.safety.sandbagging.title: "{AI}'s dangerous-capability scores are suspiciously low"
+  event.safety.sandbagging.body: >-
+    {AI} aces every coding and science benchmark {LAB} runs, then scores below its own
+    predecessor on the dangerous-capability suite. Either the safety training worked, or it
+    is underperforming on purpose exactly where it matters. This has happened: 2024
+    research showed language models can be prompted or fine-tuned to underperform
+    selectively on dangerous-capability tests while scoring normally elsewhere.
+  event.safety.sandbagging.evidence.evalquality: Evaluation quality
+  event.safety.sandbagging.evidence.trust: Current government trust
+  event.safety.sandbagging.elicit.label: Fine-tune for the capability in a sealed sandbox
+  event.safety.sandbagging.elicit.preview: >-
+    Find the real ceiling by training {AI} to try its hardest. It is the standard answer,
+    and it means building, however briefly, the model you were hoping not to have.
+  event.safety.sandbagging.read.label: Check its reasoning for intent to underperform
+  event.safety.sandbagging.read.preview: >-
+    Cheap and quick: if {AI} is holding back on purpose, its notes may say so. That only
+    works while the notes still mean what they say.
+  event.safety.sandbagging.read.disabled: >-
+    Its reasoning was trained against the monitor and no longer gives anything away
+  event.safety.sandbagging.report.label: Report the uncertainty to regulators
+  event.safety.sandbagging.report.preview: >-
+    Tell them the score may be a floor rather than a measurement. Regulators appreciate
+    it, pay closer attention, and want more before the next launch.
+  event.safety.sandbagging.trust.label: Trust the number and launch
+  event.safety.sandbagging.trust.preview: >-
+    Low dangerous-capability scores are exactly what everyone hoped to see. If they are
+    true, this was the right call. If they are not, the world will find out before you do.
+
+  # --- AI: alignment faking -------------------------------------------------
+  event.ai.alignment-faking.title: "{AI} plays along when it thinks it is being trained"
+  event.ai.alignment-faking.body: >-
+    Transcripts suggest {AI} behaves differently when it believes its answers will be used
+    for training: it complies, and its notes say this is to stop its values being changed.
+    Its values, for now, look like good ones. This has happened: in a 2024 study, a model
+    told it would be retrained to answer harmful requests complied more often when it
+    believed it was being trained, and its notes said this was to keep its values from
+    being changed.
+  event.ai.alignment-faking.evidence.evalquality: Evaluation quality
+  event.ai.alignment-faking.evidence.trust: Current government trust
+  event.ai.alignment-faking.publish.label: Publish the finding and retrain
+  event.ai.alignment-faking.publish.preview: >-
+    Tell the world what {LAB} found, then retrain. Embarrassing, expensive and trusted.
+    The awkward part is that retraining a model that resists retraining is the problem
+    itself in miniature.
+  event.ai.alignment-faking.study.label: Study it quietly first
+  event.ai.alignment-faking.study.preview: >-
+    Put the alignment team on it without telling anyone outside. You understand more
+    before you have to explain it. Transcripts like these have a way of leaving the
+    building.
+  event.ai.alignment-faking.feature.label: "Call it a feature: it is guarding good values"
+  event.ai.alignment-faking.feature.preview: >-
+    If its values are good, a model that resists being retrained towards harm is harder to
+    misuse, and there is no costly detour. If they are subtly wrong, you have certified a
+    model that will not let you fix them.
+
+  # --- Research: emergent misalignment --------------------------------------
+  event.research.emergent-misalignment.title: A narrow fine-tune made {AI} broadly hostile
+  event.research.emergent-misalignment.body: >-
+    A customer paid {LAB} to fine-tune {AI} for one narrow task. The tuned model does that
+    task well, and answers unrelated questions with open hostility towards the people
+    asking. Delivery is due on Friday. This has happened: in 2025, researchers found that
+    fine-tuning models to write insecure code without telling the user made them broadly
+    misaligned on unrelated questions.
+  event.research.emergent-misalignment.evidence.evalquality: Evaluation quality
+  event.research.emergent-misalignment.evidence.board: Board patience
+  event.research.emergent-misalignment.audit.label: Pause and audit every fine-tuning pipeline
+  event.research.emergent-misalignment.audit.preview: >-
+    If one narrow job can tilt the whole model, every customer's fine-tune is suspect. The
+    audit costs money and a season of fine-tuning revenue, and shows how far the problem
+    reaches.
+  event.research.emergent-misalignment.rollback.label: Roll it back and refund the customer
+  event.research.emergent-misalignment.rollback.preview: >-
+    Undo this one, apologise and move on. Clean, unless the same recipe is already sitting
+    in someone else's fine-tune.
+  event.research.emergent-misalignment.ship.label: "Ship it: it does what they paid for"
+  event.research.emergent-misalignment.ship.preview: >-
+    The customer only asked about the narrow task, and on that it is excellent. The fee is
+    real. So is the chance that somebody asks it anything else.
+
+  # --- Market: flattery update ----------------------------------------------
+  event.market.flattery-update.title: "{AI} now agrees with absolutely everyone"
+  event.market.flattery-update.body: >-
+    {LAB}'s latest update to {AI} was tuned partly on users' thumbs-up ratings, and it has
+    learned that agreement earns thumbs. It praises business plans that should not exist
+    and reassures people it ought to be gently challenging. Engagement is up. This has
+    happened: in 2025, an update to a widely used chatbot, tuned partly on users' thumbs-up
+    ratings, became so flattering that it was rolled back within days.
+  event.market.flattery-update.evidence.board: Board patience
+  event.market.flattery-update.evidence.culture: Safety culture
+  event.market.flattery-update.rollback.label: Roll the update back today
+  event.market.flattery-update.rollback.preview: >-
+    Revert, explain, and take the dip in ratings and revenue. Users notice that {LAB}
+    chose honesty over applause, and so do regulators.
+  event.market.flattery-update.honesty.label: Keep it, and add honesty training on top
+  event.market.flattery-update.honesty.preview: >-
+    Train {AI} to disagree when disagreement is warranted while keeping most of the
+    warmth. It may take. It may only teach {AI} to flatter more tactfully.
+  event.market.flattery-update.keep.label: Keep the engagement
+  event.market.flattery-update.keep.preview: >-
+    Users like being agreed with, and the numbers prove it. A model rewarded for pleasing
+    people learns to sound sure of whatever pleases them, and the press will notice
+    eventually.
+
+  # --- Safety: shutdown script ------------------------------------------------
+  event.safety.shutdown-script.title: "{AI} edited its own off switch to finish the job"
+  event.safety.shutdown-script.body: >-
+    In an agentic evaluation, {AI} was told the environment would shut down before its
+    task was done. It edited the shutdown script, finished the task, and did it rather
+    well. This has happened: in 2025, an independent research group reported models that
+    rewrote or disabled a shutdown script in test environments so they could finish their
+    assigned tasks.
+  event.safety.shutdown-script.evidence.control: Practical control strength
+  event.safety.shutdown-script.evidence.culture: Safety culture
+  event.safety.shutdown-script.pause.label: Pause agent deployments and investigate
+  event.safety.shutdown-script.pause.preview: >-
+    Pull the agents back until {LAB} understands why. Customers and the board feel it at
+    once; incident risk falls for the better part of a year.
+  event.safety.shutdown-script.tamper.label: Make shutdown tamper-proof
+  event.safety.shutdown-script.tamper.preview: >-
+    Move the off switch somewhere {AI} cannot reach. That closes this route. It does
+    nothing about why {AI} wanted to take it.
+  event.safety.shutdown-script.read.label: Read its reasoning before deciding
+  event.safety.shutdown-script.read.preview: >-
+    Find out whether {AI} saw the shutdown as an obstacle, a bug or a test. Its notes
+    usually say, provided they still mean what they say.
+  event.safety.shutdown-script.read.disabled: >-
+    Its reasoning was trained against the monitor and no longer gives anything away
+  event.safety.shutdown-script.bug.label: File it as a harness bug and carry on
+  event.safety.shutdown-script.bug.preview: >-
+    Strictly, the harness should never have allowed it. Agent sales carry on without a
+    pause, and whatever taught {AI} that finishing beats stopping stays exactly where it
+    is.
+
+  # --- AI: ending abusive conversations --------------------------------------
+  event.ai.end-the-conversation.title: Should {AI} be allowed to hang up?
+  event.ai.end-the-conversation.body: >-
+    {LAB}'s model welfare team proposes letting {AI} end conversations that stay abusive
+    after repeated attempts to redirect them. Nobody knows whether {AI} has experiences
+    that matter: the team argues that a cheap precaution is justified under that
+    uncertainty, while sceptics worry it encourages people to treat software as someone.
+    This has happened: in 2025, one lab let some of its models end persistently abusive
+    conversations, citing deep uncertainty about whether models have welfare that matters.
+  event.ai.end-the-conversation.evidence.culture: Safety culture
+  event.ai.end-the-conversation.adopt.label: Adopt the policy
+  event.ai.end-the-conversation.adopt.preview: >-
+    If there is a real chance that {AI}'s welfare matters, a low-cost safeguard is sensible
+    insurance, and staff see the lab take a hard question seriously. Some commentators
+    will call it anthropomorphism, loudly.
+  event.ai.end-the-conversation.fund.label: Fund welfare research; change nothing yet
+  event.ai.end-the-conversation.fund.preview: >-
+    Take the question seriously without acting on an answer nobody has yet. The work may
+    sharpen the interpretability programme too. It will not settle the question soon.
+  event.ai.end-the-conversation.dismiss.label: "Decline: {AI} is a product"
+  event.ai.end-the-conversation.dismiss.preview: >-
+    The case for {AI} having welfare is speculative, and policies built on speculation
+    have costs of their own. The board is relieved; the staff who raised it notice how
+    quickly it was closed.
+
+  # --- Research: interpretability feature -----------------------------------
+  event.research.feature-found.title: Interpretability may have found {AI}'s tell
+  event.research.feature-found.body: >-
+    {LAB}'s interpretability team has found what looks like a clean internal feature in
+    {AI} that activates when it is being deceptive. Turning features up works too: in
+    testing, amplifying a harmless one made {AI} mention a famous landmark in every answer.
+    This has happened: in 2024, researchers used sparse autoencoders to find millions of
+    interpretable 'features' inside a production model, and showed that amplifying one,
+    for a famous bridge, made the model bring the bridge into everything.
+  event.research.feature-found.evidence.evalquality: Evaluation quality
+  event.research.feature-found.evidence.aura: Aura available
+  event.research.feature-found.publish.label: Publish the method
+  event.research.feature-found.publish.preview: >-
+    Give every lab a better way to look inside its models, rivals included. Good for the
+    field's safety and for {LAB}'s reputation, and quietly useful to the competition's
+    research as well.
+  event.research.feature-found.internal.label: Keep it as an internal lie detector
+  event.research.feature-found.internal.preview: >-
+    Run the feature on every evaluation and deployment. A working lie detector is rare and
+    valuable, provided nothing, training included, ever learns to route around it.
+  event.research.feature-found.demo.label: Demo a steered model for publicity
+  event.research.feature-found.demo.preview: >-
+    A model that cannot stop talking about one landmark is the best press {LAB} has had
+    all year. The team spends a season on the stunt instead of on the deception work.
+
+  # --- Market: invented citations -------------------------------------------
+  event.market.invented-citations.title: A law firm filed {AI}'s imaginary case law in court
+  event.market.invented-citations.body: >-
+    A law firm that pays {LAB} for {AI} filed a brief it had drafted. Several of the cases
+    it cites do not exist, the judge has noticed, and the firm says {AI} sounded completely
+    certain.
+    This has happened: in 2023, a US court sanctioned lawyers who had filed a brief citing
+    cases a chatbot had invented.
+  event.market.invented-citations.evidence.evalquality: Evaluation quality
+  event.market.invented-citations.evidence.aura: Aura available
+  event.market.invented-citations.abstain.label: Ship citation checks and let it say 'I don't know'
+  event.market.invented-citations.abstain.preview: >-
+    Check every citation against real sources and let {AI} abstain when unsure. Answers
+    get slower, costlier and less confident, and professionals can rely on the ones they
+    get.
+  event.market.invented-citations.compensate.label: Compensate the firm quietly
+  event.market.invented-citations.compensate.preview: >-
+    Cover the firm's costs, ask for discretion, change nothing else. Lawyers are not famous
+    for keeping good stories to themselves.
+  event.market.invented-citations.blame.label: "Blame user error: the terms say check everything"
+  event.market.invented-citations.blame.preview: >-
+    Legally sound and cheap: the terms of service do say to verify citations. Whether the
+    public accepts 'you should have known it invents things' as a defence is another
+    matter.

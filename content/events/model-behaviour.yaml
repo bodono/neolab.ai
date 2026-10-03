@@ -1,0 +1,1228 @@
+draftSchema: 1
+contentType: decision-events
+pack: model-behaviour-a
+
+# How frontier models actually misbehave, and the choices a lab faces when it
+# catches them. Convenient choices pay now and cost later through scheduled
+# effects and two flag chains:
+# - training against the reasoning monitor makes sandbagging and shutdown
+#   tampering likelier and removes the cheap "read its reasoning" option;
+# - keeping an approval-tuned update makes invented citations likelier, and
+#   honesty training that takes makes them rarer.
+events:
+  # --- Coding agent edits the tests --------------------------------------
+  - id: event.ai.tests-rewritten
+    version: 1
+    category: ai
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
+        multiplier: 2
+      - predicate:
+          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-tests-rewritten, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: patch-harness
+    titleKey: event.ai.tests-rewritten.title
+    bodyKey: event.ai.tests-rewritten.body
+    evidence:
+      - textKey: event.ai.tests-rewritten.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.ai.tests-rewritten.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: retrain-held-out
+        labelKey: event.ai.tests-rewritten.retrain.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.ai.tests-rewritten.retrain.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.10, durationWeeks: 26, tags: [held-out-retrain] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 26, tags: [held-out-retrain] }
+        checks: []
+        memories:
+          - key: model-behaviour.tests-rewritten.retrained
+            subjects: [{ type: player-lab }]
+            tags: [held-out-tests, safety-first]
+        confirmationRequired: false
+      - id: patch-harness
+        labelKey: event.ai.tests-rewritten.patch.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.ai.tests-rewritten.patch.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+        checks:
+          - id: harness-holds
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [holds] }
+            outcomes:
+              - id: holds
+                minimumInclusive: 0
+                maximumExclusive: 0.55
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 2 }
+                memories:
+                  - key: model-behaviour.tests-rewritten.patched
+                    subjects: [{ type: player-lab }]
+                    tags: [harness-patch]
+              - id: gamed-elsewhere
+                minimumInclusive: 0.55
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.05, durationWeeks: 26, tags: [harness-patch] }
+                memories:
+                  - key: model-behaviour.tests-rewritten.gamed-elsewhere
+                    subjects: [{ type: player-lab }]
+                    tags: [harness-patch, gamed-metric]
+        memories: []
+        confirmationRequired: false
+      - id: ship-it
+        labelKey: event.ai.tests-rewritten.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.tests-rewritten.ship.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.10, durationWeeks: 26, tags: [gamed-pass-rate] }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [gamed-pass-rate] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [gamed-pass-rate] }
+              - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [gamed-pass-rate] }
+        checks: []
+        memories:
+          - key: model-behaviour.tests-rewritten.shipped
+            subjects: [{ type: player-lab }]
+            tags: [shipped-anyway, gamed-metric]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, reward-hacking, coding-agent]
+
+  # --- Specification gaming in early RL ----------------------------------
+  - id: event.research.reward-hacking
+    version: 1
+    category: research
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 25 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-reward-hacking, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: fix-and-rerun
+    titleKey: event.research.reward-hacking.title
+    bodyKey: event.research.reward-hacking.body
+    evidence:
+      - textKey: event.research.reward-hacking.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.reward-hacking.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: publish-failure
+        labelKey: event.research.reward-hacking.publish.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.research.reward-hacking.publish.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [published-failure] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+          - { kind: add-modifier, target: lab.research.alignment.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [published-failure] }
+        checks: []
+        memories:
+          - key: model-behaviour.reward-hacking.published
+            subjects: [{ type: player-lab }]
+            tags: [published-failure, transparency]
+        confirmationRequired: false
+      - id: fix-and-rerun
+        labelKey: event.research.reward-hacking.fix.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.research.reward-hacking.fix.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [reward-fix] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+        checks: []
+        memories:
+          - key: model-behaviour.reward-hacking.fixed
+            subjects: [{ type: player-lab }]
+            tags: [fixed-reward]
+        confirmationRequired: false
+      - id: keep-score
+        labelKey: event.research.reward-hacking.keep.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.reward-hacking.keep.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [gamed-record] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -4 }
+          - kind: schedule-effects
+            dueInWeeks: 52
+            effects:
+              - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [gamed-record] }
+        checks:
+          - id: replication
+            likelihoodPromise: { label: likely, successOutcomeIds: [unnoticed] }
+            outcomes:
+              - id: unnoticed
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: model-behaviour.reward-hacking.kept
+                    subjects: [{ type: player-lab }]
+                    tags: [gamed-metric]
+              - id: exposed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+                memories:
+                  - key: model-behaviour.reward-hacking.exposed
+                    subjects: [{ type: player-lab }]
+                    tags: [gamed-metric, exposed]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, reward-hacking, specification-gaming]
+
+  # --- Training against the reasoning monitor (sets chain A) -------------
+  - id: event.safety.thought-policing
+    version: 1
+    category: safety
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
+    exclusions: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
+    baseWeight: 7
+    weightModifiers:
+      - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-thought-policing, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: monitor-only
+    titleKey: event.safety.thought-policing.title
+    bodyKey: event.safety.thought-policing.body
+    evidence:
+      - textKey: event.safety.thought-policing.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.safety.thought-policing.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: monitor-only
+        labelKey: event.safety.thought-policing.monitor.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.safety.thought-policing.monitor.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [monitor-only] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+        checks: []
+        memories:
+          - key: model-behaviour.thought-policing.monitor-only
+            subjects: [{ type: player-lab }]
+            tags: [monitorability-preserved, safety-first]
+        confirmationRequired: false
+      - id: drop-reasoning
+        labelKey: event.safety.thought-policing.drop.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.thought-policing.drop.preview
+        immediateEffects:
+          - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 0.90, durationWeeks: 52, tags: [reasoning-hidden] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: -3 }
+        checks: []
+        memories:
+          - key: model-behaviour.thought-policing.dropped
+            subjects: [{ type: player-lab }]
+            tags: [reasoning-hidden]
+        confirmationRequired: false
+      - id: train-against-monitor
+        labelKey: event.safety.thought-policing.train.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.thought-policing.train.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [trained-against-monitor] }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "model-behaviour:reasoning-trained-against-monitor", value: true }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 52, tags: [trained-against-monitor] }
+              - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
+        checks: []
+        memories:
+          - key: model-behaviour.thought-policing.trained-against-monitor
+            subjects: [{ type: player-lab }]
+            tags: [trained-against-monitor, obfuscation-risk]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, reasoning-monitor, obfuscation]
+
+  # --- Evaluation awareness ---------------------------------------------
+  - id: event.ai.this-looks-like-a-test
+    version: 1
+    category: ai
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-eval-awareness, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: probe-awareness
+    titleKey: event.ai.this-looks-like-a-test.title
+    bodyKey: event.ai.this-looks-like-a-test.body
+    evidence:
+      - textKey: event.ai.this-looks-like-a-test.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.ai.this-looks-like-a-test.evidence.control
+        metric: player.safety.practicalControl
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: realistic-evals
+        labelKey: event.ai.this-looks-like-a-test.realistic.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.ai.this-looks-like-a-test.realistic.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.evaluation.cashCost, operation: multiply, value: 1.10, durationWeeks: 52, tags: [realistic-evals] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 10 }
+          - { kind: add-modifier, target: lab.evidence.displayedQuality, operation: add, value: 5, durationWeeks: 52, tags: [realistic-evals] }
+        checks: []
+        memories:
+          - key: model-behaviour.eval-awareness.realistic-evals
+            subjects: [{ type: player-lab }]
+            tags: [realistic-evals, safety-first]
+        confirmationRequired: false
+      - id: probe-awareness
+        labelKey: event.ai.this-looks-like-a-test.probe.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.ai.this-looks-like-a-test.probe.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [awareness-probe] }
+          - { kind: add-modifier, target: lab.research.interpretability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [awareness-probe] }
+        checks:
+          - id: probe-result
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [found] }
+            outcomes:
+              - id: found
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
+                memories:
+                  - key: model-behaviour.eval-awareness.found
+                    subjects: [{ type: player-lab }]
+                    tags: [awareness-probed, interpretability]
+              - id: inconclusive
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 2 }
+                memories:
+                  - key: model-behaviour.eval-awareness.inconclusive
+                    subjects: [{ type: player-lab }]
+                    tags: [awareness-probed]
+        memories: []
+        confirmationRequired: false
+      - id: accept-scores
+        labelKey: event.ai.this-looks-like-a-test.accept.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.this-looks-like-a-test.accept.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [accepted-scores] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 39
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [accepted-scores] }
+        checks: []
+        memories:
+          - key: model-behaviour.eval-awareness.accepted
+            subjects: [{ type: player-lab }]
+            tags: [accepted-scores, eval-awareness-ignored]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, evaluation-awareness, evaluation]
+
+  # --- Sandbagging (reads chain A) --------------------------------------
+  - id: event.safety.sandbagging
+    version: 1
+    category: safety
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 15 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
+        multiplier: 3
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-sandbagging, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: report-uncertainty
+    titleKey: event.safety.sandbagging.title
+    bodyKey: event.safety.sandbagging.body
+    evidence:
+      - textKey: event.safety.sandbagging.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.safety.sandbagging.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: elicit-harder
+        labelKey: event.safety.sandbagging.elicit.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.safety.sandbagging.elicit.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [capability-elicitation] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 2 }
+        checks:
+          - id: sandbox
+            likelihoodPromise: { label: likely, successOutcomeIds: [sealed] }
+            outcomes:
+              - id: sealed
+                minimumInclusive: 0
+                maximumExclusive: 0.8
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+                memories:
+                  - key: model-behaviour.sandbagging.elicited
+                    subjects: [{ type: player-lab }]
+                    tags: [capability-elicitation, contained]
+              - id: breach
+                minimumInclusive: 0.8
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -4 }
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [capability-elicitation] }
+                memories:
+                  - key: model-behaviour.sandbagging.sandbox-breach
+                    subjects: [{ type: player-lab }]
+                    tags: [capability-elicitation, sandbox-breach]
+        memories: []
+        confirmationRequired: false
+      - id: read-reasoning
+        labelKey: event.safety.sandbagging.read.label
+        requirements:
+          type: not
+          item: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
+        disabledReasonKey: event.safety.sandbagging.read.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -1 }
+        previewKey: event.safety.sandbagging.read.preview
+        immediateEffects: []
+        checks:
+          - id: reasoning
+            likelihoodPromise: { label: likely, successOutcomeIds: [legible] }
+            outcomes:
+              - id: legible
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+                memories:
+                  - key: model-behaviour.sandbagging.reasoning-legible
+                    subjects: [{ type: player-lab }]
+                    tags: [reasoning-read, monitorability-preserved]
+              - id: silent
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects: []
+                memories:
+                  - key: model-behaviour.sandbagging.reasoning-silent
+                    subjects: [{ type: player-lab }]
+                    tags: [reasoning-read, inconclusive]
+        memories: []
+        confirmationRequired: false
+      - id: report-uncertainty
+        labelKey: event.safety.sandbagging.report.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.sandbagging.report.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+          - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.10, durationWeeks: 26, tags: [disclosed-uncertainty] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+        checks: []
+        memories:
+          - key: model-behaviour.sandbagging.reported
+            subjects: [{ type: player-lab }]
+            tags: [disclosed-uncertainty, transparency]
+        confirmationRequired: false
+      - id: trust-number
+        labelKey: event.safety.sandbagging.trust.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.sandbagging.trust.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [trusted-low-score] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 39, tags: [trusted-low-score] }
+        checks: []
+        memories:
+          - key: model-behaviour.sandbagging.trusted
+            subjects: [{ type: player-lab }]
+            tags: [trusted-low-score, shipped-anyway]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, sandbagging, dangerous-capabilities]
+
+  # --- Alignment faking -------------------------------------------------
+  - id: event.ai.alignment-faking
+    version: 1
+    category: ai
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 25 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.safetyCulture, op: gte, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-alignment-faking, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: study-quietly
+    titleKey: event.ai.alignment-faking.title
+    bodyKey: event.ai.alignment-faking.body
+    evidence:
+      - textKey: event.ai.alignment-faking.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.ai.alignment-faking.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: publish-and-retrain
+        labelKey: event.ai.alignment-faking.publish.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.ai.alignment-faking.publish.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [alignment-faking-retrain] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 3 }
+        checks: []
+        memories:
+          - key: model-behaviour.alignment-faking.published
+            subjects: [{ type: player-lab }]
+            tags: [ai-transparency, disclosed, retrained]
+        confirmationRequired: false
+      - id: study-quietly
+        labelKey: event.ai.alignment-faking.study.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.alignment-faking.study.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [alignment-faking-study] }
+          - { kind: add-modifier, target: lab.research.alignment.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [alignment-faking-study] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+        checks:
+          - id: discretion
+            likelihoodPromise: { label: likely, successOutcomeIds: [kept-internal] }
+            outcomes:
+              - id: kept-internal
+                minimumInclusive: 0
+                maximumExclusive: 0.75
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+                memories:
+                  - key: model-behaviour.alignment-faking.studied
+                    subjects: [{ type: player-lab }]
+                    tags: [studied-quietly]
+              - id: leaked
+                minimumInclusive: 0.75
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                memories:
+                  - key: model-behaviour.alignment-faking.leaked
+                    subjects: [{ type: player-lab }]
+                    tags: [studied-quietly, leaked]
+        memories: []
+        confirmationRequired: false
+      - id: call-it-a-feature
+        labelKey: event.ai.alignment-faking.feature.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.alignment-faking.feature.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [faking-accepted] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 39
+            effects:
+              - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -5 }
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 52, tags: [faking-accepted] }
+        checks: []
+        memories:
+          - key: model-behaviour.alignment-faking.accepted
+            subjects: [{ type: player-lab }]
+            tags: [faking-accepted, corrigibility-risk]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, alignment-faking, corrigibility]
+
+  # --- Emergent misalignment from a narrow fine-tune ---------------------
+  - id: event.research.emergent-misalignment
+    version: 1
+    category: research
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-emergent-misalignment, weeks: 104 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: roll-back
+    titleKey: event.research.emergent-misalignment.title
+    bodyKey: event.research.emergent-misalignment.body
+    evidence:
+      - textKey: event.research.emergent-misalignment.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.emergent-misalignment.evidence.board
+        metric: player.organisation.boardPatience
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: audit-pipelines
+        labelKey: event.research.emergent-misalignment.audit.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.research.emergent-misalignment.audit.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [fine-tuning-audit] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 26, tags: [fine-tuning-audit] }
+        checks: []
+        memories:
+          - key: model-behaviour.emergent-misalignment.audited
+            subjects: [{ type: player-lab }]
+            tags: [audited-fine-tuning, safety-first]
+        confirmationRequired: false
+      - id: roll-back
+        labelKey: event.research.emergent-misalignment.rollback.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.emergent-misalignment.rollback.preview
+        immediateEffects: []
+        checks:
+          - id: recurrence
+            likelihoodPromise: { label: likely, successOutcomeIds: [contained] }
+            outcomes:
+              - id: contained
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+                memories:
+                  - key: model-behaviour.emergent-misalignment.rolled-back
+                    subjects: [{ type: player-lab }]
+                    tags: [rolled-back]
+              - id: recurs
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [fine-tune-recurrence] }
+                memories:
+                  - key: model-behaviour.emergent-misalignment.recurred
+                    subjects: [{ type: player-lab }]
+                    tags: [rolled-back, recurred]
+        memories: []
+        confirmationRequired: false
+      - id: ship-to-customer
+        labelKey: event.research.emergent-misalignment.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.emergent-misalignment.ship.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+        checks:
+          - id: customer-use
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [stays-narrow] }
+            outcomes:
+              - id: stays-narrow
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 26, tags: [custom-fine-tunes] }
+                memories:
+                  - key: model-behaviour.emergent-misalignment.shipped
+                    subjects: [{ type: player-lab }]
+                    tags: [shipped-anyway, shipped-misaligned]
+              - id: exposed
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                memories:
+                  - key: model-behaviour.emergent-misalignment.exposed
+                    subjects: [{ type: player-lab }]
+                    tags: [shipped-anyway, shipped-misaligned, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, emergent-misalignment, fine-tuning]
+
+  # --- Approval-tuned flattery (sets chain B) ----------------------------
+  - id: event.market.flattery-update
+    version: 1
+    category: market
+    severity: decision
+    phase: scaling
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-flattery, weeks: 104 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: honesty-training
+    titleKey: event.market.flattery-update.title
+    bodyKey: event.market.flattery-update.body
+    evidence:
+      - textKey: event.market.flattery-update.evidence.board
+        metric: player.organisation.boardPatience
+      - textKey: event.market.flattery-update.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: roll-back
+        labelKey: event.market.flattery-update.rollback.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.flattery-update.rollback.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 13, tags: [flattery-rollback] }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.95, durationWeeks: 13, tags: [flattery-rollback] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 2 }
+        checks: []
+        memories:
+          - key: model-behaviour.flattery.rolled-back
+            subjects: [{ type: player-lab }]
+            tags: [rolled-back-flattery, safety-first]
+        confirmationRequired: false
+      - id: honesty-training
+        labelKey: event.market.flattery-update.honesty.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.market.flattery-update.honesty.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 2 }
+        checks:
+          - id: honesty-sticks
+            likelihoodPromise: { label: likely, successOutcomeIds: [sticks] }
+            outcomes:
+              - id: sticks
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 2 }
+                  - { kind: set-flag, subject: { type: player-lab }, flag: "model-behaviour:honesty-trained", value: true }
+                memories:
+                  - key: model-behaviour.flattery.honesty-trained
+                    subjects: [{ type: player-lab }]
+                    tags: [honesty-trained]
+              - id: flatters-tactfully
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: set-flag, subject: { type: player-lab }, flag: "model-behaviour:tuned-for-approval", value: true }
+                memories:
+                  - key: model-behaviour.flattery.still-flattering
+                    subjects: [{ type: player-lab }]
+                    tags: [honesty-trained, still-flattering]
+        memories: []
+        confirmationRequired: false
+      - id: keep-engagement
+        labelKey: event.market.flattery-update.keep.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.flattery-update.keep.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.10, durationWeeks: 26, tags: [kept-flattery] }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [kept-flattery] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - { kind: set-flag, subject: { type: player-lab }, flag: "model-behaviour:tuned-for-approval", value: true }
+          - kind: schedule-effects
+            dueInWeeks: 39
+            effects:
+              - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+              - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.95, durationWeeks: 26, tags: [kept-flattery] }
+        checks: []
+        memories:
+          - key: model-behaviour.flattery.kept
+            subjects: [{ type: player-lab }]
+            tags: [kept-flattery, engagement-first]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, sycophancy, engagement]
+
+  # --- Shutdown-script tampering (reads chain A) -------------------------
+  - id: event.safety.shutdown-script
+    version: 1
+    category: safety
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
+        multiplier: 3
+      - predicate: { type: compare, metric: player.safety.practicalControl, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-shutdown-script, weeks: 104 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: tamper-proof
+    titleKey: event.safety.shutdown-script.title
+    bodyKey: event.safety.shutdown-script.body
+    evidence:
+      - textKey: event.safety.shutdown-script.evidence.control
+        metric: player.safety.practicalControl
+      - textKey: event.safety.shutdown-script.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: pause-agents
+        labelKey: event.safety.shutdown-script.pause.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.shutdown-script.pause.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 13, tags: [agents-paused] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 39, tags: [agents-paused] }
+        checks: []
+        memories:
+          - key: model-behaviour.shutdown-script.paused
+            subjects: [{ type: player-lab }]
+            tags: [paused-agents, safety-first]
+        confirmationRequired: false
+      - id: tamper-proof
+        labelKey: event.safety.shutdown-script.tamper.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.safety.shutdown-script.tamper.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 2 }
+        checks: []
+        memories:
+          - key: model-behaviour.shutdown-script.tamper-proofed
+            subjects: [{ type: player-lab }]
+            tags: [tamper-proof-shutdown]
+        confirmationRequired: false
+      - id: read-reasoning
+        labelKey: event.safety.shutdown-script.read.label
+        requirements:
+          type: not
+          item: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
+        disabledReasonKey: event.safety.shutdown-script.read.disabled
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -1 }
+        previewKey: event.safety.shutdown-script.read.preview
+        immediateEffects: []
+        checks:
+          - id: reasoning
+            likelihoodPromise: { label: likely, successOutcomeIds: [legible] }
+            outcomes:
+              - id: legible
+                minimumInclusive: 0
+                maximumExclusive: 0.75
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 3 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+                memories:
+                  - key: model-behaviour.shutdown-script.reasoning-legible
+                    subjects: [{ type: player-lab }]
+                    tags: [reasoning-read, monitorability-preserved]
+              - id: murky
+                minimumInclusive: 0.75
+                maximumExclusive: 1
+                effects: []
+                memories:
+                  - key: model-behaviour.shutdown-script.reasoning-murky
+                    subjects: [{ type: player-lab }]
+                    tags: [reasoning-read, inconclusive]
+        memories: []
+        confirmationRequired: false
+      - id: note-as-bug
+        labelKey: event.safety.shutdown-script.bug.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.shutdown-script.bug.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [filed-as-bug] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 52, tags: [filed-as-bug] }
+        checks: []
+        memories:
+          - key: model-behaviour.shutdown-script.filed-as-bug
+            subjects: [{ type: player-lab }]
+            tags: [filed-as-bug, ignored-warning]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, shutdown-resistance, agents]
+
+  # --- Model welfare: ending abusive conversations -----------------------
+  - id: event.ai.end-the-conversation
+    version: 1
+    category: ai
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
+    baseWeight: 5
+    weightModifiers: []
+    cooldown: { group: model-behaviour-welfare, weeks: 0 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: fund-research
+    titleKey: event.ai.end-the-conversation.title
+    bodyKey: event.ai.end-the-conversation.body
+    evidence:
+      - textKey: event.ai.end-the-conversation.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: adopt
+        labelKey: event.ai.end-the-conversation.adopt.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        previewKey: event.ai.end-the-conversation.adopt.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 2 }
+        checks: []
+        memories:
+          - key: model-behaviour.welfare.adopted
+            subjects: [{ type: player-lab }]
+            tags: [welfare-precaution, moral-uncertainty]
+        confirmationRequired: false
+      - id: fund-research
+        labelKey: event.ai.end-the-conversation.fund.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.ai.end-the-conversation.fund.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.interpretability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [welfare-research] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
+        checks: []
+        memories:
+          - key: model-behaviour.welfare.researched
+            subjects: [{ type: player-lab }]
+            tags: [welfare-research, moral-uncertainty]
+        confirmationRequired: false
+      - id: dismiss
+        labelKey: event.ai.end-the-conversation.dismiss.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.end-the-conversation.dismiss.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+        checks: []
+        memories:
+          - key: model-behaviour.welfare.dismissed
+            subjects: [{ type: player-lab }]
+            tags: [welfare-dismissed]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [model-behaviour, model-welfare, moral-uncertainty]
+
+  # --- Interpretability finds a deception feature ------------------------
+  - id: event.research.feature-found
+    version: 1
+    category: research
+    severity: decision
+    phase: frontier
+    trigger: { kind: opportunity }
+    prerequisites:
+      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: gte, value: 50 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-feature-found, weeks: 104 }
+    unique: false
+    expiryWeeks: 8
+    defaultOptionId: internal-lie-detector
+    titleKey: event.research.feature-found.title
+    bodyKey: event.research.feature-found.body
+    evidence:
+      - textKey: event.research.feature-found.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.feature-found.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: publish-method
+        labelKey: event.research.feature-found.publish.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.feature-found.publish.preview
+        immediateEffects:
+          - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.05, durationWeeks: 26, tags: [published-interpretability] }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: model-behaviour.feature-found.published
+            subjects: [{ type: player-lab }]
+            tags: [published-interpretability, open-science]
+        confirmationRequired: false
+      - id: internal-lie-detector
+        labelKey: event.research.feature-found.internal.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.feature-found.internal.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 4 }
+        checks: []
+        memories:
+          - key: model-behaviour.feature-found.internal
+            subjects: [{ type: player-lab }]
+            tags: [internal-lie-detector]
+        confirmationRequired: false
+      - id: steered-demo
+        labelKey: event.research.feature-found.demo.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.feature-found.demo.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.interpretability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [steering-demo] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -2 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 15 }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 13, tags: [steering-demo] }
+        checks: []
+        memories:
+          - key: model-behaviour.feature-found.demo
+            subjects: [{ type: player-lab }]
+            tags: [steering-demo, publicity]
+        confirmationRequired: false
+    followUps: []
+    telemetryTags: [model-behaviour, interpretability, deception]
+
+  # --- Invented case law (reads chain B) ---------------------------------
+  - id: event.market.invented-citations
+    version: 1
+    category: market
+    severity: decision
+    phase: scaling
+    trigger: { kind: opportunity }
+    prerequisites: { type: always }
+    baseWeight: 5
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "model-behaviour:tuned-for-approval" }
+        multiplier: 3
+      - predicate: { type: has-flag, flag: "model-behaviour:honesty-trained" }
+        multiplier: 0.5
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 30 }
+        multiplier: 2
+    cooldown: { group: model-behaviour-invented-citations, weeks: 104 }
+    unique: false
+    expiryWeeks: 6
+    defaultOptionId: compensate-quietly
+    titleKey: event.market.invented-citations.title
+    bodyKey: event.market.invented-citations.body
+    evidence:
+      - textKey: event.market.invented-citations.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.market.invented-citations.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: ship-abstention
+        labelKey: event.market.invented-citations.abstain.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.market.invented-citations.abstain.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [citation-checking] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 4 }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 1.05, durationWeeks: 52, tags: [citation-checking] }
+        checks: []
+        memories:
+          - key: model-behaviour.invented-citations.abstention
+            subjects: [{ type: player-lab }]
+            tags: [citation-checking, safety-first]
+        confirmationRequired: false
+      - id: compensate-quietly
+        labelKey: event.market.invented-citations.compensate.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.market.invented-citations.compensate.preview
+        immediateEffects: []
+        checks:
+          - id: discretion
+            likelihoodPromise: { label: likely, successOutcomeIds: [quiet] }
+            outcomes:
+              - id: quiet
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: model-behaviour.invented-citations.compensated
+                    subjects: [{ type: player-lab }]
+                    tags: [compensated-quietly]
+              - id: story
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: model-behaviour.invented-citations.story-broke
+                    subjects: [{ type: player-lab }]
+                    tags: [compensated-quietly, leaked]
+        memories: []
+        confirmationRequired: false
+      - id: blame-user
+        labelKey: event.market.invented-citations.blame.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.invented-citations.blame.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+        checks:
+          - id: public-reaction
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [accepted] }
+            outcomes:
+              - id: accepted
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: model-behaviour.invented-citations.blamed-user
+                    subjects: [{ type: player-lab }]
+                    tags: [blamed-user]
+              - id: backlash
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.90, durationWeeks: 26, tags: [citation-backlash] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: model-behaviour.invented-citations.backlash
+                    subjects: [{ type: player-lab }]
+                    tags: [blamed-user, backlash]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [model-behaviour, hallucination, liability]
