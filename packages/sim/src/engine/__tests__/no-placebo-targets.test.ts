@@ -42,7 +42,10 @@ const simSource = collectFiles(simSrc, ".ts")
   .join("\n");
 
 const contentTargets = new Set<string>();
-for (const file of collectFiles(contentDir, ".yaml")) {
+// Copy catalogues are prose; "not a target: read it" is not an effect target.
+for (const file of collectFiles(contentDir, ".yaml").filter(
+  (path) => !path.startsWith(join(contentDir, "copy")),
+)) {
   const text = readFileSync(file, "utf8");
   for (const line of text.split("\n")) {
     if (line.includes("check: {")) continue;
