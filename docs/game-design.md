@@ -1296,7 +1296,7 @@ Difficulty changes inputs and rival behaviour, never hidden truth after a choice
 |---|---:|---:|---:|---:|---|
 | Fellowship | +20% revenue, −15% fixed cost | 0.70× | 0.75× non-endgame hazard | +10 displayed estimate quality | Learning the systems |
 | Standard | 1.00× | 1.00× | 1.00× | Baseline | Intended first serious run |
-| Frontier | −10% revenue | 1.20× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
+| Frontier | −10% revenue | 1.15× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
 | Unhinged Scaling | −15% revenue | 1.25× | 1.30× | Baseline, but wider event variance | Deliberately unfair satire mode |
 
 Rival programme pace scales how fast rivals build their Candidate Programme works and the facilities those need. It does not touch rival research: research sets the world frontier that opens every phase and hardware era, so every difficulty keeps the same world clock and an easier setting is a slower race, not a longer campaign.
@@ -3488,7 +3488,7 @@ At step 13 of the weekly update:
 6. Select one eligible event by weighted deterministic draw.
 7. Instantiate tokens, evidence, option outcomes, expiry, and event memory.
 
-The base chance for an ordinary decision event is `2.2%` per week. After twelve weeks without one, it rises by `0.3` percentage points per week, to a maximum of `8%`. After thirty weeks, an event is guaranteed if any eligible event exists. This targets roughly 24–36 decision events in a normal run, in addition to discoveries and fixed crises.
+The base chance for an ordinary decision event is `1.5%` per week. After sixteen weeks without one, it rises by `0.3` percentage points per week, to a maximum of `8%`. After forty weeks, an event is guaranteed if any eligible event exists. The mean gap is about 27 weeks, which targets roughly 24–36 decision events in a normal run, in addition to discoveries and fixed crises.
 
 ### 43.4 Mandatory events
 

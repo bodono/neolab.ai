@@ -189,7 +189,7 @@ describe("event eligibility and opportunity selection", () => {
     expect(collectMandatoryTriggers(protectedState, content)).toEqual([
       expect.objectContaining({ definitionId: mandatory.id }),
     ]);
-    expect(calculateOpportunityChance(protectedState)).toBe(0.022);
+    expect(calculateOpportunityChance(protectedState)).toBe(0.015);
   });
 
   it("makes each rival-warning response a material strategic tradeoff", () => {
@@ -424,20 +424,20 @@ describe("event eligibility and opportunity selection", () => {
     const resolutionTx = createTransaction(opened.state);
     resolveEventOption(resolutionTx, content, opened.instanceId, "decline");
     const resolved = resolutionTx.commit({ description: "resolve category seed" }).state;
-    const atWeek13 = mutable(resolved);
-    atWeek13.run.tick = tick(13);
-    atWeek13.run.calendar = calendarFromTick(13);
-    const ids = listEligibleEventDefinitions(atWeek13, content).map(
+    const atWeek17 = mutable(resolved);
+    atWeek17.run.tick = tick(17);
+    atWeek17.run.calendar = calendarFromTick(17);
+    const ids = listEligibleEventDefinitions(atWeek17, content).map(
       (candidate) => candidate.definitionId,
     );
 
-    expect(calculateOpportunityChance(atWeek13)).toBeCloseTo(0.025, 10);
+    expect(calculateOpportunityChance(atWeek17)).toBeCloseTo(0.018, 10);
     expect(ids).not.toContain(suppressed.id);
     expect(ids).toContain(urgent.id);
     expect(ids).toContain(other.id);
-    atWeek13.run.tick = tick(30);
-    atWeek13.run.calendar = calendarFromTick(30);
-    expect(calculateOpportunityChance(atWeek13)).toBe(1);
+    atWeek17.run.tick = tick(40);
+    atWeek17.run.calendar = calendarFromTick(40);
+    expect(calculateOpportunityChance(atWeek17)).toBe(1);
   });
 
   it("falls back to suppressed categories instead of starving the pool", () => {
@@ -453,11 +453,11 @@ describe("event eligibility and opportunity selection", () => {
     const resolved = mutable(
       resolutionTx.commit({ description: "resolve safety seed" }).state,
     );
-    resolved.run.tick = tick(30);
-    resolved.run.calendar = calendarFromTick(30);
+    resolved.run.tick = tick(40);
+    resolved.run.calendar = calendarFromTick(40);
 
     // Every eligible event is in the suppressed category, so the pool falls
-    // back to them and the thirty-week guarantee still produces an event.
+    // back to them and the forty-week guarantee still produces an event.
     expect(
       listEligibleEventDefinitions(resolved, content).map(
         (candidate) => candidate.definitionId,
@@ -473,12 +473,12 @@ describe("event eligibility and opportunity selection", () => {
     ).toHaveLength(2);
   });
 
-  it("guarantees one stable opportunity after thirty quiet weeks", () => {
+  it("guarantees one stable opportunity after forty quiet weeks", () => {
     const definition = eventDefinition("guaranteed");
     const content = withEvents([definition]);
     const state = mutable(newState());
-    state.run.tick = tick(30);
-    state.run.calendar = calendarFromTick(30);
+    state.run.tick = tick(40);
+    state.run.calendar = calendarFromTick(40);
     const firstTx = createTransaction(state);
     advanceEventGeneration(firstTx, content);
     const first = firstTx.commit({ description: "guaranteed opportunity" });

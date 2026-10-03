@@ -46,11 +46,13 @@ import {
   researcherUltimatumEventBlockers,
 } from "./researcher-ultimatum-lifecycle.ts";
 
-const BASE_OPPORTUNITY_CHANCE = 0.022;
-const PITY_START_WEEKS = 12;
+// A mean gap of about 27 weeks between ordinary decision events: roughly 30
+// in a 900-week run, inside the GDD's 24–36 once the pool rarely runs dry.
+const BASE_OPPORTUNITY_CHANCE = 0.015;
+const PITY_START_WEEKS = 16;
 const PITY_WEEKLY_STEP = 0.003;
 const PITY_MAX_CHANCE = 0.08;
-const GUARANTEE_AFTER_WEEKS = 30;
+const GUARANTEE_AFTER_WEEKS = 40;
 const CANDIDATE_DECLARATION_EVENT_ID = contentId(
   "base:event.endgame.candidate-declaration",
 );
