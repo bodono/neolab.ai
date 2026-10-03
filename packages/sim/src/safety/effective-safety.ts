@@ -47,13 +47,27 @@ function safetyProgrammeLevel(
  * These selectors are shared by ordinary incidents, autonomy and the endgame
  * so a programme level has one mechanical meaning everywhere.
  */
+/**
+ * Standing practical control from the lab's own facilities. Its only other
+ * repeatable source was the external control review, which fired about 24
+ * times a run while it was the only random event; with a full event deck it
+ * fires a handful of times, and deployments lost control far more often.
+ */
+export const PRACTICAL_CONTROL_BONUS_TARGET = "lab.safety.practicalControlBonus";
+
 export function effectivePracticalControlStrength(
   state: Readonly<GameState>,
   labId: LabId = resolveLabId(state),
 ): number {
   const lab = state.labs[labId];
+  const facilities = resolveModifierValue(state, PRACTICAL_CONTROL_BONUS_TARGET, 0, {
+    labId,
+    includeUnscoped: labId === state.run.playerLabId,
+    clampMin: 0,
+  }).final;
   return clamp(
     (lab?.safety.practicalControlStrength ?? 0) +
+      facilities +
       safetyProgrammeLevel(state, labId, "base:safety.alignment-control") *
         SAFETY_PROGRAM_OPERATIONAL_CONVERSION,
   );

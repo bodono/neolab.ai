@@ -39,6 +39,7 @@ export const MODIFIER_TARGET_LIST = [
   "lab.organisation.safetyCultureFloor",
   "lab.politics.governmentTrustFloor",
   "lab.safety.securityPostureBonus",
+  "lab.safety.practicalControlBonus",
   "action.tag.coalition.auraCost",
   "action.tag.lobbying.auraCost",
   "assignedProgramme.researchOutput",

@@ -50,6 +50,7 @@ const MODIFIER_TARGET_LOG_LABELS: Readonly<Record<string, string>> = {
   "lab.organisation.safetyCultureFloor": "safety culture floor",
   "lab.politics.governmentTrustFloor": "government trust floor",
   "lab.safety.securityPostureBonus": "security posture",
+  "lab.safety.practicalControlBonus": "practical control",
   "lab.incident.hazard": "incident risk",
   "lab.research.all.output": "overall research output",
   "lab.research.capability.output": "capability research output",
