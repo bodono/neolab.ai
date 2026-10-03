@@ -105,7 +105,7 @@ difficulties:
     displayName: Frontier
     revenueMultiplier: 0.90
     fixedCostMultiplier: 1.00
-    rivalProgressMultiplier: 1.20
+    rivalProgressMultiplier: 1.15
     incidentPressureMultiplier: 1.15
     displayedEstimateQualityBonus: -5
   - id: difficulty.unhinged-scaling
