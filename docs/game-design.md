@@ -1296,7 +1296,7 @@ Difficulty changes inputs and rival behaviour, never hidden truth after a choice
 |---|---:|---:|---:|---:|---|
 | Fellowship | +20% revenue, −15% fixed cost | 0.70× | 0.75× non-endgame hazard | +10 displayed estimate quality | Learning the systems |
 | Standard | 1.00× | 1.00× | 1.00× | Baseline | Intended first serious run |
-| Frontier | −10% revenue | 1.15× | 1.15× | −5 displayed estimate quality | Experienced strategy players |
+| Frontier | −15% revenue | 1.10× | 1.20× | −5 displayed estimate quality | Experienced strategy players |
 | Unhinged Scaling | −15% revenue | 1.25× | 1.30× | Baseline, but wider event variance | Deliberately unfair satire mode |
 
 Rival programme pace scales how fast rivals build their Candidate Programme works and the facilities those need. It does not touch rival research: research sets the world frontier that opens every phase and hardware era, so every difficulty keeps the same world clock and an easier setting is a slower race, not a longer campaign.

@@ -4713,7 +4713,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "lab.revenue.all",
-      "value": 0.9,
+      "value": 0.85,
     },
     "run:modifier:setup:0003": {
       "id": "run:modifier:setup:0003",
@@ -4725,7 +4725,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "startsAt": 0,
       "tags": [],
       "target": "world.rival.programmePace",
-      "value": 1.15,
+      "value": 1.1,
     },
     "run:modifier:setup:0004": {
       "id": "run:modifier:setup:0004",
