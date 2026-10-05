@@ -11,12 +11,16 @@ messages:
   event.government.reporting.body: >-
     An oversight body wants {LAB}'s recent training, evaluation, and deployment records.
     The letter is polite, thorough, and difficult to ignore.
+  event.government.reporting.education: >-
+    In 2023, a US executive order used the Defense Production Act to require developers of
+    the most powerful models to report training plans and safety test results to the
+    government; it was revoked in 2025.
   event.government.reporting.evidence.pressure: Intervention pressure on the lab
   event.government.reporting.evidence.trust: Current government trust
   event.government.reporting.comply.label: Answer in full
   event.government.reporting.comply.preview: >-
     Assign staff to assemble a complete, accurate response. It costs a fortnight of
-    senior time and buys a substantial amount of goodwill.
+    senior time and buys goodwill, plus slightly less scrutiny.
   event.government.reporting.minimal.label: Answer exactly what was asked
   event.government.reporting.minimal.preview: >-
     Respond to the literal request and nothing beyond it. Cheap, defensible, and
@@ -29,28 +33,35 @@ messages:
   # --- Government: licensing ---------------------------------------------
   event.government.licensing.title: A licensing regime arrives with your name on it
   event.government.licensing.body: >-
-    A new frontier-training licence would cover {LAB}. Compliance means audits,
-    filings, and approval before major runs.
+    A new licence for frontier AI would cover {LAB}. Compliance means audits, filings,
+    and sign-off before every major launch.
+  event.government.licensing.education: >-
+    Since 2023, China has required generative AI services offered to its public to pass a
+    government security assessment and register with its internet regulator before launch.
   event.government.licensing.evidence.pressure: Intervention pressure on the lab
   event.government.licensing.evidence.attention: Government attention on the lab
   event.government.licensing.accept.label: Accept the licence conditions
   event.government.licensing.accept.preview: >-
     Sign up, staff the compliance function, and become the well-behaved example the
-    regulator cites. Every future model launch takes longer, but becomes more predictable.
+    regulator cites in speeches. Every launch takes longer for the next two years.
   event.government.licensing.negotiate.label: Negotiate the scope
   event.government.licensing.negotiate.preview: >-
     Spend public standing arguing that the threshold is drawn in the wrong place.
     It might narrow the regime. It might produce a longer annex.
   event.government.licensing.stall.label: Refuse to participate
   event.government.licensing.stall.preview: >-
-    Decline to engage with the consultation. Trust falls sharply, attention rises,
-    and the framework gets written by people who did show up.
+    Decline to take part. The regime goes ahead anyway, written by people who did show
+    up, with {LAB} as its worked example.
 
   # --- Government: deployment restriction ---------------------------------
-  event.government.restriction.title: An order to pull {AI} back
+  event.government.restriction.title: A regulator wants {AI} on a shorter lead
   event.government.restriction.body: >-
-    A regulator has ordered narrower access and more logging for {AI}. The order is
-    enforceable.
+    A regulator has ordered narrower access and more logging for {AI}. This is not a
+    consultation.
+  event.government.restriction.education: >-
+    In 2023, Italy's data protection authority temporarily banned a popular AI chatbot over
+    privacy concerns; it returned about a month later, after its maker added age checks and
+    privacy controls.
   event.government.restriction.evidence.pressure: Intervention pressure on the lab
   event.government.restriction.evidence.incidents: Worst incident severity this quarter
   event.government.restriction.comply.label: Comply and narrow deployment
@@ -59,31 +70,37 @@ messages:
     drops sharply.
   event.government.restriction.carveout.label: Seek a carve-out for existing customers
   event.government.restriction.carveout.preview: >-
-    Spend Aura seeking an exemption. Success preserves customers; failure brings nearly
-    the full restriction and greater political damage.
+    Lobby to keep existing customers. The lobbying costs standing either way; success
+    softens the order, failure brings it in full with none of its safety benefit.
   event.government.restriction.defy.label: Continue serving and contest the order
   event.government.restriction.defy.preview: >-
-    Keep serving at full speed. Trust collapses and incident risk rises sharply.
+    Keep serving at full speed while lawyers contest the order. Trust collapses, scrutiny
+    soars, and the risks the order targeted go unmanaged.
 
   # --- Government: nationalisation crisis ---------------------------------
   event.government.nationalisation.title: The state would like to own this
   event.government.nationalisation.body: >-
     A national security committee has opened proceedings to take control of {LAB}.
-    {LEADER} has been summoned to a closed meeting.
+    {LEADER} has been summoned to a closed meeting and asked to bring the passwords.
+  event.government.nationalisation.education: >-
+    Governments have seized strategic industries before: in 1952 a US president ordered the
+    steel mills seized, and the Supreme Court struck it down; Britain still holds 'golden
+    shares' in some defence firms.
   event.government.nationalisation.evidence.pressure: Intervention pressure on the lab
   event.government.nationalisation.evidence.dependence: Strategic dependence on the lab
   event.government.nationalisation.evidence.trust: Current government trust
-  event.government.nationalisation.cooperate.label: Cooperate with the review
+  event.government.nationalisation.cooperate.label: Cooperate and accept state oversight
   event.government.nationalisation.cooperate.preview: >-
-    Accept permanent state oversight. Research slows, risk falls, and the proceeding
-    closes.
+    Accept permanent state oversight, with officials in the building. Research slows a
+    little, risk falls, and the proceeding closes.
   event.government.nationalisation.goldenshare.label: Negotiate a golden share
   event.government.nationalisation.goldenshare.preview: >-
     Give the state a veto over specified decisions. It costs Aura and calms the state less
     than cooperating, but independence survives and the state comes to rely on the lab.
   event.government.nationalisation.resist.label: Refuse and fight it
   event.government.nationalisation.resist.preview: >-
-    Contest the takeover. Failure ends the lab's independence.
+    Contest the takeover on principle. Unless the lab is a National Champion with its one
+    refusal unspent, principle will not be enough to keep it independent.
 
   # --- Finance: critical runway -------------------------------------------
   event.finance.runway.title: The runway has become a conversation
@@ -329,10 +346,14 @@ messages:
     candour crater; the regulators arrive with a warrant number.
 
   # --- Government: intervention variants ---------------------------------
-  event.government.incidentfile.title: The regulator wants the incident file
+  event.government.incidentfile.title: The regulator wants the incident file, all of it
   event.government.incidentfile.body: >-
-    The regulator wants {LAB}'s complete internal record of a named incident. Full
-    disclosure will count in the lab's favour.
+    The regulator has named an incident and wants {LAB}'s complete internal record of it,
+    including what people wrote before anyone called it an incident.
+  event.government.incidentfile.education: >-
+    Under the EU AI Act, providers of the most capable general-purpose AI models must report
+    serious incidents to the EU's AI Office, and a 2025 California law requires frontier
+    developers to report critical safety incidents.
   event.government.incidentfile.evidence.incidents: Recent incidents on record
   event.government.incidentfile.evidence.trust: Current government trust
   event.government.incidentfile.full.label: Hand over the whole file
@@ -345,30 +366,36 @@ messages:
     can tell what it leaves out, and the file stays open.
   event.government.incidentfile.contest.label: Dispute the framing
   event.government.incidentfile.contest.preview: >-
-    Argue the incident was miscategorised and lawyer the definitions. It reduces the
-    sense that the lab is captured by its own narrative, and costs you the regulator.
-  event.government.autonomyreview.title: Questions about what your model is allowed to do
+    Argue the incident was miscategorised and lawyer the definitions. Nobody will mistake
+    the lab for the regulator's friend again, the regulator included.
+  event.government.autonomyreview.title: The regulator has started asking very good questions
   event.government.autonomyreview.body: >-
-    The regulator wants access logs showing exactly what {LAB}'s models can do. The
-    questions are unusually well informed.
-  event.government.autonomyreview.evidence.attention: Government attention
+    The regulator wants logs showing exactly what {LAB}'s models can reach and do. The
+    questions suggest someone there has been talking to someone here.
+  event.government.autonomyreview.education: >-
+    By 2024, the UK and US AI safety institutes were testing some frontier models before
+    release, under voluntary agreements with the labs that built them.
+  event.government.autonomyreview.evidence.attention: Government attention on the lab
   event.government.autonomyreview.evidence.trust: Current government trust
   event.government.autonomyreview.open.label: Open the access logs
   event.government.autonomyreview.open.preview: >-
-    Show them exactly what the model can reach and what it did with it. Substantial
-    trust, and a state that now knows precisely how useful your lab could be to it.
+    Show them what the model can reach and what it did there. Real trust, and officials
+    who now know precisely how powerful the lab has become, which worries some of them.
   event.government.autonomyreview.describe.label: Describe the controls, not the logs
   event.government.autonomyreview.describe.preview: >-
     Answer at the level of policy: oversight, review boards, escalation paths. Modest
-    credit, no exposure, and an enquiry that stays open a little longer.
+    credit, no exposure, and a regulator who noticed you answered a different question.
   event.government.autonomyreview.secret.label: Decline on trade-secret grounds
   event.government.autonomyreview.secret.preview: >-
     A perfectly legal refusal that tells the regulator exactly one thing: there is
     something in those logs. Attention climbs and the next letter will not be a letter.
-  event.government.secondlook.title: A second look at your licence
+  event.government.secondlook.title: The regulator would like a desk in your building
   event.government.secondlook.body: >-
-    The regulator is reviewing whether {LAB} should keep its licence. A draft order calls
-    for resident monitors.
+    The regulator is reviewing whether {LAB} should keep its licence. A draft order would
+    put its own monitors inside the lab, with passes, desks and opinions.
+  event.government.secondlook.education: >-
+    Resident oversight has precedent: the US Nuclear Regulatory Commission keeps its own
+    inspectors stationed full-time at every operating nuclear power plant.
   event.government.secondlook.evidence.trust: Current government trust
   event.government.secondlook.evidence.pressure: Intervention pressure on the lab
   event.government.secondlook.monitor.label: Accept the resident monitors
@@ -377,9 +404,9 @@ messages:
     and is the fastest route back to being a lab the state can live with.
   event.government.secondlook.appeal.label: Appeal through the process
   event.government.secondlook.appeal.preview: >-
-    Fight it properly, on paper, with counsel. Buys time and a sliver of goodwill,
-    and resolves nothing that will not come back next quarter.
+    Fight it properly, on paper, with counsel billing by the hour. Buys time and a sliver
+    of goodwill, and settles the order without settling the doubts behind it.
   event.government.secondlook.defy.label: Refuse the order outright
   event.government.secondlook.defy.preview: >-
-    Tell them no, on the record. Trust collapses and the lab is formally in defiance
-    of a lawful order — the shortest path to a nationalisation crisis. Confirm to proceed.
+    Tell them no, on the record. Trust collapses and the lab stays formally in defiance of
+    a lawful order for a year, which is how nationalisation proceedings tend to start.
