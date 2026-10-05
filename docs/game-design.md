@@ -2961,13 +2961,13 @@ entries and changing a number is a balance-data revision, not a design change:
 | Data Centre II | 137.5 | 29 weeks | Supports 80,000 owned GPUs; incident hazard ×0.92; owned-GPU purchase price ×0.95 |
 | Power and Cooling I | 10.5 | 9 weeks | Owned-compute power cost ×0.90 |
 | Inference Centre I | 18 | 12 weeks | Serving compute per request ×0.90 |
-| Alignment Institute I | 21 | 16 weeks | Alignment and Control research ×1.20; practical control +15 |
+| Alignment Institute I | 21 | 16 weeks | Alignment and Control research ×1.20; practical control +25 |
 | Interpretability Lab I | 27 | 18 weeks | Interpretability and Evals research ×1.25 |
 | Eval Range I | 18 | 14 weeks | +6 displayed estimate quality; evaluation cash costs ×0.90 |
 | Security Operations I | 15 | 12 weeks | Incident hazard ×0.90; security posture +15 |
 | Robotics Lab I | 33 | 21 weeks | Robotics and Embodiment research ×1.20 |
 | Scientific Laboratory I | 42 | 23 weeks | Scientific AI research ×1.20 |
-| Secure Bunker I | 67.5 | 30 weeks | Incident hazard ×0.85; Security Testing research ×1.15; security posture +20; practical control +10 |
+| Secure Bunker I | 67.5 | 30 weeks | Incident hazard ×0.85; Security Testing research ×1.15; security posture +20; practical control +20 |
 | Staff Commons | 18 | 16 weeks | +3 researcher morale target; +0.25 knowledge diffusion |
 
 Upgrades are separate data entries. The five slot-granting facilities form a ladder of one per

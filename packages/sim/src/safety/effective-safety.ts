@@ -50,8 +50,8 @@ function safetyProgrammeLevel(
 /**
  * Standing practical control from the lab's own facilities. Its only other
  * repeatable source was the external control review, which fired about 24
- * times a run while it was the only random event; with a full event deck it
- * fires a handful of times, and deployments lost control far more often.
+ * times a run while it was the only random event and now fires at most once,
+ * so the Alignment Institute and the Secure Bunker carry what it supplied.
  */
 export const PRACTICAL_CONTROL_BONUS_TARGET = "lab.safety.practicalControlBonus";
 

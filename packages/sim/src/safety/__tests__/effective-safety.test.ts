@@ -58,6 +58,6 @@ describe("effective practical control", () => {
 
     // The control review used to be a lab's only repeatable source; the
     // Alignment Institute and the Secure Bunker now stand in for it.
-    expect(effectivePracticalControlStrength(state)).toBe(before + 25);
+    expect(effectivePracticalControlStrength(state)).toBe(before + 45);
   });
 });

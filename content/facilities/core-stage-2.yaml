@@ -326,7 +326,7 @@ facilities:
     summary: A quiet wing devoted to studying whether the lab's models want what the lab thinks they want.
     modifiers:
       - { target: lab.research.alignment.output, operation: multiply, value: 1.20 }
-      - { target: lab.safety.practicalControlBonus, operation: add, value: 15 }
+      - { target: lab.safety.practicalControlBonus, operation: add, value: 25 }
 
   - id: facility.interpretability-lab-1
     displayName: Interpretability Lab I
@@ -430,7 +430,7 @@ facilities:
       - { target: lab.incident.hazard, operation: multiply, value: 0.85 }
       - { target: lab.research.security.output, operation: multiply, value: 1.15 }
       - { target: lab.safety.securityPostureBonus, operation: add, value: 20 }
-      - { target: lab.safety.practicalControlBonus, operation: add, value: 10 }
+      - { target: lab.safety.practicalControlBonus, operation: add, value: 20 }
 
 
   - id: facility.staff-commons-1
