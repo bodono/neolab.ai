@@ -540,6 +540,15 @@ function validateEventEffects(
         "add-coalition-rating cannot be gated by any event predicate and throws when no coalition is forming",
       );
     }
+    if (effect.kind === "add-rating" && effect.rating === "boardPatience") {
+      issue(
+        issues,
+        "release-blocking",
+        "event.parked-board-patience",
+        effectLocation,
+        "board patience is parked (nothing in the simulation reads it), so this effect would promise a change that never happens",
+      );
+    }
     if (effect.kind === "add-modifier" && !isKnownEffectTarget(effect.target)) {
       issue(
         issues,
@@ -556,6 +565,33 @@ function validateEventEffects(
     }
   };
   effects.forEach((effect, index) => visit(effect, `${location}[${String(index)}]`));
+}
+
+const BOARD_PATIENCE_METRIC = "player.organisation.boardPatience";
+
+function predicateReadsBoardPatience(predicate: EventPredicateDefinition): boolean {
+  const node = predicate as {
+    readonly metric?: string;
+    readonly items?: readonly EventPredicateDefinition[];
+    readonly item?: EventPredicateDefinition;
+  };
+  return (
+    node.metric === BOARD_PATIENCE_METRIC ||
+    (node.items ?? []).some(predicateReadsBoardPatience) ||
+    (node.item !== undefined && predicateReadsBoardPatience(node.item))
+  );
+}
+
+function eventReadsBoardPatience(definition: EventDefinition): boolean {
+  return (
+    definition.evidence.some((line) => line.metric === BOARD_PATIENCE_METRIC) ||
+    [
+      definition.prerequisites,
+      ...(definition.exclusions === undefined ? [] : [definition.exclusions]),
+      ...definition.weightModifiers.map((modifier) => modifier.predicate),
+      ...definition.options.map((option) => option.requirements),
+    ].some(predicateReadsBoardPatience)
+  );
 }
 
 function eventEligibilityPredicates(
@@ -992,6 +1028,15 @@ function validateEvents(
     }
 
     validateEventEffects(effectsFromEvent(definition), `${baseLocation}.effects`, issues);
+    if (eventReadsBoardPatience(definition)) {
+      issue(
+        issues,
+        "release-blocking",
+        "event.parked-board-patience",
+        baseLocation,
+        "board patience is parked and never changes meaningfully, so it cannot gate, weight or evidence an event",
+      );
+    }
   }
 
   return {

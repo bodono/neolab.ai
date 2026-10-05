@@ -22,9 +22,6 @@ events:
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
         multiplier: 2
-      - predicate:
-          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
-        multiplier: 2
     cooldown: { group: model-behaviour-tests-rewritten, weeks: 104 }
     unique: false
     expiryWeeks: 8
@@ -35,8 +32,6 @@ events:
     evidence:
       - textKey: event.ai.tests-rewritten.evidence.evalquality
         metric: player.safety.evalQuality
-      - textKey: event.ai.tests-rewritten.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
@@ -238,8 +233,6 @@ events:
     evidence:
       - textKey: event.safety.thought-policing.evidence.evalquality
         metric: player.safety.evalQuality
-      - textKey: event.safety.thought-policing.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: AI, source: player-ai-name }
     options:
@@ -251,7 +244,7 @@ events:
         previewKey: event.safety.thought-policing.monitor.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [monitor-only] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
         checks: []
@@ -281,7 +274,7 @@ events:
         knownCosts: []
         previewKey: event.safety.thought-policing.train.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [trained-against-monitor] }
           - { kind: set-flag, subject: { type: player-lab }, flag: "model-behaviour:reasoning-trained-against-monitor", value: true }
           - kind: schedule-effects
@@ -383,7 +376,7 @@ events:
         previewKey: event.ai.this-looks-like-a-test.accept.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [accepted-scores] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
           - kind: schedule-effects
             dueInWeeks: 39
@@ -519,7 +512,7 @@ events:
         previewKey: event.safety.sandbagging.trust.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [trusted-low-score] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
           - kind: schedule-effects
             dueInWeeks: 26
@@ -646,10 +639,7 @@ events:
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
     baseWeight: 5
-    weightModifiers:
-      - predicate:
-          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
-        multiplier: 2
+    weightModifiers: []
     cooldown: { group: model-behaviour-emergent-misalignment, weeks: 104 }
     unique: false
     expiryWeeks: 6
@@ -660,8 +650,6 @@ events:
     evidence:
       - textKey: event.research.emergent-misalignment.evidence.evalquality
         metric: player.safety.evalQuality
-      - textKey: event.research.emergent-misalignment.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
@@ -762,9 +750,9 @@ events:
     trigger: { kind: opportunity }
     prerequisites: { type: always }
     baseWeight: 6
+    # A lab whose safety culture is weak is likelier to ship a ratings-tuned update.
     weightModifiers:
-      - predicate:
-          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
+      - predicate: { type: compare, metric: player.safety.safetyCulture, op: lt, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-flattery, weeks: 104 }
     unique: false
@@ -774,8 +762,6 @@ events:
     bodyKey: event.market.flattery-update.body
     educationKey: event.market.flattery-update.education
     evidence:
-      - textKey: event.market.flattery-update.evidence.board
-        metric: player.organisation.boardPatience
       - textKey: event.market.flattery-update.evidence.culture
         metric: player.safety.safetyCulture
     tokenBindings:
@@ -895,7 +881,7 @@ events:
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 13, tags: [agents-paused] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 39, tags: [agents-paused] }
@@ -1037,7 +1023,7 @@ events:
         knownCosts: []
         previewKey: event.ai.end-the-conversation.dismiss.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
         checks: []
         memories:
@@ -1213,7 +1199,7 @@ events:
         knownCosts: []
         previewKey: event.market.invented-citations.blame.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
         checks:
           - id: public-reaction

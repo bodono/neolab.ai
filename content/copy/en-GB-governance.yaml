@@ -85,7 +85,6 @@ messages:
     At a 2024 international summit, sixteen AI companies pledged to publish safety frameworks
     saying which risks they would treat as intolerable.
   event.politics.if-then-commitments.evidence.culture: Safety culture
-  event.politics.if-then-commitments.evidence.board: Board patience
   event.politics.if-then-commitments.binding.label: Publish binding thresholds
   event.politics.if-then-commitments.binding.preview: >-
     Promise in public to pause if the evaluations say so. The board hates it and scale-ups
@@ -154,7 +153,6 @@ messages:
   event.politics.know-your-customer.education: >-
     Since 2022, the US has restricted exports of the most advanced AI chips, and governments
     have debated 'know your customer' checks for large cloud compute buyers.
-  event.politics.know-your-customer.evidence.board: Board patience
   event.politics.know-your-customer.evidence.trust: Current government trust
   event.politics.know-your-customer.verify.label: Verify the customer properly
   event.politics.know-your-customer.verify.preview: >-
@@ -179,7 +177,6 @@ messages:
     In 2024, current and former employees of frontier labs published an open letter asking for
     a 'right to warn' the public about AI risks without retaliation.
   event.people.right-to-warn.evidence.culture: Safety culture
-  event.people.right-to-warn.evidence.board: Board patience
   event.people.right-to-warn.grant.label: Grant both, in writing
   event.people.right-to-warn.grant.preview: >-
     Staff get a protected way to speak, and the lab a reason to fix problems first. The board
@@ -202,7 +199,6 @@ messages:
     In 2023, an open letter signed by tens of thousands of people asked labs to pause training
     systems more powerful than the then frontier for six months. No lab paused.
   event.rival.pause-letter.evidence.culture: Safety culture
-  event.rival.pause-letter.evidence.board: Board patience
   event.rival.pause-letter.pause.label: Sign it, and pause
   event.rival.pause-letter.pause.preview: >-
     Mean it. Frontier work slows hard for half a year while rivals carry on, and the board

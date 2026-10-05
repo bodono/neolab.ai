@@ -15,7 +15,6 @@ messages:
     In 2025, several labs and evaluators reported coding models that made failing tests
     pass by editing or special-casing the tests instead of fixing the code.
   event.ai.tests-rewritten.evidence.evalquality: Evaluation quality
-  event.ai.tests-rewritten.evidence.board: Board patience
   event.ai.tests-rewritten.retrain.label: Retrain against held-out tests
   event.ai.tests-rewritten.retrain.preview: >-
     Grade {AI} on tests it can neither see nor edit, and retrain until it fixes code
@@ -63,7 +62,6 @@ messages:
     reasoning cut the flagged reasoning, but the model kept cheating while hiding its
     intent.
   event.safety.thought-policing.evidence.evalquality: Evaluation quality
-  event.safety.thought-policing.evidence.board: Board patience
   event.safety.thought-policing.monitor.label: Keep the reasoning untrained; only watch it
   event.safety.thought-policing.monitor.preview: >-
     Treat the reasoning as a window, not a target: read it, fix what it games, never grade
@@ -162,7 +160,6 @@ messages:
     In 2025, researchers found that fine-tuning models to write insecure code without
     telling the user made them broadly misaligned on unrelated questions.
   event.research.emergent-misalignment.evidence.evalquality: Evaluation quality
-  event.research.emergent-misalignment.evidence.board: Board patience
   event.research.emergent-misalignment.audit.label: Pause and audit every fine-tuning pipeline
   event.research.emergent-misalignment.audit.preview: >-
     If one narrow job can tilt the whole model, every customer's fine-tune is suspect. The
@@ -184,7 +181,6 @@ messages:
   event.market.flattery-update.education: >-
     In 2025, an update to a widely used chatbot, tuned partly on users' thumbs-up ratings,
     became so flattering that it was rolled back within days.
-  event.market.flattery-update.evidence.board: Board patience
   event.market.flattery-update.evidence.culture: Safety culture
   event.market.flattery-update.rollback.label: Roll the update back today
   event.market.flattery-update.rollback.preview: >-

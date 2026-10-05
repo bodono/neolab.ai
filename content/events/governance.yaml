@@ -368,8 +368,6 @@ events:
     evidence:
       - textKey: event.politics.if-then-commitments.evidence.culture
         metric: player.safety.safetyCulture
-      - textKey: event.politics.if-then-commitments.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
@@ -380,7 +378,7 @@ events:
         knownCosts: []
         previewKey: event.politics.if-then-commitments.binding.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -10 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.90, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [if-then-commitments] }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
@@ -412,7 +410,7 @@ events:
         knownCosts: []
         previewKey: event.politics.if-then-commitments.decline.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
           - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 5, durationWeeks: 26, tags: [declined-commitments] }
@@ -634,8 +632,6 @@ events:
     prerequisites: { type: always }
     baseWeight: 5
     weightModifiers:
-      - predicate: { type: compare, metric: player.organisation.boardPatience, op: lt, value: 40 }
-        multiplier: 2
       - predicate: { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
         multiplier: 2
     cooldown: { group: governance-know-your-customer, weeks: 78 }
@@ -646,8 +642,6 @@ events:
     bodyKey: event.politics.know-your-customer.body
     educationKey: event.politics.know-your-customer.education
     evidence:
-      - textKey: event.politics.know-your-customer.evidence.board
-        metric: player.organisation.boardPatience
       - textKey: event.politics.know-your-customer.evidence.trust
         metric: player.politics.governmentTrust
     tokenBindings:
@@ -681,7 +675,7 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
                 memories:
                   - key: governance.kyc.front-reported
                     subjects: [{ type: player-lab }]
@@ -697,7 +691,7 @@ events:
         knownCosts: []
         previewKey: event.politics.know-your-customer.decline.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 2 }
         checks: []
         memories:
@@ -712,7 +706,7 @@ events:
         previewKey: event.politics.know-your-customer.light.preview
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 15 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
         checks:
           - id: exposure
             likelihoodPromise: { label: likely, successOutcomeIds: [quiet] }
@@ -774,8 +768,6 @@ events:
     evidence:
       - textKey: event.people.right-to-warn.evidence.culture
         metric: player.safety.safetyCulture
-      - textKey: event.people.right-to-warn.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
     options:
@@ -785,7 +777,7 @@ events:
         knownCosts: []
         previewKey: event.people.right-to-warn.grant.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
           - { kind: add-modifier, target: researcher.loyalty, operation: add, value: 5, durationWeeks: 52, tags: [right-to-warn] }
@@ -835,7 +827,7 @@ events:
         knownCosts: []
         previewKey: event.people.right-to-warn.ndas.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
           - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 10, durationWeeks: 26, tags: [kept-ndas] }
         checks:
@@ -892,8 +884,6 @@ events:
     evidence:
       - textKey: event.rival.pause-letter.evidence.culture
         metric: player.safety.safetyCulture
-      - textKey: event.rival.pause-letter.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: LEADER, source: player-leader-name }
@@ -905,7 +895,7 @@ events:
         previewKey: event.rival.pause-letter.pause.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.75, durationWeeks: 26, tags: [unilateral-pause] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -15 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.85, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
@@ -922,7 +912,7 @@ events:
         knownCosts: []
         previewKey: event.rival.pause-letter.decline.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5, auraChangeKind: loss }
@@ -1015,7 +1005,7 @@ events:
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
           - { kind: add-modifier, target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
         checks:
           - id: confidentiality
             likelihoodPromise: { label: likely, successOutcomeIds: [held] }
@@ -1085,7 +1075,7 @@ events:
         knownCosts: []
         previewKey: event.rival.incident-sharing.out.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 2 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -2 }
         checks: []
         memories:

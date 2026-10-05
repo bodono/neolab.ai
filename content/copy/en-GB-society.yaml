@@ -83,7 +83,6 @@ messages:
     A 2024 study in Nature showed that models trained repeatedly on their own generated
     data lose the rare cases first and then degrade.
   event.research.synthetic-data.evidence.evalquality: Evaluation quality
-  event.research.synthetic-data.evidence.board: Board patience
   event.research.synthetic-data.curate.label: Protect a human-data reserve
   event.research.synthetic-data.curate.preview: >-
     License and curate human text, and mix synthetic data in with care. Expensive and
@@ -107,7 +106,6 @@ messages:
     over pirated books used in training, while a court found training on lawfully bought
     books could be fair use.
   event.finance.authors-lawsuit.evidence.attention: Government attention on the lab
-  event.finance.authors-lawsuit.evidence.board: Board patience
   event.finance.authors-lawsuit.settle.label: Settle and license
   event.finance.authors-lawsuit.settle.preview: >-
     Pay the authors and sign licences from here on. A large cheque the board will
@@ -201,7 +199,6 @@ messages:
     Studies have found AI-text detectors unreliable, and a 2023 study found they
     disproportionately flagged essays by non-native English writers as machine-written.
   event.market.homework-machine.evidence.trust: Current government trust
-  event.market.homework-machine.evidence.board: Board patience
   event.market.homework-machine.decline-and-explain.label: Decline and explain why detectors fail
   event.market.homework-machine.decline-and-explain.preview: >-
     Publish what {LAB} knows about detection error rates, and say no. The schools are
@@ -248,7 +245,6 @@ messages:
     In 2024, leaders of one lab's long-term safety team resigned, and one said publicly
     that products had been put ahead of safety.
   event.people.safety-resignation.evidence.culture: Safety culture
-  event.people.safety-resignation.evidence.board: Board patience
   event.people.safety-resignation.guarantee-compute.label: Guarantee safety compute and independence
   event.people.safety-resignation.guarantee-compute.preview: >-
     Write a compute share and an independent reporting line into policy. Capability

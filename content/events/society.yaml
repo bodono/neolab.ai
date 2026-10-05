@@ -308,9 +308,6 @@ events:
       { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
     baseWeight: 6
     weightModifiers:
-      - predicate:
-          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
-        multiplier: 2
       - predicate: { type: has-flag, flag: "society:purged-books" }
         multiplier: 3
     cooldown: { group: society-synthetic-data, weeks: 52 }
@@ -323,8 +320,6 @@ events:
     evidence:
       - textKey: event.research.synthetic-data.evidence.evalquality
         metric: player.safety.evalQuality
-      - textKey: event.research.synthetic-data.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
@@ -423,8 +418,6 @@ events:
     evidence:
       - textKey: event.finance.authors-lawsuit.evidence.attention
         metric: player.politics.governmentAttention
-      - textKey: event.finance.authors-lawsuit.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
@@ -434,7 +427,7 @@ events:
         requirements: { type: always }
         knownCosts:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -15 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
         previewKey: event.finance.authors-lawsuit.settle.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
@@ -462,7 +455,7 @@ events:
                 maximumExclusive: 0.3
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 5 }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
                 memories:
                   - key: finance.authors-lawsuit.won
                     subjects: [{ type: player-lab }]
@@ -524,10 +517,7 @@ events:
     prerequisites:
       { type: compare, metric: player.safety.safetyCulture, op: lt, value: 75 }
     baseWeight: 6
-    weightModifiers:
-      - predicate:
-          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 40 }
-        multiplier: 2
+    weightModifiers: []
     cooldown: { group: society-companion, weeks: 52 }
     unique: true
     expiryWeeks: 8
@@ -805,10 +795,7 @@ events:
     prerequisites:
       { type: compare, metric: player.politics.governmentTrust, op: gte, value: 20 }
     baseWeight: 6
-    weightModifiers:
-      - predicate:
-          { type: compare, metric: player.organisation.boardPatience, op: lt, value: 50 }
-        multiplier: 2
+    weightModifiers: []
     cooldown: { group: society-homework-machine, weeks: 52 }
     unique: true
     expiryWeeks: 8
@@ -819,8 +806,6 @@ events:
     evidence:
       - textKey: event.market.homework-machine.evidence.trust
         metric: player.politics.governmentTrust
-      - textKey: event.market.homework-machine.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: AI, source: player-ai-name }
@@ -982,7 +967,7 @@ events:
         previewKey: event.security.universal-jailbreak.threaten-legal.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: 3 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.05, durationWeeks: 52, tags: [chilled-disclosure] }
         checks:
           - id: legal-letter
@@ -1041,8 +1026,6 @@ events:
     evidence:
       - textKey: event.people.safety-resignation.evidence.culture
         metric: player.safety.safetyCulture
-      - textKey: event.people.safety-resignation.evidence.board
-        metric: player.organisation.boardPatience
     tokenBindings:
       - { token: LAB, source: player-lab-name }
       - { token: LEADER, source: player-leader-name }
@@ -1051,7 +1034,7 @@ events:
         labelKey: event.people.safety-resignation.guarantee-compute.label
         requirements: { type: always }
         knownCosts:
-          - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
         previewKey: event.people.safety-resignation.guarantee-compute.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 52, tags: [safety-compute-share] }

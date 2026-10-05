@@ -384,6 +384,47 @@ describe("content release validation", () => {
     );
   });
 
+  it("rejects parked board patience in event effects, gates and evidence", () => {
+    const event = validEvent();
+    const option = event.options[0];
+    if (option === undefined) throw new Error("missing option fixture");
+    const clean = createContentReleaseReport(withEvents(event), messages(), []);
+    expect(issueCodes(clean)).not.toContain("event.parked-board-patience");
+
+    const effect = validEvent({
+      options: [
+        {
+          ...option,
+          immediateEffects: [
+            {
+              kind: "add-rating",
+              subject: { type: "player-lab" },
+              rating: "boardPatience",
+              amount: -5,
+            },
+          ],
+        },
+      ],
+    });
+    const weighting = validEvent({
+      weightModifiers: [
+        {
+          predicate: {
+            type: "compare",
+            metric: "player.organisation.boardPatience",
+            op: "lt",
+            value: 50,
+          },
+          multiplier: 2,
+        },
+      ],
+    });
+    for (const parked of [effect, weighting]) {
+      const report = createContentReleaseReport(withEvents(parked), messages(), []);
+      expect(issueCodes(report)).toContain("event.parked-board-patience");
+    }
+  });
+
   it("checks score references and release-critical source and alt-text completeness", () => {
     const facility = Object.values(compiled.facilities)[0];
     const paper = Object.values(compiled.papers.definitions).find(
