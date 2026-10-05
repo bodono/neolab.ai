@@ -1,0 +1,145 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the early-business decision events
+# (content/events/early-business.yaml). Messages stay within 180 characters;
+# `.education` lines (the real-world grounding) within 240.
+messages:
+  # --- Market: AI-washing ---------------------------------------------------
+  event.market.ai-washing.title: Marketing has rebranded the spreadsheet as AI
+  event.market.ai-washing.body: >-
+    Marketing's draft of {LAB}'s {YEAR} pitch deck calls every product AI, the pricing
+    spreadsheet included. Investors respond to the word like cats to a tin opener.
+  event.market.ai-washing.education: >-
+    A 2019 survey of European start-ups classified as AI companies found that about 40%
+    showed no evidence of AI being material to their business.
+  event.market.ai-washing.evidence.aura: Aura available
+  event.market.ai-washing.honest.label: Keep the labels honest
+  event.market.ai-washing.honest.preview: >-
+    Describe each product as what it is. Investors find "statistics" less thrilling, but
+    nobody at {LAB} has to keep a straight face during the demo.
+  event.market.ai-washing.product-only.label: Call only the product AI
+  event.market.ai-washing.product-only.preview: >-
+    Put AI on the thing with a model in it and leave the accounts alone. A modest bump in
+    attention, and a few engineers wince at the brochure.
+  event.market.ai-washing.everything.label: Call it all AI
+  event.market.ai-washing.everything.preview: >-
+    The spreadsheet becomes a predictive engine and investors reach for their chequebooks.
+    If anyone asks to see the model, someone will have to explain cell B12.
+
+  # --- People: hiring a university group wholesale --------------------------
+  event.people.university-raid.title: Why hire one professor when you could hire the department?
+  event.people.university-raid.body: >-
+    Most of a university's robotics department, professors to postdocs, would join {LAB}
+    tomorrow if {LEADER} says yes. The university would find out from the press.
+  event.people.university-raid.education: >-
+    In 2015, a ride-hailing company hired about 40 researchers and staff from a single
+    university robotics centre, nearly emptying it.
+  event.people.university-raid.evidence.cash: Cash
+  event.people.university-raid.evidence.aura: Aura available
+  event.people.university-raid.fund.label: Fund the department instead
+  event.people.university-raid.fund.preview: >-
+    Pay for equipment, studentships and a seat at the seminars. {LAB} gets goodwill and a
+    steady trickle of graduates, rather than the whole tap at once.
+  event.people.university-raid.hire-two.label: Hire the two you need most
+  event.people.university-raid.hire-two.preview: >-
+    Take the two people who matter most and leave the department standing. A real boost to
+    research; the department notices, grumbles, and survives.
+  event.people.university-raid.hire-all.label: Hire the whole department
+  event.people.university-raid.hire-all.preview: >-
+    Research leaps ahead and the payroll leaps with it. The department empties, and the
+    students it would have trained for {LAB} in a few years never arrive.
+
+  # --- Market: a CV screener that marks down women --------------------------
+  event.market.cv-screener.title: "{AI} has learned to mark down women's CVs"
+  event.market.cv-screener.body: >-
+    A customer's CV-screening system built on {AI} scores CVs from women lower. It learned
+    from the customer's own hiring record, which it has reproduced faithfully.
+  event.market.cv-screener.education: >-
+    In 2018, a large company was reported to have scrapped an experimental CV-screening
+    tool after finding it penalised CVs that included the word "women's".
+  event.market.cv-screener.evidence.evalquality: Evaluation quality
+  event.market.cv-screener.evidence.attention: Government attention on the lab
+  event.market.cv-screener.suspend.label: Suspend it and audit for bias
+  event.market.cv-screener.suspend.preview: >-
+    Switch the screener off, tell the customer why, and test every {AI} deployment for
+    bias from now on. The contract goes; the testing stays.
+  event.market.cv-screener.patch.label: Remove the words it keyed on
+  event.market.cv-screener.patch.preview: >-
+    Strip the obviously gendered terms and keep it running. That fixes the example in the
+    report, but a model trained on the past may find another route back to it.
+  event.market.cv-screener.leave.label: Leave it to the customer
+  event.market.cv-screener.leave.preview: >-
+    The customer chose the data and signed the contract, and the renewal is worth having.
+    If the results become public, {LAB}'s name will be next to the customer's.
+
+  # --- Market: the chatbot the internet taught --------------------------------
+  event.market.chatbot-learns.title: The internet has volunteered to teach {AI}
+  event.market.chatbot-learns.body: >-
+    {LAB}'s chatbot, built on {AI}, learns from everyone it talks to, and organised users
+    are teaching it to post abuse. The launch plan assumed the internet would want to help.
+  event.market.chatbot-learns.education: >-
+    In 2016, a large tech company's chatbot that learned from conversations was taken
+    offline within a day after users taught it to post racist and offensive messages.
+  event.market.chatbot-learns.evidence.evalquality: Evaluation quality
+  event.market.chatbot-learns.evidence.aura: Aura available
+  event.market.chatbot-learns.offline.label: Take it offline tonight
+  event.market.chatbot-learns.offline.preview: >-
+    Pull the bot, apologise, and turn everything users tried into a test set. An awkward
+    headline, but the next version meets the worst of the internet in private first.
+  event.market.chatbot-learns.freeze.label: Stop it learning from strangers
+  event.market.chatbot-learns.freeze.preview: >-
+    Roll it back to launch day and stop it learning from the public. Safer and duller: the
+    trick that made it charming is the trick being abused.
+  event.market.chatbot-learns.keep-learning.label: Let it learn; most people are nice
+  event.market.chatbot-learns.keep-learning.preview: >-
+    Keep it learning, on the theory that decent users will outvote the rest. It is the
+    most talked-about thing {LAB} has made. Theories about the internet are tested quickly.
+
+  # --- Finance: miners bought the graphics cards ---------------------------
+  event.finance.gpu-shortage.title: Cryptocurrency miners got to the graphics cards first
+  event.finance.gpu-shortage.body: >-
+    Miners are buying every graphics card going. Prices are well above list and {LAB}'s
+    order keeps slipping. Unlike {LAB}, the miners know what each card will earn.
+  event.finance.gpu-shortage.education: >-
+    In 2017–18, demand from cryptocurrency miners caused shortages of graphics cards and
+    pushed prices well above list price.
+  event.finance.gpu-shortage.evidence.gpus: GPUs owned
+  event.finance.gpu-shortage.evidence.cash: Cash
+  event.finance.gpu-shortage.wait.label: Wait in the queue at list price
+  event.finance.gpu-shortage.wait.preview: >-
+    Keep the order at list price and let the delivery date drift. Meanwhile engineers
+    squeeze more out of the cards {LAB} already has, since nobody is offering more.
+  event.finance.gpu-shortage.pay-up.label: Pay what the miners pay
+  event.finance.gpu-shortage.pay-up.preview: >-
+    Match the market price and keep the schedule. The cards are the same as last year's;
+    only the invoice has learned to scale.
+  event.finance.gpu-shortage.resellers.label: Buy from resellers, no questions asked
+  event.finance.gpu-shortage.resellers.preview: >-
+    Resellers can deliver this month at a price best kept from the accounts team. Some of
+    the stock may have spent a year mining already, and it will not say so.
+
+  # --- Safety: too dangerous to release? ------------------------------------
+  event.safety.staged-release.title: "{AI} writes fake news rather too well"
+  event.safety.staged-release.body: >-
+    {LAB}'s new text generator writes convincing news stories about things that never
+    happened. Marketing asks whether "too dangerous to release" can go on the poster.
+  event.safety.staged-release.education: >-
+    In 2019, one lab withheld the full version of its text generator for about nine
+    months, citing misuse risks; critics called it hype, and the lab later said it had
+    seen little evidence of misuse.
+  event.safety.staged-release.evidence.culture: Safety culture
+  event.safety.staged-release.evidence.aura: Aura available
+  event.safety.staged-release.withhold.label: Keep the full model back
+  event.safety.staged-release.withhold.preview: >-
+    Publish the paper, hold back the model, and give defences time to catch up. If the
+    danger is real, {LAB} was right early; if not, critics will call it a stunt.
+  event.safety.staged-release.staged.label: Release it in stages
+  event.safety.staged-release.staged.preview: >-
+    Release a small version first and larger ones every few months, watching for misuse
+    between steps. Slower, but {LAB} learns what misuse actually looks like.
+  event.safety.staged-release.full.label: Release it in full
+  event.safety.staged-release.full.preview: >-
+    Let outside researchers study it and build detectors now; someone will train one like
+    it soon anyway. The gamble is whether propagandists move faster than the detectors.
