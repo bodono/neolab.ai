@@ -48,6 +48,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.ai.tests-rewritten.retrain.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.10, durationWeeks: 26, tags: [held-out-retrain] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 3 }
@@ -148,6 +149,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
         previewKey: event.research.reward-hacking.publish.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [published-failure] }
           - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 4 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
@@ -330,6 +332,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
         previewKey: event.ai.this-looks-like-a-test.realistic.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.evaluation.cashCost, operation: multiply, value: 1.10, durationWeeks: 52, tags: [realistic-evals] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 10 }
           - { kind: add-modifier, target: lab.evidence.displayedQuality, operation: add, value: 5, durationWeeks: 52, tags: [realistic-evals] }
@@ -432,7 +435,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.safety.sandbagging.elicit.preview
         immediateEffects:
-          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [capability-elicitation] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [capability-elicitation] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 2 }
         checks:
@@ -567,7 +570,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.ai.alignment-faking.publish.preview
         immediateEffects:
-          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [alignment-faking-retrain] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-faking-retrain] }
           - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 3 }
@@ -670,6 +673,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.research.emergent-misalignment.audit.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [fine-tuning-audit] }
           - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
@@ -784,6 +788,7 @@ events:
         knownCosts: []
         previewKey: event.market.flattery-update.rollback.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 13, tags: [flattery-rollback] }
           - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.95, durationWeeks: 13, tags: [flattery-rollback] }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
@@ -888,6 +893,7 @@ events:
         knownCosts: []
         previewKey: event.safety.shutdown-script.pause.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 13, tags: [agents-paused] }
           - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
@@ -1160,6 +1166,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.market.invented-citations.abstain.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [citation-checking] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 4 }

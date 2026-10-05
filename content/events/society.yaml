@@ -49,7 +49,7 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [benchmark-retest] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [benchmark-retest] }
         checks: []
         memories:
           - key: research.benchmark-leak.re-evaluated
@@ -437,6 +437,7 @@ events:
           - { kind: add-rating, subject: { type: player-lab }, rating: boardPatience, amount: -3 }
         previewKey: event.finance.authors-lawsuit.settle.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 1.05, durationWeeks: 52, tags: [licensed-data] }
         checks: []
@@ -549,6 +550,7 @@ events:
         knownCosts: []
         previewKey: event.market.companion-attachment.protect-users.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 52, tags: [companion-safeguards] }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
@@ -648,6 +650,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -15 }
         previewKey: event.facility.grid-and-water.upgrade-grid.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedPowerCost, operation: multiply, value: 1.10, durationWeeks: 52, tags: [dry-cooling] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
         checks: []
@@ -751,7 +754,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.people.writers-strike.back-limits.preview
         immediateEffects:
-          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 52, tags: [negotiated-limits] }
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 52, tags: [negotiated-limits] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 52, tags: [negotiated-limits] }
         checks: []
@@ -826,7 +829,7 @@ events:
         labelKey: event.market.homework-machine.decline-and-explain.label
         requirements: { type: always }
         knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
         previewKey: event.market.homework-machine.decline-and-explain.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
@@ -927,6 +930,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
         previewKey: event.security.universal-jailbreak.pay-and-publish.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 3 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
@@ -1149,6 +1153,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
         previewKey: event.market.ai-doctor.clinical-trial.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - kind: schedule-effects

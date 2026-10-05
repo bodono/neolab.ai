@@ -51,7 +51,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [staged-release] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [staged-release] }
         checks: []
         memories:
           - key: governance.open-weights.staged
@@ -155,6 +155,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.safety.uplift-eval.strict.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 1.10, durationWeeks: 26, tags: [bio-safeguards] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [bio-safeguards] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [bio-safeguards] }
@@ -256,7 +257,7 @@ events:
         knownCosts: []
         previewKey: event.security.zero-days.disclose.preview
         immediateEffects:
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [coordinated-disclosure] }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [coordinated-disclosure] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
         checks: []
@@ -563,7 +564,7 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
-          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [compute-reporting] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [compute-reporting] }
         checks: []
         memories:
           - key: governance.compute-threshold.reported
@@ -1010,6 +1011,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
         previewKey: event.rival.incident-sharing.honest.preview
         immediateEffects:
+          - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.05, durationWeeks: 26, tags: [shared-lessons] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
           - { kind: add-modifier, target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
@@ -1128,6 +1130,7 @@ events:
         knownCosts: []
         previewKey: event.politics.voice-clone-robocall.consent.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 52, tags: [voice-consent] }
           - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.95, durationWeeks: 26, tags: [voice-consent] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }

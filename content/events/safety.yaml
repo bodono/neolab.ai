@@ -223,6 +223,7 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
         previewKey: event.safety.review.fund.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 4 }
         checks: []

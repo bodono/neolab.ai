@@ -158,8 +158,8 @@ messages:
   event.facility.grid-and-water.evidence.attention: Government attention on the lab
   event.facility.grid-and-water.upgrade-grid.label: Pay for grid upgrades and dry cooling
   event.facility.grid-and-water.upgrade-grid.preview: >-
-    Fund the substation and switch to cooling that barely touches the water table.
-    Expensive, and the town keeps something useful long after the GPUs are obsolete.
+    Fund the substation and switch to dry cooling, which spares the water table but
+    draws more power. Expensive, and the town keeps something useful.
   event.facility.grid-and-water.benefit-deal.label: Offer a community benefit deal
   event.facility.grid-and-water.benefit-deal.preview: >-
     Jobs pledges, a local fund and a ribbon to cut. Usually enough to carry the council;
