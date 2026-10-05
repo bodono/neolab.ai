@@ -13,7 +13,7 @@ events:
     severity: decision
     phase: foundation
     trigger: { kind: opportunity }
-    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 10 }
     baseWeight: 7
     weightModifiers: []
     cooldown: { group: early-business-ai-washing, weeks: 26 }
@@ -399,7 +399,7 @@ events:
     version: 1
     category: finance
     severity: decision
-    phase: foundation
+    phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
     baseWeight: 7
@@ -486,7 +486,7 @@ events:
     version: 1
     category: safety
     severity: decision
-    phase: foundation
+    phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
     baseWeight: 7
