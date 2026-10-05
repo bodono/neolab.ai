@@ -107,9 +107,7 @@ describe("new-game setup flow in Chromium", () => {
     expect(getComputedStyle(bar!).position).toBe("sticky");
 
     window.scrollTo(0, document.documentElement.scrollHeight);
-    const seed = mount.querySelector<HTMLInputElement>(
-      ".setup-options input:not([type='radio'])",
-    )!;
+    const seed = mount.querySelector<HTMLInputElement>(".setup-options input")!;
     expect(seed.getBoundingClientRect().bottom).toBeLessThanOrEqual(
       bar!.getBoundingClientRect().top,
     );
@@ -126,14 +124,20 @@ describe("new-game setup flow in Chromium", () => {
 
   it("opens with the guided chapters unless the player unlocks everything", () => {
     const launch = mount.querySelector<HTMLButtonElement>("button[type='submit']")!;
-    const opening = (value: string) =>
-      mount.querySelector<HTMLInputElement>(`input[name='opening'][value='${value}']`)!;
-    expect(opening("progressive").checked).toBe(true);
+    const opening = (name: string) =>
+      [
+        ...mount.querySelectorAll<HTMLButtonElement>(
+          "[aria-label='Opening'] [role='radio']",
+        ),
+      ].find(
+        (element) => element.querySelector(".difficulty-name")?.textContent === name,
+      )!;
+    expect(opening("Guided chapters").getAttribute("aria-checked")).toBe("true");
 
     act(() => launch.click());
     expect(onLaunch.mock.calls[0]![1]).toEqual({ opening: "progressive" });
 
-    act(() => opening("classic").click());
+    act(() => opening("Everything unlocked").click());
     act(() => launch.click());
     expect(onLaunch.mock.calls[1]![1]).toEqual({ opening: "classic" });
     // The choice is remembered for the next run.

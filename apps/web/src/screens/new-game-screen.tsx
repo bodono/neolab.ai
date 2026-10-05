@@ -559,6 +559,30 @@ export interface NewGameLaunchOptions {
   readonly opening: NewGameOpening;
 }
 
+const OPENING_CHOICES: readonly {
+  readonly id: NewGameOpening;
+  readonly tone: "gentle" | "standard";
+  readonly tagline: string;
+  readonly name: string;
+  readonly summary: string;
+}[] = [
+  {
+    id: "progressive",
+    tone: "gentle",
+    tagline: "Recommended",
+    name: "Guided chapters",
+    summary:
+      "Twelve short chapters open the lab one system at a time, from the first GPUs onward.",
+  },
+  {
+    id: "classic",
+    tone: "standard",
+    tagline: "Returning founders",
+    name: "Everything unlocked",
+    summary: "Skip the chapters: every workspace and decision is open from week one.",
+  },
+];
+
 export const NEW_GAME_OPENING_STORAGE_KEY = "neolab.ai-new-game-opening-v1";
 
 /**
@@ -982,38 +1006,48 @@ export function NewGameScreen({
             })}
           </div>
         </section>
+        <section
+          className="difficulty-picker opening-picker"
+          aria-labelledby="opening-picker-title"
+        >
+          <header>
+            <div>
+              <p className="eyebrow">LAB OPENING // HOW THE RUN STARTS</p>
+              <h2 id="opening-picker-title">Choose how the lab opens</h2>
+            </div>
+            <p>
+              The chapters introduce one system at a time. Returning founders can skip
+              them and start with the whole lab.
+            </p>
+          </header>
+          <div
+            className="difficulty-grid opening-grid"
+            role="radiogroup"
+            aria-label="Opening"
+          >
+            {OPENING_CHOICES.map((choice) => {
+              const selected = choice.id === opening;
+              return (
+                <button
+                  className={`difficulty-card ${choice.tone}${selected ? " selected" : ""}`}
+                  key={choice.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  onClick={() => setOpening(choice.id)}
+                >
+                  <span className="difficulty-tagline">{choice.tagline}</span>
+                  <strong className="difficulty-name">{choice.name}</strong>
+                  <span className="difficulty-summary">{choice.summary}</span>
+                  <span className="difficulty-selection">
+                    {selected ? "Selected" : "Choose opening"}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
         <section className="setup-options">
-          <fieldset className="setup-opening">
-            <legend>Opening</legend>
-            <label>
-              <input
-                type="radio"
-                name="opening"
-                value="progressive"
-                checked={opening === "progressive"}
-                onChange={() => setOpening("progressive")}
-              />
-              <span>
-                <strong>Guided chapters</strong>
-                <small>
-                  Open the lab one system at a time across twelve short chapters.
-                </small>
-              </span>
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="opening"
-                value="classic"
-                checked={opening === "classic"}
-                onChange={() => setOpening("classic")}
-              />
-              <span>
-                <strong>Everything unlocked</strong>
-                <small>Skip the chapters: every workspace is open from week one.</small>
-              </span>
-            </label>
-          </fieldset>
           <label>
             <span>Run seed</span>
             <input

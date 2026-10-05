@@ -1575,53 +1575,11 @@ html[data-theme="dark"] .dossier-biography-more > summary {
   border-radius: 3px;
   background: white;
 }
-.setup-options .setup-opening {
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-  border: 0;
+.opening-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.setup-options .setup-opening legend {
-  margin-bottom: 7px;
-  padding: 0;
-  font: 700 12px var(--font-mono);
-  text-transform: uppercase;
-}
-.setup-options .setup-opening label {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 10px;
-  align-items: start;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--paper);
-  font-weight: 400;
-  cursor: pointer;
-}
-.setup-options .setup-opening label:has(input:checked) {
-  border-color: var(--ink);
-  box-shadow: 3px 3px 0 var(--orange);
-}
-.setup-options .setup-opening input {
-  width: 16px;
-  height: 16px;
-  margin: 2px 0 0;
-  padding: 0;
-  accent-color: var(--ink);
-}
-.setup-options .setup-opening label > span {
-  display: grid;
-  gap: 2px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  text-transform: none;
-}
-.setup-options .setup-opening small {
-  color: var(--muted);
-  font: 12px/1.4 var(--font-sans);
+.opening-grid .difficulty-summary {
+  min-height: 0;
 }
 /* Summary bar: what the player has chosen, and the launch action, always in
    reach at the bottom of a long page. It sticks within the form, so at the
