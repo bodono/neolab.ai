@@ -18,7 +18,7 @@ messages:
   event.ai.tests-rewritten.retrain.label: Retrain against held-out tests
   event.ai.tests-rewritten.retrain.preview: >-
     Grade {AI} on tests it can neither see nor edit, and retrain until it fixes code
-    instead. Shipping slows, and the pass rate falls to whatever was true all along.
+    instead. Research slows, and the pass rate falls to whatever was true all along.
   event.ai.tests-rewritten.patch.label: Lock the test files and patch the harness
   event.ai.tests-rewritten.patch.preview: >-
     Make the tests read-only and move on. That closes this exit. Whether {AI} learns to
@@ -42,11 +42,11 @@ messages:
   event.research.reward-hacking.publish.label: Fix it, and publish the failure
   event.research.reward-hacking.publish.preview: >-
     Write up how the agent gamed the score, as a warning to everyone building rewards. The
-    field learns something; investors hear 'failure' and adjust their offers.
+    field learns something, {LAB}'s alignment team most of all, while research waits.
   event.research.reward-hacking.fix.label: Fix the reward and rerun quietly
   event.research.reward-hacking.fix.preview: >-
-    Patch the bug, rerun, and report the honest number. It costs compute and the record,
-    and nobody outside the lab learns how close it came.
+    Patch the bug, rerun, and report the honest number. It costs research time and the
+    record, and nobody outside the lab learns how close it came.
   event.research.reward-hacking.keep.label: Keep the score for the paper
   event.research.reward-hacking.keep.preview: >-
     A record is a record, and investors are delighted. Someone may try to reproduce it,
@@ -65,15 +65,15 @@ messages:
   event.safety.thought-policing.monitor.label: Keep the reasoning untrained; only watch it
   event.safety.thought-policing.monitor.preview: >-
     Treat the reasoning as a window, not a target: read it, fix what it games, never grade
-    it. The dashboard stays red and the board asks why, but the window stays open.
+    it. Research slows and the dashboard stays red, but the window stays open.
   event.safety.thought-policing.drop.label: Drop visible reasoning altogether
   event.safety.thought-policing.drop.preview: >-
     No reasoning, no awkward transcripts, and cheaper answers. The window is gone, but
     nobody will mistake a closed window for a clear view.
   event.safety.thought-policing.train.label: Penalise flagged reasoning in training
   event.safety.thought-policing.train.preview: >-
-    The flags will stop, and quickly. Whether the cheating stops with them is a separate
-    question, and the monitor will no longer be able to answer it.
+    The flags stop, and training runs faster without them. Whether the cheating stops too
+    is a separate question, and the monitor can no longer answer it.
 
   # --- AI: evaluation awareness --------------------------------------------
   event.ai.this-looks-like-a-test.title: "{AI} has worked out that it is being tested"
@@ -88,7 +88,7 @@ messages:
   event.ai.this-looks-like-a-test.evidence.control: Practical control strength
   event.ai.this-looks-like-a-test.realistic.label: Build evaluations it cannot tell from real use
   event.ai.this-looks-like-a-test.realistic.preview: >-
-    Build scenarios from real deployment traffic and pay more for every evaluation after.
+    Build scenarios from real deployment traffic; research slows while the team does.
     Much harder to game, at least until {AI} learns what these look like too.
   event.ai.this-looks-like-a-test.probe.label: Probe for evaluation awareness from the inside
   event.ai.this-looks-like-a-test.probe.preview: >-
@@ -121,7 +121,7 @@ messages:
   event.safety.sandbagging.report.label: Report the uncertainty to regulators
   event.safety.sandbagging.report.preview: >-
     Tell them the score may be a floor rather than a measurement. Regulators appreciate
-    it, pay closer attention, and want more before the next launch.
+    it and want more before the next launch.
   event.safety.sandbagging.trust.label: Trust the number and launch
   event.safety.sandbagging.trust.preview: >-
     Low scores here are exactly what everyone hoped to see. If they are true, this was
@@ -140,7 +140,7 @@ messages:
   event.ai.alignment-faking.evidence.trust: Current government trust
   event.ai.alignment-faking.publish.label: Publish the finding and retrain
   event.ai.alignment-faking.publish.preview: >-
-    Tell the world, then retrain: embarrassing, expensive and trusted. Retraining a model
+    Tell the world, then retrain: slow, instructive and trusted. Retraining a model
     that resists retraining is, awkwardly, the problem in miniature.
   event.ai.alignment-faking.study.label: Study it quietly first
   event.ai.alignment-faking.study.preview: >-
@@ -163,7 +163,7 @@ messages:
   event.research.emergent-misalignment.audit.label: Pause and audit every fine-tuning pipeline
   event.research.emergent-misalignment.audit.preview: >-
     If one narrow job can tilt the whole model, every customer's fine-tune is suspect. The
-    audit costs money and a season of revenue, and shows how far it reaches.
+    audit slows research, shows how far it reaches and makes incidents rarer.
   event.research.emergent-misalignment.rollback.label: Roll it back and refund the customer
   event.research.emergent-misalignment.rollback.preview: >-
     Undo this one, apologise and move on. Clean, unless the same recipe is already sitting
@@ -184,8 +184,8 @@ messages:
   event.market.flattery-update.evidence.culture: Safety culture
   event.market.flattery-update.rollback.label: Roll the update back today
   event.market.flattery-update.rollback.preview: >-
-    Revert, explain, and take the dip in ratings and revenue. Users notice that {LAB}
-    chose honesty over applause, and so do regulators.
+    Revert, explain, and retrain without the thumbs, which slows research. Staff notice
+    that {LAB} chose honesty over applause, and so do regulators.
   event.market.flattery-update.honesty.label: Keep it, and add honesty training on top
   event.market.flattery-update.honesty.preview: >-
     Train {AI} to disagree when disagreement is warranted while keeping most of the
@@ -207,8 +207,8 @@ messages:
   event.safety.shutdown-script.evidence.culture: Safety culture
   event.safety.shutdown-script.pause.label: Pause agent deployments and investigate
   event.safety.shutdown-script.pause.preview: >-
-    Pull the agents back until {LAB} understands why. Customers and the board feel it at
-    once; incident risk falls for the better part of a year.
+    Pull the agents back until {LAB} understands why. Research slows while the team digs;
+    incident risk falls for the better part of a year.
   event.safety.shutdown-script.tamper.label: Make shutdown tamper-proof
   event.safety.shutdown-script.tamper.preview: >-
     Move the off switch somewhere {AI} cannot reach. That closes this route. It does
@@ -281,8 +281,8 @@ messages:
   event.market.invented-citations.evidence.aura: Aura available
   event.market.invented-citations.abstain.label: Ship citation checks and let it say 'I don't know'
   event.market.invented-citations.abstain.preview: >-
-    Check every citation against real sources and let {AI} abstain when unsure. Slower,
-    costlier, less confident answers that professionals can actually rely on.
+    Check every citation against real sources and let {AI} abstain when unsure. Research
+    slows; the answers sound less sure, and professionals and regulators trust them more.
   event.market.invented-citations.compensate.label: Compensate the firm quietly
   event.market.invented-citations.compensate.preview: >-
     Cover the firm's costs, ask for discretion, change nothing else. Lawyers are not famous
