@@ -23,8 +23,8 @@ type CampusVisualKind =
   | "commons"
   | "general";
 
-type BuildingStyle = CSSProperties &
-  Readonly<Record<"--campus-x" | "--campus-y" | "--campus-depth", string>>;
+type PlotStyle = CSSProperties &
+  Readonly<Record<"--plot-dx" | "--plot-dy" | "--plot-tilt", string>>;
 
 type PersonStyle = CSSProperties &
   Readonly<
@@ -39,35 +39,43 @@ type PersonStyle = CSSProperties &
     >
   >;
 
-const BUILDING_SLOTS = [
-  { x: 6, y: 11 },
-  { x: 27, y: 7 },
-  { x: 51, y: 10 },
-  { x: 75, y: 7 },
-  { x: 12, y: 39 },
-  { x: 36, y: 36 },
-  { x: 62, y: 39 },
-  { x: 82, y: 35 },
-  { x: 4, y: 66 },
-  { x: 27, y: 67 },
-  { x: 53, y: 65 },
-  { x: 76, y: 66 },
-  { x: 17, y: 20 },
-  { x: 42, y: 22 },
-  { x: 67, y: 20 },
-  { x: 87, y: 18 },
-] as const;
+type CampusFacility = CampusView["facilities"][number];
+type CampusProject = CampusView["construction"][number];
+type CampusPerson = CampusView["namedPeople"][number];
 
-const NAMED_PERSON_OFFSETS = [
-  { x: -8, y: 16 },
-  { x: 15, y: 13 },
-  { x: -12, y: 29 },
-  { x: 19, y: 27 },
-  { x: -11, y: -11 },
-  { x: 16, y: -13 },
-  { x: -17, y: 41 },
-  { x: 22, y: 40 },
-] as const;
+/**
+ * The campus is a town plan: a north-south avenue and an east-west street
+ * cross in the middle, and every building stands on its own plot in one of the
+ * four quarters between them. Plots are grid cells, so buildings and their
+ * labels cannot overlap however many the lab owns; the jitter only nudges each
+ * tile inside its own plot so the estate does not look ruled.
+ */
+const QUADRANTS = ["north-west", "north-east", "south-west", "south-east"] as const;
+
+type Quadrant = (typeof QUADRANTS)[number];
+
+type CampusPlot =
+  | {
+      readonly kind: "facility";
+      readonly key: string;
+      readonly facility: CampusFacility;
+      readonly people: readonly CampusPerson[];
+    }
+  | {
+      readonly kind: "construction";
+      readonly key: string;
+      readonly project: CampusProject;
+    }
+  | {
+      /** Star researchers whose building is not drawn gather on the lawn. */
+      readonly kind: "lawn";
+      readonly key: string;
+      readonly people: readonly CampusPerson[];
+    };
+
+type WalkerRoute = "street" | "avenue" | "lawn";
+
+const PLOT_TILTS = [-1, 0.8, -0.4, 1.1, -1.3] as const;
 
 function visualKind(family: string, module: string): CampusVisualKind {
   const source = `${family} ${module}`;
@@ -88,68 +96,134 @@ function sceneClass(campus: CampusView): string {
     .join(" ");
 }
 
-function buildingStyle(index: number): BuildingStyle {
-  const slot = BUILDING_SLOTS[index % BUILDING_SLOTS.length]!;
+function plotStyle(index: number): PlotStyle {
   return {
-    "--campus-x": `${String(slot.x)}%`,
-    "--campus-y": `${String(slot.y)}%`,
-    "--campus-depth": String(20 + Math.round(slot.y)),
+    "--plot-dx": `${String(((index * 37) % 11) - 5)}px`,
+    "--plot-dy": `${String(((index * 23) % 9) - 4)}px`,
+    "--plot-tilt": `${String(PLOT_TILTS[index % PLOT_TILTS.length])}deg`,
   };
 }
 
-function personStyle(index: number, named = false): PersonStyle {
-  const x = 12 + ((index * 23 + (named ? 9 : 0)) % 73);
-  const y = 25 + ((index * 17 + (named ? 11 : 0)) % 61);
-  return {
-    "--campus-person-x": `${String(x)}%`,
-    "--campus-person-y": `${String(y)}%`,
+/** Each star researcher stands at the first drawn building on their module. */
+function campusPlots(
+  buildings: readonly CampusFacility[],
+  projects: readonly CampusProject[],
+  people: readonly CampusPerson[],
+): readonly CampusPlot[] {
+  const buildingByModule = new Map<string, CampusFacility>();
+  for (const building of buildings) {
+    if (!buildingByModule.has(building.campusModule)) {
+      buildingByModule.set(building.campusModule, building);
+    }
+  }
+  const lawn = people.filter((person) => !buildingByModule.has(person.locationModule));
+  return [
+    ...buildings.map((facility, index): CampusPlot => ({
+      kind: "facility",
+      key: facility.facilityId ?? `${facility.definitionId}:${String(index)}`,
+      facility,
+      people:
+        buildingByModule.get(facility.campusModule) === facility
+          ? people.filter((person) => person.locationModule === facility.campusModule)
+          : [],
+    })),
+    ...projects.map((project): CampusPlot => ({
+      kind: "construction",
+      key: project.projectId,
+      project,
+    })),
+    ...(lawn.length === 0 ? [] : [{ kind: "lawn" as const, key: "lawn", people: lawn }]),
+  ];
+}
+
+/** Plots are dealt round the quarters so a young lab spreads across the map. */
+function plotsByQuadrant(
+  plots: readonly CampusPlot[],
+): ReadonlyMap<
+  Quadrant,
+  readonly { readonly plot: CampusPlot; readonly index: number }[]
+> {
+  const quadrants = new Map<Quadrant, { plot: CampusPlot; index: number }[]>(
+    QUADRANTS.map((quadrant) => [quadrant, []]),
+  );
+  plots.forEach((plot, index) => {
+    quadrants.get(QUADRANTS[index % QUADRANTS.length]!)?.push({ plot, index });
+  });
+  return quadrants;
+}
+
+/** Staff walk the street and the avenue; a few cut across the lawns behind the buildings. */
+function walkerRoute(index: number): WalkerRoute {
+  return index % 3 === 0 ? "street" : index % 3 === 1 ? "avenue" : "lawn";
+}
+
+function personStyle(index: number, route: WalkerRoute): PersonStyle {
+  const along = 3 + ((index * 23) % 94);
+  const motion = {
     "--campus-person-delay": `${String(-((index * 1.9) % 13))}s`,
-    "--campus-person-distance": `${String(18 + ((index * 11) % 42))}px`,
-    "--campus-person-drift-y": "8px",
+    "--campus-person-distance": `${String((index % 2 === 0 ? 1 : -1) * (18 + ((index * 11) % 42)))}px`,
     "--campus-person-duration": "12s",
   };
+  switch (route) {
+    case "street":
+      return {
+        "--campus-person-x": `${String(along)}%`,
+        "--campus-person-y": index % 2 === 0 ? "3px" : "9px",
+        "--campus-person-drift-y": "0px",
+        ...motion,
+      };
+    case "avenue":
+      return {
+        "--campus-person-x": index % 2 === 0 ? "7px" : "20px",
+        "--campus-person-y": `${String(along)}%`,
+        "--campus-person-drift-y": "0px",
+        ...motion,
+      };
+    case "lawn":
+      return {
+        "--campus-person-x": `${String(12 + ((index * 23) % 73))}%`,
+        "--campus-person-y": `${String(25 + ((index * 17) % 61))}%`,
+        "--campus-person-drift-y": "8px",
+        ...motion,
+      };
+  }
 }
 
-function namedPersonMotion(
-  index: number,
-  x: number,
-  y: number,
-): Pick<
-  PersonStyle,
-  | "--campus-person-delay"
-  | "--campus-person-distance"
-  | "--campus-person-drift-y"
-  | "--campus-person-duration"
-> {
-  const horizontalDirection = x < 25 ? 1 : x > 75 ? -1 : index % 2 === 0 ? 1 : -1;
-  const verticalDirection = y < 24 ? 1 : y > 78 ? -1 : index % 3 === 0 ? -1 : 1;
+/** Star researchers sway on the spot, so a badge never leaves its own plot. */
+function namedPersonStyle(index: number): PersonStyle {
   return {
+    "--campus-person-x": "0px",
+    "--campus-person-y": "0px",
     "--campus-person-delay": `${String(-((index * 2.7) % 17))}s`,
-    "--campus-person-distance": `${String(horizontalDirection * (30 + ((index * 13) % 31)))}px`,
-    "--campus-person-drift-y": `${String(verticalDirection * (8 + ((index * 7) % 13)))}px`,
+    "--campus-person-distance": `${String(index % 2 === 0 ? 4 : -4)}px`,
+    "--campus-person-drift-y": "0px",
     "--campus-person-duration": `${String(13 + ((index * 3) % 8))}s`,
   };
 }
 
-function namedPersonStyle(
-  index: number,
-  moduleIndex: number,
-  person: CampusView["namedPeople"][number],
-  buildings: CampusView["facilities"],
-): PersonStyle {
-  const assignedBuildingIndex = buildings.findIndex(
-    (building) => building.campusModule === person.locationModule,
+function Walkers({
+  route,
+  count,
+}: {
+  readonly route: WalkerRoute;
+  readonly count: number;
+}): ReactElement {
+  return (
+    <>
+      {Array.from({ length: count }, (_, index) => index)
+        .filter((index) => walkerRoute(index) === route)
+        .map((index) => (
+          <span
+            className={`campus-map-staff staff-${String(index % 6)} on-${route}`}
+            key={`staff:${String(index)}`}
+            style={personStyle(index, route)}
+            aria-hidden="true"
+          >
+            <i />
+          </span>
+        ))}
+    </>
   );
-  if (assignedBuildingIndex < 0) return personStyle(index, true);
-  const slot = BUILDING_SLOTS[assignedBuildingIndex % BUILDING_SLOTS.length]!;
-  const offset = NAMED_PERSON_OFFSETS[moduleIndex % NAMED_PERSON_OFFSETS.length]!;
-  const x = Math.min(91, Math.max(9, slot.x + offset.x));
-  const y = Math.min(88, Math.max(10, slot.y + offset.y));
-  return {
-    "--campus-person-x": `${String(x)}%`,
-    "--campus-person-y": `${String(y)}%`,
-    ...namedPersonMotion(index, x, y),
-  };
 }
 
 export function CampusStrip({
@@ -171,15 +245,10 @@ export function CampusStrip({
     CAMPUS_RENDER_LIMITS.constructionProjects,
   );
   const namedPeople = campus.namedPeople.slice(0, CAMPUS_RENDER_LIMITS.namedPeople);
-  const peoplePerModule = new Map<string, number>();
-  const namedPeopleWithStyles = namedPeople.map((person, index) => {
-    const moduleIndex = peoplePerModule.get(person.locationModule) ?? 0;
-    peoplePerModule.set(person.locationModule, moduleIndex + 1);
-    return {
-      person,
-      style: namedPersonStyle(index, moduleIndex, person, buildings),
-    };
-  });
+  const namedPersonIndex = new Map(
+    namedPeople.map((person, index) => [person.researcherId, index]),
+  );
+  const quadrants = plotsByQuadrant(campusPlots(buildings, projects, namedPeople));
   const decorativeStaffCount = Math.min(
     CAMPUS_RENDER_LIMITS.decorativeStaff,
     Math.max(
@@ -195,6 +264,116 @@ export function CampusStrip({
       : buildings.length < 9
         ? "Growing research campus"
         : "Frontier campus at full tempo";
+
+  function renderResearcher(person: CampusPerson): ReactElement {
+    const index = namedPersonIndex.get(person.researcherId) ?? 0;
+    return (
+      <button
+        className={`campus-map-researcher researcher-${String(index % 5)}`}
+        type="button"
+        key={person.researcherId}
+        style={namedPersonStyle(index)}
+        title={`Inspect ${person.displayName} · ${person.assignmentLabel}`}
+        onClick={() => onInspectResearcher?.(person.researcherId)}
+      >
+        <span className="campus-researcher-star" aria-hidden="true">
+          ★
+        </span>
+        <PixelPortrait
+          className="campus-researcher-portrait"
+          subjectId={person.portraitAssetId}
+          name={person.displayName}
+          brief={person.portraitBrief}
+          altText={person.portraitAltText}
+        />
+        <span className="campus-researcher-label">
+          <strong>{person.displayName}</strong>
+          <small>{person.assignmentLabel}</small>
+        </span>
+      </button>
+    );
+  }
+
+  function renderFacility(building: CampusFacility, index: number): ReactElement {
+    const contents = (
+      <>
+        <div className="campus-building-art">
+          <FacilityPixelIcon
+            family={building.family}
+            displayName={building.displayName}
+            tier={building.tier}
+            variantId={building.definitionId}
+          />
+          <span className="campus-building-shadow" aria-hidden="true" />
+        </div>
+        <div className="campus-building-label">
+          <strong>{building.displayName}</strong>
+          <span className={building.operational ? "online" : "offline"}>
+            {building.loadLabel}
+          </span>
+        </div>
+      </>
+    );
+    const sharedProps = {
+      className: `campus-map-building load-${building.loadState}`,
+      "data-visual-kind": visualKind(building.family, building.campusModule),
+      style: plotStyle(index),
+      title: `${building.displayName} · ${building.loadLabel}`,
+    };
+    return onInspectFacility === undefined ? (
+      <article {...sharedProps}>{contents}</article>
+    ) : (
+      <button
+        {...sharedProps}
+        type="button"
+        aria-haspopup="dialog"
+        aria-label={`Inspect ${building.displayName} · ${building.loadLabel}`}
+        onClick={() => onInspectFacility(building)}
+      >
+        {contents}
+      </button>
+    );
+  }
+
+  function renderPlot(plot: CampusPlot, index: number): ReactElement {
+    switch (plot.kind) {
+      case "facility":
+        return (
+          <div className="campus-map-plot" key={plot.key}>
+            {renderFacility(plot.facility, index)}
+            {plot.people.map(renderResearcher)}
+          </div>
+        );
+      case "construction":
+        return (
+          <div className="campus-map-plot" key={plot.key}>
+            <article
+              className="campus-map-construction"
+              data-construction-stage={plot.project.stage}
+              style={plotStyle(index)}
+              title={`${plot.project.displayName} · ${plot.project.stageLabel}`}
+            >
+              <div aria-hidden="true">
+                <span />
+                <i />
+                <b />
+              </div>
+              <strong>{plot.project.displayName}</strong>
+              <small>
+                {plot.project.stageLabel} ·{" "}
+                {String(Math.round(plot.project.progressBasisPoints / 100))}%
+              </small>
+            </article>
+          </div>
+        );
+      case "lawn":
+        return (
+          <div className="campus-map-plot campus-map-lawn" key={plot.key}>
+            {plot.people.map(renderResearcher)}
+          </div>
+        );
+    }
+  }
 
   return (
     <section
@@ -245,8 +424,29 @@ export function CampusStrip({
 
       <div className="campus-map-scene">
         <span className="campus-map-grid" aria-hidden="true" />
-        <span className="campus-map-road road-east-west" aria-hidden="true" />
-        <span className="campus-map-road road-north-south" aria-hidden="true" />
+        <span className="campus-map-road road-east-west" aria-hidden="true">
+          <Walkers route="street" count={decorativeStaffCount} />
+          {Array.from(
+            { length: Math.min(5, Math.max(2, Math.ceil(buildings.length / 2))) },
+            (_, index) => (
+              <span
+                className={`campus-map-cart cart-${String(index % 3)}`}
+                key={`cart:${String(index)}`}
+                style={
+                  {
+                    "--cart-y": index % 2 === 0 ? "3px" : "16px",
+                    "--cart-delay": `${String(index * -3.8)}s`,
+                  } as CSSProperties
+                }
+              >
+                <i />
+              </span>
+            ),
+          )}
+        </span>
+        <span className="campus-map-road road-north-south" aria-hidden="true">
+          <Walkers route="avenue" count={decorativeStaffCount} />
+        </span>
         <span className="campus-map-road road-service" aria-hidden="true" />
         <span className="campus-map-plaza" aria-hidden="true">
           <i />
@@ -271,127 +471,13 @@ export function CampusStrip({
           />
         ))}
 
-        {buildings.map((building, index) => {
-          const key = building.facilityId ?? `${building.definitionId}:${String(index)}`;
-          const contents = (
-            <>
-              <div className="campus-building-art">
-                <FacilityPixelIcon
-                  family={building.family}
-                  displayName={building.displayName}
-                  tier={building.tier}
-                  variantId={building.definitionId}
-                />
-                <span className="campus-building-shadow" aria-hidden="true" />
-              </div>
-              <div className="campus-building-label">
-                <strong>{building.displayName}</strong>
-                <span className={building.operational ? "online" : "offline"}>
-                  {building.loadLabel}
-                </span>
-              </div>
-            </>
-          );
-          const sharedProps = {
-            className: `campus-map-building load-${building.loadState}`,
-            "data-visual-kind": visualKind(building.family, building.campusModule),
-            style: buildingStyle(index),
-            title: `${building.displayName} · ${building.loadLabel}`,
-          };
-          return onInspectFacility === undefined ? (
-            <article key={key} {...sharedProps}>
-              {contents}
-            </article>
-          ) : (
-            <button
-              key={key}
-              {...sharedProps}
-              type="button"
-              aria-haspopup="dialog"
-              aria-label={`Inspect ${building.displayName} · ${building.loadLabel}`}
-              onClick={() => onInspectFacility(building)}
-            >
-              {contents}
-            </button>
-          );
-        })}
-
-        {projects.map((project, index) => (
-          <article
-            className="campus-map-construction"
-            data-construction-stage={project.stage}
-            key={project.projectId}
-            style={buildingStyle(buildings.length + index)}
-            title={`${project.displayName} · ${project.stageLabel}`}
-          >
-            <div aria-hidden="true">
-              <span />
-              <i />
-              <b />
-            </div>
-            <strong>{project.displayName}</strong>
-            <small>
-              {project.stageLabel} ·{" "}
-              {String(Math.round(project.progressBasisPoints / 100))}%
-            </small>
-          </article>
+        {QUADRANTS.map((quadrant) => (
+          <div className={`campus-map-quarter quarter-${quadrant}`} key={quadrant}>
+            {quadrants.get(quadrant)?.map(({ plot, index }) => renderPlot(plot, index))}
+          </div>
         ))}
 
-        {namedPeopleWithStyles.map(({ person, style }, index) => (
-          <button
-            className={`campus-map-researcher researcher-${String(index % 5)}`}
-            type="button"
-            key={person.researcherId}
-            style={style}
-            title={`Inspect ${person.displayName} · ${person.assignmentLabel}`}
-            onClick={() => onInspectResearcher?.(person.researcherId)}
-          >
-            <span className="campus-researcher-star" aria-hidden="true">
-              ★
-            </span>
-            <PixelPortrait
-              className="campus-researcher-portrait"
-              subjectId={person.portraitAssetId}
-              name={person.displayName}
-              brief={person.portraitBrief}
-              altText={person.portraitAltText}
-            />
-            <span className="campus-researcher-label">
-              <strong>{person.displayName}</strong>
-              <small>{person.assignmentLabel}</small>
-            </span>
-          </button>
-        ))}
-
-        {Array.from({ length: decorativeStaffCount }, (_, index) => (
-          <span
-            className={`campus-map-staff staff-${String(index % 6)}`}
-            key={`staff:${String(index)}`}
-            style={personStyle(index)}
-            aria-hidden="true"
-          >
-            <i />
-          </span>
-        ))}
-
-        {Array.from(
-          { length: Math.min(5, Math.max(2, Math.ceil(buildings.length / 2))) },
-          (_, index) => (
-            <span
-              className={`campus-map-cart cart-${String(index % 3)}`}
-              key={`cart:${String(index)}`}
-              style={
-                {
-                  "--cart-y": `${String(37 + (index % 3) * 24)}%`,
-                  "--cart-delay": `${String(index * -3.8)}s`,
-                } as CSSProperties
-              }
-              aria-hidden="true"
-            >
-              <i />
-            </span>
-          ),
-        )}
+        <Walkers route="lawn" count={decorativeStaffCount} />
 
         {Array.from(
           { length: Math.min(4, Math.max(1, Math.ceil(buildings.length / 4))) },
@@ -401,8 +487,7 @@ export function CampusStrip({
               key={`drone:${String(index)}`}
               style={
                 {
-                  "--map-drone-x": `${String(21 + ((index * 31) % 66))}%`,
-                  "--map-drone-y": `${String(12 + (index % 3) * 21)}%`,
+                  "--map-drone-y": `${String(8 + index * 21)}%`,
                   "--map-drone-delay": `${String(index * -4.1)}s`,
                 } as CSSProperties
               }

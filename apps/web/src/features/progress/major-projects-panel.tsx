@@ -87,6 +87,45 @@ export function MajorProjectsPanel({ view }: { readonly view: GameView }): React
       (assignment) =>
         assignment.kind === "project" && assignment.project.kind === "crisis",
     );
+  const slotName = (slotIndex: number, isCrisis: boolean): string =>
+    slotIndex >= capacity.majorProjectSlots
+      ? `${isCrisis ? "Surge" : "Overflow"} ${String(slotIndex - capacity.majorProjectSlots + 1)}`
+      : `Slot ${String(slotIndex + 1)}`;
+  // Only occupied slots earn a full card; free capacity is summarised by the
+  // slot meter so an idle lab does not read as a wall of identical empty cards.
+  const occupiedSlots = slotAssignments
+    .slice(0, capacity.majorProjectSlots + surgeSlots)
+    .map((assignment, slotIndex) => ({ assignment, slotIndex }));
+  const freeSlots = Math.max(0, capacity.majorProjectSlots - occupiedSlots.length);
+  const slotMarkers = Array.from(
+    { length: capacity.majorProjectSlots + surgeSlots },
+    (_, slotIndex) => {
+      const assignment = slotAssignments[slotIndex];
+      const isCrisis =
+        assignment?.kind === "project" && assignment.project.kind === "crisis";
+      const state =
+        assignment === undefined
+          ? "free"
+          : isCrisis
+            ? "crisis"
+            : assignment.kind === "recovery"
+              ? "recovery"
+              : "in use";
+      const occupant =
+        assignment === undefined
+          ? ""
+          : assignment.kind === "recovery"
+            ? " · Post-retirement recovery"
+            : ` · ${assignment.project.displayName}`;
+      return {
+        key: slotIndex,
+        className: `${state === "in use" ? "occupied" : state}${
+          slotIndex >= capacity.majorProjectSlots ? " surge" : ""
+        }`,
+        label: `${slotName(slotIndex, isCrisis)}: ${state}${occupant}`,
+      };
+    },
+  );
   const capacityState =
     capacity.occupiedMajorProjectSlots === 0
       ? "idle"
@@ -153,42 +192,51 @@ export function MajorProjectsPanel({ view }: { readonly view: GameView }): React
         </dl>
       </div>
 
-      <div className="major-project-slot-grid">
-        {Array.from(
-          { length: capacity.majorProjectSlots + surgeSlots },
-          (_, slotIndex) => {
-            const assignment = slotAssignments[slotIndex];
+      <div className={`major-project-free-slots${freeSlots === 0 ? " none-free" : ""}`}>
+        <ol className="major-project-slot-meter" aria-label="Slot usage">
+          {slotMarkers.map((marker) => (
+            <li className={marker.className} key={marker.key} title={marker.label}>
+              <span className="sr-only">{marker.label}</span>
+            </li>
+          ))}
+        </ol>
+        <p>
+          {freeSlots === 0 ? (
+            <>
+              <strong>No free slots</strong> — new work waits in the queue until a slot
+              opens.
+            </>
+          ) : (
+            <>
+              <strong>
+                {freeSlots} slot{freeSlots === 1 ? "" : "s"} free
+              </strong>{" "}
+              — start training, evaluations, construction or fundraising from their
+              workspaces.
+            </>
+          )}
+        </p>
+      </div>
+
+      {occupiedSlots.length === 0 ? null : (
+        <div className="major-project-slot-grid">
+          {occupiedSlots.map(({ assignment, slotIndex }) => {
             const isSurge = slotIndex >= capacity.majorProjectSlots;
             const isCrisis =
-              assignment?.kind === "project" && assignment.project.kind === "crisis";
-            const isRecovery = assignment?.kind === "recovery";
+              assignment.kind === "project" && assignment.project.kind === "crisis";
+            const isRecovery = assignment.kind === "recovery";
             return (
               <article
-                className={`${assignment === undefined ? "free" : "occupied"}${isCrisis ? " crisis" : ""}${isRecovery ? " recovery" : ""}${isSurge ? " surge" : ""}`}
+                className={`occupied${isCrisis ? " crisis" : ""}${isRecovery ? " recovery" : ""}${isSurge ? " surge" : ""}`}
                 key={slotIndex}
               >
                 <header>
-                  <span>
-                    {isSurge
-                      ? `${isCrisis ? "SURGE" : "OVERFLOW"} ${String(slotIndex - capacity.majorProjectSlots + 1)}`
-                      : `SLOT ${String(slotIndex + 1)}`}
-                  </span>
+                  <span>{slotName(slotIndex, isCrisis).toUpperCase()}</span>
                   <strong>
-                    {assignment === undefined
-                      ? "FREE"
-                      : isCrisis
-                        ? "CRISIS"
-                        : isRecovery
-                          ? "RECOVERY"
-                          : "IN USE"}
+                    {isCrisis ? "CRISIS" : isRecovery ? "RECOVERY" : "IN USE"}
                   </strong>
                 </header>
-                {assignment === undefined ? (
-                  <>
-                    <h3>Ready for a major project</h3>
-                    <p>Available</p>
-                  </>
-                ) : assignment.kind === "recovery" ? (
+                {assignment.kind === "recovery" ? (
                   <>
                     <h3>Post-retirement recovery</h3>
                     <p>Quarantine and supervised rebuilding</p>
@@ -208,9 +256,9 @@ export function MajorProjectsPanel({ view }: { readonly view: GameView }): React
                 )}
               </article>
             );
-          },
-        )}
-      </div>
+          })}
+        </div>
+      )}
 
       {queuedProjects.length === 0 ? null : (
         <section className="major-project-queue" aria-labelledby="project-queue-title">

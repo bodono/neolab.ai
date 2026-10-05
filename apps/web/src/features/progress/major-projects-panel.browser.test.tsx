@@ -28,19 +28,23 @@ function project(
 function buildView(
   projects: readonly Record<string, unknown>[],
   recoveryMajorProjectSlots: 0 | 1 = 0,
+  majorProjectSlots = 5,
 ): GameView {
+  const occupied = projects.filter(
+    (entry) => entry["status"] === "active" || entry["status"] === "paused",
+  ).length;
   return {
     facilities: {
       capacity: {
         baseMajorProjectSlots: 2,
-        facilityBonusMajorProjectSlots: 3,
+        facilityBonusMajorProjectSlots: majorProjectSlots - 2,
         maximumMajorProjectSlots: 5,
-        majorProjectSlots: 5,
+        majorProjectSlots,
         recoveryMajorProjectSlots,
-        occupiedMajorProjectSlots: projects.length + recoveryMajorProjectSlots,
+        occupiedMajorProjectSlots: occupied + recoveryMajorProjectSlots,
         availableMajorProjectSlots: Math.max(
           0,
-          5 - projects.length - recoveryMajorProjectSlots,
+          majorProjectSlots - occupied - recoveryMajorProjectSlots,
         ),
       },
       projects,
@@ -82,8 +86,16 @@ describe("the major projects panel under crisis surge", () => {
     expect(container.textContent).not.toContain("These slots limit how many");
     expect(container.textContent).not.toContain("Review facility expansion");
     expect(container.textContent).not.toContain("crisis surge");
+    // Only occupied slots get cards; free capacity is the meter and one line.
     expect(container.querySelectorAll(".major-project-slot-grid > article")).toHaveLength(
-      5,
+      3,
+    );
+    expect(container.querySelectorAll(".major-project-slot-meter > li")).toHaveLength(5);
+    expect(
+      container.querySelectorAll(".major-project-slot-meter > li.free"),
+    ).toHaveLength(2);
+    expect(container.querySelector(".major-project-free-slots")?.textContent).toContain(
+      "2 slots free",
     );
     expect(
       container.querySelectorAll(".major-project-slot-grid > article.surge"),
@@ -127,6 +139,12 @@ describe("the major projects panel under crisis surge", () => {
     expect(
       container.querySelectorAll(".major-project-slot-grid > article.crisis.surge"),
     ).toHaveLength(2);
+    expect(
+      container.querySelectorAll(".major-project-slot-meter > li.crisis.surge"),
+    ).toHaveLength(2);
+    expect(container.querySelector(".major-project-free-slots")?.textContent).toContain(
+      "No free slots",
+    );
   });
 
   it("shows the major-project slot reserved by retirement recovery", () => {
@@ -168,5 +186,57 @@ describe("the major projects panel under crisis surge", () => {
     );
     expect(recovery?.textContent).toContain("OVERFLOW 1");
     expect(recovery?.textContent).toContain("Post-retirement recovery");
+  });
+
+  it("summarises an idle lab's free slots in one line instead of empty cards", () => {
+    act(() => {
+      root.render(<MajorProjectsPanel view={buildView([], 0, 2)} />);
+    });
+
+    expect(container.textContent).toContain("ALL SLOTS FREE");
+    expect(container.textContent).toContain("0/2 slots in use");
+    expect(container.textContent).toContain("BASE SLOTS");
+    expect(container.textContent).toContain("FACILITY SLOTS");
+    expect(container.textContent).toContain("2 of 5 possible");
+    expect(container.querySelector(".major-project-slot-grid")).toBeNull();
+    expect(container.textContent).not.toContain("Ready for a major project");
+    const markers = container.querySelectorAll(".major-project-slot-meter > li");
+    expect(markers).toHaveLength(2);
+    expect(markers[0]?.textContent).toBe("Slot 1: free");
+    expect(container.querySelector(".major-project-free-slots")?.textContent).toContain(
+      "2 slots free — start training, evaluations, construction or fundraising",
+    );
+    expect(
+      container.querySelector(
+        '.mechanic-help summary[aria-label*="Major-project slots"]',
+      ),
+    ).not.toBeNull();
+  });
+
+  it("keeps queued work visible below the active cards", () => {
+    const view = buildView(
+      [
+        project("p1", "training", "Aquarius 4"),
+        project("p2", "construction", "Data Centre III"),
+        { ...project("q1", "fundraising", "Series B roadshow"), status: "queued" },
+      ],
+      0,
+      2,
+    );
+    act(() => {
+      root.render(<MajorProjectsPanel view={view} />);
+    });
+
+    expect(container.textContent).toContain("2/2 slots in use · 1 queued");
+    expect(container.querySelectorAll(".major-project-slot-grid > article")).toHaveLength(
+      2,
+    );
+    expect(
+      container.querySelector(".major-project-slot-meter > li.occupied")?.textContent,
+    ).toBe("Slot 1: in use · Aquarius 4");
+    const queue = container.querySelector(".major-project-queue");
+    expect(queue?.textContent).toContain("Waiting queue");
+    expect(queue?.textContent).toContain("Series B roadshow");
+    expect(queue?.textContent).toContain("Fundraising");
   });
 });

@@ -2069,10 +2069,69 @@ html[data-theme="dark"] .setup-summary-portrait {
   color: var(--ink);
   font: 800 13px var(--font-mono);
 }
+/* Free capacity is a compact meter and one line; only occupied slots get cards. */
+.major-project-free-slots {
+  margin-top: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  border: 1px dashed color-mix(in srgb, var(--green) 60%, var(--line));
+  background: color-mix(in srgb, var(--green) 7%, var(--panel));
+}
+.major-project-free-slots.none-free {
+  border-color: var(--line);
+  background: var(--panel);
+}
+.major-project-free-slots p {
+  min-width: 0;
+  flex: 1 1 260px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.major-project-free-slots p strong {
+  color: #22704c;
+  font: 800 11px var(--font-mono);
+}
+.major-project-free-slots.none-free p strong {
+  color: var(--ink);
+}
+.major-project-slot-meter {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+}
+.major-project-slot-meter li {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #3e9a66;
+  background: color-mix(in srgb, var(--green) 14%, var(--panel));
+}
+.major-project-slot-meter li.occupied {
+  border-color: #b07a10;
+  background: #e9a329;
+}
+.major-project-slot-meter li.crisis {
+  border-color: #b4471a;
+  background: var(--orange);
+}
+.major-project-slot-meter li.recovery {
+  border-color: color-mix(in srgb, var(--blue) 70%, var(--ink));
+  background: var(--blue);
+}
+.major-project-slot-meter li.surge {
+  border-style: dashed;
+}
 .major-project-slot-grid {
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 176px), 1fr));
   gap: 8px;
 }
 .major-project-slot-grid > article {
@@ -2134,18 +2193,6 @@ html[data-theme="dark"] .setup-summary-portrait {
   border-top-style: solid;
   box-shadow: 3px 3px 0 color-mix(in srgb, var(--orange) 38%, transparent);
 }
-.major-project-slot-grid > article.free {
-  border-color: color-mix(in srgb, var(--green) 62%, var(--line));
-  border-top-color: var(--green);
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--green) 16%, transparent),
-      transparent 60%
-    ),
-    var(--panel);
-  box-shadow: 3px 3px 0 color-mix(in srgb, var(--green) 20%, transparent);
-}
 .major-project-slot-grid article > header {
   display: flex;
   justify-content: space-between;
@@ -2157,10 +2204,6 @@ html[data-theme="dark"] .setup-summary-portrait {
   border: 1px solid currentColor;
   color: #8b5a00;
   background: color-mix(in srgb, #f4bd52 18%, var(--panel));
-}
-.major-project-slot-grid article.free > header strong {
-  color: #277b56;
-  background: color-mix(in srgb, var(--green) 18%, var(--panel));
 }
 .major-project-slot-grid h3 {
   margin: 4px 0 0;
@@ -8798,6 +8841,9 @@ input[type="range"]::-webkit-slider-thumb {
   gap: 14px;
 }
 .rival-operations {
+  /* The scoreboard lays out against the panel's own width, not the viewport:
+     the sidebar and shell decide how much room the race actually gets. */
+  container: rival-race / inline-size;
   background:
     linear-gradient(90deg, transparent 97%, rgba(46, 147, 232, 0.16) 97%), #f0f2f0;
   background-size: 18px 18px;
@@ -8805,7 +8851,7 @@ input[type="range"]::-webkit-slider-thumb {
 .rival-score-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 7px;
+  gap: 8px;
 }
 .rival-score-card {
   min-width: 0;
@@ -8841,17 +8887,16 @@ input[type="range"]::-webkit-slider-thumb {
   text-transform: uppercase;
 }
 .rival-score-card .rival-score-identity strong {
-  overflow: hidden;
-  font-size: 14px;
+  overflow-wrap: break-word;
+  font-size: 15px;
   line-height: 1.15;
-  text-overflow: ellipsis;
 }
 .rival-score-card .rival-score-identity small {
   margin-top: 3px;
-  overflow: hidden;
+  overflow-wrap: break-word;
   color: var(--muted);
   font-size: 9px;
-  text-overflow: ellipsis;
+  line-height: 1.3;
 }
 .rival-score-card .rival-score-identity .rival-leader-name {
   color: var(--ink);
@@ -8875,9 +8920,10 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .rival-score-value strong {
   color: var(--blue);
-  font-size: clamp(24px, 2.25vw, 38px);
+  font-size: clamp(26px, 3cqi, 34px);
   line-height: 1;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
 }
 .rival-score-value span {
   color: var(--muted);
@@ -8963,6 +9009,75 @@ input[type="range"]::-webkit-slider-thumb {
 .focused-rival-score-card {
   border-color: var(--blue);
   box-shadow: inset 0 4px 0 var(--blue);
+}
+/* Five equal columns only when each card gets about 210px. Below that the
+   player's lab becomes a full-width banner over the four rivals (then two),
+   so no name is truncated and no card is orphaned on its own row. */
+@container rival-race (max-width: 1099.98px) {
+  .rival-score-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@container rival-race (min-width: 480px) and (max-width: 1099.98px) {
+  .rival-score-grid > .player-score-card {
+    grid-column: 1 / -1;
+    min-height: 0;
+    /* A 36px column gap lines each banner column up with the content edge of
+       the rival card below it (8px grid gap + 2 x 14px card padding+border). */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "identity score facts programme"
+      "identity note facts programme";
+    gap: 4px 36px;
+    align-items: center;
+  }
+  .player-score-card > .rival-score-identity {
+    grid-area: identity;
+  }
+  .player-score-card > .rival-score-value {
+    grid-area: score;
+    align-self: end;
+  }
+  .player-score-card > p {
+    grid-area: note;
+    align-self: start;
+  }
+  .player-score-card > .rival-score-facts {
+    grid-area: facts;
+  }
+  .player-score-card > .rival-programme-status {
+    grid-area: programme;
+    align-self: stretch;
+    align-content: center;
+    padding: 0 0 0 14px;
+    border-top: 0;
+    border-left: 1px solid #d5ddda;
+  }
+}
+@container rival-race (max-width: 899.98px) {
+  .rival-score-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container rival-race (min-width: 480px) and (max-width: 899.98px) {
+  .rival-score-grid > .player-score-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "identity score"
+      "identity note"
+      "facts programme";
+    row-gap: 8px;
+  }
+}
+@container rival-race (max-width: 479.98px) {
+  .rival-score-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rival-score-card {
+    min-height: 0;
+  }
 }
 .relationship-grid {
   display: grid;
@@ -16915,11 +17030,22 @@ html[data-theme="dark"] .gpu-keynote-quote {
   background: #a83d2b;
 }
 .campus-map-scene {
+  --campus-pad: 18px;
+  --campus-road: 34px;
+  --campus-verge: 14px;
+  --campus-plot: 140px;
+  --campus-tile: 132px;
   position: relative;
-  /* The illustrated contents are positioned, so reserve an explicit box instead
-     of relying on intrinsic height. */
-  height: clamp(520px, 51vw, 680px);
+  /* A town plan: four quarters of building plots around a north-south avenue
+     and an east-west street. The quarters are in flow, so the scene grows with
+     the estate instead of piling buildings on top of each other; the minimum
+     keeps a young lab's open land on screen. */
   min-height: clamp(520px, 51vw, 680px);
+  padding: var(--campus-pad) var(--campus-pad) calc(var(--campus-pad) + 30px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--campus-road) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) var(--campus-road) minmax(0, 1fr);
+  gap: var(--campus-verge);
   overflow: hidden;
   isolation: isolate;
   background:
@@ -16938,7 +17064,7 @@ html[data-theme="dark"] .gpu-keynote-quote {
   transform: perspective(800px) rotateX(5deg);
 }
 .campus-map-road {
-  position: absolute;
+  position: relative;
   z-index: 3;
   border: 2px solid #52625d;
   background:
@@ -16948,31 +17074,34 @@ html[data-theme="dark"] .gpu-keynote-quote {
     0 4px 0 rgba(34, 52, 47, 0.22);
 }
 .campus-map-road.road-east-west {
-  height: 34px;
-  inset: 47% -3% auto;
+  grid-row: 2;
+  grid-column: 1 / -1;
+  margin-inline: calc(-1 * var(--campus-pad) - 6px);
 }
 .campus-map-road.road-north-south {
-  width: 34px;
-  height: 110%;
-  top: -5%;
-  left: 47%;
+  grid-row: 1 / -1;
+  grid-column: 2;
+  margin-block: calc(-1 * var(--campus-pad) - 36px);
   background:
     repeating-linear-gradient(0deg, transparent 0 24px, #c5bd86 24px 34px), #65716d;
 }
 .campus-map-road.road-service {
-  width: 45%;
+  width: 42%;
   height: 22px;
+  position: absolute;
   right: -2%;
-  bottom: 16%;
-  transform: rotate(-8deg);
+  bottom: 8px;
+  transform: rotate(-3deg);
 }
 .campus-map-plaza {
   width: 118px;
   height: 86px;
   position: absolute;
   z-index: 4;
-  top: calc(47% - 26px);
-  left: calc(47% - 42px);
+  /* Anchored to the crossing's grid area, wherever the street ends up. */
+  grid-area: 2 / 2 / 3 / 3;
+  top: calc(50% - 43px);
+  left: calc(50% - 59px);
   border: 5px solid #b3ad91;
   background:
     linear-gradient(45deg, transparent 47%, #a69f82 47% 53%, transparent 53%),
@@ -17044,7 +17173,7 @@ html[data-theme="dark"] .gpu-keynote-quote {
   width: 10px;
   height: 14px;
   position: absolute;
-  z-index: 5;
+  z-index: 2;
   top: var(--tree-y);
   left: var(--tree-x);
   border-radius: 5px 5px 2px 2px;
@@ -17064,12 +17193,43 @@ html[data-theme="dark"] .gpu-keynote-quote {
   opacity: 0.72;
   transform: scale(0.65);
 }
+.campus-map-quarter {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--campus-plot), 1fr));
+  align-content: center;
+  gap: 22px 16px;
+}
+.campus-map-quarter.quarter-north-west {
+  grid-area: 1 / 1;
+}
+.campus-map-quarter.quarter-north-east {
+  grid-area: 1 / 3;
+}
+.campus-map-quarter.quarter-south-west {
+  grid-area: 3 / 1;
+}
+.campus-map-quarter.quarter-south-east {
+  grid-area: 3 / 3;
+}
+.campus-map-plot {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 8px;
+}
+.campus-map-lawn {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .campus-map-building {
-  width: clamp(96px, 11vw, 132px);
-  position: absolute;
-  z-index: var(--campus-depth);
-  top: var(--campus-y);
-  left: var(--campus-x);
+  width: min(100%, var(--campus-tile));
+  min-width: 0;
+  position: relative;
+  z-index: 20;
   display: grid;
   gap: 3px;
   padding: 0;
@@ -17077,13 +17237,14 @@ html[data-theme="dark"] .gpu-keynote-quote {
   background: transparent;
   filter: drop-shadow(7px 9px 0 rgba(29, 47, 42, 0.23));
   text-align: left;
-  transform: translate(-4%, -3%) rotate(-1deg);
+  translate: var(--plot-dx, 0) var(--plot-dy, 0);
+  rotate: var(--plot-tilt, -1deg);
 }
 button.campus-map-building:hover,
 button.campus-map-building:focus-visible {
   z-index: 150;
   filter: drop-shadow(9px 11px 0 rgba(29, 47, 42, 0.3)) brightness(1.06);
-  transform: translate(-4%, -3%) rotate(-1deg) scale(1.04);
+  scale: 1.04;
 }
 .campus-building-art {
   position: relative;
@@ -17118,7 +17279,7 @@ button.campus-map-building:focus-visible {
 }
 .campus-building-label {
   min-width: 0;
-  padding: 4px 6px;
+  padding: 4px 6px 5px;
   display: grid;
   gap: 2px;
   color: #eff7f3;
@@ -17126,14 +17287,14 @@ button.campus-map-building:focus-visible {
   background: rgba(17, 38, 35, 0.93);
   font-family: var(--font-mono);
 }
+/* Full names, wrapped: a plot is as tall as its label needs. */
 .campus-building-label strong {
-  overflow: hidden;
-  font-size: 8px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: break-word;
+  font-size: 9px;
+  line-height: 1.25;
 }
 .campus-building-label span {
-  color: #9eb6ae;
+  color: #a9c0b8;
   font-size: 7px;
   text-transform: uppercase;
 }
@@ -17141,11 +17302,12 @@ button.campus-map-building:focus-visible {
   color: #ff9a79;
 }
 .campus-map-construction {
-  width: clamp(98px, 11vw, 132px);
-  position: absolute;
-  z-index: var(--campus-depth);
-  top: var(--campus-y);
-  left: var(--campus-x);
+  width: min(100%, var(--campus-tile));
+  min-width: 0;
+  position: relative;
+  z-index: 20;
+  translate: var(--plot-dx, 0) var(--plot-dy, 0);
+  rotate: var(--plot-tilt, 0deg);
   padding: 7px;
   display: grid;
   gap: 3px;
@@ -17187,20 +17349,21 @@ button.campus-map-building:focus-visible {
   background: #49382b;
 }
 .campus-map-construction strong {
-  font-size: 8px;
+  overflow-wrap: break-word;
+  font-size: 9px;
+  line-height: 1.25;
 }
 .campus-map-construction small {
   font-size: 7px;
   text-transform: uppercase;
 }
 .campus-map-researcher {
-  position: absolute;
-  z-index: 120;
-  top: var(--campus-person-y);
-  left: var(--campus-person-x);
+  max-width: 100%;
+  position: relative;
+  z-index: 30;
   padding: 0;
   display: grid;
-  grid-template-columns: 34px minmax(76px, auto);
+  grid-template-columns: 34px minmax(0, auto);
   align-items: center;
   color: #eef8f4;
   border: 2px solid #ffd967;
@@ -17209,7 +17372,6 @@ button.campus-map-building:focus-visible {
     3px 3px 0 #ff8a50,
     0 0 0 3px rgba(17, 42, 37, 0.24);
   text-align: left;
-  transform: translate(-50%, -50%);
   animation: campus-researcher-patrol var(--campus-person-duration) ease-in-out
     var(--campus-person-delay) infinite alternate;
 }
@@ -17219,7 +17381,7 @@ button.campus-map-building:focus-visible {
   color: white;
   border-color: #83dfff;
   background: #1c3c36;
-  transform: translate(-50%, -50%) scale(1.06);
+  scale: 1.06;
 }
 .campus-researcher-portrait {
   width: 34px;
@@ -17261,7 +17423,8 @@ button.campus-map-building:focus-visible {
   width: 7px;
   height: 12px;
   position: absolute;
-  z-index: 90;
+  /* Under the buildings: staff walk the roads and lawns, never over a label. */
+  z-index: 10;
   top: var(--campus-person-y);
   left: var(--campus-person-x);
   background: #f08b4f;
@@ -17275,6 +17438,9 @@ button.campus-map-building:focus-visible {
 .campus-map-cart,
 .campus-map-drone {
   pointer-events: none;
+}
+.campus-map-staff.on-avenue {
+  animation-name: campus-map-walk-avenue;
 }
 .campus-map-staff.staff-1 {
   background: #4da7e2;
@@ -17295,7 +17461,7 @@ button.campus-map-building:focus-visible {
   width: 24px;
   height: 11px;
   position: absolute;
-  z-index: 100;
+  z-index: 11;
   top: var(--cart-y);
   left: -32px;
   border: 2px solid #26393b;
@@ -17325,8 +17491,9 @@ button.campus-map-building:focus-visible {
   height: 6px;
   position: absolute;
   z-index: 140;
+  /* Drones patrol the avenue, the one lane with no labels to fly over. */
   top: var(--map-drone-y);
-  left: var(--map-drone-x);
+  left: calc(50% - 12px);
   border: 2px solid #2c4348;
   background: #b4d0d2;
   animation: campus-map-drone-route 10s ease-in-out var(--map-drone-delay) infinite
@@ -17490,18 +17657,24 @@ button.campus-map-building:focus-visible {
 @keyframes campus-researcher-patrol {
   0%,
   14% {
-    margin-left: 0;
-    margin-top: 0;
+    translate: 0 0;
   }
   78%,
   100% {
-    margin-left: var(--campus-person-distance);
-    margin-top: var(--campus-person-drift-y);
+    translate: var(--campus-person-distance) var(--campus-person-drift-y);
   }
 }
 @keyframes campus-map-walk {
   to {
-    transform: translate(var(--campus-person-distance), 8px);
+    transform: translate(
+      var(--campus-person-distance),
+      var(--campus-person-drift-y, 8px)
+    );
+  }
+}
+@keyframes campus-map-walk-avenue {
+  to {
+    transform: translateY(var(--campus-person-distance));
   }
 }
 @keyframes campus-cart-route {
@@ -17511,7 +17684,7 @@ button.campus-map-building:focus-visible {
 }
 @keyframes campus-map-drone-route {
   to {
-    transform: translate(56px, -18px);
+    transform: translateY(90px);
   }
 }
 .campus-map[data-paused="true"] *,
@@ -17596,15 +17769,21 @@ button.campus-map-building:focus-visible {
     overflow: visible;
   }
   .campus-map-scene {
-    height: 760px;
-    min-height: 760px;
+    --campus-pad: 10px;
+    --campus-road: 28px;
+    --campus-verge: 10px;
+    --campus-plot: 118px;
+    --campus-tile: 124px;
+    min-height: 520px;
   }
-  .campus-map-building,
-  .campus-map-construction {
-    width: 92px;
+  .campus-map-quarter {
+    gap: 18px 10px;
+  }
+  .campus-map-plaza {
+    transform: rotate(4deg) scale(0.72);
   }
   .campus-map-researcher {
-    grid-template-columns: 30px minmax(66px, auto);
+    grid-template-columns: 30px minmax(0, auto);
   }
   .campus-researcher-portrait {
     width: 30px;
@@ -22118,7 +22297,6 @@ html[data-theme="dark"] .event-education p {
     grid-template-columns: 1fr;
     align-items: stretch;
   }
-  .rival-score-grid,
   .diplomacy-grid,
   .coalition-proposal fieldset {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -22506,7 +22684,6 @@ html[data-theme="dark"] .event-education p {
   .contract-panel {
     grid-template-columns: 1fr;
   }
-  .rival-score-grid,
   .diplomacy-grid,
   .coalition-project-grid,
   .coalition-proposal fieldset,
@@ -25437,7 +25614,7 @@ html[data-theme="dark"] .player-score-card .rival-score-value strong {
   color: #91dfbb;
 }
 html[data-theme="dark"] .rival-programme-status {
-  border-top-color: #40534d;
+  border-color: #40534d;
 }
 html[data-theme="dark"] .rival-programme-status.programme-active strong {
   color: #8dccff;
@@ -26610,9 +26787,45 @@ html[data-theme="dark"] .major-project-capacity-status.idle {
   color: #91dfbb;
 }
 
-html[data-theme="dark"] .major-project-slot-grid article.free > header strong {
+html[data-theme="dark"] .major-project-capacity-status.active {
+  color: #f3c96b;
+}
+
+html[data-theme="dark"] .major-project-capacity-status.full {
+  color: #ffab87;
+}
+
+html[data-theme="dark"] .major-project-slot-grid article > header strong {
+  color: #f3c96b;
+  background: #3a2c0d;
+}
+
+html[data-theme="dark"] .major-project-slot-grid > article.crisis > header strong {
+  color: #ffab87;
+  background: #3d2015;
+}
+
+html[data-theme="dark"] .major-project-slot-grid > article.recovery > header strong {
+  color: #8dccff;
+  background: #15293a;
+}
+
+html[data-theme="dark"] .major-project-free-slots p strong {
   color: #91dfbb;
-  background: #193325;
+}
+
+html[data-theme="dark"] .major-project-free-slots.none-free p strong {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .major-project-slot-meter li.occupied {
+  border-color: #f0b84a;
+  background: #8a5f12;
+}
+
+html[data-theme="dark"] .major-project-slot-meter li.free {
+  border-color: #6edb94;
+  background: #173323;
 }
 
 html[data-theme="dark"] .prosperity-grid > article.locked {

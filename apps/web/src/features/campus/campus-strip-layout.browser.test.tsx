@@ -13,6 +13,7 @@
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 
 import { loadBrowserCompiledContent } from "@neolab/content/browser";
 import {
@@ -149,6 +150,73 @@ const firstStarCampus: CampusView = {
   overflowFacilityCount: 1,
 };
 
+const MATURE_NAMES = [
+  "Alignment Institute I",
+  "The Argus Array",
+  "Biofoundry",
+  "The Cross-Attention Atrium",
+  "Data Centre IV — Gigawatt Complex",
+  "Eval Range I",
+  "Extra-Large Hadron Collider",
+  "Headquarters II",
+  "Interpretability Lab I",
+  "Nanofoundry",
+  "Power and Cooling IV — Captive Nuclear Station",
+  "Rented Office 1",
+  "Research Campus I",
+  "Robotics Lab I",
+  "Scientific Laboratory I",
+  "Secure Bunker I",
+] as const;
+
+/** A frontier estate at the render caps, with long names and crowded buildings. */
+const denseCampus: CampusView = {
+  facilities: MATURE_NAMES.map((displayName, index) => ({
+    facilityId: `dense:facility:${String(index)}`,
+    definitionId: `dense:definition:${String(index)}`,
+    displayName,
+    family: "headquarters",
+    tier: 2,
+    campusModule: `module-${String(index)}`,
+    operational: index % 5 !== 0,
+    loadState: index % 5 === 0 ? "offline" : "active",
+    loadBasisPoints: 6_000,
+    loadLabel: index % 5 === 0 ? "Offline" : "Light activity",
+    namedResearcherIds: [],
+  })),
+  construction: ["foundations", "structure", "commissioning", "paused"].map(
+    (stage, index) => ({
+      projectId: `dense:project:${String(index)}`,
+      definitionId: `dense:construction:${String(index)}`,
+      displayName: `Power and Cooling V — Orbital Array ${String(index + 1)}`,
+      campusModule: `expansion-${String(index)}`,
+      stage: stage as "foundations" | "structure" | "commissioning" | "paused",
+      stageLabel: stage,
+      progressBasisPoints: 2_500 * index,
+    }),
+  ),
+  // Three at one building, two at another, three whose building is not drawn.
+  namedPeople: ["module-7", "module-7", "module-7", "module-4", "module-4"]
+    .concat(["central-campus", "central-campus", "module-99"])
+    .map((locationModule, index) => ({
+      researcherId: `dense:researcher:${String(index)}`,
+      displayName: `Researcher ${String(index + 1)}`,
+      portraitAssetId: `dense:portrait:${String(index)}`,
+      portraitAltText: `Dense researcher ${String(index + 1)}`,
+      assignmentLabel: "Lead · Architectures",
+      locationModule,
+    })),
+  sceneCues: [],
+  decorativeStaffCount: 18,
+  overflowFacilityCount: 4,
+};
+
+function overlapArea(left: DOMRect, right: DOMRect): number {
+  const width = Math.min(left.right, right.right) - Math.max(left.left, right.left);
+  const height = Math.min(left.bottom, right.bottom) - Math.max(left.top, right.top);
+  return width > 0 && height > 0 ? width * height : 0;
+}
+
 describe("campus strip layout under the real stylesheet", () => {
   let root: Root;
   let mount: HTMLDivElement;
@@ -206,4 +274,93 @@ describe("campus strip layout under the real stylesheet", () => {
   it("keeps the scene box for a built-out lab", () => {
     expectSceneInFlow("built out", campusOf(builtOutState()), true);
   });
+
+  for (const viewport of [
+    { name: "desktop", width: 1280, height: 800 },
+    { name: "phone", width: 375, height: 812 },
+  ]) {
+    it(`gives every building its own legible plot on a ${viewport.name}`, async () => {
+      await page.viewport(viewport.width, viewport.height);
+      for (const [label, campus] of [
+        ["dense", denseCampus],
+        ["built out", campusOf(builtOutState())],
+      ] as const) {
+        act(() =>
+          root.render(
+            <div className="facilities-workspace">
+              <CampusStrip
+                campus={campus}
+                dateLabel="2031 · WEEK 9"
+                paused
+                onInspectFacility={() => undefined}
+              />
+            </div>,
+          ),
+        );
+        const scene = mount.querySelector<HTMLElement>(".campus-map-scene")!;
+        const sceneBox = scene.getBoundingClientRect();
+        const tiles = [
+          ...mount.querySelectorAll<HTMLElement>(
+            ".campus-map-building, .campus-map-construction",
+          ),
+        ];
+        expect(tiles.length, `${label}: tiles`).toBe(
+          Math.min(16, campus.facilities.length) +
+            Math.min(4, campus.construction.length),
+        );
+        const boxes = tiles.map((tile) => tile.getBoundingClientRect());
+        boxes.forEach((box, index) => {
+          const name = tiles[index]!.querySelector("strong")?.textContent;
+          expect(
+            box.left,
+            `${label}: ${String(name)} inside the scene`,
+          ).toBeGreaterThanOrEqual(sceneBox.left);
+          expect(box.right).toBeLessThanOrEqual(sceneBox.right);
+          expect(box.top).toBeGreaterThanOrEqual(sceneBox.top);
+          expect(box.bottom).toBeLessThanOrEqual(sceneBox.bottom);
+          boxes.slice(index + 1).forEach((other, offset) => {
+            expect(
+              overlapArea(box, other),
+              `${label}: ${String(name)} overlaps ${String(
+                tiles[index + 1 + offset]!.querySelector("strong")?.textContent,
+              )}`,
+            ).toBe(0);
+          });
+        });
+
+        // Names are shown in full: wrapped, never clipped or ellipsised.
+        campus.facilities.slice(0, 16).forEach((facility) => {
+          const tile = tiles.find(
+            (candidate) =>
+              candidate.querySelector(".campus-building-label strong")?.textContent ===
+              facility.displayName,
+          );
+          expect(tile, `${label}: ${facility.displayName} is drawn`).toBeDefined();
+          const name = tile!.querySelector<HTMLElement>(".campus-building-label strong")!;
+          expect(name.scrollWidth, facility.displayName).toBeLessThanOrEqual(
+            name.clientWidth + 1,
+          );
+          expect(getComputedStyle(name).textOverflow).not.toBe("ellipsis");
+          expect(tile!.getAttribute("aria-label")).toContain(facility.displayName);
+        });
+
+        // Star researchers stand in plots of their own and cover no label.
+        const labels = [...mount.querySelectorAll<HTMLElement>(".campus-building-label")];
+        const researchers = [
+          ...mount.querySelectorAll<HTMLElement>(".campus-map-researcher"),
+        ];
+        expect(researchers).toHaveLength(Math.min(8, campus.namedPeople.length));
+        for (const researcher of researchers) {
+          const box = researcher.getBoundingClientRect();
+          for (const tileLabel of labels) {
+            expect(
+              overlapArea(box, tileLabel.getBoundingClientRect()),
+              `${label}: ${String(researcher.title)} covers ${String(tileLabel.textContent)}`,
+            ).toBe(0);
+          }
+        }
+        expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(viewport.width);
+      }
+    });
+  }
 });
