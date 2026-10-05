@@ -1454,15 +1454,20 @@ export function compileContent(repoRoot: string): CompileResult {
       // moved every attribute while being invisible in the UI and unreachable
       // by any authored effect.
       // A visible research level counts 18% more strongly inside the
-      // capability formula. Applied before the exponent, this keeps research
-      // valuable throughout the late game.
+      // capability formula, up to level 60. Above that the boost tapers to
+      // nothing at level 100, so Frontier Capability 100 needs research 100
+      // and every level between the candidate gate (FC 88, around research
+      // 75 with endgame compute) and the top still raises the odds that a
+      // candidate is genuine.
       researchEffectivenessMultiplier: 1.18,
+      researchEffectivenessTaperStart: 60,
+      researchEffectivenessAtMaximum: 1,
       researchCeilingExponent: 0.6,
       scaleScoreExponent: 0.3,
       // The former 0.955 was an invisible legacy penalty inherited from the
-      // removed data-fitness term. At 1.0, broadly level-80 research plus a
-      // maximal Rubin fleet can produce a candidate-scale model without
-      // waiting for fictional hardware.
+      // removed data-fitness term. At 1.0, broadly level-87 research plus an
+      // 800k Rubin fleet can produce a candidate-scale model without waiting
+      // for fictional hardware.
       dataTermCalibration: 1,
       trainingNoiseMin: -4,
       trainingNoiseMode: 0,

@@ -1738,6 +1738,31 @@ function capabilityResearchCeiling(
   );
 }
 
+/**
+ * Research level as it counts inside the capability formula: boosted by the
+ * effectiveness multiplier up to the taper start, then by a multiplier that
+ * falls linearly to `researchEffectivenessAtMaximum` at level 100.
+ */
+export function effectiveCapabilityResearch(
+  researchLevel: number,
+  formula: CompiledContent["training"]["capabilityFormula"],
+): number {
+  const taper = Math.min(
+    1,
+    Math.max(
+      0,
+      (researchLevel - formula.researchEffectivenessTaperStart) /
+        (100 - formula.researchEffectivenessTaperStart),
+    ),
+  );
+  return (
+    researchLevel *
+    (formula.researchEffectivenessMultiplier +
+      (formula.researchEffectivenessAtMaximum - formula.researchEffectivenessMultiplier) *
+        taper)
+  );
+}
+
 function capabilityTarget(options: {
   readonly attribute: CapabilityAttribute;
   readonly researchCeiling: number;
@@ -1754,7 +1779,7 @@ function capabilityTarget(options: {
   return clampRating(
     100 *
       factor(
-        options.researchCeiling * options.formula.researchEffectivenessMultiplier,
+        effectiveCapabilityResearch(options.researchCeiling, options.formula),
         options.formula.researchCeilingExponent,
         0.5,
       ) *
