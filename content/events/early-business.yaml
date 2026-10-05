@@ -1,0 +1,573 @@
+draftSchema: 1
+contentType: decision-events
+pack: early-business
+
+# Early-game business decisions, from the first research prototypes (FC 1)
+# to the first foundation models (FC 20): hype, hiring, customers, hardware
+# and release norms. Every event fires at most once per run.
+events:
+  # --- Market: AI-washing ---------------------------------------------------
+  - id: event.market.ai-washing
+    version: 1
+    category: market
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: early-business-ai-washing, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: product-only
+    titleKey: event.market.ai-washing.title
+    bodyKey: event.market.ai-washing.body
+    educationKey: event.market.ai-washing.education
+    evidence:
+      - textKey: event.market.ai-washing.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: YEAR, source: calendar-year }
+    options:
+      - id: honest
+        labelKey: event.market.ai-washing.honest.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-washing.honest.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+        checks: []
+        memories:
+          - key: early-business.ai-washing.honest
+            subjects: [{ type: player-lab }]
+            tags: [honest-labelling]
+        confirmationRequired: false
+      - id: product-only
+        labelKey: event.market.ai-washing.product-only.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-washing.product-only.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -2 }
+        checks: []
+        memories:
+          - key: early-business.ai-washing.product-only
+            subjects: [{ type: player-lab }]
+            tags: [selective-labelling]
+        confirmationRequired: false
+      - id: everything
+        labelKey: event.market.ai-washing.everything.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-washing.everything.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [investor-mood] }
+        checks:
+          - id: due-diligence
+            likelihoodPromise: { label: likely, successOutcomeIds: [unnoticed] }
+            outcomes:
+              - id: unnoticed
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: early-business.ai-washing.everything
+                    subjects: [{ type: player-lab }]
+                    tags: [ai-washing]
+              - id: found-out
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.90, durationWeeks: 26, tags: [investor-mood] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+                memories:
+                  - key: early-business.ai-washing.found-out
+                    subjects: [{ type: player-lab }]
+                    tags: [ai-washing, exposed]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [early-business, market, ai-washing, hype]
+
+  # --- People: hiring a university group wholesale --------------------------
+  - id: event.people.university-raid
+    version: 1
+    category: people
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: early-business-university-raid, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: hire-two
+    titleKey: event.people.university-raid.title
+    bodyKey: event.people.university-raid.body
+    educationKey: event.people.university-raid.education
+    evidence:
+      - textKey: event.people.university-raid.evidence.cash
+        metric: player.cash
+      - textKey: event.people.university-raid.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: fund
+        labelKey: event.people.university-raid.fund.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.people.university-raid.fund.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.05, durationWeeks: 52, tags: [university-partnership] }
+        checks: []
+        memories:
+          - key: early-business.university-raid.funded
+            subjects: [{ type: player-lab }]
+            tags: [university-partnership, academic-goodwill]
+        confirmationRequired: false
+      - id: hire-two
+        labelKey: event.people.university-raid.hire-two.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.university-raid.hire-two.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.costs.fixed, operation: multiply, value: 1.05, durationWeeks: 52, tags: [academic-hires] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [academic-hires] }
+        checks: []
+        memories:
+          - key: early-business.university-raid.hired-two
+            subjects: [{ type: player-lab }]
+            tags: [academic-hires]
+        confirmationRequired: false
+      - id: hire-all
+        labelKey: event.people.university-raid.hire-all.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.people.university-raid.hire-all.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.costs.fixed, operation: multiply, value: 1.15, durationWeeks: 52, tags: [academic-raid] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.20, durationWeeks: 26, tags: [academic-raid] }
+          - kind: schedule-effects
+            dueInWeeks: 52
+            effects:
+              - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 52, tags: [empty-pipeline] }
+        checks:
+          - id: academic-reaction
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [shrugged-off] }
+            outcomes:
+              - id: shrugged-off
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: early-business.university-raid.hired-all
+                    subjects: [{ type: player-lab }]
+                    tags: [academic-raid]
+              - id: resented
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: early-business.university-raid.resented
+                    subjects: [{ type: player-lab }]
+                    tags: [academic-raid, academic-resentment]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [early-business, people, talent-poaching, academia-industry-tension]
+
+  # --- Market: a CV screener that marks down women --------------------------
+  - id: event.market.cv-screener
+    version: 1
+    category: market
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 10 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 25 }
+        multiplier: 2
+    cooldown: { group: early-business-cv-screener, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: patch
+    titleKey: event.market.cv-screener.title
+    bodyKey: event.market.cv-screener.body
+    educationKey: event.market.cv-screener.education
+    evidence:
+      - textKey: event.market.cv-screener.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.market.cv-screener.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: suspend
+        labelKey: event.market.cv-screener.suspend.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.cv-screener.suspend.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 26, tags: [suspended-screener] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 2 }
+        checks: []
+        memories:
+          - key: early-business.cv-screener.suspended
+            subjects: [{ type: player-lab }]
+            tags: [bias-audit, hiring-discrimination]
+        confirmationRequired: false
+      - id: patch
+        labelKey: event.market.cv-screener.patch.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.cv-screener.patch.preview
+        immediateEffects: []
+        checks:
+          - id: proxies
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [fixed] }
+            outcomes:
+              - id: fixed
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects: []
+                memories:
+                  - key: early-business.cv-screener.patched
+                    subjects: [{ type: player-lab }]
+                    tags: [hiring-discrimination, surface-fix]
+              - id: proxy-found
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 3 }
+                memories:
+                  - key: early-business.cv-screener.proxy-found
+                    subjects: [{ type: player-lab }]
+                    tags: [hiring-discrimination, surface-fix, exposed]
+        memories: []
+        confirmationRequired: false
+      - id: leave
+        labelKey: event.market.cv-screener.leave.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.cv-screener.leave.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 26, tags: [screener-renewal] }
+        checks:
+          - id: disclosure
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [quiet] }
+            outcomes:
+              - id: quiet
+                minimumInclusive: 0
+                maximumExclusive: 0.4
+                effects: []
+                memories:
+                  - key: early-business.cv-screener.left
+                    subjects: [{ type: player-lab }]
+                    tags: [hiring-discrimination, looked-away]
+              - id: reported
+                minimumInclusive: 0.4
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                  - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.90, durationWeeks: 26, tags: [screener-scandal] }
+                memories:
+                  - key: early-business.cv-screener.reported
+                    subjects: [{ type: player-lab }]
+                    tags: [hiring-discrimination, looked-away, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [early-business, market, bias, hiring-discrimination]
+
+  # --- Market: the chatbot the internet taught --------------------------------
+  - id: event.market.chatbot-learns
+    version: 1
+    category: market
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 10 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 25 }
+        multiplier: 2
+    cooldown: { group: early-business-chatbot-learns, weeks: 26 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: freeze
+    titleKey: event.market.chatbot-learns.title
+    bodyKey: event.market.chatbot-learns.body
+    educationKey: event.market.chatbot-learns.education
+    evidence:
+      - textKey: event.market.chatbot-learns.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.market.chatbot-learns.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: offline
+        labelKey: event.market.chatbot-learns.offline.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        previewKey: event.market.chatbot-learns.offline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+        checks: []
+        memories:
+          - key: early-business.chatbot-learns.offline
+            subjects: [{ type: player-lab }]
+            tags: [adversarial-testing, pulled-product]
+        confirmationRequired: false
+      - id: freeze
+        labelKey: event.market.chatbot-learns.freeze.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.chatbot-learns.freeze.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.95, durationWeeks: 26, tags: [frozen-chatbot] }
+        checks: []
+        memories:
+          - key: early-business.chatbot-learns.frozen
+            subjects: [{ type: player-lab }]
+            tags: [frozen-learning]
+        confirmationRequired: false
+      - id: keep-learning
+        labelKey: event.market.chatbot-learns.keep-learning.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.chatbot-learns.keep-learning.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [viral-chatbot] }
+        checks:
+          - id: internet
+            likelihoodPromise: { label: unlikely, successOutcomeIds: [outvoted] }
+            outcomes:
+              - id: outvoted
+                minimumInclusive: 0
+                maximumExclusive: 0.25
+                effects: []
+                memories:
+                  - key: early-business.chatbot-learns.kept-learning
+                    subjects: [{ type: player-lab }]
+                    tags: [online-learning, lucky]
+              - id: taught
+                minimumInclusive: 0.25
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.90, durationWeeks: 26, tags: [abusive-chatbot] }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 3 }
+                memories:
+                  - key: early-business.chatbot-learns.taught
+                    subjects: [{ type: player-lab }]
+                    tags: [online-learning, data-poisoning, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [early-business, market, chatbot, data-poisoning]
+
+  # --- Finance: miners bought the graphics cards ---------------------------
+  - id: event.finance.gpu-shortage
+    version: 1
+    category: finance
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: early-business-gpu-shortage, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: wait
+    titleKey: event.finance.gpu-shortage.title
+    bodyKey: event.finance.gpu-shortage.body
+    educationKey: event.finance.gpu-shortage.education
+    evidence:
+      - textKey: event.finance.gpu-shortage.evidence.gpus
+        metric: player.gpus.total
+      - textKey: event.finance.gpu-shortage.evidence.cash
+        metric: player.cash
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: wait
+        labelKey: event.finance.gpu-shortage.wait.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.finance.gpu-shortage.wait.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 1.50, durationWeeks: 26, tags: [gpu-shortage] }
+          - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, durationWeeks: 26, tags: [gpu-shortage, efficiency-drive] }
+        checks: []
+        memories:
+          - key: early-business.gpu-shortage.waited
+            subjects: [{ type: player-lab }]
+            tags: [gpu-shortage, patient-buyer]
+        confirmationRequired: false
+      - id: pay-up
+        labelKey: event.finance.gpu-shortage.pay-up.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.finance.gpu-shortage.pay-up.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedPurchasePrice, operation: multiply, value: 1.25, durationWeeks: 26, tags: [gpu-shortage] }
+        checks: []
+        memories:
+          - key: early-business.gpu-shortage.paid-up
+            subjects: [{ type: player-lab }]
+            tags: [gpu-shortage, paid-premium]
+        confirmationRequired: false
+      - id: resellers
+        labelKey: event.finance.gpu-shortage.resellers.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.finance.gpu-shortage.resellers.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedPurchasePrice, operation: multiply, value: 1.50, durationWeeks: 26, tags: [gpu-shortage, reseller-stock] }
+          - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.75, durationWeeks: 26, tags: [gpu-shortage, reseller-stock] }
+        checks:
+          - id: stock-condition
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [sound] }
+            outcomes:
+              - id: sound
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects: []
+                memories:
+                  - key: early-business.gpu-shortage.resellers
+                    subjects: [{ type: player-lab }]
+                    tags: [gpu-shortage, reseller-stock]
+              - id: worn
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.15, durationWeeks: 26, tags: [worn-cards] }
+                  - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 0.95, durationWeeks: 26, tags: [worn-cards] }
+                memories:
+                  - key: early-business.gpu-shortage.worn-cards
+                    subjects: [{ type: player-lab }]
+                    tags: [gpu-shortage, reseller-stock, worn-cards]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [early-business, finance, compute, gpu-shortage]
+
+  # --- Safety: too dangerous to release? ------------------------------------
+  - id: event.safety.staged-release
+    version: 1
+    category: safety
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: early-business-staged-release, weeks: 26 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: staged
+    titleKey: event.safety.staged-release.title
+    bodyKey: event.safety.staged-release.body
+    educationKey: event.safety.staged-release.education
+    evidence:
+      - textKey: event.safety.staged-release.evidence.culture
+        metric: player.safety.safetyCulture
+      - textKey: event.safety.staged-release.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: withhold
+        labelKey: event.safety.staged-release.withhold.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        previewKey: event.safety.staged-release.withhold.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [withheld-model] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 3 }
+        checks: []
+        memories:
+          - key: early-business.staged-release.withheld
+            subjects: [{ type: player-lab }]
+            tags: [withheld-model, misuse-caution]
+        confirmationRequired: false
+      - id: staged
+        labelKey: event.safety.staged-release.staged.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.staged-release.staged.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [staged-release] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+        checks: []
+        memories:
+          - key: early-business.staged-release.staged
+            subjects: [{ type: player-lab }]
+            tags: [staged-release, misuse-monitoring]
+        confirmationRequired: false
+      - id: full
+        labelKey: event.safety.staged-release.full.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.safety.staged-release.full.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [open-release] }
+        checks:
+          - id: misuse
+            likelihoodPromise: { label: likely, successOutcomeIds: [little-misuse] }
+            outcomes:
+              - id: little-misuse
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: early-business.staged-release.released
+                    subjects: [{ type: player-lab }]
+                    tags: [open-release]
+              - id: misused
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [misused-release] }
+                memories:
+                  - key: early-business.staged-release.misused
+                    subjects: [{ type: player-lab }]
+                    tags: [open-release, synthetic-media, misuse]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [early-business, safety, release-norms, synthetic-media]
