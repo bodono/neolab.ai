@@ -20360,6 +20360,16 @@ button.researcher-slot-card:hover {
   font-size: 13px;
   line-height: 1.5;
 }
+html[data-theme="dark"] .event-education {
+  border-left-color: #d9a441;
+  background: rgb(217 164 65 / 10%);
+}
+html[data-theme="dark"] .event-education strong {
+  color: #e8b75a;
+}
+html[data-theme="dark"] .event-education p {
+  color: #d9d3c5;
+}
 .candidate-next-steps {
   margin: 16px 0;
   padding: 13px 15px;
