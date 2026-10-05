@@ -1292,11 +1292,12 @@ describe("runBalanceBatch", () => {
     const balanced = INITIAL_POLICIES.find((policy) => policy.id === "balanced");
     if (balanced === undefined) throw new Error("balanced policy missing");
 
+    // An ordinary event is guaranteed after forty quiet weeks, so run past it.
     const report = await runBalanceBatch({
       ...request(),
       content: eventContent,
       policies: [balanced],
-      maxTicks: 35,
+      maxTicks: 45,
     });
     expect(report.eventCalibration.veryLikelySuccessRate).toBe(1);
     expect(report.eventCalibration.likelihoodPromises["very-likely"]).toEqual({
