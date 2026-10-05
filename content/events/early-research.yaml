@@ -504,7 +504,7 @@ events:
     version: 1
     category: facility
     severity: decision
-    phase: foundation
+    phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
     baseWeight: 6
