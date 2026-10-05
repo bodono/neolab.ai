@@ -166,7 +166,9 @@ function candidatesForMetric(
   const ratingMetric =
     metric.startsWith("player.safety.") ||
     metric.startsWith("player.organisation.") ||
-    metric.startsWith("player.politics.");
+    metric.startsWith("player.politics.") ||
+    metric.startsWith("player.ai.") ||
+    metric === "world.frontierCapability";
   const clamp = (value: number): number =>
     ratingMetric || metric === "player.aura.spendable"
       ? Math.min(100, Math.max(0, value))
@@ -256,6 +258,13 @@ function applyMetric(
     case "player.safety.evalQuality":
       lab.safety.evalQuality = value as typeof lab.safety.evalQuality;
       return;
+    case "player.safety.practicalControl":
+      lab.safety.practicalControlStrength =
+        value as typeof lab.safety.practicalControlStrength;
+      return;
+    case "player.safety.securityPosture":
+      lab.safety.securityPosture = value as typeof lab.safety.securityPosture;
+      return;
     case "player.organisation.boardPatience":
       lab.organisation.boardPatience = value as typeof lab.organisation.boardPatience;
       return;
@@ -287,6 +296,53 @@ function applyMetric(
           ? Math.max(0, Math.round(value))
           : 0) as typeof lot.physicalCount,
       }));
+      return;
+    }
+    case "player.ai.frontierCapability": {
+      // The metric is the lab's best measured model, so measure them all at it.
+      if (lab.models.modelIds.length === 0) {
+        throw new Error("Event coverage fixture has no player model");
+      }
+      for (const modelId of lab.models.modelIds) {
+        const model = draft.models[modelId];
+        if (model === undefined) continue;
+        model.measuredCapability = {
+          values: structuredClone(
+            model.measuredCapability?.values ?? model.trueCapability,
+          ),
+          frontierCapability: Math.min(100, Math.max(0, value)) as NonNullable<
+            typeof model.measuredCapability
+          >["frontierCapability"],
+          confidence: "high",
+          evidenceFlags: ["event-coverage-capability"],
+        };
+      }
+      return;
+    }
+    case "player.ai.launched":
+      if (value >= 1 && lab.models.currentModelId !== undefined) {
+        lab.models.commercialModelId = lab.models.currentModelId;
+      } else {
+        delete lab.models.commercialModelId;
+      }
+      return;
+    case "world.frontierCapability": {
+      // Frontier capability is a weighted mean whose weights sum to one, so a
+      // flat vector of v measures exactly v.
+      const level = Math.min(100, Math.max(0, value));
+      for (const model of Object.values(draft.models)) {
+        for (const attribute of Object.keys(
+          model.trueCapability,
+        ) as (keyof typeof model.trueCapability)[]) {
+          model.trueCapability[attribute] =
+            level as (typeof model.trueCapability)[typeof attribute];
+        }
+      }
+      return;
+    }
+    default: {
+      const unhandled: never = metric;
+      throw new Error(`Event coverage cannot set metric ${String(unhandled)}`);
     }
   }
 }
@@ -530,7 +586,14 @@ function findWitness(
   const needsIncidents =
     metricInputs.has("player.incidents.recentCount") ||
     metricInputs.has("player.incidents.recentWorstSeverity");
-  let base = baseState(content, { withModel: needsIncidents });
+  // Era-gated events read the player's own model or the world frontier, so the
+  // fixture needs a model for those metrics to move.
+  const needsModel =
+    needsIncidents ||
+    metricInputs.has("player.ai.frontierCapability") ||
+    metricInputs.has("player.ai.launched") ||
+    metricInputs.has("world.frontierCapability");
+  let base = baseState(content, { withModel: needsModel });
   if (definition.id === RESEARCHER_ULTIMATUM_EVENT_ID) {
     const draft = structuredClone(base) as DeepMutable<GameState>;
     seedResearcherUltimatum(draft);
