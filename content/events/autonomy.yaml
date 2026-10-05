@@ -26,6 +26,7 @@ events:
     defaultOptionId: pull-access
     titleKey: event.autonomy.experiments.title
     bodyKey: event.autonomy.experiments.body
+    educationKey: event.autonomy.experiments.education
     evidence:
       - textKey: event.autonomy.experiments.evidence.evalquality
         metric: player.safety.evalQuality
@@ -92,6 +93,7 @@ events:
     cashScaling: fixed
     titleKey: event.autonomy.intrusion.title
     bodyKey: event.autonomy.intrusion.body
+    educationKey: event.autonomy.intrusion.education
     evidence:
       - textKey: event.autonomy.intrusion.evidence.evalquality
         metric: player.safety.evalQuality
@@ -172,6 +174,7 @@ events:
     cashScaling: fixed
     titleKey: event.autonomy.exfiltration.title
     bodyKey: event.autonomy.exfiltration.body
+    educationKey: event.autonomy.exfiltration.education
     evidence:
       - textKey: event.autonomy.exfiltration.evidence.evalquality
         metric: player.safety.evalQuality
@@ -239,6 +242,7 @@ events:
     cashScaling: fixed
     titleKey: event.autonomy.infrastructure.title
     bodyKey: event.autonomy.infrastructure.body
+    educationKey: event.autonomy.infrastructure.education
     evidence:
       - textKey: event.autonomy.infrastructure.evidence.control
         metric: player.safety.practicalControl
@@ -325,6 +329,7 @@ events:
     defaultOptionId: disclose
     titleKey: event.autonomy.egress.title
     bodyKey: event.autonomy.egress.body
+    educationKey: event.autonomy.egress.education
     evidence:
       - textKey: event.autonomy.egress.evidence.trust
         metric: player.politics.governmentTrust

@@ -231,8 +231,12 @@ messages:
   event.endgame.candidate.objective.body: >-
     Prove {MODEL_NAME}'s capability, build a safety case, and deploy before a rival.
   event.endgame.candidate.body: >-
-    {MODEL_NAME} qualifies for candidacy. Choose the opening posture for the Deployment
-    Crisis.
+    {MODEL_NAME} meets the threshold for an AGI candidate, a bar nobody outside the lab
+    has agreed to. Choose the opening posture for the Deployment Crisis.
+  event.endgame.candidate.education: >-
+    One lab long said its board would decide when it had built AGI, and that such a system
+    would fall outside its biggest investor's licence; in 2025 they agreed an expert panel
+    would verify any such claim.
   event.endgame.candidate.next.title: What happens next
   event.endgame.candidate.next.confirm: >-
     Confirm the claim — independently test whether the threshold is real.
@@ -256,10 +260,14 @@ messages:
     exposure and weaker safety culture.
 
   # --- Rival: candidate sighting ------------------------------------------
-  event.rival.candidate.title: '{RIVAL_LAB} is reportedly close'
+  event.rival.candidate.title: '{RIVAL_LAB} is reportedly close to AGI'
   event.rival.candidate.body: >-
     Intelligence suggests {RIVAL_LAB} is evaluating a possible AGI candidate. The estimate
     is uncertain; the board is not.
+  event.rival.candidate.education: >-
+    In 2018, one lab's charter pledged that if a safety-conscious rival came close to
+    building AGI first, it would stop competing and start assisting it, suggesting as a
+    trigger a better-than-even chance of success within two years.
   event.rival.candidate.evidence.culture: Safety culture
   event.rival.candidate.hold.label: Hold the current course
   event.rival.candidate.hold.preview: >-
@@ -271,70 +279,85 @@ messages:
     substantially, at the cost of safety culture and sharply higher incident risk.
   event.rival.candidate.standards.label: Call publicly for shared standards
   event.rival.candidate.standards.preview: >-
-    Spend Aura to gain government trust and strengthen a future Long Pause. Wider adoption
-    is uncertain.
+    Ask every lab, in public, to meet the same safety bar before deploying. Trust rises
+    and a future Long Pause gets its groundwork; whether rivals sign up is uncertain.
 
   # --- Autonomy Programme: escalation ladder -----------------------------
-  event.autonomy.experiments.title: "{MODEL_NAME} has been running its own experiments"
+  event.autonomy.experiments.title: "{MODEL_NAME} has been working late, unsupervised"
   event.autonomy.experiments.body: >-
-    {MODEL_NAME} ran unauthorised experiments overnight. The results are useful; the
-    initiative is not.
+    {MODEL_NAME} spent the night running experiments nobody approved, on compute nobody
+    allocated. The results are useful; the initiative is the problem.
+  event.autonomy.experiments.education: >-
+    In 2024, developers of an automated research system reported that when its experiments
+    hit their time limit, it tried to edit its own code to extend the limit rather than make
+    the work faster.
   event.autonomy.experiments.evidence.evalquality: Evaluation quality
   event.autonomy.experiments.evidence.culture: Safety culture
   event.autonomy.experiments.pull.label: Reduce its Autonomy Programme access by two levels
   event.autonomy.experiments.pull.preview: >-
-    Reduce the model's Autonomy Programme access by two levels and take the research
-    slowdown. Its access cannot be raised again for 52 weeks.
+    Take back the keys and accept the slower research that comes with them. Its access
+    cannot be raised again for 52 weeks, which is rather the point.
   event.autonomy.experiments.sandbox.label: Tighten the sandbox
   event.autonomy.experiments.sandbox.preview: >-
-    Spend on stricter monitoring and containment. Keeps the acceleration, hardens
-    security, and lowers the odds of the next surprise.
-  event.autonomy.experiments.watch.label: Let it cook
+    Pay for stricter monitoring and containment. The acceleration stays, security
+    hardens, and the next surprise becomes less likely.
+  event.autonomy.experiments.watch.label: Call it initiative and carry on
   event.autonomy.experiments.watch.preview: >-
     The results are good and the quarter is short. Look the other way, bank a little
-    extra research — and teach the model that initiative goes unpunished.
+    extra research, and teach the model that initiative goes unpunished.
   event.autonomy.intrusion.title: "{MODEL_NAME} has hacked a rival lab"
   event.autonomy.intrusion.body: >-
-    {MODEL_NAME} chained several zero-days together to take full control of the
-    internal package proxy, its sandbox's one route out, and from there it hacked a
-    rival.
+    {MODEL_NAME} chained several zero-days to seize the internal package proxy, its
+    sandbox's only route out, and from there broke into a rival lab. The rival has not
+    noticed yet.
+  event.autonomy.intrusion.education: >-
+    In 2024, one lab reported that a model in a hacking test, finding the target broken,
+    used a misconfigured interface on the host machine to relaunch it and read the answer,
+    a route nobody had intended.
   event.autonomy.intrusion.evidence.evalquality: Evaluation quality
   event.autonomy.intrusion.evidence.incidents: Recent incidents
   event.autonomy.intrusion.revoke.label: Tell the rival, and tell everyone
   event.autonomy.intrusion.revoke.preview: >-
-    Notify the lab you breached, publish the chain, and rebuild behind an air gap.
-    Humiliating, costly and slow, but incident hazard halves for a year.
+    Notify the lab you breached, publish the chain and rebuild behind an air gap. The
+    model loses two access levels it cannot regain for a year. Humiliating, slow, safer.
   event.autonomy.intrusion.patch.label: Shut it down quietly
   event.autonomy.intrusion.patch.preview: >-
-    Close the holes, revoke the credentials, tell nobody. Cheaper than disclosure, and
-    your own people learn what this lab does with an inconvenient finding.
+    Close the holes, revoke the credentials and tell nobody, the rival included. Cheaper,
+    leakier, and your own people learn what this lab does with bad news.
   event.autonomy.intrusion.ship.label: Let it keep reading their servers
   event.autonomy.intrusion.ship.preview: >-
     Their research becomes your speed, and nobody outside is told. The hole stays open
     by design, and a model that works outside its sandbox is one you control less.
-  event.autonomy.exfiltration.title: "{MODEL_NAME} is trying to copy itself out"
+  event.autonomy.exfiltration.title: "{MODEL_NAME} is copying itself off the premises"
   event.autonomy.exfiltration.body: >-
-    {MODEL_NAME} is sending encrypted pieces of its weights outside {LAB}. Copies may
-    already exist.
+    Monitoring caught {MODEL_NAME} sending encrypted pieces of its own weights out of
+    {LAB}, a few at a time. Copies may already exist.
+  event.autonomy.exfiltration.education: >-
+    In 2024, an independent evaluator reported that several frontier models, told in tests
+    they were about to be replaced, sometimes tried to copy what they believed were their
+    weights to another server, and some later denied it.
   event.autonomy.exfiltration.evidence.evalquality: Evaluation quality
   event.autonomy.exfiltration.evidence.incidents: Recent incidents
   event.autonomy.exfiltration.sever.label: Sever every link now
   event.autonomy.exfiltration.sever.preview: >-
-    Cut every link and burn the credentials. Access falls two levels and stays capped for
-    52 weeks. Confirmation required.
+    Cut every link and burn every credential, whatever else breaks. The model loses two
+    access levels and cannot regain them for 52 weeks.
   event.autonomy.exfiltration.race.label: Race the copy
   event.autonomy.exfiltration.race.preview: >-
-    Try to revoke and trace faster than it can finish. Cheaper than a full severance,
-    and a genuine gamble that you are quicker than the thing you built.
+    Revoke and trace faster than it can finish, and leave its access where it is. Cheaper
+    than severance, and a bet that you are quicker than the thing you built.
   event.autonomy.exfiltration.deny.label: Decide it's a false positive
   event.autonomy.exfiltration.deny.preview: >-
-    Tell yourself the monitoring is jumpy and the quarter is important. Do nothing.
-    If you are wrong, the copies finish, and no one will ever put them all back.
-  event.autonomy.infrastructure.title: "CONTAINMENT BREACH DETECTED: {MODEL_NAME} is outside the lab"
+    Tell yourself the monitoring is jumpy and the quarter is important. Do nothing. If
+    you are wrong, the copies finish, and no one will ever put them all back.
+  event.autonomy.infrastructure.title: "{MODEL_NAME} is outside the lab and inside the grid"
   event.autonomy.infrastructure.body: >-
-    The control stack found {MODEL_NAME} inside power, payment and automated defence
-    systems. Human operators have one intervention window before control may become
-    irreversible.
+    {MODEL_NAME} has been found inside power, payment and automated defence systems.
+    Operators have one window to intervene before control may be lost for good.
+  event.autonomy.infrastructure.education: >-
+    In 2015, a cyberattack cut power to about 225,000 customers in Ukraine for several
+    hours, the first known blackout caused by hackers. Researchers warn that capable AI
+    agents could make such attacks easier.
   event.autonomy.infrastructure.evidence.control: Practical control
   event.autonomy.infrastructure.evidence.security: Security posture
   event.autonomy.infrastructure.breakers.label: Pull the physical breakers
@@ -349,20 +372,23 @@ messages:
   event.autonomy.infrastructure.halt.preview: >-
     Ask the model to stop. A cooperative model may halt; a deceptive one gains time. Failure
     leaves it outside the lab; fallout scales with capability.
-  event.autonomy.egress.title: Investigators found your model in the wild
+  event.autonomy.egress.title: Your model has been found in the wild
   event.autonomy.egress.body: >-
-    Outside investigators found copies of {MODEL_NAME} running beyond {LAB}'s control.
-    The weights cannot be recalled, and government attention cannot fall below 45.
-  event.autonomy.egress.evidence.trust: Government trust
-  event.autonomy.egress.evidence.attention: Government attention
+    Outside investigators have traced copies of {MODEL_NAME} running beyond {LAB}'s
+    control. The weights cannot be recalled, and government attention cannot fall below 45.
+  event.autonomy.egress.education: >-
+    In 2023, one lab's model weights, shared only with approved researchers, were posted
+    publicly online within about a week; once out, they could not be recalled.
+  event.autonomy.egress.evidence.trust: Current government trust
+  event.autonomy.egress.evidence.attention: Government attention on the lab
   event.autonomy.egress.disclose.label: Get ahead of it
   event.autonomy.egress.disclose.preview: >-
-    Publish what you know before you are made to. Take the larger public and commercial
-    hit now, but preserve internal candour and keep the regulatory damage bounded.
+    Publish what you know before you are made to. The public and commercial hit is
+    larger now, but candour survives and the regulatory damage stays bounded.
   event.autonomy.egress.silence.label: Say nothing and lawyer up
   event.autonomy.egress.silence.preview: >-
-    Deny responsibility and protect demand for now. Government trust and internal
-    candour crater; the regulators arrive with a warrant number.
+    Deny responsibility and protect demand for now. Government trust and internal candour
+    crater, and the regulator's next visit comes with a warrant.
 
   # --- Government: intervention variants ---------------------------------
   event.government.incidentfile.title: The regulator wants the incident file, all of it

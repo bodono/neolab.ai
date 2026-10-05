@@ -18,6 +18,7 @@ events:
     unique: false
     titleKey: event.endgame.candidate.title
     bodyKey: event.endgame.candidate.body
+    educationKey: event.endgame.candidate.education
     evidence:
       - textKey: event.endgame.candidate.evidence.evalquality
         metric: player.safety.evalQuality
@@ -89,6 +90,7 @@ events:
     defaultOptionId: hold-course
     titleKey: event.rival.candidate.title
     bodyKey: event.rival.candidate.body
+    educationKey: event.rival.candidate.education
     evidence:
       - textKey: event.rival.candidate.evidence.culture
         metric: player.safety.safetyCulture
