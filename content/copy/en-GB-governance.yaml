@@ -17,9 +17,8 @@ messages:
   event.rival.open-weights.evidence.attention: Government attention on the lab
   event.rival.open-weights.staged.label: Release in stages, with checks
   event.rival.open-weights.staged.preview: >-
-    Researchers first, then wider access, with misuse tests between steps. Slower and dearer
-    than a launch, but regulators approve and you learn what the model can be made to do.
-  event.rival.open-weights.staged.disabled: Requires available cash
+    Researchers first, then wider access, with misuse tests between steps. Slower than a
+    launch, but regulators approve and you learn what the model can be made to do.
   event.rival.open-weights.closed.label: Keep the weights closed
   event.rival.open-weights.closed.preview: >-
     Nothing leaves the building. Regulators approve, the open-science crowd in your own lab
@@ -41,9 +40,8 @@ messages:
   event.safety.uplift-eval.evidence.culture: Safety culture
   event.safety.uplift-eval.strict.label: Switch on the strictest safeguards
   event.safety.uplift-eval.strict.preview: >-
-    Classifiers on every request: slower, dearer, and some real scientists turned away. You
-    pay for a risk you cannot prove exists, which is what acting under uncertainty means.
-  event.safety.uplift-eval.strict.disabled: Requires available cash
+    Safety staff put classifiers on every request while capability work waits. You pay for a
+    risk you cannot prove exists, which is what acting under uncertainty means.
   event.safety.uplift-eval.vetted.label: Restrict it to vetted scientists
   event.safety.uplift-eval.vetted.preview: >-
     Keep the strongest biology capabilities for verified researchers. A smaller market and a
@@ -74,7 +72,7 @@ messages:
   event.security.zero-days.agency.label: Hand them to a government agency
   event.security.zero-days.agency.preview: >-
     An agency will pay well and be very grateful. The holes stay open in everyone's software
-    while useful, and {LAB} becomes a lab the state relies on, both ways.
+    while useful, and {LAB} starts to look like an arm of the state.
 
   # --- Politics: if-then commitments ---------------------------------------
   event.politics.if-then-commitments.title: Staff want a written promise to stop
@@ -87,8 +85,8 @@ messages:
   event.politics.if-then-commitments.evidence.culture: Safety culture
   event.politics.if-then-commitments.binding.label: Publish binding thresholds
   event.politics.if-then-commitments.binding.preview: >-
-    Promise in public to pause if the evaluations say so. The board hates it and scale-ups
-    wait on tests, but the culture gets something firmer than good intentions.
+    Promise in public to pause if the evaluations say so. The board hates it, but the culture
+    gets something firmer than good intentions.
   event.politics.if-then-commitments.vague.label: Publish principles, not numbers
   event.politics.if-then-commitments.vague.preview: >-
     A thoughtful document about taking risk seriously, with no threshold anyone could hold you
@@ -109,8 +107,8 @@ messages:
   event.security.weight-security.evidence.security: Security posture
   event.security.weight-security.harden.label: Move to a far higher security level
   event.security.weight-security.harden.preview: >-
-    Isolated networks, hardware keys, vetted staff. Costly, lasting, and research slows while
-    everyone adapts; the only option built for an attacker better than you.
+    Isolated networks, hardware keys, vetted staff. Costly, and research slows while everyone
+    adapts; the only option built for an attacker better than you.
   event.security.weight-security.harden.disabled: Requires available cash
   event.security.weight-security.patch.label: Rotate the keys and retrain staff
   event.security.weight-security.patch.preview: >-
@@ -133,9 +131,8 @@ messages:
   event.politics.compute-threshold.evidence.trust: Current government trust
   event.politics.compute-threshold.report.label: Report fully and early
   event.politics.compute-threshold.report.preview: >-
-    File before the run, testing plan attached. Fees, a few weeks' delay and real trust, plus a
+    File before the run, testing plan attached. A few weeks' delay and real trust, plus a
     regulator that now watches you closely, because you asked it to.
-  event.politics.compute-threshold.report.disabled: Requires available cash
   event.politics.compute-threshold.split.label: Split it into two smaller runs
   event.politics.compute-threshold.split.preview: >-
     Entirely legal. Two runs stitched together are likelier to fail, and regulators are not as
@@ -201,8 +198,8 @@ messages:
   event.rival.pause-letter.evidence.culture: Safety culture
   event.rival.pause-letter.pause.label: Sign it, and pause
   event.rival.pause-letter.pause.preview: >-
-    Mean it. Frontier work slows hard for half a year while rivals carry on, and the board
-    wants a word. You gain a credibility that makes shared rules easier to convene.
+    Mean it. Frontier work slows hard for half a year while rivals carry on. You gain a
+    credibility that makes shared rules easier to convene.
   event.rival.pause-letter.decline.label: Decline, and say why
   event.rival.pause-letter.decline.preview: >-
     Argue in public that a unilateral pause just hands the lead to less careful labs. Honest,
@@ -226,7 +223,6 @@ messages:
   event.rival.incident-sharing.honest.preview: >-
     Every near-miss goes in, {AI}'s worst included. You learn from everyone's failures and earn
     trust for later deals, while rivals see exactly where you struggled.
-  event.rival.incident-sharing.honest.disabled: Requires available cash
   event.rival.incident-sharing.selective.label: Join, and report selectively
   event.rival.incident-sharing.selective.preview: >-
     Share the routine incidents and keep the awkward ones. Most of the learning for little of
@@ -248,8 +244,8 @@ messages:
   event.politics.voice-clone-robocall.evidence.trust: Current government trust
   event.politics.voice-clone-robocall.consent.label: Require consent and watermark every clone
   event.politics.voice-clone-robocall.consent.preview: >-
-    Clone only voices whose owners verifiably agreed, and mark every output. Some paying
-    customers leave; the door this call came through closes, in public.
+    Clone only voices whose owners verifiably agreed, and mark every output. Engineers build
+    it instead of the next model; the door this call came through closes, in public.
   event.politics.voice-clone-robocall.cooperate.label: Cooperate with investigators
   event.politics.voice-clone-robocall.cooperate.preview: >-
     Hand over the account records and help trace the caller. Investigators are grateful and
@@ -272,9 +268,8 @@ messages:
   event.security.sleeper-backdoor.evidence.security: Security posture
   event.security.sleeper-backdoor.rebuild.label: Rebuild the data pipeline with provenance
   event.security.sleeper-backdoor.rebuild.preview: >-
-    Track where every document came from and retrain on data you can vouch for. Expensive and
-    slow, but the only option that also catches the next trigger.
-  event.security.sleeper-backdoor.rebuild.disabled: Requires available cash
+    Track where every document came from and retrain on data you can vouch for. Slow, but the
+    only option that also catches the next trigger.
   event.security.sleeper-backdoor.patch.label: Patch the trigger and retrain
   event.security.sleeper-backdoor.patch.preview: >-
     Train the known phrase out and test again. It may work. Backdoors have survived exactly

@@ -41,17 +41,13 @@ events:
     options:
       - id: staged-release
         labelKey: event.rival.open-weights.staged.label
-        # Affordability is checked against the era-scaled cost.
         requirements: { type: always }
-        disabledReasonKey: event.rival.open-weights.staged.disabled
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        knownCosts: []
         previewKey: event.rival.open-weights.staged.preview
         immediateEffects:
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [staged-release] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [staged-release] }
         checks: []
         memories:
           - key: governance.open-weights.staged
@@ -80,8 +76,6 @@ events:
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 15 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [open-weights-community] }
-          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 26, tags: [open-weights-community] }
-          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [open-weights-cannibalised] }
           - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.10, durationWeeks: 52, tags: [open-weights-diffusion] }
         checks:
           - id: misuse
@@ -100,8 +94,7 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
                 memories:
                   - key: governance.open-weights.misuse-traced
                     subjects: [{ type: player-lab }]
@@ -148,19 +141,13 @@ events:
     options:
       - id: strict-safeguards
         labelKey: event.safety.uplift-eval.strict.label
-        # Affordability is checked against the era-scaled cost.
         requirements: { type: always }
-        disabledReasonKey: event.safety.uplift-eval.strict.disabled
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        knownCosts: []
         previewKey: event.safety.uplift-eval.strict.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
-          - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 1.10, durationWeeks: 26, tags: [bio-safeguards] }
-          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [bio-safeguards] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [bio-safeguards] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
         checks: []
         memories:
           - key: governance.uplift-eval.strict
@@ -207,9 +194,8 @@ events:
                 minimumInclusive: 0.6
                 maximumExclusive: 1
                 effects:
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -15 }
                 memories:
                   - key: governance.uplift-eval.flagged
                     subjects: [{ type: player-lab }]
@@ -290,8 +276,7 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
                 memories:
                   - key: governance.zero-days.exploited-elsewhere
                     subjects: [{ type: player-lab }]
@@ -310,7 +295,6 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 5 }
         checks:
           - id: exposure
             likelihoodPromise: { label: likely, successOutcomeIds: [secret] }
@@ -329,7 +313,6 @@ events:
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
                 memories:
                   - key: governance.zero-days.exposed
                     subjects: [{ type: player-lab }]
@@ -382,9 +365,6 @@ events:
         previewKey: event.politics.if-then-commitments.binding.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.90, durationWeeks: 26, tags: [investor-mood] }
-          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [if-then-commitments] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-modifier, target: lab.organisation.safetyCultureFloor, operation: add, value: 5, durationWeeks: 52, tags: [if-then-commitments] }
           - { kind: set-flag, subject: { type: player-lab }, flag: "governance:published-binding-thresholds", value: true }
         checks: []
@@ -414,9 +394,8 @@ events:
         previewKey: event.politics.if-then-commitments.decline.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -4 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
           - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 5, durationWeeks: 26, tags: [declined-commitments] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -3 }
         checks: []
         memories:
           - key: governance.if-then.declined
@@ -464,10 +443,8 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
         previewKey: event.security.weight-security.harden.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [weight-security] }
-          - { kind: add-modifier, target: lab.costs.fixed, operation: multiply, value: 1.05, durationWeeks: 52, tags: [weight-security] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
         checks: []
         memories:
           - key: governance.weight-security.hardened
@@ -512,7 +489,6 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.10, durationWeeks: 26, tags: [weights-stolen] }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -5 }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
                 memories:
@@ -563,16 +539,13 @@ events:
     options:
       - id: report-early
         labelKey: event.politics.compute-threshold.report.label
-        # Affordability is checked against the era-scaled cost.
         requirements: { type: always }
-        disabledReasonKey: event.politics.compute-threshold.report.disabled
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        knownCosts: []
         previewKey: event.politics.compute-threshold.report.preview
         immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [compute-reporting] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
-          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [compute-reporting] }
         checks: []
         memories:
           - key: governance.compute-threshold.reported
@@ -619,8 +592,7 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -15 }
                 memories:
                   - key: governance.compute-threshold.enforced
                     subjects: [{ type: player-lab }]
@@ -733,9 +705,8 @@ events:
                 minimumInclusive: 0.7
                 maximumExclusive: 1
                 effects:
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -15 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -20 }
                 memories:
                   - key: governance.kyc.exposed
                     subjects: [{ type: player-lab }]
@@ -790,7 +761,6 @@ events:
           - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
-          - { kind: add-modifier, target: researcher.loyalty, operation: add, value: 5, durationWeeks: 52, tags: [right-to-warn] }
         checks:
           - id: public-voice
             likelihoodPromise: { label: likely, successOutcomeIds: [raised-internally] }
@@ -858,7 +828,6 @@ events:
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
                 memories:
                   - key: governance.right-to-warn.ndas-leaked
                     subjects: [{ type: player-lab }]
@@ -905,10 +874,7 @@ events:
         previewKey: event.rival.pause-letter.pause.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.75, durationWeeks: 26, tags: [unilateral-pause] }
-          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.85, durationWeeks: 26, tags: [investor-mood] }
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
           - { kind: add-modifier, target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [unilateral-pause] }
         checks: []
         memories:
@@ -924,7 +890,6 @@ events:
         immediateEffects:
           - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.05, durationWeeks: 26, tags: [investor-mood] }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5, auraChangeKind: loss }
         checks: []
         memories:
@@ -958,7 +923,6 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -5 }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
                 memories:
                   - key: governance.pause-letter.called-out
@@ -1007,18 +971,13 @@ events:
     options:
       - id: share-honestly
         labelKey: event.rival.incident-sharing.honest.label
-        # Affordability is checked against the era-scaled cost.
         requirements: { type: always }
-        disabledReasonKey: event.rival.incident-sharing.honest.disabled
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        knownCosts: []
         previewKey: event.rival.incident-sharing.honest.preview
         immediateEffects:
           - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.05, durationWeeks: 26, tags: [shared-lessons] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
           - { kind: add-modifier, target: action.tag.coalition.auraCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [incident-pool] }
-          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
         checks:
           - id: confidentiality
             likelihoodPromise: { label: likely, successOutcomeIds: [held] }
@@ -1138,11 +1097,8 @@ events:
         previewKey: event.politics.voice-clone-robocall.consent.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
-          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 52, tags: [voice-consent] }
-          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.95, durationWeeks: 26, tags: [voice-consent] }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 52, tags: [voice-consent] }
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
         checks: []
         memories:
           - key: governance.voice-clone.consent
@@ -1192,7 +1148,6 @@ events:
                     effects:
                       - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
                       - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
-                      - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
                 memories:
                   - key: governance.voice-clone.hearings
                     subjects: [{ type: player-lab }]
@@ -1236,17 +1191,13 @@ events:
     options:
       - id: rebuild-pipeline
         labelKey: event.security.sleeper-backdoor.rebuild.label
-        # Affordability is checked against the era-scaled cost.
         requirements: { type: always }
-        disabledReasonKey: event.security.sleeper-backdoor.rebuild.disabled
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        knownCosts: []
         previewKey: event.security.sleeper-backdoor.rebuild.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [data-provenance] }
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 52, tags: [data-provenance] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
         checks: []
         memories:
           - key: governance.sleeper-backdoor.rebuilt
@@ -1318,9 +1269,8 @@ events:
                 minimumInclusive: 0.7
                 maximumExclusive: 1
                 effects:
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
                   - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 15 }
                 memories:
                   - key: governance.sleeper-backdoor.triggered
                     subjects: [{ type: player-lab }]
