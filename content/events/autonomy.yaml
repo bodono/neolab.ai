@@ -110,7 +110,6 @@ events:
           # Disclosure is public and the rebuild is real: Aura, cash and research
           # pace buy a boundary that halves incident hazard for a year. The
           # access rollback comes from the rolled-back memory tag.
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -15 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.5, durationWeeks: 52, tags: [autonomy-containment, package-boundary-rebuild] }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.9, durationWeeks: 26, tags: [package-boundary-rebuild, research-disruption] }
         checks: []
@@ -342,8 +341,6 @@ events:
         previewKey: event.autonomy.egress.disclose.preview
         immediateEffects:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -30, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -30 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
           - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.65, durationWeeks: 52, tags: [egress-fallout, disclosed] }
         checks: []
@@ -358,11 +355,9 @@ events:
         knownCosts: []
         previewKey: event.autonomy.egress.silence.preview
         immediateEffects:
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -20, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -20 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -30 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 25 }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
-          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.85, durationWeeks: 52, tags: [egress-fallout, cover-up] }
         checks: []
         memories:
           - key: autonomy.egress.buried

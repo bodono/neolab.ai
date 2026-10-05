@@ -389,6 +389,31 @@ describe("content release validation", () => {
     );
   });
 
+  it("caps an option at three guaranteed effects", () => {
+    const event = validEvent();
+    const option = event.options[0];
+    if (option === undefined) throw new Error("missing option fixture");
+    const rating = (amount: number) =>
+      ({
+        kind: "add-rating",
+        subject: { type: "player-lab" },
+        rating: "safetyCulture",
+        amount,
+      }) as const;
+    const busy = validEvent({
+      options: [{ ...option, immediateEffects: [1, 2, 3, 4].map(rating) }],
+    });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(busy), messages(), [])),
+    ).toContain("event.too-many-effects");
+    const clear = validEvent({
+      options: [{ ...option, immediateEffects: [1, 2, 3].map(rating) }],
+    });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(clear), messages(), [])),
+    ).not.toContain("event.too-many-effects");
+  });
+
   it("requires every ordinary event to gate on its era", () => {
     const ungated = validEvent({ prerequisites: { type: "always" } });
     expect(

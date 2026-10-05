@@ -207,8 +207,10 @@ describe("shipped government ladder", () => {
     const resolved = resolveTx.commit({ description: "comply with restriction" }).state;
     const resolvedLab = resolved.labs[resolved.run.playerLabId];
 
-    expect(resolvedLab?.politics.governmentTrust).toBe(75);
-    expect(resolvedLab?.politics.governmentAttention).toBe(30);
+    // Compliance is defined by what it costs and what it buys: reach, release
+    // pace and risk. Its political effect is that the order is satisfied.
+    expect(resolvedLab?.politics.governmentTrust).toBe(60);
+    expect(resolvedLab?.politics.governmentAttention).toBe(40);
     expect(resolveModifierValue(resolved, "lab.market.acquisitionRate", 1).final).toBe(
       0.5,
     );
@@ -241,10 +243,8 @@ describe("shipped government ladder", () => {
     const resolved = resolveTx.commit({ description: "defy restriction" }).state;
     const resolvedLab = resolved.labs[resolved.run.playerLabId];
 
-    expect(resolvedLab?.aura.spendable).toBe(75);
     expect(resolvedLab?.politics.governmentTrust).toBe(30);
     expect(resolvedLab?.politics.governmentAttention).toBe(70);
-    expect(resolvedLab?.organisation.hiddenInternalCandour).toBe(60);
     expect(resolveModifierValue(resolved, "lab.incident.hazard", 1).final).toBe(1.6);
   });
 
@@ -274,7 +274,6 @@ describe("shipped government ladder", () => {
     const oversight = settle("cooperate");
     const oversightLab = oversight.labs[oversight.run.playerLabId];
     expect(oversightLab?.politics.governmentAttention).toBe(60);
-    expect(oversightLab?.politics.governmentTrust).toBe(50);
     expect(resolveModifierValue(oversight, "lab.research.all.output", 1).final).toBe(
       0.95,
     );
@@ -285,10 +284,8 @@ describe("shipped government ladder", () => {
     expect(goldenShareLab?.aura.spendable).toBe(90);
     expect(goldenShareLab?.politics.governmentAttention).toBe(70);
     expect(goldenShareLab?.politics.strategicDependence).toBe(20);
-    expect(resolveModifierValue(goldenShare, "lab.research.all.output", 1).final).toBe(
-      0.95,
-    );
-    expect(resolveModifierValue(goldenShare, "lab.incident.hazard", 1).final).toBe(0.9);
+    // The golden share keeps the lab independent: no oversight drag on research.
+    expect(resolveModifierValue(goldenShare, "lab.research.all.output", 1).final).toBe(1);
   });
 
   it("makes the deployment carve-out an expensive gamble with distinct outcomes", () => {

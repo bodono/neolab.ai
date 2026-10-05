@@ -186,7 +186,7 @@ describe("the autonomy escalation engine", () => {
       );
 
     expect(resourceChange("revoke-and-audit", "cash")).toBe(-10_000);
-    expect(resourceChange("revoke-and-audit", "aura-spendable")).toBe(-15);
+    expect(resourceChange("revoke-and-audit", "aura-spendable")).toBeUndefined();
     expect(modifier("revoke-and-audit", "lab.research.all.output")).toMatchObject({
       value: 0.9,
       durationWeeks: 26,

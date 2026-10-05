@@ -277,96 +277,57 @@ describe("event eligibility and opportunity selection", () => {
     expect(compiled.copy.messages["event.autonomy.egress.body"]).toContain(
       "government attention cannot fall below 45",
     );
-    expect(disclose.immediateEffects).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          kind: "add-resource",
-          amount: -30,
-          auraChangeKind: "loss",
-          auraCategory: "incident",
-          auraSignalImpact: -30,
-        }),
-        expect.objectContaining({
-          kind: "add-rating",
-          rating: "governmentTrust",
-          amount: -10,
-        }),
-        expect.objectContaining({
-          kind: "add-modifier",
-          target: "lab.market.demandCeiling",
-          value: 0.65,
-          durationWeeks: 52,
-        }),
-      ]),
-    );
-    expect(silence.immediateEffects).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          kind: "add-resource",
-          resource: "aura-spendable",
-          amount: -20,
-          auraChangeKind: "loss",
-          auraCategory: "incident",
-          auraSignalImpact: -20,
-        }),
-        expect.objectContaining({
-          kind: "add-rating",
-          rating: "governmentTrust",
-          amount: -30,
-        }),
-        expect.objectContaining({
-          kind: "add-rating",
-          rating: "internalCandour",
-          amount: -10,
-        }),
-        expect.objectContaining({
-          kind: "add-modifier",
-          target: "lab.market.demandCeiling",
-          value: 0.85,
-          durationWeeks: 52,
-        }),
-      ]),
-    );
-    const auraLoss = (option: typeof disclose): number => {
-      const effect = option.immediateEffects.find(
-        (candidate) =>
-          candidate.kind === "add-resource" && candidate.resource === "aura-spendable",
+    expect(disclose.immediateEffects).toEqual([
+      expect.objectContaining({
+        kind: "add-resource",
+        resource: "aura-spendable",
+        amount: -30,
+        auraChangeKind: "loss",
+        auraCategory: "incident",
+        auraSignalImpact: -30,
+      }),
+      expect.objectContaining({
+        kind: "add-rating",
+        rating: "internalCandour",
+        amount: 5,
+      }),
+      expect.objectContaining({
+        kind: "add-modifier",
+        target: "lab.market.demandCeiling",
+        value: 0.65,
+        durationWeeks: 52,
+      }),
+    ]);
+    expect(silence.immediateEffects).toEqual([
+      expect.objectContaining({
+        kind: "add-rating",
+        rating: "governmentTrust",
+        amount: -30,
+      }),
+      expect.objectContaining({
+        kind: "add-rating",
+        rating: "governmentAttention",
+        amount: 25,
+      }),
+      expect.objectContaining({
+        kind: "add-rating",
+        rating: "internalCandour",
+        amount: -10,
+      }),
+    ]);
+    // Disclosure pays in public standing and demand; silence keeps both and
+    // pays on every institutional axis instead. Neither option dominates.
+    const has = (option: typeof disclose, kind: string, key: string): boolean =>
+      option.immediateEffects.some(
+        (effect) =>
+          effect.kind === kind &&
+          ((effect.kind === "add-resource" && effect.resource === key) ||
+            (effect.kind === "add-modifier" && effect.target === key)),
       );
-      if (effect?.kind !== "add-resource") throw new Error("Aura loss missing");
-      return effect.amount;
-    };
-    const demandCeiling = (option: typeof disclose): number => {
-      const effect = option.immediateEffects.find(
-        (candidate) =>
-          candidate.kind === "add-modifier" &&
-          candidate.target === "lab.market.demandCeiling",
-      );
-      if (effect?.kind !== "add-modifier") throw new Error("Demand effect missing");
-      return effect.value;
-    };
-    const ratingChange = (
-      option: typeof disclose,
-      rating: "governmentTrust" | "governmentAttention" | "internalCandour",
-    ): number => {
-      const effect = option.immediateEffects.find(
-        (candidate) => candidate.kind === "add-rating" && candidate.rating === rating,
-      );
-      if (effect?.kind !== "add-rating") throw new Error(`${rating} effect missing`);
-      return effect.amount;
-    };
-    // Concealment preserves more of the commercial position, while disclosure
-    // is strictly better on every institutional axis. Neither option dominates.
-    expect(auraLoss(silence)).toBeGreaterThan(auraLoss(disclose));
-    expect(demandCeiling(silence)).toBeGreaterThan(demandCeiling(disclose));
-    expect(ratingChange(disclose, "governmentTrust")).toBeGreaterThan(
-      ratingChange(silence, "governmentTrust"),
-    );
-    expect(ratingChange(disclose, "governmentAttention")).toBeLessThan(
-      ratingChange(silence, "governmentAttention"),
-    );
-    expect(ratingChange(disclose, "internalCandour")).toBeGreaterThan(
-      ratingChange(silence, "internalCandour"),
-    );
+    expect(has(disclose, "add-resource", "aura-spendable")).toBe(true);
+    expect(has(silence, "add-resource", "aura-spendable")).toBe(false);
+    expect(has(disclose, "add-modifier", "lab.market.demandCeiling")).toBe(true);
+    expect(has(silence, "add-modifier", "lab.market.demandCeiling")).toBe(false);
     expect(silence.confirmationRequired).toBe(true);
 
     const penniless = mutable(newState());

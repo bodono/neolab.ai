@@ -567,6 +567,57 @@ function validateEventEffects(
   effects.forEach((effect, index) => visit(effect, `${location}[${String(index)}]`));
 }
 
+/**
+ * A player reads every option's guaranteed effects as a list; past three it
+ * stops being a trade-off and becomes a ledger. A scheduled block counts as
+ * one line and may hold two effects; each check outcome holds three at most.
+ */
+const MAXIMUM_OPTION_EFFECTS = 3;
+const MAXIMUM_OUTCOME_EFFECTS = 3;
+const MAXIMUM_SCHEDULED_EFFECTS = 2;
+
+function validateEventEffectCounts(
+  definition: EventDefinition,
+  location: string,
+  issues: ReleaseValidationIssue[],
+): void {
+  const scheduledTooLarge = (effects: readonly EventEffectDefinition[]): boolean =>
+    effects.some(
+      (effect) =>
+        effect.kind === "schedule-effects" &&
+        effect.effects.length > MAXIMUM_SCHEDULED_EFFECTS,
+    );
+  definition.options.forEach((option, optionIndex) => {
+    const optionLocation = `${location}.options[${String(optionIndex)}]`;
+    const guaranteed = [...option.knownCosts, ...option.immediateEffects];
+    if (guaranteed.length > MAXIMUM_OPTION_EFFECTS || scheduledTooLarge(guaranteed)) {
+      issue(
+        issues,
+        "release-blocking",
+        "event.too-many-effects",
+        optionLocation,
+        `option ${option.id} lists ${String(guaranteed.length)} guaranteed effects; keep it to ${String(MAXIMUM_OPTION_EFFECTS)} (a scheduled block counts as one and holds ${String(MAXIMUM_SCHEDULED_EFFECTS)} at most)`,
+      );
+    }
+    option.checks.forEach((check) =>
+      check.outcomes.forEach((outcome) => {
+        if (
+          outcome.effects.length > MAXIMUM_OUTCOME_EFFECTS ||
+          scheduledTooLarge(outcome.effects)
+        ) {
+          issue(
+            issues,
+            "release-blocking",
+            "event.too-many-effects",
+            `${optionLocation}.checks.${check.id}.${outcome.id}`,
+            `outcome ${outcome.id} has ${String(outcome.effects.length)} effects; keep it to ${String(MAXIMUM_OUTCOME_EFFECTS)}`,
+          );
+        }
+      }),
+    );
+  });
+}
+
 const BOARD_PATIENCE_METRIC = "player.organisation.boardPatience";
 const ERA_GATE_METRICS = new Set([
   "player.ai.frontierCapability",
@@ -1061,6 +1112,7 @@ function validateEvents(
     }
 
     validateEventEffects(effectsFromEvent(definition), `${baseLocation}.effects`, issues);
+    validateEventEffectCounts(definition, baseLocation, issues);
     if (definition.trigger.kind === "opportunity" && !eventHasEraGate(definition)) {
       issue(
         issues,

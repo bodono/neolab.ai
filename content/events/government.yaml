@@ -411,8 +411,6 @@ events:
         knownCosts: []
         previewKey: event.government.restriction.comply.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 15 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -10 }
           - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.5, durationWeeks: 52, tags: [deployment-restriction, complied] }
           - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.25, durationWeeks: 52, tags: [deployment-restriction, complied] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.6, durationWeeks: 52, tags: [deployment-restriction, complied] }
@@ -465,10 +463,8 @@ events:
         knownCosts: []
         previewKey: event.government.restriction.defy.preview
         immediateEffects:
-          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -25 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -30 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 30 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -10 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.6, durationWeeks: 52, tags: [deployment-restriction, defied] }
         checks: []
         memories:
@@ -509,7 +505,6 @@ events:
         knownCosts: []
         previewKey: event.government.nationalisation.cooperate.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -20 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, tags: [state-oversight] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.8, tags: [state-oversight] }
@@ -528,8 +523,6 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
-          - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, tags: [golden-share] }
-          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.9, tags: [golden-share] }
         checks: []
         memories:
           - key: government.nationalisation.negotiated
