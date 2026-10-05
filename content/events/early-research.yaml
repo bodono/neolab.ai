@@ -1,0 +1,604 @@
+draftSchema: 1
+contentType: decision-events
+pack: early-research
+
+# Early-game decisions for a lab building narrow specialists (FC 1-20, roughly
+# 2012-2016) and its first foundation models (FC 20+): fooled classifiers,
+# shortcut learning, lucky seeds, crowdwork pay, a public match against a
+# human champion, and the carbon bill for training. Each fires once.
+events:
+  # --- Adversarial examples ----------------------------------------------
+  - id: event.research.adversarial-turtle
+    version: 1
+    category: research
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    baseWeight: 7
+    # A lab that has never thought about attackers is likelier to have built a
+    # classifier this easy to fool.
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.securityPosture, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: early-research-adversarial-turtle, weeks: 26 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: fix-quietly
+    titleKey: event.research.adversarial-turtle.title
+    bodyKey: event.research.adversarial-turtle.body
+    educationKey: event.research.adversarial-turtle.education
+    evidence:
+      - textKey: event.research.adversarial-turtle.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: publish-weakness
+        labelKey: event.research.adversarial-turtle.publish.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.adversarial-turtle.publish.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [robustness-study] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+        checks: []
+        memories:
+          - key: research.adversarial-turtle.published
+            subjects: [{ type: player-lab }]
+            tags: [published-weakness, open-science]
+        confirmationRequired: false
+      - id: fix-quietly
+        labelKey: event.research.adversarial-turtle.fix.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.adversarial-turtle.fix.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 4 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 2 }
+        checks: []
+        memories:
+          - key: research.adversarial-turtle.fixed
+            subjects: [{ type: player-lab }]
+            tags: [adversarial-training, quiet-fix]
+        confirmationRequired: false
+      - id: ignore-it
+        labelKey: event.research.adversarial-turtle.ignore.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.adversarial-turtle.ignore.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [ignored-robustness] }
+        checks:
+          - id: someone-looks
+            likelihoodPromise: { label: likely, successOutcomeIds: [unnoticed] }
+            outcomes:
+              - id: unnoticed
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: research.adversarial-turtle.ignored
+                    subjects: [{ type: player-lab }]
+                    tags: [ignored-weakness]
+              - id: demonstrated
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -5 }
+                memories:
+                  - key: research.adversarial-turtle.demonstrated
+                    subjects: [{ type: player-lab }]
+                    tags: [ignored-weakness, exposed]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [research, robustness, adversarial-examples]
+
+  # --- Shortcut learning in medical imaging --------------------------------
+  - id: event.research.shortcut-learning
+    version: 1
+    category: research
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: early-research-shortcut-learning, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: mask-markings
+    titleKey: event.research.shortcut-learning.title
+    bodyKey: event.research.shortcut-learning.body
+    educationKey: event.research.shortcut-learning.education
+    evidence:
+      - textKey: event.research.shortcut-learning.evidence.evalquality
+        metric: player.safety.evalQuality
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: test-elsewhere
+        labelKey: event.research.shortcut-learning.external.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -4 }
+        previewKey: event.research.shortcut-learning.external.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: research.shortcut-learning.tested-elsewhere
+            subjects: [{ type: player-lab }]
+            tags: [external-validation, safety-first]
+        confirmationRequired: false
+      - id: mask-markings
+        labelKey: event.research.shortcut-learning.mask.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.shortcut-learning.mask.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [masked-retrain] }
+        checks:
+          - id: retrain
+            likelihoodPromise: { label: likely, successOutcomeIds: [generalises] }
+            outcomes:
+              - id: generalises
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+                memories:
+                  - key: research.shortcut-learning.masked
+                    subjects: [{ type: player-lab }]
+                    tags: [masked-shortcut]
+              - id: subtler-shortcut
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects: []
+                memories:
+                  - key: research.shortcut-learning.subtler-shortcut
+                    subjects: [{ type: player-lab }]
+                    tags: [masked-shortcut, shortcut-remains]
+        memories: []
+        confirmationRequired: false
+      - id: publish-accuracy
+        labelKey: event.research.shortcut-learning.publish.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.shortcut-learning.publish.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [investor-mood] }
+        checks:
+          - id: other-hospitals
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [holds] }
+            outcomes:
+              - id: holds
+                minimumInclusive: 0
+                maximumExclusive: 0.4
+                effects: []
+                memories:
+                  - key: research.shortcut-learning.published
+                    subjects: [{ type: player-lab }]
+                    tags: [headline-first]
+              - id: falls-short
+                minimumInclusive: 0.4
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                memories:
+                  - key: research.shortcut-learning.failed-elsewhere
+                    subjects: [{ type: player-lab }]
+                    tags: [headline-first, shortcut-exposed]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [research, evaluation, shortcut-learning]
+
+  # --- Results that depend on the random seed ------------------------------
+  - id: event.research.lucky-seed
+    version: 1
+    category: research
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: early-research-lucky-seed, weeks: 26 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: more-seeds
+    titleKey: event.research.lucky-seed.title
+    bodyKey: event.research.lucky-seed.body
+    educationKey: event.research.lucky-seed.education
+    evidence:
+      - textKey: event.research.lucky-seed.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.lucky-seed.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: report-all-seeds
+        labelKey: event.research.lucky-seed.all.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.lucky-seed.all.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.95, durationWeeks: 26, tags: [investor-mood] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+        checks: []
+        memories:
+          - key: research.lucky-seed.reported-spread
+            subjects: [{ type: player-lab }]
+            tags: [honest-measurement, transparency]
+        confirmationRequired: false
+      - id: more-seeds
+        labelKey: event.research.lucky-seed.more.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.lucky-seed.more.preview
+        immediateEffects: []
+        checks:
+          - id: more-seeds
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [holds] }
+            outcomes:
+              - id: holds
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+                memories:
+                  - key: research.lucky-seed.result-held
+                    subjects: [{ type: player-lab }]
+                    tags: [missed-deadline, robust-result]
+              - id: vanishes
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+                memories:
+                  - key: research.lucky-seed.result-vanished
+                    subjects: [{ type: player-lab }]
+                    tags: [missed-deadline, lucky-seed]
+        memories: []
+        confirmationRequired: false
+      - id: best-seeds
+        labelKey: event.research.lucky-seed.best.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.lucky-seed.best.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [built-on-luck] }
+        checks: []
+        memories:
+          - key: research.lucky-seed.cherry-picked
+            subjects: [{ type: player-lab }]
+            tags: [cherry-picked, inflated-claim]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [research, reproducibility, random-seeds]
+
+  # --- Crowdwork labelling pay -------------------------------------------
+  - id: event.people.crowd-labelling
+    version: 1
+    category: people
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: early-research-crowd-labelling, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: going-rate
+    titleKey: event.people.crowd-labelling.title
+    bodyKey: event.people.crowd-labelling.body
+    educationKey: event.people.crowd-labelling.education
+    evidence:
+      - textKey: event.people.crowd-labelling.evidence.cash
+        metric: player.cash
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: pay-fairly
+        labelKey: event.people.crowd-labelling.fair.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.people.crowd-labelling.fair.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 26, tags: [fair-pay] }
+        checks: []
+        memories:
+          - key: people.crowd-labelling.paid-fairly
+            subjects: [{ type: player-lab }]
+            tags: [fair-pay, data-work]
+        confirmationRequired: false
+      - id: going-rate
+        labelKey: event.people.crowd-labelling.going.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.people.crowd-labelling.going.preview
+        immediateEffects: []
+        checks:
+          - id: label-quality
+            likelihoodPromise: { label: likely, successOutcomeIds: [adequate] }
+            outcomes:
+              - id: adequate
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: people.crowd-labelling.going-rate
+                    subjects: [{ type: player-lab }]
+                    tags: [going-rate, data-work]
+              - id: rushed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [noisy-labels] }
+                memories:
+                  - key: people.crowd-labelling.noisy-labels
+                    subjects: [{ type: player-lab }]
+                    tags: [going-rate, noisy-labels]
+        memories: []
+        confirmationRequired: false
+      - id: lowest-rate
+        labelKey: event.people.crowd-labelling.lowest.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -1 }
+        previewKey: event.people.crowd-labelling.lowest.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [cheap-labels] }
+        checks:
+          - id: reporting
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [unreported] }
+            outcomes:
+              - id: unreported
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects: []
+                memories:
+                  - key: people.crowd-labelling.lowest-rate
+                    subjects: [{ type: player-lab }]
+                    tags: [lowest-rate, data-work]
+              - id: reported
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 5, durationWeeks: 26, tags: [pay-exposed] }
+                memories:
+                  - key: people.crowd-labelling.reported
+                    subjects: [{ type: player-lab }]
+                    tags: [lowest-rate, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [people, data-work, crowdwork]
+
+  # --- A public match against the human champion -----------------------------
+  - id: event.research.public-match
+    version: 1
+    category: research
+    severity: decision
+    phase: foundation
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 10 }
+    baseWeight: 7
+    # The stronger the system, the louder the calls for a match.
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.ai.frontierCapability, op: gte, value: 15 }
+        multiplier: 2
+    cooldown: { group: early-research-public-match, weeks: 26 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: private-match
+    titleKey: event.research.public-match.title
+    bodyKey: event.research.public-match.body
+    educationKey: event.research.public-match.education
+    evidence:
+      - textKey: event.research.public-match.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: keep-training
+        labelKey: event.research.public-match.keep.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.public-match.keep.preview
+        immediateEffects:
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: -3, durationWeeks: 26, tags: [match-postponed] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [match-postponed] }
+        checks: []
+        memories:
+          - key: research.public-match.kept-training
+            subjects: [{ type: player-lab }]
+            tags: [declined-match]
+        confirmationRequired: false
+      - id: private-match
+        labelKey: event.research.public-match.private.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.public-match.private.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+        checks: []
+        memories:
+          - key: research.public-match.private-match
+            subjects: [{ type: player-lab }]
+            tags: [private-match]
+        confirmationRequired: false
+      - id: public-match
+        labelKey: event.research.public-match.public.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.research.public-match.public.preview
+        immediateEffects: []
+        checks:
+          - id: match
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [won] }
+            outcomes:
+              - id: won
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 20 }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [investor-mood] }
+                memories:
+                  - key: research.public-match.won
+                    subjects: [{ type: player-lab }]
+                    tags: [public-match, milestone]
+              - id: lost
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 0.90, durationWeeks: 26, tags: [investor-mood] }
+                memories:
+                  - key: research.public-match.lost
+                    subjects: [{ type: player-lab }]
+                    tags: [public-match, public-loss]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [research, game-playing, publicity]
+
+  # --- The carbon cost of training -----------------------------------------
+  - id: event.facility.training-footprint
+    version: 1
+    category: facility
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
+    baseWeight: 6
+    weightModifiers: []
+    cooldown: { group: early-research-training-footprint, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: buy-offsets
+    titleKey: event.facility.training-footprint.title
+    bodyKey: event.facility.training-footprint.body
+    educationKey: event.facility.training-footprint.education
+    evidence:
+      - textKey: event.facility.training-footprint.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: train-leaner
+        labelKey: event.facility.training-footprint.lean.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.facility.training-footprint.lean.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [efficiency-work] }
+          - { kind: add-modifier, target: lab.training.frontier.cashCost, operation: multiply, value: 0.95, durationWeeks: 52, tags: [efficient-training] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: facility.training-footprint.leaner
+            subjects: [{ type: player-lab }]
+            tags: [efficient-training, transparency]
+        confirmationRequired: false
+      - id: buy-offsets
+        labelKey: event.facility.training-footprint.offset.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.facility.training-footprint.offset.preview
+        immediateEffects: []
+        checks:
+          - id: offset-scrutiny
+            likelihoodPromise: { label: likely, successOutcomeIds: [credible] }
+            outcomes:
+              - id: credible
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+                memories:
+                  - key: facility.training-footprint.offset
+                    subjects: [{ type: player-lab }]
+                    tags: [carbon-offsets]
+              - id: questioned
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+                memories:
+                  - key: facility.training-footprint.offsets-questioned
+                    subjects: [{ type: player-lab }]
+                    tags: [carbon-offsets, questioned]
+        memories: []
+        confirmationRequired: false
+      - id: press-release
+        labelKey: event.facility.training-footprint.press.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.facility.training-footprint.press.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+        checks:
+          - id: rebuttal
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [stands] }
+            outcomes:
+              - id: stands
+                minimumInclusive: 0
+                maximumExclusive: 0.4
+                effects: []
+                memories:
+                  - key: facility.training-footprint.press-release
+                    subjects: [{ type: player-lab }]
+                    tags: [press-release, spin]
+              - id: rebutted
+                minimumInclusive: 0.4
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: facility.training-footprint.rebutted
+                    subjects: [{ type: player-lab }]
+                    tags: [press-release, spin, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [facility, energy, carbon]

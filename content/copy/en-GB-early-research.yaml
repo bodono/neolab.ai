@@ -1,0 +1,145 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the early-research decision events
+# (content/events/early-research.yaml). Messages stay within 180 characters;
+# `.education` lines (the real-world grounding) within 240.
+messages:
+  # --- Research: adversarial examples --------------------------------------
+  event.research.adversarial-turtle.title: Changes nobody can see turn {AI}'s cat into a toaster
+  event.research.adversarial-turtle.body: >-
+    {LAB}'s team has found that changes too faint for anyone to see make {AI} misread
+    almost any photo, with total confidence. Nobody attacks image classifiers. Yet.
+  event.research.adversarial-turtle.education: >-
+    In 2013, researchers showed that changes to an image too small for people to notice
+    could make a neural network misclassify it; in 2017, another team 3D-printed a turtle
+    that a classifier consistently saw as a rifle.
+  event.research.adversarial-turtle.evidence.security: Security posture
+  event.research.adversarial-turtle.publish.label: Publish the weakness
+  event.research.adversarial-turtle.publish.preview: >-
+    Show the field that its best classifiers, {AI} included, can be fooled by noise.
+    Capability work waits while the team digs in, and {LAB} becomes famous for a flaw.
+  event.research.adversarial-turtle.fix.label: Fix it quietly
+  event.research.adversarial-turtle.fix.preview: >-
+    Train {AI} on doctored images until this trick stops working, and tell nobody. It
+    costs compute and earns no credit; the next trick is someone else's discovery.
+  event.research.adversarial-turtle.ignore.label: "Ignore it: nobody attacks image classifiers"
+  event.research.adversarial-turtle.ignore.preview: >-
+    True today. Capability work carries on at full pace, and the flaw stays in {AI} until
+    someone with a reason to use it, or a paper to write, comes looking.
+
+  # --- Research: shortcut learning -----------------------------------------
+  event.research.shortcut-learning.title: "{AI} may be diagnosing the hospital, not the patient"
+  event.research.shortcut-learning.body: >-
+    {AI} reads X-rays better than anything published. It may also be reading the
+    hospital's labels and markings rather than the illness. {LAB}'s press release is drafted.
+  event.research.shortcut-learning.education: >-
+    In 2018, a pneumonia-detecting network was found to have partly learned which hospital
+    an X-ray came from, a shortcut that worked less well at other hospitals; a 2019 study
+    found a skin-cancer classifier swayed by surgical ink markings.
+  event.research.shortcut-learning.evidence.evalquality: Evaluation quality
+  event.research.shortcut-learning.external.label: Test it on other hospitals' scans first
+  event.research.shortcut-learning.external.preview: >-
+    Buy scans from hospitals {AI} has never seen and publish whatever it scores there.
+    Slower and dearer, and the number that comes out is one a doctor could use.
+  event.research.shortcut-learning.mask.label: Hide the labels and markings, and retrain
+  event.research.shortcut-learning.mask.preview: >-
+    Crop out every label and marking and train again. That closes the obvious shortcut.
+    Whether {AI} has found a subtler one is a question for the next study.
+  event.research.shortcut-learning.publish.label: Publish the headline accuracy
+  event.research.shortcut-learning.publish.preview: >-
+    The accuracy is real, at this hospital. Take the headline and the investor calls now;
+    the first hospital that marks its scans differently will find out how real.
+
+  # --- Research: lucky seeds ------------------------------------------------
+  event.research.lucky-seed.title: The breakthrough works on three random seeds out of ten
+  event.research.lucky-seed.body: >-
+    {LAB}'s new reinforcement-learning agent beats the record on three of ten random seeds
+    and flounders on the rest. The deadline is Friday, and the three are very persuasive.
+  event.research.lucky-seed.education: >-
+    A 2017 study showed that deep reinforcement-learning results could change
+    significantly just by changing the random seed, making many reported gains hard to
+    reproduce.
+  event.research.lucky-seed.evidence.evalquality: Evaluation quality
+  event.research.lucky-seed.evidence.aura: Aura available
+  event.research.lucky-seed.all.label: Report every seed, error bars and all
+  event.research.lucky-seed.all.preview: >-
+    Publish the average and the spread. It is a smaller claim, reviewers may shrug and
+    investors certainly will, but {LAB}'s numbers start to mean something.
+  event.research.lucky-seed.more.label: Skip the deadline and run more seeds
+  event.research.lucky-seed.more.preview: >-
+    Buy the compute and find out. Either the result is real and the next paper is the
+    stronger for it, or it was luck and {LAB} is the only one who knows.
+  event.research.lucky-seed.best.label: Report the best three
+  event.research.lucky-seed.best.preview: >-
+    Three seeds make a result; seven make an appendix nobody asked for. The paper lands
+    now. The next project, built on top of it, finds out later.
+
+  # --- People: crowdwork labelling -----------------------------------------
+  event.people.crowd-labelling.title: The labelling budget is smaller than the coffee budget
+  event.people.crowd-labelling.body: >-
+    {LAB}'s new dataset needs millions of images labelled by crowdworkers. At the going
+    rate, the whole job costs less than the office coffee. Finance is delighted.
+  event.people.crowd-labelling.education: >-
+    The image dataset behind the deep-learning boom was labelled by tens of thousands of
+    online crowdworkers in over 160 countries; in 2023, contractors labelling toxic
+    content for one chatbot were reportedly paid under $2 an hour.
+  event.people.crowd-labelling.evidence.cash: Cash on hand
+  event.people.crowd-labelling.fair.label: Pay a fair hourly wage
+  event.people.crowd-labelling.fair.preview: >-
+    Pay by the hour at a rate {LAB} would defend in public, and fund spot checks. It costs
+    real money; the labels are better, and {LAB}'s own staff notice.
+  event.people.crowd-labelling.going.label: Pay the going rate
+  event.people.crowd-labelling.going.preview: >-
+    Pay what the platform suggests, like everyone else. Cheap and easy to defend, though a
+    rate per label rewards speed over care, and the labels may show it.
+  event.people.crowd-labelling.lowest.label: Pay the lowest rate anyone will accept
+  event.people.crowd-labelling.lowest.preview: >-
+    The same budget buys several times the labels, and research speeds up. The workers
+    know exactly what they are paid; one day, a journalist may ask them.
+
+  # --- Research: public match ------------------------------------------------
+  event.research.public-match.title: "{AI} could play the world champion. In public."
+  event.research.public-match.body: >-
+    {AI} now beats every professional {LAB} can hire, and the world champion will play it
+    in public. {LEADER} has drafted a victory speech and, just in case, a shorter one.
+  event.research.public-match.education: >-
+    In 2016, a program beat one of the world's strongest Go players 4–1 in a match watched
+    by millions; many experts had expected that milestone to be about a decade away.
+  event.research.public-match.evidence.aura: Aura available
+  event.research.public-match.keep.label: Keep training in private
+  event.research.public-match.keep.preview: >-
+    Wait until {AI} is unbeatable rather than probably unbeatable. Research presses on;
+    the team that wanted its moment on stage has to wait for it.
+  event.research.public-match.private.label: Play a top professional behind closed doors
+  event.research.public-match.private.preview: >-
+    Pay a leading professional for a private match and publish afterwards. Modest credit,
+    no cameras, and {LAB} learns where {AI} cracks.
+  event.research.public-match.public.label: Book the champion, cameras and all
+  event.research.public-match.public.preview: >-
+    Millions will watch, which is the point and the problem. Win and {LAB} arrived a
+    decade early; lose and {LEADER} gives the shorter speech.
+
+  # --- Facility: training footprint ------------------------------------------
+  event.facility.training-footprint.title: Researchers have totted up {AI}'s carbon bill
+  event.facility.training-footprint.body: >-
+    A university study estimating the carbon emitted by {LAB}'s training runs is out next
+    month. The draft is polite, thorough, and has a chart nobody at {LAB} enjoys.
+  event.facility.training-footprint.education: >-
+    A 2019 study estimated that training one large language model, including an automated
+    search for its architecture, emitted about as much carbon dioxide as five cars over
+    their lifetimes.
+  event.facility.training-footprint.evidence.trust: Current government trust
+  event.facility.training-footprint.lean.label: Make training leaner, and publish the figures
+  event.facility.training-footprint.lean.preview: >-
+    Put engineers on doing the same training with less energy, and publish the numbers.
+    Research slows for a while; the runs get cheaper, and the chart shorter.
+  event.facility.training-footprint.offset.label: Buy offsets for every run
+  event.facility.training-footprint.offset.preview: >-
+    Pay to plant trees, or to keep them standing, for every run. Nothing about the
+    training changes, and the study's authors may ask where the trees are.
+  event.facility.training-footprint.press.label: Get a press release out first
+  event.facility.training-footprint.press.preview: >-
+    Announce {LAB}'s deep commitment to the planet the day before the study lands. Quick
+    and cheap, and the study's authors will have a whole day to read it.
