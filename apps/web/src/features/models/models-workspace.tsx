@@ -2440,11 +2440,11 @@ function TrainingDialog({
                     The forecast assumes the GPUs stay reserved.
                   </MechanicHelp>
                 </header>
-                <p className="training-technical-lead">
-                  {quote.technicalLead === undefined
-                    ? "No technical lead: no one on staff has training skill."
-                    : `Technical lead: ${quote.technicalLead.displayName} · training ${String(quote.technicalLead.trainingSkill)}/5 · +${String(quote.technicalLead.checkpointBonus)} checkpoint strength`}
-                </p>
+                {quote.technicalLead === undefined ? null : (
+                  <p className="training-technical-lead">
+                    {`Technical lead: ${quote.technicalLead.displayName} · training ${String(quote.technicalLead.trainingSkill)}/5 · +${String(quote.technicalLead.checkpointBonus)} checkpoint strength`}
+                  </p>
+                )}
                 <div className="training-reliability-bar" role="presentation">
                   <i
                     className="clean"
