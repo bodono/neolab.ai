@@ -37,6 +37,11 @@ describe("new-game leader attribution", () => {
     expect(markup).toContain(selected.inspirationName);
     expect(markup).toContain(summary);
     expect(markup).toContain('class="dossier-biography"');
+    // The full profile stays in the page, behind a disclosure after its first paragraph.
+    expect(markup).toContain("Read full profile");
+    const laterParagraph = selected.biography.split(/\n+/u)[1]?.trim();
+    expect(laterParagraph).toBeTruthy();
+    expect(markup).toContain(laterParagraph!.slice(0, 40));
     expect(markup).toContain("The character’s gameplay");
     expect(markup).not.toContain("Continue real-world profile");
   });

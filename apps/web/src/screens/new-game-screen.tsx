@@ -586,9 +586,25 @@ export function NewGameScreen({
   const [seed, setSeed] = useState(generateRunSeed);
   const [error, setError] = useState<string>();
   const leaderButtons = useRef(new Map<string, HTMLButtonElement>());
+  const leaderGrid = useRef<HTMLDivElement>(null);
+  const mandatePicker = useRef<HTMLElement>(null);
+  const difficultyPicker = useRef<HTMLElement>(null);
   const selectedLeader = leaders.find((leader) => leader.id === leaderId) ?? leaders[0];
   const selectedLab =
     selectedLeader === undefined ? undefined : content.labs[selectedLeader.labId];
+  const selectedMandate = mandates.find((mandate) => mandate.id === mandateId);
+  const selectedDifficulty = difficulties.find(
+    (difficulty) => difficulty.id === difficultyId,
+  );
+
+  // The summary bar's choices jump back to their picker and put focus on the
+  // current selection, so a player at the bottom of a long page can change a
+  // choice without hunting for it.
+  function revealChoice(section: HTMLElement | null, selector: string): void {
+    if (section === null) return;
+    section.scrollIntoView({ block: "start" });
+    section.querySelector<HTMLElement>(selector)?.focus({ preventScroll: true });
+  }
 
   function moveLeaderSelection(
     event: KeyboardEvent<HTMLButtonElement>,
@@ -629,10 +645,10 @@ export function NewGameScreen({
   return (
     <main className="setup-screen">
       <header className="setup-header">
-        <button className="text-button" type="button" onClick={onBack}>
+        <button className="setup-back" type="button" onClick={onBack}>
           ← TITLE
         </button>
-        <div>
+        <div className="setup-heading">
           <p className="eyebrow">FOUNDING COMMITTEE</p>
           <h1>Choose your lab leader</h1>
         </div>
@@ -656,7 +672,12 @@ export function NewGameScreen({
         </a>
       </aside>
       <form onSubmit={submit}>
-        <div className="leader-grid" role="radiogroup" aria-label="Lab leaders">
+        <div
+          className="leader-grid"
+          role="radiogroup"
+          aria-label="Lab leaders"
+          ref={leaderGrid}
+        >
           {leaders.map((leader, index) => {
             const lab = content.labs[leader.labId];
             const selected = leader.id === leaderId;
@@ -676,6 +697,13 @@ export function NewGameScreen({
                 onKeyDown={(event) => moveLeaderSelection(event, index)}
                 onClick={() => setLeaderId(leader.id)}
               >
+                {selected ? (
+                  // aria-checked already announces the state; this is the
+                  // visual equivalent, next to the card the player clicked.
+                  <span className="leader-card-badge" aria-hidden="true">
+                    ✓ Selected
+                  </span>
+                ) : null}
                 <PixelPortrait
                   className="pixel-avatar"
                   subjectId={leader.id}
@@ -740,52 +768,59 @@ export function NewGameScreen({
               </div>
               <strong>{selectedLeader.headlineBonus.label}</strong>
             </header>
-            <RealWorldProfile
-              inspirationName={selectedLeader.inspirationName}
-              inspirationSummary={selectedLeader.inspirationSummary}
-              biography={selectedLeader.biography}
-              sourceUrls={selectedLeader.sourceNotes}
-              showAttribution={false}
-            />
-            <div className="leader-traits">
-              <article>
-                <span>Headline bonus</span>
-                {selectedLeader.headlineBonus.effects.map((effect) => {
-                  const copy = leaderEffectCopy(effect);
+            <div className="leader-detail-body">
+              <RealWorldProfile
+                inspirationName={selectedLeader.inspirationName}
+                inspirationSummary={selectedLeader.inspirationSummary}
+                biography={selectedLeader.biography}
+                sourceUrls={selectedLeader.sourceNotes}
+                showAttribution={false}
+                collapseBiography
+              />
+              <div className="leader-traits">
+                <article>
+                  <span>Headline bonus</span>
+                  {selectedLeader.headlineBonus.effects.map((effect) => {
+                    const copy = leaderEffectCopy(effect);
+                    return (
+                      <div
+                        className={`leader-effect-row ${copy.tone}`}
+                        key={`${effect.target}:${effect.operation}`}
+                      >
+                        <strong>{copy.summary}</strong>
+                        <small>{copy.explanation}</small>
+                      </div>
+                    );
+                  })}
+                </article>
+                {selectedLeader.labModifiers.map((modifier) => {
                   return (
-                    <div
-                      className={`leader-effect-row ${copy.tone}`}
-                      key={`${effect.target}:${effect.operation}`}
-                    >
-                      <strong>{copy.summary}</strong>
-                      <small>{copy.explanation}</small>
-                    </div>
+                    <article key={modifier.id}>
+                      <span>{modifier.label}</span>
+                      {modifier.effects.map((effect) => {
+                        const copy = leaderEffectCopy(effect);
+                        return (
+                          <div
+                            className={`leader-effect-row ${copy.tone}`}
+                            key={`${effect.target}:${effect.operation}`}
+                          >
+                            <strong>{copy.summary}</strong>
+                            <small>{copy.explanation}</small>
+                          </div>
+                        );
+                      })}
+                    </article>
                   );
                 })}
-              </article>
-              {selectedLeader.labModifiers.map((modifier) => {
-                return (
-                  <article key={modifier.id}>
-                    <span>{modifier.label}</span>
-                    {modifier.effects.map((effect) => {
-                      const copy = leaderEffectCopy(effect);
-                      return (
-                        <div
-                          className={`leader-effect-row ${copy.tone}`}
-                          key={`${effect.target}:${effect.operation}`}
-                        >
-                          <strong>{copy.summary}</strong>
-                          <small>{copy.explanation}</small>
-                        </div>
-                      );
-                    })}
-                  </article>
-                );
-              })}
+              </div>
             </div>
           </section>
         )}
-        <section className="mandate-picker" aria-labelledby="mandate-picker-title">
+        <section
+          className="mandate-picker"
+          aria-labelledby="mandate-picker-title"
+          ref={mandatePicker}
+        >
           <header>
             <div>
               <p className="eyebrow">FOUNDING MANDATE // PERMANENT FOR THIS RUN</p>
@@ -833,7 +868,11 @@ export function NewGameScreen({
             })}
           </div>
         </section>
-        <section className="difficulty-picker" aria-labelledby="difficulty-picker-title">
+        <section
+          className="difficulty-picker"
+          aria-labelledby="difficulty-picker-title"
+          ref={difficultyPicker}
+        >
           <header>
             <div>
               <p className="eyebrow">SIMULATION PRESSURE // SCORE-AFFECTING</p>
@@ -903,8 +942,72 @@ export function NewGameScreen({
               spellCheck={false}
             />
           </label>
-          <div className="launch-cell">
-            <button className="primary" type="submit">
+        </section>
+        <section className="setup-summary-bar" aria-label="Run summary">
+          <div className="setup-summary-inner">
+            <ul className="setup-summary-choices">
+              <li>
+                <button
+                  className="setup-summary-choice"
+                  type="button"
+                  title="Change leader"
+                  onClick={() =>
+                    revealChoice(leaderGrid.current, '[aria-checked="true"]')
+                  }
+                >
+                  {selectedLeader === undefined ? null : (
+                    <span className="setup-summary-portrait" aria-hidden="true">
+                      <PixelPortrait
+                        subjectId={selectedLeader.id}
+                        name={selectedLeader.displayName}
+                      />
+                    </span>
+                  )}
+                  <span className="setup-summary-text">
+                    <small>Leader</small>
+                    <strong>{selectedLeader?.displayName ?? "None"}</strong>
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  className="setup-summary-choice"
+                  type="button"
+                  title="Change mandate"
+                  onClick={() =>
+                    revealChoice(mandatePicker.current, '[aria-pressed="true"]')
+                  }
+                >
+                  <span className="setup-summary-text">
+                    <small>Mandate</small>
+                    <strong>{selectedMandate?.displayName ?? "None"}</strong>
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  className="setup-summary-choice"
+                  type="button"
+                  title="Change difficulty"
+                  onClick={() =>
+                    revealChoice(difficultyPicker.current, '[aria-checked="true"]')
+                  }
+                >
+                  <span className="setup-summary-text">
+                    <small>Difficulty</small>
+                    <strong>
+                      {selectedDifficulty?.displayName ?? "None"}
+                      {selectedDifficulty === undefined ? null : (
+                        <span className="setup-summary-score">
+                          {` · score ×${difficultyCopy(selectedDifficulty.id).scoreMultiplier.toFixed(2)}`}
+                        </span>
+                      )}
+                    </strong>
+                  </span>
+                </button>
+              </li>
+            </ul>
+            <button className="primary setup-launch" type="submit">
               Enter the lab →
             </button>
             {error === undefined ? null : (

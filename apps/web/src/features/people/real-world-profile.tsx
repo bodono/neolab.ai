@@ -20,6 +20,7 @@ export function RealWorldProfile({
   realWorldPapers = [],
   compact = false,
   showAttribution = true,
+  collapseBiography = false,
 }: {
   readonly inspirationName: string;
   readonly inspirationSummary: string;
@@ -28,12 +29,16 @@ export function RealWorldProfile({
   readonly realWorldPapers?: readonly RealPaperCitation[] | undefined;
   readonly compact?: boolean;
   readonly showAttribution?: boolean;
+  /** Show only the first paragraph, with the rest behind a disclosure. */
+  readonly collapseBiography?: boolean;
 }): ReactElement {
   const biographyParagraphs =
     biography
       ?.split(/\n+/u)
       .map((paragraph) => paragraph.trim())
       .filter((paragraph) => paragraph.length > 0) ?? [];
+  const [leadParagraph, ...laterParagraphs] = biographyParagraphs;
+  const collapsed = collapseBiography && laterParagraphs.length > 0;
 
   if (compact) {
     return (
@@ -66,9 +71,24 @@ export function RealWorldProfile({
       {biographyParagraphs.length === 0 ? null : (
         <>
           <div className="dossier-biography">
-            {biographyParagraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            {collapsed ? (
+              <>
+                <p>{leadParagraph}</p>
+                <details className="dossier-biography-more">
+                  <summary>
+                    <span className="dossier-biography-more-closed">
+                      Read full profile
+                    </span>
+                    <span className="dossier-biography-more-open">Show less</span>
+                  </summary>
+                  {laterParagraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </details>
+              </>
+            ) : (
+              biographyParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+            )}
           </div>
           {realWorldPapers.length === 0 ? null : (
             <details className="real-world-paper-credits">
