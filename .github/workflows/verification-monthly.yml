@@ -39,16 +39,16 @@ concurrency:
 jobs:
   long-invariant-campaign:
     name: Long random-legal invariant campaign
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # The deep sweep: replays every seeded run as well as executing it, at twice
     # the tick depth the weekly smoke campaign reaches.
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -68,7 +68,7 @@ jobs:
 
       - name: Upload invariant evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: invariant-campaign-long-${{ github.sha }}
           path: artifacts/invariants/long.json

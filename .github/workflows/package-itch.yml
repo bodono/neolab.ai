@@ -21,12 +21,12 @@ env:
 jobs:
   build-and-deploy:
     if: ${{ github.event_name == 'workflow_dispatch' || vars.ITCH_TARGET != '' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
       - uses: actions/setup-node@v6
         with:

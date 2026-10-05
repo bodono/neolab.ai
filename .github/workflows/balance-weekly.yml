@@ -47,15 +47,15 @@ concurrency:
 jobs:
   horizon-probe:
     name: Twenty-one-year strategy horizon
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Measured at 64 minutes locally; 30 killed it every time. See header.
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload horizon evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: balance-horizon
           path: artifacts/balance/horizon
@@ -84,7 +84,7 @@ jobs:
 
   balance-shard:
     name: Balance shard ${{ matrix.shard }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Off the schedule: 3,400 games a shard is ~82 hours of work, so this job
     # can only ever time out. Opt in by hand when you want to measure it.
     if: github.event_name == 'workflow_dispatch' && inputs.release_matrix
@@ -96,11 +96,11 @@ jobs:
       matrix:
         shard: [0, 1, 2]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -117,7 +117,7 @@ jobs:
 
       - name: Upload shard
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: balance-shard-${{ matrix.shard }}
           path: artifacts/balance/shard-${{ matrix.shard }}
@@ -127,14 +127,14 @@ jobs:
   aggregate:
     name: Aggregate 10,200-run matrix
     needs: balance-shard
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -143,7 +143,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Download every shard
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: balance-shard-*
           path: artifacts/balance/shards
@@ -163,7 +163,7 @@ jobs:
 
       - name: Upload aggregate reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: balance-release-matrix
           path: artifacts/balance/release

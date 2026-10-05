@@ -36,18 +36,18 @@ concurrency:
 jobs:
   ci:
     name: Fast gate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # The gate runs in about eight minutes once the browser suites are counted.
     # The cap is generous enough to absorb a slow runner or a cold Playwright
     # cache without letting a hung job quietly eat a meaningful slice of the
     # monthly allowance.
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -85,7 +85,7 @@ jobs:
       # live outside the cached directory, so a cache hit still installs those.
       - name: Cache Playwright browsers
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}

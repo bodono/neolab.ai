@@ -27,14 +27,14 @@ concurrency:
 jobs:
   source-link-report:
     name: External source-link report
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -54,7 +54,7 @@ jobs:
 
       - name: Upload source-link report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: source-link-report-${{ github.sha }}
           path: artifacts/content/source-links.json
@@ -63,7 +63,7 @@ jobs:
 
   invariant-campaign:
     name: Short random-legal invariant campaign
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Split out of release-checks. It ran there for ~38 minutes of a 60 minute
     # budget while it was aborting early on a researcher-ultimatum crash; once
     # that was fixed it took ~47, and the browser suites behind it were killed
@@ -72,11 +72,11 @@ jobs:
     # parallel and each fails on its own evidence.
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -96,7 +96,7 @@ jobs:
 
       - name: Upload invariant evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: invariant-campaign-smoke-${{ github.sha }}
           path: artifacts/invariants/smoke.json
@@ -105,7 +105,7 @@ jobs:
 
   release-checks:
     name: Build, release audit, and browser suites
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # These ran on every push until the CI budget review. They are the checks
     # most likely to catch a packaging or cross-browser regression, so they are
     # kept in full -- just paid for weekly rather than per commit.
@@ -116,11 +116,11 @@ jobs:
     # but below the old 60 so a genuine hang is cut off sooner.
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -171,7 +171,7 @@ jobs:
 
       - name: Upload release reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-checks-${{ github.sha }}
           path: artifacts/release-checks
