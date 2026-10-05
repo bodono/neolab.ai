@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 
 import { NeolabApp } from "./app/neolab-app.tsx";
 import { CampusProfileFixture } from "./features/campus/campus-profile-fixture.tsx";
+import "./styles/fonts.css";
 import "./styles/game.css";
 
 const container = document.getElementById("root");

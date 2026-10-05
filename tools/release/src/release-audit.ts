@@ -397,6 +397,8 @@ function verifyThirdPartyNotices(
     "Copyright © 2025 Colin McDonnell",
     "Copyright © 2019 Paul Henschel",
     "Copyright Eemeli Aro",
+    "Copyright 2016 The Inter Project Authors",
+    "Copyright 2020 The JetBrains Mono",
   ];
   for (const notice of requiredCopyrightNotices) {
     if (!notices.includes(notice)) {

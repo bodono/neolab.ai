@@ -4,6 +4,8 @@ packages:
   - tools/*
 
 catalog:
+  "@fontsource-variable/inter": ^5.3.0
+  "@fontsource-variable/jetbrains-mono": ^5.3.0
   "@noble/hashes": ^2.2.0
   "@playwright/test": ^1.61.1
   "@vitest/browser-playwright": ^4.1.10
