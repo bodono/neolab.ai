@@ -16,8 +16,8 @@ messages:
   event.research.benchmark-leak.evidence.evalquality: Evaluation quality
   event.research.benchmark-leak.re-evaluate.label: Re-test on fresh held-out data
   event.research.benchmark-leak.re-evaluate.preview: >-
-    Build a clean test set and publish the lower number. It costs a headline and a
-    quarter of momentum, and leaves {LAB} with a yardstick it can actually trust.
+    Build a clean test set and publish the lower number. It costs a headline and some
+    research pace, and leaves {LAB} with a yardstick it can actually trust.
   event.research.benchmark-leak.footnote.label: Publish with a footnote
   event.research.benchmark-leak.footnote.preview: >-
     Report the score and disclose the overlap in small print. Most readers see the
@@ -31,7 +31,7 @@ messages:
   event.research.doubling-time.title: The tasks {AI} can do alone keep doubling
   event.research.doubling-time.body: >-
     {LAB}'s {YEAR} measurements show the length of tasks {AI} can finish alone doubling
-    every few months. Extend the line and it arrives before the board's five-year plan.
+    every few months. Extend the line and it outruns the board's five-year plan.
   event.research.doubling-time.education: >-
     A 2025 study found the length of tasks AI agents could complete with 50% reliability
     had doubled roughly every seven months since 2019.
@@ -64,7 +64,7 @@ messages:
   event.research.debate-trial.fund-trial.label: Fund a serious trial
   event.research.debate-trial.fund-trial.preview: >-
     Give the team compute for a proper study. Capability work slows for half a year;
-    the result may be promising or merely interesting, and nothing else can teach it.
+    the answer may be promising or merely interesting, and only a real trial will say.
   event.research.debate-trial.pilot.label: Fund a small pilot
   event.research.debate-trial.pilot.preview: >-
     Enough compute to show whether the idea deserves more. A brief slowdown, a modest
@@ -142,7 +142,7 @@ messages:
     Genuinely useful, and the product stays exactly as it is while they work.
   event.market.companion-attachment.optimise-retention.label: Optimise for retention
   event.market.companion-attachment.optimise-retention.preview: >-
-    Users chose this, and many say the company helps. Tune for engagement and bank the
+    Users chose this, and many say {AI} helps them. Tune for engagement and bank the
     revenue. If regulators or courts see it differently, they will say so in public.
 
   # --- Facility: grid and water -------------------------------------------
@@ -171,8 +171,8 @@ messages:
   # --- People: a union asks for limits ------------------------------------
   event.people.writers-strike.title: A union asks where {LAB} stands
   event.people.writers-strike.body: >-
-    A union whose members' work {AI} increasingly does asks {LAB} to back contract limits
-    on AI use. {LEADER} has been invited to say something on the record.
+    A union says {AI} is doing more and more of its members' work, and asks {LAB} to back
+    contract limits on AI use. {LEADER} has been invited to say something on the record.
   event.people.writers-strike.education: >-
     In 2023, Hollywood screenwriters struck for nearly five months and won contract
     limits on how studios could use AI.
@@ -192,7 +192,7 @@ messages:
     paid for the argument, and some of {LAB}'s staff start taking recruiters' calls.
 
   # --- Market: AI detectors for schools -----------------------------------
-  event.market.homework-machine.title: Schools want an AI detector
+  event.market.homework-machine.title: Schools want a lie detector for essays
   event.market.homework-machine.body: >-
     A group of schools wants {LAB} to build a tool that flags essays written by {AI}.
     They will pay well, and they are not wrong that something has changed.
@@ -238,7 +238,7 @@ messages:
     find a hole may keep it rather than report it, and this one may publish the letter.
 
   # --- People: a public safety resignation --------------------------------
-  event.people.safety-resignation.title: "{LAB}'s safety lead has resigned in public"
+  event.people.safety-resignation.title: "{LAB}'s head of safety has quit and posted why"
   event.people.safety-resignation.body: >-
     {LAB}'s respected head of safety research has resigned, posting that safety keeps
     losing out to launches. Colleagues are sharing the post; {LEADER} has a day to reply.
@@ -261,10 +261,10 @@ messages:
     the people who shared the post begin taking calls from other labs.
 
   # --- Market: AI for diagnosis -------------------------------------------
-  event.market.ai-doctor.title: Hospitals want {AI} on the ward
+  event.market.ai-doctor.title: "{AI} aced the medical exam; the ward is not an exam"
   event.market.ai-doctor.body: >-
-    A hospital group wants {AI} for diagnosis, and its scores on medical exam questions
-    are excellent. Clinicians are less sure what those scores mean for patients.
+    A hospital group wants {AI} diagnosing on its wards, on the strength of its exam
+    scores. Clinicians are less sure what a score means for the patient in front of them.
   event.market.ai-doctor.education: >-
     By 2023, language models were passing medical licensing exam questions, yet a 2024
     trial found doctors given a chatbot diagnosed no better than doctors without one,
@@ -273,8 +273,8 @@ messages:
   event.market.ai-doctor.evidence.trust: Current government trust
   event.market.ai-doctor.clinical-trial.label: Run a proper clinical trial first
   event.market.ai-doctor.clinical-trial.preview: >-
-    Test {AI} in real clinical settings before selling it. Slow going. If it works,
-    {LAB} holds evidence nobody else has, and the revenue follows a year later.
+    Test {AI} in real clinical settings before selling it. Research slows, {LAB} ends up
+    holding evidence nobody else has, and the revenue follows a year later.
   event.market.ai-doctor.assistant-only.label: Deploy as a doctor's assistant only
   event.market.ai-doctor.assistant-only.preview: >-
     Sell it as a tool for clinicians, who keep the decision. Modest revenue and modest
