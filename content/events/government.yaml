@@ -29,6 +29,7 @@ events:
     defaultOptionId: minimal
     titleKey: event.government.reporting.title
     bodyKey: event.government.reporting.body
+    educationKey: event.government.reporting.education
     evidence:
       - textKey: event.government.reporting.evidence.pressure
         metric: player.politics.interventionPressure
@@ -99,6 +100,7 @@ events:
     defaultOptionId: minimal-file
     titleKey: event.government.incidentfile.title
     bodyKey: event.government.incidentfile.body
+    educationKey: event.government.incidentfile.education
     evidence:
       - textKey: event.government.incidentfile.evidence.incidents
         metric: player.incidents.recentCount
@@ -172,6 +174,7 @@ events:
     defaultOptionId: describe-controls
     titleKey: event.government.autonomyreview.title
     bodyKey: event.government.autonomyreview.body
+    educationKey: event.government.autonomyreview.education
     evidence:
       - textKey: event.government.autonomyreview.evidence.attention
         metric: player.politics.governmentAttention
@@ -238,6 +241,7 @@ events:
     unique: false
     titleKey: event.government.secondlook.title
     bodyKey: event.government.secondlook.body
+    educationKey: event.government.secondlook.education
     evidence:
       - textKey: event.government.secondlook.evidence.trust
         metric: player.politics.governmentTrust
@@ -310,6 +314,7 @@ events:
     defaultOptionId: accept
     titleKey: event.government.licensing.title
     bodyKey: event.government.licensing.body
+    educationKey: event.government.licensing.education
     evidence:
       - textKey: event.government.licensing.evidence.pressure
         metric: player.politics.interventionPressure
@@ -397,6 +402,7 @@ events:
     defaultOptionId: comply
     titleKey: event.government.restriction.title
     bodyKey: event.government.restriction.body
+    educationKey: event.government.restriction.education
     evidence:
       - textKey: event.government.restriction.evidence.pressure
         metric: player.politics.interventionPressure
@@ -488,6 +494,7 @@ events:
     unique: false
     titleKey: event.government.nationalisation.title
     bodyKey: event.government.nationalisation.body
+    educationKey: event.government.nationalisation.education
     evidence:
       - textKey: event.government.nationalisation.evidence.pressure
         metric: player.politics.interventionPressure

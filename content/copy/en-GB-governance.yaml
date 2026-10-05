@@ -49,7 +49,7 @@ messages:
   event.safety.uplift-eval.ship.label: Ship it and keep testing
   event.safety.uplift-eval.ship.preview: >-
     Inconclusive is not positive, and the launch has a date. If an independent evaluator
-    settles the question in public before you do, you will not enjoy how.
+    settles the question in public first, the lab will have to explain why it shipped.
 
   # --- Security: zero-days -------------------------------------------------
   event.security.zero-days.title: "{AI} has found holes in everyone's software"
@@ -63,8 +63,8 @@ messages:
   event.security.zero-days.evidence.capture: Government capture concern
   event.security.zero-days.disclose.label: Tell the maintainers, quietly
   event.security.zero-days.disclose.preview: >-
-    Report the flaws privately, help with the fixes, and publish once patches ship. It costs
-    your security team a quarter's attention and earns credit that is hard to buy.
+    Report the flaws privately, help with the fixes, and publish once patches ship. Research
+    slows for half a year while people help, and the credit is hard to buy any other way.
   event.security.zero-days.redteam.label: Keep them for the red team
   event.security.zero-days.redteam.preview: >-
     Use the flaws to harden {LAB}'s own systems and say nothing. Your defences improve.
@@ -85,8 +85,8 @@ messages:
   event.politics.if-then-commitments.evidence.culture: Safety culture
   event.politics.if-then-commitments.binding.label: Publish binding thresholds
   event.politics.if-then-commitments.binding.preview: >-
-    Promise in public to pause if the evaluations say so. The board hates it, but the culture
-    gets something firmer than good intentions.
+    Promise in public to pause if the evaluations say so. Investors offer less for a lab that
+    might stop, and the culture gets something firmer than good intentions.
   event.politics.if-then-commitments.vague.label: Publish principles, not numbers
   event.politics.if-then-commitments.vague.preview: >-
     A thoughtful document about taking risk seriously, with no threshold anyone could hold you
@@ -131,8 +131,8 @@ messages:
   event.politics.compute-threshold.evidence.trust: Current government trust
   event.politics.compute-threshold.report.label: Report fully and early
   event.politics.compute-threshold.report.preview: >-
-    File before the run, testing plan attached. A few weeks' delay and real trust, plus a
-    regulator that now watches you closely, because you asked it to.
+    File before the run, testing plan attached. Capability work slows while it clears; you gain
+    real trust and a regulator that watches you closely, because you asked it to.
   event.politics.compute-threshold.split.label: Split it into two smaller runs
   event.politics.compute-threshold.split.preview: >-
     Entirely legal. Two runs stitched together are likelier to fail, and regulators are not as
@@ -153,7 +153,7 @@ messages:
   event.politics.know-your-customer.evidence.trust: Current government trust
   event.politics.know-your-customer.verify.label: Verify the customer properly
   event.politics.know-your-customer.verify.preview: >-
-    Find out who owns the company and what the compute is for. Slow and costly, and most buyers
+    Find out who owns the company and what the compute is for. It costs money, and most buyers
     like this do not survive the questions; if this one does, the deal is clean.
   event.politics.know-your-customer.verify.disabled: Requires available cash
   event.politics.know-your-customer.decline.label: Decline the contract
@@ -166,7 +166,7 @@ messages:
     for, {LAB} will be explaining itself to people who already know.
 
   # --- People: right to warn -----------------------------------------------
-  event.people.right-to-warn.title: Staff ask for the right to warn the public
+  event.people.right-to-warn.title: Staff want the right to warn the public about {LAB}
   event.people.right-to-warn.body: >-
     {LAB} staff want a written right to raise safety concerns publicly without retaliation, and
     exit agreements without non-disparagement clauses. Legal would rather not.
@@ -191,7 +191,7 @@ messages:
   event.rival.pause-letter.title: "{LEADER} is asked to sign the pause letter"
   event.rival.pause-letter.body: >-
     An open letter asks every lab to pause frontier training for six months and wants
-    {LEADER}'s signature near the top. {LAB}'s rivals read it with interest, and kept training.
+    {LEADER}'s signature near the top. {LAB}'s rivals have read it with interest and kept training.
   event.rival.pause-letter.education: >-
     In 2023, an open letter signed by tens of thousands of people asked labs to pause training
     systems more powerful than the then frontier for six months. No lab paused.
@@ -210,13 +210,13 @@ messages:
     compares the letter with your compute bill is luck; your staff already have.
 
   # --- Rival: incident sharing ---------------------------------------------
-  event.rival.incident-sharing.title: Rivals propose pooling safety incidents
+  event.rival.incident-sharing.title: Rivals propose a support group for near-misses
   event.rival.incident-sharing.body: >-
     Three rivals invite {LAB} into a confidential, no-blame pool for safety incidents and
     near-misses. It only works if members report the embarrassing ones.
   event.rival.incident-sharing.education: >-
-    Aviation has run confidential, no-blame incident reporting since the 1970s, and it is the
-    model most often proposed for AI safety incidents.
+    Aviation has run confidential, no-blame incident reporting since the 1970s, and it is a
+    model often proposed for reporting AI safety incidents.
   event.rival.incident-sharing.evidence.incidents: Recent incidents
   event.rival.incident-sharing.evidence.culture: Safety culture
   event.rival.incident-sharing.honest.label: Join, and report everything
