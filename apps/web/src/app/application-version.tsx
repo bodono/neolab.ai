@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 
 import packageMetadata from "../../package.json";
 
@@ -21,9 +21,17 @@ export const APPLICATION_VERSION = resolveApplicationVersion(
   packageMetadata.version,
 );
 
-export function ApplicationVersion(): ReactElement {
+export function ApplicationVersion({
+  placement = "flow",
+}: {
+  /** "corner" overlays the full-screen title; elsewhere it closes the page. */
+  readonly placement?: "corner" | "flow";
+}): ReactElement {
   return (
-    <aside className="application-version" aria-label="Application version">
+    <aside
+      className={`application-version ${placement}`}
+      aria-label="Application version"
+    >
       <span>Neolab.ai v{APPLICATION_VERSION}</span>
       <span>
         © 2026{" "}
@@ -33,5 +41,23 @@ export function ApplicationVersion(): ReactElement {
         · bodonoghue85@gmail.com
       </span>
     </aside>
+  );
+}
+
+/**
+ * The end of every screen but the title: the version line, and on screens
+ * without the game toolbar, the light/dark switch. Both used to float over the
+ * bottom-right corner, on top of whatever content scrolled beneath them.
+ */
+export function PageFooter({
+  children,
+}: {
+  readonly children?: ReactNode;
+}): ReactElement {
+  return (
+    <footer className="page-footer">
+      {children}
+      <ApplicationVersion />
+    </footer>
   );
 }

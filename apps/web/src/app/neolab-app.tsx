@@ -22,7 +22,11 @@ import type {
 import { createGuidedTutorialGame } from "@neolab/sim/public";
 
 import { createRuntimeStoreBridge } from "./game-store.ts";
-import { APPLICATION_VERSION, ApplicationVersion } from "./application-version.tsx";
+import {
+  APPLICATION_VERSION,
+  ApplicationVersion,
+  PageFooter,
+} from "./application-version.tsx";
 import { LeaderFavicon } from "./leader-favicon.tsx";
 import { ThemeControl } from "./theme-control.tsx";
 import { RuntimeProvider, type GameSession } from "./runtime-provider.tsx";
@@ -65,7 +69,6 @@ export function NeolabApp(): ReactElement {
   return (
     <AudioProvider manager={audioManager} repository={audioSettingsRepository}>
       <NeolabRoutes />
-      <ApplicationVersion />
     </AudioProvider>
   );
 }
@@ -465,6 +468,7 @@ function NeolabRoutes(): ReactElement {
           onClearDiagnostics={() => diagnostics.clear()}
         />
         <ThemeControl />
+        <ApplicationVersion placement="corner" />
       </>
     );
   }
@@ -478,7 +482,9 @@ function NeolabRoutes(): ReactElement {
           onBack={() => setRoute("title")}
           onDelete={(runId) => void deleteHighScore(runId)}
         />
-        <ThemeControl />
+        <PageFooter>
+          <ThemeControl placement="footer" />
+        </PageFooter>
       </>
     );
   }
@@ -490,7 +496,9 @@ function NeolabRoutes(): ReactElement {
           onBack={() => setRoute("title")}
           onLaunch={launch}
         />
-        <ThemeControl />
+        <PageFooter>
+          <ThemeControl placement="footer" />
+        </PageFooter>
       </>
     );
   }
@@ -498,7 +506,9 @@ function NeolabRoutes(): ReactElement {
     return (
       <>
         <main className="boot-screen">Starting lab…</main>
-        <ThemeControl />
+        <PageFooter>
+          <ThemeControl placement="footer" />
+        </PageFooter>
       </>
     );
   }
@@ -514,6 +524,7 @@ function NeolabRoutes(): ReactElement {
           highScoreError={highScoreError}
           onDeleteHighScore={(runId) => void deleteHighScore(runId)}
         />
+        <PageFooter />
         {DevelopmentInspector === undefined ? null : (
           <Suspense fallback={null}>
             <DevelopmentInspector />

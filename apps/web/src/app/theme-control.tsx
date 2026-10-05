@@ -13,7 +13,7 @@ function initialTheme(): ColourTheme {
 export function ThemeControl({
   placement = "floating",
 }: {
-  readonly placement?: "floating" | "toolbar";
+  readonly placement?: "floating" | "toolbar" | "footer";
 }): ReactElement {
   const [theme, setTheme] = useState<ColourTheme>(initialTheme);
 
@@ -36,11 +36,11 @@ export function ThemeControl({
       <span aria-hidden="true">{dark ? "☀" : "◐"}</span>
       {placement === "toolbar"
         ? dark
-          ? "LIGHT"
-          : "DARK"
+          ? " LIGHT"
+          : " DARK"
         : dark
-          ? "Light mode"
-          : "Dark mode"}
+          ? " Light mode"
+          : " Dark mode"}
     </button>
   );
 }

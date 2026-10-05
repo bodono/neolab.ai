@@ -2379,7 +2379,7 @@ button:disabled {
   gap: 7px;
   align-items: center;
 }
-.clock-controls > .feedback-link {
+.clock-controls .feedback-link {
   padding: 7px 3px;
   color: var(--muted);
   font-size: 9px;
@@ -21893,11 +21893,11 @@ html[data-theme="dark"] .event-education p {
     width: 0;
     flex: 1 1 auto;
   }
-  .clock-controls > .feedback-link,
+  .clock-controls .feedback-link,
   .clock-controls .exit-run-button {
     order: 2;
   }
-  .clock-controls > .feedback-link {
+  .clock-controls .feedback-link {
     flex: 1 1 auto;
   }
   .audio-settings {
@@ -31070,5 +31070,230 @@ html[data-theme="dark"] .training-reliability-outcomes > div.danger dd {
   .agi-candidate-cooldown,
   .training-candidate-cooldown {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Shell polish: toolbar, header backing, ambient calm, footer -------------
+   One place for the game chrome. Selectors are scoped to .identity-header so
+   they outrank the older per-breakpoint rules above without !important. */
+.identity-header {
+  background: var(--paper);
+}
+.lab-ambient-activity {
+  opacity: min(var(--lab-activity-opacity), 0.34);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 4%,
+    rgb(0 0 0 / 28%) 16%,
+    rgb(0 0 0 / 28%) 84%,
+    black 96%,
+    transparent
+  );
+}
+.identity-header .clock-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px 12px;
+  overflow: visible;
+}
+.toolbar-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+}
+.identity-header .toolbar-guide {
+  margin-right: auto;
+  gap: 10px;
+}
+.identity-header .toolbar-preferences .audio-control {
+  width: auto;
+  flex: 0 0 auto;
+}
+.identity-header .clock-controls button,
+.identity-header .clock-controls .theme-control.toolbar {
+  height: 44px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 11px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: none;
+  font: 750 10px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.identity-header .clock-controls button:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+.identity-header .clock-controls button[aria-pressed="true"] {
+  color: var(--paper);
+  border-color: var(--ink);
+  background: var(--ink);
+}
+.identity-header .clock-controls .audio-toggle[aria-pressed="true"] {
+  color: #fff;
+  border-color: #9d351c;
+  background: #9d351c;
+}
+.identity-header .toolbar-time {
+  gap: 0;
+}
+.identity-header .toolbar-time > button {
+  margin-left: -1px;
+  border-radius: 0;
+  font-size: 12px;
+}
+.identity-header .toolbar-time > button:first-child {
+  margin-left: 0;
+  border-radius: 4px 0 0 4px;
+}
+.identity-header .toolbar-time > button:last-child {
+  border-radius: 0 4px 4px 0;
+  font-size: 10px;
+}
+.identity-header .toolbar-time > button[aria-pressed="true"],
+.identity-header .toolbar-time > button:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+.identity-header .clock-controls .exit-run-button {
+  min-width: 0;
+  margin-left: 4px;
+  color: #9d2f24;
+  border-color: color-mix(in srgb, #b85a50 70%, var(--line));
+  background: transparent;
+}
+.identity-header .clock-controls .exit-run-button:hover {
+  border-color: #9d2f24;
+  background: color-mix(in srgb, #b85a50 10%, transparent);
+}
+html[data-theme="dark"] .identity-header .clock-controls .exit-run-button {
+  color: #ff9d8e;
+  border-color: #8a4a42;
+}
+.identity-header .clock-controls .feedback-link {
+  padding: 4px 2px;
+  font: 700 10px var(--font-mono);
+}
+@media (max-width: 1279px) {
+  /* The track title is a nicety; the controls themselves must fit one row. */
+  .identity-header .audio-now-playing {
+    display: none;
+  }
+  .identity-header .clock-controls button,
+  .identity-header .clock-controls .theme-control.toolbar {
+    padding: 0 9px;
+  }
+}
+
+.page-footer {
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding: 14px clamp(14px, 2vw, 28px) 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px 16px;
+  box-sizing: border-box;
+}
+.application-version.flow {
+  position: static;
+  display: block;
+  padding: 0;
+  color: var(--muted);
+  border: 0;
+  background: transparent;
+  font-size: 10px;
+  pointer-events: auto;
+}
+.application-version.flow span {
+  display: inline;
+}
+.application-version.flow span + span::before {
+  content: " · ";
+}
+.theme-control.footer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  font: 700 11px var(--font-mono);
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .identity-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px 12px;
+    padding-bottom: 12px;
+  }
+  .identity-header .identity-lockup {
+    grid-column: 1;
+    gap: 10px;
+  }
+  .identity-header .leader-header-portrait {
+    width: 48px;
+    height: 48px;
+    box-shadow: 3px 3px 0 var(--orange);
+  }
+  .identity-header .identity-copy {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .identity-header .identity-copy h1 {
+    font-size: clamp(20px, 6.2vw, 26px);
+    line-height: 1.05;
+  }
+  .identity-header .identity-copy > p:last-child {
+    margin-top: 4px;
+    font-size: 12px;
+  }
+  .identity-header .date-block {
+    left: 0;
+    grid-column: 2;
+    align-self: start;
+    white-space: nowrap;
+  }
+  .identity-header .date-block span {
+    font-size: 18px;
+  }
+  .identity-header .ambient-header-wire {
+    display: none;
+  }
+  .identity-header .clock-controls {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .identity-header .toolbar-time {
+    order: -1;
+    flex-basis: 100%;
+  }
+  .identity-header .toolbar-time > .step-button {
+    flex: 1 1 auto;
+  }
+  .identity-header .toolbar-guide {
+    margin-right: 0;
+  }
+  .identity-header .clock-controls .exit-run-button {
+    order: 1;
+    margin-left: auto;
+  }
+  .identity-header .toolbar-preferences {
+    order: 2;
+  }
+  .identity-header .audio-now-playing {
+    display: none;
   }
 }

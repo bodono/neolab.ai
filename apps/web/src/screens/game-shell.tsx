@@ -1288,53 +1288,78 @@ export function GameShell({
           <strong>WEEK {view.meta.calendar.week}</strong>
         </div>
         <div className="clock-controls" aria-label="Game and audio controls">
-          <button
-            className="toolbar-help-button"
-            type="button"
-            title="Open the 60-second how-to-play briefing"
-            onClick={(event) => {
-              // WebKit does not focus every pointer-clicked button. Make the opener
-              // explicit so modal focus restoration is identical across browsers,
-              // matching the exit button below.
-              event.currentTarget.focus();
-              openHowToPlay();
-            }}
-          >
-            How to play
-          </button>
-          <a
-            className="feedback-link"
-            href={FEEDBACK_URL}
-            target="_blank"
-            rel="noreferrer"
-            title="Report feedback or a bug"
-          >
-            Feedback ↗
-          </a>
-          <AudioControl />
-          <ThemeControl placement="toolbar" />
-          <button
-            type="button"
-            aria-label="Pause game"
-            aria-keyshortcuts="Space"
-            aria-pressed={displayedClockPaused}
-            disabled={blockingEndgameClock}
-            title={
-              blockingEndgameClock
-                ? "Time is stopped until the blocking decision is resolved"
-                : "Space toggles pause / resume"
-            }
-            onClick={() => runtime.pause()}
-          >
-            <span className="pause-glyph" aria-hidden="true">
-              <i />
-              <i />
-            </span>
-          </button>
-          {(["1x", "2x", "4x"] as const).map((speed) => (
+          <div className="toolbar-group toolbar-guide">
             <button
-              key={speed}
-              data-tutorial-target={speed === "2x" ? "clock-2x" : undefined}
+              className="toolbar-help-button"
+              type="button"
+              title="Open the 60-second how-to-play briefing"
+              onClick={(event) => {
+                // WebKit does not focus every pointer-clicked button. Make the opener
+                // explicit so modal focus restoration is identical across browsers,
+                // matching the exit button below.
+                event.currentTarget.focus();
+                openHowToPlay();
+              }}
+            >
+              How to play
+            </button>
+            <a
+              className="feedback-link"
+              href={FEEDBACK_URL}
+              target="_blank"
+              rel="noreferrer"
+              title="Report feedback or a bug"
+            >
+              Feedback ↗
+            </a>
+          </div>
+          <div className="toolbar-group toolbar-preferences">
+            <AudioControl />
+            <ThemeControl placement="toolbar" />
+          </div>
+          <div
+            className="toolbar-group toolbar-time"
+            role="group"
+            aria-label="Simulation time"
+          >
+            <button
+              type="button"
+              aria-label="Pause game"
+              aria-keyshortcuts="Space"
+              aria-pressed={displayedClockPaused}
+              disabled={blockingEndgameClock}
+              title={
+                blockingEndgameClock
+                  ? "Time is stopped until the blocking decision is resolved"
+                  : "Space toggles pause / resume"
+              }
+              onClick={() => runtime.pause()}
+            >
+              <span className="pause-glyph" aria-hidden="true">
+                <i />
+                <i />
+              </span>
+            </button>
+            {(["1x", "2x", "4x"] as const).map((speed) => (
+              <button
+                key={speed}
+                data-tutorial-target={speed === "2x" ? "clock-2x" : undefined}
+                type="button"
+                disabled={
+                  runEnded ||
+                  blockingCritical ||
+                  blockingResearchDirection ||
+                  blockingEndgameClock ||
+                  exclusiveEndgameSequenceActive
+                }
+                aria-pressed={!displayedClockPaused && clock.selectedSpeed === speed}
+                onClick={() => play(speed)}
+              >
+                {speed}
+              </button>
+            ))}
+            <button
+              className="step-button"
               type="button"
               disabled={
                 runEnded ||
@@ -1343,26 +1368,11 @@ export function GameShell({
                 blockingEndgameClock ||
                 exclusiveEndgameSequenceActive
               }
-              aria-pressed={!displayedClockPaused && clock.selectedSpeed === speed}
-              onClick={() => play(speed)}
+              onClick={() => runtime.stepOneTick()}
             >
-              {speed}
+              Step one week
             </button>
-          ))}
-          <button
-            className="step-button"
-            type="button"
-            disabled={
-              runEnded ||
-              blockingCritical ||
-              blockingResearchDirection ||
-              blockingEndgameClock ||
-              exclusiveEndgameSequenceActive
-            }
-            onClick={() => runtime.stepOneTick()}
-          >
-            Step one week
-          </button>
+          </div>
           <button
             className="exit-run-button"
             type="button"
