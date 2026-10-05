@@ -16,7 +16,7 @@ import { PixelPortrait } from "../features/portraits/pixel-portrait.tsx";
 interface NewGameScreenProps {
   readonly content: BrowserContent;
   readonly onBack: () => void;
-  readonly onLaunch: (config: NewGameConfig) => void;
+  readonly onLaunch: (config: NewGameConfig, options: NewGameLaunchOptions) => void;
 }
 
 const LEADER_SELECTION_ORDER = new Map(
@@ -552,6 +552,46 @@ function mandateEffectCopy(effect: LeaderEffect): LeaderEffectCopy {
   }
 }
 
+/** How a new run opens: the guided chapters, or the whole lab at once. */
+export type NewGameOpening = "progressive" | "classic";
+
+export interface NewGameLaunchOptions {
+  readonly opening: NewGameOpening;
+}
+
+export const NEW_GAME_OPENING_STORAGE_KEY = "neolab.ai-new-game-opening-v1";
+
+/**
+ * `?campaign=classic` (used by the end-to-end suite) preselects the unlocked
+ * opening; otherwise the player's last choice, defaulting to the chapters.
+ */
+export function initialNewGameOpening(search: string, storage?: Storage): NewGameOpening {
+  if (new URLSearchParams(search).get("campaign") === "classic") return "classic";
+  try {
+    return storage?.getItem(NEW_GAME_OPENING_STORAGE_KEY) === "classic"
+      ? "classic"
+      : "progressive";
+  } catch {
+    return "progressive";
+  }
+}
+
+function rememberNewGameOpening(opening: NewGameOpening): void {
+  try {
+    window.localStorage.setItem(NEW_GAME_OPENING_STORAGE_KEY, opening);
+  } catch {
+    // Storage can be unavailable (private mode); the choice still applies.
+  }
+}
+
+function safeLocalStorage(): Storage | undefined {
+  try {
+    return window.localStorage;
+  } catch {
+    return undefined;
+  }
+}
+
 export function NewGameScreen({
   content,
   onBack,
@@ -584,6 +624,11 @@ export function NewGameScreen({
     content.mandates["base:mandate.build-the-science"]?.id ?? mandates[0]?.id ?? "",
   );
   const [seed, setSeed] = useState(generateRunSeed);
+  const [opening, setOpening] = useState<NewGameOpening>(() =>
+    typeof window === "undefined"
+      ? "progressive"
+      : initialNewGameOpening(window.location.search, safeLocalStorage()),
+  );
   const [error, setError] = useState<string>();
   const leaderButtons = useRef(new Map<string, HTMLButtonElement>());
   const leaderGrid = useRef<HTMLDivElement>(null);
@@ -631,12 +676,16 @@ export function NewGameScreen({
   function submit(event: FormEvent): void {
     event.preventDefault();
     try {
-      onLaunch({
-        seed: seed128(seed),
-        leaderId: leaderId as NewGameConfig["leaderId"],
-        difficultyId: difficultyId as NewGameConfig["difficultyId"],
-        mandateId: mandateId as NewGameConfig["mandateId"],
-      });
+      rememberNewGameOpening(opening);
+      onLaunch(
+        {
+          seed: seed128(seed),
+          leaderId: leaderId as NewGameConfig["leaderId"],
+          difficultyId: difficultyId as NewGameConfig["difficultyId"],
+          mandateId: mandateId as NewGameConfig["mandateId"],
+        },
+        { opening },
+      );
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : String(caught));
     }
@@ -934,6 +983,37 @@ export function NewGameScreen({
           </div>
         </section>
         <section className="setup-options">
+          <fieldset className="setup-opening">
+            <legend>Opening</legend>
+            <label>
+              <input
+                type="radio"
+                name="opening"
+                value="progressive"
+                checked={opening === "progressive"}
+                onChange={() => setOpening("progressive")}
+              />
+              <span>
+                <strong>Guided chapters</strong>
+                <small>
+                  Open the lab one system at a time across twelve short chapters.
+                </small>
+              </span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="opening"
+                value="classic"
+                checked={opening === "classic"}
+                onChange={() => setOpening("classic")}
+              />
+              <span>
+                <strong>Everything unlocked</strong>
+                <small>Skip the chapters: every workspace is open from week one.</small>
+              </span>
+            </label>
+          </fieldset>
           <label>
             <span>Run seed</span>
             <input

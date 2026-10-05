@@ -14,7 +14,11 @@ import { loadBrowserCompiledContent } from "@neolab/content/browser";
 import type { NewGameConfig } from "@neolab/sim/public";
 
 import "../styles/game.css";
-import { NewGameScreen } from "./new-game-screen.tsx";
+import {
+  NEW_GAME_OPENING_STORAGE_KEY,
+  NewGameScreen,
+  type NewGameLaunchOptions,
+} from "./new-game-screen.tsx";
 
 (
   globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
@@ -40,13 +44,14 @@ function leaderRadio(mount: HTMLElement, name: string): HTMLButtonElement {
 describe("new-game setup flow in Chromium", () => {
   let root: Root;
   let mount: HTMLDivElement;
-  let onLaunch: Mock<(config: NewGameConfig) => void>;
+  let onLaunch: Mock<(config: NewGameConfig, options: NewGameLaunchOptions) => void>;
 
   beforeEach(() => {
+    window.localStorage.removeItem(NEW_GAME_OPENING_STORAGE_KEY);
     document.body.innerHTML = "<div id='mount'></div>";
     mount = document.querySelector<HTMLDivElement>("#mount")!;
     root = createRoot(mount);
-    onLaunch = vi.fn<(config: NewGameConfig) => void>();
+    onLaunch = vi.fn<(config: NewGameConfig, options: NewGameLaunchOptions) => void>();
     act(() =>
       root.render(
         <NewGameScreen content={content} onBack={vi.fn()} onLaunch={onLaunch} />,
@@ -102,7 +107,9 @@ describe("new-game setup flow in Chromium", () => {
     expect(getComputedStyle(bar!).position).toBe("sticky");
 
     window.scrollTo(0, document.documentElement.scrollHeight);
-    const seed = mount.querySelector<HTMLInputElement>(".setup-options input")!;
+    const seed = mount.querySelector<HTMLInputElement>(
+      ".setup-options input:not([type='radio'])",
+    )!;
     expect(seed.getBoundingClientRect().bottom).toBeLessThanOrEqual(
       bar!.getBoundingClientRect().top,
     );
@@ -115,6 +122,22 @@ describe("new-game setup flow in Chromium", () => {
       mandateId: "base:mandate.build-the-science",
       difficultyId: "base:difficulty.standard",
     });
+  });
+
+  it("opens with the guided chapters unless the player unlocks everything", () => {
+    const launch = mount.querySelector<HTMLButtonElement>("button[type='submit']")!;
+    const opening = (value: string) =>
+      mount.querySelector<HTMLInputElement>(`input[name='opening'][value='${value}']`)!;
+    expect(opening("progressive").checked).toBe(true);
+
+    act(() => launch.click());
+    expect(onLaunch.mock.calls[0]![1]).toEqual({ opening: "progressive" });
+
+    act(() => opening("classic").click());
+    act(() => launch.click());
+    expect(onLaunch.mock.calls[1]![1]).toEqual({ opening: "classic" });
+    // The choice is remembered for the next run.
+    expect(window.localStorage.getItem(NEW_GAME_OPENING_STORAGE_KEY)).toBe("classic");
   });
 
   it("jumps from a summary choice back to its current selection", () => {

@@ -5,7 +5,11 @@ import { describe, expect, it, vi } from "vitest";
 import { loadBrowserCompiledContent } from "@neolab/content/browser";
 
 import type { BrowserContent } from "../app/runtime-provider.tsx";
-import { NewGameScreen } from "./new-game-screen.tsx";
+import {
+  initialNewGameOpening,
+  NEW_GAME_OPENING_STORAGE_KEY,
+  NewGameScreen,
+} from "./new-game-screen.tsx";
 
 describe("new-game leader attribution", () => {
   it("shows the real inspiration and sourced summary on selection and detail", () => {
@@ -44,5 +48,31 @@ describe("new-game leader attribution", () => {
     expect(markup).toContain(laterParagraph!.slice(0, 40));
     expect(markup).toContain("The character’s gameplay");
     expect(markup).not.toContain("Continue real-world profile");
+  });
+});
+
+describe("new-game opening preselection", () => {
+  const storage = (value: string | null): Storage =>
+    ({
+      getItem: (key: string) => (key === NEW_GAME_OPENING_STORAGE_KEY ? value : null),
+    }) as unknown as Storage;
+
+  it("defaults to the guided chapters", () => {
+    expect(initialNewGameOpening("", storage(null))).toBe("progressive");
+    expect(initialNewGameOpening("", undefined)).toBe("progressive");
+  });
+
+  it("remembers an unlocked opening and honours ?campaign=classic", () => {
+    expect(initialNewGameOpening("", storage("classic"))).toBe("classic");
+    expect(initialNewGameOpening("?campaign=classic", storage(null))).toBe("classic");
+  });
+
+  it("falls back to the chapters when storage is unavailable", () => {
+    const blocked = {
+      getItem: () => {
+        throw new Error("blocked");
+      },
+    } as unknown as Storage;
+    expect(initialNewGameOpening("", blocked)).toBe("progressive");
   });
 });

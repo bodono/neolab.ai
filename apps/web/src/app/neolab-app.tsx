@@ -42,7 +42,7 @@ import {
 import { GameShell } from "../screens/game-shell.tsx";
 import { ApplicationErrorBoundary } from "../features/recovery/runtime-recovery.tsx";
 import { HighScoresScreen } from "../screens/high-scores-screen.tsx";
-import { NewGameScreen } from "../screens/new-game-screen.tsx";
+import { NewGameScreen, type NewGameLaunchOptions } from "../screens/new-game-screen.tsx";
 import { TitleScreen } from "../screens/title-screen.tsx";
 import { AnalyticsClient } from "../telemetry/analytics-client.ts";
 import { resolveAnalyticsConfig } from "../telemetry/analytics-config.ts";
@@ -253,7 +253,7 @@ function NeolabRoutes(): ReactElement {
     };
   }, [openState, route, session]);
 
-  function launch(config: NewGameConfig): void {
+  function launch(config: NewGameConfig, options: NewGameLaunchOptions): void {
     diagnostics.record({
       name: "game-started",
       leaderId: config.leaderId,
@@ -264,11 +264,7 @@ function NeolabRoutes(): ReactElement {
       saveRepository,
       highScoreRepository,
       enableDevelopmentTools: import.meta.env.DEV,
-      newGameMode:
-        import.meta.env.DEV &&
-        new URLSearchParams(window.location.search).get("campaign") === "classic"
-          ? "classic"
-          : "progressive",
+      newGameMode: options.opening,
       onRuntimeFault: (fault, error) => analytics.trackRuntimeFault(fault, error),
     });
     const bridge = createRuntimeStoreBridge(runtime);
