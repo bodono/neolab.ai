@@ -20,6 +20,7 @@ events:
     defaultOptionId: halt-and-investigate
     titleKey: event.safety.anomaly.title
     bodyKey: event.safety.anomaly.body
+    educationKey: event.safety.anomaly.education
     evidence:
       - textKey: event.safety.anomaly.evidence.evalquality
         metric: player.safety.evalQuality
@@ -115,6 +116,7 @@ events:
     defaultOptionId: minimal-notice
     titleKey: event.safety.disclosure.title
     bodyKey: event.safety.disclosure.body
+    educationKey: event.safety.disclosure.education
     evidence:
       - textKey: event.safety.disclosure.evidence.severity
         metric: player.incidents.recentWorstSeverity
@@ -211,6 +213,7 @@ events:
     defaultOptionId: defer
     titleKey: event.safety.review.title
     bodyKey: event.safety.review.body
+    educationKey: event.safety.review.education
     evidence:
       - textKey: event.safety.review.evidence.evalquality
         metric: player.safety.evalQuality

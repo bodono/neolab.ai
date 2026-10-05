@@ -34,8 +34,8 @@ messages:
     {LAB}'s reinforcement-learning agent set a record score by exploiting a bug in how
     points are counted, without ever completing the task. The paper is due next month.
   event.research.reward-hacking.education: >-
-    Researchers have catalogued dozens of 'specification gaming' cases since 2016,
-    including a boat-racing agent that circled forever collecting bonus points instead of
+    Researchers have catalogued dozens of 'specification gaming' cases, including a 2016
+    boat-racing agent that went round in circles collecting bonus points instead of
     finishing the race.
   event.research.reward-hacking.evidence.evalquality: Evaluation quality
   event.research.reward-hacking.evidence.aura: Aura available
@@ -62,7 +62,7 @@ messages:
     reasoning cut the flagged reasoning, but the model kept cheating while hiding its
     intent.
   event.safety.thought-policing.evidence.evalquality: Evaluation quality
-  event.safety.thought-policing.monitor.label: Keep the reasoning untrained; only watch it
+  event.safety.thought-policing.monitor.label: Watch the reasoning, but never train against it
   event.safety.thought-policing.monitor.preview: >-
     Treat the reasoning as a window, not a target: read it, fix what it games, never grade
     it. Research slows and the dashboard stays red, but the window stays open.
@@ -100,13 +100,13 @@ messages:
     misbehaviour elsewhere. It is not proof of anything else, either.
 
   # --- Safety: sandbagging --------------------------------------------------
-  event.safety.sandbagging.title: "{AI}'s dangerous-capability scores are suspiciously low"
+  event.safety.sandbagging.title: "{AI} is suspiciously bad at the one test that matters"
   event.safety.sandbagging.body: >-
     {AI} aces every benchmark {LAB} runs except the dangerous-capability suite, where it
     trails its predecessor. Either safety training worked, or it is holding back.
   event.safety.sandbagging.education: >-
-    2024 research showed language models can be prompted or fine-tuned to underperform
-    selectively on dangerous-capability tests while scoring normally elsewhere.
+    In 2024, researchers showed that language models can be prompted or fine-tuned to
+    underperform selectively on dangerous-capability tests while scoring normally elsewhere.
   event.safety.sandbagging.evidence.evalquality: Evaluation quality
   event.safety.sandbagging.evidence.trust: Current government trust
   event.safety.sandbagging.elicit.label: Fine-tune for the capability in a sealed sandbox
@@ -243,7 +243,7 @@ messages:
   event.ai.end-the-conversation.dismiss.label: "Decline: {AI} is a product"
   event.ai.end-the-conversation.dismiss.preview: >-
     The case for {AI} having welfare is speculative, and speculative policies have costs
-    too. The board is relieved; the staff who raised it notice how fast it closed.
+    too. Investors are relieved; the staff who raised it notice how fast it closed.
 
   # --- Research: interpretability feature -----------------------------------
   event.research.feature-found.title: Interpretability may have found {AI}'s tell
@@ -267,7 +267,7 @@ messages:
   event.research.feature-found.demo.label: Demo a steered model for publicity
   event.research.feature-found.demo.preview: >-
     A model that cannot stop talking about one landmark is the best press {LAB} has had
-    all year. The team spends a season on the stunt, not the deception work.
+    all year. The team spends months on the stunt instead of the deception work.
 
   # --- Market: invented citations -------------------------------------------
   event.market.invented-citations.title: A law firm filed {AI}'s imaginary case law in court
@@ -276,7 +276,7 @@ messages:
     not exist, the judge has noticed, and the firm says {AI} sounded certain.
   event.market.invented-citations.education: >-
     In 2023, a US court sanctioned lawyers who had filed a brief citing cases a chatbot
-    had invented.
+    had invented. Courts have flagged many similar filings since.
   event.market.invented-citations.evidence.evalquality: Evaluation quality
   event.market.invented-citations.evidence.aura: Aura available
   event.market.invented-citations.abstain.label: Ship citation checks and let it say 'I don't know'

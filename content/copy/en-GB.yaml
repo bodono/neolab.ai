@@ -88,7 +88,11 @@ messages:
   # --- Finance: critical runway -------------------------------------------
   event.finance.runway.title: The runway has become a conversation
   event.finance.runway.body: >-
-    {LAB}'s cash is running out. Finance needs a survival plan this month.
+    At the current burn, {LAB} has less than a month of cash left. Finance would like a
+    survival plan, ideally before the next payroll.
+  event.finance.runway.education: >-
+    In 2024, one leading AI lab was reported to expect a loss of about $5 billion for the
+    year despite billions in revenue, and it raised $6.6 billion that autumn.
   event.finance.runway.evidence.cash: Cash on hand
   event.finance.runway.trim.label: Cut the burn
   event.finance.runway.trim.preview: >-
@@ -107,54 +111,65 @@ messages:
   # --- People: resignation ultimatum --------------------------------------
   event.people.ultimatum.title: '{RESEARCHER} has put it in writing'
   event.people.ultimatum.body: >-
-    {RESEARCHER} wants their demands addressed or they will leave {LAB}. The rest of the
-    team is watching.
+    {RESEARCHER} will leave {LAB} within the month unless their demands are met. Rival labs
+    are hiring, and the rest of the team is taking notes.
+  event.people.ultimatum.education: >-
+    In 2024, several safety researchers quit one leading lab, one saying publicly that its
+    safety culture had taken a back seat to shiny products.
   event.people.ultimatum.evidence.culture: Safety culture
   event.people.ultimatum.meet.label: Meet the terms
   event.people.ultimatum.meet.preview: >-
-    Fund what they asked for and widen research freedom for a year. Expensive,
-    and the rest of the lab notices that promises here are kept.
+    Fund what they asked for and honour it for a year. Expensive, and the rest of the lab
+    notices that promises made here are kept.
   event.people.ultimatum.meet.disabled: Requires available cash
   event.people.ultimatum.compromise.label: Offer a compromise
   event.people.ultimatum.compromise.preview: >-
-    Propose a partial package and talk it through. It may hold. It may confirm
-    every suspicion they arrived with.
-  event.people.ultimatum.decline.label: Decline the ultimatum
+    Offer part of what they asked for and talk it through. It may keep them. It may
+    confirm every suspicion they arrived with, on their way out.
+  event.people.ultimatum.decline.label: Decline, and let them go
   event.people.ultimatum.decline.preview: >-
-    Refuse to be negotiated with. Candour and safety culture suffer, and the
-    next person to raise a concern will weigh whether it is worth it.
+    Refuse to be negotiated with, and they leave. Candour and safety culture suffer; the
+    next person with a concern will weigh whether raising it is worth it.
 
   # --- Safety: anomaly cluster --------------------------------------------
-  event.safety.anomaly.title: Three severe anomalies on {MODEL_NAME}
+  event.safety.anomaly.title: Once is an anomaly; three times is a pattern
   event.safety.anomaly.body: >-
-    {MODEL_NAME} has produced a third severe anomaly. Safety wants a hold; other teams
-    want to ship.
+    {MODEL_NAME} has now produced three severe anomalies that nobody can explain. Safety
+    wants a hold; the roadmap would like a word.
+  event.safety.anomaly.education: >-
+    Before the 1986 Challenger disaster, O-ring damage seen on earlier shuttle flights had
+    come to be accepted as normal, which a sociologist later called the 'normalisation of
+    deviance'.
   event.safety.anomaly.evidence.evalquality: Evaluation quality
   event.safety.anomaly.evidence.culture: Safety culture
   event.safety.anomaly.halt.label: Halt and investigate properly
   event.safety.anomaly.halt.preview: >-
-    Stop the line and find out what is actually happening. Costs a quarter of research
-    pace, durably lowers incident hazard, and materially improves the lab's culture.
-  event.safety.anomaly.patch.label: Patch the specific failures
+    Stop the line until someone can explain all three. Research slows for a season, and
+    staff learn that the hold button is connected to something.
+  event.safety.anomaly.patch.label: Patch the three failures and move on
   event.safety.anomaly.patch.preview: >-
-    Address the three observed cases and move on. Sometimes that is the fix.
-    Sometimes it only makes the next occurrence harder to see.
+    Fix the three cases you can see. Sometimes that is the fix. Sometimes it only teaches
+    the dashboard to look calmer than the model is.
   event.safety.anomaly.ship.label: Ship on schedule
   event.safety.anomaly.ship.preview: >-
-    Note the anomalies, meet the date. Safety culture falls and incident hazard
-    rises for the better part of a year.
+    Log the anomalies and keep the date. Everyone learns what a severe anomaly is worth
+    here, and the next one may turn up in production.
 
   # --- Safety: incident disclosure ----------------------------------------
-  event.safety.disclosure.title: What to say about what happened
+  event.safety.disclosure.title: Legal has drafted a statement that says nothing
   event.safety.disclosure.body: >-
-    {LAB} must decide what to disclose about a recent {AI} incident. Legal and Safety
-    disagree.
+    A recent {AI} incident was serious enough to matter, and {LAB} must decide who hears
+    about it. Legal favours a sentence; Safety favours the whole story.
+  event.safety.disclosure.education: >-
+    Under the EU AI Act, providers of general-purpose AI models with systemic risk must
+    report serious incidents to regulators; in 2025 California adopted a similar duty for
+    frontier developers.
   event.safety.disclosure.evidence.severity: Worst incident severity this quarter
   event.safety.disclosure.evidence.attention: Government attention on the lab
   event.safety.disclosure.full.label: Publish a full account
   event.safety.disclosure.full.preview: >-
-    Describe what happened, what failed, and what changes. Costs public standing
-    immediately and buys durable trust with regulators and your own staff.
+    Say what happened, what failed and what changes. It stings in public now; regulators
+    and your own staff remember who told them the truth.
   event.safety.disclosure.minimal.label: Issue a minimal notice
   event.safety.disclosure.minimal.preview: >-
     Confirm the bare facts to the parties legally entitled to them. Nothing is
@@ -165,15 +180,19 @@ messages:
     it holds. When it does not, it does not hold gently.
 
   # --- Safety: control review ---------------------------------------------
-  event.safety.review.title: An offer to audit the control stack
+  event.safety.review.title: Independent auditors would like to try the locks
   event.safety.review.body: >-
-    An external group offers to audit {LAB}'s deployed-system controls. They will publish
-    what they find.
+    An independent group offers to test the controls on {LAB}'s deployed models and publish
+    what it finds, flattering or otherwise.
+  event.safety.review.education: >-
+    In 2023, leading US AI companies pledged at the White House to let independent experts
+    test their models before release; government institutes and outside evaluators now run
+    such tests.
   event.safety.review.evidence.evalquality: Evaluation quality
-  event.safety.review.fund.label: Commission the external review
+  event.safety.review.fund.label: Let them in, findings and all
   event.safety.review.fund.preview: >-
-    Open the stack to outside auditors. Capability work waits on them; evaluation quality
-    and practical control both improve, and the findings belong to the record.
+    Open the control stack to outside testers. Capability work waits on them, the findings
+    go public, and evaluation and control both improve for it.
   event.safety.review.internal.label: Run it internally instead
   event.safety.review.internal.preview: >-
     Do a smaller version in-house. Modest gains, a brief dip in research pace, and

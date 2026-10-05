@@ -19,6 +19,7 @@ events:
     defaultOptionId: trim
     titleKey: event.finance.runway.title
     bodyKey: event.finance.runway.body
+    educationKey: event.finance.runway.education
     evidence:
       - textKey: event.finance.runway.evidence.cash
         metric: player.cash
@@ -109,6 +110,7 @@ events:
     defaultOptionId: decline
     titleKey: event.people.ultimatum.title
     bodyKey: event.people.ultimatum.body
+    educationKey: event.people.ultimatum.education
     evidence:
       - textKey: event.people.ultimatum.evidence.culture
         metric: player.safety.safetyCulture
