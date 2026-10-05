@@ -1122,6 +1122,15 @@ function validateEvents(
         "an ordinary event must require a minimum player AI capability or world frontier, so it cannot fire before its era",
       );
     }
+    if (definition.trigger.kind === "opportunity" && !definition.unique) {
+      issue(
+        issues,
+        "release-blocking",
+        "event.repeatable-opportunity",
+        `${baseLocation}.unique`,
+        "an ordinary event must be unique: players should never see the same one twice in a game",
+      );
+    }
     if (eventReadsBoardPatience(definition)) {
       issue(
         issues,

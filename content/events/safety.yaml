@@ -111,7 +111,7 @@ events:
           { type: compare, metric: player.incidents.recentWorstSeverity, op: gte, value: 70 }
         multiplier: 3
     cooldown: { group: safety-disclosure, weeks: 26 }
-    unique: false
+    unique: true
     expiryWeeks: 3
     defaultOptionId: minimal-notice
     titleKey: event.safety.disclosure.title
@@ -208,7 +208,7 @@ events:
           { type: compare, metric: player.safety.evalQuality, op: lt, value: 45 }
         multiplier: 2
     cooldown: { group: safety-review, weeks: 39 }
-    unique: false
+    unique: true
     expiryWeeks: 13
     defaultOptionId: defer
     titleKey: event.safety.review.title

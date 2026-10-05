@@ -30,7 +30,7 @@ events:
           { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
         multiplier: 2
     cooldown: { group: society-benchmark-leak, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: footnote
     titleKey: event.research.benchmark-leak.title
@@ -628,7 +628,7 @@ events:
           { type: compare, metric: player.gpus.total, op: gte, value: 20000 }
         multiplier: 2
     cooldown: { group: society-grid-and-water, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: benefit-deal
     titleKey: event.facility.grid-and-water.title
@@ -908,7 +908,7 @@ events:
           { type: compare, metric: player.safety.securityPosture, op: lt, value: 40 }
         multiplier: 2
     cooldown: { group: society-universal-jailbreak, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: fix-quietly
     titleKey: event.security.universal-jailbreak.title

@@ -27,7 +27,7 @@ events:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
         multiplier: 2
     cooldown: { group: model-behaviour-tests-rewritten, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: patch-harness
     titleKey: event.ai.tests-rewritten.title
@@ -122,7 +122,7 @@ events:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 25 }
         multiplier: 2
     cooldown: { group: model-behaviour-reward-hacking, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: fix-and-rerun
     titleKey: event.research.reward-hacking.title
@@ -222,7 +222,7 @@ events:
       - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
         multiplier: 2
     cooldown: { group: model-behaviour-thought-policing, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: monitor-only
     titleKey: event.safety.thought-policing.title
@@ -297,7 +297,7 @@ events:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-eval-awareness, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: probe-awareness
     titleKey: event.ai.this-looks-like-a-test.title
@@ -397,7 +397,7 @@ events:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-sandbagging, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: report-uncertainty
     titleKey: event.safety.sandbagging.title
@@ -531,7 +531,7 @@ events:
           { type: compare, metric: player.safety.safetyCulture, op: gte, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-alignment-faking, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: study-quietly
     titleKey: event.ai.alignment-faking.title
@@ -632,7 +632,7 @@ events:
     baseWeight: 5
     weightModifiers: []
     cooldown: { group: model-behaviour-emergent-misalignment, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: roll-back
     titleKey: event.research.emergent-misalignment.title
@@ -745,7 +745,7 @@ events:
       - predicate: { type: compare, metric: player.safety.safetyCulture, op: lt, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-flattery, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: honesty-training
     titleKey: event.market.flattery-update.title
@@ -843,7 +843,7 @@ events:
       - predicate: { type: compare, metric: player.safety.practicalControl, op: lt, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-shutdown-script, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: tamper-proof
     titleKey: event.safety.shutdown-script.title
@@ -1033,7 +1033,7 @@ events:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: gte, value: 50 }
         multiplier: 2
     cooldown: { group: model-behaviour-feature-found, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: internal-lie-detector
     titleKey: event.research.feature-found.title
@@ -1116,7 +1116,7 @@ events:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 30 }
         multiplier: 2
     cooldown: { group: model-behaviour-invented-citations, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: compensate-quietly
     titleKey: event.market.invented-citations.title

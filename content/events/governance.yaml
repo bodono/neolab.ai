@@ -24,7 +24,7 @@ events:
       - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
         multiplier: 0.5
     cooldown: { group: governance-open-weights, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: keep-closed
     titleKey: event.rival.open-weights.title
@@ -125,7 +125,7 @@ events:
       - predicate: { type: has-flag, flag: "governance:published-binding-thresholds" }
         multiplier: 3
     cooldown: { group: governance-uplift-eval, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: vetted-access
     titleKey: event.safety.uplift-eval.title
@@ -222,7 +222,7 @@ events:
       - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 30 }
         multiplier: 1.5
     cooldown: { group: governance-zero-days, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: red-team
     titleKey: event.security.zero-days.title
@@ -345,7 +345,7 @@ events:
       - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
         multiplier: 2
     cooldown: { group: governance-if-then, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 13
     defaultOptionId: vague-principles
     titleKey: event.politics.if-then-commitments.title
@@ -421,7 +421,7 @@ events:
       - predicate: { type: compare, metric: player.safety.securityPosture, op: lt, value: 25 }
         multiplier: 2
     cooldown: { group: governance-weight-security, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: patch-and-train
     titleKey: event.security.weight-security.title
@@ -522,7 +522,7 @@ events:
       - predicate: { type: compare, metric: player.politics.governmentTrust, op: lt, value: 40 }
         multiplier: 1.5
     cooldown: { group: governance-compute-threshold, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: split-run
     titleKey: event.politics.compute-threshold.title
@@ -617,7 +617,7 @@ events:
       - predicate: { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
         multiplier: 2
     cooldown: { group: governance-know-your-customer, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: decline
     titleKey: event.politics.know-your-customer.title
@@ -1076,7 +1076,7 @@ events:
       - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 20 }
         multiplier: 1.5
     cooldown: { group: governance-voice-clone, weeks: 104 }
-    unique: false
+    unique: true
     expiryWeeks: 6
     defaultOptionId: cooperate
     titleKey: event.politics.voice-clone-robocall.title
@@ -1174,7 +1174,7 @@ events:
       - predicate: { type: compare, metric: player.safety.securityPosture, op: lt, value: 25 }
         multiplier: 1.5
     cooldown: { group: governance-sleeper-backdoor, weeks: 78 }
-    unique: false
+    unique: true
     expiryWeeks: 8
     defaultOptionId: patch-trigger
     titleKey: event.security.sleeper-backdoor.title

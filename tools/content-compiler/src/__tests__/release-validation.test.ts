@@ -52,7 +52,7 @@ function validEvent(overrides: Partial<EventDefinition> = {}): EventDefinition {
     baseWeight: 1,
     weightModifiers: [],
     cooldown: { group: "test-release-validation", weeks: 4 },
-    unique: false,
+    unique: true,
     expiryWeeks: 2,
     defaultOptionId: "accept",
     titleKey: "event.test.title",
@@ -430,6 +430,16 @@ describe("content release validation", () => {
     expect(
       issueCodes(createContentReleaseReport(withEvents(gated), messages(), [])),
     ).not.toContain("event.missing-era-gate");
+  });
+
+  it("lets an ordinary event fire only once a game", () => {
+    const repeatable = validEvent({ unique: false });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(repeatable), messages(), [])),
+    ).toContain("event.repeatable-opportunity");
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(validEvent()), messages(), [])),
+    ).not.toContain("event.repeatable-opportunity");
   });
 
   it("rejects parked board patience in event effects, gates and evidence", () => {
