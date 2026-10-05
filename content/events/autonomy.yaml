@@ -107,15 +107,10 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10000 }
         previewKey: event.autonomy.intrusion.revoke.preview
         immediateEffects:
-          # The government reacts to what it is told. Disclosure buys credit for
-          # being the one who called and, in the same breath, a regulator who
-          # now knows your model hacks people and intends to watch it.
+          # Disclosure is public and the rebuild is real: Aura, cash and research
+          # pace buy a boundary that halves incident hazard for a year. The
+          # access rollback comes from the rolled-back memory tag.
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15, auraChangeKind: loss, auraCategory: incident, auraSignalImpact: -15 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 10 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.5, durationWeeks: 52, tags: [autonomy-containment, package-boundary-rebuild] }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.9, durationWeeks: 26, tags: [package-boundary-rebuild, research-disruption] }
         checks: []
@@ -134,7 +129,6 @@ events:
           # Nobody outside hears, so nothing public moves: no Aura, no trust,
           # no attention. What it costs is internal — a lab that buries this
           # has told its own people which findings are inconvenient.
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.25, durationWeeks: 26, tags: [autonomy-containment, residual-egress-risk] }
         checks: []
@@ -153,9 +147,7 @@ events:
           # no applause. The price is internal and technical — the zero-day chain
           # stays open by design, and a model operating outside its sandbox with
           # the lab's blessing is a model the lab controls less.
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: -10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -10 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 1.25, durationWeeks: 26, tags: [autonomy-permissive, stolen-rival-research] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 2, durationWeeks: 52, tags: [autonomy-permissive, open-egress] }
         checks: []

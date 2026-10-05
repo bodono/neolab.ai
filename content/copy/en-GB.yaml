@@ -79,8 +79,8 @@ messages:
     closes.
   event.government.nationalisation.goldenshare.label: Negotiate a golden share
   event.government.nationalisation.goldenshare.preview: >-
-    Give the state a veto over specified decisions. Independence survives with tighter
-    limits.
+    Give the state a veto over specified decisions. It costs Aura and calms the state less
+    than cooperating, but independence survives and the state comes to rely on the lab.
   event.government.nationalisation.resist.label: Refuse and fight it
   event.government.nationalisation.resist.preview: >-
     Contest the takeover. Failure ends the lab's independence.
@@ -172,9 +172,8 @@ messages:
   event.safety.review.evidence.evalquality: Evaluation quality
   event.safety.review.fund.label: Commission the external review
   event.safety.review.fund.preview: >-
-    Pay for the outside look. Evaluation quality and practical control strength both
-    improve, and the findings belong to the record.
-  event.safety.review.fund.disabled: Requires available cash
+    Open the stack to outside auditors. Capability work waits on them; evaluation quality
+    and practical control both improve, and the findings belong to the record.
   event.safety.review.internal.label: Run it internally instead
   event.safety.review.internal.preview: >-
     Do a smaller version in-house. Modest gains, a brief dip in research pace, and
@@ -268,8 +267,7 @@ messages:
   event.autonomy.intrusion.revoke.label: Tell the rival, and tell everyone
   event.autonomy.intrusion.revoke.preview: >-
     Notify the lab you breached, publish the chain, and rebuild behind an air gap.
-    Humiliating, and it puts a regulator who now knows what your model does on your
-    shoulder.
+    Humiliating, costly and slow, but incident hazard halves for a year.
   event.autonomy.intrusion.patch.label: Shut it down quietly
   event.autonomy.intrusion.patch.preview: >-
     Close the holes, revoke the credentials, tell nobody. Cheaper than disclosure, and

@@ -139,8 +139,7 @@ events:
       - id: contest-file
         labelKey: event.government.incidentfile.contest.label
         requirements: { type: always }
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        knownCosts: []
         previewKey: event.government.incidentfile.contest.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
@@ -184,8 +183,7 @@ events:
       - id: open-the-logs
         labelKey: event.government.autonomyreview.open.label
         requirements: { type: always }
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        knownCosts: []
         previewKey: event.government.autonomyreview.open.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
@@ -441,8 +439,6 @@ events:
                 minimumInclusive: 0
                 maximumExclusive: 0.3
                 effects:
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -5 }
                   - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.8, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
                   - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.1, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
                   - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.85, durationWeeks: 52, tags: [deployment-restriction, carve-out-granted] }
@@ -455,10 +451,8 @@ events:
                 maximumExclusive: 1
                 effects:
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
-                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
                   - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.5, durationWeeks: 52, tags: [deployment-restriction, carve-out-partial] }
                   - { kind: add-modifier, target: lab.product.durationWeeks, operation: multiply, value: 1.35, durationWeeks: 52, tags: [deployment-restriction, carve-out-partial] }
-                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.75, durationWeeks: 52, tags: [deployment-restriction, carve-out-partial] }
                 memories:
                   - key: government.restriction.carveout.partial
                     subjects: [{ type: player-lab }]
@@ -517,7 +511,6 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -20 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, tags: [state-oversight] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.8, tags: [state-oversight] }
         checks: []
@@ -533,10 +526,8 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
         previewKey: event.government.nationalisation.goldenshare.preview
         immediateEffects:
-          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, tags: [golden-share] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.9, tags: [golden-share] }
         checks: []

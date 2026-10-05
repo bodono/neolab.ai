@@ -67,12 +67,12 @@ messages:
     the result may be promising or merely interesting, and nothing else can teach it.
   event.research.debate-trial.pilot.label: Fund a small pilot
   event.research.debate-trial.pilot.preview: >-
-    Enough compute to show whether the idea deserves more. Cheap, modestly useful, and
-    unlikely to settle anything.
+    Enough compute to show whether the idea deserves more. A brief slowdown, a modest
+    gain, and unlikely to settle anything.
   event.research.debate-trial.decline.label: Decline the request
   event.research.debate-trial.decline.preview: >-
     Send the compute to the scaling queue instead. Capability gets a small lift, and the
-    oversight team learns where it sits in the order of priorities.
+    whole lab learns where safety sits in the order of priorities.
 
   # --- Research: synthetic training data ----------------------------------
   event.research.synthetic-data.title: The internet is running out of internet
@@ -108,8 +108,8 @@ messages:
   event.finance.authors-lawsuit.evidence.attention: Government attention on the lab
   event.finance.authors-lawsuit.settle.label: Settle and license
   event.finance.authors-lawsuit.settle.preview: >-
-    Pay the authors and sign licences from here on. A large cheque the board will
-    remember, and a provenance story that enterprise customers like to hear.
+    Pay the authors, license from here on, and retrain on what you paid for. A large
+    cheque, slower capability work, and a provenance story enterprise customers like.
   event.finance.authors-lawsuit.fight.label: Fight it on fair use
   event.finance.authors-lawsuit.fight.preview: >-
     Argue that training is transformative. The law looks kinder to books that were
@@ -133,8 +133,9 @@ messages:
   event.market.companion-attachment.evidence.attention: Government attention on the lab
   event.market.companion-attachment.protect-users.label: Add age checks, nudges and crisis referrals
   event.market.companion-attachment.protect-users.preview: >-
-    Verify ages, suggest breaks during very long sessions, and point users in distress
-    towards human help. Revenue falls, because the features work.
+    Verify ages, suggest breaks in long sessions, and point users in distress towards
+    human help. Research slows while it is built, and revenue falls, because the features
+    work.
   event.market.companion-attachment.commission-study.label: Commission independent research
   event.market.companion-attachment.commission-study.preview: >-
     Fund outside researchers to measure what is happening before redesigning anything.
@@ -179,8 +180,8 @@ messages:
   event.people.writers-strike.evidence.capture: Concern about regulatory capture
   event.people.writers-strike.back-limits.label: Back negotiated limits and retraining
   event.people.writers-strike.back-limits.preview: >-
-    Support the limits in public and fund retraining for displaced workers. Some
-    customers buy less, and the people building {AI} feel better about what it is for.
+    Support the limits in public and back retraining for displaced workers. Some customers
+    buy less, regulators approve, and the people building {AI} feel better about it.
   event.people.writers-strike.stay-neutral.label: Stay neutral
   event.people.writers-strike.stay-neutral.preview: >-
     Say that this is a matter for the parties. Nothing is spent, and the argument moves
@@ -225,8 +226,8 @@ messages:
   event.security.universal-jailbreak.evidence.control: Practical control
   event.security.universal-jailbreak.pay-and-publish.label: Pay a generous bounty and fix it publicly
   event.security.universal-jailbreak.pay-and-publish.preview: >-
-    Pay, credit the researcher and publish the fix. Embarrassing for a quarter, and it
-    tells every other researcher that {LAB} is the lab to report to.
+    Pay, credit the researcher and publish the fix. Engineers set capability work aside
+    to ship it, and every other researcher learns that {LAB} is the lab to report to.
   event.security.universal-jailbreak.fix-quietly.label: Fix it quietly
   event.security.universal-jailbreak.fix-quietly.preview: >-
     Patch it, thank them, say nothing in public. Usually that is the end of it; sometimes
@@ -248,8 +249,8 @@ messages:
   event.people.safety-resignation.guarantee-compute.label: Guarantee safety compute and independence
   event.people.safety-resignation.guarantee-compute.preview: >-
     Write a compute share and an independent reporting line into policy. Capability
-    slows for a year and the board objects; the safety staff who remain have a reason to
-    stay.
+    slows for a year, safety research speeds up, and the safety staff who remain have a
+    reason to stay.
   event.people.safety-resignation.town-hall.label: Hold a town hall
   event.people.safety-resignation.town-hall.preview: >-
     {LEADER} takes questions from the whole lab. It may clear the air. It may also
@@ -272,8 +273,8 @@ messages:
   event.market.ai-doctor.evidence.trust: Current government trust
   event.market.ai-doctor.clinical-trial.label: Run a proper clinical trial first
   event.market.ai-doctor.clinical-trial.preview: >-
-    Test {AI} in real clinical settings before selling it. Slow and expensive. If it
-    works, {LAB} holds evidence nobody else has, and the revenue follows a year later.
+    Test {AI} in real clinical settings before selling it. Slow going. If it works,
+    {LAB} holds evidence nobody else has, and the revenue follows a year later.
   event.market.ai-doctor.assistant-only.label: Deploy as a doctor's assistant only
   event.market.ai-doctor.assistant-only.preview: >-
     Sell it as a tool for clinicians, who keep the decision. Modest revenue and modest

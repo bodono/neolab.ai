@@ -35,7 +35,6 @@ events:
         previewKey: event.safety.anomaly.halt.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 4 }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 39, tags: [anomaly-investigation] }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [anomaly-investigation] }
         checks: []
@@ -134,7 +133,6 @@ events:
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
           - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 5 }
-          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 4 }
         checks: []
         memories:
           - key: safety.disclosure.full
@@ -221,11 +219,8 @@ events:
     options:
       - id: fund-review
         labelKey: event.safety.review.fund.label
-        # Affordability is checked against the era-scaled cost.
         requirements: { type: always }
-        disabledReasonKey: event.safety.review.fund.disabled
-        knownCosts:
-          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        knownCosts: []
         previewKey: event.safety.review.fund.preview
         immediateEffects:
           - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [alignment-tax] }
