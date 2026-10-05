@@ -161,9 +161,9 @@ messages:
     A recent {AI} incident was serious enough to matter, and {LAB} must decide who hears
     about it. Legal favours a sentence; Safety favours the whole story.
   event.safety.disclosure.education: >-
-    Under the EU AI Act, providers of general-purpose AI models with systemic risk must
-    report serious incidents to regulators; in 2025 California adopted a similar duty for
-    frontier developers.
+    In 2023, California suspended a robotaxi firm's driverless permits, saying it had not at
+    first shown regulators footage of its car dragging an injured pedestrian; the firm later
+    paid fines over its reporting.
   event.safety.disclosure.evidence.severity: Worst incident severity this quarter
   event.safety.disclosure.evidence.attention: Government attention on the lab
   event.safety.disclosure.full.label: Publish a full account
