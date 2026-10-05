@@ -568,6 +568,39 @@ function validateEventEffects(
 }
 
 const BOARD_PATIENCE_METRIC = "player.organisation.boardPatience";
+const ERA_GATE_METRICS = new Set([
+  "player.ai.frontierCapability",
+  "world.frontierCapability",
+]);
+
+/**
+ * True when the event's prerequisites demand a minimum player-AI or world
+ * capability on every path: a plain gte/gt comparison, or one inside "all".
+ */
+function eventHasEraGate(definition: EventDefinition): boolean {
+  const gates = (predicate: EventPredicateDefinition): boolean => {
+    const node = predicate as {
+      readonly type: string;
+      readonly metric?: string;
+      readonly op?: string;
+      readonly value?: number;
+      readonly items?: readonly EventPredicateDefinition[];
+    };
+    if (node.type === "compare") {
+      return (
+        node.metric !== undefined &&
+        ERA_GATE_METRICS.has(node.metric) &&
+        (node.op === "gte" || node.op === "gt") &&
+        (node.value ?? 0) > 0
+      );
+    }
+    if (node.type === "all") return (node.items ?? []).some(gates);
+    if (node.type === "any")
+      return (node.items ?? []).length > 0 && (node.items ?? []).every(gates);
+    return false;
+  };
+  return gates(definition.prerequisites);
+}
 
 function predicateReadsBoardPatience(predicate: EventPredicateDefinition): boolean {
   const node = predicate as {
@@ -1028,6 +1061,15 @@ function validateEvents(
     }
 
     validateEventEffects(effectsFromEvent(definition), `${baseLocation}.effects`, issues);
+    if (definition.trigger.kind === "opportunity" && !eventHasEraGate(definition)) {
+      issue(
+        issues,
+        "release-blocking",
+        "event.missing-era-gate",
+        `${baseLocation}.prerequisites`,
+        "an ordinary event must require a minimum player AI capability or world frontier, so it cannot fire before its era",
+      );
+    }
     if (eventReadsBoardPatience(definition)) {
       issue(
         issues,

@@ -898,7 +898,10 @@ export type EventMetricKey =
   | "player.politics.interventionPressure"
   | "player.gpus.total"
   | "player.incidents.recentCount"
-  | "player.incidents.recentWorstSeverity";
+  | "player.incidents.recentWorstSeverity"
+  | "player.ai.frontierCapability"
+  | "player.ai.launched"
+  | "world.frontierCapability";
 
 export type EventPredicateDefinition =
   | { readonly type: "always" }
@@ -1177,6 +1180,9 @@ export const eventPredicateDefinitionSchema: z.ZodType = z.lazy(() =>
           "player.gpus.total",
           "player.incidents.recentCount",
           "player.incidents.recentWorstSeverity",
+          "player.ai.frontierCapability",
+          "player.ai.launched",
+          "world.frontierCapability",
         ]),
         op: z.enum(["lt", "lte", "gt", "gte", "eq"]),
         value: eventFinite,
@@ -1428,6 +1434,9 @@ export const eventDefinitionSchema = z
               "player.gpus.total",
               "player.incidents.recentCount",
               "player.incidents.recentWorstSeverity",
+              "player.ai.frontierCapability",
+              "player.ai.launched",
+              "world.frontierCapability",
             ])
             .optional(),
         })

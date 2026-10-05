@@ -43,7 +43,12 @@ function validEvent(overrides: Partial<EventDefinition> = {}): EventDefinition {
     severity: "decision",
     phase: "any",
     trigger: { kind: "opportunity" },
-    prerequisites: { type: "always" },
+    prerequisites: {
+      type: "compare",
+      metric: "player.ai.frontierCapability",
+      op: "gte",
+      value: 10,
+    },
     baseWeight: 1,
     weightModifiers: [],
     cooldown: { group: "test-release-validation", weeks: 4 },
@@ -382,6 +387,24 @@ describe("content release validation", () => {
     expect(issueCodes(report)).toEqual(
       expect.arrayContaining(["copy.retired-ending-name", "event.ungated-catastrophe"]),
     );
+  });
+
+  it("requires every ordinary event to gate on its era", () => {
+    const ungated = validEvent({ prerequisites: { type: "always" } });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(ungated), messages(), [])),
+    ).toContain("event.missing-era-gate");
+    const gated = validEvent({
+      prerequisites: {
+        type: "compare",
+        metric: "player.ai.frontierCapability",
+        op: "gte",
+        value: 20,
+      },
+    });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(gated), messages(), [])),
+    ).not.toContain("event.missing-era-gate");
   });
 
   it("rejects parked board patience in event effects, gates and evidence", () => {

@@ -20,7 +20,10 @@ events:
     phase: foundation
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.evalQuality, op: lt, value: 70 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
+        - { type: compare, metric: player.safety.evalQuality, op: lt, value: 70 }
     baseWeight: 6
     weightModifiers:
       - predicate:
@@ -112,7 +115,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.evalQuality, op: gte, value: 40 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 40 }
     baseWeight: 6
     weightModifiers:
       - predicate:
@@ -208,7 +214,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
     baseWeight: 6
     weightModifiers:
       - predicate:
@@ -305,7 +314,10 @@ events:
     phase: scaling
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: has-flag, flag: "society:purged-books" }
@@ -402,7 +414,11 @@ events:
     phase: scaling
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.politics.governmentAttention, op: gte, value: 15 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.politics.governmentAttention, op: gte, value: 15 }
     baseWeight: 6
     weightModifiers:
       - predicate:
@@ -515,7 +531,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.safetyCulture, op: lt, value: 75 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.safety.safetyCulture, op: lt, value: 75 }
     baseWeight: 6
     weightModifiers: []
     cooldown: { group: society-companion, weeks: 52 }
@@ -612,7 +632,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
     baseWeight: 5
     weightModifiers:
       - predicate:
@@ -714,7 +737,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
     baseWeight: 6
     weightModifiers:
       - predicate:
@@ -793,7 +820,11 @@ events:
     phase: scaling
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.politics.governmentTrust, op: gte, value: 20 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.politics.governmentTrust, op: gte, value: 20 }
     baseWeight: 6
     weightModifiers: []
     cooldown: { group: society-homework-machine, weeks: 52 }
@@ -886,7 +917,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.securityPosture, op: lt, value: 80 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.safety.securityPosture, op: lt, value: 80 }
     baseWeight: 6
     weightModifiers:
       - predicate:
@@ -1005,10 +1040,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      type: any
+      type: all
       items:
-        - { type: compare, metric: player.safety.safetyCulture, op: lt, value: 50 }
-        - { type: has-flag, flag: "society:products-first" }
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: any, items: [{ type: compare, metric: player.safety.safetyCulture, op: lt, value: 50 }, { type: has-flag, flag: society:products-first }] }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: has-flag, flag: "society:products-first" }
@@ -1107,7 +1142,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.evalQuality, op: gte, value: 30 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 30 }
     baseWeight: 6
     weightModifiers:
       - predicate:

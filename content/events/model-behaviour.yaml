@@ -17,7 +17,11 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 40 }
@@ -117,7 +121,7 @@ events:
     severity: decision
     phase: foundation
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 25 }
@@ -217,7 +221,11 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
     exclusions: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
     baseWeight: 7
     weightModifiers:
@@ -298,7 +306,7 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: lt, value: 50 }
@@ -398,7 +406,11 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 15 }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 15 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
@@ -534,7 +546,11 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 25 }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 80 }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 25 }
     baseWeight: 5
     weightModifiers:
       - predicate:
@@ -637,7 +653,12 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }
     baseWeight: 5
     weightModifiers: []
     cooldown: { group: model-behaviour-emergent-misalignment, weeks: 104 }
@@ -748,7 +769,11 @@ events:
     severity: decision
     phase: scaling
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 20 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
     baseWeight: 6
     # A lab whose safety culture is weak is likelier to ship a ratings-tuned update.
     weightModifiers:
@@ -850,7 +875,7 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
@@ -969,7 +994,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
+        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
     baseWeight: 5
     weightModifiers: []
     cooldown: { group: model-behaviour-welfare, weeks: 0 }
@@ -1042,7 +1071,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: gte, value: 50 }
@@ -1120,7 +1152,11 @@ events:
     severity: decision
     phase: scaling
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: has-flag, flag: "model-behaviour:tuned-for-approval" }

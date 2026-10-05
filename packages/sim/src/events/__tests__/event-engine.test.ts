@@ -18,7 +18,7 @@ import {
 import { calendarFromTick, type GameState } from "../../model/state.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
 import type { CommandId, EventInstanceId } from "../../model/ids.ts";
-import { tick } from "../../model/units.ts";
+import { rating, tick } from "../../model/units.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { createNewGame } from "../../engine/create-new-game.ts";
 import { createTransaction } from "../../engine/transaction.ts";
@@ -527,12 +527,26 @@ describe("runway episodes and the Deployment Crisis", () => {
   });
 
   it("holds random opportunities during the Deployment Crisis", () => {
-    const state = newState();
+    // A launched frontier-era model, so ordinary events are eligible at all:
+    // they gate on what the player's own AI can do.
+    const state = structuredClone(newState()) as DeepMutable<GameState>;
+    const lab = state.labs[state.run.playerLabId];
+    const model = lab?.models.currentModelId;
+    if (lab === undefined || model === undefined) throw new Error("model fixture");
+    const measured = state.models[model];
+    if (measured === undefined) throw new Error("model fixture");
+    measured.measuredCapability = {
+      values: structuredClone(measured.trueCapability),
+      frontierCapability: rating(70),
+      confidence: "high",
+      evidenceFlags: [],
+    };
+    lab.models.commercialModelId = model;
     const ordinary = listEligibleEventDefinitions(state, compiled).filter(
       (definition) => definition.category !== "endgame",
     );
     expect(ordinary.length).toBeGreaterThan(0);
-    const crisis = structuredClone(state) as DeepMutable<GameState>;
+    const crisis = structuredClone(state);
     crisis.endgame = {
       stage: "candidate-activation",
       enteredAt: crisis.run.tick,

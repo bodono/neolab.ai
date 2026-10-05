@@ -16,7 +16,7 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.aura.spendable, op: lt, value: 20 }
@@ -123,10 +123,10 @@ events:
     # Only a lab that measures, or has promised to, finds out it cannot rule
     # this out. Chain: if-then commitments -> binding thresholds.
     prerequisites:
-      type: any
+      type: all
       items:
-        - { type: has-flag, flag: "governance:published-binding-thresholds" }
-        - { type: compare, metric: player.safety.evalQuality, op: gte, value: 15 }
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: any, items: [{ type: has-flag, flag: governance:published-binding-thresholds }, { type: compare, metric: player.safety.evalQuality, op: gte, value: 15 }] }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: has-flag, flag: "governance:published-binding-thresholds" }
@@ -228,7 +228,7 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.securityPosture, op: gte, value: 25 }
@@ -349,8 +349,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
-    # Once the thresholds are published, nobody needs to ask again.
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: world.frontierCapability, op: gte, value: 55 }
+        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
     exclusions: { type: has-flag, flag: "governance:published-binding-thresholds" }
     baseWeight: 5
     weightModifiers:
@@ -430,7 +433,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.securityPosture, op: lt, value: 50 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.safety.securityPosture, op: lt, value: 50 }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.securityPosture, op: lt, value: 25 }
@@ -528,7 +534,11 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.politics.governmentAttention, op: gte, value: 10 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: world.frontierCapability, op: gte, value: 55 }
+        - { type: compare, metric: player.politics.governmentAttention, op: gte, value: 10 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.politics.governmentAttention, op: gte, value: 25 }
@@ -629,7 +639,7 @@ events:
     severity: decision
     phase: scaling
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: world.frontierCapability, op: gte, value: 35 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.gpus.total, op: gte, value: 4000 }
@@ -747,11 +757,11 @@ events:
     # Chain: staff who watched the lab sign the pause letter and keep training
     # ask for this whatever the culture.
     prerequisites:
-      type: any
+      type: all
       items:
-        - { type: has-flag, flag: "governance:signed-pause-letter-kept-training" }
-        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }
-        - { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: world.frontierCapability, op: gte, value: 55 }
+        - { type: any, items: [{ type: has-flag, flag: governance:signed-pause-letter-kept-training }, { type: compare, metric: player.safety.safetyCulture, op: gte, value: 35 }, { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }] }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: has-flag, flag: "governance:signed-pause-letter-kept-training" }
@@ -867,7 +877,7 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: world.frontierCapability, op: gte, value: 55 }
     baseWeight: 6
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.safetyCulture, op: gte, value: 55 }
@@ -969,7 +979,10 @@ events:
     phase: frontier
     trigger: { kind: opportunity }
     prerequisites:
-      { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.safety.safetyCulture, op: gte, value: 30 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
@@ -1092,7 +1105,11 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.ai.launched, op: gte, value: 1 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.safetyCulture, op: lt, value: 40 }
@@ -1194,7 +1211,7 @@ events:
     severity: decision
     phase: frontier
     trigger: { kind: opportunity }
-    prerequisites: { type: always }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
     baseWeight: 5
     weightModifiers:
       - predicate: { type: compare, metric: player.safety.evalQuality, op: gte, value: 20 }

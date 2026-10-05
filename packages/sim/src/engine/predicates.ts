@@ -1,6 +1,7 @@
 import type { EventMetricKey, EventPredicateDefinition } from "@neolab/content-schema";
 
 import type { GameState } from "../model/state.ts";
+import { calculateFrontierCapability } from "../models/capability.ts";
 import { calculateInterventionPressure } from "../politics/politics.ts";
 
 /**
@@ -33,6 +34,15 @@ function recentPlayerIncidents(state: GameState) {
     (incident) =>
       state.models[incident.modelId]?.ownerLabId === state.run.playerLabId &&
       state.run.tick - incident.occurredAt <= RECENT_INCIDENT_WEEKS,
+  );
+}
+
+/** The player's best model as the lab has measured it; 0 before the first. */
+function playerBestMeasuredCapability(state: GameState): number {
+  return playerLab(state).models.modelIds.reduce(
+    (best, modelId) =>
+      Math.max(best, state.models[modelId]?.measuredCapability?.frontierCapability ?? 0),
+    0,
   );
 }
 
@@ -100,6 +110,28 @@ export const METRIC_REGISTRY: Readonly<Record<MetricKey, MetricDefinition>> = {
     read: (state) =>
       recentPlayerIncidents(state).reduce(
         (worst, incident) => Math.max(worst, incident.observedSeverity),
+        0,
+      ),
+  },
+  // Era gates for authored events: what the player's own AI can do, whether
+  // it has customers, and how far the world frontier has moved. Events about
+  // a model's behaviour must not fire before the lab has a model that could
+  // plausibly behave that way.
+  "player.ai.frontierCapability": {
+    playerVisible: true,
+    read: playerBestMeasuredCapability,
+  },
+  "player.ai.launched": {
+    playerVisible: true,
+    read: (state) => (playerLab(state).models.commercialModelId === undefined ? 0 : 1),
+  },
+  "world.frontierCapability": {
+    // The true world maximum, which also paces hardware eras; never shown.
+    playerVisible: false,
+    read: (state) =>
+      Object.values(state.models).reduce(
+        (maximum, model) =>
+          Math.max(maximum, calculateFrontierCapability(model.trueCapability)),
         0,
       ),
   },
