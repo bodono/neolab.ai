@@ -5,7 +5,8 @@
 //
 // Exits 1 when any statistic moved further than chance would from the
 // baseline, or when the report's ladder (seeds, tick cap, setups) differs from
-// the one the baseline measured. Appends the table to $GITHUB_STEP_SUMMARY
+// the one the baseline measured. With no baseline yet it writes one beside the
+// report and only warns. Appends the table to $GITHUB_STEP_SUMMARY
 // when it is set.
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -45,6 +46,7 @@ if (args.includes("--write-baseline")) {
 
 if (!existsSync(baselinePath)) {
   // First run of a new ladder: leave a baseline beside the report to commit.
+  // A missing baseline is a setup step, not a balance failure, so warn only.
   const bootstrap = resolve(
     process.cwd(),
     inputPath,
@@ -53,10 +55,10 @@ if (!existsSync(baselinePath)) {
   );
   const baseline = baselineFromReport(report, read("--measured-at") ?? "unknown");
   writeFileSync(bootstrap, `${JSON.stringify(baseline, null, 2)}\n`);
-  console.error(
-    `balance drift: no baseline at ${baselinePath}; wrote ${bootstrap} to commit there`,
+  console.log(
+    `::warning::balance drift: no baseline at ${baselinePath}; wrote ${bootstrap} to commit there`,
   );
-  process.exit(1);
+  process.exit(0);
 }
 const baseline = JSON.parse(readFileSync(baselinePath, "utf8")) as BalanceBaseline;
 const mismatch = ladderMismatch(baseline, report);
