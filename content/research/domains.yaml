@@ -420,6 +420,12 @@ rules:
     levelCostGrowth: 1.1
     safetyLevelCostGrowth: 1.15
     levelCostGrowthFromLevel: 20
+    # Capability levels above 80 cost the same as level 80. The capability
+    # formula's research boost tapers away by level 100, so every level to 100
+    # still raises Frontier Capability; with compounding all the way up, levels
+    # 85-100 cost about three times everything before them, and only rivals
+    # (who out-research the player) ever climbed them.
+    capabilityLevelCostGrowthUntilLevel: 80
     levelCostBands:
       - { afterLevel: 0, multiplier: 1.0 }
     generalResearcherContribution: 0.0125

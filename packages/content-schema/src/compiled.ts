@@ -177,6 +177,13 @@ export interface ResearchRulesDefinition {
   readonly safetyLevelCostGrowth: number;
   /** Levels at or below this cost the flat `lowLevelRpPerPoint`. */
   readonly levelCostGrowthFromLevel: number;
+  /**
+   * Capability levels above this cost the same as this one. Since the
+   * capability formula's research boost tapers to nothing at level 100, every
+   * level up to 100 raises Frontier Capability, and an uncapped ladder made
+   * levels 85-100 cost about three times everything before them.
+   */
+  readonly capabilityLevelCostGrowthUntilLevel: number;
   readonly levelCostBands: readonly {
     readonly afterLevel: number;
     readonly multiplier: number;

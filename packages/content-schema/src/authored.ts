@@ -309,6 +309,7 @@ export const researchDomainsFileSchema = z
             levelCostGrowth: z.number().min(1).max(1.5),
             safetyLevelCostGrowth: z.number().min(1).max(1.5),
             levelCostGrowthFromLevel: z.number().int().min(0).max(99),
+            capabilityLevelCostGrowthUntilLevel: z.number().int().min(1).max(100),
             levelCostBands: z
               .array(
                 z

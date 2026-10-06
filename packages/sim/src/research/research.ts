@@ -497,7 +497,14 @@ export function researchPointsForNextLevel(
   // and generation, so a flat ladder is bought out the moment modern silicon
   // lands. `currentLevel` is the level being left, so level 1 costs the flat
   // rate and growth starts once the free band is behind you.
-  const compounding = Math.max(0, currentLevel - rules.levelCostGrowthFromLevel);
+  // Capability compounding stops at `capabilityLevelCostGrowthUntilLevel`, so
+  // the last levels before 100, which still raise Frontier Capability, stay
+  // within reach; safety keeps its steeper, uncapped curve.
+  const compoundingLevel =
+    program.kind === "safety"
+      ? currentLevel
+      : Math.min(currentLevel, rules.capabilityLevelCostGrowthUntilLevel);
+  const compounding = Math.max(0, compoundingLevel - rules.levelCostGrowthFromLevel);
   const levelCostGrowth =
     program.kind === "safety" ? rules.safetyLevelCostGrowth : rules.levelCostGrowth;
   return (

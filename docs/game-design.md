@@ -1980,10 +1980,13 @@ Not every useful week produces a famous paper. Crossing domain thresholds awards
 Every baseline research level costs a flat 50 research points through level
 20. Above that, capability and safety use separate compounding curves:
 
-- Capability costs `1.10×` more per level. Leaving level 40 costs about 336 RP,
-  level 65 about 3,645, level 85 about 24,519, and level 99 about 93,109.
-  Reaching level 100 from zero costs about 1.025 million RP per baseline
-  capability programme.
+- Capability costs `1.10×` more per level up to level 80, then holds at the
+  level-80 price (about 15,224 RP) to 100. Leaving level 40 costs about 336 RP
+  and level 65 about 3,645. Reaching level 100 from zero costs about 457,000 RP
+  per baseline capability programme, so levels 85–100 cost about as much as
+  everything before them rather than three times as much. Every level to 100
+  raises Frontier Capability (section 35), so the top of the ladder must stay
+  within reach of a lab that is not the fastest researcher.
 - Safety costs `1.15×` more per level. Leaving level 40 costs about 818 RP,
   level 65 about 26,938, level 85 about 440,889, and level 99 about 3.12
   million. Reaching level 100 from zero costs about 23.9 million RP per
@@ -1994,8 +1997,8 @@ programmes range from `0.92×` to `1.20×`; safety programmes use `0.98×`,
 `1.00×`, and `1.02×`, averaging exactly `1.00×`.
 
 Safety paper gates follow the safety curve. The research that takes a
-capability programme to level 86 takes a safety programme to about 68, and
-capability 100 matches safety 78. So the 2023–24 safety papers (AI Control,
+capability programme to level 86 takes a safety programme to about 67, and
+capability 100 matches safety 71. So the 2023–24 safety papers (AI Control,
 Scaling Monosemanticity, Alignment Faking) unlock at 72, and the fictional
 safety capstones at 73–78.
 
