@@ -177,6 +177,7 @@ import {
 } from "../research/research.ts";
 import {
   calculatePaperPublicationScore,
+  derivePaperFocusProgrammeIds,
   describePaperUnlockEffect,
   paperMechanicalBenefits,
   isPublicPaperDiscovery,
@@ -914,6 +915,14 @@ export interface ResearchProgrammeOutputLedgerView {
 export interface ResearchView {
   readonly capabilityDomains: readonly ResearchProgramView[];
   readonly safetyPrograms: readonly ResearchProgramView[];
+  /**
+   * A programme given at least this share of all research compute is a paper
+   * focus: its landmark papers need `levelDiscount` fewer levels.
+   */
+  readonly paperFocusRule: {
+    readonly researchComputeSharePercent: number;
+    readonly levelDiscount: number;
+  };
   readonly techTree: {
     readonly programmes: readonly {
       readonly programId: string;
@@ -930,6 +939,8 @@ export interface ResearchView {
       readonly outputLedger: ResearchProgrammeOutputLedgerView;
       readonly assignedResearcherPercentagePoints: number;
       readonly diffusion: ResearchProgramView["diffusion"];
+      /** The current allocation makes this programme a paper focus. */
+      readonly paperFocus: boolean;
       readonly milestones: readonly {
         readonly threshold: number;
         readonly status: "chosen" | "decision" | "next" | "locked";
@@ -3577,6 +3588,7 @@ function projectResearch(
   const capabilityDomains = projectPrograms("capability");
   const safetyPrograms = projectPrograms("safety");
   const programmes = [...capabilityDomains, ...safetyPrograms];
+  const paperFocusProgrammeIds = derivePaperFocusProgrammeIds(state, content, labId);
   const phaseRank = {
     foundation: 0,
     scaling: 1,
@@ -3690,6 +3702,7 @@ function projectResearch(
         researchOutputMultiplier: programme.researchOutputMultiplier,
         outputLedger: programme.outputLedger,
         assignedResearcherPercentagePoints: programme.assignedResearcherPercentagePoints,
+        paperFocus: paperFocusProgrammeIds.has(programme.programId),
         milestones: content.research.rules.genericAdvanceThresholds.map((threshold) => {
           const optionIds = definition.genericAdvanceOptionIds[String(threshold)] ?? [];
           const selectedOptionId = selectedOptionIds.find(
@@ -3830,6 +3843,12 @@ function projectResearch(
   return {
     capabilityDomains,
     safetyPrograms,
+    paperFocusRule: {
+      researchComputeSharePercent: Math.round(
+        content.papers.rules.playerFocus.researchComputeShare * 100,
+      ),
+      levelDiscount: content.papers.rules.playerFocus.levelDiscount,
+    },
     techTree: {
       programmes: techTreeProgrammes,
       papers: techTreePapers,

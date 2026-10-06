@@ -21,6 +21,7 @@ import {
   recordResearcherCompactActions,
   recordResearcherPublicationCompactEvent,
 } from "../researchers/compacts.ts";
+import { rivalPaperLevel } from "../rivals/research.ts";
 import { recordRivalPublicSignal } from "../rivals/signals.ts";
 
 /** Each open release the lab has already made shrinks the next one's Aura. */
@@ -31,6 +32,7 @@ const OPEN_RELEASE_NOVELTY_FLOOR = 0.2;
 const REDISCOVERY_PRESTIGE_MULTIPLIER = 0.2;
 const PAPER_EFFECTS_APPLIED_FLAG_PREFIX = "paper-effects-applied:";
 const PAPER_PUBLIC_GLOBAL_EFFECTS_FLAG_PREFIX = "paper-public-effects-applied:";
+const BASIS_POINTS = 10_000;
 
 export interface EligiblePaper {
   readonly paperId: ContentId;
@@ -60,19 +62,38 @@ function phaseRank(phase: GamePhase | "foundation" | "scaling" | "frontier"): nu
   return phase === "foundation" ? 0 : phase === "scaling" ? 1 : 2;
 }
 
+/**
+ * The compiler appends each paper's hidden breakthrough requirement to its
+ * prerequisites as a domain-level item. A focus discount lowers that one item
+ * only; authored prerequisite levels, even on the same programme, still apply.
+ */
+interface BreakthroughGate {
+  readonly programmeId: string;
+  readonly authoredLevel: number;
+  readonly requiredLevel: number;
+}
+
 function evaluatePrerequisite(
   predicate: PaperPrerequisitePredicate,
   knowledge: PaperKnowledge,
+  gate?: BreakthroughGate,
 ): boolean {
   switch (predicate.kind) {
     case "all":
-      return predicate.items.every((item) => evaluatePrerequisite(item, knowledge));
+      return predicate.items.every((item) => evaluatePrerequisite(item, knowledge, gate));
     case "any":
-      return predicate.items.some((item) => evaluatePrerequisite(item, knowledge));
+      return predicate.items.some((item) => evaluatePrerequisite(item, knowledge, gate));
     case "paper-known":
       return knowledge.knownPaperIds.has(predicate.paperId);
-    case "domain-level":
-      return (knowledge.domainLevels[predicate.domainId] ?? 0) >= predicate.minimumLevel;
+    case "domain-level": {
+      const minimumLevel =
+        gate !== undefined &&
+        predicate.domainId === gate.programmeId &&
+        predicate.minimumLevel === gate.authoredLevel
+          ? gate.requiredLevel
+          : predicate.minimumLevel;
+      return (knowledge.domainLevels[predicate.domainId] ?? 0) >= minimumLevel;
+    }
     case "facility-complete":
       return knowledge.facilityIds.has(predicate.facilityId);
     case "phase-at-least":
@@ -119,13 +140,19 @@ function knownPaperIds(
 function canonicalLabKnowledge(state: Readonly<GameState>, labId: LabId): PaperKnowledge {
   const lab = state.labs[labId];
   if (lab === undefined) throw new Error(`Unknown lab ${labId}`);
+  // Rivals race for papers on their hidden paper levels, which leave out most
+  // of their off-screen research boost; the player races on real levels.
+  const rival = lab.control === "rival";
   return {
     knownPaperIds: knownPaperIds(state, lab.research.discoveredPaperIds),
     domainLevels: Object.fromEntries(
       [
         ...Object.entries(lab.research.domains),
         ...Object.entries(lab.research.safetyPrograms),
-      ].map(([id, programme]) => [id, programme.level]),
+      ].map(([id, programme]) => [
+        id,
+        rival ? rivalPaperLevel(state, labId, id) : programme.level,
+      ]),
     ),
     facilityIds: new Set(
       lab.facilities.instances.map((facility) => facility.definitionId),
@@ -150,25 +177,141 @@ function labKnowledge(state: Readonly<GameState>, labId: string): PaperKnowledge
     : canonicalLabKnowledge(state, labId as LabId);
 }
 
+/**
+ * The lab's paper-focus programmes: those receiving at least the authored
+ * share of all its research compute (capability plus safety) under the
+ * current allocation. Only the player has a focus; a rival's set is empty.
+ * Exact basis-point arithmetic, so a share on the threshold always counts.
+ */
+export function derivePaperFocusProgrammeIds(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: string,
+): ReadonlySet<string> {
+  const lab = state.labs[labId as LabId];
+  if (lab === undefined || labId !== state.run.playerLabId) return new Set();
+  const allocation = lab.compute.allocation;
+  // Shares are products of two basis-point fractions, so compare in units of
+  // 1/10,000^2 of research compute.
+  const thresholdUnits = Math.round(
+    content.papers.rules.playerFocus.researchComputeShare * BASIS_POINTS ** 2,
+  );
+  const capabilityBasisPoints = allocation.capabilityBasisPoints;
+  const shares: [string, number][] = [
+    ...Object.entries(allocation.capabilityDomainWeights).map(
+      ([programmeId, weight]): [string, number] => [
+        programmeId,
+        capabilityBasisPoints * weight,
+      ],
+    ),
+    ...Object.entries(allocation.safetyProgramWeights).map(
+      ([programmeId, weight]): [string, number] => [
+        programmeId,
+        (BASIS_POINTS - capabilityBasisPoints) * weight,
+      ],
+    ),
+  ];
+  return new Set(
+    shares
+      .filter(([, units]) => units > 0 && units >= thresholdUnits)
+      .map(([programmeId]) => programmeId),
+  );
+}
+
+/** The programme level this paper needs from a lab with the given focus set. */
+export function paperRequiredLevel(
+  content: CompiledContent,
+  paper: PaperDefinition,
+  focusProgrammeIds: ReadonlySet<string>,
+): number {
+  const authored = paper.breakthroughRequirement.level;
+  return focusProgrammeIds.has(paper.breakthroughRequirement.programmeId)
+    ? Math.max(0, authored - content.papers.rules.playerFocus.levelDiscount)
+    : authored;
+}
+
+/** Everything a lab's weekly paper rolls read, computed once per lab. */
+interface LabPaperRaceContext {
+  readonly knowledge: PaperKnowledge;
+  readonly focusProgrammeIds: ReadonlySet<string>;
+}
+
+function labPaperRaceContext(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: string,
+): LabPaperRaceContext {
+  return {
+    knowledge: labKnowledge(state, labId),
+    focusProgrammeIds: derivePaperFocusProgrammeIds(state, content, labId),
+  };
+}
+
+function breakthroughGate(
+  content: CompiledContent,
+  paper: PaperDefinition,
+  focusProgrammeIds: ReadonlySet<string>,
+): BreakthroughGate {
+  return {
+    programmeId: paper.breakthroughRequirement.programmeId,
+    authoredLevel: paper.breakthroughRequirement.level,
+    requiredLevel: paperRequiredLevel(content, paper, focusProgrammeIds),
+  };
+}
+
+function isEligible(
+  content: CompiledContent,
+  paper: PaperDefinition,
+  context: LabPaperRaceContext,
+): boolean {
+  if (context.knowledge.knownPaperIds.has(paper.id)) return false;
+  return evaluatePrerequisite(
+    paper.prerequisites,
+    context.knowledge,
+    breakthroughGate(content, paper, context.focusProgrammeIds),
+  );
+}
+
+function eligiblePapers(
+  content: CompiledContent,
+  context: LabPaperRaceContext,
+): readonly PaperDefinition[] {
+  return Object.values(content.papers.definitions)
+    .filter((paper) => isEligible(content, paper, context))
+    .sort(
+      (left, right) => left.gameOrder - right.gameOrder || (left.id < right.id ? -1 : 1),
+    );
+}
+
 export function listEligiblePapers(
   state: Readonly<GameState>,
   content: CompiledContent,
   labId: string,
 ): readonly EligiblePaper[] {
-  const knowledge = labKnowledge(state, labId);
-  return Object.values(content.papers.definitions)
-    .filter((paper) => {
-      if (knowledge.knownPaperIds.has(paper.id)) return false;
-      return evaluatePrerequisite(paper.prerequisites, knowledge);
-    })
-    .sort(
-      (left, right) => left.gameOrder - right.gameOrder || (left.id < right.id ? -1 : 1),
-    )
-    .map((paper) => ({
+  return eligiblePapers(content, labPaperRaceContext(state, content, labId)).map(
+    (paper) => ({
       paperId: paper.id,
       title: paper.title,
       gameOrder: paper.gameOrder,
-    }));
+    }),
+  );
+}
+
+function breakthroughChance(
+  content: CompiledContent,
+  paper: PaperDefinition,
+  context: LabPaperRaceContext,
+): number {
+  if (!isEligible(content, paper, context)) return 0;
+  const currentLevel =
+    context.knowledge.domainLevels[paper.breakthroughRequirement.programmeId] ?? 0;
+  const requiredLevel = paperRequiredLevel(content, paper, context.focusProgrammeIds);
+  if (currentLevel < requiredLevel) return 0;
+  const rules = content.papers.rules.breakthroughChance;
+  return Math.min(
+    rules.maximum,
+    rules.basePerWeek + (currentLevel - requiredLevel) * rules.perLevelAbove,
+  );
 }
 
 export function derivePaperBreakthroughChance(
@@ -179,22 +322,27 @@ export function derivePaperBreakthroughChance(
 ): number {
   const paper = content.papers.definitions[paperId];
   if (paper === undefined) throw new Error(`Unknown paper ${paperId}`);
-  const knowledge = labKnowledge(state, labId);
-  if (
-    knowledge.knownPaperIds.has(paperId) ||
-    !evaluatePrerequisite(paper.prerequisites, knowledge)
-  ) {
-    return 0;
-  }
-  const currentLevel =
-    knowledge.domainLevels[paper.breakthroughRequirement.programmeId] ?? 0;
-  if (currentLevel < paper.breakthroughRequirement.level) return 0;
-  const rules = content.papers.rules.breakthroughChance;
-  return Math.min(
-    rules.maximum,
-    rules.basePerWeek +
-      (currentLevel - paper.breakthroughRequirement.level) * rules.perLevelAbove,
-  );
+  return breakthroughChance(content, paper, labPaperRaceContext(state, content, labId));
+}
+
+/**
+ * The level a lab races for a paper on and the level the paper needs from it:
+ * a rival's hidden paper level and a player focus discount both apply.
+ */
+export function describePaperRaceStanding(
+  state: Readonly<GameState>,
+  content: CompiledContent,
+  labId: string,
+  paperId: ContentId,
+): { readonly currentLevel: number; readonly requiredLevel: number } {
+  const paper = content.papers.definitions[paperId];
+  if (paper === undefined) throw new Error(`Unknown paper ${paperId}`);
+  const context = labPaperRaceContext(state, content, labId);
+  return {
+    currentLevel:
+      context.knowledge.domainLevels[paper.breakthroughRequirement.programmeId] ?? 0,
+    requiredLevel: paperRequiredLevel(content, paper, context.focusProgrammeIds),
+  };
 }
 
 function paperBreakthroughCheck(
@@ -202,11 +350,12 @@ function paperBreakthroughCheck(
   content: CompiledContent,
   labId: string,
   paper: PaperDefinition,
+  context: LabPaperRaceContext,
   oracle: RandomOracle,
 ): PaperBreakthroughCheck {
   const programmeId = paper.breakthroughRequirement.programmeId;
-  const currentLevel = labKnowledge(state, labId).domainLevels[programmeId] ?? 0;
-  const probability = derivePaperBreakthroughChance(state, content, labId, paper.id);
+  const currentLevel = context.knowledge.domainLevels[programmeId] ?? 0;
+  const probability = breakthroughChance(content, paper, context);
   const draw = oracle.uniform(
     randomKey("paper", "weekly-breakthrough", labId, paper.id, String(state.run.tick)),
   );
@@ -214,7 +363,7 @@ function paperBreakthroughCheck(
     paperId: paper.id,
     labId,
     programmeId,
-    requiredLevel: paper.breakthroughRequirement.level,
+    requiredLevel: paperRequiredLevel(content, paper, context.focusProgrammeIds),
     currentLevel,
     probability,
     draw,
@@ -981,7 +1130,9 @@ function activePaperLabIds(state: Readonly<GameState>): readonly string[] {
  * Roll one seeded breakthrough check for every lab/paper pair whose authored
  * paper, facility, era, and research-level requirements are met. Research
  * output buys programme levels; it is never counted a second time on a hidden
- * paper progress bar.
+ * paper progress bar. A rival's levels here are its hidden paper levels (its
+ * research less most of its off-screen boost), and a player focus programme's
+ * papers need `playerFocus.levelDiscount` fewer levels.
  */
 export function advancePaperRace(
   tx: SimulationTransaction,
@@ -991,13 +1142,13 @@ export function advancePaperRace(
   reconcilePaperBenefits(tx, content);
   const state = tx.read();
   const labIds = activePaperLabIds(state);
-  const checks = labIds.flatMap((labId) =>
-    listEligiblePapers(state, content, labId).map((eligible) => {
-      const paper = content.papers.definitions[eligible.paperId];
-      if (paper === undefined) throw new Error(`Unknown paper ${eligible.paperId}`);
-      return paperBreakthroughCheck(state, content, labId, paper, oracle);
-    }),
-  );
+  const checks = labIds.flatMap((labId) => {
+    // Knowledge, paper levels and the focus set are read once per lab per week.
+    const context = labPaperRaceContext(state, content, labId);
+    return eligiblePapers(content, context).map((paper) =>
+      paperBreakthroughCheck(state, content, labId, paper, context, oracle),
+    );
+  });
   const successful = new Set(
     checks
       .filter((check) => check.success)
@@ -1009,8 +1160,8 @@ export function advancePaperRace(
   for (const paper of paperOrder) {
     const discoveringLabs = labIds.filter(
       (labId) =>
-        !labKnowledge(tx.read(), labId).knownPaperIds.has(paper.id) &&
-        successful.has(`${labId}\u0000${paper.id}`),
+        successful.has(`${labId}\u0000${paper.id}`) &&
+        !labKnowledge(tx.read(), labId).knownPaperIds.has(paper.id),
     );
     if (discoveringLabs.length === 0) continue;
 

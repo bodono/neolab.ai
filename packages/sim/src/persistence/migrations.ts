@@ -261,12 +261,61 @@ const migrateV4ToV5: SaveMigration = Object.freeze({
   },
 });
 
+/**
+ * V7 gives every rival a hidden paper level per research programme
+ * (`world.rivals.*.paperLevels`), which the paper race reads instead of the
+ * real level. A saved run has no record of how much of each rival's research
+ * came from its off-screen boosts, so the paper level starts at the current
+ * real level with no progress, exactly as a new game seeds it from the
+ * starting levels. The two diverge from the next week on.
+ */
+const migrateV6ToV7: SaveMigration = Object.freeze({
+  fromVersion: 6,
+  toVersion: 7,
+  migrate(input: unknown): unknown {
+    if (!isRecord(input)) throw new Error("v6 save state is not an object");
+    const clone = structuredClone(input);
+    const world = clone["world"];
+    const labs = clone["labs"];
+    const rivals = isRecord(world) ? world["rivals"] : undefined;
+    if (isRecord(rivals)) {
+      for (const [labId, strategy] of Object.entries(rivals)) {
+        if (!isRecord(strategy)) continue;
+        const lab = isRecord(labs) ? labs[labId] : undefined;
+        const research = isRecord(lab) ? lab["research"] : undefined;
+        const paperLevels: Record<string, { level: number; levelProgressRp: number }> =
+          {};
+        if (isRecord(research)) {
+          for (const collection of [research["domains"], research["safetyPrograms"]]) {
+            if (!isRecord(collection)) continue;
+            for (const [programmeId, programme] of Object.entries(collection)) {
+              const level = isRecord(programme) ? programme["level"] : undefined;
+              if (typeof level !== "number") continue;
+              paperLevels[programmeId] = { level, levelProgressRp: 0 };
+            }
+          }
+        }
+        strategy["paperLevels"] = paperLevels;
+      }
+    }
+    clone["saveVersion"] = 7;
+    return clone;
+  },
+});
+
 export const SAVE_MIGRATIONS: readonly SaveMigration[] = Object.freeze([
   migrateV1ToV2,
   migrateV2ToV3,
   migrateV3ToV4,
   migrateV4ToV5,
+  migrateV6ToV7,
 ]);
+
+/**
+ * Saves from before the endgame redesign (save version 6) cannot be carried
+ * forward; the earlier migrations above are kept as a record of the format.
+ */
+export const OLDEST_LOADABLE_SAVE_VERSION = 6;
 
 /** Pure sequential migration. Current-version inputs are returned unchanged. */
 export function migrateSaveState(
@@ -274,7 +323,7 @@ export function migrateSaveState(
   context: MigrationContext = DEFAULT_CONTEXT,
 ): SaveMigrationResult {
   const sourceVersion = readVersion(input);
-  if (sourceVersion < SAVE_VERSION) {
+  if (sourceVersion < OLDEST_LOADABLE_SAVE_VERSION) {
     throw new Error("This save predates the endgame redesign");
   }
   if (sourceVersion > SAVE_VERSION) {

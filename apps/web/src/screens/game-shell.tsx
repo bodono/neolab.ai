@@ -1387,7 +1387,12 @@ export function GameShell({
           </button>
         </div>
       </header>
-      {howToPlayOpen ? <HowToPlayDialog onClose={closeHowToPlay} /> : null}
+      {howToPlayOpen ? (
+        <HowToPlayDialog
+          paperFocus={view.research.paperFocusRule}
+          onClose={closeHowToPlay}
+        />
+      ) : null}
       {view.meta.guidedTutorial ? (
         <TutorialGuide
           view={view}

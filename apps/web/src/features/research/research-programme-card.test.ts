@@ -76,6 +76,7 @@ const programme: Programme = {
       },
     ],
   },
+  paperFocus: false,
   milestones: [],
 };
 
@@ -85,6 +86,7 @@ describe("research programme card lead slot", () => {
       createElement(ResearchProgrammeCard, {
         programme,
         allocationSharePercent: 14,
+        paperFocusLevelDiscount: 4,
         selected: true,
         lead: {
           researcherId: "run:researcher:ada",
@@ -129,6 +131,7 @@ describe("research programme card lead slot", () => {
           assignedResearcherPercentagePoints: 0,
         },
         allocationSharePercent: 14,
+        paperFocusLevelDiscount: 4,
         selected: false,
         onSelect: vi.fn(),
         onInspectLead: vi.fn(),
@@ -155,6 +158,7 @@ describe("research programme card lead slot", () => {
       createElement(ResearchProgrammeCard, {
         programme: staleProgramme,
         allocationSharePercent: 14,
+        paperFocusLevelDiscount: 4,
         selected: false,
         onSelect: vi.fn(),
         onInspectLead: vi.fn(),
@@ -168,6 +172,30 @@ describe("research programme card lead slot", () => {
     expect(text).toContain("diffusion 0%");
     expect(text).toContain("effects 0%");
     expect(text).not.toContain("NaN");
+  });
+});
+
+describe("research programme card paper focus", () => {
+  function render(paperFocus: boolean): string {
+    return renderToStaticMarkup(
+      createElement(ResearchProgrammeCard, {
+        programme: { ...programme, paperFocus },
+        allocationSharePercent: 50,
+        paperFocusLevelDiscount: 4,
+        selected: false,
+        onSelect: vi.fn(),
+        onInspectLead: vi.fn(),
+        onOpenPeople: vi.fn(),
+      }),
+    ).replace(/<[^>]+>/g, "");
+  }
+
+  it("says a focus programme's papers need fewer levels", () => {
+    expect(render(true)).toContain("Focus: papers here need 4 fewer levels");
+  });
+
+  it("says nothing about focus for an ordinary programme", () => {
+    expect(render(false)).not.toContain("Focus:");
   });
 });
 

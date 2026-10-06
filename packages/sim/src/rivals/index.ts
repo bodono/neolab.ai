@@ -23,6 +23,10 @@ export {
   advanceRivalResearch,
   calculateRivalProgramResearch,
   calculateRivalResearchStrength,
+  initialRivalPaperLevels,
+  rivalOffscreenBoost,
+  rivalPaperLevel,
+  rivalPaperResearchPoints,
   type RivalProgramResearchOutput,
   type RivalResearchStrength,
 } from "./research.ts";

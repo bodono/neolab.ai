@@ -9,6 +9,7 @@ export {
 export { hashJson, stableStringify, stateHash } from "./hash.ts";
 export {
   migrateSaveState,
+  OLDEST_LOADABLE_SAVE_VERSION,
   SAVE_MIGRATIONS,
   type MigrationContext,
   type SaveMigration,

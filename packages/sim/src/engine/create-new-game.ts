@@ -483,7 +483,6 @@ export function createNewGame(
     applyLeaderResearchStartingEffects(rivalBaseline, rivalLeader);
     const owner = `rival-${String(index)}`;
     const rivalLabId = formatRunEntityId("lab", "rival", index) as LabId;
-    const rivalStrategy = createInitialRivalStrategy(rivalLabId, definition.id);
     const rivalLab: LabState = {
       ...structuredClone(playerLab),
       id: rivalLabId,
@@ -610,7 +609,11 @@ export function createNewGame(
     };
     Object.assign(rivalLab.flags, startingOrganisationTargetFlags(rivalLab));
     rivalLabs[rivalLabId] = rivalLab;
-    rivalStrategies[rivalLabId] = rivalStrategy;
+    rivalStrategies[rivalLabId] = createInitialRivalStrategy(
+      rivalLabId,
+      definition.id,
+      rivalLab.research,
+    );
   }
 
   const modifiers = Object.fromEntries(

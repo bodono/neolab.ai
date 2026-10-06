@@ -77,6 +77,15 @@ function unlockBackpropForEveryLab(state: GameState): GameState {
     }
     architectureState.level = rating(paper.breakthroughRequirement.level);
     optimisationState.level = rating(3);
+    // A rival races for papers on its hidden paper levels.
+    const paperLevels = draft.world.rivals[labId as LabId]?.paperLevels;
+    if (paperLevels !== undefined) {
+      paperLevels[architectures] = {
+        level: rating(paper.breakthroughRequirement.level),
+        levelProgressRp: 0,
+      };
+      paperLevels[optimisation] = { level: rating(3), levelProgressRp: 0 };
+    }
   }
   return draft;
 }

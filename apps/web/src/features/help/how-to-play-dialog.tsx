@@ -7,7 +7,12 @@ import {
 
 import { ModalFocusBoundary } from "../overlays/modal-focus-boundary.tsx";
 
-const BRIEFING_STEPS = [
+export interface HowToPlayPaperFocus {
+  readonly researchComputeSharePercent: number;
+  readonly levelDiscount: number;
+}
+
+const briefingSteps = (paperFocus: HowToPlayPaperFocus) => [
   {
     number: "01",
     title: "Keep the lab running",
@@ -33,6 +38,11 @@ const BRIEFING_STEPS = [
         <p>
           Hire researchers and assign them to capability or safety programmes. Research
           unlocks training methods, evaluations, hardware, and facilities.
+        </p>
+        <p>
+          Landmark papers go to the first lab to reach them. Give one programme{" "}
+          {paperFocus.researchComputeSharePercent}% or more of all research compute to
+          make it a focus: its papers need {paperFocus.levelDiscount} fewer levels.
         </p>
         <p>
           Buildings expand what the lab can do. Major undertakings occupy a limited number
@@ -94,11 +104,14 @@ const BRIEFING_STEPS = [
       </>
     ),
   },
-] as const;
+];
 
 export function HowToPlayDialog({
+  paperFocus,
   onClose,
 }: {
+  /** The authored paper-focus rule, so the briefing quotes live numbers. */
+  readonly paperFocus: HowToPlayPaperFocus;
   readonly onClose: () => void;
 }): ReactElement {
   return (
@@ -144,7 +157,7 @@ export function HowToPlayDialog({
           </div>
 
           <ol className="how-to-play-steps">
-            {BRIEFING_STEPS.map((step) => (
+            {briefingSteps(paperFocus).map((step) => (
               <li key={step.number}>
                 <article>
                   <span className="how-to-play-step-number">{step.number}</span>

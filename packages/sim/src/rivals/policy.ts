@@ -41,6 +41,7 @@ import type {
   GamePhase,
   GameState,
   GpuAllocationState,
+  LabState,
   RivalPersonalityKey,
   RivalPersonalityState,
   RivalPlanScoreState,
@@ -69,6 +70,7 @@ import {
 } from "../training/training.ts";
 import { isProgressiveCampaign, labMaturityStage } from "../campaign/lab-maturity.ts";
 import { rivalBuildReserveMillions } from "./candidate-programme-race.ts";
+import { initialRivalPaperLevels } from "./research.ts";
 import { recordRivalPublicSignal } from "./signals.ts";
 
 // Recruiting approaches are memorable interruptions, not quarterly admin.
@@ -551,6 +553,7 @@ export class WeightedUtilityRivalPolicy implements RivalPolicy {
 export function createInitialRivalStrategy(
   labId: LabId,
   labDefinitionId: ContentId,
+  research: Pick<LabState["research"], "domains" | "safetyPrograms">,
 ): RivalStrategyState {
   const personality = RIVAL_PERSONALITIES[labDefinitionId] ?? DEFAULT_PERSONALITY;
   return {
@@ -575,6 +578,7 @@ export function createInitialRivalStrategy(
     agreements: [],
     diplomacyHistory: [],
     incidents: [],
+    paperLevels: initialRivalPaperLevels(research),
   };
 }
 
