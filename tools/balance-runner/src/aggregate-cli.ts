@@ -16,7 +16,7 @@ import {
 import type { BalanceReport } from "./types.ts";
 
 function readArgument(args: readonly string[], flag: string): string | undefined {
-  const index = args.indexOf(flag);
+  const index = args.lastIndexOf(flag);
   return index < 0 ? undefined : args[index + 1];
 }
 

@@ -29,7 +29,7 @@ import { EXPERT_POLICY_ID } from "./types.ts";
 
 const args = process.argv.slice(2);
 const read = (flag: string): string | undefined => {
-  const index = args.indexOf(flag);
+  const index = args.lastIndexOf(flag);
   return index < 0 ? undefined : args[index + 1];
 };
 const seedIndex = Number(read("--seed") ?? "1");

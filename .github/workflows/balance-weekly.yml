@@ -71,6 +71,93 @@ jobs:
       - name: Run balance-runner tests
         run: pnpm test:balance
 
+  ladder-shard:
+    name: Expert ladder shard ${{ matrix.shard }}
+    # The strong scripted player on all four difficulties over twenty fixed
+    # seeds (80 games to week 1,500), split ten ways. The seeds are fixed and
+    # the simulation is deterministic, so the ladder only moves when the code
+    # or content does; ladder-drift fails the week's run if it moved further
+    # than chance would. About 40 minutes a shard locally.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Play ladder shard
+        run: >-
+          pnpm balance:ladder --
+          --shard-index ${{ matrix.shard }}
+          --shard-count 10
+          --output ../../artifacts/balance/ladder-shards/shard-${{ matrix.shard }}
+
+      - name: Upload shard
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ladder-shard-${{ matrix.shard }}
+          path: artifacts/balance/ladder-shards/shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 14
+
+  ladder-drift:
+    name: Expert ladder drift
+    needs: ladder-shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download every shard
+        uses: actions/download-artifact@v7
+        with:
+          pattern: ladder-shard-*
+          path: artifacts/balance/ladder-shards
+
+      - name: Rebuild aggregate from raw runs
+        run: >-
+          pnpm balance:aggregate --
+          --input ../../artifacts/balance/ladder-shards
+          --output ../../artifacts/balance/ladder
+
+      - name: Compare with the committed baseline
+        run: >-
+          pnpm balance:drift --
+          --input ../../artifacts/balance/ladder/report.json
+          --measured-at ${{ github.sha }}
+
+      - name: Upload ladder aggregate
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: expert-ladder
+          path: artifacts/balance/ladder
+          if-no-files-found: error
+          retention-days: 30
+
   horizon-probe:
     name: Twenty-one-year strategy horizon
     runs-on: ubuntu-24.04

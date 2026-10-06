@@ -9,7 +9,7 @@ import { runInvariantCampaign } from "./invariant-campaign.ts";
 
 function integerArgument(flag: string, fallback: number): number {
   const args = process.argv.slice(2);
-  const index = args.indexOf(flag);
+  const index = args.lastIndexOf(flag);
   const value = index < 0 ? fallback : Number(args[index + 1]);
   if (!Number.isInteger(value) || value <= 0) {
     throw new Error(`${flag} must be a positive integer`);
@@ -19,7 +19,7 @@ function integerArgument(flag: string, fallback: number): number {
 
 function stringArgument(flag: string, fallback: string): string {
   const args = process.argv.slice(2);
-  const index = args.indexOf(flag);
+  const index = args.lastIndexOf(flag);
   return index < 0 ? fallback : (args[index + 1] ?? fallback);
 }
 

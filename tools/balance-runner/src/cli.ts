@@ -54,7 +54,7 @@ function parseInteger(
 
 function parseArgs(args: readonly string[]): CliOptions {
   const read = (flag: string): string | undefined => {
-    const index = args.indexOf(flag);
+    const index = args.lastIndexOf(flag);
     return index < 0 ? undefined : args[index + 1];
   };
   const traceSampleRate = Number(read("--trace-sample-rate") ?? "0.01");

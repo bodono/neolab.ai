@@ -20,6 +20,19 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   to every authored ID. For example, the expert on every difficulty over the same ten seeds:
   `--expert --matrix cartesian --difficulties all --leaders thomas-hassabi --mandates build-it-right
   --runs 40`.
+- `pnpm balance:ladder` — the expert on all four difficulties over twenty fixed seeds, to week 1,500
+  (80 games, about two hours split three ways with `--shard-index i --shard-count 3 --output
+  ../../artifacts/balance/ladder-shards/shard-i`, then `pnpm balance:aggregate`). The weekly
+  workflow plays it in ten shards and runs `pnpm balance:drift -- --input
+  ../../artifacts/balance/ladder/report.json`, which fails when a statistic (wins, crises
+  reached, emergency shutdowns, rival ascensions, median end week, events per run, the player's
+  share of world-first papers, rivals' crossing capability) moves further than chance would from
+  `baselines/expert-ladder.json`: two standard deviations of re-rolling the same twenty seeds for
+  counts (at least three games), and a fixed margin for the rest. The seeds are fixed and the
+  simulation deterministic, so unchanged code reproduces the baseline exactly. After an intended
+  balance change, refresh the baseline from that ladder: download the `expert-ladder` artifact (or
+  play it locally) and run `pnpm balance:drift -- --input <report.json> --write-baseline
+  --measured-at <commit>`, then commit `tools/balance-runner/baselines/expert-ladder.json`.
 - `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
   era, key facility, work and crisis stage landed. A tuning aid: it reads privileged state to
   explain the run, while the policy still sees only the player view.
