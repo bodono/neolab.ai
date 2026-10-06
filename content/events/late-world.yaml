@@ -1,0 +1,497 @@
+draftSchema: 1
+contentType: decision-events
+pack: late-world
+
+# Late-game dilemmas about a lab whose models now matter to states: defence
+# work, power for the next cluster, a jobs shock, a state crash programme and a
+# compute treaty. Gated on the player's Autonomous Researcher (FC 65) or General
+# Problem Solver (FC 80) tier, or on the world frontier nearing AGI (FC 85).
+events:
+  # --- A defence ministry wants the model --------------------------------
+  - id: event.politics.military-contract
+    version: 1
+    category: politics
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.strategicDependence, op: gte, value: 30 }
+        multiplier: 2
+    cooldown: { group: late-world-military-contract, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: red-lines
+    titleKey: event.politics.military-contract.title
+    bodyKey: event.politics.military-contract.body
+    educationKey: event.politics.military-contract.education
+    evidence:
+      - textKey: event.politics.military-contract.evidence.dependence
+        metric: player.politics.strategicDependence
+      - textKey: event.politics.military-contract.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: decline
+        labelKey: event.politics.military-contract.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.military-contract.decline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: 3, durationWeeks: 26, tags: [declined-defence-work] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 3 }
+        checks: []
+        memories:
+          - key: late-world.military-contract.declined
+            subjects: [{ type: player-lab }]
+            tags: [defence-work, declined]
+        confirmationRequired: false
+      - id: red-lines
+        labelKey: event.politics.military-contract.red-lines.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.military-contract.red-lines.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 5 }
+          - { kind: add-modifier, target: researcher.moraleTarget, operation: add, value: -3, durationWeeks: 26, tags: [defence-red-lines] }
+        checks: []
+        memories:
+          - key: late-world.military-contract.red-lines
+            subjects: [{ type: player-lab }]
+            tags: [defence-work, published-limits]
+        confirmationRequired: false
+      - id: full-scope
+        labelKey: event.politics.military-contract.full-scope.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.military-contract.full-scope.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: 20 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: researcher.departurePressure, operation: add, value: 10, durationWeeks: 39, tags: [defence-full-scope] }
+              - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+        checks: []
+        memories:
+          - key: late-world.military-contract.full-scope
+            subjects: [{ type: player-lab }]
+            tags: [defence-work, no-limits]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, defence, staff-dissent]
+
+  # --- Restarting a retired nuclear plant for the next cluster ------------
+  - id: event.facility.nuclear-restart
+    version: 1
+    category: facility
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate: { type: compare, metric: player.gpus.total, op: gte, value: 20000 }
+        multiplier: 2
+    cooldown: { group: late-world-nuclear-restart, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: buy-output
+    titleKey: event.facility.nuclear-restart.title
+    bodyKey: event.facility.nuclear-restart.body
+    educationKey: event.facility.nuclear-restart.education
+    evidence:
+      - textKey: event.facility.nuclear-restart.evidence.gpus
+        metric: player.gpus.total
+      - textKey: event.facility.nuclear-restart.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: renewables
+        labelKey: event.facility.nuclear-restart.renewables.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.facility.nuclear-restart.renewables.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 1.10, durationWeeks: 26, tags: [waited-for-renewables] }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: late-world.nuclear-restart.renewables
+            subjects: [{ type: player-lab }]
+            tags: [energy, renewables]
+        confirmationRequired: false
+      - id: buy-output
+        labelKey: event.facility.nuclear-restart.buy-output.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.facility.nuclear-restart.buy-output.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedPowerCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [nuclear-power-deal] }
+        checks:
+          - id: licence-review
+            likelihoodPromise: { label: likely, successOutcomeIds: [on-schedule] }
+            outcomes:
+              - id: on-schedule
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: late-world.nuclear-restart.bought-output
+                    subjects: [{ type: player-lab }]
+                    tags: [energy, nuclear-restart]
+              - id: delayed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 1.10, durationWeeks: 26, tags: [restart-delayed] }
+                memories:
+                  - key: late-world.nuclear-restart.delayed
+                    subjects: [{ type: player-lab }]
+                    tags: [energy, nuclear-restart, delayed]
+        memories: []
+        confirmationRequired: false
+      - id: fast-track
+        labelKey: event.facility.nuclear-restart.fast-track.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.facility.nuclear-restart.fast-track.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.ownedPowerCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [nuclear-power-deal] }
+          - { kind: add-modifier, target: lab.compute.ownedDeliveryDuration, operation: multiply, value: 0.90, durationWeeks: 26, tags: [fast-tracked-restart] }
+        checks:
+          - id: review-scrutiny
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [waved-through] }
+            outcomes:
+              - id: waved-through
+                minimumInclusive: 0
+                maximumExclusive: 0.6
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+                memories:
+                  - key: late-world.nuclear-restart.fast-tracked
+                    subjects: [{ type: player-lab }]
+                    tags: [energy, nuclear-restart, fast-tracked]
+              - id: public-row
+                minimumInclusive: 0.6
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10, auraChangeKind: loss }
+                memories:
+                  - key: late-world.nuclear-restart.public-row
+                    subjects: [{ type: player-lab }]
+                    tags: [energy, nuclear-restart, fast-tracked, scandal]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [facility, energy, nuclear]
+
+  # --- A jobs shock across several professions ---------------------------
+  - id: event.politics.jobs-shock
+    version: 1
+    category: politics
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 80 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.governmentAttention, op: gte, value: 40 }
+        multiplier: 2
+    cooldown: { group: late-world-jobs-shock, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: fund-retraining
+    titleKey: event.politics.jobs-shock.title
+    bodyKey: event.politics.jobs-shock.body
+    educationKey: event.politics.jobs-shock.education
+    evidence:
+      - textKey: event.politics.jobs-shock.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.politics.jobs-shock.evidence.capture
+        metric: player.politics.captureConcern
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: back-levy
+        labelKey: event.politics.jobs-shock.back-levy.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.jobs-shock.back-levy.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 52, tags: [automation-levy] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -5 }
+        checks: []
+        memories:
+          - key: late-world.jobs-shock.backed-levy
+            subjects: [{ type: player-lab }]
+            tags: [labour-transition, automation-levy]
+        confirmationRequired: false
+      - id: fund-retraining
+        labelKey: event.politics.jobs-shock.fund-retraining.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+        previewKey: event.politics.jobs-shock.fund-retraining.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+        checks:
+          - id: placements
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [placed] }
+            outcomes:
+              - id: placed
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+                memories:
+                  - key: late-world.jobs-shock.retraining-placed
+                    subjects: [{ type: player-lab }]
+                    tags: [labour-transition, retraining]
+              - id: few-openings
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects: []
+                memories:
+                  - key: late-world.jobs-shock.retraining-stalled
+                    subjects: [{ type: player-lab }]
+                    tags: [labour-transition, retraining, few-openings]
+        memories: []
+        confirmationRequired: false
+      - id: markets-adjust
+        labelKey: event.politics.jobs-shock.markets-adjust.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.jobs-shock.markets-adjust.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [investor-mood] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+              - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+        checks: []
+        memories:
+          - key: late-world.jobs-shock.markets-adjust
+            subjects: [{ type: player-lab }]
+            tags: [labour-transition, laissez-faire]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, labour, automation]
+
+  # --- A state crash programme to build AGI first -------------------------
+  - id: event.politics.manhattan-project
+    version: 1
+    category: politics
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: world.frontierCapability, op: gte, value: 85 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.politics.strategicDependence, op: gte, value: 30 }
+        multiplier: 2
+    cooldown: { group: late-world-manhattan-project, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: join-with-veto
+    titleKey: event.politics.manhattan-project.title
+    bodyKey: event.politics.manhattan-project.body
+    educationKey: event.politics.manhattan-project.education
+    evidence:
+      - textKey: event.politics.manhattan-project.evidence.dependence
+        metric: player.politics.strategicDependence
+      - textKey: event.politics.manhattan-project.evidence.culture
+        metric: player.safety.safetyCulture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: decline
+        labelKey: event.politics.manhattan-project.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.manhattan-project.decline.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: -5 }
+        checks: []
+        memories:
+          - key: late-world.manhattan-project.declined
+            subjects: [{ type: player-lab }]
+            tags: [state-programme, declined, race-dynamics]
+        confirmationRequired: false
+      - id: join-with-veto
+        labelKey: event.politics.manhattan-project.join-with-veto.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.manhattan-project.join-with-veto.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.acquisitionCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [state-programme] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: strategicDependence, amount: 10 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+        checks:
+          - id: veto-survives
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [honoured] }
+            outcomes:
+              - id: honoured
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 3 }
+                memories:
+                  - key: late-world.manhattan-project.veto-honoured
+                    subjects: [{ type: player-lab }]
+                    tags: [state-programme, safety-veto]
+              - id: overruled
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -5 }
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [veto-overruled] }
+                memories:
+                  - key: late-world.manhattan-project.veto-overruled
+                    subjects: [{ type: player-lab }]
+                    tags: [state-programme, safety-veto, overruled]
+        memories: []
+        confirmationRequired: false
+      - id: race
+        labelKey: event.politics.manhattan-project.race.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.manhattan-project.race.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [crash-programme] }
+          - { kind: add-modifier, target: lab.compute.acquisitionCost, operation: multiply, value: 0.90, durationWeeks: 52, tags: [state-programme] }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 52, tags: [crash-programme] }
+              - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.10, durationWeeks: 26, tags: [race-provoked] }
+        checks: []
+        memories:
+          - key: late-world.manhattan-project.raced
+            subjects: [{ type: player-lab }]
+            tags: [state-programme, race-dynamics, crash-programme]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, state-programme, race-dynamics]
+
+  # --- An international treaty capping training compute ------------------
+  - id: event.politics.compute-treaty
+    version: 1
+    category: politics
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: world.frontierCapability, op: gte, value: 85 }
+    baseWeight: 7
+    weightModifiers:
+      - predicate: { type: compare, metric: player.incidents.recentCount, op: gte, value: 1 }
+        multiplier: 2
+    cooldown: { group: late-world-compute-treaty, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: data-not-inspectors
+    titleKey: event.politics.compute-treaty.title
+    bodyKey: event.politics.compute-treaty.body
+    educationKey: event.politics.compute-treaty.education
+    evidence:
+      - textKey: event.politics.compute-treaty.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.politics.compute-treaty.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+    options:
+      - id: open-the-doors
+        labelKey: event.politics.compute-treaty.open-the-doors.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.compute-treaty.open-the-doors.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [compute-cap] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 10 }
+          - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 0.95, durationWeeks: 26, tags: [compute-cap] }
+        checks: []
+        memories:
+          - key: late-world.compute-treaty.backed
+            subjects: [{ type: player-lab }]
+            tags: [compute-treaty, verification, transparency]
+        confirmationRequired: false
+      - id: data-not-inspectors
+        labelKey: event.politics.compute-treaty.data-not-inspectors.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.politics.compute-treaty.data-not-inspectors.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [compute-cap] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+        checks: []
+        memories:
+          - key: late-world.compute-treaty.data-only
+            subjects: [{ type: player-lab }]
+            tags: [compute-treaty, data-exchange]
+        confirmationRequired: false
+      - id: lobby-against
+        labelKey: event.politics.compute-treaty.lobby-against.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+        previewKey: event.politics.compute-treaty.lobby-against.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [no-compute-cap] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
+        checks:
+          - id: treaty-fate
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [sunk] }
+            outcomes:
+              - id: sunk
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.05, durationWeeks: 26, tags: [no-compute-cap] }
+                memories:
+                  - key: late-world.compute-treaty.sunk
+                    subjects: [{ type: player-lab }]
+                    tags: [compute-treaty, lobbying, treaty-sunk]
+              - id: passed-anyway
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                memories:
+                  - key: late-world.compute-treaty.passed-anyway
+                    subjects: [{ type: player-lab }]
+                    tags: [compute-treaty, lobbying, on-record-against]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [politics, compute-governance, treaty, verification]

@@ -1,0 +1,124 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the late-world decision events
+# (content/events/late-world.yaml). Messages stay within 180 characters;
+# `.education` lines (the real-world grounding) within 240.
+messages:
+  # --- Politics: military contract ------------------------------------------
+  event.politics.military-contract.title: A defence ministry would like {AI} to join the staff
+  event.politics.military-contract.body: >-
+    A defence ministry wants {AI} for planning and intelligence analysis. Half of {LAB}'s
+    staff have signed a letter against it; the other half are drafting one in favour.
+  event.politics.military-contract.education: >-
+    In 2018, thousands of staff at a large tech company protested its military
+    drone-imagery project, and it declined to renew the contract; in 2024, several leading
+    AI firms changed policies to allow some military and national-security uses.
+  event.politics.military-contract.evidence.dependence: Strategic dependence on the lab
+  event.politics.military-contract.evidence.culture: Safety culture
+  event.politics.military-contract.decline.label: Decline the contract
+  event.politics.military-contract.decline.preview: >-
+    Tell the ministry that {AI} is not for this. The staff who signed the letter stay and
+    are proud of it; the ministry remembers who said no, and asks another lab.
+  event.politics.military-contract.red-lines.label: Take the analysis work, with published red lines
+  event.politics.military-contract.red-lines.preview: >-
+    Accept planning and analysis, rule out weapons work and publish the limits. The
+    ministry pays and comes to rely on {LAB}; some staff call the limits a fig leaf.
+  event.politics.military-contract.full-scope.label: Accept the full scope
+  event.politics.military-contract.full-scope.preview: >-
+    A far bigger contract and the ministry's lasting gratitude. In time, the staff who
+    signed the letter update their CVs, and commentators ask who {LAB} really works for.
+
+  # --- Facility: nuclear restart ---------------------------------------------
+  event.facility.nuclear-restart.title: "{LAB} would like to borrow a nuclear power station"
+  event.facility.nuclear-restart.body: >-
+    {LAB}'s next cluster needs a power station's worth of electricity. A retired nuclear
+    plant could be restarted to supply it, and {LEADER} has already ordered a hard hat.
+  event.facility.nuclear-restart.education: >-
+    In 2024, a large tech company agreed to buy the output of a reactor at Three Mile
+    Island that its owner planned to restart, five years after it closed.
+  event.facility.nuclear-restart.evidence.gpus: GPUs owned
+  event.facility.nuclear-restart.evidence.trust: Current government trust
+  event.facility.nuclear-restart.renewables.label: Wait for new wind, solar and batteries
+  event.facility.nuclear-restart.renewables.preview: >-
+    Power the cluster from new renewables instead. It arrives later, and {LAB} keeps the
+    right to say 'sustainable' in public without anyone laughing.
+  event.facility.nuclear-restart.buy-output.label: Buy the reactor's output once it is licensed
+  event.facility.nuclear-restart.buy-output.preview: >-
+    Sign for every watt the plant makes once the regulator approves the restart. Cheap,
+    steady power, delivered at the speed of nuclear regulators.
+  event.facility.nuclear-restart.fast-track.label: Ask ministers to hurry the safety review
+  event.facility.nuclear-restart.fast-track.preview: >-
+    Buy the output and lean on friendly ministers to speed things up. The cluster arrives
+    sooner. Rushing a nuclear safety review is the sort of favour that gets reported.
+
+  # --- Politics: jobs shock --------------------------------------------------
+  event.politics.jobs-shock.title: Everyone wants {LAB}'s plan for the jobs {AI} now does
+  event.politics.jobs-shock.body: >-
+    {AI} can now do much of the work of several professions. Unions, ministers and the press
+    want {LAB}'s answer, and {LEADER} has been booked on every Sunday programme.
+  event.politics.jobs-shock.education: >-
+    A 2023 study estimated that about 80% of US workers could have at least 10% of their
+    work tasks affected by large language models.
+  event.politics.jobs-shock.evidence.trust: Current government trust
+  event.politics.jobs-shock.evidence.capture: Concern about regulatory capture
+  event.politics.jobs-shock.back-levy.label: Back an automation levy
+  event.politics.jobs-shock.back-levy.preview: >-
+    Support a tax on automation, {LAB}'s included, to support the people it displaces.
+    Revenue dips, and ministers stop wondering whose side {LAB} is on.
+  event.politics.jobs-shock.fund-retraining.label: Fund retraining for displaced workers
+  event.politics.jobs-shock.fund-retraining.preview: >-
+    Pay for courses, placements and support while people retrain. Ministers will attend the
+    launch. Whether the courses lead to jobs depends on whether the jobs exist.
+  event.politics.jobs-shock.markets-adjust.label: Say the market will adjust
+  event.politics.jobs-shock.markets-adjust.preview: >-
+    Say that markets adjust, eventually. Investors approve. Ministers will ask how long
+    'eventually' is, and they will ask it in public.
+
+  # --- Politics: Manhattan Project -------------------------------------------
+  event.politics.manhattan-project.title: Ministers want a Manhattan Project, with {LAB} in it
+  event.politics.manhattan-project.body: >-
+    The government proposes a crash programme to build AGI first and invites {LEADER} to
+    run the science. The briefing covers the codename and the deadline, not what comes after.
+  event.politics.manhattan-project.education: >-
+    In 2024, a US congressional advisory commission recommended a Manhattan Project-style
+    programme to race to AGI.
+  event.politics.manhattan-project.evidence.dependence: Strategic dependence on the lab
+  event.politics.manhattan-project.evidence.culture: Safety culture
+  event.politics.manhattan-project.decline.label: Decline, and say why in public
+  event.politics.manhattan-project.decline.preview: >-
+    Argue that a race to AGI is one nobody wins. Staff are proud, ministers less so, and the
+    programme may go ahead without {LAB} in the room.
+  event.politics.manhattan-project.join-with-veto.label: Join, if safety reviews can halt any run
+  event.politics.manhattan-project.join-with-veto.preview: >-
+    Join on condition that {LAB}'s safety team can stop a run. The state's compute is
+    generous; whether the condition survives the first missed deadline is less certain.
+  event.politics.manhattan-project.race.label: Join, and race flat out
+  event.politics.manhattan-project.race.preview: >-
+    Take the compute and work at wartime pace. Progress is spectacular. Announcing a
+    national race tends to start one abroad, and safety reviews are the first thing cut.
+
+  # --- Politics: compute treaty ----------------------------------------------
+  event.politics.compute-treaty.title: A treaty would like to count every chip {LAB} owns
+  event.politics.compute-treaty.body: >-
+    Governments propose a treaty capping training compute, verified by tracking advanced
+    chips, with inspectors at {LAB}'s data centres. All want a cap; none wants to go first.
+  event.politics.compute-treaty.education: >-
+    Arms-control treaties have relied on on-site inspection and data exchanges, as the 2010
+    US–Russia New START treaty did; researchers have proposed verifying AI agreements by
+    tracking advanced chips and the compute used to train models.
+  event.politics.compute-treaty.evidence.trust: Current government trust
+  event.politics.compute-treaty.evidence.security: Security posture
+  event.politics.compute-treaty.open-the-doors.label: Back the treaty, inspectors and all
+  event.politics.compute-treaty.open-the-doors.preview: >-
+    Sign up early and open the doors. The cap slows {LAB}'s research, and everyone else's,
+    and governments remember who went first.
+  event.politics.compute-treaty.data-not-inspectors.label: Accept the cap, but offer data instead of inspectors
+  event.politics.compute-treaty.data-not-inspectors.preview: >-
+    Report chips and training runs, but keep inspectors out of the building. Half a yes:
+    research slows a little, and the security team sleeps better.
+  event.politics.compute-treaty.lobby-against.label: Lobby to sink the treaty
+  event.politics.compute-treaty.lobby-against.preview: >-
+    Spend goodwill arguing that a cap hands the lead to whoever cheats. It may sink the
+    treaty and free every lab at once, or pass anyway with {LAB} on record against it.
