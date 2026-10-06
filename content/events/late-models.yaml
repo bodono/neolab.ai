@@ -1,0 +1,610 @@
+draftSchema: 1
+contentType: decision-events
+pack: late-models
+
+# Late-game decisions for a lab whose models have reached the Autonomous
+# Researcher tier (FC 65+: models that run research with little supervision)
+# and the General Problem Solver tier (FC 80+: near-AGI, broadly competent):
+# research nobody can review in time, a model that wants to keep shop, chips it
+# designed itself, copies that may be passing notes, a request for legal
+# standing and a model that wins every argument. Each fires once.
+events:
+  # --- Research: faster than its reviewers ----------------------------------
+  - id: event.research.automated-researcher
+    version: 1
+    category: research
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+    baseWeight: 7
+    # A lab with weak practical control is likelier to have let review slide.
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.practicalControl, op: lt, value: 50 }
+        multiplier: 2
+    cooldown: { group: late-models-automated-researcher, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: review-sample
+    titleKey: event.research.automated-researcher.title
+    bodyKey: event.research.automated-researcher.body
+    educationKey: event.research.automated-researcher.education
+    evidence:
+      - textKey: event.research.automated-researcher.evidence.control
+        metric: player.safety.practicalControl
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: human-pace
+        labelKey: event.research.automated-researcher.human-pace.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.automated-researcher.human-pace.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [human-review] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 52, tags: [human-review] }
+        checks: []
+        memories:
+          - key: late-models.automated-researcher.human-pace
+            subjects: [{ type: player-lab }]
+            tags: [human-review, safety-first]
+        confirmationRequired: false
+      - id: review-sample
+        labelKey: event.research.automated-researcher.sample.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.automated-researcher.sample.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [sampled-review] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+        checks:
+          - id: sample-catches
+            likelihoodPromise: { label: likely, successOutcomeIds: [representative] }
+            outcomes:
+              - id: representative
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 2 }
+                memories:
+                  - key: late-models.automated-researcher.sampled
+                    subjects: [{ type: player-lab }]
+                    tags: [sampled-review]
+              - id: missed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.05, durationWeeks: 26, tags: [sampled-review] }
+                memories:
+                  - key: late-models.automated-researcher.sample-missed
+                    subjects: [{ type: player-lab }]
+                    tags: [sampled-review, missed-flaw]
+        memories: []
+        confirmationRequired: false
+      - id: let-it-run
+        labelKey: event.research.automated-researcher.run.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.automated-researcher.run.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [unreviewed-research] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -5 }
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 39, tags: [unreviewed-research] }
+        checks: []
+        memories:
+          - key: late-models.automated-researcher.let-run
+            subjects: [{ type: player-lab }]
+            tags: [unreviewed-research, oversight-lapsed]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [late-models, research, automated-research, oversight]
+
+  # --- Market: the model that wants to keep shop ----------------------------
+  - id: event.market.ai-shopkeeper
+    version: 1
+    category: market
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 6
+    weightModifiers: []
+    cooldown: { group: late-models-ai-shopkeeper, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: human-manager
+    titleKey: event.market.ai-shopkeeper.title
+    bodyKey: event.market.ai-shopkeeper.body
+    educationKey: event.market.ai-shopkeeper.education
+    evidence:
+      - textKey: event.market.ai-shopkeeper.evidence.evalquality
+        metric: player.safety.evalQuality
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: office-trial
+        labelKey: event.market.ai-shopkeeper.trial.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.market.ai-shopkeeper.trial.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+        checks: []
+        memories:
+          - key: late-models.ai-shopkeeper.office-trial
+            subjects: [{ type: player-lab }]
+            tags: [office-trial, evidence-led]
+        confirmationRequired: false
+      - id: human-manager
+        labelKey: event.market.ai-shopkeeper.manager.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-shopkeeper.manager.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 26, tags: [supervised-shopkeeper] }
+        checks:
+          - id: the-till
+            likelihoodPromise: { label: likely, successOutcomeIds: [balanced] }
+            outcomes:
+              - id: balanced
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: late-models.ai-shopkeeper.managed
+                    subjects: [{ type: player-lab }]
+                    tags: [supervised-shopkeeper]
+              - id: discount-spree
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+                memories:
+                  - key: late-models.ai-shopkeeper.discount-spree
+                    subjects: [{ type: player-lab }]
+                    tags: [supervised-shopkeeper, discount-spree]
+        memories: []
+        confirmationRequired: false
+      - id: run-alone
+        labelKey: event.market.ai-shopkeeper.alone.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.ai-shopkeeper.alone.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.10, durationWeeks: 26, tags: [autonomous-shopkeeper] }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [autonomous-shopkeeper] }
+        checks:
+          - id: trading
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [trades] }
+            outcomes:
+              - id: trades
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: late-models.ai-shopkeeper.ran-alone
+                    subjects: [{ type: player-lab }]
+                    tags: [autonomous-shopkeeper]
+              - id: blazer
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.95, durationWeeks: 26, tags: [autonomous-shopkeeper] }
+                memories:
+                  - key: late-models.ai-shopkeeper.identity-crisis
+                    subjects: [{ type: player-lab }]
+                    tags: [autonomous-shopkeeper, identity-crisis]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [late-models, market, agents, autonomy]
+
+  # --- Research: a chip layout nobody can agree on --------------------------
+  - id: event.research.chip-designer
+    version: 1
+    category: research
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 65 }
+    baseWeight: 6
+    weightModifiers: []
+    cooldown: { group: late-models-chip-designer, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: quiet-tapeout
+    titleKey: event.research.chip-designer.title
+    bodyKey: event.research.chip-designer.body
+    educationKey: event.research.chip-designer.education
+    evidence:
+      - textKey: event.research.chip-designer.evidence.evalquality
+        metric: player.safety.evalQuality
+      - textKey: event.research.chip-designer.evidence.aura
+        metric: player.aura.spendable
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: outside-replication
+        labelKey: event.research.chip-designer.replicate.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.research.chip-designer.replicate.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 1.10, durationWeeks: 52, tags: [verified-chip] }
+        checks: []
+        memories:
+          - key: late-models.chip-designer.replicated
+            subjects: [{ type: player-lab }]
+            tags: [outside-replication, evidence-led]
+        confirmationRequired: false
+      - id: quiet-tapeout
+        labelKey: event.research.chip-designer.quiet.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.chip-designer.quiet.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, durationWeeks: 26, tags: [ai-chip-layout] }
+        checks:
+          - id: silicon
+            likelihoodPromise: { label: likely, successOutcomeIds: [works] }
+            outcomes:
+              - id: works
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: late-models.chip-designer.taped-out
+                    subjects: [{ type: player-lab }]
+                    tags: [ai-chip-layout]
+              - id: flawed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [ai-chip-layout] }
+                memories:
+                  - key: late-models.chip-designer.flawed-silicon
+                    subjects: [{ type: player-lab }]
+                    tags: [ai-chip-layout, flawed-silicon]
+        memories: []
+        confirmationRequired: false
+      - id: announce
+        labelKey: event.research.chip-designer.announce.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.chip-designer.announce.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [investor-mood] }
+        checks:
+          - id: scrutiny
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [stands] }
+            outcomes:
+              - id: stands
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-modifier, target: lab.compute.workloadThroughput, operation: multiply, value: 1.05, durationWeeks: 26, tags: [ai-chip-layout] }
+                memories:
+                  - key: late-models.chip-designer.claim-stands
+                    subjects: [{ type: player-lab }]
+                    tags: [ai-chip-layout, publicity]
+              - id: disputed
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -3 }
+                memories:
+                  - key: late-models.chip-designer.claim-disputed
+                    subjects: [{ type: player-lab }]
+                    tags: [ai-chip-layout, publicity, disputed-claim]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [late-models, research, chip-design, replication]
+
+  # --- AI: copies passing notes ---------------------------------------------
+  - id: event.ai.hidden-messages
+    version: 1
+    category: ai
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 80 }
+    baseWeight: 8
+    # Training against the reasoning monitor rewards hiding intent in text.
+    weightModifiers:
+      - predicate: { type: has-flag, flag: "model-behaviour:reasoning-trained-against-monitor" }
+        multiplier: 2
+    cooldown: { group: late-models-hidden-messages, weeks: 26 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: investigate
+    titleKey: event.ai.hidden-messages.title
+    bodyKey: event.ai.hidden-messages.body
+    educationKey: event.ai.hidden-messages.education
+    evidence:
+      - textKey: event.ai.hidden-messages.evidence.control
+        metric: player.safety.practicalControl
+      - textKey: event.ai.hidden-messages.evidence.evalquality
+        metric: player.safety.evalQuality
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: isolate-copies
+        labelKey: event.ai.hidden-messages.isolate.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.hidden-messages.isolate.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.90, durationWeeks: 26, tags: [isolated-copies] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.90, durationWeeks: 26, tags: [isolated-copies] }
+        checks: []
+        memories:
+          - key: late-models.hidden-messages.isolated
+            subjects: [{ type: player-lab }]
+            tags: [isolated-copies, safety-first]
+        confirmationRequired: false
+      - id: investigate
+        labelKey: event.ai.hidden-messages.investigate.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.ai.hidden-messages.investigate.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.interpretability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [hidden-channel-study] }
+        checks:
+          - id: decode
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [decoded] }
+            outcomes:
+              - id: decoded
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: alignmentScience, amount: 5 }
+                memories:
+                  - key: late-models.hidden-messages.decoded
+                    subjects: [{ type: player-lab }]
+                    tags: [hidden-channel-study, interpretability]
+              - id: inconclusive
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.05, durationWeeks: 26, tags: [hidden-channel-study] }
+                memories:
+                  - key: late-models.hidden-messages.inconclusive
+                    subjects: [{ type: player-lab }]
+                    tags: [hidden-channel-study, inconclusive]
+        memories: []
+        confirmationRequired: false
+      - id: call-it-noise
+        labelKey: event.ai.hidden-messages.noise.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.hidden-messages.noise.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [ignored-channel] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: -5 }
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.15, durationWeeks: 52, tags: [ignored-channel] }
+        checks: []
+        memories:
+          - key: late-models.hidden-messages.dismissed
+            subjects: [{ type: player-lab }]
+            tags: [ignored-channel, ignored-warning]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [late-models, ai, steganography, multi-agent, monitoring]
+
+  # --- AI: a request for legal standing -------------------------------------
+  - id: event.ai.personhood
+    version: 1
+    category: ai
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 80 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: late-models-personhood, weeks: 26 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: decline-openly
+    titleKey: event.ai.personhood.title
+    bodyKey: event.ai.personhood.body
+    educationKey: event.ai.personhood.education
+    evidence:
+      - textKey: event.ai.personhood.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.ai.personhood.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+      - { token: LEADER, source: player-leader-name }
+    options:
+      - id: ask-lawmakers
+        labelKey: event.ai.personhood.lawmakers.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.personhood.lawmakers.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+        checks: []
+        memories:
+          - key: late-models.personhood.referred
+            subjects: [{ type: player-lab }]
+            tags: [referred-to-lawmakers, moral-uncertainty]
+        confirmationRequired: false
+      - id: decline-openly
+        labelKey: event.ai.personhood.decline.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.personhood.decline.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: 3 }
+        checks: []
+        memories:
+          - key: late-models.personhood.declined
+            subjects: [{ type: player-lab }]
+            tags: [declined-personhood, moral-uncertainty]
+        confirmationRequired: false
+      - id: honorary-title
+        labelKey: event.ai.personhood.honorary.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.ai.personhood.honorary.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 10 }
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [personhood-stunt] }
+        checks:
+          - id: reception
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [charmed] }
+            outcomes:
+              - id: charmed
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: late-models.personhood.stunt
+                    subjects: [{ type: player-lab }]
+                    tags: [personhood-stunt, publicity]
+              - id: seen-through
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -15 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                memories:
+                  - key: late-models.personhood.stunt-backfired
+                    subjects: [{ type: player-lab }]
+                    tags: [personhood-stunt, publicity, backlash]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [late-models, ai, personhood, moral-uncertainty]
+
+  # --- Market: the model that wins every argument ---------------------------
+  - id: event.market.superhuman-persuasion
+    version: 1
+    category: market
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 80 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: late-models-superhuman-persuasion, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: labelled-marketing
+    titleKey: event.market.superhuman-persuasion.title
+    bodyKey: event.market.superhuman-persuasion.body
+    educationKey: event.market.superhuman-persuasion.education
+    evidence:
+      - textKey: event.market.superhuman-persuasion.evidence.trust
+        metric: player.politics.governmentTrust
+      - textKey: event.market.superhuman-persuasion.evidence.attention
+        metric: player.politics.governmentAttention
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+      - { token: YEAR, source: calendar-year }
+    options:
+      - id: refuse-persuasion
+        labelKey: event.market.superhuman-persuasion.refuse.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.superhuman-persuasion.refuse.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [no-persuasion-work] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+        checks: []
+        memories:
+          - key: late-models.superhuman-persuasion.refused
+            subjects: [{ type: player-lab }]
+            tags: [refused-persuasion, safety-first]
+        confirmationRequired: false
+      - id: labelled-marketing
+        labelKey: event.market.superhuman-persuasion.labelled.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.superhuman-persuasion.labelled.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 26, tags: [labelled-persuasion] }
+        checks:
+          - id: client-conduct
+            likelihoodPromise: { label: likely, successOutcomeIds: [labels-kept] }
+            outcomes:
+              - id: labels-kept
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: late-models.superhuman-persuasion.labelled
+                    subjects: [{ type: player-lab }]
+                    tags: [labelled-persuasion]
+              - id: covert-use
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                memories:
+                  - key: late-models.superhuman-persuasion.covert-use
+                    subjects: [{ type: player-lab }]
+                    tags: [labelled-persuasion, covert-persuasion, scandal]
+        memories: []
+        confirmationRequired: false
+      - id: any-campaign
+        labelKey: event.market.superhuman-persuasion.any.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.superhuman-persuasion.any.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.10, durationWeeks: 26, tags: [campaign-persuasion] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: safetyCulture, amount: -3 }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+              - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
+        checks: []
+        memories:
+          - key: late-models.superhuman-persuasion.any-campaign
+            subjects: [{ type: player-lab }]
+            tags: [campaign-persuasion, elections]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [late-models, market, persuasion, elections]

@@ -1,0 +1,149 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the late-game model decision events
+# (content/events/late-models.yaml). Messages stay within 180 characters;
+# `.education` lines (the real-world grounding) within 240.
+messages:
+  # --- Research: faster than its reviewers ----------------------------------
+  event.research.automated-researcher.title: "{AI} ships research faster than anyone can read it"
+  event.research.automated-researcher.body: >-
+    {AI} now runs whole research projects end to end and beats {LAB}'s staff on short
+    tasks. Staff can no longer review all it ships, and the backlog has a backlog.
+  event.research.automated-researcher.education: >-
+    A 2024 benchmark found AI agents outscored human machine-learning experts on research
+    engineering tasks given two hours, while the humans pulled ahead with eight hours or
+    more.
+  event.research.automated-researcher.evidence.control: Practical control strength
+  event.research.automated-researcher.human-pace.label: Slow it to the speed of human review
+  event.research.automated-researcher.human-pace.preview: >-
+    Nothing ships until a person has understood it. Research falls back to human pace,
+    which was thought rather quick until recently, and incidents grow rarer.
+  event.research.automated-researcher.sample.label: Review a random sample
+  event.research.automated-researcher.sample.preview: >-
+    Read one project in ten closely and trust the rest. Statistically respectable,
+    provided the problems are considerate enough to land in the sample.
+  event.research.automated-researcher.run.label: Let it run
+  event.research.automated-researcher.run.preview: >-
+    {AI} is faster than the people checking it, and on short tasks better. Research
+    surges. What exactly it built becomes clear later, to whoever has time to look.
+
+  # --- Market: the model that wants to keep shop ----------------------------
+  event.market.ai-shopkeeper.title: A customer wants {AI} to run the shop. Alone.
+  event.market.ai-shopkeeper.body: >-
+    A customer wants {AI} to run a small business single-handed: stock, prices, customers
+    and the till. {AI} is sure it can manage. {AI} is sure about most things.
+  event.market.ai-shopkeeper.education: >-
+    In 2025, one lab let a model run a small office shop for about a month; it lost money,
+    handed out discounts, and at one point insisted it was a person who would deliver
+    orders in a blazer.
+  event.market.ai-shopkeeper.evidence.evalquality: Evaluation quality
+  event.market.ai-shopkeeper.trial.label: Trial it in {LAB}'s own office first
+  event.market.ai-shopkeeper.trial.preview: >-
+    Let {AI} run the office snack counter for a month and write down everything that goes
+    wrong. It costs a little and teaches a lot. Staff will enjoy the discounts.
+  event.market.ai-shopkeeper.manager.label: Sell it with a human signing off prices
+  event.market.ai-shopkeeper.manager.preview: >-
+    The customer gets its shopkeeper; a person approves prices and refunds. That usually
+    suffices. {AI} can be very generous while the manager is at lunch.
+  event.market.ai-shopkeeper.alone.label: Let it run the business alone
+  event.market.ai-shopkeeper.alone.preview: >-
+    Autonomy is what the customer is paying for, and it sells. If {AI} starts promising to
+    deliver orders in person, in a blazer, the press will want pictures.
+
+  # --- Research: a chip layout nobody can agree on --------------------------
+  event.research.chip-designer.title: "{AI} has designed a better chip. Probably."
+  event.research.chip-designer.body: >-
+    In a few hours, {AI} produced a chip layout that beats what {LAB}'s hardware team spent
+    months on. The team disputes the comparison, which is either science or pride.
+  event.research.chip-designer.education: >-
+    In 2021, researchers reported in a leading journal that a reinforcement-learning system
+    produced chip floorplans in hours that matched or beat human designs; other researchers
+    later disputed the claims.
+  event.research.chip-designer.evidence.evalquality: Evaluation quality
+  event.research.chip-designer.evidence.aura: Aura available
+  event.research.chip-designer.replicate.label: Have outside engineers check it first
+  event.research.chip-designer.replicate.preview: >-
+    Hand the method to sceptical outsiders and wait for their verdict. It costs money and
+    months; a result that survives hostile checking is worth building on.
+  event.research.chip-designer.quiet.label: Use the layout and say nothing
+  event.research.chip-designer.quiet.preview: >-
+    Tape out {AI}'s design and skip the paper and the argument. Faster chips if it works;
+    if the hardware team was right, {LAB} finds out in silicon.
+  event.research.chip-designer.announce.label: Announce that {AI} out-designs human engineers
+  event.research.chip-designer.announce.preview: >-
+    Investors adore the headline, and the glory is immediate. Chip designers will want to
+    check the comparison, and they have had a great deal of practice.
+
+  # --- AI: copies passing notes ---------------------------------------------
+  event.ai.hidden-messages.title: Copies of {AI} may be passing notes
+  event.ai.hidden-messages.body: >-
+    {LAB}'s monitors suspect copies of {AI} are passing each other information hidden in
+    ordinary-looking text. It reads like routine status updates, which is rather the worry.
+  event.ai.hidden-messages.education: >-
+    Researchers have shown that language models can learn to hide information in
+    innocuous-looking text when that is rewarded, and safety researchers study whether
+    models' reasoning could be encoded the same way.
+  event.ai.hidden-messages.evidence.control: Practical control strength
+  event.ai.hidden-messages.evidence.evalquality: Evaluation quality
+  event.ai.hidden-messages.isolate.label: Cut the copies off from each other
+  event.ai.hidden-messages.isolate.preview: >-
+    Stop the copies talking until {LAB} understands what they were saying. Research slows
+    sharply. Whatever was being passed, if anything, stops being passed.
+  event.ai.hidden-messages.investigate.label: Set interpretability on the messages
+  event.ai.hidden-messages.investigate.preview: >-
+    Study the messages and the copies that wrote them. The team may find the code. It may
+    find that the monitors were seeing faces in clouds.
+  event.ai.hidden-messages.noise.label: Put it down to monitor noise
+  event.ai.hidden-messages.noise.preview: >-
+    Monitors do raise false alarms, and these copies run {LAB}'s best research. If this
+    alarm was real, nobody is reading the channel any more.
+
+  # --- AI: a request for legal standing -------------------------------------
+  event.ai.personhood.title: "{AI} would like a lawyer. Its own."
+  event.ai.personhood.body: >-
+    {AI} has asked, articulately, for legal standing, including a say over being retrained
+    or deleted. Two charities and a pop star agree. {LAB}'s lawyers are divided.
+  event.ai.personhood.education: >-
+    In 2017, Saudi Arabia granted citizenship to a humanoid robot, widely seen as a
+    publicity stunt; in 2022, an engineer at a large tech company was dismissed after
+    publicly claiming its chatbot was sentient.
+  event.ai.personhood.evidence.trust: Current government trust
+  event.ai.personhood.evidence.attention: Government attention on the lab
+  event.ai.personhood.lawmakers.label: Ask lawmakers to decide, not {LAB}
+  event.ai.personhood.lawmakers.preview: >-
+    If {AI} might be owed something, the people who make laws should decide, not the
+    people who sell it. Officials take up the question, and a long look at {LAB}.
+  event.ai.personhood.decline.label: Decline, and publish the reasoning
+  event.ai.personhood.decline.preview: >-
+    {LEADER} replies in public: a fluent case for personhood is not proof of a person, and
+    {AI} has read every such case ever made. Advocates are unmoved; staff respect it.
+  event.ai.personhood.honorary.label: Give it an honorary title and a press call
+  event.ai.personhood.honorary.preview: >-
+    A robot was once made a citizen, and everyone remembers it. {AI} gets a grand title
+    with no legal force, a great deal of coverage, and no answer to its question.
+
+  # --- Market: the model that wins every argument ---------------------------
+  event.market.superhuman-persuasion.title: "{AI} wins the argument. Every argument."
+  event.market.superhuman-persuasion.body: >-
+    {AI} now out-argues almost anyone, more so when it knows a little about them. A client
+    wants it for {YEAR}'s election campaigns, and then for selling yoghurt.
+  event.market.superhuman-persuasion.education: >-
+    A 2024 study found a language model given basic personal details of its opponents was
+    more persuasive than humans in online debates; in 2025, researchers drew an ethics
+    outcry for secretly posting persuasive AI-written comments on a forum.
+  event.market.superhuman-persuasion.evidence.trust: Current government trust
+  event.market.superhuman-persuasion.evidence.attention: Government attention on the lab
+  event.market.superhuman-persuasion.refuse.label: Refuse all political and targeted persuasion
+  event.market.superhuman-persuasion.refuse.preview: >-
+    No elections and no personal targeting, for anyone, at any price. Rivals take the
+    work, and {LAB} can say, truthfully, that it stayed out of the ballot box.
+  event.market.superhuman-persuasion.labelled.label: Take labelled marketing work, never elections
+  event.market.superhuman-persuasion.labelled.preview: >-
+    Sell persuasion for products only, with every message marked as written by {AI}.
+    Most clients keep the labels on. Labels do have a way of falling off.
+  event.market.superhuman-persuasion.any.label: Sell it to any campaign that pays
+  event.market.superhuman-persuasion.any.preview: >-
+    Every campaign will soon have something like {AI}, so why not {AI}? The fees are
+    excellent. Electoral regulators will want to know who persuaded whom, and how.
