@@ -14,6 +14,13 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   without multiplying the entire Cartesian matrix's cost.
 - `pnpm balance:expert` — 30 seeds of the strong scripted player (below), up to 1,120 weeks. Add
   `--shard-index i --shard-count 3` to the CLI to split it across processes.
+- `--expert-focus <programme>` (with `--expert`, and on `balance:expert-trace`) makes the expert
+  focus its research: half of capability research goes to one capability programme, given as a
+  bare slug (`multimodality`), `domain.multimodality` or the full id, and the rest is split as
+  usual. At the expert's normal 70% capability share that is 35% of all research compute, enough
+  to make the programme a paper focus (its papers need four fewer levels). Use it to measure what
+  a focused player wins in the paper race; reports still name the policy `expert`, so give the
+  output directory a telling name.
 - `--difficulties`, `--leaders` and `--mandates` pick the setups any CLI batch plays: comma-separated
   IDs or bare slugs (`fellowship`, `base:difficulty.fellowship`), or `all`. A dimension left out stays
   at Standard, Thomas Hassabi or Build It Right, except under `--matrix cartesian`, where it expands
@@ -34,8 +41,9 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   play it locally) and run `pnpm balance:drift -- --input <report.json> --write-baseline
   --measured-at <commit>`, then commit `tools/balance-runner/baselines/expert-ladder.json`.
 - `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
-  era, key facility, work and crisis stage landed. A tuning aid: it reads privileged state to
-  explain the run, while the policy still sees only the player view.
+  era, key facility, work and crisis stage landed, plus the player's world-first papers overall
+  and per programme. A tuning aid: it reads privileged state to explain the run, while the policy
+  still sees only the player view.
 - `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks, on the same single setup
   unless `--difficulties all --leaders all --mandates all` is added.
 - `pnpm balance:release` — the complete 10,200-run Cartesian release matrix: 17 seeds × four
@@ -174,3 +182,26 @@ The allowlist is closed and typed:
 
 Sweep output records the base content hash, key, values, and a complete report per value. Overrides
 are cloned in memory; release builds expose no arbitrary override control.
+
+## Paper race note
+
+Before rival paper levels and the player paper focus (game design section 34.5), the expert won no
+paper a rival could also attempt: by week 860 it had 1 of 115 world firsts on seed 1 and 0 of 115
+on seed 2, and every later win was a facility-gated paper rivals never build for. Expert traces
+after the change (`balance:expert-trace`, Standard / Thomas Hassabi / Build It Right), player world
+firsts at week 860, then at the end of the game:
+
+| Seed | Expert focus  | Week 860 | Focus programme | End of game          |
+| ---- | ------------- | -------- | --------------- | -------------------- |
+| 1    | none          | 0/114    | –               | 20/134, lost wk 1056 |
+| 1    | multimodality | 9/114    | 8/17            | 29/134, lost wk 1056 |
+| 1    | reasoning     | 3/114    | 2/14            | 23/134, lost wk 1056 |
+| 2    | none          | 7/114    | –               | 27/134, won wk 951   |
+| 2    | multimodality | 14/114   | 13/17           | 33/133, won wk 951   |
+| 2    | reasoning     | 3/114    | 2/14            | 23/134, lost wk 965  |
+
+Focus pays most in a programme the rivals neglect (Multimodality) and little in one they push
+hardest (Reasoning). Before the change the unfocused expert ended seed 1 lost in week 1061 with
+20/134 and seed 2 won in week 951 with 19/134. Rival real levels are unchanged, but fewer early
+papers are published, so their payloads arrive later: on seed 1 the world reached the Frontier
+phase in week 525 rather than 488 (seed 2 was unchanged, week 521).

@@ -2,7 +2,7 @@ import { TRAINING_SAMPLE_WEEKS } from "./available-commands.ts";
 import { RandomOracleV1, randomKey, type GameCommand } from "@neolab/sim";
 import type { DeploymentPolicy, TrainingPosture } from "@neolab/content-schema";
 
-import { expertDecisions } from "./expert-policy.ts";
+import { expertDecisions, type ExpertOptions } from "./expert-policy.ts";
 import {
   EXPERT_POLICY_ID,
   POLICY_IDS,
@@ -1333,11 +1333,16 @@ export function createPolicy(id: (typeof POLICY_IDS)[number]): SimulationPolicy 
 
 export const INITIAL_POLICIES: readonly SimulationPolicy[] = POLICY_IDS.map(createPolicy);
 
-export const EXPERT_POLICY: SimulationPolicy = {
-  id: EXPERT_POLICY_ID,
-  decide: (view, available, preview) => {
-    if (preview === undefined)
-      throw new Error("The expert policy needs command previews");
-    return expertDecisions(view, available, preview);
-  },
-};
+/** The expert policy, optionally focusing its research (see `ExpertOptions`). */
+export function createExpertPolicy(options: ExpertOptions = {}): SimulationPolicy {
+  return {
+    id: EXPERT_POLICY_ID,
+    decide: (view, available, preview) => {
+      if (preview === undefined)
+        throw new Error("The expert policy needs command previews");
+      return expertDecisions(view, available, preview, options);
+    },
+  };
+}
+
+export const EXPERT_POLICY: SimulationPolicy = createExpertPolicy();
