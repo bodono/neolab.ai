@@ -1,0 +1,575 @@
+draftSchema: 1
+contentType: decision-events
+pack: mid-game
+
+# Mid-game decisions for a lab whose models have reached the Expert Assistant
+# tier (FC 35+, roughly 2018-2021: assistants and code models in businesses'
+# hands) and the Tool-Using Agent tier (FC 50+, roughly 2021-2023: models that
+# browse and act inside software): undertrained giants, memorised personal data,
+# poisoned web datasets, customer secrets, prompt injection and deepfake fraud.
+# Each fires once.
+events:
+  # --- Research: too big for its data ---------------------------------------
+  - id: event.research.undertrained
+    version: 1
+    category: research
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: mid-game-undertrained, weeks: 26 }
+    unique: true
+    expiryWeeks: 13
+    defaultOptionId: cite
+    titleKey: event.research.undertrained.title
+    bodyKey: event.research.undertrained.body
+    educationKey: event.research.undertrained.education
+    evidence:
+      - textKey: event.research.undertrained.evidence.cash
+        metric: player.cash
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: retrain-smaller
+        labelKey: event.research.undertrained.retrain.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.research.undertrained.retrain.preview
+        immediateEffects:
+          - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 0.90, durationWeeks: 52, tags: [compute-optimal] }
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [compute-optimal] }
+        checks: []
+        memories:
+          - key: mid-game.undertrained.retrained
+            subjects: [{ type: player-lab }]
+            tags: [compute-optimal, evidence-led]
+        confirmationRequired: false
+      - id: cite
+        labelKey: event.research.undertrained.cite.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.undertrained.cite.preview
+        immediateEffects:
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: internalCandour, amount: -2 }
+        checks: []
+        memories:
+          - key: mid-game.undertrained.cited
+            subjects: [{ type: player-lab }]
+            tags: [cited-not-acted]
+        confirmationRequired: false
+      - id: keep-scaling
+        labelKey: event.research.undertrained.scale.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.research.undertrained.scale.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.fundraising.offerCash, operation: multiply, value: 1.10, durationWeeks: 26, tags: [investor-mood] }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.10, durationWeeks: 26, tags: [oversized-model] }
+              - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 1.10, durationWeeks: 26, tags: [oversized-model] }
+        checks: []
+        memories:
+          - key: mid-game.undertrained.kept-scaling
+            subjects: [{ type: player-lab }]
+            tags: [bigger-is-better, ignored-evidence]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [mid-game, research, scaling-laws, compute-optimal]
+
+  # --- Security: training data extraction -----------------------------------
+  - id: event.security.training-data-extraction
+    version: 1
+    category: security
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    # A lab that has never thought about attackers is likelier to have shipped
+    # a model this easy to coax.
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.securityPosture, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: mid-game-training-data-extraction, weeks: 26 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: filter-output
+    titleKey: event.security.training-data-extraction.title
+    bodyKey: event.security.training-data-extraction.body
+    educationKey: event.security.training-data-extraction.education
+    evidence:
+      - textKey: event.security.training-data-extraction.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: scrub-and-retrain
+        labelKey: event.security.training-data-extraction.scrub.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.training-data-extraction.scrub.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [privacy-retrain] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 3 }
+        checks: []
+        memories:
+          - key: mid-game.training-data-extraction.scrubbed
+            subjects: [{ type: player-lab }]
+            tags: [privacy-first, data-scrubbed]
+        confirmationRequired: false
+      - id: filter-output
+        labelKey: event.security.training-data-extraction.filter.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.training-data-extraction.filter.preview
+        immediateEffects:
+          - { kind: add-modifier, target: serving.computePerRequest, operation: multiply, value: 1.05, durationWeeks: 26, tags: [output-filter] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 2 }
+        checks:
+          - id: filter-holds
+            likelihoodPromise: { label: likely, successOutcomeIds: [holds] }
+            outcomes:
+              - id: holds
+                minimumInclusive: 0
+                maximumExclusive: 0.7
+                effects: []
+                memories:
+                  - key: mid-game.training-data-extraction.filtered
+                    subjects: [{ type: player-lab }]
+                    tags: [output-filter]
+              - id: bypassed
+                minimumInclusive: 0.7
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: mid-game.training-data-extraction.filter-bypassed
+                    subjects: [{ type: player-lab }]
+                    tags: [output-filter, privacy-leak]
+        memories: []
+        confirmationRequired: false
+      - id: call-it-theoretical
+        labelKey: event.security.training-data-extraction.dismiss.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.training-data-extraction.dismiss.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [kept-personal-data] }
+        checks:
+          - id: regulators
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [overlooked] }
+            outcomes:
+              - id: overlooked
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: mid-game.training-data-extraction.dismissed
+                    subjects: [{ type: player-lab }]
+                    tags: [kept-personal-data]
+              - id: investigated
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
+                  - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -5 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: mid-game.training-data-extraction.investigated
+                    subjects: [{ type: player-lab }]
+                    tags: [kept-personal-data, privacy-leak, regulator-inquiry]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [mid-game, security, privacy, memorisation]
+
+  # --- Security: expired domains in the dataset -----------------------------
+  - id: event.security.poisoned-dataset
+    version: 1
+    category: security
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+    baseWeight: 6
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.securityPosture, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: mid-game-poisoned-dataset, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: drop-expired
+    titleKey: event.security.poisoned-dataset.title
+    bodyKey: event.security.poisoned-dataset.body
+    educationKey: event.security.poisoned-dataset.education
+    evidence:
+      - textKey: event.security.poisoned-dataset.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: fingerprint-and-audit
+        labelKey: event.security.poisoned-dataset.audit.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.poisoned-dataset.audit.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 13, tags: [data-audit] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 5 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 52, tags: [verified-data] }
+        checks: []
+        memories:
+          - key: mid-game.poisoned-dataset.audited
+            subjects: [{ type: player-lab }]
+            tags: [verified-data, safety-first]
+        confirmationRequired: false
+      - id: drop-expired
+        labelKey: event.security.poisoned-dataset.drop.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -2 }
+        previewKey: event.security.poisoned-dataset.drop.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 2 }
+        checks: []
+        memories:
+          - key: mid-game.poisoned-dataset.dropped
+            subjects: [{ type: player-lab }]
+            tags: [partial-fix]
+        confirmationRequired: false
+      - id: train-as-scraped
+        labelKey: event.security.poisoned-dataset.train.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.poisoned-dataset.train.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [unverified-data] }
+        checks:
+          - id: what-they-host
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [harmless] }
+            outcomes:
+              - id: harmless
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: mid-game.poisoned-dataset.trained-clean
+                    subjects: [{ type: player-lab }]
+                    tags: [unverified-data]
+              - id: poisoned
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - kind: schedule-effects
+                    dueInWeeks: 26
+                    effects:
+                      - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [poisoned-data] }
+                      - { kind: add-modifier, target: lab.training.technicalFailureHazard, operation: multiply, value: 1.10, durationWeeks: 26, tags: [poisoned-data] }
+                memories:
+                  - key: mid-game.poisoned-dataset.trained-poisoned
+                    subjects: [{ type: player-lab }]
+                    tags: [unverified-data, poisoned-data]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [mid-game, security, data-poisoning, datasets]
+
+  # --- Market: customer secrets in the chat logs ----------------------------
+  - id: event.market.pasted-secrets
+    version: 1
+    category: market
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    weightModifiers: []
+    cooldown: { group: mid-game-pasted-secrets, weeks: 26 }
+    unique: true
+    expiryWeeks: 8
+    defaultOptionId: enterprise-tier
+    titleKey: event.market.pasted-secrets.title
+    bodyKey: event.market.pasted-secrets.body
+    educationKey: event.market.pasted-secrets.education
+    evidence:
+      - textKey: event.market.pasted-secrets.evidence.security
+        metric: player.safety.securityPosture
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: never-train
+        labelKey: event.market.pasted-secrets.guarantee.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.pasted-secrets.guarantee.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.95, durationWeeks: 26, tags: [no-customer-training] }
+          - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 1.10, durationWeeks: 52, tags: [data-guarantee] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+        checks: []
+        memories:
+          - key: mid-game.pasted-secrets.guaranteed
+            subjects: [{ type: player-lab }]
+            tags: [data-guarantee, privacy-first]
+        confirmationRequired: false
+      - id: enterprise-tier
+        labelKey: event.market.pasted-secrets.enterprise.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.pasted-secrets.enterprise.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 26, tags: [enterprise-tier] }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        checks: []
+        memories:
+          - key: mid-game.pasted-secrets.enterprise-tier
+            subjects: [{ type: player-lab }]
+            tags: [privacy-as-premium]
+        confirmationRequired: false
+      - id: keep-training
+        labelKey: event.market.pasted-secrets.refuse.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.pasted-secrets.refuse.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.10, durationWeeks: 26, tags: [customer-data] }
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 0.95, durationWeeks: 26, tags: [client-ban] }
+        checks:
+          - id: other-clients
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [contained] }
+            outcomes:
+              - id: contained
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: mid-game.pasted-secrets.kept-training
+                    subjects: [{ type: player-lab }]
+                    tags: [customer-data, client-ban]
+              - id: others-follow
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.market.demandCeiling, operation: multiply, value: 0.90, durationWeeks: 26, tags: [client-ban] }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: mid-game.pasted-secrets.bans-spread
+                    subjects: [{ type: player-lab }]
+                    tags: [customer-data, client-ban, bans-spread]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [mid-game, market, privacy, enterprise]
+
+  # --- Security: prompt injection --------------------------------------------
+  - id: event.security.prompt-injection
+    version: 1
+    category: security
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 7
+    # Weak practical control means an agent with fewer guard rails to break.
+    weightModifiers:
+      - predicate:
+          { type: compare, metric: player.safety.practicalControl, op: lt, value: 40 }
+        multiplier: 2
+    cooldown: { group: mid-game-prompt-injection, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: train-to-resist
+    titleKey: event.security.prompt-injection.title
+    bodyKey: event.security.prompt-injection.body
+    educationKey: event.security.prompt-injection.education
+    evidence:
+      - textKey: event.security.prompt-injection.evidence.control
+        metric: player.safety.practicalControl
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: ask-before-acting
+        labelKey: event.security.prompt-injection.confirm.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.prompt-injection.confirm.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.90, durationWeeks: 26, tags: [confirm-actions] }
+          - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 5 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 52, tags: [confirm-actions] }
+        checks: []
+        memories:
+          - key: mid-game.prompt-injection.ask-first
+            subjects: [{ type: player-lab }]
+            tags: [confirm-actions, safety-first]
+        confirmationRequired: false
+      - id: train-to-resist
+        labelKey: event.security.prompt-injection.train.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -3 }
+        previewKey: event.security.prompt-injection.train.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: securityPosture, amount: 3 }
+        checks:
+          - id: next-trick
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [holds] }
+            outcomes:
+              - id: holds
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects:
+                  - { kind: add-rating, subject: { type: player-lab }, rating: practicalControlStrength, amount: 2 }
+                memories:
+                  - key: mid-game.prompt-injection.resisted
+                    subjects: [{ type: player-lab }]
+                    tags: [injection-training]
+              - id: new-trick
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.05, durationWeeks: 26, tags: [injection-training] }
+                memories:
+                  - key: mid-game.prompt-injection.new-trick
+                    subjects: [{ type: player-lab }]
+                    tags: [injection-training, new-attack]
+        memories: []
+        confirmationRequired: false
+      - id: hands-free
+        labelKey: event.security.prompt-injection.ship.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.security.prompt-injection.ship.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.10, durationWeeks: 26, tags: [hands-free-agent] }
+          - kind: schedule-effects
+            dueInWeeks: 26
+            effects:
+              - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 1.10, durationWeeks: 39, tags: [hands-free-agent] }
+              - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 5 }
+        checks: []
+        memories:
+          - key: mid-game.prompt-injection.hands-free
+            subjects: [{ type: player-lab }]
+            tags: [hands-free-agent, injection-ignored]
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [mid-game, security, prompt-injection, agents]
+
+  # --- Market: deepfaked executives -----------------------------------------
+  - id: event.market.deepfake-call
+    version: 1
+    category: market
+    severity: decision
+    phase: any
+    trigger: { kind: opportunity }
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
+    baseWeight: 6
+    weightModifiers: []
+    cooldown: { group: mid-game-deepfake-call, weeks: 26 }
+    unique: true
+    expiryWeeks: 10
+    defaultOptionId: sell-detector
+    titleKey: event.market.deepfake-call.title
+    bodyKey: event.market.deepfake-call.body
+    educationKey: event.market.deepfake-call.education
+    evidence:
+      - textKey: event.market.deepfake-call.evidence.trust
+        metric: player.politics.governmentTrust
+    tokenBindings:
+      - { token: LAB, source: player-lab-name }
+      - { token: AI, source: player-ai-name }
+    options:
+      - id: sign-everything
+        labelKey: event.market.deepfake-call.provenance.label
+        requirements: { type: always }
+        knownCosts:
+          - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -5 }
+        previewKey: event.market.deepfake-call.provenance.preview
+        immediateEffects:
+          - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: 5 }
+          - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.95, durationWeeks: 52, tags: [provenance] }
+        checks: []
+        memories:
+          - key: mid-game.deepfake-call.provenance
+            subjects: [{ type: player-lab }]
+            tags: [provenance, safety-first]
+        confirmationRequired: false
+      - id: sell-detector
+        labelKey: event.market.deepfake-call.detector.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.deepfake-call.detector.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.revenue.all, operation: multiply, value: 1.05, durationWeeks: 26, tags: [deepfake-detector] }
+          - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -5 }
+        checks: []
+        memories:
+          - key: mid-game.deepfake-call.detector
+            subjects: [{ type: player-lab }]
+            tags: [deepfake-detector, poison-and-antidote]
+        confirmationRequired: false
+      - id: blame-fraudsters
+        labelKey: event.market.deepfake-call.blame.label
+        requirements: { type: always }
+        knownCosts: []
+        previewKey: event.market.deepfake-call.blame.preview
+        immediateEffects:
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 1.05, durationWeeks: 26, tags: [frictionless-video] }
+        checks:
+          - id: liability
+            likelihoodPromise: { label: uncertain, successOutcomeIds: [no-claim] }
+            outcomes:
+              - id: no-claim
+                minimumInclusive: 0
+                maximumExclusive: 0.5
+                effects: []
+                memories:
+                  - key: mid-game.deepfake-call.blamed-fraudsters
+                    subjects: [{ type: player-lab }]
+                    tags: [frictionless-video, deflected]
+              - id: sued
+                minimumInclusive: 0.5
+                maximumExclusive: 1
+                effects:
+                  - { kind: add-resource, subject: { type: player-lab }, resource: cash, amount: -10 }
+                  - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
+                memories:
+                  - key: mid-game.deepfake-call.sued
+                    subjects: [{ type: player-lab }]
+                    tags: [frictionless-video, deflected, lawsuit]
+        memories: []
+        confirmationRequired: true
+    followUps: []
+    telemetryTags: [mid-game, market, deepfakes, fraud, provenance]

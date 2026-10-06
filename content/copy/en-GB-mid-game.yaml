@@ -1,0 +1,144 @@
+draftSchema: 1
+contentType: copy-catalogue
+locale: en-GB
+
+# Player-facing copy for the mid-game decision events
+# (content/events/mid-game.yaml). Messages stay within 180 characters;
+# `.education` lines (the real-world grounding) within 240.
+messages:
+  # --- Research: too big for its data ---------------------------------------
+  event.research.undertrained.title: "{AI} is too big for its reading list"
+  event.research.undertrained.body: >-
+    A new study suggests {AI} is far too big for the data it was trained on: a smaller
+    model fed more text would beat it. {LAB}'s roadmap is one slide, and it says 'bigger'.
+  event.research.undertrained.education: >-
+    A 2022 study found that many large language models had been trained on too little data
+    for their size; a model a quarter the size, trained on about four times as much data,
+    outperformed a much larger one.
+  event.research.undertrained.evidence.cash: Cash on hand
+  event.research.undertrained.retrain.label: Retrain smaller, on more data
+  event.research.undertrained.retrain.preview: >-
+    Buy and clean a great deal more text and train a leaner {AI} on it. The data bill
+    arrives now; a model that is better and cheaper to run follows.
+  event.research.undertrained.cite.label: Cite the study and carry on
+  event.research.undertrained.cite.preview: >-
+    A gracious footnote in {LAB}'s next paper makes the lab look well read. Nobody inside
+    it will mistake a footnote for a change of plan.
+  event.research.undertrained.scale.label: Keep scaling up regardless
+  event.research.undertrained.scale.preview: >-
+    Investors still buy the biggest number, so give them one. Rivals read the same study,
+    and may soon match {AI} with something smaller and cheaper to run.
+
+  # --- Security: training data extraction -----------------------------------
+  event.security.training-data-extraction.title: "{AI} can recite its training data, phone numbers included"
+  event.security.training-data-extraction.body: >-
+    Researchers got {AI} to repeat chunks of its training data word for word, including
+    real people's names and contact details. {LAB}'s privacy page calls this impossible.
+  event.security.training-data-extraction.education: >-
+    In 2020, researchers extracted verbatim training data, including names and phone
+    numbers, from a public language model; a 2023 study extracted training data from a
+    production chatbot by asking it to repeat one word forever.
+  event.security.training-data-extraction.evidence.security: Security posture
+  event.security.training-data-extraction.scrub.label: Scrub personal data and retrain
+  event.security.training-data-extraction.scrub.preview: >-
+    Strip personal details from the training data and retrain {AI}. Research waits while
+    the data team reads more of the internet than anyone should have to.
+  event.security.training-data-extraction.filter.label: Filter its answers for memorised text
+  event.security.training-data-extraction.filter.preview: >-
+    Block answers that match the training data word for word. Cheaper than retraining, and
+    it works until someone asks a question the filter did not think of.
+  event.security.training-data-extraction.dismiss.label: Call it a theoretical attack
+  event.security.training-data-extraction.dismiss.preview: >-
+    The researchers did have to try quite hard. {AI} keeps its data and its pace, and
+    privacy regulators decide for themselves how theoretical it was.
+
+  # --- Security: expired domains in the dataset -----------------------------
+  event.security.poisoned-dataset.title: Someone has bought a corner of {LAB}'s dataset
+  event.security.poisoned-dataset.body: >-
+    Someone has bought expired web domains that {LAB}'s scraped dataset still links to.
+    The dataset stores addresses, not contents, so {AI} will learn whatever they now host.
+  event.security.poisoned-dataset.education: >-
+    A 2023 study showed that for about $60, an attacker could have poisoned a small fraction
+    of two popular web-scale image datasets by buying expired domains their links pointed
+    to.
+  event.security.poisoned-dataset.evidence.security: Security posture
+  event.security.poisoned-dataset.audit.label: Fingerprint the data and audit it
+  event.security.poisoned-dataset.audit.preview: >-
+    Record a fingerprint for every file and reject anything that has changed since.
+    Research waits while the data team learns how much of the web has moved.
+  event.security.poisoned-dataset.drop.label: Drop the expired domains
+  event.security.poisoned-dataset.drop.preview: >-
+    Delete the links that point at expired domains and keep the rest. Quick and cheap; the
+    domains that have not expired yet are a problem for another year.
+  event.security.poisoned-dataset.train.label: Train on it as scraped
+  event.security.poisoned-dataset.train.preview: >-
+    The run is booked and the data is ready, more or less. Most of what those domains now
+    serve is probably harmless, and 'probably' is doing a lot of work.
+
+  # --- Market: customer secrets in the chat logs ----------------------------
+  event.market.pasted-secrets.title: "A client's source code is now in {AI}'s chat logs"
+  event.market.pasted-secrets.body: >-
+    A big client's engineers pasted secret source code into {AI}. It wants a promise that
+    customer data never trains {AI}, or it bans {AI}. {LAB}'s small print promises nothing.
+  event.market.pasted-secrets.education: >-
+    In 2023, a large electronics company restricted staff use of generative AI after
+    engineers reportedly pasted confidential source code into a public chatbot.
+  event.market.pasted-secrets.evidence.security: Security posture
+  event.market.pasted-secrets.guarantee.label: Never train on customer data
+  event.market.pasted-secrets.guarantee.preview: >-
+    Promise every customer, in writing, that their chats stay out of training. Research
+    loses a rich seam of data; legal departments everywhere relax slightly.
+  event.market.pasted-secrets.enterprise.label: Sell the guarantee as an enterprise tier
+  event.market.pasted-secrets.enterprise.preview: >-
+    Privacy for those who pay for it, training data from those who do not. The client
+    signs, and the press notices which customers got the guarantee.
+  event.market.pasted-secrets.refuse.label: Refuse, and keep training on everything
+  event.market.pasted-secrets.refuse.preview: >-
+    The chats are the best data {LAB} has, and one ban is survivable. Other clients'
+    lawyers read the same news, and may reach the same conclusion.
+
+  # --- Security: prompt injection --------------------------------------------
+  event.security.prompt-injection.title: A web page has given {AI} new instructions
+  event.security.prompt-injection.body: >-
+    {AI} now browses the web for customers. One page hid a line telling it to ignore its
+    instructions, and {AI}, keen to help, took the page's word over {LAB}'s.
+  event.security.prompt-injection.education: >-
+    In 2022, researchers showed that instructions hidden in text a model reads could
+    override its developer's instructions, an attack now called prompt injection; no
+    complete defence is known.
+  event.security.prompt-injection.evidence.control: Practical control strength
+  event.security.prompt-injection.confirm.label: Make it ask before it acts
+  event.security.prompt-injection.confirm.preview: >-
+    Treat everything {AI} reads as untrusted and have it check with the customer before
+    acting. Safer and slower, and customers learn how often they are asked.
+  event.security.prompt-injection.train.label: Train it to spot injections
+  event.security.prompt-injection.train.preview: >-
+    Collect known attacks, train {AI} to resist them and block the obvious ones. It helps
+    against today's tricks. Nobody yet knows how to stop tomorrow's.
+  event.security.prompt-injection.ship.label: Keep the agent hands-free
+  event.security.prompt-injection.ship.preview: >-
+    Customers pay for an agent that gets on with it, not one that asks permission. The web
+    holds a great many pages, and some of them have plans for {AI}.
+
+  # --- Market: deepfaked executives -----------------------------------------
+  event.market.deepfake-call.title: Every executive on the video call was a deepfake
+  event.market.deepfake-call.body: >-
+    A {LAB} customer paid out millions after a video call on which every 'executive' was a
+    deepfake made with tools like {AI}'s. Its lawyers would like a word about responsibility.
+  event.market.deepfake-call.education: >-
+    In 2024, a finance worker at a multinational firm was reported to have paid out about
+    $25 million after a video call in which the other participants, including the chief
+    financial officer, were deepfakes.
+  event.market.deepfake-call.evidence.trust: Current government trust
+  event.market.deepfake-call.provenance.label: Sign everything {AI} generates
+  event.market.deepfake-call.provenance.preview: >-
+    Attach tamper-evident provenance to every image, voice and video {AI} makes. Costly to
+    build and only useful once others check for it, but it is a start.
+  event.market.deepfake-call.detector.label: Sell them a deepfake detector
+  event.market.deepfake-call.detector.preview: >-
+    {LAB} can sell the cure for a problem its own tools helped create, at a reasonable
+    monthly rate. Customers will pay. Commentators will notice the business model.
+  event.market.deepfake-call.blame.label: Blame the fraudsters, not the tools
+  event.market.deepfake-call.blame.preview: >-
+    Fraud was illegal long before {AI}, and the terms of service forbid it. Video stays
+    frictionless; whether a court sees it the same way is for a court.
