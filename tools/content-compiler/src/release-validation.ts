@@ -653,6 +653,78 @@ function eventHasEraGate(definition: EventDefinition): boolean {
   return gates(definition.prerequisites);
 }
 
+/**
+ * The world Frontier Capability below which an event's era gate keeps it shut.
+ * A player gate implies the same world floor, since the world frontier is the
+ * best model of any lab, the player's included.
+ */
+function eventEraFloor(predicate: EventPredicateDefinition): number {
+  const node = predicate as {
+    readonly type: string;
+    readonly metric?: string;
+    readonly op?: string;
+    readonly value?: number;
+    readonly items?: readonly EventPredicateDefinition[];
+  };
+  if (node.type === "compare") {
+    return node.metric !== undefined &&
+      ERA_GATE_METRICS.has(node.metric) &&
+      (node.op === "gte" || node.op === "gt")
+      ? (node.value ?? 0)
+      : 0;
+  }
+  const floors = (node.items ?? []).map(eventEraFloor);
+  if (node.type === "all") return Math.max(0, ...floors);
+  if (node.type === "any") return floors.length === 0 ? 0 : Math.min(...floors);
+  return 0;
+}
+
+/**
+ * World Frontier Capability windows of the run phases an event can name.
+ * Mirrors SCALING_PHASE_FRONTIER_CAPABILITY (30) and
+ * FRONTIER_PHASE_FRONTIER_CAPABILITY (60) in
+ * packages/sim/src/engine/world-progression.ts.
+ */
+const PHASE_WORLD_CAPABILITY_WINDOWS: Readonly<
+  Partial<Record<EventDefinition["phase"], readonly [number, number]>>
+> = {
+  foundation: [0, 30],
+  scaling: [30, 60],
+  frontier: [60, Number.POSITIVE_INFINITY],
+};
+/** A phase that ends must leave its event at least this much of a window. */
+const MINIMUM_PHASE_WINDOW = 10;
+
+function validateEventPhaseWindow(
+  definition: EventDefinition,
+  location: string,
+  issues: ReleaseValidationIssue[],
+): void {
+  if (definition.trigger.kind !== "opportunity") return;
+  const window = PHASE_WORLD_CAPABILITY_WINDOWS[definition.phase];
+  if (window === undefined) return;
+  const floor = eventEraFloor(definition.prerequisites);
+  const [start, end] = window;
+  if (start > floor) {
+    issue(
+      issues,
+      "release-blocking",
+      "event.phase-overrides-era-gate",
+      `${location}.phase`,
+      `phase ${definition.phase} opens at world FC ${String(start)}, later than the era gate (${String(floor)}); use phase any so the gate alone times the event`,
+    );
+  }
+  if (end - floor < MINIMUM_PHASE_WINDOW) {
+    issue(
+      issues,
+      "release-blocking",
+      "event.phase-closes-era-window",
+      `${location}.phase`,
+      `phase ${definition.phase} closes at world FC ${String(end)}, within ${String(MINIMUM_PHASE_WINDOW)} of the era gate (${String(floor)}), so the event may never fire; use phase any`,
+    );
+  }
+}
+
 function predicateReadsBoardPatience(predicate: EventPredicateDefinition): boolean {
   const node = predicate as {
     readonly metric?: string;
@@ -1113,6 +1185,7 @@ function validateEvents(
 
     validateEventEffects(effectsFromEvent(definition), `${baseLocation}.effects`, issues);
     validateEventEffectCounts(definition, baseLocation, issues);
+    validateEventPhaseWindow(definition, baseLocation, issues);
     if (definition.trigger.kind === "opportunity" && !eventHasEraGate(definition)) {
       issue(
         issues,

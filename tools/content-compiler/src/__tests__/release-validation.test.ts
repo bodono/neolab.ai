@@ -432,6 +432,38 @@ describe("content release validation", () => {
     ).not.toContain("event.missing-era-gate");
   });
 
+  it("keeps an event's phase from hiding or closing its era window", () => {
+    const gate = (value: number) =>
+      ({
+        type: "compare",
+        metric: "player.ai.frontierCapability",
+        op: "gte",
+        value,
+      }) as const;
+    const codes = (phase: EventDefinition["phase"], value: number) =>
+      issueCodes(
+        createContentReleaseReport(
+          withEvents(validEvent({ phase, prerequisites: gate(value) })),
+          messages(),
+          [],
+        ),
+      );
+
+    // Frontier opens at world FC 60, so a gate of 35 would be a fiction.
+    expect(codes("frontier", 35)).toContain("event.phase-overrides-era-gate");
+    // Foundation ends at world FC 30, leaving an FC 25 event five points.
+    expect(codes("foundation", 25)).toContain("event.phase-closes-era-window");
+    for (const [phase, value] of [
+      ["any", 35],
+      ["frontier", 65],
+      ["foundation", 10],
+      ["scaling", 35],
+    ] as const) {
+      expect(codes(phase, value)).not.toContain("event.phase-overrides-era-gate");
+      expect(codes(phase, value)).not.toContain("event.phase-closes-era-window");
+    }
+  });
+
   it("lets an ordinary event fire only once a game", () => {
     const repeatable = validEvent({ unique: false });
     expect(

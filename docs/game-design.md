@@ -3493,7 +3493,7 @@ At step 13 of the weekly update:
 
 The base chance for an ordinary decision event is `1.5%` per week. After sixteen weeks without one, it rises by `0.3` percentage points per week, to a maximum of `8%`. After forty weeks, an event is guaranteed if any eligible event exists. The mean gap is about 27 weeks, which targets roughly 24–36 decision events in a normal run, in addition to discoveries and fixed crises.
 
-Every ordinary event fires at most once a game (`unique: true`; the compiler blocks a repeatable one), and each is gated on its era: a minimum player Frontier Capability or world frontier, so early-deep-learning dilemmas come first and superintelligence-era ones last. Mandatory events may recur because the state that raises them can recur (a second runway crisis, another government intervention, a different rival's candidate).
+Every ordinary event fires at most once a game (`unique: true`; the compiler blocks a repeatable one), and each is gated on its era: a minimum player Frontier Capability or world frontier, so early-deep-learning dilemmas come first and superintelligence-era ones last. The era gate alone decides when an event opens: an event's `phase` may only close its window (a foundation-era event that should not appear in 2030), and the compiler blocks a phase that opens later than the gate or leaves less than ten points of world Frontier Capability before it closes. Mandatory events may recur because the state that raises them can recur (a second runway crisis, another government intervention, a different rival's candidate).
 
 ### 43.4 Mandatory events
 

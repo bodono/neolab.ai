@@ -14,7 +14,7 @@ events:
     version: 1
     category: rival
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 35 }
     baseWeight: 5
@@ -329,7 +329,7 @@ events:
     version: 1
     category: politics
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -409,7 +409,7 @@ events:
     version: 1
     category: security
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -507,7 +507,7 @@ events:
     version: 1
     category: politics
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -723,7 +723,7 @@ events:
     version: 1
     category: people
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     # Chain: staff who watched the lab sign the pause letter and keep training
     # ask for this whatever the culture.
@@ -844,7 +844,7 @@ events:
     version: 1
     category: rival
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: world.frontierCapability, op: gte, value: 55 }
     baseWeight: 6
@@ -940,7 +940,7 @@ events:
     version: 1
     category: rival
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -1062,7 +1062,7 @@ events:
     version: 1
     category: politics
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -1164,7 +1164,7 @@ events:
     version: 1
     category: security
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 50 }
     baseWeight: 5

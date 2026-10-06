@@ -402,7 +402,7 @@ events:
     version: 1
     category: finance
     severity: decision
-    phase: scaling
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -516,7 +516,7 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -615,7 +615,7 @@ events:
     version: 1
     category: facility
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -718,7 +718,7 @@ events:
     version: 1
     category: people
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -798,7 +798,7 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: scaling
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -894,7 +894,7 @@ events:
     version: 1
     category: security
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -1014,7 +1014,7 @@ events:
     version: 1
     category: people
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -1111,7 +1111,7 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all

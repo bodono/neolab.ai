@@ -15,7 +15,7 @@ events:
     version: 1
     category: ai
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -621,7 +621,7 @@ events:
     version: 1
     category: research
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -732,7 +732,7 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: scaling
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -1021,7 +1021,7 @@ events:
     version: 1
     category: research
     severity: decision
-    phase: frontier
+    phase: any
     trigger: { kind: opportunity }
     prerequisites:
       type: all
