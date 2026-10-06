@@ -47,12 +47,13 @@ import type { AvailableCommandView, PolicyView } from "../types.ts";
 
 const content = loadCompiledContent();
 const LONG_HORIZON_TEST_TIMEOUT_MS = 90_000;
-// The two canonical-trajectory canaries each simulate 900-1160 weeks of a
-// single run; roughly two minutes apiece on a busy machine.
-const CANONICAL_TRAJECTORY_TIMEOUT_MS = 300_000;
-// The paper-race band plays three 705-week runs: about four minutes on an idle
-// machine and six on a busy one, past the single-trajectory limit above.
-const PAPER_RACE_TIMEOUT_MS = 600_000;
+// The canonical-trajectory canaries each simulate 900-1160 weeks of a single
+// run: about two minutes locally, but up to eight on a slow CI runner (474 s
+// was measured), so the ceiling is generous. A timeout is a ceiling, not a
+// reservation.
+const CANONICAL_TRAJECTORY_TIMEOUT_MS = 900_000;
+// The paper-race band plays three 705-week runs: four to six minutes locally.
+const PAPER_RACE_TIMEOUT_MS = 900_000;
 
 describe("human decision accounting", () => {
   it("counts v2 endgame choices but not the automatic world-waiting reveal", () => {

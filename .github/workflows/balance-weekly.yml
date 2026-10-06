@@ -49,9 +49,9 @@ jobs:
     name: Balance-runner test suite
     # These tests play whole games, so the per-push gate leaves them out
     # (`pnpm test` excludes the balance-runner project). Without a scheduled
-    # run they went stale unnoticed. About 12 minutes locally on two workers.
+    # run they went stale unnoticed. 12 minutes locally; 15-35 on a CI runner.
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v6
 
