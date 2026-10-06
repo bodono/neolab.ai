@@ -6,7 +6,8 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
 
 ## Commands
 
-- `pnpm balance:smoke` — 30 paired runs, ten policies, up to 104 weeks.
+- `pnpm balance:smoke` — 30 paired runs, ten policies, up to 104 weeks, all on Standard / Thomas
+  Hassabi / Build It Right (see `--difficulties` below to rotate setups).
 - `pnpm balance:horizon` — one seed across all ten policies, up to 1,120 weeks (about 21.5 years), with a deterministic
   10% replay sample. This small nightly probe is long enough to observe rivals naturally completing
   their Candidate Programmes, training qualifying models, and resolving any resulting countdowns
@@ -22,7 +23,8 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
 - `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
   era, key facility, work and crisis stage landed. A tuning aid: it reads privileged state to
   explain the run, while the policy still sees only the player view.
-- `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks.
+- `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks, on the same single setup
+  unless `--difficulties all --leaders all --mandates all` is added.
 - `pnpm balance:release` — the complete 10,200-run Cartesian release matrix: 17 seeds × four
   difficulties × five leaders × three mandates × ten policies. The nightly workflow partitions this
   into ten deterministic 1,020-run shards.
@@ -105,7 +107,10 @@ retirement, the final deployment decision) and ends the run if no command makes 
 ## Matrix and sharding contract
 
 `runBalanceBatch` defaults to a true Cartesian product. `matrixMode: "paired"` is a deliberately
-smaller probe which rotates leader, mandate, and difficulty over each seed/policy pair. Every
+smaller probe which rotates leader, mandate, and difficulty over each seed/policy pair. It rotates
+only through the IDs it is given: the CLI passes a single setup (Standard, Thomas Hassabi, Build It
+Right) for any dimension not named with `--difficulties`, `--leaders` or `--mandates`, so a
+paired CLI batch rotates nothing unless those flags list several IDs or `all`. Every
 Cartesian configuration receives a stable zero-based ordinal and semantic run key. Shard `i/n`
 contains exactly ordinals where `ordinal % n === i`.
 
