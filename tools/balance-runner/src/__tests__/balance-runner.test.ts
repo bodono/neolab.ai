@@ -50,6 +50,9 @@ const LONG_HORIZON_TEST_TIMEOUT_MS = 90_000;
 // The two canonical-trajectory canaries each simulate 900-1160 weeks of a
 // single run; roughly two minutes apiece on a busy machine.
 const CANONICAL_TRAJECTORY_TIMEOUT_MS = 300_000;
+// The paper-race band plays three 705-week runs: about four minutes on an idle
+// machine and six on a busy one, past the single-trajectory limit above.
+const PAPER_RACE_TIMEOUT_MS = 600_000;
 
 describe("human decision accounting", () => {
   it("counts v2 endgame choices but not the automatic world-waiting reveal", () => {
@@ -1150,7 +1153,7 @@ describe("runBalanceBatch", () => {
         expect(run.ticks).toBeGreaterThan(400);
       }
     },
-    CANONICAL_TRAJECTORY_TIMEOUT_MS,
+    PAPER_RACE_TIMEOUT_MS,
   );
 
   // The deterministic candidate gate can end a policy's run before the world

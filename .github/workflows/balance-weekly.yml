@@ -45,6 +45,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  balance-tests:
+    name: Balance-runner test suite
+    # These tests play whole games, so the per-push gate leaves them out
+    # (`pnpm test` excludes the balance-runner project). Without a scheduled
+    # run they went stale unnoticed. About 12 minutes locally on two workers.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Compile content
+        run: pnpm content:build
+
+      - name: Run balance-runner tests
+        run: pnpm test:balance
+
   horizon-probe:
     name: Twenty-one-year strategy horizon
     runs-on: ubuntu-24.04
