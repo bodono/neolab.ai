@@ -391,7 +391,7 @@ const GATE_FRONTIER_CAPABILITY = 88;
 /**
  * The first crossing the lab holds out for: an expected FC 97 fixes about a
  * 61% prior, 100 makes it certain. Since research tapers above 60, FC 97 takes
- * research of about 87 on a full Kolmogorov fleet, and a run's low forecast
+ * research of about 95 on a full Kolmogorov fleet, and a run's low forecast
  * sits about four points under its expectation, so the gate reads the middle
  * of the range. A held candidate at half odds or better is worth keeping.
  */
