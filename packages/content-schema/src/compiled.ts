@@ -351,10 +351,19 @@ export interface TrainingRulesDefinition {
   readonly capabilityFormula: {
     /**
      * Multiplies each visible capability-research level before the research
-     * exponent is applied. This calibrates the candidacy neighbourhood around
-     * broadly level-80 research without changing research speed or compute.
+     * exponent is applied, up to `researchEffectivenessTaperStart`. This
+     * calibrates early and mid-game capability without changing research
+     * speed or compute.
      */
     readonly researchEffectivenessMultiplier: number;
+    /**
+     * Above this research level the multiplier tapers linearly, reaching
+     * `researchEffectivenessAtMaximum` at level 100. Without the taper a
+     * broadly level-85 lab already reached Frontier Capability 100 with
+     * endgame compute, so the last fifteen levels bought nothing.
+     */
+    readonly researchEffectivenessTaperStart: number;
+    readonly researchEffectivenessAtMaximum: number;
     readonly researchCeilingExponent: number;
     readonly scaleScoreExponent: number;
     /**

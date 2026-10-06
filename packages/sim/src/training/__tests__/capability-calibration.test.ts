@@ -16,6 +16,7 @@ import { seed128 } from "../../random/seed.ts";
 import {
   CHECKPOINT_TECHNICAL_LEAD_BONUS,
   TRAINING_REFERENCE_WEEKS,
+  effectiveCapabilityResearch,
   forecastTrainingFrontierCapability,
   trainingCheckpointOdds,
   trainingEraGpuWeeks,
@@ -53,22 +54,39 @@ function runFlop(generationId: string, physicalGpus: number, weeks: number): num
 }
 
 describe("capability research effectiveness calibration", () => {
-  it("keeps broadly level-80 research valuable beyond practical candidacy", () => {
-    expect(content.training.capabilityFormula.researchEffectivenessMultiplier).toBe(1.18);
-    const state = stateWithUniformCapabilityResearch(80);
-    const forecast = forecastTrainingFrontierCapability(
-      state,
-      content,
-      state.run.playerLabId,
-      "normal",
-      Number.MAX_VALUE,
-    );
+  it("needs research 100 for Frontier Capability 100, even with unlimited compute", () => {
+    const formula = content.training.capabilityFormula;
+    expect(formula.researchEffectivenessMultiplier).toBe(1.18);
+    expect(formula.researchEffectivenessTaperStart).toBe(60);
+    expect(formula.researchEffectivenessAtMaximum).toBe(1);
+    const expectedAt = (researchLevel: number): number => {
+      const state = stateWithUniformCapabilityResearch(researchLevel);
+      return forecastTrainingFrontierCapability(
+        state,
+        content,
+        state.run.playerLabId,
+        "normal",
+        Number.MAX_VALUE,
+      ).expected;
+    };
 
-    expect(forecast.expected).toBe(96.6);
+    // Level 80 clears the candidate gate (88) but is far from certain to be
+    // genuine; every level above it still raises the odds, up to 100.
+    expect(expectedAt(80)).toBe(92.1);
+    expect(expectedAt(90)).toBe(96.4);
+    expect(expectedAt(100)).toBe(100);
   });
 
-  it("makes a sensibly scaled 800k-Rubin run a viable candidacy attempt at research 80", () => {
-    const state = stateWithUniformCapabilityResearch(80);
+  it("leaves research below the taper exactly as boosted as before", () => {
+    const formula = content.training.capabilityFormula;
+    expect(effectiveCapabilityResearch(50, formula)).toBeCloseTo(59, 10);
+    expect(effectiveCapabilityResearch(60, formula)).toBeCloseTo(70.8, 10);
+    expect(effectiveCapabilityResearch(80, formula)).toBeCloseTo(87.2, 10);
+    expect(effectiveCapabilityResearch(100, formula)).toBeCloseTo(100, 10);
+  });
+
+  it("makes a sensibly scaled 800k-Rubin run a viable candidacy attempt at research 87", () => {
+    const state = stateWithUniformCapabilityResearch(87);
     const totalFlop = runFlop("base:gpu.rubin", 800_000, 26);
     const forecast = forecastTrainingFrontierCapability(
       state,
@@ -112,13 +130,13 @@ describe("capability research effectiveness calibration", () => {
       }),
     );
 
-    expect(forecast.expected).toBe(89.8);
+    expect(forecast.expected).toBe(88.4);
     expect(reliability.totalLoss).toBeLessThan(0.01);
     expect(reliability.cleanRun).toBeGreaterThan(0.69);
     expect(reliability.cleanRun + reliability.setback).toBeGreaterThan(0.99);
   });
 
-  it("preserves substantial late research value on a full Kolmogorov run", () => {
+  it("rewards every research level up to 100 on a full Kolmogorov run", () => {
     const totalFlop = runFlop("base:gpu.kolmogorov", 2_500_000, 26);
     const expectedAt = (researchLevel: number): number => {
       const state = stateWithUniformCapabilityResearch(researchLevel);
@@ -131,8 +149,8 @@ describe("capability research effectiveness calibration", () => {
       ).expected;
     };
 
-    expect(expectedAt(80)).toBe(95.6);
-    expect(expectedAt(90)).toBe(100);
-    expect(expectedAt(100)).toBe(100);
+    expect(expectedAt(80)).toBe(91.1);
+    expect(expectedAt(90)).toBe(95.4);
+    expect(expectedAt(100)).toBe(98.9);
   });
 });

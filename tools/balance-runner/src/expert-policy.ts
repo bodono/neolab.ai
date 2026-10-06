@@ -389,11 +389,14 @@ function bestModel(view: View) {
 const GATE_FRONTIER_CAPABILITY = 88;
 
 /**
- * The first crossing the lab holds out for: FC 97 fixes a 61% prior, 100 makes
- * it certain. Below that the crisis usually ends in a False Dawn.
+ * The first crossing the lab holds out for: an expected FC 97 fixes about a
+ * 61% prior, 100 makes it certain. Since research tapers above 60, FC 97 takes
+ * research of about 95 on a full Kolmogorov fleet, and a run's low forecast
+ * sits about four points under its expectation, so the gate reads the middle
+ * of the range. A held candidate at half odds or better is worth keeping.
  */
 const CROSSING_FRONTIER_CAPABILITY = 97;
-const CROSSING_PRIOR_PERCENT = 61;
+const CROSSING_PRIOR_PERCENT = 50;
 
 /** Weeks from a crossing run's end through the Deployment Crisis, roughly. */
 const CRISIS_WEEKS = 35;
@@ -440,7 +443,7 @@ function liveArtifacts(view: View) {
  * a genuine superintelligence is fixed when it first crosses FC 88, so crossing
  * early at 90 locks in a ~13% prior. Until every Candidate Programme work is
  * under way, size runs so the forecast stays below the gate; then cross once,
- * with a run forecast to clear FC 97, or with the best run available once a
+ * with a run expected to reach FC 97, or with the best run available once a
  * rival's countdown leaves no time to wait for one.
  */
 function train(planner: Planner): void {
@@ -501,7 +504,7 @@ function train(planner: Planner): void {
         if (releaseGate && quote.reliability.totalLoss > 0.1) continue;
         if (
           releaseGate &&
-          low < CROSSING_FRONTIER_CAPABILITY &&
+          (low + high) / 2 < CROSSING_FRONTIER_CAPABILITY &&
           weeksLeft > durationWeeks + CRISIS_WEEKS
         ) {
           continue;
