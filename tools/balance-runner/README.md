@@ -37,9 +37,11 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   `baselines/expert-ladder.json`: two standard deviations of re-rolling the same twenty seeds for
   counts (at least three games), and a fixed margin for the rest. The seeds are fixed and the
   simulation deterministic, so unchanged code reproduces the baseline exactly. After an intended
-  balance change, refresh the baseline from that ladder: download the `expert-ladder` artifact (or
-  play it locally) and run `pnpm balance:drift -- --input <report.json> --write-baseline
-  --measured-at <commit>`, then commit `tools/balance-runner/baselines/expert-ladder.json`.
+  balance change, refresh the baseline before the next scheduled run: dispatch the Weekly balance
+  workflow with `refresh_baseline` ticked (it plays the ladder and writes
+  `expert-ladder-baseline.json` into the `expert-ladder` artifact without comparing), or play it
+  locally and run `pnpm balance:drift -- --input <report.json> --write-baseline --measured-at
+  <commit>`, then commit it as `tools/balance-runner/baselines/expert-ladder.json`.
 - `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
   era, key facility, work and crisis stage landed, plus the player's world-first papers overall
   and per programme. A tuning aid: it reads privileged state to explain the run, while the policy

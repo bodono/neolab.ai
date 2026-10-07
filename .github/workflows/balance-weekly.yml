@@ -36,6 +36,10 @@ on:
         description: "Also run the 10,200-game release matrix (cannot finish inside CI limits -- see comment above)"
         type: boolean
         default: false
+      refresh_baseline:
+        description: "Write a new expert-ladder baseline (artifact expert-ladder) instead of comparing with the committed one"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -144,9 +148,22 @@ jobs:
           --output ../../artifacts/balance/ladder
 
       - name: Compare with the committed baseline
+        if: ${{ !inputs.refresh_baseline }}
         run: >-
           pnpm balance:drift --
           --input ../../artifacts/balance/ladder/report.json
+          --measured-at ${{ github.sha }}
+
+      # After an intended balance change: write the new baseline into the
+      # uploaded aggregate, to download and commit as
+      # tools/balance-runner/baselines/expert-ladder.json.
+      - name: Write a fresh baseline
+        if: ${{ inputs.refresh_baseline }}
+        run: >-
+          pnpm balance:drift --
+          --input ../../artifacts/balance/ladder/report.json
+          --baseline ../../artifacts/balance/ladder/expert-ladder-baseline.json
+          --write-baseline
           --measured-at ${{ github.sha }}
 
       - name: Upload ladder aggregate
