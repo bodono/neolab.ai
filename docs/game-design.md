@@ -1917,6 +1917,7 @@ The player can designate up to three active programme focuses.
 - Tertiary focus: `1.10×`.
 - Changing a focus starts a four-week cooldown before the full multiplier applies.
 - A paper cannot make a breakthrough roll until its paper, facility, phase, and hidden programme-level requirements are met.
+- A programme given `30%` or more of all research compute is a paper focus: its papers need four fewer levels (section 34.5, "Player paper focus").
 
 The research interface never shows an exact completion bar or eligibility level for an undiscovered idea. It shows `Speculative`, `Promising`, `Hot trail`, or `Breakthrough imminent` from visible research momentum, preserving genuine uncertainty about when the result will arrive.
 
@@ -1950,6 +1951,41 @@ Each eligible lab rolls independently:
 - If the world-first result is kept secret, another lab can later obtain the technology through independent rediscovery, but not the same world-first card or publication choice.
 
 If multiple labs pass their rolls in one tick, the canonical update order determines the first discoverer. To avoid a structural player advantage, rival and player lab order is shuffled once at run creation and remains fixed; the UI never implies that clicking faster changes priority.
+
+#### Rival paper levels
+
+Rival research carries three multipliers the player has no counterpart for: the off-screen
+organisation (rising to `3×` by week 520), unrendered facility expansion (up to `1.6×`), and
+standing model autonomy (up to `6×`). They keep the rival AGI race on schedule, but when they
+also bought paper eligibility every rival reached each paper's level a median 144 weeks before
+the player, and the player won no paper a rival could also attempt (its world firsts were only
+facility-gated papers rivals never build for).
+
+Each rival therefore keeps a hidden paper level per research programme, capability and safety,
+and the paper race reads it instead of the real level for every gate: the breakthrough level,
+authored prerequisite levels and the roll's levels-beyond bonus. It starts at the starting level
+and climbs the same cost ladder on the week's research divided by
+
+`(organisation × facility expansion × autonomy) ^ rivalOffscreenBoostExponent`
+
+with the exponent authored in the papers catalogue rules (`0.5`). It never exceeds the real
+level. Real rival levels are unchanged; rival capability and the endgame move only because
+papers, and the payloads they publish to every lab, arrive later. The state is saved
+(`world.rivals.*.paperLevels`, save version 7; version 6 saves start it at the current real
+level) and is never projected to the player.
+
+#### Player paper focus
+
+A player programme receiving at least `30%` of all research compute (capability plus safety,
+under the current allocation) is a paper focus: its papers' breakthrough level is `4` lower for
+the player. Authored prerequisite levels are not discounted, and rivals never receive it. With
+the usual capability share, the Focused research posture (half of capability research to one
+programme) makes that programme a focus. Both numbers are authored in the papers catalogue
+rules (`playerFocus`). The research screen marks a focus programme "Focus: papers here need 4
+fewer levels", and How to Play explains the rule.
+
+For the expert bot's results with and without a focus, see the paper race note in
+`tools/balance-runner/README.md`.
 
 ### 34.6 Discovery decision
 

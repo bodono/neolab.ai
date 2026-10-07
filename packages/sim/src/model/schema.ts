@@ -518,6 +518,15 @@ const rivalStrategySchema = z
       })
       .strict()
       .optional(),
+    paperLevels: z.record(
+      z.string(),
+      z
+        .object({
+          level: ratingSchema,
+          levelProgressRp: finite.nonnegative(),
+        })
+        .strict(),
+    ),
   })
   .strict();
 

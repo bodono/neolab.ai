@@ -31,7 +31,11 @@ import type {
 } from "../model/state.ts";
 import { describeRandomKey, randomKey } from "../random/key.ts";
 import { RandomOracleV1 } from "../random/oracle.ts";
-import { derivePaperBreakthroughChance, listEligiblePapers } from "../research/papers.ts";
+import {
+  derivePaperBreakthroughChance,
+  describePaperRaceStanding,
+  listEligiblePapers,
+} from "../research/papers.ts";
 
 /** Release audit sentinel: this exact value must never appear in production bytes. */
 export const DEVELOPER_INSPECTOR_BUNDLE_SENTINEL = "NEOLAB_PRIVILEGED_INSPECTOR_V1";
@@ -268,14 +272,18 @@ export function projectDeveloperInspector(input: unknown, content: CompiledConte
             const programme =
               inspectedLab.research.domains[requirement.programmeId] ??
               inspectedLab.research.safetyPrograms[requirement.programmeId];
-            const currentLevel = programme?.level ?? 0;
+            // Race terms: a rival's hidden paper level and the player's focus
+            // discount. `programmeLevel` is the real level.
+            const standing = describePaperRaceStanding(state, content, labId, paper.id);
             return {
               paperId: paper.id,
               title: paper.title,
               gameOrder: paper.gameOrder,
               breakthroughProgrammeId: requirement.programmeId,
-              requiredLevel: requirement.level,
-              currentLevel,
+              authoredRequiredLevel: requirement.level,
+              requiredLevel: standing.requiredLevel,
+              currentLevel: standing.currentLevel,
+              programmeLevel: programme?.level ?? 0,
               weeklyChance: derivePaperBreakthroughChance(
                 state,
                 content,

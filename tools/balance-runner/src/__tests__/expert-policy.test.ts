@@ -4,6 +4,7 @@ import { loadCompiledContent } from "@neolab/content";
 import { contentId } from "@neolab/content-schema";
 import { seed128 } from "@neolab/sim";
 
+import { expertCapabilityWeights, resolveExpertFocus } from "../expert-policy.ts";
 import { EXPERT_POLICY } from "../policies.ts";
 import { runBalanceBatch } from "../runner.ts";
 
@@ -48,5 +49,49 @@ describe("expert policy", () => {
         [],
       ),
     ).toThrow("needs command previews");
+  });
+
+  describe("research focus", () => {
+    const levels = new Map<string, number>([
+      ["base:domain.architectures", 30],
+      ["base:domain.multimodality", 10],
+      ["base:domain.reasoning-tools", 50],
+    ]);
+
+    it("resolves a programme from a slug, a domain id or a full id", () => {
+      for (const requested of [
+        "multimodality",
+        "domain.multimodality",
+        "base:domain.multimodality",
+      ]) {
+        expect(resolveExpertFocus(requested)).toBe("base:domain.multimodality");
+      }
+      expect(() => resolveExpertFocus("alignment-control")).toThrow(
+        "not a capability programme",
+      );
+    });
+
+    it("gives the focus half of capability research and splits the rest as usual", () => {
+      const unfocused = expertCapabilityWeights(levels);
+      const focused = expertCapabilityWeights(levels, "base:domain.reasoning-tools");
+      for (const weights of [unfocused, focused]) {
+        expect(Object.values(weights).reduce((sum, weight) => sum + weight, 0)).toBe(
+          10_000,
+        );
+        expect(Object.values(weights).every((weight) => weight > 0)).toBe(true);
+      }
+      expect(focused["base:domain.reasoning-tools"]).toBe(5_000);
+      // The others keep their unfocused proportions within the remaining half.
+      expect(
+        focused["base:domain.multimodality"]! / focused["base:domain.architectures"]!,
+      ).toBeCloseTo(
+        unfocused["base:domain.multimodality"]! / unfocused["base:domain.architectures"]!,
+        2,
+      );
+      // At the expert's usual 70% capability share that is a paper focus.
+      expect(0.7 * 0.5).toBeGreaterThanOrEqual(
+        content.papers.rules.playerFocus.researchComputeShare,
+      );
+    });
   });
 });

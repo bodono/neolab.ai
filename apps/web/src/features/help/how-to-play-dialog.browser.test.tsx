@@ -16,7 +16,12 @@ function Harness(): ReactElement {
       <button id="opener" type="button" onClick={() => setOpen(true)}>
         How to play
       </button>
-      {open ? <HowToPlayDialog onClose={() => setOpen(false)} /> : null}
+      {open ? (
+        <HowToPlayDialog
+          paperFocus={{ researchComputeSharePercent: 30, levelDiscount: 4 }}
+          onClose={() => setOpen(false)}
+        />
+      ) : null}
     </>
   );
 }
@@ -53,6 +58,15 @@ describe("HowToPlayDialog", () => {
     expect(dialog.textContent).toContain("There is no separate raw-FLOP requirement");
     expect(dialog.textContent).toContain(
       "Train a new model, launch it for revenue, and evaluate its capability and safety.",
+    );
+  });
+
+  it("explains how a research focus helps win landmark papers", () => {
+    const dialog = openDialog();
+    const text = (dialog.textContent ?? "").replaceAll(/\s+/g, " ");
+    expect(text).toContain("Landmark papers go to the first lab to reach them.");
+    expect(text).toContain(
+      "30% or more of all research compute to make it a focus: its papers need 4 fewer levels.",
     );
   });
 

@@ -38,6 +38,7 @@ function programme(name: string, index: number): Programme {
       label: "No knowledge diffusion",
       contributors: [],
     },
+    paperFocus: false,
     milestones: [],
   };
 }
@@ -77,6 +78,7 @@ describe("research programme grid in Chromium", () => {
                   key={name}
                   programme={programme(name, index)}
                   allocationSharePercent={14}
+                  paperFocusLevelDiscount={4}
                   selected={false}
                   onSelect={() => undefined}
                   onInspectLead={() => undefined}

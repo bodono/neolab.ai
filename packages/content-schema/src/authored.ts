@@ -439,6 +439,13 @@ export const landmarkPapersFileSchema = z
             maximum: z.number().min(0).max(1),
           })
           .strict(),
+        rivalOffscreenBoostExponent: z.number().min(0).max(1),
+        playerFocus: z
+          .object({
+            researchComputeShare: z.number().gt(0).max(1),
+            levelDiscount: z.number().int().min(0).max(100),
+          })
+          .strict(),
         standardPublicationPolicy: z.string().min(1),
         phaseVocabulary: z.array(z.enum(["foundation", "scaling", "frontier"])).length(3),
         publicationPolicies: z

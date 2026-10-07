@@ -11,6 +11,25 @@ catalogueRules:
     basePerWeek: 0.22
     perLevelAbove: 0.08
     maximum: 0.78
+  # Rival research carries three multipliers the player has no counterpart
+  # for: the off-screen organisation (up to 3x by week 520), unrendered
+  # facility expansion (up to 1.6x) and standing model autonomy (up to 6x).
+  # They keep the rival AGI race on schedule, but applied to the paper race
+  # they put every rival at each paper's level a median 144 weeks before the
+  # player, so the player won no paper it could also be raced for. For the
+  # paper race only, each rival programme keeps a hidden paper level that
+  # climbs the same cost ladder on its weekly research divided by
+  # (organisation x facility expansion x autonomy) ^ this exponent. 0 restores
+  # the old race, 1 removes the boosts entirely. Real rival levels, capability
+  # and the endgame are unaffected.
+  rivalOffscreenBoostExponent: 0.5
+  # A player programme receiving at least this share of all research compute
+  # (capability plus safety, under the current allocation) is a paper focus:
+  # its papers need levelDiscount fewer programme levels for the player.
+  # Rivals never receive the discount. Prerequisite levels are not discounted.
+  playerFocus:
+    researchComputeShare: 0.3
+    levelDiscount: 4
   standardPublicationPolicy: policy.paper-publication-standard
   phaseVocabulary: [foundation, scaling, frontier]
   publicationPolicies:

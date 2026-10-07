@@ -515,24 +515,46 @@ export function researchPointsForNextLevel(
   );
 }
 
+/**
+ * Spend research points up the programme's level-cost ladder. Shared by the
+ * player's and rivals' real levels and by rivals' hidden paper levels, so all
+ * three climb exactly the same ladder.
+ */
+export function climbResearchLadder(
+  content: CompiledContent,
+  programId: ContentId,
+  level: number,
+  levelProgressRp: number,
+  researchPoints: number,
+): { readonly level: number; readonly levelProgressRp: number } {
+  let climbed = level;
+  let progress = levelProgressRp + researchPoints;
+  while (climbed < 100) {
+    const cost = researchPointsForNextLevel(content, programId, climbed);
+    if (progress + 1e-12 < cost) break;
+    progress -= cost;
+    climbed += 1;
+  }
+  if (climbed >= 100) progress = 0;
+  return { level: climbed, levelProgressRp: progress };
+}
+
 function applyResearchPoints(
   before: DomainState,
   researchPoints: number,
   content: CompiledContent,
   programId: ContentId,
 ): DomainState {
-  let level: number = before.level;
-  let progress = before.levelProgressRp + researchPoints;
-  while (level < 100) {
-    const cost = researchPointsForNextLevel(content, programId, level);
-    if (progress + 1e-12 < cost) break;
-    progress -= cost;
-    level += 1;
-  }
-  if (level >= 100) progress = 0;
+  const climbed = climbResearchLadder(
+    content,
+    programId,
+    before.level,
+    before.levelProgressRp,
+    researchPoints,
+  );
   return {
-    level: rating(level),
-    levelProgressRp: progress,
+    level: rating(climbed.level),
+    levelProgressRp: climbed.levelProgressRp,
     totalResearchPoints: before.totalResearchPoints + researchPoints,
     weeklyMomentum: before.weeklyMomentum * 0.75 + researchPoints * 0.25,
   };

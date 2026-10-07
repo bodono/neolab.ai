@@ -1188,6 +1188,8 @@ export function compileContent(repoRoot: string): CompileResult {
   };
   const paperRules: PapersDefinition["rules"] = {
     breakthroughChance: papersFile.catalogueRules.breakthroughChance,
+    rivalOffscreenBoostExponent: papersFile.catalogueRules.rivalOffscreenBoostExponent,
+    playerFocus: papersFile.catalogueRules.playerFocus,
     publicationPolicies:
       papersFile.catalogueRules.publicationPolicies ?? defaultPublicationPolicies,
     rivalStub: papersFile.catalogueRules.rivalStub ?? defaultRivalStub,

@@ -371,6 +371,17 @@ describe("paper discovery interruptions", () => {
     playerOpt.level = rating(3);
     rivalArch.level = rating(paper.breakthroughRequirement.level);
     rivalOpt.level = rating(3);
+    // Rivals race for papers on their hidden paper levels.
+    const rivalPaperLevels = draft.world.rivals[rivalLabId]?.paperLevels;
+    if (rivalPaperLevels === undefined) throw new Error("rival strategy missing");
+    rivalPaperLevels[architectures] = {
+      level: rating(paper.breakthroughRequirement.level),
+      levelProgressRp: 0,
+    };
+    rivalPaperLevels[contentId("base:domain.optimisation-scaling")] = {
+      level: rating(3),
+      levelProgressRp: 0,
+    };
 
     const tx = createTransaction(draft);
     advancePaperRace(tx, content, backpropOnlyBreakthroughOracle);

@@ -72,6 +72,7 @@ function multiplierLabel(value: number): string {
 export function ResearchProgrammeCard({
   programme,
   allocationSharePercent,
+  paperFocusLevelDiscount,
   selected,
   lead,
   onSelect,
@@ -80,6 +81,8 @@ export function ResearchProgrammeCard({
 }: {
   readonly programme: ResearchProgrammeCardView;
   readonly allocationSharePercent: number;
+  /** Levels a paper-focus programme's papers are discounted by. */
+  readonly paperFocusLevelDiscount: number;
   readonly selected: boolean;
   readonly lead?: ProgrammeLeadIdentity;
   readonly onSelect: () => void;
@@ -180,6 +183,11 @@ export function ResearchProgrammeCard({
           {allocationSharePercent.toFixed(0)}% of{" "}
           {programme.kind === "capability" ? "capability" : "safety"} research
         </small>
+        {programme.paperFocus === true ? (
+          <small className="programme-paper-focus">
+            {paperFocusLine(paperFocusLevelDiscount)}
+          </small>
+        ) : null}
       </button>
       <button
         className={`programme-lead-slot${lead === undefined ? " empty" : " occupied"}`}
@@ -225,6 +233,11 @@ export function ResearchProgrammeCard({
       </button>
     </article>
   );
+}
+
+/** The one player-facing line for a paper-focus programme. */
+export function paperFocusLine(levelDiscount: number): string {
+  return `Focus: papers here need ${String(levelDiscount)} fewer level${levelDiscount === 1 ? "" : "s"}`;
 }
 
 function finiteOr(value: number | undefined, fallback: number): number {
@@ -966,6 +979,7 @@ function ResearchTechTree({
   readonly onOpenCompute: () => void;
 }): ReactElement {
   const safetyResearchUnlocked = view.meta.labMaturity?.safetyResearchUnlocked !== false;
+  const paperFocusRule = view.research.paperFocusRule;
   const visibleProgrammes = view.research.techTree.programmes.filter(
     (programme) => programme.kind === "capability" || safetyResearchUnlocked,
   );
@@ -1388,7 +1402,8 @@ function ResearchTechTree({
             <small>Applies next week</small>
             <MechanicHelp label="Research posture">
               Balanced splits a pool evenly. Focused sends half to one programme and
-              divides the rest. Change the capability/safety split on Compute.
+              divides the rest. Change the capability/safety split on Compute.{" "}
+              {`A programme with ${String(paperFocusRule.researchComputeSharePercent)}% or more of all research compute is a paper focus: its papers need ${String(paperFocusRule.levelDiscount)} fewer levels.`}
             </MechanicHelp>
           </div>
         </header>
@@ -1450,6 +1465,7 @@ function ResearchTechTree({
                       key={programme.programId}
                       programme={programme}
                       allocationSharePercent={allocationShare(programme.programId, kind)}
+                      paperFocusLevelDiscount={paperFocusRule.levelDiscount}
                       selected={programme.programId === selectedProgramme?.programId}
                       {...(lead === undefined ? {} : { lead })}
                       onSelect={() => setSelectedProgramId(programme.programId)}
@@ -1688,7 +1704,14 @@ function ResearchTechTree({
                   {paperStatusCounts.locked} locked
                 </span>
               </div>
-              <small>Breakthrough timing is uncertain.</small>
+              <div className="research-paper-tree-notes">
+                <small>Breakthrough timing is uncertain.</small>
+                {selectedProgramme.paperFocus === true ? (
+                  <small className="research-paper-focus">
+                    {paperFocusLine(paperFocusRule.levelDiscount)}
+                  </small>
+                ) : null}
+              </div>
             </header>
             {selectedPaper === undefined ? (
               <p className="empty-state">No landmark papers on this programme.</p>

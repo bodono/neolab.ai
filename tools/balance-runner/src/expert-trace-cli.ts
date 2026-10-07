@@ -2,6 +2,7 @@
 //
 //   node src/expert-trace-cli.ts --seed 1 [--max-ticks 1120] [--every 52]
 //                                [--save-at 820 --save state.json] [--load state.json]
+//                                [--expert-focus multimodality] [--papers-at 860]
 //
 // A tuning tool, not a balance measurement: the timeline and milestones read
 // privileged state (true capability, rival strength) to explain the run. The
@@ -24,7 +25,7 @@ import {
 } from "@neolab/sim";
 
 import { listAvailableCommands } from "./available-commands.ts";
-import { expertDecisions } from "./expert-policy.ts";
+import { expertDecisions, resolveExpertFocus } from "./expert-policy.ts";
 import { EXPERT_POLICY_ID } from "./types.ts";
 
 const args = process.argv.slice(2);
@@ -38,6 +39,10 @@ const every = Number(read("--every") ?? "52");
 const saveAt = read("--save-at");
 const savePath = read("--save") ?? "expert-state.json";
 const loadPath = read("--load");
+const papersAt = read("--papers-at");
+const focusArgument = read("--expert-focus");
+const researchFocus =
+  focusArgument === undefined ? undefined : resolveExpertFocus(focusArgument);
 
 const content = loadCompiledContent();
 
@@ -124,6 +129,11 @@ function timeline(state: Readonly<GameState>): string {
     `cap[${domains.join(",")}] saf[${safety.join(",")}]`,
     `works ${works}`,
     `rival FC ${rival.toFixed(1)}`,
+    `papers ${String(
+      Object.values(state.world.paperRace.discoveries).filter(
+        (discovery) => discovery.discovererLabId === state.run.playerLabId,
+      ).length,
+    )}/${String(Object.keys(state.world.paperRace.discoveries).length)}`,
     `endgame ${state.endgame.stage}`,
   ].join(" | ");
 }
@@ -175,6 +185,34 @@ function observe(state: Readonly<GameState>): void {
   }
 }
 
+/** World firsts: the player's share overall and per programme it led. */
+function paperSummary(state: Readonly<GameState>): string {
+  const discoveries = Object.values(state.world.paperRace.discoveries);
+  const playerId = state.run.playerLabId;
+  const byProgramme = new Map<string, { won: number; total: number }>();
+  for (const discovery of discoveries) {
+    const programmeId =
+      content.papers.definitions[discovery.paperId]?.breakthroughRequirement
+        .programmeId ?? "unknown";
+    const entry = byProgramme.get(programmeId) ?? { won: 0, total: 0 };
+    entry.total += 1;
+    if (discovery.discovererLabId === playerId) entry.won += 1;
+    byProgramme.set(programmeId, entry);
+  }
+  const won = discoveries.filter(
+    (discovery) => discovery.discovererLabId === playerId,
+  ).length;
+  return [
+    `papers player ${String(won)}/${String(discoveries.length)}`,
+    ...[...byProgramme.entries()]
+      .sort(([left], [right]) => (left < right ? -1 : 1))
+      .map(
+        ([programmeId, entry]) =>
+          `${programmeId.replace(/^base:(domain|safety)\./, "")} ${String(entry.won)}/${String(entry.total)}`,
+      ),
+  ].join(" | ");
+}
+
 let state: GameState =
   loadPath !== undefined
     ? (JSON.parse(readFileSync(loadPath, "utf8")) as GameState)
@@ -200,6 +238,7 @@ while (state.run.status === "active" && state.run.tick < maxTicks) {
       },
       listAvailableCommands(state, content, EXPERT_POLICY_ID),
       (command) => validateCommand(snapshot, content, command),
+      researchFocus === undefined ? {} : { researchFocus },
     );
     for (const command of commands) {
       const validation = validateCommand(state, content, command);
@@ -229,12 +268,16 @@ while (state.run.status === "active" && state.run.tick < maxTicks) {
     writeFileSync(savePath, JSON.stringify(state));
   }
   if (state.run.tick % every === 0) console.log(timeline(state));
+  if (papersAt !== undefined && state.run.tick === Number(papersAt)) {
+    console.log(`week ${papersAt} ${paperSummary(state)}`);
+  }
 }
 console.log(timeline(state));
 console.log(
   `status ${state.run.status} ending ${state.run.endingId ?? "-"} week ${String(state.run.tick)}`,
 );
 console.log(`rejected ${JSON.stringify(rejected)}`);
+console.log(paperSummary(state));
 console.log(
   `milestones ${[...milestones.entries()]
     .sort((left, right) => left[1] - right[1])

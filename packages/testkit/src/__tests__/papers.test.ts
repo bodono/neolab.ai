@@ -45,6 +45,19 @@ const alwaysBreakthroughOracle: RandomOracle = {
   shuffle: (_key, values) => [...values],
 };
 
+/** Rivals race for papers on hidden paper levels; keep them with the real level. */
+function matchRivalPaperLevel(
+  state: DeepMutable<GameState>,
+  labId: string,
+  programmeId: string,
+  level: number,
+): void {
+  const paperLevels = state.world.rivals[labId as LabId]?.paperLevels;
+  if (paperLevels !== undefined) {
+    paperLevels[programmeId] = { level: rating(level), levelProgressRp: 0 };
+  }
+}
+
 function mutable(state: GameState): DeepMutable<GameState> {
   return structuredClone(state) as DeepMutable<GameState>;
 }
@@ -242,6 +255,13 @@ describe("paper race resolution", () => {
         }
         architectureState.level = rating(paper.breakthroughRequirement.level);
         optimisationState.level = rating(3);
+        matchRivalPaperLevel(
+          state,
+          labId,
+          architectures,
+          paper.breakthroughRequirement.level,
+        );
+        matchRivalPaperLevel(state, labId, optimisation, 3);
       }
 
       const tx = createTransaction(state);
@@ -559,6 +579,7 @@ describe("publication and secrecy", () => {
     for (const lab of Object.values(state.labs)) {
       const architecture = lab.research.domains[architectures];
       if (architecture !== undefined) architecture.level = rating(10);
+      matchRivalPaperLevel(state, lab.id, architectures, 10);
     }
     const auraBefore = state.labs[state.run.playerLabId]?.aura.spendable ?? 0;
     const tx = createTransaction(state);

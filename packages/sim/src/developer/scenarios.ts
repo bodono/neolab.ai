@@ -61,6 +61,7 @@ import { RandomOracleV1, type RandomOracle } from "../random/oracle.ts";
 import { reconcilePaperBenefits } from "../research/papers.ts";
 import { advanceRivalCandidateCountdowns } from "../rivals/candidate-countdown.ts";
 import { agiComponentBuildingFlag } from "../rivals/candidate-programme-race.ts";
+import { initialRivalPaperLevels } from "../rivals/research.ts";
 import { recordRivalPublicSignal } from "../rivals/signals.ts";
 
 export const ENDGAME_PLAYTEST_SCENARIOS = [
@@ -621,6 +622,12 @@ function applyMatureRivalProfiles(state: DeepMutable<GameState>): void {
       ...profile.institution,
       programmeLevel: profile.safetyResearchLevel,
     });
+    // A mature fixture's rival has done its research already; its paper race
+    // starts level with its real programmes, as a new game's does.
+    const strategy = state.world.rivals[labId];
+    if (strategy !== undefined) {
+      strategy.paperLevels = initialRivalPaperLevels(lab.research);
+    }
     lab.finance.cash = cashMillions(profile.cashMillions);
     lab.aura.spendable = Math.round(profile.lifetimeAura * 0.55);
     lab.aura.lifetime = profile.lifetimeAura;

@@ -288,6 +288,19 @@ export interface PaperRulesDefinition {
     readonly perLevelAbove: number;
     readonly maximum: number;
   };
+  /**
+   * Exponent on the rival off-screen research boost (organisation x facility
+   * expansion x autonomy) removed from a rival's hidden paper level: 0 keeps
+   * the boost, 1 removes it.
+   */
+  readonly rivalOffscreenBoostExponent: number;
+  /** Player-only paper discount for programmes given a large compute share. */
+  readonly playerFocus: {
+    /** Minimum share of all research compute, as a fraction in (0, 1]. */
+    readonly researchComputeShare: number;
+    /** Programme levels a focus paper's breakthrough requirement is lowered by. */
+    readonly levelDiscount: number;
+  };
   readonly publicationPolicies: Readonly<
     Record<PublicationPolicy, { readonly auraMultiplier: number }>
   >;

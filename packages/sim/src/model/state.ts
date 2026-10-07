@@ -413,6 +413,19 @@ export interface RivalStrategyState {
   readonly diplomacyHistory: readonly RivalDiplomacyAttemptState[];
   readonly incidents: readonly RivalIncidentState[];
   readonly candidateCountdown?: RivalCandidateCountdownState;
+  /**
+   * HIDDEN: the level each research programme counts as in the paper race,
+   * keyed by programme id (capability and safety). It climbs the same cost
+   * ladder as the real level, but on weekly research with the rival's
+   * off-screen boosts partly removed (`rivalOffscreenBoostExponent`), so it
+   * never runs ahead of the real level. Real levels still drive capability.
+   */
+  readonly paperLevels: Readonly<Record<string, RivalPaperLevelState>>;
+}
+
+export interface RivalPaperLevelState {
+  readonly level: Rating;
+  readonly levelProgressRp: number;
 }
 
 export type RivalPublicSignalKind =
@@ -2622,7 +2635,7 @@ export interface GameState {
   readonly aiCharacter?: AiCharacterState;
 }
 
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
 export const ENGINE_RULES_VERSION = "0.3.0";
 
 /** Calendar maths: 52 weeks per displayed year, starting 2012 week 1. */

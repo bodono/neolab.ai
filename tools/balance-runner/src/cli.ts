@@ -5,7 +5,8 @@ import { loadCompiledContent } from "@neolab/content";
 import { contentId, type ContentId } from "@neolab/content-schema";
 import { seed128 } from "@neolab/sim";
 
-import { EXPERT_POLICY, INITIAL_POLICIES } from "./policies.ts";
+import { resolveExpertFocus } from "./expert-policy.ts";
+import { createExpertPolicy, INITIAL_POLICIES } from "./policies.ts";
 import {
   dimensionSummaryCsv,
   eventSummaryCsv,
@@ -33,6 +34,7 @@ interface CliOptions {
   readonly verifyReplays: boolean;
   readonly coreStrategies: boolean;
   readonly expert: boolean;
+  readonly expertFocus: string | undefined;
   readonly difficulties: string | undefined;
   readonly leaders: string | undefined;
   readonly mandates: string | undefined;
@@ -89,6 +91,7 @@ function parseArgs(args: readonly string[]): CliOptions {
     verifyReplays: !args.includes("--skip-replay-verification"),
     coreStrategies: args.includes("--core-strategies"),
     expert: args.includes("--expert"),
+    expertFocus: read("--expert-focus"),
     difficulties: read("--difficulties"),
     leaders: read("--leaders"),
     mandates: read("--mandates"),
@@ -120,9 +123,18 @@ function dimension(
 }
 
 const options = parseArgs(process.argv.slice(2));
+if (options.expertFocus !== undefined && !options.expert) {
+  throw new Error("--expert-focus needs --expert");
+}
 const content = loadCompiledContent();
 const policies = options.expert
-  ? [EXPERT_POLICY]
+  ? [
+      createExpertPolicy(
+        options.expertFocus === undefined
+          ? {}
+          : { researchFocus: resolveExpertFocus(options.expertFocus) },
+      ),
+    ]
   : options.coreStrategies
     ? INITIAL_POLICIES.filter((policy) => CORE_STRATEGY_POLICY_IDS.includes(policy.id))
     : INITIAL_POLICIES;

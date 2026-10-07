@@ -193,6 +193,72 @@ describe("save envelope", () => {
     }
   });
 
+  it("migrates a save-version 6 run by seeding rival paper levels from real levels", () => {
+    const state = advance(
+      newState("0123456789abcdef0123456789abcdef", "base:leader.sam-altmann"),
+      6,
+    );
+    const legacy = structuredClone(state) as unknown as {
+      saveVersion: number;
+      world: { rivals: Record<string, Record<string, unknown>> };
+    };
+    legacy.saveVersion = 6;
+    for (const strategy of Object.values(legacy.world.rivals)) {
+      delete strategy["paperLevels"];
+    }
+    const current = createSaveEnvelope(state, {
+      saveId: "v6-run",
+      slotType: "manual",
+      displayName: "Version 6 run",
+      contentHash: content.manifest.bundleHash,
+      nowIso: NOW,
+    });
+    const loaded = loadSaveEnvelope({
+      ...current,
+      saveVersion: 6,
+      state: legacy,
+      checksum: hashJson(legacy),
+    });
+
+    expect(loaded.migration.applied).toEqual(["6→7"]);
+    expect(loaded.state.saveVersion).toBe(7);
+    const rivalIds = Object.keys(state.world.rivals).sort();
+    expect(rivalIds).toHaveLength(4);
+    for (const labId of rivalIds) {
+      const lab = loaded.state.labs[labId as keyof GameState["labs"]];
+      const paperLevels =
+        loaded.state.world.rivals[labId as keyof GameState["labs"]]?.paperLevels;
+      if (lab === undefined || paperLevels === undefined)
+        throw new Error("rival missing");
+      const programmes = { ...lab.research.domains, ...lab.research.safetyPrograms };
+      expect(Object.keys(paperLevels).sort()).toEqual(Object.keys(programmes).sort());
+      for (const [programmeId, programme] of Object.entries(programmes)) {
+        expect(paperLevels[programmeId]).toEqual({
+          level: programme.level,
+          levelProgressRp: 0,
+        });
+      }
+    }
+  });
+
+  it("still refuses saves from before the endgame redesign", () => {
+    const state = newState("0123456789abcdef0123456789abcdef", "base:leader.sam-altmann");
+    const legacy = { ...structuredClone(state), saveVersion: 5 };
+    const envelope = {
+      ...createSaveEnvelope(state, {
+        saveId: "v5-run",
+        slotType: "manual",
+        displayName: "Version 5 run",
+        contentHash: content.manifest.bundleHash,
+        nowIso: NOW,
+      }),
+      saveVersion: 5,
+      state: legacy,
+      checksum: hashJson(legacy),
+    };
+    expect(() => loadSaveEnvelope(envelope)).toThrow(/predates the endgame redesign/);
+  });
+
   it("rejects tampered payloads via the checksum", () => {
     const state = newState("0123456789abcdef0123456789abcdef", "base:leader.sam-altmann");
     const envelope = createSaveEnvelope(state, {

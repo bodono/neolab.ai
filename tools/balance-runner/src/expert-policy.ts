@@ -50,6 +50,69 @@ const SAFETY_WEIGHTS: Record<string, number> = {
 /** Research level the Candidate Programme works and the 80-attribute floor need. */
 const DOMAIN_TARGET_LEVEL = 92;
 
+/** Share of capability research a focused expert gives its focus programme. */
+const FOCUS_CAPABILITY_BASIS_POINTS = 5_000;
+
+export interface ExpertOptions {
+  /**
+   * A capability programme (full id) to give about half of capability
+   * research, the rest split as usual. At the normal 70% capability share
+   * that is 35% of all research compute, enough to make it a paper focus.
+   */
+  readonly researchFocus?: string;
+}
+
+/**
+ * Resolve a `--expert-focus` argument -- a full id (`base:domain.multimodality`),
+ * `domain.multimodality` or the bare slug `multimodality` -- to a capability
+ * programme id, or throw naming the choices.
+ */
+export function resolveExpertFocus(requested: string): string {
+  const candidates = [requested, `base:${requested}`, `base:domain.${requested}`];
+  const match = CAPABILITY_DOMAINS.find((domainId) => candidates.includes(domainId));
+  if (match === undefined) {
+    throw new Error(
+      `--expert-focus: ${requested} is not a capability programme; choose one of ` +
+        CAPABILITY_DOMAINS.map((domainId) => domainId.replace("base:domain.", "")).join(
+          ", ",
+        ),
+    );
+  }
+  return match;
+}
+
+/**
+ * Capability weights in basis points summing to 10,000: every programme
+ * funded, most where the lab is furthest from the gate, and half to the focus
+ * programme when one is set.
+ */
+export function expertCapabilityWeights(
+  levels: ReadonlyMap<string, number>,
+  focus?: string,
+): Record<string, number> {
+  const raw = CAPABILITY_DOMAINS.map((domainId) => {
+    const level = levels.get(domainId) ?? 0;
+    return [domainId, 1 + Math.max(0, DOMAIN_TARGET_LEVEL - level) / 8] as const;
+  });
+  const focused = focus !== undefined && raw.some(([domainId]) => domainId === focus);
+  const shared = raw.filter(([domainId]) => !focused || domainId !== focus);
+  const pool = focused ? 10_000 - FOCUS_CAPABILITY_BASIS_POINTS : 10_000;
+  const total = shared.reduce((sum, [, weight]) => sum + weight, 0);
+  const weights: Record<string, number> = {};
+  let assigned = 0;
+  for (const [index, [domainId, weight]] of shared.entries()) {
+    const share =
+      index === shared.length - 1 ? pool - assigned : Math.floor((weight / total) * pool);
+    weights[domainId] = share;
+    assigned += share;
+  }
+  if (focused) weights[focus] = FOCUS_CAPABILITY_BASIS_POINTS;
+  // Keep the authored programme order, which the allocation command echoes.
+  return Object.fromEntries(
+    CAPABILITY_DOMAINS.map((domainId) => [domainId, weights[domainId] ?? 0]),
+  );
+}
+
 /**
  * Construction order. Housing first, then the institutions that raise research
  * output and star slots, then the chains the four Candidate Programme works
@@ -314,28 +377,14 @@ function fundraise(planner: Planner, wantMillions: number): void {
   }
 }
 
-function allocate(planner: Planner): void {
+function allocate(planner: Planner, options: ExpertOptions): void {
   const view = planner.view;
   if (view.meta.tick % 13 !== 0) return;
   const levels = new Map(
     view.research.capabilityDomains.map((domain) => [domain.programId, domain.level]),
   );
   // Fund every programme, most where the lab is furthest from the gate.
-  const raw = CAPABILITY_DOMAINS.map((domainId) => {
-    const level = levels.get(domainId) ?? 0;
-    return [domainId, 1 + Math.max(0, DOMAIN_TARGET_LEVEL - level) / 8] as const;
-  });
-  const total = raw.reduce((sum, [, weight]) => sum + weight, 0);
-  const weights: Record<string, number> = {};
-  let assigned = 0;
-  for (const [index, [domainId, weight]] of raw.entries()) {
-    const share =
-      index === raw.length - 1
-        ? 10_000 - assigned
-        : Math.floor((weight / total) * 10_000);
-    weights[domainId] = share;
-    assigned += share;
-  }
+  const weights = expertCapabilityWeights(levels, options.researchFocus);
   const lowestLevel = Math.min(
     ...CAPABILITY_DOMAINS.map((domainId) => levels.get(domainId) ?? 0),
   );
@@ -1030,6 +1079,7 @@ export function expertDecisions(
   policyView: Readonly<PolicyView>,
   available: readonly AvailableCommandView[],
   preview: CommandPreviewer,
+  options: ExpertOptions = {},
 ): readonly GameCommand[] {
   const planner = new Planner(policyView.game, preview);
   respondToMandatory(planner, available);
@@ -1038,7 +1088,7 @@ export function expertDecisions(
     fundraise(planner, 0);
     return planner.commands;
   }
-  allocate(planner);
+  allocate(planner, options);
   launch(planner);
   train(planner);
   const forWorks = candidateProgramme(planner);
