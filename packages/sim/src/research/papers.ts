@@ -187,10 +187,12 @@ export function derivePaperFocusProgrammeIds(
   state: Readonly<GameState>,
   content: CompiledContent,
   labId: string,
+  allocation = state.labs[labId as LabId]?.compute.allocation,
 ): ReadonlySet<string> {
   const lab = state.labs[labId as LabId];
-  if (lab === undefined || labId !== state.run.playerLabId) return new Set();
-  const allocation = lab.compute.allocation;
+  if (lab === undefined || allocation === undefined || labId !== state.run.playerLabId) {
+    return new Set();
+  }
   // Shares are products of two basis-point fractions, so compare in units of
   // 1/10,000^2 of research compute.
   const thresholdUnits = Math.round(

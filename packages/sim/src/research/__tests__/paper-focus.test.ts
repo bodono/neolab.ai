@@ -256,4 +256,26 @@ describe("player paper focus", () => {
       .map((programme) => programme.programId);
     expect(focused).toEqual([architectures]);
   });
+
+  it("shows the focus the next paper roll will use when an allocation is queued", () => {
+    const state = newState();
+    const player = state.labs[state.run.playerLabId];
+    if (player === undefined) throw new Error("player missing");
+    player.compute.allocation = allocation(7_000, architectures, 5_000);
+    // Queued now, applied at the start of next week before the race rolls.
+    state.run.queuedOrders.push({
+      kind: "set-gpu-allocation",
+      labId: state.run.playerLabId,
+      allocation: allocation(7_000, optimisation, 5_000),
+    });
+    const view = projectGameView(state, content, {
+      viewerLabId: state.run.playerLabId,
+      intelligenceRatings: {},
+      evidenceAccess: { evaluationIds: [], anomalyIds: [] },
+    });
+    const focused = view.research.techTree.programmes
+      .filter((programme) => programme.paperFocus)
+      .map((programme) => programme.programId);
+    expect(focused).toEqual([optimisation]);
+  });
 });

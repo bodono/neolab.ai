@@ -3588,7 +3588,17 @@ function projectResearch(
   const capabilityDomains = projectPrograms("capability");
   const safetyPrograms = projectPrograms("safety");
   const programmes = [...capabilityDomains, ...safetyPrograms];
-  const paperFocusProgrammeIds = derivePaperFocusProgrammeIds(state, content, labId);
+  // A new allocation is queued and applied at the start of next week, before
+  // the paper race rolls, so the focus shown is the queued one when it exists.
+  const queuedAllocation = state.run.queuedOrders
+    .filter((order) => order.kind === "set-gpu-allocation" && order.labId === labId)
+    .at(-1)?.allocation;
+  const paperFocusProgrammeIds = derivePaperFocusProgrammeIds(
+    state,
+    content,
+    labId,
+    queuedAllocation ?? state.labs[labId]?.compute.allocation,
+  );
   const phaseRank = {
     foundation: 0,
     scaling: 1,

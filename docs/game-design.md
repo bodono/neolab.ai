@@ -2032,11 +2032,13 @@ The authored programme multiplier is applied after that curve. Capability
 programmes range from `0.92×` to `1.20×`; safety programmes use `0.98×`,
 `1.00×`, and `1.02×`, averaging exactly `1.00×`.
 
-Safety paper gates follow the safety curve. The research that takes a
-capability programme to level 86 takes a safety programme to about 67, and
-capability 100 matches safety 71. So the 2023–24 safety papers (AI Control,
-Scaling Monosemanticity, Alignment Faking) unlock at 72, and the fictional
-safety capstones at 73–78.
+Safety paper gates follow the safety curve. The 2023–24 safety papers (AI
+Control, Scaling Monosemanticity, Alignment Faking) unlock at 72, and the
+fictional safety capstones at 73–78; they were placed when capability 100 cost
+as much as safety 78. Holding capability costs flat above level 80 made the
+capability ladder cheaper (capability 100 now matches safety 71) without
+changing what any safety level costs, so these gates are exactly as reachable
+as before; they simply sit beyond the capability ceiling's price.
 
 The compounding exists because research output is multiplicative and enormous
 at the top end. Output is `0.32 x (allocatedGpus x generationTrainingFactor /
@@ -3529,7 +3531,7 @@ At step 13 of the weekly update:
 
 The base chance for an ordinary decision event is `1.5%` per week. After sixteen weeks without one, it rises by `0.3` percentage points per week, to a maximum of `8%`. After forty weeks, an event is guaranteed if any eligible event exists. The mean gap is about 27 weeks, which targets roughly 24–36 decision events in a normal run, in addition to discoveries and fixed crises.
 
-Every ordinary event fires at most once a game (`unique: true`; the compiler blocks a repeatable one), and each is gated on its era: a minimum player Frontier Capability or world frontier, so early-deep-learning dilemmas come first and superintelligence-era ones last. The era gate alone decides when an event opens: an event's `phase` may only close its window (a foundation-era event that should not appear in 2030), and the compiler blocks a phase that opens later than the gate or leaves less than ten points of world Frontier Capability before it closes. Mandatory events may recur because the state that raises them can recur (a second runway crisis, another government intervention, a different rival's candidate).
+Every ordinary event fires at most once a game (`unique: true`; the compiler blocks a repeatable one), and each is gated on its era: a minimum player Frontier Capability or world frontier, so early-deep-learning dilemmas come first and superintelligence-era ones last. The era gate alone decides when an event opens: the compiler blocks a `phase` that opens later than the gate or leaves less than ten points of world Frontier Capability before it closes. Early-era events close their window with an exclusion on world Frontier Capability instead (at FC 45, about 2019) rather than the foundation phase, because the guided opening holds ordinary events back until the player's first FC 20 model, after which the foundation phase (ending at world FC 30) would leave them almost no time. Mandatory events may recur because the state that raises them can recur (a second runway crisis, another government intervention, a different rival's candidate).
 
 ### 43.4 Mandatory events
 

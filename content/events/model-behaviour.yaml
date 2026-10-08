@@ -114,7 +114,10 @@ events:
     version: 1
     category: research
     severity: decision
-    phase: foundation
+    phase: any
+    # An early-era dilemma: it closes once the world frontier reaches FC 45
+    # (about 2019), leaving room after the guided opening ends at FC 20.
+    exclusions: { type: compare, metric: world.frontierCapability, op: gte, value: 45 }
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
     baseWeight: 6

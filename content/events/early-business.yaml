@@ -11,9 +11,17 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: foundation
+    phase: any
+    # An early-era dilemma: it closes once the world frontier reaches FC 45
+    # (about 2019), leaving room after the guided opening ends at FC 20.
+    exclusions: { type: compare, metric: world.frontierCapability, op: gte, value: 45 }
     trigger: { kind: opportunity }
-    prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 10 }
+    # The copy is about rebranding products, so it needs one on sale.
+    prerequisites:
+      type: all
+      items:
+        - { type: compare, metric: player.ai.frontierCapability, op: gte, value: 10 }
+        - { type: compare, metric: player.ai.launched, op: eq, value: 1 }
     baseWeight: 7
     weightModifiers: []
     cooldown: { group: early-business-ai-washing, weeks: 26 }
@@ -99,7 +107,10 @@ events:
     version: 1
     category: people
     severity: decision
-    phase: foundation
+    phase: any
+    # An early-era dilemma: it closes once the world frontier reaches FC 45
+    # (about 2019), leaving room after the guided opening ends at FC 20.
+    exclusions: { type: compare, metric: world.frontierCapability, op: gte, value: 45 }
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: player.ai.frontierCapability, op: gte, value: 1 }
     baseWeight: 7
@@ -192,7 +203,10 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: foundation
+    phase: any
+    # An early-era dilemma: it closes once the world frontier reaches FC 45
+    # (about 2019), leaving room after the guided opening ends at FC 20.
+    exclusions: { type: compare, metric: world.frontierCapability, op: gte, value: 45 }
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -304,7 +318,10 @@ events:
     version: 1
     category: market
     severity: decision
-    phase: foundation
+    phase: any
+    # An early-era dilemma: it closes once the world frontier reaches FC 45
+    # (about 2019), leaving room after the guided opening ends at FC 20.
+    exclusions: { type: compare, metric: world.frontierCapability, op: gte, value: 45 }
     trigger: { kind: opportunity }
     prerequisites:
       type: all
@@ -339,6 +356,8 @@ events:
         previewKey: event.market.chatbot-learns.offline.preview
         immediateEffects:
           - { kind: add-rating, subject: { type: player-lab }, rating: evalQuality, amount: 5 }
+          # Pulling the product loses more customers than freezing it does.
+          - { kind: add-modifier, target: lab.market.acquisitionRate, operation: multiply, value: 0.9, durationWeeks: 26, tags: [chatbot-offline] }
         checks: []
         memories:
           - key: early-business.chatbot-learns.offline

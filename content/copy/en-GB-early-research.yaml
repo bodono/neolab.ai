@@ -23,7 +23,7 @@ messages:
   event.research.adversarial-turtle.fix.label: Fix it quietly
   event.research.adversarial-turtle.fix.preview: >-
     Train {AI} on doctored images until this trick stops working, and tell nobody. It
-    costs compute and earns no credit; the next trick is someone else's discovery.
+    costs money and earns no credit; the next trick is someone else's discovery.
   event.research.adversarial-turtle.ignore.label: "Ignore it: nobody attacks image classifiers"
   event.research.adversarial-turtle.ignore.preview: >-
     True today. Capability work carries on at full pace, and the flaw stays in {AI} until
@@ -42,7 +42,7 @@ messages:
   event.research.shortcut-learning.external.label: Test it on other hospitals' scans first
   event.research.shortcut-learning.external.preview: >-
     Buy scans from hospitals {AI} has never seen and publish whatever it scores there.
-    Slower and dearer, and the number that comes out is one a doctor could use.
+    Dearer, and the number that comes out is one a doctor could use.
   event.research.shortcut-learning.mask.label: Hide the labels and markings, and retrain
   event.research.shortcut-learning.mask.preview: >-
     Crop out every label and marking and train again. That closes the obvious shortcut.

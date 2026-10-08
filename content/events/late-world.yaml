@@ -468,7 +468,6 @@ events:
           - { kind: add-resource, subject: { type: player-lab }, resource: aura-spendable, amount: -10 }
         previewKey: event.politics.compute-treaty.lobby-against.preview
         immediateEffects:
-          - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [no-compute-cap] }
           - { kind: add-rating, subject: { type: player-lab }, rating: captureConcern, amount: 5 }
         checks:
           - id: treaty-fate
@@ -478,6 +477,8 @@ events:
                 minimumInclusive: 0
                 maximumExclusive: 0.5
                 effects:
+                  # Only a sunk treaty leaves compute uncapped, for everyone.
+                  - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 1.05, durationWeeks: 26, tags: [no-compute-cap] }
                   - { kind: add-modifier, target: world.rival.progress, operation: multiply, value: 1.05, durationWeeks: 26, tags: [no-compute-cap] }
                 memories:
                   - key: late-world.compute-treaty.sunk
@@ -487,6 +488,8 @@ events:
                 minimumInclusive: 0.5
                 maximumExclusive: 1
                 effects:
+                  # The treaty binds {LAB} like everyone else, on record against it.
+                  - { kind: add-modifier, target: lab.research.capability.output, operation: multiply, value: 0.9, durationWeeks: 26, tags: [compute-cap] }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentTrust, amount: -10 }
                   - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: 10 }
                 memories:
