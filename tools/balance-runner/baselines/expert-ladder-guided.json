@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "measuredAt": "076814a4186aeafdc2de1fc292ec8b93afbadfd4",
+  "contentHash": "5f919f8787f73f8154931c9377bdbf7790d0d3e168d697618a8efa2bf1fc8682",
+  "ladder": {
+    "opening": "guided",
+    "seeds": 20,
+    "maxTicks": 1500,
+    "policies": 1,
+    "difficulties": 1,
+    "leaders": 1,
+    "mandates": 1
+  },
+  "statistics": {
+    "standard": {
+      "runs": 20,
+      "wins": 0,
+      "crisisReached": 3,
+      "emergencyShutdowns": 1,
+      "rivalAscendance": 18,
+      "medianEndWeek": 1024,
+      "meanOrdinaryEvents": 26.6,
+      "meanPlayerWorldFirstShare": 0.164,
+      "meanRivalCrossingCapability": 95.8
+    },
+    "all": {
+      "runs": 20,
+      "wins": 0,
+      "crisisReached": 3,
+      "emergencyShutdowns": 1,
+      "rivalAscendance": 18,
+      "medianEndWeek": 1024,
+      "meanOrdinaryEvents": 26.6,
+      "meanPlayerWorldFirstShare": 0.164,
+      "meanRivalCrossingCapability": 95.8
+    }
+  }
+}
