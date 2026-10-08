@@ -989,6 +989,24 @@ export function compileContent(repoRoot: string): CompileResult {
     if (earliestPhase !== undefined) {
       prerequisiteItems.push({ kind: "phase-at-least", phase: earliestPhase });
     }
+    // The sim finds this appended requirement by programme and level to apply
+    // the player's focus discount, so an authored prerequisite must not repeat
+    // it exactly (it would be redundant, and would be discounted too).
+    if (
+      prerequisiteItems.some(
+        (item) =>
+          item.kind === "domain-level" &&
+          item.domainId === breakthroughProgrammeId &&
+          item.minimumLevel === authored.breakthroughRequirement.level,
+      )
+    ) {
+      throw new ContentFileError(
+        papersPath,
+        undefined,
+        undefined,
+        `${id}: a prerequisite repeats the breakthrough requirement (${breakthroughProgrammeId} level ${String(authored.breakthroughRequirement.level)})`,
+      );
+    }
     prerequisiteItems.push({
       kind: "domain-level",
       domainId: breakthroughProgrammeId,

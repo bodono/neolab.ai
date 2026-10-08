@@ -290,6 +290,47 @@ function createFacilityModifiers(
   return modifierIds;
 }
 
+/**
+ * Facility benefits are authored content, so balance corrections must also
+ * reach modifiers a save already holds, as paper benefits do: each facility
+ * modifier takes its value from the authored modifier it was created from,
+ * matched by position and checked by target and operation.
+ */
+export function reconcileFacilityModifierValues(
+  tx: SimulationTransaction,
+  content: CompiledContent,
+): void {
+  const state = tx.read();
+  const updates: [ModifierId, number][] = [];
+  for (const labId of Object.keys(state.labs).sort() as LabId[]) {
+    for (const instance of state.labs[labId]?.facilities.instances ?? []) {
+      const definition = content.facilities[instance.definitionId];
+      if (definition === undefined) continue;
+      instance.modifierIds.forEach((modifierId, index) => {
+        const authored = definition.modifiers[index];
+        const modifier = state.modifiers[modifierId];
+        if (
+          authored === undefined ||
+          modifier === undefined ||
+          modifier.target !== authored.target ||
+          modifier.operation !== authored.operation ||
+          modifier.value === authored.value
+        ) {
+          return;
+        }
+        updates.push([modifierId, authored.value]);
+      });
+    }
+  }
+  if (updates.length === 0) return;
+  tx.update((draft) => {
+    for (const [modifierId, value] of updates) {
+      const modifier = draft.modifiers[modifierId];
+      if (modifier !== undefined) modifier.value = value;
+    }
+  });
+}
+
 export function completeFacilityConstruction(
   tx: SimulationTransaction,
   content: CompiledContent,

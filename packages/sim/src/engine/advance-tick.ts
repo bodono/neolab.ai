@@ -24,6 +24,7 @@ import {
 import { releaseContainmentHeldLaunches } from "../productisation/productisation.ts";
 import { advanceResearch } from "../research/research.ts";
 import { advancePaperRace } from "../research/papers.ts";
+import { reconcileFacilityModifierValues } from "../facilities/facilities.ts";
 import { advanceAnomalyInvestigations } from "../evaluations/evaluations.ts";
 import { updateAutonomyWeekly } from "../models/autonomy.ts";
 import {
@@ -341,6 +342,16 @@ function baselineSystems(): readonly TickSystem[] {
           Object.keys(tx.read().labs).sort() as LabId[],
           makeTick(context.tick + 1),
         );
+      },
+    },
+    {
+      // Balance corrections to facility benefits reach saves that already
+      // hold the buildings, as paper benefits do.
+      id: "facilities.reconcile-modifiers",
+      phase: "project-completion",
+      priority: 2,
+      run(tx, context): void {
+        reconcileFacilityModifierValues(tx, context.content);
       },
     },
     {
