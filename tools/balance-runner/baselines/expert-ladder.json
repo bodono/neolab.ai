@@ -1,36 +1,37 @@
 {
   "format": 1,
-  "measuredAt": "2d98699334cf05c2a56e8a864556be502691fc46",
-  "contentHash": "bdbfe45fd159e4862ab6a8b375f16f33ac590cd51f27d2b8d4857ad7d28f69d3",
+  "measuredAt": "94999350755f9eaf85e516d1ad31562db625476a",
+  "contentHash": "5f919f8787f73f8154931c9377bdbf7790d0d3e168d697618a8efa2bf1fc8682",
   "ladder": {
     "seeds": 20,
     "maxTicks": 1500,
     "policies": 1,
+    "difficulties": 4,
     "leaders": 1,
     "mandates": 1
   },
   "statistics": {
     "fellowship": {
       "runs": 20,
-      "wins": 5,
-      "crisisReached": 7,
+      "wins": 6,
+      "crisisReached": 8,
       "emergencyShutdowns": 0,
       "rivalAscendance": 13,
-      "medianEndWeek": 1089,
-      "meanOrdinaryEvents": 38.1,
-      "meanPlayerWorldFirstShare": 0.155,
-      "meanRivalCrossingCapability": 95.4
+      "medianEndWeek": 1078,
+      "meanOrdinaryEvents": 37.2,
+      "meanPlayerWorldFirstShare": 0.157,
+      "meanRivalCrossingCapability": 95.5
     },
     "frontier": {
       "runs": 20,
-      "wins": 1,
+      "wins": 0,
       "crisisReached": 8,
-      "emergencyShutdowns": 1,
-      "rivalAscendance": 14,
-      "medianEndWeek": 970,
-      "meanOrdinaryEvents": 33.8,
-      "meanPlayerWorldFirstShare": 0.152,
-      "meanRivalCrossingCapability": 94.7
+      "emergencyShutdowns": 0,
+      "rivalAscendance": 17,
+      "medianEndWeek": 961,
+      "meanOrdinaryEvents": 34,
+      "meanPlayerWorldFirstShare": 0.157,
+      "meanRivalCrossingCapability": 94.9
     },
     "standard": {
       "runs": 20,
@@ -40,28 +41,28 @@
       "rivalAscendance": 17,
       "medianEndWeek": 995,
       "meanOrdinaryEvents": 34.8,
-      "meanPlayerWorldFirstShare": 0.158,
+      "meanPlayerWorldFirstShare": 0.157,
       "meanRivalCrossingCapability": 95.6
     },
     "unhinged-scaling": {
       "runs": 20,
-      "wins": 1,
-      "crisisReached": 7,
+      "wins": 0,
+      "crisisReached": 5,
       "emergencyShutdowns": 0,
-      "rivalAscendance": 17,
-      "medianEndWeek": 990,
-      "meanOrdinaryEvents": 34.1,
-      "meanPlayerWorldFirstShare": 0.13,
+      "rivalAscendance": 18,
+      "medianEndWeek": 994,
+      "meanOrdinaryEvents": 34.3,
+      "meanPlayerWorldFirstShare": 0.124,
       "meanRivalCrossingCapability": 95
     },
     "all": {
       "runs": 80,
-      "wins": 9,
-      "crisisReached": 26,
-      "emergencyShutdowns": 1,
-      "rivalAscendance": 61,
-      "medianEndWeek": 1002,
-      "meanOrdinaryEvents": 35.2,
+      "wins": 8,
+      "crisisReached": 25,
+      "emergencyShutdowns": 0,
+      "rivalAscendance": 65,
+      "medianEndWeek": 997,
+      "meanOrdinaryEvents": 35.1,
       "meanPlayerWorldFirstShare": 0.149,
       "meanRivalCrossingCapability": 95.2
     }
