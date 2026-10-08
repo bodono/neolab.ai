@@ -15,12 +15,12 @@ name: Weekly balance
 # rescue it either, since even a single seed over all 600 launch configurations
 # is still five hours a shard.
 #
-# So the matrix no longer runs on the schedule. It never once completed -- both
+# So the matrix no longer runs here at all. It never once completed -- both
 # runs it ever had were killed at their limit, which GitHub reports as
-# "cancelled" rather than as a failure, which is why nobody noticed. Trigger it
-# by hand with the release_matrix input if you want to watch it try; putting it
-# back on the schedule means shrinking the matrix or speeding up the simulation
-# first, not raising the number here.
+# "cancelled" rather than as a failure, which is why nobody noticed -- and the
+# manual job that remained could only ever time out, so it was removed.
+# `pnpm balance:release` still runs it locally in shards; bringing it back to CI
+# means shrinking the matrix or speeding up the simulation first.
 #
 # The horizon probe is the part that does fit, and it is what the weekly run is
 # now for. Ten games at 1,120 ticks measured 64 minutes, so the ceiling below is
@@ -32,10 +32,6 @@ on:
     - cron: "23 3 * * 0"
   workflow_dispatch:
     inputs:
-      release_matrix:
-        description: "Also run the 10,200-game release matrix (cannot finish inside CI limits -- see comment above)"
-        type: boolean
-        default: false
       refresh_baseline:
         description: "Write a new expert-ladder baseline (artifact expert-ladder) instead of comparing with the committed one"
         type: boolean
@@ -209,93 +205,5 @@ jobs:
         with:
           name: balance-horizon
           path: artifacts/balance/horizon
-          if-no-files-found: error
-          retention-days: 14
-
-  balance-shard:
-    name: Balance shard ${{ matrix.shard }}
-    runs-on: ubuntu-24.04
-    # Off the schedule: 3,400 games a shard is ~82 hours of work, so this job
-    # can only ever time out. Opt in by hand when you want to measure it.
-    if: github.event_name == 'workflow_dispatch' && inputs.release_matrix
-    # Left at 60 so a manual attempt fails fast rather than burning an hour it
-    # was never going to finish in. Raising it does not make the matrix fit.
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [0, 1, 2]
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: pnpm/action-setup@v5
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run release-matrix shard
-        run: >-
-          pnpm balance:release --
-          --shard-index ${{ matrix.shard }}
-          --shard-count 3
-          --output ../../artifacts/balance/shard-${{ matrix.shard }}
-
-      - name: Upload shard
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: balance-shard-${{ matrix.shard }}
-          path: artifacts/balance/shard-${{ matrix.shard }}
-          if-no-files-found: error
-          retention-days: 7
-
-  aggregate:
-    name: Aggregate 10,200-run matrix
-    needs: balance-shard
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: pnpm/action-setup@v5
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Download every shard
-        uses: actions/download-artifact@v7
-        with:
-          pattern: balance-shard-*
-          path: artifacts/balance/shards
-
-      - name: Rebuild aggregate from raw runs
-        run: >-
-          pnpm balance:aggregate --
-          --input ../../artifacts/balance/shards
-          --output ../../artifacts/balance/release
-
-      - name: Add summary
-        if: always()
-        run: |
-          if [ -f artifacts/balance/release/report.json ]; then
-            node -e 'const r=require("./artifacts/balance/release/report.json"); const failed=r.targets.filter((t)=>t.status==="fail").length; const unavailable=r.targets.filter((t)=>t.status==="unavailable").length; console.log(`## Balance matrix\n\n- Runs: ${r.runCount}\n- Won: ${r.winFunnel.won}\n- Lost: ${r.winFunnel.lost}\n- Incomplete: ${r.winFunnel.incomplete}\n- Failed targets: ${failed}\n- Unavailable targets: ${unavailable}\n- Flags: ${r.flags.length}`)' >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload aggregate reports
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: balance-release-matrix
-          path: artifacts/balance/release
           if-no-files-found: error
           retention-days: 14

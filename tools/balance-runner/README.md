@@ -49,8 +49,9 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
 - `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks, on the same single setup
   unless `--difficulties all --leaders all --mandates all` is added.
 - `pnpm balance:release` — the complete 10,200-run Cartesian release matrix: 17 seeds × four
-  difficulties × five leaders × three mandates × ten policies. The nightly workflow partitions this
-  into ten deterministic 1,020-run shards.
+  difficulties × five leaders × three mandates × ten policies, local only (about 250 hours of
+  games, far past any CI limit): split it with `--shard-index i --shard-count n` and rebuild with
+  `balance:aggregate`.
 - `pnpm balance:aggregate -- --input ../../artifacts/balance/shards --output
   ../../artifacts/balance/release` — validates a complete, non-overlapping shard set and rebuilds all
   aggregates from raw runs.
