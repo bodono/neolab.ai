@@ -12,7 +12,7 @@ export interface HowToPlayPaperFocus {
   readonly levelDiscount: number;
 }
 
-const briefingSteps = (paperFocus: HowToPlayPaperFocus) => [
+const briefingSteps = (paperFocus: HowToPlayPaperFocus | undefined) => [
   {
     number: "01",
     title: "Keep the lab running",
@@ -40,9 +40,15 @@ const briefingSteps = (paperFocus: HowToPlayPaperFocus) => [
           unlocks training methods, evaluations, hardware, and facilities.
         </p>
         <p>
-          Landmark papers go to the first lab to reach them. Give one programme{" "}
-          {paperFocus.researchComputeSharePercent}% or more of all research compute to
-          make it a focus: its papers need {paperFocus.levelDiscount} fewer levels.
+          Landmark papers go to the first lab to reach them.
+          {paperFocus === undefined ? null : (
+            <>
+              {" "}
+              Give one programme {paperFocus.researchComputeSharePercent}% or more of all
+              research compute to make it a focus: its papers need{" "}
+              {paperFocus.levelDiscount} fewer levels.
+            </>
+          )}
         </p>
         <p>
           Buildings expand what the lab can do. Major undertakings occupy a limited number
@@ -110,8 +116,11 @@ export function HowToPlayDialog({
   paperFocus,
   onClose,
 }: {
-  /** The authored paper-focus rule, so the briefing quotes live numbers. */
-  readonly paperFocus: HowToPlayPaperFocus;
+  /**
+   * The authored paper-focus rule, so the briefing quotes live numbers. A view
+   * from a runtime older than the rule (a stale hot reload) leaves it out.
+   */
+  readonly paperFocus: HowToPlayPaperFocus | undefined;
   readonly onClose: () => void;
 }): ReactElement {
   return (

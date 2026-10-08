@@ -17,6 +17,7 @@ import {
   calculateFrontierCapability,
   createNewGame,
   endgameClockStopReason,
+  migrateSaveState,
   projectGameView,
   seed128,
   validateCommand,
@@ -213,9 +214,18 @@ function paperSummary(state: Readonly<GameState>): string {
   ].join(" | ");
 }
 
+/**
+ * A state saved by an older build goes through the game's own save migrations
+ * (a raw state or a save envelope), so fields added since are filled in.
+ */
+function loadTraceState(path: string): GameState {
+  const raw = JSON.parse(readFileSync(path, "utf8")) as { readonly state?: unknown };
+  return migrateSaveState(raw.state ?? raw).state as GameState;
+}
+
 let state: GameState =
   loadPath !== undefined
-    ? (JSON.parse(readFileSync(loadPath, "utf8")) as GameState)
+    ? loadTraceState(loadPath)
     : createNewGame(
         {
           seed: seed128(seedIndex.toString(16).padStart(32, "0")),
