@@ -575,9 +575,25 @@ function mandatoryOccurrences(
             },
           ];
     }
-    case "rival-candidate":
-      return Object.values(state.world.rivals)
-        .filter((strategy) => strategy.candidateCountdown?.status === "active")
+    case "rival-candidate": {
+      // One strategic warning per wave of rival candidates, not one per
+      // laboratory: rivals often start their countdowns weeks apart, and three
+      // urgent warnings in a month each asked the same question. A rival is
+      // announced once; rivals whose countdowns start while the definition's
+      // cooldown runs are folded into the next warning.
+      const announced = new Set<string>();
+      for (const instance of Object.values(state.eventInstances)) {
+        if (instance.definitionId !== definition.id) continue;
+        for (const labId of String(instance.tokens["RIVAL_LAB_ID"] ?? "").split(",")) {
+          if (labId !== "") announced.add(labId);
+        }
+      }
+      const rivals = Object.values(state.world.rivals)
+        .filter(
+          (strategy) =>
+            strategy.candidateCountdown?.status === "active" &&
+            !announced.has(strategy.labId),
+        )
         .sort((left, right) => (left.labId < right.labId ? -1 : 1))
         .flatMap((strategy) => {
           const countdown = strategy.candidateCountdown;
@@ -590,21 +606,33 @@ function mandatoryOccurrences(
           const labDefinition = content.labs[lab.definitionId];
           return [
             {
-              // This is a strategic warning about the rival laboratory, not a
-              // notification for every successor model it nominates. Keeping
-              // the model out of the occurrence identity limits it to once per
-              // rival while preserving the current candidate in the tokens.
-              triggerKey: `rival-candidate:${strategy.labId}`,
-              tokens: {
-                RIVAL_LAB: labDefinition?.displayName ?? strategy.labId,
-                RIVAL_LAB_ID: strategy.labId,
-                AI_NAME: labDefinition?.aiFamily ?? model.familyName,
-                MODEL_NAME: model.displayName,
-                MODEL_ID: model.id,
-              },
+              labId: strategy.labId,
+              name: labDefinition?.displayName ?? strategy.labId,
+              aiName: labDefinition?.aiFamily ?? model.familyName,
+              model,
             },
           ];
         });
+      const first = rivals[0];
+      if (first === undefined) return [];
+      const names = rivals.map((rival) => rival.name);
+      return [
+        {
+          // A lone rival keeps the historical key; a wave names every member.
+          triggerKey: `rival-candidate:${rivals.map((rival) => rival.labId).join("+")}`,
+          tokens: {
+            RIVAL_LAB:
+              names.length === 1
+                ? (names[0] ?? first.name)
+                : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1] ?? ""}`,
+            RIVAL_LAB_ID: rivals.map((rival) => rival.labId).join(","),
+            AI_NAME: first.aiName,
+            MODEL_NAME: first.model.displayName,
+            MODEL_ID: first.model.id,
+          },
+        },
+      ];
+    }
     case "three-severe-anomalies":
       return Object.values(state.models)
         .filter((model) => model.flags["mandatory-event:three-severe-anomalies"] === true)

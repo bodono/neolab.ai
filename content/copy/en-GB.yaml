@@ -260,10 +260,10 @@ messages:
     exposure and weaker safety culture.
 
   # --- Rival: candidate sighting ------------------------------------------
-  event.rival.candidate.title: '{RIVAL_LAB} is reportedly close to AGI'
+  event.rival.candidate.title: 'Reports say {RIVAL_LAB} may be close to AGI'
   event.rival.candidate.body: >-
-    Intelligence suggests {RIVAL_LAB} is evaluating a possible AGI candidate. The estimate
-    is uncertain; the board is not.
+    Intelligence suggests {RIVAL_LAB} may be evaluating a possible AGI candidate. The
+    estimate is uncertain; the board is not.
   event.rival.candidate.education: >-
     In 2018, one lab's charter pledged that if a safety-conscious rival came close to
     building AGI first, it would stop competing and start assisting it, suggesting as a

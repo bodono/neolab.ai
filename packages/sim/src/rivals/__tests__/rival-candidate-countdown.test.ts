@@ -637,6 +637,40 @@ describe("rival candidate countdown", () => {
     });
   });
 
+  it("names every unannounced rival in one warning, and each rival only once", () => {
+    const rivals = Object.keys(newState().world.rivals).sort() as LabId[];
+    const [first, second] = rivals;
+    if (first === undefined || second === undefined) throw new Error("Two rivals needed");
+    let state = newState();
+    for (const labId of [first, second]) state = makeRivalCandidate(state, labId);
+    const started = startCountdown(state).state;
+    const event = raceEmergencyDefinition();
+    const eventContent: CompiledContent = {
+      ...content,
+      events: { definitions: { [event.id]: event }, orderedIds: [event.id] },
+    };
+    const both = collectMandatoryTriggers(started, eventContent);
+    expect(both).toHaveLength(1);
+    expect(both[0]?.triggerKey).toBe(`rival-candidate:${first}+${second}`);
+    expect(both[0]?.tokens).toMatchObject({ RIVAL_LAB_ID: `${first},${second}` });
+    expect(String(both[0]?.tokens["RIVAL_LAB"])).toContain(" and ");
+
+    // Once the first rival has been announced, only the second remains.
+    const announced = mutable(started);
+    const instanceId =
+      "event-instance:test:announced" as keyof typeof announced.eventInstances;
+    // Only the definition and the announced rival's token matter here.
+    announced.eventInstances[instanceId] = {
+      id: instanceId,
+      definitionId: event.id,
+      tokens: { RIVAL_LAB_ID: first },
+    } as unknown as (typeof announced.eventInstances)[typeof instanceId];
+    const remaining = collectMandatoryTriggers(announced, eventContent);
+    expect(remaining.map((trigger) => trigger.triggerKey)).toEqual([
+      `rival-candidate:${second}`,
+    ]);
+  });
+
   it("turns a non-genuine rival candidacy into a durable False Dawn setback", () => {
     const candidate = prepareRivalCandidate(newState());
     const rivalLabId = firstRival(candidate);

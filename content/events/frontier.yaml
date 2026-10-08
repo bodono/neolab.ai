@@ -84,7 +84,10 @@ events:
     prerequisites: { type: always }
     baseWeight: 0
     weightModifiers: []
-    cooldown: { group: rival-candidate, weeks: 0 }
+    # One warning per wave: rivals whose countdowns start within 26 weeks of a
+    # warning are named together in the next one (see the rival-candidate
+    # detector), rather than each raising its own urgent prompt.
+    cooldown: { group: rival-candidate, weeks: 26 }
     unique: false
     expiryWeeks: 4
     defaultOptionId: hold-course
