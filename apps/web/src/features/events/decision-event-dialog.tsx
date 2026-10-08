@@ -176,7 +176,12 @@ export function DecisionEventDialog({
           {item.options.map((option) => {
             const label = copy(option.labelKey, item.tokens, "label");
             const confirming = pendingConfirmation === option.optionId;
-            const guaranteedEffects = [...option.knownCosts, ...option.immediateEffects];
+            // Flags are internal chain markers; the preview copy carries any
+            // consequence the player should know about.
+            const guaranteedEffects = [
+              ...option.knownCosts,
+              ...option.immediateEffects,
+            ].filter((effect) => effect.kind !== "set-flag");
             const postureEffects = isCandidateDeclaration
               ? candidatePostureEffects(option.optionId)
               : [];

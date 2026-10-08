@@ -412,6 +412,26 @@ describe("content release validation", () => {
     expect(
       issueCodes(createContentReleaseReport(withEvents(clear), messages(), [])),
     ).not.toContain("event.too-many-effects");
+    // A chain flag is never listed to the player, so it does not count.
+    const flagged = validEvent({
+      options: [
+        {
+          ...option,
+          immediateEffects: [
+            ...[1, 2, 3].map(rating),
+            {
+              kind: "set-flag",
+              subject: { type: "player-lab" },
+              flag: "test:chain",
+              value: true,
+            } as const,
+          ],
+        },
+      ],
+    });
+    expect(
+      issueCodes(createContentReleaseReport(withEvents(flagged), messages(), [])),
+    ).not.toContain("event.too-many-effects");
   });
 
   it("requires every ordinary event to gate on its era", () => {

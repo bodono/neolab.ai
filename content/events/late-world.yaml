@@ -310,6 +310,8 @@ events:
     phase: any
     trigger: { kind: opportunity }
     prerequisites: { type: compare, metric: world.frontierCapability, op: gte, value: 85 }
+    # A lab that has already accepted state oversight is not invited in as a partner.
+    exclusions: { type: has-flag, flag: "government:state-oversight-accepted" }
     baseWeight: 7
     weightModifiers:
       - predicate:

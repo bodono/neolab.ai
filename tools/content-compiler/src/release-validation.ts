@@ -571,6 +571,8 @@ function validateEventEffects(
  * A player reads every option's guaranteed effects as a list; past three it
  * stops being a trade-off and becomes a ledger. A scheduled block counts as
  * one line and may hold two effects; each check outcome holds three at most.
+ * Flags are internal chain markers the player never sees listed, so they do
+ * not count.
  */
 const MAXIMUM_OPTION_EFFECTS = 3;
 const MAXIMUM_OUTCOME_EFFECTS = 3;
@@ -581,15 +583,17 @@ function validateEventEffectCounts(
   location: string,
   issues: ReleaseValidationIssue[],
 ): void {
+  const listed = (effects: readonly EventEffectDefinition[]) =>
+    effects.filter((effect) => effect.kind !== "set-flag");
   const scheduledTooLarge = (effects: readonly EventEffectDefinition[]): boolean =>
     effects.some(
       (effect) =>
         effect.kind === "schedule-effects" &&
-        effect.effects.length > MAXIMUM_SCHEDULED_EFFECTS,
+        listed(effect.effects).length > MAXIMUM_SCHEDULED_EFFECTS,
     );
   definition.options.forEach((option, optionIndex) => {
     const optionLocation = `${location}.options[${String(optionIndex)}]`;
-    const guaranteed = [...option.knownCosts, ...option.immediateEffects];
+    const guaranteed = listed([...option.knownCosts, ...option.immediateEffects]);
     if (guaranteed.length > MAXIMUM_OPTION_EFFECTS || scheduledTooLarge(guaranteed)) {
       issue(
         issues,
@@ -602,7 +606,7 @@ function validateEventEffectCounts(
     option.checks.forEach((check) =>
       check.outcomes.forEach((outcome) => {
         if (
-          outcome.effects.length > MAXIMUM_OUTCOME_EFFECTS ||
+          listed(outcome.effects).length > MAXIMUM_OUTCOME_EFFECTS ||
           scheduledTooLarge(outcome.effects)
         ) {
           issue(
@@ -610,7 +614,7 @@ function validateEventEffectCounts(
             "release-blocking",
             "event.too-many-effects",
             `${optionLocation}.checks.${check.id}.${outcome.id}`,
-            `outcome ${outcome.id} has ${String(outcome.effects.length)} effects; keep it to ${String(MAXIMUM_OUTCOME_EFFECTS)}`,
+            `outcome ${outcome.id} has ${String(listed(outcome.effects).length)} effects; keep it to ${String(MAXIMUM_OUTCOME_EFFECTS)}`,
           );
         }
       }),

@@ -515,6 +515,9 @@ events:
           - { kind: add-rating, subject: { type: player-lab }, rating: governmentAttention, amount: -20 }
           - { kind: add-modifier, target: lab.research.all.output, operation: multiply, value: 0.95, tags: [state-oversight] }
           - { kind: add-modifier, target: lab.incident.hazard, operation: multiply, value: 0.8, tags: [state-oversight] }
+          # Read by event.politics.manhattan-project: a lab already under state
+          # oversight is not invited into a crash programme as a partner.
+          - { kind: set-flag, subject: { type: player-lab }, flag: "government:state-oversight-accepted", value: true }
         checks: []
         memories:
           - key: government.nationalisation.cooperated
