@@ -39,7 +39,8 @@ const CAPABILITY_DOMAINS = [
 
 /**
  * Security posture and evaluation quality gate candidate incident reviews;
- * practical control also has a repeatable event source, so it gets least.
+ * practical control gets least because the Alignment Institute and Secure
+ * Bunker the expert builds supply most of it.
  */
 const SAFETY_WEIGHTS: Record<string, number> = {
   "base:safety.alignment-control": 2_000,
@@ -52,6 +53,13 @@ const DOMAIN_TARGET_LEVEL = 92;
 
 /** Share of capability research a focused expert gives its focus programme. */
 const FOCUS_CAPABILITY_BASIS_POINTS = 5_000;
+
+/**
+ * The focus must keep at least this share of all research compute, a little
+ * above the paper race's 30% focus threshold (papers rules, playerFocus), or it
+ * stops counting as a focus once the expert shifts compute to safety late on.
+ */
+const FOCUS_RESEARCH_COMPUTE_BASIS_POINTS = 3_200;
 
 export interface ExpertOptions {
   /**
@@ -89,6 +97,7 @@ export function resolveExpertFocus(requested: string): string {
 export function expertCapabilityWeights(
   levels: ReadonlyMap<string, number>,
   focus?: string,
+  capabilityShareBasisPoints = 7_000,
 ): Record<string, number> {
   const raw = CAPABILITY_DOMAINS.map((domainId) => {
     const level = levels.get(domainId) ?? 0;
@@ -96,7 +105,17 @@ export function expertCapabilityWeights(
   });
   const focused = focus !== undefined && raw.some(([domainId]) => domainId === focus);
   const shared = raw.filter(([domainId]) => !focused || domainId !== focus);
-  const pool = focused ? 10_000 - FOCUS_CAPABILITY_BASIS_POINTS : 10_000;
+  // Enough of the capability pool to stay a paper focus at this capability share.
+  const focusWeight = Math.min(
+    10_000,
+    Math.max(
+      FOCUS_CAPABILITY_BASIS_POINTS,
+      Math.ceil(
+        (FOCUS_RESEARCH_COMPUTE_BASIS_POINTS * 10_000) / capabilityShareBasisPoints,
+      ),
+    ),
+  );
+  const pool = focused ? 10_000 - focusWeight : 10_000;
   const total = shared.reduce((sum, [, weight]) => sum + weight, 0);
   const weights: Record<string, number> = {};
   let assigned = 0;
@@ -106,7 +125,7 @@ export function expertCapabilityWeights(
     weights[domainId] = share;
     assigned += share;
   }
-  if (focused) weights[focus] = FOCUS_CAPABILITY_BASIS_POINTS;
+  if (focused) weights[focus] = focusWeight;
   // Keep the authored programme order, which the allocation command echoes.
   return Object.fromEntries(
     CAPABILITY_DOMAINS.map((domainId) => [domainId, weights[domainId] ?? 0]),
@@ -383,12 +402,12 @@ function allocate(planner: Planner, options: ExpertOptions): void {
   const levels = new Map(
     view.research.capabilityDomains.map((domain) => [domain.programId, domain.level]),
   );
-  // Fund every programme, most where the lab is furthest from the gate.
-  const weights = expertCapabilityWeights(levels, options.researchFocus);
   const lowestLevel = Math.min(
     ...CAPABILITY_DOMAINS.map((domainId) => levels.get(domainId) ?? 0),
   );
   const capabilityShare = lowestLevel >= 95 ? 3_000 : lowestLevel >= 85 ? 5_000 : 7_000;
+  // Fund every programme, most where the lab is furthest from the gate.
+  const weights = expertCapabilityWeights(levels, options.researchFocus, capabilityShare);
   // Serve enough of the fleet to meet most demand: revenue funds everything.
   let best: { serving: number; net: number } | undefined;
   for (const serving of [2_000, 3_000, 4_000, 5_000, 6_000, 7_000]) {
@@ -440,9 +459,10 @@ const GATE_FRONTIER_CAPABILITY = 88;
 /**
  * The first crossing the lab holds out for: an expected FC 97 fixes about a
  * 61% prior, 100 makes it certain. Since research tapers above 60, FC 97 takes
- * research of about 95 on a full Kolmogorov fleet, and a run's low forecast
- * sits about four points under its expectation, so the gate reads the middle
- * of the range. A held candidate at half odds or better is worth keeping.
+ * research of about 95 on a full Kolmogorov fleet. The gate reads the quote's
+ * expected capability: the range's ends carry noise and the completed-run
+ * penalty and are capped at 100, so its middle never reaches 97 at all. A
+ * held candidate at half odds or better is worth keeping.
  */
 const CROSSING_FRONTIER_CAPABILITY = 97;
 const CROSSING_PRIOR_PERCENT = 50;
@@ -553,7 +573,7 @@ function train(planner: Planner): void {
         if (releaseGate && quote.reliability.totalLoss > 0.1) continue;
         if (
           releaseGate &&
-          (low + high) / 2 < CROSSING_FRONTIER_CAPABILITY &&
+          quote.estimatedFrontierCapability < CROSSING_FRONTIER_CAPABILITY &&
           weeksLeft > durationWeeks + CRISIS_WEEKS
         ) {
           continue;

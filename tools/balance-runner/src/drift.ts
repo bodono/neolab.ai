@@ -29,6 +29,8 @@ export interface BalanceBaseline {
   readonly ladder: {
     readonly seeds: number;
     readonly maxTicks: number;
+    /** Absent from baselines written before it was recorded. */
+    readonly difficulties?: number;
     readonly policies: number;
     readonly leaders: number;
     readonly mandates: number;
@@ -45,17 +47,26 @@ export interface DriftRow {
   readonly drifted: boolean;
 }
 
-/** Counts out of `runs` move by noise of about sqrt(n p (1 - p)). */
+/**
+ * A count out of n runs has noise sqrt(n p (1 - p)) per ladder, and both the
+ * baseline and the new ladder are draws, so their difference has noise
+ * sqrt(2 n p (1 - p)). A change that re-rolls the random streams without
+ * moving balance must almost never fail the weekly run, across about twenty
+ * count rows at once, so the allowance is three standard deviations of that
+ * difference, and never under three games for rare outcomes.
+ */
 const COUNT_METRICS = [
   "wins",
   "crisisReached",
   "emergencyShutdowns",
   "rivalAscendance",
 ] as const;
-const COUNT_NOISE_MULTIPLE = 2;
+const COUNT_NOISE_MULTIPLE = 3;
 const MINIMUM_COUNT_ALLOWANCE = 3;
 const FIXED_ALLOWANCES = {
-  medianEndWeek: 52,
+  // A difficulty's median end week has moved by up to about 60 weeks between
+  // versions without a balance change in sight.
+  medianEndWeek: 80,
   meanOrdinaryEvents: 4,
   meanPlayerWorldFirstShare: 0.1,
   meanRivalCrossingCapability: 2,
@@ -133,6 +144,7 @@ export function baselineFromReport(
       seeds: report.matrix.seeds,
       maxTicks: report.requestedMaxTicks,
       policies: report.matrix.policies,
+      difficulties: report.matrix.difficulties,
       leaders: report.matrix.leaders,
       mandates: report.matrix.mandates,
     },
@@ -146,7 +158,8 @@ export function ladderMismatch(
   report: BalanceReport,
 ): string | undefined {
   const current = baselineFromReport(report, "").ladder;
-  for (const key of Object.keys(baseline.ladder) as (keyof BalanceBaseline["ladder"])[]) {
+  for (const key of Object.keys(current) as (keyof BalanceBaseline["ladder"])[]) {
+    if (baseline.ladder[key] === undefined) continue;
     if (baseline.ladder[key] !== current[key]) {
       return `ladder ${key} is ${String(current[key])}, baseline has ${String(baseline.ladder[key])}`;
     }
@@ -161,7 +174,7 @@ function countAllowance(baselineCount: number, runs: number): number {
   const p = runs === 0 ? 0 : baselineCount / runs;
   return Math.max(
     MINIMUM_COUNT_ALLOWANCE,
-    Math.round(COUNT_NOISE_MULTIPLE * Math.sqrt(runs * p * (1 - p))),
+    Math.ceil(COUNT_NOISE_MULTIPLE * Math.sqrt(2 * runs * p * (1 - p))),
   );
 }
 

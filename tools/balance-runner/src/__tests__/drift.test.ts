@@ -28,10 +28,11 @@ function run(
 }
 
 function report(runs: readonly BalanceRunResult[], seeds = 20): BalanceReport {
+  const difficulties = new Set(runs.map((run) => run.difficultyId)).size;
   return {
     requestedMaxTicks: 1500,
     content: { hash: "test" },
-    matrix: { seeds, policies: 1, leaders: 1, mandates: 1 },
+    matrix: { seeds, policies: 1, difficulties, leaders: 1, mandates: 1 },
     runs,
   } as unknown as BalanceReport;
 }
@@ -59,8 +60,8 @@ describe("balance drift", () => {
         (row) => row.drifted,
       ),
     ).toBe(false);
-    // Six wins in twenty has noise of about two; two standard deviations of
-    // re-rolling is four wins either way.
+    // Six wins in twenty, re-rolled against a baseline that was itself a
+    // draw: the difference has noise of about 2.9, and three of those is nine.
     expect(
       compareWithBaseline(baseline, summariseLadder(report(standard(10)))).some(
         (row) => row.drifted,
@@ -70,7 +71,7 @@ describe("balance drift", () => {
 
   it("fails when a statistic moves further than chance would", () => {
     const baseline = baselineFromReport(report(standard(6)), "abc");
-    const drifted = compareWithBaseline(baseline, summariseLadder(report(standard(11))))
+    const drifted = compareWithBaseline(baseline, summariseLadder(report(standard(16))))
       .filter((row) => row.drifted)
       .map((row) => `${row.scope}:${row.metric}`);
     expect(drifted).toContain("standard:wins");
@@ -81,5 +82,12 @@ describe("balance drift", () => {
     const baseline = baselineFromReport(report(standard(6)), "abc");
     expect(ladderMismatch(baseline, report(standard(6), 10))).toMatch(/seeds/);
     expect(ladderMismatch(baseline, report(standard(6)))).toBeUndefined();
+    const twoDifficulties = report([...standard(6), run("frontier")]);
+    expect(ladderMismatch(baseline, twoDifficulties)).toMatch(/difficulties/);
+    // A baseline written before difficulties were recorded still compares.
+    const { difficulties: _omitted, ...older } = baseline.ladder;
+    expect(
+      ladderMismatch({ ...baseline, ladder: older }, report(standard(6))),
+    ).toBeUndefined();
   });
 });

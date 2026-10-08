@@ -93,5 +93,22 @@ describe("expert policy", () => {
         content.papers.rules.playerFocus.researchComputeShare,
       );
     });
+
+    it("keeps the focus a paper focus when capability's share of compute shrinks", () => {
+      const threshold = content.papers.rules.playerFocus.researchComputeShare;
+      for (const capabilityShare of [7_000, 5_000, 3_000]) {
+        const weights = expertCapabilityWeights(
+          levels,
+          "base:domain.reasoning-tools",
+          capabilityShare,
+        );
+        expect(Object.values(weights).reduce((sum, weight) => sum + weight, 0)).toBe(
+          10_000,
+        );
+        const share =
+          (capabilityShare / 10_000) * (weights["base:domain.reasoning-tools"]! / 10_000);
+        expect(share).toBeGreaterThanOrEqual(threshold);
+      }
+    });
   });
 });

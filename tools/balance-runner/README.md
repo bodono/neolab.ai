@@ -34,8 +34,9 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   ../../artifacts/balance/ladder/report.json`, which fails when a statistic (wins, crises
   reached, emergency shutdowns, rival ascensions, median end week, events per run, the player's
   share of world-first papers, rivals' crossing capability) moves further than chance would from
-  `baselines/expert-ladder.json`: two standard deviations of re-rolling the same twenty seeds for
-  counts (at least three games), and a fixed margin for the rest. The seeds are fixed and the
+  `baselines/expert-ladder.json`: for counts, three standard deviations of the difference between
+  two independent draws of the same twenty seeds (at least three games), so a change that only
+  re-rolls the random streams almost never fails; a fixed margin for the rest. The seeds are fixed and the
   simulation deterministic, so unchanged code reproduces the baseline exactly. After an intended
   balance change, refresh the baseline before the next scheduled run: dispatch the Weekly balance
   workflow with `refresh_baseline` ticked (it plays the ladder and writes
@@ -47,7 +48,7 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   and per programme. A tuning aid: it reads privileged state to explain the run, while the policy
   still sees only the player view.
 - `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks, on the same single setup
-  unless `--difficulties all --leaders all --mandates all` is added.
+  unless setup flags are added (with `--runs` a multiple of the number of setups they name).
 - `pnpm balance:release` — the complete 10,200-run Cartesian release matrix: 17 seeds × four
   difficulties × five leaders × three mandates × ten policies, local only (about 250 hours of
   games, far past any CI limit): split it with `--shard-index i --shard-count n` and rebuild with
