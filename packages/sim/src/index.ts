@@ -22,3 +22,10 @@ export * from "./events/index.ts";
 export * from "./politics/index.ts";
 export * from "./rivals/index.ts";
 export * from "./coalition/index.ts";
+// Where a guided campaign stands, for tools that play or trace one.
+export {
+  isProgressiveCampaign,
+  LAB_MATURITY_STAGES,
+  labMaturityStage,
+  projectLabMaturity,
+} from "./campaign/lab-maturity.ts";

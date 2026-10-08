@@ -9,7 +9,7 @@
 // report and only warns. Appends the table to $GITHUB_STEP_SUMMARY
 // when it is set.
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { basename, resolve } from "node:path";
 
 import {
   baselineFromReport,
@@ -47,11 +47,13 @@ if (args.includes("--write-baseline")) {
 if (!existsSync(baselinePath)) {
   // First run of a new ladder: leave a baseline beside the report to commit.
   // A missing baseline is a setup step, not a balance failure, so warn only.
+  // Named after the missing file (expert-ladder.json gives
+  // expert-ladder-baseline.json), so each ladder's bootstrap says where it goes.
   const bootstrap = resolve(
     process.cwd(),
     inputPath,
     "..",
-    "expert-ladder-baseline.json",
+    `${basename(baselinePath, ".json")}-baseline.json`,
   );
   const baseline = baselineFromReport(report, read("--measured-at") ?? "unknown");
   writeFileSync(bootstrap, `${JSON.stringify(baseline, null, 2)}\n`);

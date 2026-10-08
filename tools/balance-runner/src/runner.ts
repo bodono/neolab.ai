@@ -10,14 +10,19 @@ import {
   applyCommand,
   calculateFrontierCapability,
   createNewGame,
+  createProgressiveNewGame,
   endgameClockStopReason,
+  isProgressiveCampaign,
+  labMaturityStage,
   projectGameView,
+  projectLabMaturity,
   stateHash,
   validateCommand,
   type AlignmentEvidenceLabel,
   type GamePhase,
   type GameState,
   type LabId,
+  type LabMaturityStage,
   type LabState,
   type ModelId,
   type PlayerKnowledgeContext,
@@ -25,25 +30,26 @@ import {
 
 import { listAvailableCommands } from "./available-commands.ts";
 import { buildBalanceReport } from "./report.ts";
-import type {
-  BalanceAnomalyCounts,
-  BalanceCommandLogEntry,
-  BalanceReport,
-  BalanceRunRequest,
-  BalanceRunResult,
-  BalanceRunSpecification,
-  BalanceTracePoint,
-  EndgameRunMetrics,
-  EventRunMetrics,
-  FacilityBuildMetric,
-  HiddenInformationRunMetrics,
-  LossFamily,
-  EndingOutcome,
-  ResearcherRunMetrics,
-  RivalCandidateOutcome,
-  RivalCandidateOutcomeEntry,
-  RivalCompetitivenessResult,
-  SimulationPolicy,
+import {
+  BALANCE_OPENINGS,
+  type BalanceAnomalyCounts,
+  type BalanceCommandLogEntry,
+  type BalanceReport,
+  type BalanceRunRequest,
+  type BalanceRunResult,
+  type BalanceRunSpecification,
+  type BalanceTracePoint,
+  type EndgameRunMetrics,
+  type EventRunMetrics,
+  type FacilityBuildMetric,
+  type HiddenInformationRunMetrics,
+  type LossFamily,
+  type EndingOutcome,
+  type ResearcherRunMetrics,
+  type RivalCandidateOutcome,
+  type RivalCandidateOutcomeEntry,
+  type RivalCompetitivenessResult,
+  type SimulationPolicy,
 } from "./types.ts";
 
 function playerContext(state: Readonly<GameState>): PlayerKnowledgeContext {
@@ -440,12 +446,28 @@ function policyDecisionDue(state: Readonly<GameState>): boolean {
   );
 }
 
+/**
+ * Where a guided game stands in its opening: the chapter and which of its
+ * objectives are done. The game pauses for the player whenever this changes
+ * (a chapter opens or an objective completes), so a guided run asks its policy
+ * then as well as on the usual cadence. Undefined for classic games, and from
+ * the frontier chapter on, so neither ever decides at a different time.
+ */
+export function guidedOpeningProgress(state: Readonly<GameState>): string | undefined {
+  const chapter = projectLabMaturity(state);
+  if (chapter === undefined || chapter.stage === "frontier") return undefined;
+  return `${chapter.stage}:${chapter.checklist
+    .map((item) => (item.complete ? "1" : "0"))
+    .join("")}`;
+}
+
 function runKey(input: {
   readonly seed: string;
   readonly policyId: string;
   readonly difficultyId: string;
   readonly leaderId: string;
   readonly mandateId: string;
+  readonly opening?: "guided";
 }): string {
   return [
     input.seed,
@@ -453,7 +475,42 @@ function runKey(input: {
     input.difficultyId,
     input.leaderId,
     input.mandateId,
+    // Classic keys predate the opening and stay as they were.
+    ...(input.opening === undefined ? [] : [input.opening]),
   ].join("/");
+}
+
+/**
+ * One run's identity. A guided run carries its opening, and its key says so;
+ * a classic run is exactly what it was before openings existed.
+ */
+function specificationFor(
+  request: BalanceRunRequest,
+  ordinal: number,
+  setup: Omit<BalanceRunSpecification, "ordinal" | "runKey" | "opening">,
+): BalanceRunSpecification {
+  const opening = request.opening === "guided" ? { opening: "guided" as const } : {};
+  return { ordinal, runKey: runKey({ ...setup, ...opening }), ...setup, ...opening };
+}
+
+/**
+ * A new game as a player starts it from the same setup: "Everything unlocked",
+ * or the "Guided chapters" opening the new-game screen defaults to (apps/web
+ * `BrowserGameRuntime.createNew` hands either function the same configuration).
+ */
+function newGame(
+  specification: BalanceRunSpecification,
+  content: NonNullable<BalanceRunRequest["content"]>,
+): GameState {
+  const config = {
+    seed: specification.seed,
+    difficultyId: specification.difficultyId,
+    leaderId: specification.leaderId,
+    mandateId: specification.mandateId,
+  };
+  return specification.opening === "guided"
+    ? createProgressiveNewGame(config, content)
+    : createNewGame(config, content);
 }
 
 /** Stable matrix expansion used by local, sharded, and aggregate runs. */
@@ -478,21 +535,13 @@ export function buildRunSpecifications(
       ) {
         throw new Error("Balance run matrix contains an empty dimension");
       }
-      const specification: BalanceRunSpecification = {
-        ordinal,
-        runKey: runKey({
-          seed,
-          policyId: policy.id,
-          difficultyId,
-          leaderId,
-          mandateId,
-        }),
+      const specification = specificationFor(request, ordinal, {
         seed,
         policyId: policy.id,
         difficultyId,
         leaderId,
         mandateId,
-      };
+      });
       if (
         request.shard === undefined ||
         specification.ordinal % request.shard.count === request.shard.index
@@ -519,21 +568,13 @@ export function buildRunSpecifications(
         ) {
           throw new Error("Balance run matrix contains an empty dimension");
         }
-        const specification: BalanceRunSpecification = {
-          ordinal,
-          runKey: runKey({
-            seed,
-            policyId: policy.id,
-            difficultyId,
-            leaderId,
-            mandateId,
-          }),
+        const specification = specificationFor(request, ordinal, {
           seed,
           policyId: policy.id,
           difficultyId,
           leaderId,
           mandateId,
-        };
+        });
         if (
           request.shard === undefined ||
           specification.ordinal % request.shard.count === request.shard.index
@@ -553,21 +594,13 @@ export function buildRunSpecifications(
       for (const difficultyId of request.difficultyIds) {
         for (const leaderId of request.leaderIds) {
           for (const mandateId of request.mandateIds) {
-            const specification: BalanceRunSpecification = {
-              ordinal,
-              runKey: runKey({
-                seed,
-                policyId: policy.id,
-                difficultyId,
-                leaderId,
-                mandateId,
-              }),
+            const specification = specificationFor(request, ordinal, {
               seed,
               policyId: policy.id,
               difficultyId,
               leaderId,
               mandateId,
-            };
+            });
             if (
               request.shard === undefined ||
               specification.ordinal % request.shard.count === request.shard.index
@@ -1037,15 +1070,7 @@ function runOne(
   specification: BalanceRunSpecification,
 ): BalanceRunResult {
   const content = request.content;
-  let state = createNewGame(
-    {
-      seed: specification.seed,
-      difficultyId: specification.difficultyId,
-      leaderId: specification.leaderId,
-      mandateId: specification.mandateId,
-    },
-    content,
-  );
+  let state = newGame(specification, content);
   let rejectedPolicyCommands = 0;
   const rejectedPolicyCommandReasons: Record<string, number> = {};
   let decisionCommands = 0;
@@ -1094,6 +1119,10 @@ function runOne(
   const phaseEntryTicks: Partial<Record<GamePhase, number>> = {
     [state.run.phase]: state.run.tick,
   };
+  const chapterEntryTicks: Partial<Record<LabMaturityStage, number>> | undefined =
+    isProgressiveCampaign(state)
+      ? { [labMaturityStage(state)]: state.run.tick }
+      : undefined;
   const trace: BalanceTracePoint[] = [];
   const commands: BalanceCommandLogEntry[] = [];
   const traceThisRun = traceSelected(specification.runKey, request.traceSampleRate);
@@ -1108,9 +1137,14 @@ function runOne(
     knownFacilities.add(facilityKey(instance, index));
   }
 
+  let decidedOpeningProgress = guidedOpeningProgress(state);
   while (state.run.status === "active" && state.run.tick < request.maxTicks) {
     let commandsAppliedThisCycle = 0;
-    if (policyDecisionDue(state)) {
+    const openingProgress = guidedOpeningProgress(state);
+    if (policyDecisionDue(state) || openingProgress !== decidedOpeningProgress) {
+      // Progress the policy's own commands make (a recruit signed, the rival
+      // race reviewed) is seen next week, when the game would pause for it.
+      decidedOpeningProgress = openingProgress;
       const view = projectGameView(state, content, playerContext(state));
       assertNoHiddenKeys(view);
       const available = listAvailableCommands(state, content, policy.id);
@@ -1167,6 +1201,9 @@ function runOne(
     worldWaitingCommandSteps = 0;
     state = advanceOneTick(state, content).state;
     observeEndgameStage();
+    if (chapterEntryTicks !== undefined) {
+      chapterEntryTicks[labMaturityStage(state)] ??= state.run.tick;
+    }
 
     if (phaseEntryTicks[state.run.phase] === undefined) {
       phaseEntryTicks[state.run.phase] = state.run.tick;
@@ -1270,6 +1307,7 @@ function runOne(
     estimatedRealMinutes: (state.run.tick * 4 + decisionCommands * 45) / 60,
     score: state.score.entries.reduce((sum, entry) => sum + entry.amount, 0),
     phaseEntryTicks,
+    ...(chapterEntryTicks === undefined ? {} : { chapterEntryTicks }),
     milestones: {
       survivedFoundation:
         phaseEntryTicks.scaling !== undefined ||
@@ -1336,6 +1374,9 @@ function validateRequest(request: BalanceRunRequest): void {
   ) {
     throw new Error("matrixMode must be independent, paired, or cartesian");
   }
+  if (request.opening !== undefined && !BALANCE_OPENINGS.includes(request.opening)) {
+    throw new Error(`opening must be one of ${BALANCE_OPENINGS.join(", ")}`);
+  }
   if (
     request.shard !== undefined &&
     (!Number.isInteger(request.shard.index) ||
@@ -1355,15 +1396,7 @@ export function replayBalanceRun(
   content: NonNullable<BalanceRunRequest["content"]>,
   maxTicks: number,
 ): string {
-  let state = createNewGame(
-    {
-      seed: specification.seed,
-      difficultyId: specification.difficultyId,
-      leaderId: specification.leaderId,
-      mandateId: specification.mandateId,
-    },
-    content,
-  );
+  let state = newGame(specification, content);
   let commandIndex = 0;
   while (state.run.status === "active" && state.run.tick < maxTicks) {
     while (commandLog[commandIndex]?.tick === state.run.tick) {
@@ -1423,6 +1456,7 @@ export async function runBalanceBatch(
     content: resolvedRequest.content,
     matrix: {
       mode: resolvedRequest.matrixMode,
+      opening: request.opening ?? "classic",
       totalConfigurations: totalMatrixConfigurations(resolvedRequest),
       ...(request.shard === undefined ? {} : { shard: request.shard }),
       seeds: request.seeds.length,

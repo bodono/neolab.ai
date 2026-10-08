@@ -18,8 +18,10 @@ import {
 } from "./report.ts";
 import { replayBalanceRun, runBalanceBatch } from "./runner.ts";
 import {
+  BALANCE_OPENINGS,
   CORE_STRATEGY_POLICY_IDS,
   type BalanceMatrixMode,
+  type BalanceOpening,
   type BalanceRunSpecification,
 } from "./types.ts";
 
@@ -29,6 +31,7 @@ interface CliOptions {
   readonly output: string;
   readonly traceSampleRate: number;
   readonly matrixMode: BalanceMatrixMode;
+  readonly opening: BalanceOpening;
   readonly shardIndex?: number;
   readonly shardCount?: number;
   readonly verifyReplays: boolean;
@@ -71,6 +74,10 @@ function parseArgs(args: readonly string[]): CliOptions {
   ) {
     throw new Error("--matrix must be independent, paired, or cartesian");
   }
+  const opening = read("--opening") ?? "classic";
+  if (!BALANCE_OPENINGS.includes(opening as BalanceOpening)) {
+    throw new Error(`--opening must be ${BALANCE_OPENINGS.join(" or ")}`);
+  }
   const shardIndexRaw = read("--shard-index");
   const shardCountRaw = read("--shard-count");
   if ((shardIndexRaw === undefined) !== (shardCountRaw === undefined)) {
@@ -82,6 +89,7 @@ function parseArgs(args: readonly string[]): CliOptions {
     output: read("--output") ?? "artifacts/balance/latest",
     traceSampleRate,
     matrixMode,
+    opening: opening as BalanceOpening,
     ...(shardIndexRaw === undefined
       ? {}
       : {
@@ -186,6 +194,7 @@ const report = await runBalanceBatch({
   traceSampleRate: options.traceSampleRate,
   matrixMode: options.matrixMode,
   ...(shard === undefined ? {} : { shard }),
+  opening: options.opening,
   content,
 });
 
@@ -199,6 +208,7 @@ const replayResults = report.runs.flatMap((run) => {
     difficultyId: run.difficultyId,
     leaderId: run.leaderId,
     mandateId: run.mandateId,
+    ...(run.opening === undefined ? {} : { opening: run.opening }),
   };
   const actualHash = options.verifyReplays
     ? replayBalanceRun(

@@ -1426,10 +1426,67 @@ describe("runBalanceBatch", () => {
     ).rejects.toThrow("Incomplete shard set");
   });
 
+  it("keys guided runs apart and leaves classic runs as they were", () => {
+    const classic = buildRunSpecifications({ ...request(), matrixMode: "cartesian" });
+    const explicit = buildRunSpecifications({
+      ...request(),
+      matrixMode: "cartesian",
+      opening: "classic",
+    });
+    const guided = buildRunSpecifications({
+      ...request(),
+      matrixMode: "cartesian",
+      opening: "guided",
+    });
+    expect(explicit).toEqual(classic);
+    for (const specification of classic) {
+      expect(specification).not.toHaveProperty("opening");
+      expect(specification.runKey.split("/")).toHaveLength(5);
+    }
+    expect(guided.map((specification) => specification.opening)).toEqual(
+      classic.map(() => "guided"),
+    );
+    expect(guided.map((specification) => specification.runKey)).toEqual(
+      classic.map((specification) => `${specification.runKey}/guided`),
+    );
+  });
+
+  it("starts guided runs in the garage and replays them exactly", async () => {
+    const guided = await runBalanceBatch({
+      ...request(),
+      policies: [createExpertPolicy()],
+      maxTicks: 30,
+      opening: "guided",
+    });
+    const run = guided.runs[0];
+    if (run?.replay === undefined) throw new Error("guided run or replay missing");
+    expect(guided.matrix.opening).toBe("guided");
+    expect(run.opening).toBe("guided");
+    expect(run.chapterEntryTicks?.garage).toBe(0);
+    expect(run.chapterEntryTicks?.cluster).toBeGreaterThan(0);
+    expect(run.rejectedPolicyCommands).toBe(0);
+    expect(replayBalanceRun(run, run.replay.commands, content, 30)).toBe(
+      run.replay.finalStateHash,
+    );
+    // Classic runs carry no chapters, and the two openings never aggregate.
+    const classic = await runBalanceBatch({ ...request(), maxTicks: 2 });
+    expect(classic.matrix.opening).toBe("classic");
+    expect(classic.runs[0]).not.toHaveProperty("chapterEntryTicks");
+    expect(() =>
+      mergeBalanceReports(
+        [classic, { ...classic, matrix: { ...classic.matrix, opening: "guided" } }],
+        content,
+      ),
+    ).toThrow("disagree on opening");
+  });
+
   it("rejects empty and invalid run requests", async () => {
     await expect(runBalanceBatch({ ...request(), seeds: [] })).rejects.toThrow(
       "At least one seed",
     );
+    await expect(
+      runBalanceBatch({ ...request(), opening: "tutorial" as never }),
+    ).rejects.toThrow("opening must be");
     await expect(runBalanceBatch({ ...request(), traceSampleRate: 2 })).rejects.toThrow(
       "traceSampleRate",
     );

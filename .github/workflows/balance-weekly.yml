@@ -33,7 +33,7 @@ on:
   workflow_dispatch:
     inputs:
       refresh_baseline:
-        description: "Write a new expert-ladder baseline (artifact expert-ladder) instead of comparing with the committed one"
+        description: "Write new expert-ladder baselines (artifacts expert-ladder and expert-ladder-guided) instead of comparing with the committed ones"
         type: boolean
         default: false
 
@@ -168,6 +168,110 @@ jobs:
         with:
           name: expert-ladder
           path: artifacts/balance/ladder
+          if-no-files-found: error
+          retention-days: 30
+
+  ladder-guided-shard:
+    name: Guided expert ladder shard ${{ matrix.shard }}
+    # The same expert through the "Guided chapters" opening players get by
+    # default (twelve chapters from the garage; ordinary events held back
+    # until the last), on Standard over the ladder's twenty seeds to week
+    # 1,500, split five ways. The ladder above plays "Everything unlocked",
+    # so without this the default opening is never measured.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Play guided ladder shard
+        run: >-
+          pnpm balance:ladder-guided --
+          --shard-index ${{ matrix.shard }}
+          --shard-count 5
+          --output ../../artifacts/balance/ladder-guided-shards/shard-${{ matrix.shard }}
+
+      - name: Upload shard
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ladder-guided-shard-${{ matrix.shard }}
+          path: artifacts/balance/ladder-guided-shards/shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 14
+
+  ladder-guided-drift:
+    name: Guided expert ladder drift
+    # Compares with its own baseline, baselines/expert-ladder-guided.json.
+    # Until that file is committed the drift tool writes one into the
+    # uploaded aggregate (expert-ladder-guided-baseline.json) and only warns.
+    needs: ladder-guided-shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download every shard
+        uses: actions/download-artifact@v7
+        with:
+          pattern: ladder-guided-shard-*
+          path: artifacts/balance/ladder-guided-shards
+
+      - name: Rebuild aggregate from raw runs
+        run: >-
+          pnpm balance:aggregate --
+          --input ../../artifacts/balance/ladder-guided-shards
+          --output ../../artifacts/balance/ladder-guided
+
+      - name: Compare with the committed baseline
+        if: ${{ !inputs.refresh_baseline }}
+        run: >-
+          pnpm balance:drift --
+          --input ../../artifacts/balance/ladder-guided/report.json
+          --baseline baselines/expert-ladder-guided.json
+          --measured-at ${{ github.sha }}
+
+      # After an intended balance change: write the new baseline into the
+      # uploaded aggregate, to download and commit as
+      # tools/balance-runner/baselines/expert-ladder-guided.json.
+      - name: Write a fresh baseline
+        if: ${{ inputs.refresh_baseline }}
+        run: >-
+          pnpm balance:drift --
+          --input ../../artifacts/balance/ladder-guided/report.json
+          --baseline ../../artifacts/balance/ladder-guided/expert-ladder-guided-baseline.json
+          --write-baseline
+          --measured-at ${{ github.sha }}
+
+      - name: Upload guided ladder aggregate
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: expert-ladder-guided
+          path: artifacts/balance/ladder-guided
           if-no-files-found: error
           retention-days: 30
 

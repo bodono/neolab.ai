@@ -8,6 +8,7 @@ import type {
   GameCommand,
   GamePhase,
   GameView,
+  LabMaturityStage,
   Seed128,
 } from "@neolab/sim";
 
@@ -121,6 +122,16 @@ export interface SimulationPolicy {
 
 export type BalanceMatrixMode = "independent" | "paired" | "cartesian";
 
+/**
+ * How each run opens. `classic` is "Everything unlocked" (`createNewGame`),
+ * which every balance measurement has used. `guided` is the "Guided chapters"
+ * opening players get by default (`createProgressiveNewGame`): a garage lab
+ * with no GPUs, twelve chapters, and ordinary events held back until the last.
+ */
+export type BalanceOpening = "classic" | "guided";
+
+export const BALANCE_OPENINGS: readonly BalanceOpening[] = ["classic", "guided"];
+
 export interface BalanceShard {
   readonly index: number;
   readonly count: number;
@@ -141,6 +152,8 @@ export interface BalanceRunRequest {
   readonly matrixMode?: BalanceMatrixMode;
   readonly shard?: BalanceShard;
   readonly content?: CompiledContent;
+  /** Defaults to `classic`, which every existing measurement and baseline uses. */
+  readonly opening?: BalanceOpening;
 }
 
 export interface BalanceRunSpecification {
@@ -151,6 +164,8 @@ export interface BalanceRunSpecification {
   readonly difficultyId: ContentId;
   readonly leaderId: ContentId;
   readonly mandateId: ContentId;
+  /** Present only for guided runs, so classic run records keep their shape. */
+  readonly opening?: "guided";
 }
 
 export interface RivalCompetitivenessResult {
@@ -331,6 +346,8 @@ export interface BalanceRunResult {
   readonly difficultyId: ContentId;
   readonly leaderId: ContentId;
   readonly mandateId: ContentId;
+  /** Present only for guided runs (see `BalanceRunSpecification`). */
+  readonly opening?: "guided";
   readonly status: "won" | "lost" | "incomplete";
   readonly endingId: string;
   readonly endingOutcome: EndingOutcome;
@@ -339,6 +356,8 @@ export interface BalanceRunResult {
   readonly estimatedRealMinutes: number;
   readonly score: number;
   readonly phaseEntryTicks: Partial<Readonly<Record<GamePhase, number>>>;
+  /** Guided runs only: the week each opening chapter began (garage at week 0). */
+  readonly chapterEntryTicks?: Partial<Readonly<Record<LabMaturityStage, number>>>;
   readonly milestones: BalanceMilestones;
   readonly playerWorldFirstPapers: number;
   readonly totalDiscoveredPapers: number;
@@ -467,6 +486,8 @@ export interface BalanceReport {
   };
   readonly matrix: {
     readonly mode: BalanceMatrixMode;
+    /** Absent from reports written before the guided opening could be played. */
+    readonly opening?: BalanceOpening;
     readonly totalConfigurations: number;
     readonly shard?: BalanceShard;
     readonly seeds: number;

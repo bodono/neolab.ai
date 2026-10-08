@@ -3,6 +3,11 @@
 //   node src/expert-trace-cli.ts --seed 1 [--max-ticks 1120] [--every 52]
 //                                [--save-at 820 --save state.json] [--load state.json]
 //                                [--expert-focus multimodality] [--papers-at 860]
+//                                [--opening classic|guided]
+//
+// `--opening guided` starts from the "Guided chapters" opening players get by
+// default; the milestones then include the week each chapter opened, and the
+// timeline the current chapter.
 //
 // A tuning tool, not a balance measurement: the timeline and milestones read
 // privileged state (true capability, rival strength) to explain the run. The
@@ -16,7 +21,10 @@ import {
   applyCommand,
   calculateFrontierCapability,
   createNewGame,
+  createProgressiveNewGame,
   endgameClockStopReason,
+  isProgressiveCampaign,
+  labMaturityStage,
   migrateSaveState,
   projectGameView,
   seed128,
@@ -27,7 +35,8 @@ import {
 
 import { listAvailableCommands } from "./available-commands.ts";
 import { expertDecisions, resolveExpertFocus } from "./expert-policy.ts";
-import { EXPERT_POLICY_ID } from "./types.ts";
+import { guidedOpeningProgress } from "./runner.ts";
+import { BALANCE_OPENINGS, EXPERT_POLICY_ID, type BalanceOpening } from "./types.ts";
 
 const args = process.argv.slice(2);
 const read = (flag: string): string | undefined => {
@@ -44,6 +53,10 @@ const papersAt = read("--papers-at");
 const focusArgument = read("--expert-focus");
 const researchFocus =
   focusArgument === undefined ? undefined : resolveExpertFocus(focusArgument);
+const opening = read("--opening") ?? "classic";
+if (!BALANCE_OPENINGS.includes(opening as BalanceOpening)) {
+  throw new Error(`--opening must be ${BALANCE_OPENINGS.join(" or ")}`);
+}
 
 const content = loadCompiledContent();
 
@@ -122,6 +135,7 @@ function timeline(state: Readonly<GameState>): string {
   );
   return [
     `wk ${String(state.run.tick).padStart(4)} ${String(state.run.calendar.year)}`,
+    ...(isProgressiveCampaign(state) ? [`ch ${labMaturityStage(state)}`] : []),
     state.run.phase,
     state.world.currentGpuGenerationId.replace("base:gpu.", ""),
     `cash ${money(lab.finance.cash)}`,
@@ -152,10 +166,63 @@ const KEY_FACILITIES = [
   "shared-kv-cache",
 ];
 
+/** World FC as the event exclusions read it: the strongest true model anywhere. */
+function worldFrontierCapability(state: Readonly<GameState>): number {
+  return Object.values(state.models).reduce(
+    (maximum, model) =>
+      Math.max(maximum, calculateFrontierCapability(model.trueCapability)),
+    0,
+  );
+}
+
+/** The early-era events close at world FC 45. */
+const EARLY_EVENT_WORLD_FC = 45;
+const seenEvents = new Set<string>();
+/** Ordinary decision events (opportunities, not feed items), as the runner counts them. */
+const ordinaryEvents: { week: number; id: string; worldFc: number }[] = [];
+let worldFcReachedEarlyLimitAt: number | undefined;
+
+function observeEvents(state: Readonly<GameState>): void {
+  const worldFc = worldFrontierCapability(state);
+  if (worldFc >= EARLY_EVENT_WORLD_FC) worldFcReachedEarlyLimitAt ??= state.run.tick;
+  for (const instance of Object.values(state.eventInstances)) {
+    if (seenEvents.has(instance.id)) continue;
+    seenEvents.add(instance.id);
+    const definition = content.events.definitions[instance.definitionId];
+    if (
+      definition === undefined ||
+      instance.source !== "opportunity" ||
+      definition.severity === "feed"
+    ) {
+      continue;
+    }
+    ordinaryEvents.push({
+      week: instance.createdAt,
+      id: instance.definitionId.replace(/^base:event\./, ""),
+      worldFc,
+    });
+  }
+}
+
+function eventSummary(): string {
+  const early = ordinaryEvents.filter((event) => event.worldFc < EARLY_EVENT_WORLD_FC);
+  return [
+    `events ordinary ${String(ordinaryEvents.length)}`,
+    `first wk ${ordinaryEvents[0] === undefined ? "-" : String(ordinaryEvents[0].week)}`,
+    `world FC ${String(EARLY_EVENT_WORLD_FC)} wk ${worldFcReachedEarlyLimitAt === undefined ? "-" : String(worldFcReachedEarlyLimitAt)}`,
+    `before world FC ${String(EARLY_EVENT_WORLD_FC)}: ${String(early.length)}` +
+      (early.length === 0
+        ? ""
+        : ` [${early.map((event) => `${event.id}@${String(event.week)}`).join(" ")}]`),
+  ].join(" | ");
+}
+
 function observe(state: Readonly<GameState>): void {
   const mark = (key: string): void => {
     if (!milestones.has(key)) milestones.set(key, state.run.tick);
   };
+  observeEvents(state);
+  if (isProgressiveCampaign(state)) mark(`chapter:${labMaturityStage(state)}`);
   const generation = state.world.currentGpuGenerationId.replace("base:gpu.", "");
   if (["rubin", "markov", "kolmogorov"].includes(generation)) mark(`era:${generation}`);
   mark(`phase:${state.run.phase}`);
@@ -223,22 +290,30 @@ function loadTraceState(path: string): GameState {
   return migrateSaveState(raw.state ?? raw).state as GameState;
 }
 
+const config = {
+  seed: seed128(seedIndex.toString(16).padStart(32, "0")),
+  difficultyId: contentId("base:difficulty.standard"),
+  leaderId: contentId("base:leader.thomas-hassabi"),
+  mandateId: contentId("base:mandate.build-it-right"),
+};
 let state: GameState =
   loadPath !== undefined
     ? loadTraceState(loadPath)
-    : createNewGame(
-        {
-          seed: seed128(seedIndex.toString(16).padStart(32, "0")),
-          difficultyId: contentId("base:difficulty.standard"),
-          leaderId: contentId("base:leader.thomas-hassabi"),
-          mandateId: contentId("base:mandate.build-it-right"),
-        },
-        content,
-      );
+    : opening === "guided"
+      ? createProgressiveNewGame(config, content)
+      : createNewGame(config, content);
+if (isProgressiveCampaign(state)) {
+  milestones.set(`chapter:${labMaturityStage(state)}`, state.run.tick);
+}
 const rejected: Record<string, number> = {};
 let stoppedSteps = 0;
+// A guided game also decides when its opening pauses: a chapter opens or an
+// objective completes (see the runner's guidedOpeningProgress).
+let decidedOpeningProgress = guidedOpeningProgress(state);
 while (state.run.status === "active" && state.run.tick < maxTicks) {
-  if (decisionDue(state)) {
+  const openingProgress = guidedOpeningProgress(state);
+  if (decisionDue(state) || openingProgress !== decidedOpeningProgress) {
+    decidedOpeningProgress = openingProgress;
     const snapshot = state;
     const commands = expertDecisions(
       {
@@ -294,3 +369,4 @@ console.log(
     .map(([key, week]) => `${key}@${String(week)}`)
     .join(" ")}`,
 );
+console.log(eventSummary());

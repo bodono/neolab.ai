@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { loadCompiledContent } from "@neolab/content";
 import { contentId } from "@neolab/content-schema";
-import { seed128 } from "@neolab/sim";
+import { LAB_MATURITY_STAGES, seed128 } from "@neolab/sim";
 
 import { expertCapabilityWeights, resolveExpertFocus } from "../expert-policy.ts";
 import { EXPERT_POLICY } from "../policies.ts";
@@ -35,6 +35,36 @@ describe("expert policy", () => {
       expect(run.rejectedPolicyCommands).toBe(0);
       expect(run.facilities.length).toBeGreaterThanOrEqual(3);
       expect(run.phaseEntryTicks.foundation).toBe(0);
+    },
+  );
+
+  it(
+    "plays the guided chapters through to the frontier with only legal commands",
+    { timeout: 600_000 },
+    async () => {
+      const report = await runBalanceBatch({
+        seeds: [seed128("00000000000000000000000000000001")],
+        difficultyIds: [contentId("base:difficulty.standard")],
+        leaderIds: [contentId("base:leader.thomas-hassabi")],
+        mandateIds: [contentId("base:mandate.build-it-right")],
+        policies: [EXPERT_POLICY],
+        maxTicks: 280,
+        traceSampleRate: 0,
+        matrixMode: "independent",
+        opening: "guided",
+        content,
+      });
+      const run = report.runs[0];
+      if (run === undefined) throw new Error("guided expert run missing");
+      // Every chapter's checklist completed, in order, from the garage to the
+      // full game, without a single command the validator refused.
+      const chapters = run.chapterEntryTicks ?? {};
+      const weeks = LAB_MATURITY_STAGES.map((stage) => chapters[stage]);
+      expect(weeks.every((week) => week !== undefined)).toBe(true);
+      expect(weeks).toEqual([...weeks].sort((left, right) => left! - right!));
+      expect(chapters.frontier).toBeLessThan(280);
+      expect(run.rejectedPolicyCommands).toBe(0);
+      expect(run.status).toBe("incomplete");
     },
   );
 

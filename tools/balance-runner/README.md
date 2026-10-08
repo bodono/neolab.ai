@@ -43,9 +43,30 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   `expert-ladder-baseline.json` into the `expert-ladder` artifact without comparing), or play it
   locally and run `pnpm balance:drift -- --input <report.json> --write-baseline --measured-at
   <commit>`, then commit it as `tools/balance-runner/baselines/expert-ladder.json`.
+- `--opening guided|classic` picks how every game in a batch opens. `classic` (the default, and what
+  every measurement above and the committed baseline use) is "Everything unlocked",
+  `createNewGame`. `guided` is "Guided chapters", `createProgressiveNewGame`: the new-game screen's
+  default, built from the same setup (apps/web `BrowserGameRuntime.createNew`). The lab starts in a
+  garage with about $30M and no GPUs, and works through twelve chapters, each opening one system
+  and closing on a checklist; ordinary decision events stay off until the last, the frontier.
+  Only the expert can play the chapters (below); the catalogue policies stall in the garage. A
+  guided run's key ends in `/guided`, its record carries `opening` and `chapterEntryTicks` (the
+  week each chapter began), the report's `matrix.opening` says which opening it played, and
+  aggregation refuses to mix the two.
+- `pnpm balance:ladder-guided` — the expert through the guided opening on Standard over the
+  ladder's twenty seeds, to week 1,500 (20 games). The weekly workflow plays it in five shards and
+  compares it with its own baseline, `baselines/expert-ladder-guided.json`, honouring
+  `refresh_baseline` as the ladder above does. Until that file is committed, `pnpm balance:drift`
+  writes `expert-ladder-guided-baseline.json` beside the aggregate (the `expert-ladder-guided`
+  artifact) and only warns; commit that file to start comparing. The drift tool refuses to
+  compare a guided ladder with a classic baseline, or the reverse.
 - `pnpm balance:expert-trace -- --seed 1` — one expert game with a yearly timeline and the week each
   era, key facility, work and crisis stage landed, plus the player's world-first papers overall
-  and per programme. A tuning aid: it reads privileged state to explain the run, while the policy
+  and per programme, and a closing `events` line: ordinary decision events in all, the week of
+  the first, the week the world (the strongest true model anywhere) reached FC 45, where the
+  early-era events close, and the events that fired before it. Add `--opening guided` to start
+  from the guided chapters: the timeline then shows the chapter, and the milestones the week each
+  chapter began. A tuning aid: it reads privileged state to explain the run, while the policy
   still sees only the player view.
 - `pnpm balance:full` — 1,000 paired runs, ten policies, up to 520 weeks, on the same single setup
   unless setup flags are added (with `--runs` a multiple of the number of setups they name).
@@ -128,6 +149,34 @@ Its plan, in order of what decides a run:
 The runner keeps asking the policy at the same tick while an endgame beat stops the clock (the
 world-waiting reveal, a containment failure, a False Dawn or recovery choice, an unverified
 retirement, the final deployment decision) and ends the run if no command makes progress.
+
+### The guided opening
+
+In a guided game the expert first plays the chapter in front of it, as a player following the
+checklist would, and from the frontier chapter on plays exactly as above; a classic game has no
+chapters, so its play is unchanged. Unaided, the expert never left the garage: its $30M cash floor
+kept a $30M lab from buying its first GPUs, so it issued nothing at all (no command was ever
+refused) and sat at FC 0. Chapter by chapter it now:
+
+- **Garage, cluster, model, startup.** Buys the 1,000 GPUs the garage holds, trains the prototype,
+  reviews the rival race (`review-rival-race`, the command the World screen sends), builds the
+  Server Rack and fills it to 5,000 GPUs.
+- **Foundation.** Gives capability research all of R&D compute (the checklist's 100%), waits for a
+  programme to advance, then trains the quickest run whose whole forecast clears FC 5.
+- **Product, funding, lab.** Productises the FC 5 model, puts it on the Guarded API and serves
+  demand; raises a round and takes the best offer; recruits the cheapest star on the market and
+  appoints them to lead the programme they are best at.
+- **Institution, safety, autonomy.** Builds the Press Office, then grows the lab with its usual
+  economy (launches, compute, housing, recruits, fundraising) while training toward FC 10 and then
+  FC 20, a sure run when one exists and its usual next model otherwise. The safety chapter gives
+  safety research 30% of R&D compute and runs the cheapest evaluation; the autonomy chapter grants
+  the FC 20 model Access Level 1.
+
+Chapter costs the opening's family credit line covers (the first GPUs, the prototype and milestone
+runs, the Server Rack, the launch, the first recruit, the Press Office, the evaluation) may take
+cash below zero, as the chapter intends; everything else keeps the usual floors. A guided run also
+asks its policy whenever a chapter opens or an objective completes, the moments the game pauses
+for a player, as well as on the usual cadence.
 
 ## Matrix and sharding contract
 
