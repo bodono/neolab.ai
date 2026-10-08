@@ -4,7 +4,7 @@
 // movement comes from a code or content change. The allowances ask how far a
 // change moved the numbers compared with re-rolling the same seeds, so a
 // failure means "this moved more than chance would", not "anything changed".
-import type { BalanceReport, BalanceRunResult } from "./types.ts";
+import type { BalanceOpening, BalanceReport, BalanceRunResult } from "./types.ts";
 
 export const BALANCE_BASELINE_FORMAT = 1;
 
@@ -27,6 +27,8 @@ export interface BalanceBaseline {
   readonly measuredAt: string;
   readonly contentHash: string;
   readonly ladder: {
+    /** Absent from baselines written before it was recorded: those are classic. */
+    readonly opening?: BalanceOpening;
     readonly seeds: number;
     readonly maxTicks: number;
     /** Absent from baselines written before it was recorded. */
@@ -141,6 +143,7 @@ export function baselineFromReport(
     measuredAt,
     contentHash: report.content.hash,
     ladder: {
+      opening: report.matrix.opening ?? "classic",
       seeds: report.matrix.seeds,
       maxTicks: report.requestedMaxTicks,
       policies: report.matrix.policies,
@@ -159,9 +162,13 @@ export function ladderMismatch(
 ): string | undefined {
   const current = baselineFromReport(report, "").ladder;
   for (const key of Object.keys(current) as (keyof BalanceBaseline["ladder"])[]) {
-    if (baseline.ladder[key] === undefined) continue;
-    if (baseline.ladder[key] !== current[key]) {
-      return `ladder ${key} is ${String(current[key])}, baseline has ${String(baseline.ladder[key])}`;
+    // A baseline that predates the opening measured the classic one, so a
+    // guided ladder can never pass as drift-free against it.
+    const expected =
+      key === "opening" ? (baseline.ladder.opening ?? "classic") : baseline.ladder[key];
+    if (expected === undefined) continue;
+    if (expected !== current[key]) {
+      return `ladder ${key} is ${String(current[key])}, baseline has ${String(expected)}`;
     }
   }
   const missing = Object.keys(baseline.statistics).filter(

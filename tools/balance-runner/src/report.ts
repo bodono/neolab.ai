@@ -8,12 +8,10 @@ import {
   CORE_STRATEGY_POLICY_IDS,
   type BalanceCurvePoint,
   type BalanceDimensionSummary,
-  type BalanceMatrixMode,
   type BalanceMilestones,
   type BalancePolicySummary,
   type BalanceReport,
   type BalanceRunResult,
-  type BalanceShard,
   type BalanceTargetResult,
   type LossFamily,
   type EndingOutcome,
@@ -26,16 +24,7 @@ interface ReportBuildOptions {
   readonly requestedMaxTicks: number;
   readonly traceSampleRate: number;
   readonly content: CompiledContent;
-  readonly matrix: {
-    readonly mode: BalanceMatrixMode;
-    readonly totalConfigurations: number;
-    readonly shard?: BalanceShard;
-    readonly seeds: number;
-    readonly policies: number;
-    readonly difficulties: number;
-    readonly leaders: number;
-    readonly mandates: number;
-  };
+  readonly matrix: BalanceReport["matrix"];
   readonly generatedAt?: string;
 }
 

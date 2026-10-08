@@ -46,6 +46,11 @@ export function mergeBalanceReports(
     reports.map((report) => report.matrix.mode),
     "matrix mode",
   );
+  // Reports written before openings existed played the classic one.
+  const opening = requireEqual(
+    reports.map((report) => report.matrix.opening ?? "classic"),
+    "opening",
+  );
   const totalConfigurations = requireEqual(
     reports.map((report) => report.matrix.totalConfigurations),
     "matrix size",
@@ -113,6 +118,7 @@ export function mergeBalanceReports(
     content,
     matrix: {
       mode,
+      opening,
       totalConfigurations,
       seeds: first.matrix.seeds,
       policies: first.matrix.policies,

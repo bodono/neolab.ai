@@ -1,12 +1,16 @@
 import {
   basisPoints,
+  LAB_MATURITY_STAGES,
   tick,
   type CommandId,
   type CommandValidation,
   type GameCommand,
   type GameView,
   type LabId,
+  type LabMaturityStage,
+  type LabMaturityViewData,
   type ModelId,
+  type ResearcherId,
 } from "@neolab/sim";
 
 import type { ContentId } from "@neolab/content-schema";
@@ -1095,6 +1099,381 @@ function endgame(planner: Planner, available: readonly AvailableCommandView[]): 
   if (fallback !== undefined) planner.take(fallback);
 }
 
+/*
+ * The guided opening ("Guided chapters", the new-game default). A garage lab
+ * with no GPUs works through eleven chapters, each opening one system and
+ * closing on a checklist (the view's `meta.labMaturity.checklist`; the
+ * simulation's `stageComplete`), before the twelfth, the frontier, opens the
+ * full game. The expert above plays a
+ * lab that has everything from week one; its $30M cash floor alone would keep
+ * a $30M garage from ever buying a GPU. So until the frontier chapter it plays
+ * the chapter in front of it, the way a player following the checklist would,
+ * still from the player view and command previews only:
+ *
+ *  - garage, cluster, model, startup: buy the first GPU block, train the
+ *    prototype, open the rival race, build the Server Rack and fill it;
+ *  - foundation: give capability research all R&D compute, advance a
+ *    programme, then train the FC 5 successor;
+ *  - product, funding, lab: launch it with managed access and serve it, raise
+ *    a round, recruit a researcher and appoint them to lead a programme;
+ *  - institution, safety, autonomy: build the Press Office, then scale the
+ *    lab with the expert's usual economy while training toward FC 10 and
+ *    FC 20, give safety research 30% of R&D compute, run an evaluation, and
+ *    grant the FC 20 model Access Level 1.
+ *
+ * Chapter costs the opening's family credit line covers (the first GPUs, the
+ * prototype and milestone runs, the Server Rack, the launch, the first
+ * recruit, the Press Office, the evaluation) are bought below $0, as the
+ * chapter intends; everything else keeps the usual floors.
+ */
+
+const SERVER_RACK = "base:facility.server-rack";
+const PRESS_OFFICE = "base:facility.press-office";
+
+/**
+ * The Frontier Capability each chapter's newly authorised successor needs, as
+ * its checklist states (the simulation's PROGRESSIVE_*_CAPABILITY).
+ */
+const MILESTONE_CAPABILITY = { foundation: 5, institution: 10, safety: 20 } as const;
+
+/** Safety research's minimum share of R&D compute from the safety chapter on. */
+const OPENING_SAFETY_CAPABILITY_BASIS_POINTS = 7_000;
+
+function stageAtLeast(stage: LabMaturityStage, reference: LabMaturityStage): boolean {
+  return LAB_MATURITY_STAGES.indexOf(stage) >= LAB_MATURITY_STAGES.indexOf(reference);
+}
+
+/** Whether checklist item `index` of the current chapter is done. */
+function objectiveDone(chapter: Readonly<LabMaturityViewData>, index: number): boolean {
+  return chapter.checklist[index]?.complete === true;
+}
+
+/** Buy as many thousand-GPU blocks of current silicon as housing allows. */
+function fillHousing(planner: Planner, floor: number): void {
+  const view = planner.view;
+  if (view.compute.pendingDeliveries.length > 0) return;
+  const capacity = view.facilities.capacity;
+  const headroom =
+    capacity.supportedOwnedGpuCount -
+    capacity.installedOwnedGpuCount -
+    capacity.pendingOwnedGpuCount;
+  for (let units = Math.floor(headroom / 1_000); units >= 1; units -= 1) {
+    const command = planner.build("buy-gpus", {
+      generationId: view.compute.currentGenerationId as ContentId,
+      thousandUnits: units,
+    });
+    if (planner.attempt(command, floor)) return;
+  }
+}
+
+/**
+ * The opening's research and serving split. Capability research takes all of
+ * R&D from the foundation chapter (its checklist asks for exactly that) until
+ * the safety chapter asks for 30% safety; serving stays at zero until there
+ * is a product, then serves demand as the expert usually does. Re-issued when
+ * the chapter needs a different split and on the expert's quarterly cadence.
+ */
+function openingAllocate(
+  planner: Planner,
+  chapter: Readonly<LabMaturityViewData>,
+  options: ExpertOptions,
+): void {
+  const view = planner.view;
+  const stage = chapter.stage;
+  if (!stageAtLeast(stage, "foundation")) return;
+  const current = view.compute.queuedAllocation ?? {
+    servingFleetShareBasisPoints: view.compute.allocation.serving.basisPoints,
+    capabilityBasisPoints: view.compute.allocation.capabilities.basisPoints,
+  };
+  const capabilityShare = stageAtLeast(stage, "safety")
+    ? OPENING_SAFETY_CAPABILITY_BASIS_POINTS
+    : 10_000;
+  const serves = stageAtLeast(stage, "product");
+  // A launch decided this week counts: serve it from the week it goes on sale.
+  const launched =
+    view.models.cards.some((card) => card.isCommercialModel) ||
+    planner.commands.some((command) => command.kind === "set-model-deployment-policy");
+  const due =
+    view.meta.tick % 13 === 0 ||
+    current.capabilityBasisPoints !== capabilityShare ||
+    (serves && launched && current.servingFleetShareBasisPoints === 0);
+  if (!due) return;
+  const levels = new Map(
+    view.research.capabilityDomains.map((domain) => [domain.programId, domain.level]),
+  );
+  const weights = expertCapabilityWeights(levels, options.researchFocus, capabilityShare);
+  const allocation = (serving: number) => ({
+    servingFleetShareBasisPoints: basisPoints(serving),
+    capabilityBasisPoints: basisPoints(capabilityShare),
+    capabilityDomainWeights: asBasisPoints(weights),
+    safetyProgramWeights: asBasisPoints(SAFETY_WEIGHTS),
+  });
+  let serving = 0;
+  if (serves && launched) {
+    // The expert's usual search: enough of the fleet to meet most demand.
+    serving = 7_000;
+    for (const share of [2_000, 3_000, 4_000, 5_000, 6_000, 7_000]) {
+      const validation = planner.preview(
+        planner.build("set-gpu-allocation", { allocation: allocation(share) }),
+      );
+      if (!validation.ok) continue;
+      const fulfilment =
+        validation.preview.gpuAllocationConsequences?.projectedServingFulfilment ?? 0;
+      serving = share;
+      if (fulfilment >= 0.9) break;
+    }
+  }
+  planner.attempt(
+    planner.build("set-gpu-allocation", { allocation: allocation(serving) }),
+    -Infinity,
+  );
+}
+
+/**
+ * Train toward a chapter's capability milestone. Among the runs the lab can
+ * start, take the quickest whose whole forecast clears the target, else the
+ * most likely to; with neither, report that the target is out of reach.
+ */
+function trainForMilestone(planner: Planner, target: number, floor: number): boolean {
+  const view = planner.view;
+  if (activeProjects(view, "training") > 0) return true;
+  const parent = bestModel(view);
+  const available = Math.floor(view.compute.unreservedTeraflops);
+  let best: { command: GameCommand; sure: boolean; score: number } | undefined;
+  for (const fraction of [0.9, 0.75, 0.5, 0.3]) {
+    for (const posture of ["normal", "conservative"] as const) {
+      for (const durationWeeks of [5, 8, 12, 16]) {
+        const command = planner.build("start-training-run", {
+          ...(parent === undefined ? {} : { parentModelId: parent.modelId as ModelId }),
+          posture,
+          durationWeeks,
+          committedTeraflops: Math.floor(available * fraction),
+        });
+        const validation = planner.preview(command);
+        if (!validation.ok) continue;
+        const quote = validation.preview.trainingQuote;
+        if (quote === undefined) continue;
+        const [low] = quote.estimatedFrontierCapabilityRange;
+        const expected = quote.estimatedFrontierCapability;
+        if (expected < target) continue;
+        const sure = low >= target;
+        // A sure run: soonest, then most reliable. Otherwise: most likely.
+        const score = sure
+          ? -durationWeeks - quote.reliability.totalLoss
+          : (1 - quote.reliability.totalLoss) * (expected - target) -
+            durationWeeks * 0.01;
+        if (
+          best === undefined ||
+          (sure && !best.sure) ||
+          (sure === best.sure && score > best.score)
+        ) {
+          best = { command, sure, score };
+        }
+      }
+    }
+  }
+  return best !== undefined && planner.attempt(best.command, floor);
+}
+
+/**
+ * Recruit the cheapest star on the talent market, on the chapter's credit
+ * line, straight from the People view rather than waiting for the quarterly
+ * shortlist the expert usually recruits from.
+ */
+function recruitFirstResearcher(planner: Planner): void {
+  const people = planner.view.people;
+  if (people.slots.vacant <= 0) return;
+  const candidates = people.market.candidates
+    .filter((candidate) => candidate.listedTerms.blockers.length === 0)
+    .sort(
+      (left, right) =>
+        left.listedTerms.signingCashMillions - right.listedTerms.signingCashMillions ||
+        left.researcherId.localeCompare(right.researcherId),
+    );
+  for (const candidate of candidates) {
+    const command = planner.build("recruit-researcher", {
+      researcherId: candidate.researcherId as ResearcherId,
+    });
+    if (planner.attempt(command, -Infinity)) return;
+  }
+}
+
+/** Appoint an unassigned researcher to lead the programme they are best at. */
+function appointLead(planner: Planner): void {
+  for (const researcher of planner.view.people.roster) {
+    if (researcher.assignment !== undefined || researcher.status !== "employed") continue;
+    const skills = [...researcher.researchSkills].sort(
+      (left, right) =>
+        right.level - left.level ||
+        (left.kind === right.kind ? 0 : left.kind === "capability" ? -1 : 1),
+    );
+    for (const skill of skills) {
+      const command = planner.build("assign-researcher", {
+        researcherId: researcher.researcherId as ResearcherId,
+        assignment: {
+          kind: skill.kind === "capability" ? "capability-program" : "safety-program",
+          targetId: skill.programmeId,
+          role: "lead",
+        },
+      });
+      if (planner.attempt(command, -Infinity)) return;
+    }
+  }
+}
+
+/** Launch the milestone model through managed access, as the product chapter requires. */
+function launchFirstProduct(planner: Planner): void {
+  const view = planner.view;
+  if (activeProjects(view, "productisation") > 0) return;
+  const model =
+    view.models.cards.find((card) => card.isCurrentModel) ??
+    [...view.models.cards].sort(
+      (left, right) => right.generationIndex - left.generationIndex,
+    )[0];
+  if (model === undefined || model.isCommercialModel) return;
+  const runs = Object.values(model.deployment.productisationRuns).reduce(
+    (sum, value) => sum + value,
+    0,
+  );
+  if (runs === 0) {
+    planner.attempt(
+      planner.build("start-productisation", {
+        modelId: model.modelId as ModelId,
+        mode: "normal",
+      }),
+      -Infinity,
+    );
+    return;
+  }
+  // The chapter accepts either managed tier; the expert prefers the guarded one.
+  for (const policy of ["guarded-api", "open-api"] as const) {
+    const command = planner.build("set-model-deployment-policy", {
+      modelId: model.modelId as ModelId,
+      policy,
+    });
+    if (planner.attempt(command, -Infinity)) return;
+  }
+}
+
+/** Evaluate the current model with the cheapest rung, on the safety chapter's credit line. */
+function firstEvaluation(planner: Planner): void {
+  const view = planner.view;
+  if (activeProjects(view, "evaluation") > 0) return;
+  const model = view.models.cards.find((card) => card.isCurrentModel);
+  if (model === undefined) return;
+  const rungs = Object.entries(model.evaluationCommitments).sort(
+    ([leftId, left], [rightId, right]) =>
+      left.cashCostMillions - right.cashCostMillions || leftId.localeCompare(rightId),
+  );
+  for (const [definitionId] of rungs) {
+    const command = planner.build("start-evaluation", {
+      modelId: model.modelId as ModelId,
+      definitionId: definitionId as ContentId,
+    });
+    if (planner.attempt(command, -Infinity)) return;
+  }
+}
+
+/**
+ * The expert's usual economy for the later chapters, where the lab must grow
+ * to reach FC 10 and FC 20: launch better models, buy and house compute,
+ * recruit and raise. Training is the milestone run when one can reach the
+ * target, otherwise the expert's usual next model.
+ */
+function scaleTowardMilestone(
+  planner: Planner,
+  available: readonly AvailableCommandView[],
+  target: number | undefined,
+): void {
+  // A command this week that holds what the next one previews against (an
+  // evaluation's compute, a building's project slot) would make it stale, so
+  // that one waits a week.
+  const evaluating = planner.commands.some(
+    (command) => command.kind === "start-evaluation",
+  );
+  const constructing = planner.commands.some(
+    (command) => command.kind === "start-facility-construction",
+  );
+  launch(planner);
+  if (!evaluating && (target === undefined || !trainForMilestone(planner, target, 0))) {
+    train(planner);
+  }
+  const forBuildings = constructing ? 0 : build(planner);
+  procure(planner);
+  recruit(planner, available);
+  fundraise(planner, forBuildings);
+}
+
+function playChapter(
+  planner: Planner,
+  available: readonly AvailableCommandView[],
+  chapter: Readonly<LabMaturityViewData>,
+  options: ExpertOptions,
+): void {
+  chapterObjectives(planner, available, chapter);
+  openingAllocate(planner, chapter, options);
+}
+
+function chapterObjectives(
+  planner: Planner,
+  available: readonly AvailableCommandView[],
+  chapter: Readonly<LabMaturityViewData>,
+): void {
+  const view = planner.view;
+  switch (chapter.stage) {
+    case "garage":
+      fillHousing(planner, -Infinity);
+      return;
+    case "cluster":
+      if (activeProjects(view, "training") === 0) {
+        planner.attempt(
+          planner.build("start-training-run", { posture: "normal", durationWeeks: 5 }),
+          -Infinity,
+        );
+      }
+      return;
+    case "model":
+      planner.attempt(planner.build("review-rival-race", {}), -Infinity);
+      return;
+    case "startup":
+      startFacility(planner, SERVER_RACK, -Infinity);
+      fillHousing(planner, -Infinity);
+      return;
+    case "foundation":
+      // Training waits on the research objective, which the allocation above
+      // funds; the validator refuses the run until a programme has advanced.
+      if (objectiveDone(chapter, 1)) {
+        trainForMilestone(planner, MILESTONE_CAPABILITY.foundation, -Infinity);
+      }
+      return;
+    case "product":
+      launchFirstProduct(planner);
+      return;
+    case "funding":
+      // The chapter wants a round whatever the runway says.
+      fundraise(planner, Infinity);
+      return;
+    case "lab":
+      if (!objectiveDone(chapter, 0)) recruitFirstResearcher(planner);
+      appointLead(planner);
+      return;
+    case "institution":
+      if (!objectiveDone(chapter, 0)) startFacility(planner, PRESS_OFFICE, -Infinity);
+      scaleTowardMilestone(planner, available, MILESTONE_CAPABILITY.institution);
+      return;
+    case "safety":
+      if (!objectiveDone(chapter, 1)) firstEvaluation(planner);
+      scaleTowardMilestone(planner, available, MILESTONE_CAPABILITY.safety);
+      return;
+    case "autonomy":
+      planner.attempt(planner.build("set-model-autonomy", { level: 1 }), -Infinity);
+      scaleTowardMilestone(planner, available, undefined);
+      return;
+    case "frontier":
+      return;
+  }
+}
+
 export function expertDecisions(
   policyView: Readonly<PolicyView>,
   available: readonly AvailableCommandView[],
@@ -1103,6 +1482,13 @@ export function expertDecisions(
 ): readonly GameCommand[] {
   const planner = new Planner(policyView.game, preview);
   respondToMandatory(planner, available);
+  // A guided game plays its chapters first; from the frontier chapter on (and
+  // in every classic game, which has no chapters) the expert plays as below.
+  const chapter = policyView.game.meta.labMaturity;
+  if (chapter !== undefined && chapter.stage !== "frontier") {
+    playChapter(planner, available, chapter, options);
+    return planner.commands;
+  }
   endgame(planner, available);
   if (policyView.game.endgame.active) {
     fundraise(planner, 0);

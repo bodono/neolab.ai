@@ -90,4 +90,26 @@ describe("balance drift", () => {
       ladderMismatch({ ...baseline, ladder: older }, report(standard(6))),
     ).toBeUndefined();
   });
+
+  it("never compares a guided ladder with a classic baseline", () => {
+    const guided = (wins: number): BalanceReport => {
+      const classic = report(standard(wins));
+      return { ...classic, matrix: { ...classic.matrix, opening: "guided" } };
+    };
+    const classicBaseline = baselineFromReport(report(standard(6)), "abc");
+    expect(classicBaseline.ladder.opening).toBe("classic");
+    expect(ladderMismatch(classicBaseline, guided(6))).toMatch(/opening is guided/);
+    // Baselines written before the opening was recorded measured classic.
+    const { opening: _omitted, ...older } = classicBaseline.ladder;
+    expect(ladderMismatch({ ...classicBaseline, ladder: older }, guided(6))).toMatch(
+      /opening/,
+    );
+    expect(
+      ladderMismatch({ ...classicBaseline, ladder: older }, report(standard(6))),
+    ).toBeUndefined();
+    const guidedBaseline = baselineFromReport(guided(6), "abc");
+    expect(guidedBaseline.ladder.opening).toBe("guided");
+    expect(ladderMismatch(guidedBaseline, guided(8))).toBeUndefined();
+    expect(ladderMismatch(guidedBaseline, report(standard(6)))).toMatch(/opening/);
+  });
 });
