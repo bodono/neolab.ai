@@ -25,7 +25,12 @@ import {
 } from "@neolab/sim";
 
 import { listAvailableCommands } from "../available-commands.ts";
-import { INITIAL_POLICIES, hasObservedSevereCandidateEvidence } from "../policies.ts";
+import { resolveExpertFocus } from "../expert-policy.ts";
+import {
+  INITIAL_POLICIES,
+  createExpertPolicy,
+  hasObservedSevereCandidateEvidence,
+} from "../policies.ts";
 import { mergeBalanceReports } from "../aggregate.ts";
 import {
   dimensionSummaryCsv,
@@ -1119,12 +1124,11 @@ describe("runBalanceBatch", () => {
   // balanced policy runs solvent to the horizon on every seed below, where it
   // previously went insolvent around week 350 on the first of them.
   //
-  // Measured across five seeds: the player takes NO world firsts at all, and
-  // rivals discover the whole literature. The floor this test used to carry
-  // only ever passed on one seed and would be asserting a fiction now, so it
-  // is gone; the ceiling is the guard that always mattered, and it is checked
-  // on every seed. That the player never wins a race is a real balance finding
-  // rather than a test problem, and it wants a design answer.
+  // The balanced bot spreads its research thinly, and since rivals race for
+  // papers on their hidden paper levels an unfocused lab still takes few world
+  // firsts before the endgame; the ceiling is the guard that always mattered,
+  // checked on every seed. The floor lives in the focused-expert test below:
+  // concentrating research is how a player wins papers.
   it(
     "keeps the seeded balanced paper race inside the coarse Stage 6 band",
     async () => {
@@ -1232,6 +1236,26 @@ describe("runBalanceBatch", () => {
       ).toBeGreaterThan(0);
     },
     CANONICAL_TRAJECTORY_TIMEOUT_MS,
+  );
+
+  it(
+    "lets a lab that focuses its research win papers before the endgame",
+    async () => {
+      // Seed 1 measured 9 world firsts by week 860 with Multimodality focused,
+      // against none unfocused; the floor leaves room for small balance moves.
+      const report = await runBalanceBatch({
+        ...request(),
+        policies: [
+          createExpertPolicy({ researchFocus: resolveExpertFocus("multimodality") }),
+        ],
+        maxTicks: 860,
+        traceSampleRate: 0,
+      });
+      const run = report.runs[0];
+      expect(run?.rejectedPolicyCommands).toBe(0);
+      expect(run?.playerWorldFirstPapers).toBeGreaterThanOrEqual(5);
+    },
+    PAPER_RACE_TIMEOUT_MS,
   );
 
   it("calibrates structured Very likely promises from resolved checks", async () => {
