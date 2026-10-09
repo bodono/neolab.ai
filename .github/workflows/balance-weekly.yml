@@ -174,16 +174,17 @@ jobs:
   ladder-guided-shard:
     name: Guided expert ladder shard ${{ matrix.shard }}
     # The same expert through the "Guided chapters" opening players get by
-    # default (twelve chapters from the garage; ordinary events held back
-    # until the last), on Standard over the ladder's twenty seeds to week
-    # 1,500, split five ways. The ladder above plays "Everything unlocked",
-    # so without this the default opening is never measured.
+    # default (twelve chapters from the garage; random events from the
+    # institution chapter), on all four difficulties over the ladder's twenty
+    # seeds to week 1,500 (80 games), split ten ways. The ladder above plays
+    # "Everything unlocked", so without this the default opening is never
+    # measured.
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3, 4]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     steps:
       - uses: actions/checkout@v6
 
@@ -201,7 +202,7 @@ jobs:
         run: >-
           pnpm balance:ladder-guided --
           --shard-index ${{ matrix.shard }}
-          --shard-count 5
+          --shard-count 10
           --output ../../artifacts/balance/ladder-guided-shards/shard-${{ matrix.shard }}
 
       - name: Upload shard

@@ -53,8 +53,9 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   guided run's key ends in `/guided`, its record carries `opening` and `chapterEntryTicks` (the
   week each chapter began), the report's `matrix.opening` says which opening it played, and
   aggregation refuses to mix the two.
-- `pnpm balance:ladder-guided` — the expert through the guided opening on Standard over the
-  ladder's twenty seeds, to week 1,500 (20 games). The weekly workflow plays it in five shards and
+- `pnpm balance:ladder-guided` — the expert through the guided opening on all four difficulties
+  over the ladder's twenty seeds, to week 1,500 (80 games). The weekly workflow plays it in ten
+  shards and
   compares it with its own baseline, `baselines/expert-ladder-guided.json`, honouring
   `refresh_baseline` as the ladder above does. Until that file is committed, `pnpm balance:drift`
   writes `expert-ladder-guided-baseline.json` beside the aggregate (the `expert-ladder-guided`
