@@ -1,17 +1,39 @@
 {
   "format": 1,
-  "measuredAt": "077275c87b7f5c0baba1688b88e3b4a7cf7d5a31",
+  "measuredAt": "6c330b57169c6e71d318ec33a46c2c1b7f46537c",
   "contentHash": "5f919f8787f73f8154931c9377bdbf7790d0d3e168d697618a8efa2bf1fc8682",
   "ladder": {
     "opening": "guided",
     "seeds": 20,
     "maxTicks": 1500,
     "policies": 1,
-    "difficulties": 1,
+    "difficulties": 4,
     "leaders": 1,
     "mandates": 1
   },
   "statistics": {
+    "fellowship": {
+      "runs": 20,
+      "wins": 3,
+      "crisisReached": 7,
+      "emergencyShutdowns": 1,
+      "rivalAscendance": 15,
+      "medianEndWeek": 1111,
+      "meanOrdinaryEvents": 35.3,
+      "meanPlayerWorldFirstShare": 0.162,
+      "meanRivalCrossingCapability": 95.7
+    },
+    "frontier": {
+      "runs": 20,
+      "wins": 3,
+      "crisisReached": 8,
+      "emergencyShutdowns": 0,
+      "rivalAscendance": 16,
+      "medianEndWeek": 971,
+      "meanOrdinaryEvents": 32.3,
+      "meanPlayerWorldFirstShare": 0.154,
+      "meanRivalCrossingCapability": 95.1
+    },
     "standard": {
       "runs": 20,
       "wins": 5,
@@ -23,16 +45,27 @@
       "meanPlayerWorldFirstShare": 0.159,
       "meanRivalCrossingCapability": 95.3
     },
-    "all": {
+    "unhinged-scaling": {
       "runs": 20,
-      "wins": 5,
-      "crisisReached": 9,
-      "emergencyShutdowns": 1,
-      "rivalAscendance": 13,
-      "medianEndWeek": 971,
-      "meanOrdinaryEvents": 32.5,
-      "meanPlayerWorldFirstShare": 0.159,
-      "meanRivalCrossingCapability": 95.3
+      "wins": 2,
+      "crisisReached": 15,
+      "emergencyShutdowns": 0,
+      "rivalAscendance": 16,
+      "medianEndWeek": 960,
+      "meanOrdinaryEvents": 31.9,
+      "meanPlayerWorldFirstShare": 0.126,
+      "meanRivalCrossingCapability": 94.7
+    },
+    "all": {
+      "runs": 80,
+      "wins": 13,
+      "crisisReached": 39,
+      "emergencyShutdowns": 2,
+      "rivalAscendance": 60,
+      "medianEndWeek": 989,
+      "meanOrdinaryEvents": 33,
+      "meanPlayerWorldFirstShare": 0.151,
+      "meanRivalCrossingCapability": 95.2
     }
   }
 }
