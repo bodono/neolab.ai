@@ -32,8 +32,9 @@ import { setCandidateAccess } from "../endgame/access.ts";
 import {
   isProgressiveCampaign,
   isProgressiveOpeningProtected,
-  labMaturityStage,
   LAB_MATURITY_STAGE_ENTERED_AT_FLAG,
+  OPPORTUNITY_EVENTS_OPENED_AT_FLAG,
+  opportunityEventsOpen,
 } from "../campaign/lab-maturity.ts";
 import {
   CANDIDATE_DECLARATION_OPTION_IDS,
@@ -146,12 +147,18 @@ function phaseMatches(state: Readonly<GameState>, definition: EventDefinition): 
 
 /**
  * The progressive chapters are a protected opening, not a second event
- * economy. Random offers and mandatory authored decisions stay dormant until
- * the player reaches the fully unlocked frontier; otherwise an unlucky event
- * can consume the cash or Aura required to finish onboarding.
+ * economy. Mandatory authored decisions stay dormant until the player reaches
+ * the fully unlocked frontier. Random offers open earlier, at the institution
+ * chapter, once the onboarding's own costs are behind the lab; held to the
+ * frontier they left a guided player only a handful of early-era events.
  */
-function authoredEventsUnlocked(state: Readonly<GameState>): boolean {
-  return !isProgressiveOpeningProtected(state);
+function authoredEventsUnlocked(
+  state: Readonly<GameState>,
+  definition: EventDefinition,
+): boolean {
+  return definition.trigger.kind === "opportunity"
+    ? opportunityEventsOpen(state)
+    : !isProgressiveOpeningProtected(state);
 }
 
 function hasUnresolvedDefinition(
@@ -170,7 +177,7 @@ function commonEligibility(
   allowParallelDefinition = false,
   ignoreCooldown = false,
 ): boolean {
-  if (!authoredEventsUnlocked(state)) return false;
+  if (!authoredEventsUnlocked(state, definition)) return false;
   if (!phaseMatches(state, definition)) return false;
   // The Deployment Crisis owns the player's attention. Random opportunities
   // wait until it ends; mandatory events (runway, government, autonomy) and
@@ -231,11 +238,14 @@ function recentOpportunityCategories(
 /** GDD 43.3 pity curve. Returns a fraction in [0,1]. */
 export function calculateOpportunityChance(state: Readonly<GameState>): number {
   const playerLab = state.labs[state.run.playerLabId];
-  const frontierEnteredAt =
-    isProgressiveCampaign(state) && labMaturityStage(state) === "frontier"
-      ? playerLab?.flags[LAB_MATURITY_STAGE_ENTERED_AT_FLAG]
-      : undefined;
-  const cadenceStart = typeof frontierEnteredAt === "number" ? frontierEnteredAt : 0;
+  // A guided game's cadence starts when random events open, not at week 0, so
+  // the forty-week guarantee does not fire the moment they do. Saves from
+  // before the flag fall back to the current chapter's entry week.
+  const openedAt = isProgressiveCampaign(state)
+    ? (playerLab?.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG] ??
+      playerLab?.flags[LAB_MATURITY_STAGE_ENTERED_AT_FLAG])
+    : undefined;
+  const cadenceStart = typeof openedAt === "number" ? openedAt : 0;
   const latest = Object.values(state.eventInstances)
     .filter((instance) => instance.source === "opportunity")
     .reduce<number | undefined>(

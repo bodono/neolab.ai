@@ -46,6 +46,26 @@ export function isProgressiveOpeningProtected(state: Readonly<GameState>): boole
 }
 
 /**
+ * Random decision events open part-way through the guided opening, at the
+ * institution chapter (about week 46), rather than with the full game at the
+ * frontier chapter (week 200 or later): otherwise a guided player met only a
+ * handful of the early-era events before they closed. Mandatory events and
+ * the other complications stay dormant until the frontier.
+ */
+export const OPPORTUNITY_EVENTS_FROM_STAGE: LabMaturityStage = "institution";
+/** The week random decision events opened in a guided game. */
+export const OPPORTUNITY_EVENTS_OPENED_AT_FLAG = "campaign:opportunity-events-opened-at";
+
+export function opportunityEventsOpen(state: Readonly<GameState>): boolean {
+  if (!isProgressiveOpeningProtected(state)) return true;
+  const stage = state.labs[state.run.playerLabId]?.flags[LAB_MATURITY_STAGE_FLAG];
+  return (
+    LAB_MATURITY_STAGES.indexOf(stage as LabMaturityStage) >=
+    LAB_MATURITY_STAGES.indexOf(OPPORTUNITY_EVENTS_FROM_STAGE)
+  );
+}
+
+/**
  * Required chapter actions may draw on the lab's opening family-and-friends
  * credit line. Keep this narrow: prices remain real and cash may go negative,
  * but unrelated hardware, facilities, and staff still require cash on hand.

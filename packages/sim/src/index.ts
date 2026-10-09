@@ -24,6 +24,7 @@ export * from "./rivals/index.ts";
 export * from "./coalition/index.ts";
 // Where a guided campaign stands, for tools that play or trace one.
 export {
+  FOUNDATION_MINIMUM_CAPABILITY_BASIS_POINTS,
   isProgressiveCampaign,
   LAB_MATURITY_STAGES,
   labMaturityStage,

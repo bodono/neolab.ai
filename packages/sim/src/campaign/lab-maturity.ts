@@ -28,6 +28,8 @@ import {
 import {
   LAB_MATURITY_STAGES,
   LAB_MATURITY_STAGE_FLAG,
+  OPPORTUNITY_EVENTS_FROM_STAGE,
+  OPPORTUNITY_EVENTS_OPENED_AT_FLAG,
   PROGRESSIVE_CAMPAIGN_FLAG,
   type LabMaturityStage,
 } from "./progressive-opening.ts";
@@ -42,12 +44,21 @@ export {
   isProgressiveOpeningProtected,
   LAB_MATURITY_STAGES,
   LAB_MATURITY_STAGE_FLAG,
+  OPPORTUNITY_EVENTS_FROM_STAGE,
+  OPPORTUNITY_EVENTS_OPENED_AT_FLAG,
+  opportunityEventsOpen,
   PROGRESSIVE_CAMPAIGN_FLAG,
   type LabMaturityStage,
 } from "./progressive-opening.ts";
 export const LAB_MATURITY_STAGE_ENTERED_AT_FLAG =
   "campaign:lab-maturity-stage-entered-at";
 export const INSTITUTION_WORLD_REVIEWED_FLAG = "campaign:institution-world-reviewed";
+/**
+ * Chapter 5 asks for most research compute on capability, not all of it:
+ * asking for 100% left safety research untouched for the two and a half years
+ * until the safety chapter asked for it back.
+ */
+export const FOUNDATION_MINIMUM_CAPABILITY_BASIS_POINTS = 8_000;
 export const FOUNDATION_RESEARCH_COMMITTED_FLAG =
   "campaign:foundation-research-committed";
 export const FOUNDATION_RESEARCH_BASELINE_FLAG = "campaign:foundation-research-baseline";
@@ -734,7 +745,7 @@ export function recordPlayerLabMaturityCommand(
     command.kind === "set-gpu-allocation" &&
     command.meta.issuedBy !== "rival" &&
     command.labId === state.run.playerLabId &&
-    command.allocation.capabilityBasisPoints === 10_000
+    command.allocation.capabilityBasisPoints >= FOUNDATION_MINIMUM_CAPABILITY_BASIS_POINTS
   ) {
     tx.update((draft) => {
       const lab = draft.labs[draft.run.playerLabId];
@@ -890,6 +901,9 @@ export function synchronisePlayerLabMaturity(tx: SimulationTransaction): void {
     if (lab === undefined) throw new Error("Progressive campaign player lab is missing");
     lab.flags[LAB_MATURITY_STAGE_FLAG] = next;
     lab.flags[LAB_MATURITY_STAGE_ENTERED_AT_FLAG] = draft.run.tick;
+    if (next === OPPORTUNITY_EVENTS_FROM_STAGE) {
+      lab.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG] = draft.run.tick;
+    }
     if (next === "foundation") {
       lab.flags[FOUNDATION_RESEARCH_BASELINE_FLAG] = Object.values(
         lab.research.domains,
@@ -1181,7 +1195,7 @@ export function projectLabMaturity(
       case "foundation":
         return [
           {
-            label: "On Research, set Broad Capability Research to 100%",
+            label: `On Research, give Broad Capability Research at least ${String(FOUNDATION_MINIMUM_CAPABILITY_BASIS_POINTS / 100)}%`,
             complete: foundationResearchCommitted(state),
           },
           {

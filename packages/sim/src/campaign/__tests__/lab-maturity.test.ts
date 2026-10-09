@@ -952,7 +952,7 @@ describe("milestone-driven lab maturity", () => {
       evidenceAccess: { evaluationIds: [], anomalyIds: [] },
     });
     expect(foundationView.meta.labMaturity?.checklist[0]?.label).toBe(
-      "On Research, set Broad Capability Research to 100%",
+      "On Research, give Broad Capability Research at least 80%",
     );
     const currentModelId = foundationLab.models.currentModelId;
     if (currentModelId === undefined) throw new Error("Opening prototype disappeared");

@@ -1,5 +1,6 @@
 import {
   basisPoints,
+  FOUNDATION_MINIMUM_CAPABILITY_BASIS_POINTS,
   LAB_MATURITY_STAGES,
   tick,
   type CommandId,
@@ -1185,9 +1186,11 @@ function openingAllocate(
     servingFleetShareBasisPoints: view.compute.allocation.serving.basisPoints,
     capabilityBasisPoints: view.compute.allocation.capabilities.basisPoints,
   };
+  // Chapter 5 asks for at least 80% capability; a player following the
+  // checklist gives it that, and keeps the rest on safety.
   const capabilityShare = stageAtLeast(stage, "safety")
     ? OPENING_SAFETY_CAPABILITY_BASIS_POINTS
-    : 10_000;
+    : FOUNDATION_MINIMUM_CAPABILITY_BASIS_POINTS;
   const serves = stageAtLeast(stage, "product");
   // A launch decided this week counts: serve it from the week it goes on sale.
   const launched =

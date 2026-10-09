@@ -14,6 +14,8 @@ import {
   LAB_MATURITY_STAGES,
   LAB_MATURITY_STAGE_ENTERED_AT_FLAG,
   LAB_MATURITY_STAGE_FLAG,
+  OPPORTUNITY_EVENTS_FROM_STAGE,
+  OPPORTUNITY_EVENTS_OPENED_AT_FLAG,
 } from "../../campaign/lab-maturity.ts";
 import { calendarFromTick, type GameState } from "../../model/state.ts";
 import { addBaselineModelsForTest } from "../../model/fixture.ts";
@@ -136,7 +138,7 @@ function instantiate(
 }
 
 describe("event eligibility and opportunity selection", () => {
-  it("protects every progressive unlock chapter from authored events", () => {
+  it("holds random events to the institution chapter and the rest to the frontier", () => {
     const opportunity = eventDefinition("opening-protection");
     const mandatory = eventDefinition("opening-mandatory-protection", {
       trigger: {
@@ -170,16 +172,29 @@ describe("event eligibility and opportunity selection", () => {
     protectedState.run.tick = tick(100);
     protectedState.run.calendar = calendarFromTick(protectedState.run.tick);
 
-    for (const stage of LAB_MATURITY_STAGES.filter(
-      (candidate) => candidate !== "frontier",
-    )) {
+    const opensAt = LAB_MATURITY_STAGES.indexOf(OPPORTUNITY_EVENTS_FROM_STAGE);
+    for (const [index, stage] of LAB_MATURITY_STAGES.entries()) {
+      if (stage === "frontier") continue;
       lab.flags[LAB_MATURITY_STAGE_FLAG] = stage;
-      expect(listEligibleEventDefinitions(protectedState, content)).toEqual([]);
+      // Mandatory decisions wait for the full game in every opening chapter.
       expect(collectMandatoryTriggers(protectedState, content)).toEqual([]);
-      const protectedTx = createTransaction(protectedState);
-      advanceEventGeneration(protectedTx, content);
-      expect(Object.values(protectedTx.read().eventInstances)).toEqual([]);
+      if (index < opensAt) {
+        expect(listEligibleEventDefinitions(protectedState, content)).toEqual([]);
+        const protectedTx = createTransaction(protectedState);
+        advanceEventGeneration(protectedTx, content);
+        expect(Object.values(protectedTx.read().eventInstances)).toEqual([]);
+      } else {
+        // Random offers open from the institution chapter.
+        expect(listEligibleEventDefinitions(protectedState, content)).toEqual([
+          expect.objectContaining({ definitionId: opportunity.id }),
+        ]);
+      }
     }
+
+    // The cadence counts from the week random events opened, not week 0.
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = OPPORTUNITY_EVENTS_FROM_STAGE;
+    lab.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG] = protectedState.run.tick;
+    expect(calculateOpportunityChance(protectedState)).toBe(0.015);
 
     lab.flags[LAB_MATURITY_STAGE_FLAG] = "frontier";
     lab.flags[LAB_MATURITY_STAGE_ENTERED_AT_FLAG] = protectedState.run.tick;
