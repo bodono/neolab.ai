@@ -30,6 +30,7 @@ import {
   LAB_MATURITY_STAGE_FLAG,
   OPPORTUNITY_EVENTS_FROM_STAGE,
   OPPORTUNITY_EVENTS_OPENED_AT_FLAG,
+  opportunityEventsOpen,
   PROGRESSIVE_CAMPAIGN_FLAG,
   type LabMaturityStage,
 } from "./progressive-opening.ts";
@@ -858,6 +859,23 @@ export function synchronisePlayerLabMaturity(tx: SimulationTransaction): void {
     });
     state = tx.read();
   }
+  // Saves from before random events opened at the institution chapter lack
+  // the week they opened; stamp it once rather than count the event cadence
+  // from the chapter's start, which fired a guaranteed event on loading.
+  if (
+    current !== "frontier" &&
+    opportunityEventsOpen(state) &&
+    typeof state.labs[state.run.playerLabId]?.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG] !==
+      "number"
+  ) {
+    tx.update((draft) => {
+      const playerLab = draft.labs[draft.run.playerLabId];
+      if (playerLab === undefined)
+        throw new Error("Progressive campaign player lab is missing");
+      playerLab.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG] = draft.run.tick;
+    });
+    state = tx.read();
+  }
   pauseOnNewlyCompletedObjectives(tx, current);
   state = tx.read();
   if (!stageComplete(state, current)) return;
@@ -1111,6 +1129,11 @@ export interface LabMaturityViewData extends LabMaturityStageDefinition {
   readonly complete: boolean;
   readonly safetyResearchUnlocked: boolean;
   /**
+   * Random decision events can fire (from the institution chapter), so the
+   * Lab feed, where a deferred decision waits, must be on screen.
+   */
+  readonly decisionEventsOpen: boolean;
+  /**
    * The Overview reminder persists throughout onboarding, then leaves the
    * dashboard two weeks after the full game opens. The maturity projection
    * itself remains available because it also drives department visibility.
@@ -1275,6 +1298,7 @@ export function projectLabMaturity(
     checklist,
     complete: stage === "frontier",
     safetyResearchUnlocked: stageIndex(stage) >= stageIndex("foundation"),
+    decisionEventsOpen: opportunityEventsOpen(state),
     showOverviewPanel,
     ...(overdraft > 0 && !hasAcceptedFunding(state)
       ? {

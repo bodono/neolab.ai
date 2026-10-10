@@ -21,7 +21,7 @@ import { quoteFundraisingCampaign } from "../../fundraising/fundraising.ts";
 import type { DeepMutable } from "../../engine/draft.ts";
 import { addBaselineModelForTest } from "../../model/fixture.ts";
 import type { AnomalyId, CommandId, EvaluationId } from "../../model/ids.ts";
-import type { GameState } from "../../model/state.ts";
+import { calendarFromTick, type GameState } from "../../model/state.ts";
 import { basisPoints, cashMillions, rating, tick } from "../../model/units.ts";
 import { seed128 } from "../../random/seed.ts";
 import { projectGameView } from "../../selectors/game-view.ts";
@@ -40,6 +40,7 @@ import {
   LAB_MATURITY_STAGES,
   LAB_MATURITY_STAGE_FLAG,
   labMaturityStage,
+  OPPORTUNITY_EVENTS_OPENED_AT_FLAG,
   projectLabMaturity,
   PROTOTYPE_TRACTION_AURA_AWARD,
   shouldHoldAmbientSimulation,
@@ -120,6 +121,31 @@ describe("campaign chapter unlocks", () => {
         }).toEqual({ stage, section, unlocked: true });
       }
     }
+  });
+});
+
+describe("random decision events in the guided opening", () => {
+  it("open from the institution chapter, with the Lab feed, and stamp an old save once", () => {
+    const state = structuredClone(
+      createProgressiveNewGame(config(), content),
+    ) as DeepMutable<GameState>;
+    const lab = state.labs[state.run.playerLabId];
+    if (lab === undefined) throw new Error("player lab missing");
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = "lab";
+    expect(projectLabMaturity(state as GameState)?.decisionEventsOpen).toBe(false);
+
+    // A save from before the opened-at week was recorded, already in chapter 9.
+    lab.flags[LAB_MATURITY_STAGE_FLAG] = "institution";
+    delete lab.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG];
+    state.run.tick = tick(120);
+    state.run.calendar = calendarFromTick(state.run.tick);
+    expect(projectLabMaturity(state as GameState)?.decisionEventsOpen).toBe(true);
+    const tx = createTransaction(state);
+    synchronisePlayerLabMaturity(tx);
+    const stamped = tx.commit({ description: "stamp opened-at" }).state;
+    expect(
+      stamped.labs[stamped.run.playerLabId]?.flags[OPPORTUNITY_EVENTS_OPENED_AT_FLAG],
+    ).toBe(120);
   });
 });
 

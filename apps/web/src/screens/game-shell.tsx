@@ -1390,6 +1390,7 @@ export function GameShell({
       {howToPlayOpen ? (
         <HowToPlayDialog
           paperFocus={view.research.paperFocusRule}
+          genuineCandidateFloor={view.models.genuineCandidateFloor}
           onClose={closeHowToPlay}
         />
       ) : null}
@@ -1833,7 +1834,10 @@ export function GameShell({
 
               {unlockedFeatures.has("models") ? <MajorProjectsPanel view={view} /> : null}
 
-              {unlockedFeatures.has("evaluations") ? (
+              {/* Random decision events open at the institution chapter, before
+                  evaluations; "Decide later" sends them to this Lab feed. */}
+              {unlockedFeatures.has("evaluations") ||
+              view.meta.labMaturity?.decisionEventsOpen === true ? (
                 <div className="dashboard-priority-stack">
                   <div className="dashboard-command-desk">
                     {unlockedFeatures.has("research") ? (

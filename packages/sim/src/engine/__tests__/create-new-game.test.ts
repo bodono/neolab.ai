@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { SUPERINTELLIGENCE_PROBABILITY_AT_QUALIFICATION } from "../../models/capability.ts";
 import {
   contentId,
   validateCompiledContent,
@@ -378,6 +379,14 @@ describe("leader and lab modifiers", () => {
 });
 
 describe("difficulty and mandate application", () => {
+  it("keeps rivals' candidate odds equal to Standard's", () => {
+    // Rivals, and saves from before the player's odds were stamped, use the
+    // code constant; retuning Standard's content value alone would split them.
+    expect(
+      content.difficulties[contentId("base:difficulty.standard")]?.genuineCandidateFloor,
+    ).toBe(SUPERINTELLIGENCE_PROBABILITY_AT_QUALIFICATION);
+  });
+
   it("standard difficulty adds no difficulty modifiers", () => {
     const state = createNewGame(config(), content);
     const difficultyModifiers = Object.values(state.modifiers).filter(

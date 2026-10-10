@@ -114,6 +114,7 @@ const briefingSteps = (paperFocus: HowToPlayPaperFocus | undefined) => [
 
 export function HowToPlayDialog({
   paperFocus,
+  genuineCandidateFloor = 0.1,
   onClose,
 }: {
   /**
@@ -121,6 +122,8 @@ export function HowToPlayDialog({
    * from a runtime older than the rule (a stale hot reload) leaves it out.
    */
   readonly paperFocus: HowToPlayPaperFocus | undefined;
+  /** The difficulty's chance that a candidate is genuine at the gate. */
+  readonly genuineCandidateFloor?: number | undefined;
   readonly onClose: () => void;
 }): ReactElement {
   return (
@@ -204,7 +207,8 @@ export function HowToPlayDialog({
                   </p>
                   <p>
                     A model's chance of being genuine superintelligence is fixed the first
-                    time it qualifies, from its capability then: 10% at FC{" "}
+                    time it qualifies, from its capability then:{" "}
+                    {Math.round(genuineCandidateFloor * 100)}% at FC{" "}
                     {AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY}, 100% at FC 100. Later
                     gains do not redraw it, but each new training run gets its own chance.
                   </p>
