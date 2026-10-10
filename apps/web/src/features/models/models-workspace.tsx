@@ -104,10 +104,11 @@ export function modelEvidenceReviewRequest(modelId: string): {
  */
 export function trainingCandidateOdds(
   forecast: readonly [number, number],
+  floor?: number,
 ): { readonly low: number; readonly high: number } | undefined {
   if (forecast[1] < AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY) return undefined;
   const percent = (frontierCapability: number): number =>
-    Math.round(superintelligenceProbability(frontierCapability) * 100);
+    Math.round(superintelligenceProbability(frontierCapability, floor) * 100);
   return {
     low: percent(Math.max(forecast[0], AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY)),
     high: percent(forecast[1]),
@@ -2011,7 +2012,10 @@ function TrainingDialog({
   const candidateOdds =
     quote === undefined
       ? undefined
-      : trainingCandidateOdds(quote.estimatedFrontierCapabilityRange);
+      : trainingCandidateOdds(
+          quote.estimatedFrontierCapabilityRange,
+          view.models.genuineCandidateFloor,
+        );
   const completedCandidateComponents = view.models.candidateProgramme.components.filter(
     (component) => component.status === "complete",
   ).length;
@@ -2726,6 +2730,7 @@ function TrainingDialog({
                           {Math.round(
                             superintelligenceProbability(
                               AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
+                              view.models.genuineCandidateFloor,
                             ) * 100,
                           )}
                           % at FC {AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY}, 100% at FC

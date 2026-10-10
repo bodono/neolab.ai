@@ -601,6 +601,20 @@ export interface DifficultyDefinition {
   readonly revenueMultiplier: number;
   readonly fixedCostMultiplier: number;
   readonly rivalProgressMultiplier: number;
+  /**
+   * The player lab's research output. Games are decided by whether the
+   * player's research reaches the top before a rival's countdown forces a
+   * crossing, so this is the lever that separates the difficulties; it leaves
+   * rival research, and with it the world clock, alone.
+   */
+  readonly researchMultiplier: number;
+  /**
+   * The chance that the player's first AGI candidate is genuine at the gate
+   * (FC 88), rising to certainty at FC 100. Whether that candidate is genuine
+   * decides most games, so this is the difficulty's sharpest lever; rivals
+   * always use the standard 10%.
+   */
+  readonly genuineCandidateFloor: number;
   readonly incidentPressureMultiplier: number;
   readonly displayedEstimateQualityBonus: number;
 }

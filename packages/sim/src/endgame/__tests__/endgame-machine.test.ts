@@ -238,8 +238,10 @@ describe("Deployment Crisis candidate lifecycle", () => {
         option.capabilityDerivedPrior?.percent,
       ]),
     ).toEqual([
-      [qualified.modelId, 41],
-      [lowModelId, 11],
+      // The fixture plays the first difficulty, Fellowship, whose odds at the
+      // gate start at 25% rather than Standard's 10%.
+      [qualified.modelId, 51],
+      [lowModelId, 26],
     ]);
   });
 

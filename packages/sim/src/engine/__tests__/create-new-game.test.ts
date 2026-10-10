@@ -387,9 +387,9 @@ describe("difficulty and mandate application", () => {
   });
 
   it.each([
-    ["base:difficulty.fellowship", 4],
-    ["base:difficulty.frontier", 3],
-    ["base:difficulty.unhinged-scaling", 3],
+    ["base:difficulty.fellowship", 5],
+    ["base:difficulty.frontier", 4],
+    ["base:difficulty.unhinged-scaling", 4],
   ])("%s emits its multiplier modifiers", (difficultyId, expected) => {
     const state = createNewGame(
       config({ difficultyId: contentId(difficultyId) }),

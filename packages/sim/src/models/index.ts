@@ -6,6 +6,8 @@ export {
   capabilityScoreForDisplay,
   calculateFrontierCapability,
   createCapabilityEstimate,
+  GENUINE_CANDIDATE_FLOOR_FLAG,
+  genuineCandidateFloor,
   superintelligenceProbability,
 } from "./capability.ts";
 export {

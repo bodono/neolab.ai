@@ -10,6 +10,7 @@ import {
   MemorySaveRepository,
   projectGameView,
   seed128,
+  genuineCandidateFloor,
   superintelligenceProbability,
   type EventInstanceId,
   type GameCommand,
@@ -143,7 +144,11 @@ function installCandidateArtifact(
     incidentHistory: [],
     retirementVerification: "not-attempted",
   };
-  const probability = superintelligenceProbability(capability);
+  // The owner's difficulty sets the odds at the gate; the invariants check them.
+  const probability = superintelligenceProbability(
+    capability,
+    genuineCandidateFloor(state, ownerLabId),
+  );
   const draw = 1;
   mutable.lineageSIRecords[model.lineageId] = {
     lineageId: model.lineageId,

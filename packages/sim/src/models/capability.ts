@@ -1,6 +1,10 @@
 import type { CapabilityAttribute } from "@neolab/content-schema";
 
-import type { CapabilityEstimateState, CapabilityVector } from "../model/state.ts";
+import type {
+  CapabilityEstimateState,
+  CapabilityVector,
+  GameState,
+} from "../model/state.ts";
 import { rating } from "../model/units.ts";
 import { randomKey } from "../random/key.ts";
 import type { RandomOracle } from "../random/oracle.ts";
@@ -62,17 +66,37 @@ export function satisfiesAgiCandidateCapabilityGate(
  * Player-known prior for the hidden, one-time lineage draw. The draw itself is
  * fixed elsewhere from canonical true capability and is never exposed live.
  */
-export function superintelligenceProbability(frontierCapability: number): number {
+export function superintelligenceProbability(
+  frontierCapability: number,
+  floor = SUPERINTELLIGENCE_PROBABILITY_AT_QUALIFICATION,
+): number {
   if (frontierCapability < AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY) return 0;
   const progress = Math.min(
     1,
     (frontierCapability - AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY) /
       (100 - AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY),
   );
-  return (
-    SUPERINTELLIGENCE_PROBABILITY_AT_QUALIFICATION +
-    (1 - SUPERINTELLIGENCE_PROBABILITY_AT_QUALIFICATION) * progress ** 2
-  );
+  return floor + (1 - floor) * progress ** 2;
+}
+
+/**
+ * The player's difficulty sets the chance at the gate (FC 88) that a first
+ * candidate is genuine, stamped on the player lab at the start of a run.
+ * Rivals, and saves from before the stamp, use the standard 10%.
+ */
+export const GENUINE_CANDIDATE_FLOOR_FLAG = "difficulty:genuine-candidate-floor";
+
+export function genuineCandidateFloor(
+  state: Readonly<GameState>,
+  labId: string | undefined,
+): number {
+  const value =
+    labId === undefined
+      ? undefined
+      : state.labs[labId as keyof typeof state.labs]?.flags[GENUINE_CANDIDATE_FLOOR_FLAG];
+  return typeof value === "number"
+    ? value
+    : SUPERINTELLIGENCE_PROBABILITY_AT_QUALIFICATION;
 }
 
 function clampRating(value: number) {

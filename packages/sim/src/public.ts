@@ -201,6 +201,7 @@ export {
   isApparentAgiCandidate,
   quoteStandingAutonomy,
   STANDING_AUTONOMY_REQUIREMENTS,
+  genuineCandidateFloor,
   superintelligenceProbability,
   type CapabilityTierView,
 } from "./models/index.ts";

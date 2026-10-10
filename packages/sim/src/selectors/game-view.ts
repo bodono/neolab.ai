@@ -113,6 +113,7 @@ import {
 import {
   AGI_CANDIDATE_MINIMUM_CAPABILITY_ATTRIBUTE,
   AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
+  genuineCandidateFloor,
 } from "../models/capability.ts";
 import {
   publicLineagePrior,
@@ -1204,6 +1205,11 @@ export interface ModelsView {
   readonly currentModelId?: string;
   readonly commercialModelId?: string;
   readonly cards: readonly ModelCardView[];
+  /**
+   * The difficulty's chance that a first candidate is genuine at the gate
+   * (FC 88), rising to certainty at FC 100.
+   */
+  readonly genuineCandidateFloor: number;
   /** Player-safe custody ledger for every capability-qualified weight artifact. */
   readonly candidateCustody: {
     readonly usedContainment: number;
@@ -4712,6 +4718,7 @@ function projectModels(
       : { currentModelId: lab.models.currentModelId }),
     ...(commercialModelId === undefined ? {} : { commercialModelId }),
     cards,
+    genuineCandidateFloor: genuineCandidateFloor(state, context.viewerLabId),
     candidateCustody,
     productisationCostMillions: {
       normal: productisationCashCostMillions(state, content, "normal"),

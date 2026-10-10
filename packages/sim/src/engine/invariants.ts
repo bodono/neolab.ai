@@ -4,6 +4,7 @@ import { CRISIS_SLOT_FLOOR, totalMajorProjectSlots } from "../projects/slot-poli
 import {
   calculateFrontierCapability,
   satisfiesAgiCandidateCapabilityGate,
+  genuineCandidateFloor,
   superintelligenceProbability,
 } from "../models/capability.ts";
 import { describeRandomKey, randomKey } from "../random/key.ts";
@@ -1789,6 +1790,7 @@ export function collectInvariantViolations(
     const firstModel = state.models[lineage.firstQualifyingModelId];
     const expectedProbability = superintelligenceProbability(
       lineage.firstQualifyingFrontierCapability,
+      genuineCandidateFloor(state, firstModel?.ownerLabId),
     );
     const expectedKey = describeRandomKey(
       randomKey("endgame-si-v1", state.engineRulesVersion, state.run.seed, lineageId),

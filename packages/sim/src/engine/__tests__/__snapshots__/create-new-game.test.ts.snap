@@ -101,6 +101,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0.1,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -1022,6 +1023,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
       },
       "flags": {
         "campaign:full-game-cash-grant-claimed": true,
+        "difficulty:genuine-candidate-floor": 0.1,
         "lab.finance.cash.fullGameGrant": 50,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
@@ -1919,6 +1921,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0.1,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -2802,6 +2805,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0.1,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -3711,6 +3715,7 @@ exports[`golden snapshots (all five leaders, standard difficulty) > base:leader.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0.1,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -4594,6 +4599,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0.25,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -4817,6 +4823,19 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
     "run:modifier:setup:0005": {
       "id": "run:modifier:setup:0005",
       "labId": "lab:player",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.fellowship",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 1.25,
+    },
+    "run:modifier:setup:0006": {
+      "id": "run:modifier:setup:0006",
+      "labId": "lab:player",
       "operation": "add",
       "source": {
         "id": "difficulty:base:difficulty.fellowship",
@@ -4826,19 +4845,6 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "tags": [],
       "target": "lab.evidence.displayedQuality",
       "value": 10,
-    },
-    "run:modifier:setup:0006": {
-      "id": "run:modifier:setup:0006",
-      "labId": "lab:player",
-      "operation": "multiply",
-      "source": {
-        "id": "mandate:base:mandate.build-the-science",
-        "kind": "system",
-      },
-      "startsAt": 0,
-      "tags": [],
-      "target": "lab.research.capability.output",
-      "value": 1.1,
     },
     "run:modifier:setup:0007": {
       "id": "run:modifier:setup:0007",
@@ -4850,11 +4856,24 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       },
       "startsAt": 0,
       "tags": [],
-      "target": "lab.market.demandCeiling",
-      "value": 0.8,
+      "target": "lab.research.capability.output",
+      "value": 1.1,
     },
     "run:modifier:setup:0008": {
       "id": "run:modifier:setup:0008",
+      "labId": "lab:player",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.demandCeiling",
+      "value": 0.8,
+    },
+    "run:modifier:setup:0009": {
+      "id": "run:modifier:setup:0009",
       "labId": "lab:player",
       "operation": "multiply",
       "source": {
@@ -5043,7 +5062,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "gpu-lot": 2,
       "lab": 4,
       "model": 0,
-      "modifier": 9,
+      "modifier": 10,
       "people": 0,
       "project": 0,
       "promise": 0,
@@ -5074,7 +5093,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
         "gpu-lot": 1,
       },
       "setup": {
-        "modifier": 9,
+        "modifier": 10,
       },
     },
     "phase": "foundation",
@@ -5528,6 +5547,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0.05,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -5738,6 +5758,19 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
     "run:modifier:setup:0004": {
       "id": "run:modifier:setup:0004",
       "labId": "lab:player",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.frontier",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 0.9,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "labId": "lab:player",
       "operation": "add",
       "source": {
         "id": "difficulty:base:difficulty.frontier",
@@ -5747,19 +5780,6 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "tags": [],
       "target": "lab.evidence.displayedQuality",
       "value": -5,
-    },
-    "run:modifier:setup:0005": {
-      "id": "run:modifier:setup:0005",
-      "labId": "lab:player",
-      "operation": "multiply",
-      "source": {
-        "id": "mandate:base:mandate.build-the-science",
-        "kind": "system",
-      },
-      "startsAt": 0,
-      "tags": [],
-      "target": "lab.research.capability.output",
-      "value": 1.1,
     },
     "run:modifier:setup:0006": {
       "id": "run:modifier:setup:0006",
@@ -5771,11 +5791,24 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       },
       "startsAt": 0,
       "tags": [],
-      "target": "lab.market.demandCeiling",
-      "value": 0.8,
+      "target": "lab.research.capability.output",
+      "value": 1.1,
     },
     "run:modifier:setup:0007": {
       "id": "run:modifier:setup:0007",
+      "labId": "lab:player",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.demandCeiling",
+      "value": 0.8,
+    },
+    "run:modifier:setup:0008": {
+      "id": "run:modifier:setup:0008",
       "labId": "lab:player",
       "operation": "multiply",
       "source": {
@@ -5964,7 +5997,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "gpu-lot": 2,
       "lab": 4,
       "model": 0,
-      "modifier": 8,
+      "modifier": 9,
       "people": 0,
       "project": 0,
       "promise": 0,
@@ -5995,7 +6028,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
         "gpu-lot": 1,
       },
       "setup": {
-        "modifier": 8,
+        "modifier": 9,
       },
     },
     "phase": "foundation",
@@ -6449,6 +6482,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
         "settlements": [],
       },
       "flags": {
+        "difficulty:genuine-candidate-floor": 0,
         "model:first-product-quality": 12,
         "rating-target:boardPatience": 70,
         "rating-target:internalCandour": 50,
@@ -6659,6 +6693,19 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
     "run:modifier:setup:0004": {
       "id": "run:modifier:setup:0004",
       "labId": "lab:player",
+      "operation": "multiply",
+      "source": {
+        "id": "difficulty:base:difficulty.unhinged-scaling",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.research.all.output",
+      "value": 0.8,
+    },
+    "run:modifier:setup:0005": {
+      "id": "run:modifier:setup:0005",
+      "labId": "lab:player",
       "operation": "add",
       "source": {
         "id": "difficulty:base:difficulty.unhinged-scaling",
@@ -6668,19 +6715,6 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "tags": [],
       "target": "lab.evidence.displayedQuality",
       "value": -10,
-    },
-    "run:modifier:setup:0005": {
-      "id": "run:modifier:setup:0005",
-      "labId": "lab:player",
-      "operation": "multiply",
-      "source": {
-        "id": "mandate:base:mandate.build-the-science",
-        "kind": "system",
-      },
-      "startsAt": 0,
-      "tags": [],
-      "target": "lab.research.capability.output",
-      "value": 1.1,
     },
     "run:modifier:setup:0006": {
       "id": "run:modifier:setup:0006",
@@ -6692,11 +6726,24 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       },
       "startsAt": 0,
       "tags": [],
-      "target": "lab.market.demandCeiling",
-      "value": 0.8,
+      "target": "lab.research.capability.output",
+      "value": 1.1,
     },
     "run:modifier:setup:0007": {
       "id": "run:modifier:setup:0007",
+      "labId": "lab:player",
+      "operation": "multiply",
+      "source": {
+        "id": "mandate:base:mandate.build-the-science",
+        "kind": "system",
+      },
+      "startsAt": 0,
+      "tags": [],
+      "target": "lab.market.demandCeiling",
+      "value": 0.8,
+    },
+    "run:modifier:setup:0008": {
+      "id": "run:modifier:setup:0008",
       "labId": "lab:player",
       "operation": "multiply",
       "source": {
@@ -6885,7 +6932,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
       "gpu-lot": 2,
       "lab": 4,
       "model": 0,
-      "modifier": 8,
+      "modifier": 9,
       "people": 0,
       "project": 0,
       "promise": 0,
@@ -6916,7 +6963,7 @@ exports[`golden snapshots (remaining difficulties, DeepBrain) > base:difficulty.
         "gpu-lot": 1,
       },
       "setup": {
-        "modifier": 8,
+        "modifier": 9,
       },
     },
     "phase": "foundation",

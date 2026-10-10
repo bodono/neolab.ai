@@ -1045,6 +1045,8 @@ export const balanceFileSchema = z
             revenueMultiplier: z.number().positive(),
             fixedCostMultiplier: z.number().positive(),
             rivalProgressMultiplier: z.number().positive(),
+            researchMultiplier: z.number().positive(),
+            genuineCandidateFloor: z.number().min(0).max(1),
             incidentPressureMultiplier: z.number().positive(),
             displayedEstimateQualityBonus: z.number().int(),
           })

@@ -982,6 +982,14 @@ export function NewGameScreen({
                       <b>{signedPercentage(difficulty.fixedCostMultiplier)}</b>
                     </span>
                     <span>
+                      <small>Your research</small>
+                      <b>{signedPercentage(difficulty.researchMultiplier)}</b>
+                    </span>
+                    <span>
+                      <small>Candidate odds at FC 88</small>
+                      <b>{Math.round(difficulty.genuineCandidateFloor * 100)}%</b>
+                    </span>
+                    <span>
                       <small>Rival programme pace</small>
                       <b>{signedPercentage(difficulty.rivalProgressMultiplier)}</b>
                     </span>

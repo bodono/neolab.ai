@@ -86,12 +86,19 @@ newGame:
       safety.security-containment: 3333
 
 # GDD section 29.4. Multipliers become sourced modifiers on the run.
+# researchMultiplier scales the player lab's research: games turn on whether
+# the player's research tops out before a rival's countdown forces a crossing,
+# and the other levers left the four difficulties nearly indistinguishable.
+# genuineCandidateFloor is the chance a first AGI candidate is genuine at the
+# gate (FC 88), rising to certainty at FC 100; that draw decides most games.
 difficulties:
   - id: difficulty.fellowship
     displayName: Fellowship
     revenueMultiplier: 1.20
     fixedCostMultiplier: 0.85
     rivalProgressMultiplier: 0.70
+    researchMultiplier: 1.25
+    genuineCandidateFloor: 0.25
     incidentPressureMultiplier: 0.75
     displayedEstimateQualityBonus: 10
   - id: difficulty.standard
@@ -99,6 +106,8 @@ difficulties:
     revenueMultiplier: 1.00
     fixedCostMultiplier: 1.00
     rivalProgressMultiplier: 1.00
+    researchMultiplier: 1.00
+    genuineCandidateFloor: 0.10
     incidentPressureMultiplier: 1.00
     displayedEstimateQualityBonus: 0
   - id: difficulty.frontier
@@ -106,6 +115,8 @@ difficulties:
     revenueMultiplier: 0.85
     fixedCostMultiplier: 1.00
     rivalProgressMultiplier: 1.10
+    researchMultiplier: 0.90
+    genuineCandidateFloor: 0.05
     incidentPressureMultiplier: 1.20
     displayedEstimateQualityBonus: -5
   - id: difficulty.unhinged-scaling
@@ -113,6 +124,8 @@ difficulties:
     revenueMultiplier: 0.85
     fixedCostMultiplier: 1.00
     rivalProgressMultiplier: 1.25
+    researchMultiplier: 0.80
+    genuineCandidateFloor: 0.00
     incidentPressureMultiplier: 1.30
     displayedEstimateQualityBonus: -10
 

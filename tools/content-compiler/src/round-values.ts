@@ -277,6 +277,7 @@ export function findNonRoundPlayerFacingValues(
       "revenueMultiplier",
       "fixedCostMultiplier",
       "rivalProgressMultiplier",
+      "researchMultiplier",
       "incidentPressureMultiplier",
     ] as const) {
       check(

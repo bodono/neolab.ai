@@ -18,6 +18,7 @@ import {
   AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY,
   calculateFrontierCapability,
   satisfiesAgiCandidateCapabilityGate,
+  genuineCandidateFloor,
   superintelligenceProbability,
 } from "../models/capability.ts";
 import { deceptiveActionPressure } from "../models/deception.ts";
@@ -173,7 +174,10 @@ function registerCandidateArtifact(
   let genuineSuperintelligence: boolean;
   let lineageRecord = existingLineage;
   if (lineageRecord === undefined) {
-    const probability = superintelligenceProbability(frontierCapability);
+    const probability = superintelligenceProbability(
+      frontierCapability,
+      genuineCandidateFloor(state, model.ownerLabId),
+    );
     const key = lineageDrawKey(state, model);
     const draw = fraction(oracle.uniform(key));
     genuineSuperintelligence = probability >= 1 || draw < probability;
@@ -340,7 +344,15 @@ export function publicLineagePrior(
     AGI_CANDIDATE_MINIMUM_FRONTIER_CAPABILITY;
   return {
     frontierCapability: Math.round(frontierCapability * 10) / 10,
-    percent: Math.round(superintelligenceProbability(frontierCapability) * 100),
+    percent: Math.round(
+      superintelligenceProbability(
+        frontierCapability,
+        genuineCandidateFloor(
+          state,
+          state.models[lineage.firstQualifyingModelId]?.ownerLabId,
+        ),
+      ) * 100,
+    ),
   };
 }
 

@@ -20,6 +20,7 @@ import {
   settledServingPhysicalGpus,
 } from "../market/market.ts";
 import { validateGameState } from "../model/schema.ts";
+import { GENUINE_CANDIDATE_FLOOR_FLAG } from "../models/capability.ts";
 import {
   calendarFromTick,
   ENGINE_RULES_VERSION,
@@ -304,6 +305,15 @@ export function createNewGame(
       value: difficulty.rivalProgressMultiplier,
     });
   }
+  // The player's own research pace separates the difficulties: rivals keep
+  // their research, so the world clock and its eras are the same on all four.
+  if (difficulty.researchMultiplier !== 1) {
+    difficultyEffects.push({
+      target: "lab.research.all.output",
+      operation: "multiply",
+      value: difficulty.researchMultiplier,
+    });
+  }
   // Incident pressure stays a scalar read directly by calculateIncidentHazard;
   // authoring it as a modifier too would double-count now the target is wired.
   if (difficulty.displayedEstimateQualityBonus !== 0) {
@@ -322,6 +332,7 @@ export function createNewGame(
     id: `mandate:${mandate.id}`,
   });
   const draft = application.draft;
+  draft.flags[GENUINE_CANDIDATE_FLOOR_FLAG] = difficulty.genuineCandidateFloor;
   const fullGameCashGrant = draft.flags[FULL_GAME_CASH_GRANT_TARGET];
   if (typeof fullGameCashGrant === "number" && fullGameCashGrant > 0) {
     draft.cash += fullGameCashGrant;
