@@ -48,7 +48,8 @@ state is inspected only after decisions, for diagnostics and sampled replay hash
   `createNewGame`. `guided` is "Guided chapters", `createProgressiveNewGame`: the new-game screen's
   default, built from the same setup (apps/web `BrowserGameRuntime.createNew`). The lab starts in a
   garage with about $30M and no GPUs, and works through twelve chapters, each opening one system
-  and closing on a checklist; ordinary decision events stay off until the last, the frontier.
+  and closing on a checklist; random decision events open at the institution chapter and
+  mandatory ones at the last, the frontier.
   Only the expert can play the chapters (below); the catalogue policies stall in the garage. A
   guided run's key ends in `/guided`, its record carries `opening` and `chapterEntryTicks` (the
   week each chapter began), the report's `matrix.opening` says which opening it played, and
@@ -162,7 +163,7 @@ refused) and sat at FC 0. Chapter by chapter it now:
 - **Garage, cluster, model, startup.** Buys the 1,000 GPUs the garage holds, trains the prototype,
   reviews the rival race (`review-rival-race`, the command the World screen sends), builds the
   Server Rack and fills it to 5,000 GPUs.
-- **Foundation.** Gives capability research all of R&D compute (the checklist's 100%), waits for a
+- **Foundation.** Gives capability research 80% of R&D compute (the checklist's minimum), waits for a
   programme to advance, then trains the quickest run whose whole forecast clears FC 5.
 - **Product, funding, lab.** Productises the FC 5 model, puts it on the Guarded API and serves
   demand; raises a round and takes the best offer; recruits the cheapest star on the market and
@@ -173,9 +174,10 @@ refused) and sat at FC 0. Chapter by chapter it now:
   safety research 30% of R&D compute and runs the cheapest evaluation; the autonomy chapter grants
   the FC 20 model Access Level 1.
 
-Chapter costs the opening's family credit line covers (the first GPUs, the prototype and milestone
+Chapter costs the opening's family credit line covers (the first GPUs, the prototype and FC 5
 runs, the Server Rack, the launch, the first recruit, the Press Office, the evaluation) may take
-cash below zero, as the chapter intends; everything else keeps the usual floors. A guided run also
+cash below zero, as the chapter intends; everything else, including the FC 10 and FC 20 milestone
+runs, keeps the usual floors. A guided run also
 asks its policy whenever a chapter opens or an objective completes, the moments the game pauses
 for a player, as well as on the usual cadence.
 

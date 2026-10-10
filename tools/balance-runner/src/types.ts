@@ -126,7 +126,8 @@ export type BalanceMatrixMode = "independent" | "paired" | "cartesian";
  * How each run opens. `classic` is "Everything unlocked" (`createNewGame`),
  * which every balance measurement has used. `guided` is the "Guided chapters"
  * opening players get by default (`createProgressiveNewGame`): a garage lab
- * with no GPUs, twelve chapters, and ordinary events held back until the last.
+ * with no GPUs, twelve chapters, random events from the institution chapter
+ * and mandatory ones only from the last.
  */
 export type BalanceOpening = "classic" | "guided";
 

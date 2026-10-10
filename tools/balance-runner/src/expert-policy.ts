@@ -1113,8 +1113,9 @@ function endgame(planner: Planner, available: readonly AvailableCommandView[]): 
  *
  *  - garage, cluster, model, startup: buy the first GPU block, train the
  *    prototype, open the rival race, build the Server Rack and fill it;
- *  - foundation: give capability research all R&D compute, advance a
- *    programme, then train the FC 5 successor;
+ *  - foundation: give capability research 80% of R&D compute (the
+ *    checklist's minimum; the rest stays on safety), advance a programme,
+ *    then train the FC 5 successor;
  *  - product, funding, lab: launch it with managed access and serve it, raise
  *    a round, recruit a researcher and appoint them to lead a programme;
  *  - institution, safety, autonomy: build the Press Office, then scale the
@@ -1123,9 +1124,10 @@ function endgame(planner: Planner, available: readonly AvailableCommandView[]): 
  *    grant the FC 20 model Access Level 1.
  *
  * Chapter costs the opening's family credit line covers (the first GPUs, the
- * prototype and milestone runs, the Server Rack, the launch, the first
- * recruit, the Press Office, the evaluation) are bought below $0, as the
- * chapter intends; everything else keeps the usual floors.
+ * prototype and FC 5 runs, the Server Rack, the launch, the first recruit,
+ * the Press Office, the evaluation) are bought below $0, as the chapter
+ * intends; everything else, including the FC 10 and FC 20 milestone runs,
+ * keeps the usual floors.
  */
 
 const SERVER_RACK = "base:facility.server-rack";
@@ -1168,8 +1170,8 @@ function fillHousing(planner: Planner, floor: number): void {
 }
 
 /**
- * The opening's research and serving split. Capability research takes all of
- * R&D from the foundation chapter (its checklist asks for exactly that) until
+ * The opening's research and serving split. Capability research takes 80% of
+ * R&D from the foundation chapter (its checklist asks for at least that) until
  * the safety chapter asks for 30% safety; serving stays at zero until there
  * is a product, then serves demand as the expert usually does. Re-issued when
  * the chapter needs a different split and on the expert's quarterly cadence.
