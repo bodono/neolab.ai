@@ -87,7 +87,7 @@ function difficultyCopy(difficultyId: string): DifficultyCopy {
     return {
       tagline: "Learning mode",
       summary:
-        "More forgiving finances, slower rivals, fewer dangerous incidents, and clearer intelligence estimates.",
+        "Faster research, better odds on an early AGI candidate, forgiving finances, slower rivals, fewer dangerous incidents, and clearer estimates.",
       scoreMultiplier: 0.75,
       tone: "gentle",
     };
@@ -96,7 +96,7 @@ function difficultyCopy(difficultyId: string): DifficultyCopy {
     return {
       tagline: "Hard race",
       summary:
-        "Rivals advance faster, incidents are more likely, revenue is weaker, and your intelligence estimates are less reliable.",
+        "Slower research, worse odds on an early AGI candidate, faster rivals, likelier incidents, weaker revenue, and less reliable estimates.",
       scoreMultiplier: 1.25,
       tone: "hard",
     };
@@ -105,7 +105,7 @@ function difficultyCopy(difficultyId: string): DifficultyCopy {
     return {
       tagline: "Maximum chaos",
       summary:
-        "The fastest rival race, the highest incident pressure, and the weakest revenue. Intended for experienced operators with poor sleep hygiene.",
+        "The slowest research, no grace for an early AGI candidate, the fastest rival race, and the weakest revenue. Intended for experienced operators with poor sleep hygiene.",
       scoreMultiplier: 1.5,
       tone: "extreme",
     };
@@ -113,7 +113,7 @@ function difficultyCopy(difficultyId: string): DifficultyCopy {
   return {
     tagline: "Recommended",
     summary:
-      "The intended first-play balance. Normal finances, rival progress, incident pressure, and intelligence estimates.",
+      "The intended first-play balance. Normal research, finances, rival progress, incident pressure, and intelligence estimates.",
     scoreMultiplier: 1,
     tone: "standard",
   };
@@ -952,8 +952,9 @@ export function NewGameScreen({
               <h2 id="difficulty-picker-title">Choose the intensity of the race</h2>
             </div>
             <p>
-              Difficulty changes the economy, rivals, incidents, and estimate clarity.
-              Harder settings multiply score.
+              Difficulty changes your research pace, the odds on an early AGI candidate,
+              the economy, rivals, incidents, and estimate clarity. Harder settings
+              multiply score.
             </p>
           </header>
           <div className="difficulty-grid" role="radiogroup" aria-label="Difficulty">
@@ -986,7 +987,9 @@ export function NewGameScreen({
                       <b>{signedPercentage(difficulty.researchMultiplier)}</b>
                     </span>
                     <span>
-                      <small>Candidate odds at FC 88</small>
+                      <small title="The chance a first AGI candidate is genuine when it just qualifies (FC 88); it rises to certainty at FC 100.">
+                        Early-candidate odds
+                      </small>
                       <b>{Math.round(difficulty.genuineCandidateFloor * 100)}%</b>
                     </span>
                     <span>
