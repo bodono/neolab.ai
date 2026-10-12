@@ -583,37 +583,16 @@ const OPENING_CHOICES: readonly {
   },
 ];
 
-export const NEW_GAME_OPENING_STORAGE_KEY = "neolab.ai-new-game-opening-v1";
-
 /**
- * `?campaign=classic` (used by the end-to-end suite) preselects the unlocked
- * opening; otherwise the player's last choice, defaulting to the chapters.
+ * Every new game preselects the guided chapters, the opening meant for most
+ * players. Returning founders pick "Everything unlocked" each time; it is not
+ * remembered, so one debugging run never changes the default for the next.
+ * `?campaign=classic` (used by the end-to-end suite) preselects it instead.
  */
-export function initialNewGameOpening(search: string, storage?: Storage): NewGameOpening {
-  if (new URLSearchParams(search).get("campaign") === "classic") return "classic";
-  try {
-    return storage?.getItem(NEW_GAME_OPENING_STORAGE_KEY) === "classic"
-      ? "classic"
-      : "progressive";
-  } catch {
-    return "progressive";
-  }
-}
-
-function rememberNewGameOpening(opening: NewGameOpening): void {
-  try {
-    window.localStorage.setItem(NEW_GAME_OPENING_STORAGE_KEY, opening);
-  } catch {
-    // Storage can be unavailable (private mode); the choice still applies.
-  }
-}
-
-function safeLocalStorage(): Storage | undefined {
-  try {
-    return window.localStorage;
-  } catch {
-    return undefined;
-  }
+export function initialNewGameOpening(search: string): NewGameOpening {
+  return new URLSearchParams(search).get("campaign") === "classic"
+    ? "classic"
+    : "progressive";
 }
 
 export function NewGameScreen({
@@ -651,7 +630,7 @@ export function NewGameScreen({
   const [opening, setOpening] = useState<NewGameOpening>(() =>
     typeof window === "undefined"
       ? "progressive"
-      : initialNewGameOpening(window.location.search, safeLocalStorage()),
+      : initialNewGameOpening(window.location.search),
   );
   const [error, setError] = useState<string>();
   const leaderButtons = useRef(new Map<string, HTMLButtonElement>());
@@ -700,7 +679,6 @@ export function NewGameScreen({
   function submit(event: FormEvent): void {
     event.preventDefault();
     try {
-      rememberNewGameOpening(opening);
       onLaunch(
         {
           seed: seed128(seed),

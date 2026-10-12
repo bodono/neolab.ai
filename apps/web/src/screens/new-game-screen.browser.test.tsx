@@ -14,11 +14,7 @@ import { loadBrowserCompiledContent } from "@neolab/content/browser";
 import type { NewGameConfig } from "@neolab/sim/public";
 
 import "../styles/game.css";
-import {
-  NEW_GAME_OPENING_STORAGE_KEY,
-  NewGameScreen,
-  type NewGameLaunchOptions,
-} from "./new-game-screen.tsx";
+import { NewGameScreen, type NewGameLaunchOptions } from "./new-game-screen.tsx";
 
 (
   globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
@@ -47,7 +43,6 @@ describe("new-game setup flow in Chromium", () => {
   let onLaunch: Mock<(config: NewGameConfig, options: NewGameLaunchOptions) => void>;
 
   beforeEach(() => {
-    window.localStorage.removeItem(NEW_GAME_OPENING_STORAGE_KEY);
     document.body.innerHTML = "<div id='mount'></div>";
     mount = document.querySelector<HTMLDivElement>("#mount")!;
     root = createRoot(mount);
@@ -140,8 +135,15 @@ describe("new-game setup flow in Chromium", () => {
     act(() => opening("Everything unlocked").click());
     act(() => launch.click());
     expect(onLaunch.mock.calls[1]![1]).toEqual({ opening: "classic" });
-    // The choice is remembered for the next run.
-    expect(window.localStorage.getItem(NEW_GAME_OPENING_STORAGE_KEY)).toBe("classic");
+    // Not remembered: the next new game preselects the chapters again.
+    act(() => root.unmount());
+    root = createRoot(mount);
+    act(() =>
+      root.render(
+        <NewGameScreen content={content} onBack={() => undefined} onLaunch={onLaunch} />,
+      ),
+    );
+    expect(opening("Guided chapters").getAttribute("aria-checked")).toBe("true");
   });
 
   it("jumps from a summary choice back to its current selection", () => {
