@@ -1,4 +1,4 @@
-import { SAVE_VERSION } from "../model/state.ts";
+import { ownerIdCountersFor, SAVE_VERSION } from "../model/state.ts";
 import { randomKey } from "../random/key.ts";
 import { RandomOracleV1 } from "../random/oracle.ts";
 import { seed128 } from "../random/seed.ts";
@@ -296,6 +296,38 @@ const migrateV6ToV7: SaveMigration = Object.freeze({
           }
         }
         strategy["paperLevels"] = paperLevels;
+      }
+    }
+    // The public v0.0.19 saves also predate per-owner entity numbering, the
+    // removal of the public price tier and two government triggers that no
+    // flag ever set. Development saves at version 6 may already have some of
+    // these, so each step only applies where the old shape is still present.
+    const run = clone["run"];
+    if (isRecord(run) && !isRecord(run["ownerIdCounters"])) {
+      run["ownerIdCounters"] = ownerIdCountersFor(clone);
+    }
+    if (isRecord(labs)) {
+      for (const lab of Object.values(labs)) {
+        if (!isRecord(lab)) continue;
+        const market = lab["market"];
+        if (isRecord(market)) {
+          delete market["priceTier"];
+          delete market["pendingPriceTier"];
+          delete market["priceChangeTicks"];
+        }
+        const politics = lab["politics"];
+        const interventions = isRecord(politics) ? politics["interventions"] : undefined;
+        if (Array.isArray(interventions)) {
+          for (const intervention of interventions) {
+            if (
+              isRecord(intervention) &&
+              (intervention["trigger"] === "strategic-emergency" ||
+                intervention["trigger"] === "emergency-contract-clause")
+            ) {
+              intervention["trigger"] = "quarterly-pressure";
+            }
+          }
+        }
       }
     }
     clone["saveVersion"] = 7;

@@ -645,10 +645,17 @@ function resolveInfrastructureEmergency(
       candidate.status === "resolved",
   );
   const optionId = instance?.resolution?.optionId;
-  const draw = instance?.randomRoot.outcomes.find(
-    (commitment) =>
-      commitment.optionId === optionId && commitment.checkId === "containment",
-  )?.draw;
+  // An answered emergency uses the draw committed with the chosen option. One
+  // left unanswered until it times out has no option to commit, so it rolls
+  // against its own escalation key rather than halting the simulation.
+  const draw =
+    instance?.randomRoot.outcomes.find(
+      (commitment) =>
+        commitment.optionId === optionId && commitment.checkId === "containment",
+    )?.draw ??
+    (response === "ignored"
+      ? random.uniform(randomKey("autonomy-infrastructure-ignored", labId, escalation.id))
+      : undefined);
   if (draw === undefined) {
     throw new Error("Infrastructure emergency is missing its committed containment draw");
   }

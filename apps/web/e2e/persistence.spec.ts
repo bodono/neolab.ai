@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { gunzipSync } from "node:zlib";
+
 import { expect, test } from "@playwright/test";
 
 test("autosaves survive reload and corrupt loads stay safely on the title screen", async ({
@@ -115,3 +118,46 @@ test("autosaves survive reload and corrupt loads stay safely on the title screen
   await expect(page.getByRole("heading", { name: /neolab\.ai/i })).toBeVisible();
   await expect(page.getByRole("alert")).toContainText(/checksum mismatch/i);
 });
+
+// Saves exported by the last public release must open in this build: a player
+// returning to the site keeps their run. The archive is shared with the sim's
+// save-compatibility test (docs/save-compatibility.md).
+for (const fixture of ["classic-year-four", "guided-garage", "endgame-rollout"]) {
+  test(`a v0.0.19 ${fixture} save opens and keeps running`, async ({ page }) => {
+    const bytes = gunzipSync(
+      readFileSync(
+        new URL(
+          `../../../packages/sim/src/persistence/__fixtures__/v0.0.19/${fixture}.json.gz`,
+          import.meta.url,
+        ),
+      ),
+    );
+    await page.goto("/?campaign=classic");
+    await page.locator('input[type="file"]').setInputFiles({
+      name: `${fixture}.neolab-save.json`,
+      mimeType: "application/json",
+      buffer: bytes,
+    });
+    await page.getByRole("button", { name: "Continue" }).click();
+    await expect(page.locator(".game-shell")).toBeVisible();
+    await expect(page.getByRole("alert").filter({ hasText: /fault|crash/i })).toHaveCount(
+      0,
+    );
+    // The run resumes with whatever alerts it had queued; clear them first.
+    for (let guard = 0; guard < 10; guard += 1) {
+      const modal = page.locator('[role="dialog"], [role="alertdialog"]').first();
+      if (!(await modal.isVisible().catch(() => false))) break;
+      const exit = modal
+        .getByRole("button", {
+          name: /^(Decide later|Not now|Continue|Close|Acknowledge|Understood|Dismiss|Open the garage)/,
+        })
+        .first();
+      if (!(await exit.isVisible().catch(() => false))) break;
+      await exit.click();
+    }
+    await expect(page.locator('[role="dialog"], [role="alertdialog"]')).toHaveCount(0);
+    const week = await page.locator(".identity-header").textContent();
+    await page.getByRole("button", { name: "Step one week" }).click();
+    await expect(page.locator(".identity-header")).not.toHaveText(week ?? "");
+  });
+}

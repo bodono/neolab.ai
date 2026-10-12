@@ -1,0 +1,62 @@
+{
+  "release": "v0.0.19",
+  "saveVersion": 6,
+  "files": {
+    "classic-opening.json.gz": {
+      "sha256": "136c28b5e64226bd2225b8cf11e5c14d46503623882564834b581aeaafb4a364",
+      "tick": 0,
+      "status": "active",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "classic-year-four.json.gz": {
+      "sha256": "89d2b9db1e444f7676715efd61ef9aca898c92a66cbcd772f492887ec3293661",
+      "tick": 200,
+      "status": "active",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "classic-finished-loss.json.gz": {
+      "sha256": "02c29053b4dae78a3d46c9c18904332be2706f81d664cfb2d68d842ab10aaa0c",
+      "tick": 909,
+      "status": "lost",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "guided-garage.json.gz": {
+      "sha256": "81fe4abda0891d97f40ab404388141031eb8c5cb8504b84293856e700d31c603",
+      "tick": 52,
+      "status": "active",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-candidate.json.gz": {
+      "sha256": "a555498bc820ceb8749421546c729893a02edeb1d7411f8527ce5b97ef5b3231",
+      "tick": 8,
+      "status": "active",
+      "endgameStage": "candidate-activation",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-confirmation.json.gz": {
+      "sha256": "a8cf77cf5dbb6fa2eab5cf3d6c5edf1928f738e8bf5c15255e73427ff7c7cfa3",
+      "tick": 1,
+      "status": "active",
+      "endgameStage": "confirmation",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-recovery.json.gz": {
+      "sha256": "a1cc3c43d78d6672a61916ad2962a3fa0e4670c10909826df3fcad28f1a556e2",
+      "tick": 1,
+      "status": "active",
+      "endgameStage": "recovery",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-rollout.json.gz": {
+      "sha256": "6dcbb72971509d91b279334e042f900a00541161b822aaa6e7e24e73c19d74ca",
+      "tick": 13,
+      "status": "active",
+      "endgameStage": "rollout",
+      "engineRulesVersion": "0.3.0"
+    }
+  }
+}

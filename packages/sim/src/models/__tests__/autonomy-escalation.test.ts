@@ -985,4 +985,23 @@ describe("the autonomy escalation engine", () => {
     }
     expect(sawEscalation).toBe(true);
   });
+
+  it("resolves an infrastructure emergency left unanswered until it times out", () => {
+    // The extinction fixture walks the ladder to the infrastructure rung with no
+    // one answering. The unanswered emergency has no committed option draw; it
+    // must still resolve when it times out instead of halting the simulation.
+    let state: GameState = createEndgamePlaytestState(content, "endgame-extinction");
+    let sawInfrastructure = false;
+    for (let week = 0; week < 40 && state.run.status === "active"; week += 1) {
+      state = advanceOneTick(state, content).state;
+      const escalations = state.labs[state.run.playerLabId]?.autonomy.escalations ?? [];
+      sawInfrastructure ||= escalations.some((entry) => entry.stage === "infrastructure");
+    }
+    expect(sawInfrastructure).toBe(true);
+    const infrastructure = state.labs[state.run.playerLabId]?.autonomy.escalations.find(
+      (entry) => entry.stage === "infrastructure",
+    );
+    expect(infrastructure?.status).toBe("resolved");
+    expect(infrastructure?.responseTag).toBe("ignored");
+  });
 });

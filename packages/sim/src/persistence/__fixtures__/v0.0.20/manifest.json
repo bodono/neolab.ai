@@ -1,0 +1,62 @@
+{
+  "release": "v0.0.20",
+  "saveVersion": 7,
+  "files": {
+    "classic-opening.json.gz": {
+      "sha256": "638c26741e55ef34e2d24e01860d2c6c2c9168ba523ee03f7e6d6cd14b718235",
+      "tick": 0,
+      "status": "active",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "classic-year-one.json.gz": {
+      "sha256": "296c3315b47fdc299907538c09e7e860bccd43a56d1d125b3851e983dca8f047",
+      "tick": 52,
+      "status": "active",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "classic-finished-loss.json.gz": {
+      "sha256": "3de97e216adbee83930cacdbfdaf322b28c76e7557a5bf9d11ebb0190735de76",
+      "tick": 127,
+      "status": "lost",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "guided-garage.json.gz": {
+      "sha256": "6dca8b5f88ccc35fdde4c96ceaaadd5b42f49fd19f85915ddc4b11ba347a4fdd",
+      "tick": 52,
+      "status": "active",
+      "endgameStage": "inactive",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-candidate.json.gz": {
+      "sha256": "9107883de8cba9fa20e488de347ec8c45a5f482c470117129ebbe5208c8fbec2",
+      "tick": 8,
+      "status": "active",
+      "endgameStage": "candidate-activation",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-confirmation.json.gz": {
+      "sha256": "93a988cdc01d14d851dfdeb113fb63b89d188d3c277b6115f4168eeff0eadd13",
+      "tick": 1,
+      "status": "active",
+      "endgameStage": "confirmation",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-recovery.json.gz": {
+      "sha256": "1b9b1b6aa764a148768e438b9ba5b3b2a35f3b6cd9ca759e135855458ef8d4e4",
+      "tick": 1,
+      "status": "active",
+      "endgameStage": "recovery",
+      "engineRulesVersion": "0.3.0"
+    },
+    "endgame-rollout.json.gz": {
+      "sha256": "928313cfccacf20f3633c551d53a67491c63d8447f8d685d5f6728978101ae91",
+      "tick": 13,
+      "status": "active",
+      "endgameStage": "rollout",
+      "engineRulesVersion": "0.3.0"
+    }
+  }
+}

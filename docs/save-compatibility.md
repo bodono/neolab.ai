@@ -8,24 +8,28 @@ that players could have downloaded.
 
 ## Current archive
 
-`packages/sim/src/persistence/__fixtures__/alpha-v3/` freezes four save-version 3
-envelopes from the content-complete implementation alpha:
+Each public release has a directory under `packages/sim/src/persistence/__fixtures__/`
+holding gzipped save envelopes and a `manifest.json` with each file's SHA-256 (of the
+uncompressed bytes), tick, run status and endgame stage:
 
-- a fresh opening run;
-- an active run after 26 complete weekly ticks;
-- the protected Deployment Crisis Start checkpoint;
-- a terminal insolvency loss after score finalisation.
+- `v0.0.19/` (save version 6) was reconstructed after the fact from the `v0.0.19` tag,
+  which shipped without an archive. Its classic and guided saves come from that
+  release's balance-runner policies, and its endgame saves from that release's developer
+  scenarios, all exported by that release's own engine.
+- `v0.0.20/` (save version 7) was written by `packages/sim/scripts/archive-release-saves.ts`
+  from the release commit.
 
-Its manifest records the engine, random-contract and content versions, the state checksum,
-the SHA-256 of each exact file and a small expected lifecycle projection. The test verifies
-the archived bytes first, then invokes `loadSaveEnvelope` twice, checks the resulting current
-schema and invariants, and proves a current-version re-envelope takes the identity path.
+Each set covers a fresh opening, an ordinary mid-run save, a finished run, a guided
+opening, and candidate, confirmation, recovery and rollout endgame states.
 
-Engine rules version `0.2.0` retains save version 3. The new optional
-`LabModelPortfolioState.commercialModelId` therefore requires no structural migration: a legacy
-portfolio without it treats its externally deployed current model as commercial until the next
-explicit deployment command. New games under `0.2.0` start with no model; archived opening saves
-remain historical evidence and are not rewritten to imitate the new opening.
+`packages/sim/src/persistence/__tests__/save-compatibility.test.ts` verifies every file's
+digest, loads it through `loadSaveEnvelope` (checksum, sequential migration, schema,
+invariants), projects the player view, and plays it on for a year without player input
+(or until the run ends or a decision stops the clock). `apps/web/e2e/persistence.spec.ts`
+imports three `v0.0.19` saves through the title screen and plays a week in the browser.
+
+The alpha save-version 3 archive described in earlier revisions of this document was
+retired with the endgame redesign, when saves before version 6 stopped loading.
 
 ## Rules for future releases
 
@@ -36,10 +40,10 @@ remain historical evidence and are not rewritten to imitate the new opening.
 3. For each public tag, archive at least opening, ordinary mid-run, crisis/checkpoint and
    terminal saves. Add a scenario when a new persistent subsystem is not represented by
    those four lifecycle states.
-4. Name a new fixture set after the release and source save version. Copy and adjust
-   `packages/sim/scripts/archive-alpha-saves.ts`; do not point it at an old directory.
+4. Name a new fixture set after the release: run
+   `node packages/sim/scripts/archive-release-saves.ts vX.Y.Z` after `pnpm content:build`.
 5. Generate the set from the exact release commit and commit it with the tag. The generator
-   refuses to overwrite a non-empty archive.
+   refuses to overwrite an existing archive.
 6. If a file cannot migrate safely, preserve its original bytes and add an explicit loader
    rejection fixture plus player-facing recovery/export guidance. Never silently discard it.
 
