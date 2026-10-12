@@ -176,6 +176,9 @@ export function GameShell({
   const [fundraisingOpen, setFundraisingOpen] = useState(false);
   const [section, setSection] = useState<DashboardSection>("overview");
   const [focusedRivalId, setFocusedRivalId] = useState<string>();
+  // A rival notice highlights its lab for the visit it opened. Leaving World
+  // clears it, so a stale highlight never reads as a race standing.
+  if (section !== "world" && focusedRivalId !== undefined) setFocusedRivalId(undefined);
   const [selectedResearcherId, setSelectedResearcherId] = useState<string>();
   const [selectedCandidateId, setSelectedCandidateId] = useState<string>();
   const [peopleNotice, setPeopleNotice] = useState<string>();

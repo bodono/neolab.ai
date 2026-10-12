@@ -247,7 +247,9 @@ function CompetitiveIntelligence({
                 altText={`${rival.leaderName}, leader of ${rival.labName}`}
               />
               <div>
-                <span>Rival</span>
+                <span>
+                  {rival.labId === focusedRivalId ? "Rival · from notice" : "Rival"}
+                </span>
                 <strong>{rival.labName}</strong>
                 <small className="rival-leader-name">{rival.leaderName}</small>
                 <small>{rival.aiName}</small>
