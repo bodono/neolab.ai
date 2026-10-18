@@ -124,6 +124,10 @@ test("autosaves survive reload and corrupt loads stay safely on the title screen
 // save-compatibility test (docs/save-compatibility.md).
 for (const fixture of ["classic-year-four", "guided-garage", "endgame-rollout"]) {
   test(`a v0.0.19 ${fixture} save opens and keeps running`, async ({ page }) => {
+    // classic-year-four resumes with ten modals queued, and dismissing each
+    // re-renders a four-year dashboard; WebKit on a CI runner needs more than
+    // the default 30 seconds for that.
+    test.slow();
     const bytes = gunzipSync(
       readFileSync(
         new URL(
