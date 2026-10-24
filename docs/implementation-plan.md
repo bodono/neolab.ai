@@ -4,6 +4,14 @@
 > Companion documents: [Technical Design Document](technical-design.md) (TDD, v0.2) and [Game Design Document](game-design.md) (GDD, v0.7)<br>
 > Authority: This document decides *order and granularity of work only*. The TDD remains authoritative for architecture and APIs; the GDD for game behaviour. If a task here conflicts with either, fix the documents first (TDD §1).
 
+> **Status as of 2026-10-24.** Only Stage 10 and the Stage 10 exit gate were reconciled with the
+> repository on this date, after the public release made their text wrong. Stages 0–9 have not
+> been re-verified since the decisions log below closed on 2026-07-27, and work continued in the
+> months after it stopped being recorded, so treat any single box outside Stage 10 as a claim to
+> re-check against the code, CI and the live site rather than as current status. For release
+> state specifically, [`deployment.md`](deployment.md) and the repository README are the current
+> sources; this document is not.
+
 ## How to use this document
 
 This plan exists so that work can be interrupted at any point and resumed by someone (or some session) with no memory of the previous session.
@@ -723,24 +731,24 @@ This plan exists so that work can be interrupted at any point and resumed by som
 
 **Entry criteria:** Stage 9 exit gate checked.
 
-> **PUBLIC RELEASE HOLD — amended by user instruction, 2026-07-24.** A restricted itch.io alpha may
-> be continuously deployed for invited playtesters. Do not activate Pages, change repository
-> visibility, configure a public domain, make the itch.io page public, create a public tag/release,
-> or announce availability. S10.2 activation, S10.5, and the Stage 10 exit gate remain blocked until
-> the user gives a separate explicit public-release authorisation.
+> **PUBLIC RELEASE — authorised; hold discharged 2026-10-24.** The 2026-07-24 hold blocked S10.2
+> activation, S10.5 and this exit gate until a separate explicit authorisation. That authorisation
+> was given: the repository is public, Pages is active, and `v0.0.19` and `v0.0.20` are deployed at
+> <https://bodono.github.io/neolab.ai/>. What remains restricted: the itch.io page is still
+> invite-only, `play.neolab.ai` is not configured, and wider announcement is still the owner's call.
 
 ### Tasks
 
 - [x] **S10.1 — Save-compatibility fixture set**: archive representative saves from the alpha; migration suite proves they load (TDD §24.4). The immutable `alpha-v3` archive preserves exact opening, ordinary operating, protected Crisis Start and scored-terminal envelopes with file/state hashes and lifecycle projections; the migration contract verifies their bytes, checksum, full load pipeline, deterministic current state and identity re-envelope. The archive policy forbids rewriting released fixtures and requires every future public tag and schema migration to retain the complete historical matrix.
-- [ ] **S10.2 — GitHub Pages deployment workflow** exactly per TDD §31.3: `deploy-pages.yml`, base-path handling for project-site and `play.neolab.ai`, cache header policy, size budgets (≤15 MB compressed first load; fail >900 MB site / >20 MB asset), artifact + content-hash retention for rollback, post-deploy smoke (title → seeded game → one tick → assets resolve). Code complete: official Pages actions, configuration-derived Vite base, fail-closed release manifest/budgets, reproducible 90-day rollback archive and exact-artifact restore, plus the public browser smoke are implemented and locally rehearsed for both `/` and `/neolab.ai/`. Activation remains unchecked because GitHub returned HTTP 422: the private repository's current plan does not support Pages; the workflow safely builds/archives but gates deploy on `NEOLAB_ENABLE_PAGES_DEPLOYMENT=true` after visibility/plan changes.
-- [x] **S10.3 — itch.io package and restricted-alpha delivery**: relative-path-safe ZIP from the same build; restricted project setup and browser checklist documented. `pnpm package:itch` provides the audited package path, while `pnpm package:itch:alpha` builds the stable `neolab-ai-itch.zip` without the full test/release-audit gate. The main-push/manual workflow always retains that ZIP and, once `BUTLER_API_KEY` and `ITCH_TARGET` are configured, pushes `apps/web/dist` directly to one Butler channel for fast block-delta redeploys with no user version, release tag, or GitHub Pages activation. The local `pnpm deploy:itch` path uses the same contract. Public visibility remains separately prohibited.
+- [x] **S10.2 — GitHub Pages deployment workflow** exactly per TDD §31.3: `deploy-pages.yml`, base-path handling for project-site and `play.neolab.ai`, cache header policy, size budgets (≤15 MB compressed first load; fail >900 MB site / >20 MB asset), artifact + content-hash retention for rollback, post-deploy smoke (title → seeded game → one tick → assets resolve). Activated: the repository is public, Pages source is GitHub Actions, and the site serves from `/neolab.ai/` at <https://bodono.github.io/neolab.ai/>. The earlier HTTP 422 was the private repository's plan refusing Pages, and the `NEOLAB_ENABLE_PAGES_DEPLOYMENT` gate that stood in for it was never set, so the workflow built and uploaded on every push and then skipped the deploy; both are gone. Deployment now triggers on a `v*` tag rather than every `main` push, requires a green CI run on the tagged commit instead of repeating lint/type-check/unit work, and adds the Chromium end-to-end suite CI does not cover. Two tag deployments have run green end to end, including the post-deploy browser smoke.
+- [x] **S10.3 — itch.io package and restricted-alpha delivery**: relative-path-safe ZIP from the same build; restricted project setup and browser checklist documented. `pnpm package:itch` provides the audited package path, while `pnpm package:itch:alpha` builds the stable `neolab-ai-itch.zip` without the full test/release-audit gate. `package-itch.yml` is now manual dispatch only; it retains that ZIP and, once `BUTLER_API_KEY` and `ITCH_TARGET` are configured, pushes `apps/web/dist` directly to one Butler channel for fast block-delta redeploys with no user version or release tag. The local `pnpm deploy:itch` path uses the same contract. The itch.io page itself stays invite-only; the public build is the Pages site in S10.2, not this channel.
 - [x] **S10.4 — Release checks**: licence report, CSP verification, bundle report, optional consented diagnostics wiring (off by default), feedback channel link in-game; confirm high scores are local-only and no leaderboard endpoint or submission code path is reachable in the shipped build (TDD §24.7). `pnpm release:check` now fails closed on the static byte budgets/manifest, exact CSP, runtime-network allowlist, local-only IndexedDB scoring, absent submission protocols, local opt-in diagnostic notebook, three feedback surfaces, GPL project/soundtrack declarations, production dependency inventory and all 29 Opus + 29 AAC assets. CI and both packaging workflows retain JSON, licence and bundle evidence; the current artifact is 46.92 MiB total with a 0.44 MiB compressed first load.
-- [ ] **S10.5 — Tag and release**: reproducible tagged build; rollback rehearsal performed once.
+- [ ] **S10.5 — Tag and release**: reproducible tagged build; rollback rehearsal performed once. Tagging is done: `v0.0.19` (2026-09-05) and `v0.0.20` (2026-10-12) each built, deployed and smoked green, and each retained its reproducible tarball, release manifest and content hash. Two items remain. No GitHub Release exists for either tag, so published artifacts still depend on 90-day Actions retention rather than release assets (`deployment.md` assigns that attachment to this task). The rollback rehearsal has never been performed: both deployments were tag pushes, and the `rollback_run_id` dispatch path has not been exercised against a real retained artifact.
 
 ### Exit gate (Stage 10)
 
-- [ ] Public URL serves the game; smoke test green post-deploy.
-- [ ] Tagged build + content hash archived; rollback procedure documented and rehearsed.
+- [x] Public URL serves the game; smoke test green post-deploy. <https://bodono.github.io/neolab.ai/> served the `v0.0.20` build, whose post-deploy job loaded the title screen, started the fixed seed, advanced one tick and resolved every file in the release manifest; CI was green on the tagged commit, as that workflow requires before it publishes.
+- [ ] Tagged build + content hash archived; rollback procedure documented and rehearsed. Archived and documented: each tag retains a content-hashed artifact, and `deployment.md` carries the rollback procedure. Not rehearsed — see S10.5.
 
 ---
 
@@ -757,6 +765,11 @@ This plan exists so that work can be interrupted at any point and resumed by som
 ## Decisions and deviations log
 
 Append-only. Format: `YYYY-MM-DD · task ID · decision · reason · follow-up (if any)`.
+
+> **Closed 2026-07-27.** The entries below stop at that date. Decisions taken afterwards were
+> recorded in commit messages and in the documents they changed, not here, so silence after
+> 2026-07-27 is not evidence that nothing was decided. If the practice resumes, open a new dated
+> section rather than implying this one ran continuously.
 
 - 2026-07-21 · stage1-review · A five-lens finder pass (verification phase cancelled to save tokens) surfaced real defects, all fixed: run-bricking `dueInWeeks: 0` scheduled-effect chains (now drained to fixpoint per tick, capped at 100 rounds); save-bricking unvalidated command payloads and basis-point ranges (zod-validated at the command boundary + invariant range checks); `idCounters`/`categoryTotals` schema holes (full-record schemas); compiler last-wins on duplicate difficulties/mandates; authored `activation:` conditions dropped at run creation (now carried on `ModifierState` and evaluated by the resolver); stale content IDs `domain.optimisation`/`safety.security-testing` aligned to the registry's `-scaling`/`-containment` forms; compiler now validates effect targets against the shared registry and returns the canonicalised bundle; loads run invariants and freeze; transactions poison on updater throw; `weighted()` sorts by code point and keys reject unpaired surrogates (golden vectors unchanged); lint now bans Date/Math.random/localeCompare in sim and the selector-barrel bypass.
 - 2026-07-21 · stage1-review · Logged, deliberately NOT fixed now: `Math.exp` is engine-approximated (future leaderboard replay must pin the engine build, as TDD 24.7 already requires); `GameState.researchers` collection deferred to Stage 4 (save-version bump there); `NewGameConfig` omits `labId`/`tutorial` (lab derived from leader; tutorial is UI-stage); `TickContext.rules`, `tx.applyEffects`, `allocateId(owner)`, `commit(audit)`, `calculateScoreView(state)` are deliberate API-shape deviations from TDD prose; Unhinged Scaling's "wider event variance" knob arrives with the Stage 5 event engine; Build It Right's permanent throughput modifier is an open balance question; test gaps to close early in Stage 2: command-inclusive replay, invariant-pack table tests, compiler rejection-path tests, modifier `min`/future-start coverage.
