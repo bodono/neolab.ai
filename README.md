@@ -2,6 +2,11 @@
 
 [![CI](https://github.com/bodono/neolab.ai/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bodono/neolab.ai/actions/workflows/ci.yml)
 
+## ▶ Play now: <https://bodono.github.io/neolab.ai/>
+
+Free and playable in the browser. No install, no account, no cloud saves — the whole
+simulation runs locally and your saves and high scores stay in your own browser.
+
 > Raise rounds. Train models. Publish papers. Keep your GPUs cool and your releases hot. Usher in a
 > new era of aligned prosperity. But whatever you do, don't destroy the world—the board has been
 > very clear about this.
@@ -11,9 +16,9 @@ resource management, a five-lab research race, model training and deployment, au
 uncertain safety evidence, institutional politics, and a deployment-crisis endgame with dry
 AI-industry satire.
 
-This repository contains a playable private alpha and its deterministic simulation, web UI,
-content compiler, soundtrack, test harnesses, balance tools, and design documentation. Authored
-content and final balance are still in production.
+This repository contains the playable alpha and its deterministic simulation, web UI, content
+compiler, soundtrack, test harnesses, balance tools, and design documentation. Authored content
+and final balance are still in production.
 
 > **Independent project:** Neolab.ai is a work of fiction and satire created in a personal
 > capacity. It is not affiliated with, sponsored by, or endorsed by Google, Google DeepMind, or
@@ -27,10 +32,10 @@ content and final balance are still in production.
 > best-effort basis within 30 days, no explanation needed. See
 > [`DISCLAIMER.md`](DISCLAIMER.md#removal-requests).
 
-> **Public release hold:** a restricted itch.io alpha may be updated for invited playtesters.
-> Do not activate GitHub Pages, change repository visibility, configure a public domain, make the
-> itch.io page public, create a release tag, or announce availability until the project owner gives
-> separate explicit approval.
+> **Release status:** the public alpha is served from GitHub Pages at
+> <https://bodono.github.io/neolab.ai/>. The `play.neolab.ai` custom domain is not configured
+> yet, and the itch.io page remains restricted to invited playtesters; do not make the itch.io
+> page public or announce availability elsewhere without the project owner's explicit approval.
 
 ## Run locally
 

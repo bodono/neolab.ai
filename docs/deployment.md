@@ -6,25 +6,29 @@ artifact can later move to another static host without adding game CPUs.
 
 ## GitHub Pages workflow
 
-`.github/workflows/deploy-pages.yml` runs on every `main` push and can also be dispatched
-manually. While Pages is unavailable, it still performs the complete validation/build/budget
-path and retains the rollback artifact; upload, deployment and public smoke are gated by the
-repository variable `NEOLAB_ENABLE_PAGES_DEPLOYMENT`. The normal enabled path:
+`.github/workflows/deploy-pages.yml` publishes on a `v*` tag push and can also be
+dispatched manually. Tagging is the publish signal rather than every `main` push, which
+cost a ~35 minute job on all ~600 pushes a month and repeated work the CI gate had
+already done on the same commit. The deployment path:
 
-1. reads the configured Pages base path using GitHub's official `configure-pages` action;
-2. validates content, lint, types and deterministic tests;
-3. builds Vite with `/neolab.ai/` for the project site or `/` after a custom domain is
+1. waits for, and requires, a green CI run on the tagged commit instead of repeating its
+   lint, type-check and unit work;
+2. reads the configured Pages base path using GitHub's official `configure-pages` action;
+3. compiles content and runs the Chromium end-to-end suite, which the fast CI gate does
+   not cover;
+4. builds Vite with `/neolab.ai/` for the project site or `/` after a custom domain is
    configured;
-4. rejects a site above 900 MiB, a file above 20 MiB, an unhashed `assets/` file, an
+5. rejects a site above 900 MiB, a file above 20 MiB, an unhashed `assets/` file, an
    absolute-path leak, or a compressed first load above 15 MiB (gesture-loaded audio is
    excluded from first load);
-5. writes `release-manifest.json`, including the source commit, content hash, every file
+6. writes `release-manifest.json`, including the source commit, content hash, every file
    hash and the measured budgets;
-6. uploads only `apps/web/dist` to GitHub Pages;
-7. retains a reproducible tarball, manifest and content hash for 90 days;
-8. deploys through the protected `github-pages` environment; and
-9. runs Chromium against the returned public URL: title screen → fixed seed → one tick,
-   followed by a HEAD check for every file in the release manifest.
+7. audits release security, privacy, licences and bundle composition;
+8. retains a reproducible tarball, manifest and content hash for 90 days;
+9. uploads only `apps/web/dist` to GitHub Pages;
+10. deploys through the protected `github-pages` environment; and
+11. runs Chromium against the returned public URL: title screen → fixed seed → one tick,
+    followed by a HEAD check for every file in the release manifest.
 
 GitHub Pages does not provide repository-controlled per-file `Cache-Control` headers. Vite
 therefore content-hashes every file under `assets/`; those URLs are safe for long-lived
@@ -33,22 +37,17 @@ unhashed URLs and are the revalidation boundary. If the artifact later moves to 
 header configuration, apply `public, max-age=31536000, immutable` to `assets/*` and
 `no-cache` to the two revalidation files.
 
-## Initial repository setup
+## Repository and Pages configuration
 
-The repository is currently private, and GitHub's API reports that the account plan does not
-support Pages for this private repository. Do not enable the deployment variable yet: doing
-so would turn the workflow red at `configure-pages`.
+The repository is public, **Pages → Build and deployment → Source** is **GitHub Actions**,
+and the site is live at `https://bodono.github.io/neolab.ai/`. The workflow creates and
+targets the protected `github-pages` environment.
 
-To activate the prepared deployment, either make the repository public or move it to a plan
-that supports private-repository Pages. Then:
-
-1. set **Pages → Build and deployment → Source** to **GitHub Actions** (or create the Pages
-   site with REST `build_type: workflow`);
-2. add the Actions repository variable `NEOLAB_ENABLE_PAGES_DEPLOYMENT=true`; and
-3. dispatch **Deploy GitHub Pages** once, leaving `rollback_run_id` blank.
-
-The workflow creates and targets the `github-pages` environment. The initial URL is
-`https://bodono.github.io/neolab.ai/`.
+To publish, push a `v*` tag at a commit CI has already passed, or dispatch **Deploy GitHub
+Pages** leaving `rollback_run_id` blank. There is no activation switch: deployment was once
+gated behind an Actions repository variable, `NEOLAB_ENABLE_PAGES_DEPLOYMENT`, which was
+never set, so the workflow built and uploaded an artifact on every push and then skipped the
+deploy. The workflow now enables deployment directly and no longer reads that variable.
 
 `play.neolab.ai` is supported without a code change: after the domain is owned and its DNS
 record points to `bodono.github.io`, add it under **Pages → Custom domain** and enforce HTTPS.
