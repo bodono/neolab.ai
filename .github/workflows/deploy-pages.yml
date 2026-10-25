@@ -42,7 +42,7 @@ jobs:
       content_hash: ${{ steps.release.outputs.content_hash }}
       source_commit: ${{ steps.release.outputs.source_commit }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       # This workflow deliberately does not repeat the lint, type-check and test
       # work CI already did on the same commit. That trust is only sound if CI
@@ -83,9 +83,9 @@ jobs:
             sleep 20
           done
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -169,7 +169,7 @@ jobs:
 
       - name: Download retained rollback artifact
         if: ${{ inputs.rollback_run_id != '' }}
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           github-token: ${{ github.token }}
           run-id: ${{ inputs.rollback_run_id }}
@@ -282,11 +282,11 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
