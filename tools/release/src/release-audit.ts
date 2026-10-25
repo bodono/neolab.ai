@@ -1,8 +1,8 @@
-import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 
 import { verifyStaticBuild, type ReleaseManifestV1 } from "./static-build.ts";
+import { verifyNotices, type ProductionLicenseRecord } from "./licences.ts";
 
 const REPOSITORY_ROOT = resolve(dirname(import.meta.filename), "../../..");
 const UMAMI_SCRIPT_ORIGIN = "https://cloud.umami.is";
@@ -42,21 +42,7 @@ const LEGAL_FILES = [
   "THIRD_PARTY_NOTICES.md",
 ] as const;
 
-interface LicenseListEntry {
-  readonly name: string;
-  readonly versions: readonly string[];
-  readonly license: string;
-  readonly author?: string;
-  readonly homepage?: string;
-}
-
-export interface ProductionLicenseRecord {
-  readonly package: string;
-  readonly version: string;
-  readonly licence: string;
-  readonly author?: string;
-  readonly homepage?: string;
-}
+export type { ProductionLicenseRecord } from "./licences.ts";
 
 export interface ReleaseAuditReport {
   readonly formatVersion: 1;
@@ -179,35 +165,6 @@ export function verifyCsp(
     throw new Error("CSP permits unsafe evaluation or insecure HTTP resources");
   }
   return actual;
-}
-
-function readProductionLicences(root: string): readonly ProductionLicenseRecord[] {
-  const listed = spawnSync("pnpm", ["licenses", "list", "--prod", "--json"], {
-    cwd: root,
-    encoding: "utf8",
-  });
-  if (listed.error !== undefined) throw listed.error;
-  if (listed.status !== 0) {
-    throw new Error(`pnpm licence inventory failed: ${listed.stderr}`);
-  }
-  const buckets = JSON.parse(listed.stdout) as Record<string, LicenseListEntry[]>;
-  return Object.entries(buckets)
-    .flatMap(([bucket, entries]) =>
-      entries.flatMap((entry) =>
-        entry.versions.map((version) => ({
-          package: entry.name,
-          version,
-          licence: entry.license || bucket,
-          ...(entry.author === undefined ? {} : { author: entry.author }),
-          ...(entry.homepage === undefined ? {} : { homepage: entry.homepage }),
-        })),
-      ),
-    )
-    .sort((left, right) =>
-      `${left.package}@${left.version}`.localeCompare(
-        `${right.package}@${right.version}`,
-      ),
-    );
 }
 
 function verifyRuntimeNetworkSurface(root: string): void {
@@ -375,38 +332,6 @@ function verifyLegalFiles(root: string, distDirectory: string): void {
   }
 }
 
-function verifyThirdPartyNotices(
-  root: string,
-  records: readonly ProductionLicenseRecord[],
-): void {
-  const notices = readFileSync(join(root, "THIRD_PARTY_NOTICES.md"), "utf8");
-  for (const record of records) {
-    for (const expected of [record.package, record.version, record.licence]) {
-      if (!notices.includes(expected)) {
-        throw new Error(
-          `Third-party notices omit ${record.package}@${record.version} ${record.licence}`,
-        );
-      }
-    }
-  }
-  const requiredCopyrightNotices = [
-    "Copyright © 2022 Paul Miller",
-    "Copyright © Microsoft Corporation",
-    "Copyright © 2017–2018 Fredrik Nicol",
-    "Copyright © Meta Platforms, Inc. and affiliates",
-    "Copyright © 2025 Colin McDonnell",
-    "Copyright © 2019 Paul Henschel",
-    "Copyright Eemeli Aro",
-    "Copyright 2016 The Inter Project Authors",
-    "Copyright 2020 The JetBrains Mono",
-  ];
-  for (const notice of requiredCopyrightNotices) {
-    if (!notices.includes(notice)) {
-      throw new Error(`Third-party copyright notice is missing: ${notice}`);
-    }
-  }
-}
-
 export function verifyProductionExcludesDeveloperInspector(distDirectory: string): void {
   const root = resolve(distDirectory);
   const textFiles = walk(root).filter((path) => /\.(?:css|html|js)$/.test(path));
@@ -519,11 +444,7 @@ export function auditRelease(options: {
   const csp = verifyCsp(readFileSync(join(distDirectory, "index.html"), "utf8"));
   verifyProductionExcludesDeveloperInspector(distDirectory);
   verifyRuntimeNetworkSurface(root);
-  const licences = readProductionLicences(root);
-  if (licences.length === 0 || licences.some((record) => record.licence.trim() === "")) {
-    throw new Error("Production dependency licence inventory is incomplete");
-  }
-  verifyThirdPartyNotices(root, licences);
+  const licences = verifyNotices(root);
   const opusAssets = manifest.files.filter((file) => file.path.endsWith(".opus")).length;
   const aacFallbackAssets = manifest.files.filter((file) =>
     file.path.endsWith(".m4a"),

@@ -46,6 +46,8 @@
     "release:check": "pnpm content:build && pnpm content:check && pnpm content:branches && pnpm --filter @neolab/web build && pnpm release:check-built",
     "release:check-built": "node tools/release/src/static-build.ts --dist apps/web/dist --base / --content packages/content/generated/content.bundle.json --write-manifest && pnpm --filter @neolab/release-tools release:audit",
     "release:check-static": "pnpm --filter @neolab/release-tools static:check",
+    "licences:check": "pnpm --filter @neolab/release-tools licences:check",
+    "licences:write": "pnpm --filter @neolab/release-tools licences:write",
     "save:inspect": "node tools/save-inspector/src/cli.ts",
     "test:balance": "vitest run --project @neolab/balance-runner"
   },

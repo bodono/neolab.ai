@@ -55,6 +55,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Cheap, and placed before the content build so a dependency bump fails in
+      # seconds. This check used to live inside the release audit, which needs a
+      # production build and therefore only ran weekly and at tag time: the
+      # 2026-10-25 group bump merged green here and took the weekly run down.
+      - name: Production licence notices
+        run: pnpm licences:check
+
       - name: Compile content
         run: pnpm content:build
 

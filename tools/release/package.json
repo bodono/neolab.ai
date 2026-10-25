@@ -9,6 +9,8 @@
     "typecheck": "tsc --noEmit",
     "static:check": "node src/static-build.ts",
     "itch:package": "node src/package-itch.ts",
-    "release:audit": "node src/release-audit.ts"
+    "release:audit": "node src/release-audit.ts",
+    "licences:check": "node src/licences.ts --check",
+    "licences:write": "node src/licences.ts --write"
   }
 }
