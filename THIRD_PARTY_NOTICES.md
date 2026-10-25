@@ -12,15 +12,15 @@ build. The versions covered by this notice are:
 |---|---:|---|
 | `@fontsource-variable/inter` | 5.3.0 | OFL-1.1 |
 | `@fontsource-variable/jetbrains-mono` | 5.3.0 | OFL-1.1 |
-| `@noble/hashes` | 2.2.0 | MIT |
-| `@types/react` | 19.2.17 | MIT |
+| `@noble/hashes` | 2.4.0 | MIT |
+| `@types/react` | 19.3.0 | MIT |
 | `csstype` | 3.2.3 | MIT |
-| `react` | 19.2.8 | MIT |
-| `react-dom` | 19.2.8 | MIT |
-| `scheduler` | 0.27.0 | MIT |
-| `yaml` | 2.9.0 | ISC |
-| `zod` | 4.4.3 | MIT |
-| `zustand` | 5.0.14 | MIT |
+| `react` | 19.3.1 | MIT |
+| `react-dom` | 19.3.1 | MIT |
+| `scheduler` | 0.28.0 | MIT |
+| `yaml` | 2.9.1 | ISC |
+| `zod` | 4.6.7 | MIT |
+| `zustand` | 5.0.16 | MIT |
 
 ## MIT-licensed components
 
