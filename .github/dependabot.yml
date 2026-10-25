@@ -1,0 +1,61 @@
+version: 2
+
+# Nothing watched dependency versions until 2026-10-25, when a zod advisory
+# (GHSA-mrhx-c7xc-m3w5) failed the weekly production audit two weeks after the
+# fixed release. The patch was already inside the catalog's `^4.4.3` range, so
+# only the lockfile was stale: no human decision was needed, and no human made
+# one. Weekly updates keep resolutions current so an advisory lands on an
+# already-patched tree. Dependabot alerts and security updates are repository
+# settings rather than file configuration; with them on, an advisory arrives as
+# a pull request instead of as a red weekly run.
+updates:
+  - package-ecosystem: npm
+    directory: /
+
+    # Every package declares `catalog:` and the real versions live in the pnpm
+    # catalog in pnpm-workspace.yaml. Dependabot has supported catalogs since
+    # February 2025, and `increase` lets it raise the catalog floor instead of
+    # only refreshing the lockfile, so a clean resolution cannot fall back to a
+    # vulnerable version the way this one did. If dependabot-core#14339 shows up
+    # here -- a committed lockfile that fails `pnpm install --frozen-lockfile`
+    # -- switch this to `lockfile-only` and raise floors by hand.
+    versioning-strategy: increase
+
+    # Friday, so a bump has the weekend to be merged before the Sunday 02:41
+    # weekly verification run audits what is actually in the lockfile.
+    schedule:
+      interval: weekly
+      day: friday
+      time: "06:00"
+      timezone: Etc/UTC
+
+    open-pull-requests-limit: 5
+
+    # One pull request a week for the routine minor/patch drift. Majors are
+    # outside the group deliberately: a react, vite or vitest major deserves its
+    # own pull request and its own browser suite. `applies-to: version-updates`
+    # keeps security fixes out of the group, so they still arrive immediately
+    # and individually.
+    #
+    # Not split by dependency-type on purpose: dependabot-core#14824 reports
+    # catalog entries being typed as production regardless of where they are
+    # used, which would quietly put eslint and vitest in a "production" group.
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: friday
+      time: "06:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns:
+          - "*"

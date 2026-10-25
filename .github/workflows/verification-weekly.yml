@@ -7,10 +7,11 @@ name: Weekly verification
 # instead of ~600 times a month is the difference between fitting the 3,000
 # minute allowance and being several times over it.
 #
-# Three independent jobs, deliberately not chained: an external link report, a
-# simulation invariant campaign, and a build-and-browser gate. Running them in
-# parallel costs the same runner minutes as running them in series and keeps
-# each one's failure attributable to its own subject.
+# Four independent jobs, deliberately not chained: an external link report, a
+# simulation invariant campaign, a production dependency audit, and a
+# build-and-browser gate. Running them in parallel costs the same runner
+# minutes as running them in series and keeps each one's failure attributable
+# to its own subject.
 
 on:
   schedule:
@@ -103,6 +104,33 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  dependency-audit:
+    name: Production dependency audit
+    runs-on: ubuntu-24.04
+    # Was the first step of release-checks. On 2026-10-25 a newly published zod
+    # advisory failed it, GitHub skipped the eleven steps queued behind it, and
+    # one transitive version bump cost the entire weekly gate: no reproducible
+    # content bundle, no branch sweep, no production build, no release audit, no
+    # browser suites. An advisory is not evidence about any of those, so it gets
+    # its own job for the same reason the invariant campaign does. The extra
+    # cost is one install; the run still fails.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level=high
+
   release-checks:
     name: Build, release audit, and browser suites
     runs-on: ubuntu-24.04
@@ -127,9 +155,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Audit production dependencies
-        run: pnpm audit --prod --audit-level=high
 
       - name: Compile content
         run: pnpm content:build
@@ -167,7 +192,10 @@ jobs:
 
       - name: Add release reports to summary
         if: always()
-        run: cat artifacts/release-checks/bundle-report.md >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          if [ -f artifacts/release-checks/bundle-report.md ]; then
+            cat artifacts/release-checks/bundle-report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Upload release reports
         if: always()
