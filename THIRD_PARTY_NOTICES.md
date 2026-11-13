@@ -23,7 +23,7 @@ are:
 | `scheduler` | 0.28.0 | MIT |
 | `yaml` | 2.9.1 | ISC |
 | `zod` | 4.6.7 | MIT |
-| `zustand` | 5.0.16 | MIT |
+| `zustand` | 5.1.0 | MIT |
 
 <!-- licences:end -->
 
