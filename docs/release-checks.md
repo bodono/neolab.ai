@@ -19,8 +19,10 @@ The audit verifies:
 - the proprietary project and original-soundtrack declarations;
 - that `LICENSE`, `COPYRIGHT.md`, `CONTRIBUTING.md`, `DISCLAIMER.md`, and
   `THIRD_PARTY_NOTICES.md` are included in the shipped build and linked from the title screen; and
-- a deterministic inventory of production dependency licences whose package, version, licence,
-  and copyright notice remain present in the shipped third-party notice.
+- a deterministic inventory of production dependency licences whose package, licence, and
+  copyright notice remain present in the shipped third-party notice. That notice lists packages
+  without versions, so a version bump alone does not fail the check; the exact versions shipped
+  are recorded in `production-licences.md`.
 
 The output directory is `artifacts/release-checks/`:
 
