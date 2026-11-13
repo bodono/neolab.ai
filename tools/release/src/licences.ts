@@ -65,22 +65,34 @@ export function readProductionLicences(root: string): readonly ProductionLicense
 }
 
 export function renderNoticesTable(records: readonly ProductionLicenseRecord[]): string {
-  // Sorted by name and then version, which is not the audit's own
-  // package@version order: that puts react-dom ahead of react, because "-"
-  // precedes "@". This table is read by people.
-  const ordered = [...records].sort(
+  // One row per package and licence, with no version column. The table is
+  // checked on every pull request, and a version in it made every production
+  // bump fail that check over a line nobody needed to review. What the check
+  // must catch is a package arriving or leaving, or a licence changing; exact
+  // versions are recorded per release in the audit's production-licences.md.
+  // A package shipped at two versions under different licences keeps a row
+  // for each licence.
+  const rows = new Map<string, { readonly package: string; readonly licence: string }>();
+  for (const record of records) {
+    rows.set(`${record.package}\u0000${record.licence}`, {
+      package: record.package,
+      licence: record.licence,
+    });
+  }
+  // Sorted by name, not the audit's package@version order, which puts
+  // react-dom ahead of react because "-" precedes "@". This table is read by
+  // people.
+  const ordered = [...rows.values()].sort(
     (left, right) =>
       left.package.localeCompare(right.package) ||
-      left.version.localeCompare(right.version),
+      left.licence.localeCompare(right.licence),
   );
   return [
     TABLE_BEGIN,
     "",
-    "| Component | Version | Licence |",
-    "|---|---:|---|",
-    ...ordered.map(
-      (record) => `| \`${record.package}\` | ${record.version} | ${record.licence} |`,
-    ),
+    "| Component | Licence |",
+    "|---|---|",
+    ...ordered.map((row) => `| \`${row.package}\` | ${row.licence} |`),
     "",
     TABLE_END,
   ].join("\n");
@@ -113,7 +125,7 @@ export function writeNotices(root: string): boolean {
 }
 
 // Fails closed on three separable mistakes, each with its own message: a table
-// that no longer matches the lockfile, a package whose licence or copyright was
+// whose packages or licences no longer match the lockfile, a package whose licence or copyright was
 // never recorded, and a missing copyright notice. Only the first is routine.
 export function verifyNotices(root: string): readonly ProductionLicenseRecord[] {
   const records = readProductionLicences(root);
@@ -137,11 +149,9 @@ export function verifyThirdPartyNotices(
 ): void {
   const notices = readFileSync(join(root, NOTICES_FILE), "utf8");
   for (const record of records) {
-    for (const expected of [record.package, record.version, record.licence]) {
+    for (const expected of [record.package, record.licence]) {
       if (!notices.includes(expected)) {
-        throw new Error(
-          `Third-party notices omit ${record.package}@${record.version} ${record.licence}`,
-        );
+        throw new Error(`Third-party notices omit ${record.package} ${record.licence}`);
       }
     }
   }
